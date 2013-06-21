@@ -11,8 +11,8 @@ public enum SigningStatus {
     OPTED_OUT( "OPTED_OUT" ),
     EXPIRED( "EXPIRED" ),
     CANCELED( "CANCELED" ),
-    SIGNING_PENDING( "SIGNING-PENDING" ),
-    SIGNING_COMPLETE( "SIGNING-COMPLETE" );
+    SIGNING_PENDING( "SIGNING_PENDING" ),
+    SIGNING_COMPLETE( "SIGNING_COMPLETE" );
 
     private final String token;
 

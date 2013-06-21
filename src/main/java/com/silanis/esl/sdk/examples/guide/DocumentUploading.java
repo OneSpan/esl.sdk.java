@@ -47,12 +47,12 @@ public class DocumentUploading {
                             .withFirstName( "John" )
                             .withLastName( "Smith" ) )
                     .withDocument( newDocumentWithName( "First Document" )
-                            .fromFile( "src/main/resources/document.pdf" )
+                            .fromFile( "src/main/resources/a.pdf" )
                             .withSignature( signatureFor( "dlawson@silanis.com" )
-                                    .withName( "sig1" )
+                                    .withName( "PAD_Sig1" )
                                     .withField( newField()
                                             .withPositionExtracted()
-                                            .withName( "date1" )
+                                            .withName( "PAD_sig1_date" )
                                             .withStyle( FieldStyle.BOUND_DATE ) ) ) )
                     .build();
 
