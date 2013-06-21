@@ -1,4 +1,4 @@
 esl.sdk.java
 ============
 
-A SDK for integration with e-signlive
+A SDK for integration with e-signlive.
