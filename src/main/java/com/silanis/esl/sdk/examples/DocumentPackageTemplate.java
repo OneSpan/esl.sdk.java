@@ -41,7 +41,7 @@ public class DocumentPackageTemplate {
 //                                .withInjectedField( newField()
 //                                        .withSize( 500, 50 )
 //                                        .atPosition( 100, 100 )
-////                                        .withExtraction()
+////                                        .withPositionExtracted()
 ////                                        .withName( "date1" )
 //                                        .withStyle( FieldStyle.BOUND_DATE ) ) ) )
 //                .build();

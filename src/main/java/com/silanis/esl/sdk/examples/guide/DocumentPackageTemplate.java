@@ -45,7 +45,7 @@ public class DocumentPackageTemplate {
                             .withSignature( signatureFor( "dlawson@silanis.com" )
                                     .withName( "sig1" )
                                     .withField( newField()
-                                            .withExtraction()
+                                            .withPositionExtracted()
                                             .withName( "date1" )
                                             .withStyle( FieldStyle.BOUND_DATE ) ) ) )
                     .build();

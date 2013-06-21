@@ -36,7 +36,7 @@ public class DocumentUploading {
     }
 
     private static class PositionExtraction {
-        public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
+        public static final String API_KEY = "ZDQ2MzczNmUtMDMyNC00OTkxLTkzNjYtODc3YTNlOWFmYzNjOkJzYnAyeXNJQURnSA==";
         public static final String API_URL = "http://localhost:8080";
 
         public static void main( String... args ) {
@@ -51,6 +51,7 @@ public class DocumentUploading {
                             .withSignature( signatureFor( "dlawson@silanis.com" )
                                     .withName( "sig1" )
                                     .withField( newField()
+                                            .withPositionExtracted()
                                             .withName( "date1" )
                                             .withStyle( FieldStyle.BOUND_DATE ) ) ) )
                     .build();

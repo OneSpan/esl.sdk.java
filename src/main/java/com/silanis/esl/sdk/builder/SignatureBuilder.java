@@ -152,7 +152,7 @@ final public class SignatureBuilder {
      * Enables signature extraction
      * @return	the signature builder itself
      */
-    public SignatureBuilder enableExtraction() {
+    public SignatureBuilder withPositionExtracted() {
         this.extract = true;
         return this;
     }
@@ -209,7 +209,7 @@ final public class SignatureBuilder {
         signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
         signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
         if ( apiSignatureField.evalExtract() ) {
-            signatureBuilder.enableExtraction();
+            signatureBuilder.withPositionExtracted();
         }
 
         return signatureBuilder;

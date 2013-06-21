@@ -27,7 +27,7 @@ public class StampFieldValueExample {
                         .enableExtraction()
                         .withSignature(signatureFor("etienne_hardy@silanis.com")
                                 .withName("AGENT_SIG_1")
-                                .enableExtraction())
+                                .withPositionExtracted())
                         .withInjectedField( label()
                                 .withName( "AGENT_SIG_2" )
                                 .withValue( "Value to be stamped" ) ))

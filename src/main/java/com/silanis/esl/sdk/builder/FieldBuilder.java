@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.*;
-import com.silanis.awsng.web.rest.model.Package;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.FieldStyle;
@@ -153,7 +151,7 @@ public class FieldBuilder {
      * 
      * @return	the field builder itself
      */
-    public FieldBuilder withExtraction() {
+    public FieldBuilder withPositionExtracted() {
         this.extract = true;
         return this;
     }
@@ -260,7 +258,7 @@ public class FieldBuilder {
         }
 
         if ( apiField.evalExtract() ) {
-            fieldBuilder.withExtraction();
+            fieldBuilder.withPositionExtracted();
         }
 
         fieldBuilder.withValue( apiField.getValue() );

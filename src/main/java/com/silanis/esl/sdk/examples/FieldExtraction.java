@@ -26,9 +26,9 @@ public class FieldExtraction {
                         .enableExtraction()
                         .withSignature(signatureFor("etienne_hardy@silanis.com")
                                 .withName("AGENT_SIG_1")
-                                .enableExtraction()
+                                .withPositionExtracted()
                                 .withField(signatureDate()
-                                        .withExtraction()
+                                        .withPositionExtracted()
                                         .withName("AGENT_SIG_2"))))
                 .build();
 
