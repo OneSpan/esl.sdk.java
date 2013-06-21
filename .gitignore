@@ -1,0 +1,12 @@
+*.class
+*.iml
+*.idea
+*.ipr
+*.iws
+*.DS_Store
+target
+*.zip
+*.classpath
+*.project
+*.settings
+/bin
