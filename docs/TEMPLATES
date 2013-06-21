@@ -1,0 +1,27 @@
+PACKAGE TEMPLATES
+
+INTRODUCTION
+
+One of e-SignLive's greatest time saving tools is the template.  It allows you to create replicas of an entire package, so you don't need to reupload the same files, you don't need to add the same signers, set the same expiry date, and so on.  The sample below shows a package being created, and then saved as a template, followed by a second package being created from the saved template.
+
+IDEAL
+
+EslClient eslClient = new EslClient(apiToken, API_URL);
+
+EslPackage eslPackage = eslClient.createPackage( "Package Name" );
+
+EslSigner eslSigner = eslPackage.addSigner( "Bob Smith", "bob@aol.com", "Client" );
+
+byte[] fileData = FileHelper.readFile( new File("sample/simpleDocument.pdf") );
+EslDocument eslDocument = eslPackage.addDocument( "User Agreement", fileData );
+
+EslSignature eslSignature = eslDocument.addSignature( eslSigner, 0, new Rectangle(500,100,50,200), EslSignature.HAND_DRAWN );
+
+eslPackage.saveAsTemplate( "EULA Template" );
+
+EslPackage eslPackage = eslPackage.createPackageFromTemplate( "EULA Template", "EULA Package" );
+
+eslPackage.send();
+
+
+ACTUAL

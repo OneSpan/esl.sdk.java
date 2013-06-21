@@ -1,0 +1,21 @@
+API ROUTES EXERCISED BY SDK
+
+Package Creation
+POST on /packages
+
+Retrieving Package
+GET on /packages/{packageId}
+
+Updating Package
+POST on /packages/{packageId}
+
+Document Uploading
+POST on /packages/{packageId}/documents
+
+Downloading Document
+GET on /packages/{packageId}/documents/{documentId}/pdf
+
+Downloading Documents Archive
+GET on /packages/{packageId}/documents/zip
+
+Session Creation

@@ -1,0 +1,17 @@
+BASIC PACKAGE
+
+INTRODUCTION
+
+This basic sample represents the typical use case.  A single document needing signing by a single individual is uploaded to the system, and then dispatched for signing.  It demonstrates the creation of an SDK client, as well as the hierarchy of the most typical objects.
+
+The EslClient object is the entry point to the sdk, and provides the developer with access to all necessary methods.  Before any actions can be taken, we need to create this object, complete with the authentication information provided to you from Silanis.
+
+The package itself represents the entire signing process between a collection of Signers and a Sender.  The package includes one or more Documents which in turn contain signatures and fields.
+
+
+SAMPLE
+
+Please refer to BuilderPackageCreation.java for a sample package creation routine.
+
+
+NOTES

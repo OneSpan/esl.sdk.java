@@ -1,0 +1,32 @@
+FEATURES
+
+INTERNAL COMPONENTS
+- Builders to support easily creating the required model objects
+- Converters to convert between the API model and the SDK model
+- Dispatchers to issue request to the REST service, and interpret the result
+- Validators to ensure cohesive data
+
+ESL FEATURES
+- Create packages from scratch (JSON)
+- Create packages from existing templates
+- Extract field information from document (with and without dynamic binding)
+- Sending packages
+- Event Notification via HTTP callback
+- Applying document layout
+- Workflow management
+- Authentication management
+- Signature and Field creation / placement
+- Retrieving package status
+- Downloading document
+- Downloading archive of all documents
+- Retrieving package information
+- Retrieving field values
+- Downloading evidence summary
+- Retrieving audit trail
+- Add document - from the client(upload)
+               - from an FTP server
+               - from our database
+- Package report (ie. get a list of all packages completed within a time frame)
+
+AMMENDMENTS FROM SAM
+- create a signing ceremony session for a specific signer.

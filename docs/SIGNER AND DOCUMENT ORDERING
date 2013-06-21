@@ -1,0 +1,14 @@
+SIGNER AND DOCUMENT ORDERING
+
+
+INTRODUCTION
+
+In order to streamline and manage the experience of signers, e-SignLive allows you to define the order that signers must sign in.  A signer will only be notified when it is their turn to sign, and upon doing so the following signer will be notified, and so on.  Furthermore, the documents added to a package can be ordered, ensuring that each individual, when it is their turn to sign, signs them in the prescribed order.
+
+This sample covers the creation of a package with an ordered sequence of signers and documents.  In this sample, Bob will receive his email first. He will be asked to sign the User Agreement first, then the Contract second, and the Waiver third.  Only once he has done all of this, will Sally be sent her email and asked to do the same.
+
+
+SAMPLE
+
+Please refer to SignerOrdering.java to see sample usage of signer ordering.
+

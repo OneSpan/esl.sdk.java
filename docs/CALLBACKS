@@ -1,0 +1,62 @@
+CALLBACKS
+
+INTRODUCTION
+
+One of the many services provided by e-SignLive is the automated notification via HTTP of customer servers of events during the signing process.  For instance, you could register for automated notification when a signer confirms their signature, or when a package has been completed.  This example shows how to register, trigger, and receive a callback notification from the e-SignLive system.
+
+Here are a list of the events which can trigger callback notifications, along with the data that accompanies the notification.
+
+REGISTERING A CALLBACK
+????!
+We need a proper route for this
+
+PAYLOAD
+Create a method that deserializes the payload and returns an object more easily used by the client's (server) code.
+Every callback is triggered by a particular event.  When invoked (via an HTTP POST), included is a JSON string observing the following schema:
+
+{
+    name: <String>,
+    sessionUser: <String>,
+    packageId: <String>,
+    message: <String>
+}
+
+-name               The name of the event which caused the triggering of this callback invocation.  It must be one of the values listed below, in the next section.
+-sessionUser        Identifies the user responsible for triggering the event.  This value is the ID of the Sender or Signer object representing that user.
+-packageId          The ID of the package in which the event occurred.
+-message            A custom message, usually left as null.
+
+Particular events may include additional fields, as described under the individual event.
+
+EVENTS
+Package Creation (PACKAGE_CREATE)
+  Callbacks for this event are not yet supported.  This event is triggered the moment a new Package is created, even before it has been dispatched for signing.
+Package Activation (PACKAGE_ACTIVATE)
+  This event is triggered when a package is sent to be signed by its participants.
+Package Deactivation (PACKAGE_DEACTIVATE)
+Package Ready For Completion (PACKAGE_READY_FOR_COMPLETION)
+  Callbacks for this event are not yet supported.  This event is triggered the moment the last Signer has confirmed their last document in a package that does not have autocompletion enabled.
+Package Completion (PACKAGE_COMPLETE)
+  Triggered the moment the package is completed.  In a package that support automatic completion, this happens immediately following the last signer's confirmation of the final document.  Otherwise, it is triggered when the sender clicks on the complete button.
+Package Trashing (PACKAGE_TRASH)
+  Triggered when the sender sends the package to the trash.
+Package Restoration (PACKAGE_RESTORE)
+  Triggered when the sender restores a package from the trash.
+Package Deletion (PACKAGE_DELETE)
+  Triggered when the sender deletes a package from the trash.
+Package Declination (PACKAGE_DECLINE)
+  Triggered when a signer declines to accept a document.  The 'message' field will include a string entered by the signer explaining their reason for declaration, if the signer had input one.
+Package Expiration (PACKAGE_EXPIRE)
+  Triggered when a sent package's expiration date has passed, and the package has become deactivated.
+Package Opting Out (PACKAGE_OPT_OUT)
+  Triggered when a signer opts not to participate in the esigning process.  The signer does this by refusing the esign consent document they are initially presented with.
+Document Binding (DOCUMENT_BIND)
+  Triggered when a signer confirms their signatures on a particular document.
+Role Reassignment (ROLE_REASSIGN)
+  Triggered when a signer reassigns their signing responsibilities to someone else.  An additional field is included when this event callback is triggered by the name of 'newRoleId' which identifies the new role created.
+
+
+IDEAL
+
+ACTUAL
+

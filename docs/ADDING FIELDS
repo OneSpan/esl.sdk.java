@@ -1,0 +1,17 @@
+FIELDS AND SIGNATURES
+
+INTRODUCTION
+
+This sample demonstrates the addition of a variety of fields and signatures of different types.  In particular it illustrates the relationship between fields and signatures, and how to create groups of radio buttons.
+
+A field represents a container for a value.  Fields can be configured to automatically populate with data at the moment of signing, or they can have their value set manually by the signer prior to signing.  Every field is associated to a signature, and its value will be locked in upon the signing of that signature.  A field can therefore only be filled out by the Signer responsible for the associated signature.
+
+
+IDEAL
+
+Refer to FieldsAndSignatures.java in the sdk project for some sample usages of fields and signatures.
+
+
+NOTES
+When specifying the target page for a signature, treat the first page of the document as page 0, not as page 1.
+When a new signature is added, by default the signing method is click to sign.  If capture or initial is desired, you will need to specify this using the .withSigningMethod() method.
