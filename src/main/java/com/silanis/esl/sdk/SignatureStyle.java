@@ -3,6 +3,7 @@ package com.silanis.esl.sdk;
 import com.silanis.awsng.web.rest.model.FieldSubtype;
 
 public enum SignatureStyle {
+    ACCEPTANCE,
     HAND_DRAWN,
     FULL_NAME,
     INITIALS;

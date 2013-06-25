@@ -18,13 +18,19 @@ import static org.joda.time.DateMidnight.now;
  * User: dave
  */
 public class GetPackageExample {
-    public static final String API_KEY = "YjA0ODY5MDItZjM4NC00MTA2LTk0OTgtYWVhNmZkZGQ4YjJlOkJzYnAyeXNJQURnSA==";
+    public static final String API_KEY = "ZDQ2MzczNmUtMDMyNC00OTkxLTkzNjYtODc3YTNlOWFmYzNjOkJzYnAyeXNJQURnSA==";
     public static final String API_URL = "http://localhost:8080";
 
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 
 
     public static void main( String... args ) {
+//        getCompletedPackage();
+        getNewlyCreatedPackage();
+    }
+
+
+    public static void getNewlyCreatedPackage() {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
 
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
@@ -32,14 +38,14 @@ public class GetPackageExample {
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
                 .inPerson( true )
-                .withSigner( newSignerWithEmail( "etienne_hardy@silanis.com" )
+                .withSigner( newSignerWithEmail( "dlawson@silanis.com" )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
                         .withTitle( "Managing Director" )
                         .withCompany( "Acme Inc." ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor( "etienne_hardy@silanis.com" )
+                        .withSignature( signatureFor( "dlawson@silanis.com" )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 )
                                 .withField( FieldBuilder.textField()
@@ -69,8 +75,19 @@ public class GetPackageExample {
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
-        DocumentPackage retrievedPackage = eslClient.getPackage( packageId );
+        DocumentPackage unsentPackage = eslClient.getPackage( packageId );
 
         eslClient.sendPackage( packageId );
+        DocumentPackage sentPackage = eslClient.getPackage( packageId );
+
+        System.out.println( "Done" );
+    }
+
+    public static void getCompletedPackage() {
+        EslClient eslClient = new EslClient( API_KEY, API_URL );
+        PackageId packageId = new PackageId( "jyvSSesuYZBadsRdCLxQAzr3KlsS" );
+        DocumentPackage retrievedPackage = eslClient.getPackage( packageId );
+
+        System.out.println( retrievedPackage.getName() );
     }
 }

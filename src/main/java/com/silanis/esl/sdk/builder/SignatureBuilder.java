@@ -201,15 +201,17 @@ final public class SignatureBuilder {
 
         }
         if ( apiSignatureField == null ) {
-            return null;
-        }
+            signatureBuilder.withStyle( SignatureStyle.ACCEPTANCE );
+            signatureBuilder.withSize( 0, 0 );
 
-        signatureBuilder.withStyle( SignatureStyle.fromAPIFieldSubType(apiSignatureField.getSubtype()) );
-        signatureBuilder.onPage( apiSignatureField.getPage() );
-        signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
-        signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
-        if ( apiSignatureField.evalExtract() ) {
-            signatureBuilder.withPositionExtracted();
+        } else {
+            signatureBuilder.withStyle( SignatureStyle.fromAPIFieldSubType(apiSignatureField.getSubtype()) );
+            signatureBuilder.onPage( apiSignatureField.getPage() );
+            signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
+            signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
+            if ( apiSignatureField.evalExtract() ) {
+                signatureBuilder.withPositionExtracted();
+            }
         }
 
         return signatureBuilder;
