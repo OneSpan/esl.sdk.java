@@ -20,7 +20,7 @@ import static org.joda.time.DateMidnight.now;
  */
 public class GetSigningStatusExample {
     public static final String API_KEY = "ZDQ2MzczNmUtMDMyNC00OTkxLTkzNjYtODc3YTNlOWFmYzNjOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 
     public static void main( String... args ) {

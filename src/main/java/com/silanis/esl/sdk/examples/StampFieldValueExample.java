@@ -13,7 +13,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class StampFieldValueExample {
 
     public static final String API_KEY = "Q2xubnp5Y2dIQ3lROnNlY3JldA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );

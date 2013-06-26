@@ -16,7 +16,7 @@ import static org.joda.time.DateMidnight.now;
 
 public class AuthenticationMethods {
     public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 
     public static void main( String... args ) {

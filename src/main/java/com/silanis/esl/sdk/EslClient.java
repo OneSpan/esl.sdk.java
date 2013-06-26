@@ -15,13 +15,11 @@ import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
 /**
  * <p>The EslClient class creates a E-SignLive client with the given api token and base url.</p>
  * <p>The base url can be the staging or production url.</p>
- * <p>For example: http://apps.e-signlive.com</p>
+ * <p>For example: http://sandbox.e-signlive.com/api</p>
  * 
  * <p>Provides access to service classes such as PackageService to help create packages.</p>
  */
 public class EslClient {
-
-    private static final String API_PATH = "/aws/rest/services";
 
     private String apiKey;
     private String baseURL;
@@ -40,7 +38,7 @@ public class EslClient {
         notNullOrEmpty( apiKey, "apiKey" );
         notNullOrEmpty( baseURL, "baseURL" );
         this.apiKey = apiKey;
-        this.baseURL = addAPIPathToURL(baseURL);
+        this.baseURL = baseURL;//addAPIPathToURL(baseURL);
 
         packageService = new PackageService(apiKey, this.baseURL);
         sessionService = new SessionService(apiKey, this.baseURL);
@@ -49,23 +47,23 @@ public class EslClient {
         eventNotificationService = new EventNotificationService( apiKey, this.baseURL );
     }
 
-    /**
-     * Adds the api token path to the provided baseUrl argument
-     * @param baseURL
-     * @return	the baseUrl containing the api token 
-     */
-    private String addAPIPathToURL(String baseURL) {
-        if (baseURL.endsWith("/")) {
-            baseURL = baseURL.substring(0, baseURL.lastIndexOf('/'));
-        }
-
-        if (!baseURL.endsWith(API_PATH)) {
-            baseURL += API_PATH;
-        }
-
-        return baseURL;
-    }
-
+//    /**
+//     * Adds the api token path to the provided baseUrl argument
+//     * @param baseURL
+//     * @return	the baseUrl containing the api token
+//     */
+//    private String addAPIPathToURL(String baseURL) {
+//        if (baseURL.endsWith("/")) {
+//            baseURL = baseURL.substring(0, baseURL.lastIndexOf('/'));
+//        }
+//
+//        if (!baseURL.endsWith(API_PATH)) {
+//            baseURL += API_PATH;
+//        }
+//
+//        return baseURL;
+//    }
+//
     /**
      * Gets the baseUrl
      * @return	the baseUrl

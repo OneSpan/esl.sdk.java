@@ -12,7 +12,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentPackageTemplate {
 
     public static final String API_KEY = "YjA0ODY5MDItZjM4NC00MTA2LTk0OTgtYWVhNmZkZGQ4YjJlOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
     public static final String TEMPLATE_NAME = "Template Name";
     public static final String TEMPLATE_ID = "CSsDEL9rhkfMhTGgKG3sdKbU0rID";
 

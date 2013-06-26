@@ -15,7 +15,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentWorkflowExample {
 
     public static final String API_KEY = "c0Y5ZnZRZ1ppN2liOnNlY3JldA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
 
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 

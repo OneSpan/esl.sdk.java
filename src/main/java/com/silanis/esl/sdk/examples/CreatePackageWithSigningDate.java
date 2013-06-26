@@ -13,7 +13,7 @@ import java.io.IOException;
 public class CreatePackageWithSigningDate {
 
     public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
 
     public static void main(String[] args) throws EslException, IOException {
 

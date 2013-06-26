@@ -11,14 +11,6 @@ import static org.hamcrest.Matchers.is;
  */
 public class EslClientTest {
 
-    @Test
-    public void appendsServicePathToBaseURL() {
-        assertThat(new EslClient("api-key", "https://api.e-signlive.com").getBaseURL(),
-                is(equalTo("https://api.e-signlive.com/aws/rest/services")));
-        assertThat(new EslClient("api-key", "https://api.e-signlive.com/").getBaseURL(),
-                is(equalTo("https://api.e-signlive.com/aws/rest/services")));
-    }
-
     @Test(expected = EslException.class)
     public void cannotCreateClientWithNullAPIKey() {
         new EslClient(null, "");

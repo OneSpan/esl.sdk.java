@@ -7,7 +7,7 @@ import com.silanis.esl.sdk.io.Files;
 public class DownloadDocumentsExample {
 
     public static final String API_KEY = "Q2xubnp5Y2dIQ3lROnNlY3JldA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
 
     public static void main( String... args ) {
         EslClient esl = new EslClient( API_KEY, API_URL );

@@ -15,7 +15,7 @@ import static org.joda.time.DateMidnight.now;
 
 public class DocumentLayoutExample {
     public static final String API_KEY = "YjA0ODY5MDItZjM4NC00MTA2LTk0OTgtYWVhNmZkZGQ4YjJlOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
     public static final String LAYOUT_NAME = "Sample Document Layout";
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 

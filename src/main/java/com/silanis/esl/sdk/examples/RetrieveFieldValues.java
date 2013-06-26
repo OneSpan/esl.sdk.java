@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RetrieveFieldValues {
     public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
     public static final String PACKAGE_ID = "";
     public static final PackageId packageId = new PackageId( PACKAGE_ID );
 

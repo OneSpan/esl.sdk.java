@@ -14,7 +14,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class SignatureStylesExample {
 
     public static final String API_KEY = "MndYc0NhaEhib3lnOnNlY3JldA==";
-    public static final String API_URL = "http://localhost:8080";
+    public static final String API_URL = "https://sandbox.e-signlive.com/api";
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
