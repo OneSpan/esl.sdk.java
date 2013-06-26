@@ -29,6 +29,7 @@ final public class SignerBuilder {
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
     private boolean locked = false;
+    private String roleId;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -108,6 +109,7 @@ final public class SignerBuilder {
         signer.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
         signer.setId(id);
         signer.setLocked(locked);
+        signer.setRoleId( roleId );
         return signer;
     }
 
@@ -189,6 +191,7 @@ final public class SignerBuilder {
 
         SignerBuilder signerBuilder = SignerBuilder.newSignerWithEmail( eslSigner.getEmail() )
                 .withCustomId( eslSigner.getId() )
+                .withRoleId( role.getId() )
                 .withFirstName( eslSigner.getFirstName() )
                 .withLastName( eslSigner.getLastName() )
                 .withCompany( eslSigner.getCompany() )
@@ -207,6 +210,11 @@ final public class SignerBuilder {
             signerBuilder.lock();
         }
         return signerBuilder;
+    }
+
+    public SignerBuilder withRoleId( String roleId ) {
+        this.roleId = roleId;
+        return this;
     }
 
     /**

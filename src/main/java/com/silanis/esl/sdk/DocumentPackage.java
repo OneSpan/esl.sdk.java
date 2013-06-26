@@ -108,7 +108,9 @@ public class DocumentPackage implements Serializable {
                     .addSigner( signer.toAPISigner() )
                     .setIndex( signer.getSigningOrder() )
                     .setReassign( signer.canChangeSigner() )
-                    .setId( "role" + signerCount++ );
+                    .setId( signer.getRoleId() == null ? "role" + signerCount : signer.getRoleId() );
+
+            signerCount++;
 
             if ( signer.getMessage() != null ) {
                 role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );

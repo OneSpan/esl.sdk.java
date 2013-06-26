@@ -24,6 +24,7 @@ public class Signer implements Serializable {
     private boolean deliverSignedDocumentsByEmail;
     private String id;
     private boolean locked;
+    private String roleId;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -242,5 +243,13 @@ public class Signer implements Serializable {
 
     public boolean isLocked() {
         return locked;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId( String roleId ) {
+        this.roleId = roleId;
     }
 }
