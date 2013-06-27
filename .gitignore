@@ -10,3 +10,4 @@ target
 *.project
 *.settings
 /bin
+src/main/resources/signers.properties
