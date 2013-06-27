@@ -6,7 +6,7 @@ import com.silanis.esl.sdk.PackageId;
 
 import java.util.List;
 import java.util.Properties;
-/*
+/**
  * Retrieves the values found in the fields of each of the documents in a package
  */
 public class RetrieveFieldValues {
