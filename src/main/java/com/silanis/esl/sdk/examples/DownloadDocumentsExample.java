@@ -7,7 +7,7 @@ import com.silanis.esl.sdk.io.Files;
 import java.util.Properties;
 
 /**
- * DOES NOT WORK OUT-OF-THE-BOX Downloads a document, the evidence summary, and the documents zip file
+ * Downloads a document, the evidence summary, and the documents zip file
  */
 public class DownloadDocumentsExample {
 

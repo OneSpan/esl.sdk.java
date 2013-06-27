@@ -8,7 +8,7 @@ import java.util.Properties;
 import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEventNotificationConfig;
 
 /**
- * DOES NOT WORK OUT-OF-THE-BOX Event notification registration example
+ * Event notification registration example
  */
 public class EventNotificationRegistration {
 
