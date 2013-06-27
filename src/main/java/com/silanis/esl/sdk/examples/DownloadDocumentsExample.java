@@ -18,8 +18,8 @@ public class DownloadDocumentsExample {
     public static void main( String... args ) {
         EslClient esl = new EslClient( API_KEY, API_URL );
 
-        PackageId packageId = new PackageId("MLaNGRrUahYQcSgLahJAhPAGJDYC");
-        byte[] documentContent = esl.downloadDocument(packageId, "testing");
+        PackageId packageId = new PackageId("your package id");
+        byte[] documentContent = esl.downloadDocument(packageId, "your document id");
 
         Files.saveTo(documentContent, "downloaded.pdf");
 

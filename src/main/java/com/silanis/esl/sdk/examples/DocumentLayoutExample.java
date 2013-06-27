@@ -15,7 +15,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * DOES NOT WORK (missing layout?) Document layout example
+ * Document layout example
  */
 public class DocumentLayoutExample {
 

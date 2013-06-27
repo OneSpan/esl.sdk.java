@@ -12,7 +12,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * In-person mode can be activated on a per-signer basis
+ * Allows the signer to be changed during the ceremony
  */
 public class ChangeSignerExample {
 
