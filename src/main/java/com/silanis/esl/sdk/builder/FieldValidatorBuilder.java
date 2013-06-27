@@ -18,6 +18,12 @@ public class FieldValidatorBuilder {
     private static final String NUMERIC_REGEX = "^[-+]?[0-9]*\\.?[0-9]*$";
     private static final String DEFAULT_REGEX = null;
 
+    private static final String ALPHABETIC_ERROR_MESSAGE = "Value entered must by alphabetic only.";
+    private static final String ALPHANUMERIC_ERROR_MESSAGE = "Value entered must be alphanumeric only.";
+    private static final String NUMERIC_ERROR_MESSAGE = "Value entered must be numeric only.";
+    private static final String EMAIL_ERROR_MESSAGE = "Value entered must be an email.";
+    private static final String URL_ERROR_MESSAGE = "Value entered must be a URL.";
+
     private static final int DEFAULT_MAX_LENGTH = Integer.MAX_VALUE;
 
     private List<String> options = new ArrayList<String>();
@@ -37,7 +43,8 @@ public class FieldValidatorBuilder {
      * @return	an URL address field validator builder
      */
     public static FieldValidatorBuilder url() {
-        return new FieldValidatorBuilder( URL_REGEX );
+        return new FieldValidatorBuilder( URL_REGEX )
+                .withErrorMessage( URL_ERROR_MESSAGE );
     }
     
     /**
@@ -46,7 +53,8 @@ public class FieldValidatorBuilder {
      * @return	an Email address field validator builder
      */
     public static FieldValidatorBuilder email() {
-        return new FieldValidatorBuilder( EMAIL_REGEX );
+        return new FieldValidatorBuilder( EMAIL_REGEX )
+                .withErrorMessage( EMAIL_ERROR_MESSAGE );
     }
     
     /**
@@ -55,7 +63,8 @@ public class FieldValidatorBuilder {
      * @return	an Alphabetic value field validator builder
      */
     public static FieldValidatorBuilder alphabetic() {
-        return new FieldValidatorBuilder( ALPHABETIC_REGEX );
+        return new FieldValidatorBuilder( ALPHABETIC_REGEX )
+                .withErrorMessage( ALPHABETIC_ERROR_MESSAGE );
     }
     /**
      * Creates an Alphanumeric based field validator. The allowed values should match an Alphanumeric value.
@@ -63,7 +72,8 @@ public class FieldValidatorBuilder {
      * @return	an Alphanumeric value field validator builder
      */
     public static FieldValidatorBuilder alphanumeric() {
-        return new FieldValidatorBuilder( ALPHANUMERIC_REGEX );
+        return new FieldValidatorBuilder( ALPHANUMERIC_REGEX )
+                .withErrorMessage( ALPHANUMERIC_ERROR_MESSAGE );
     }
     /**
      * Creates a Numeric based field validator. The allowed values should match a Numeric value.
@@ -71,7 +81,8 @@ public class FieldValidatorBuilder {
      * @return	a Numeric value field validator builder
      */
     public static FieldValidatorBuilder numeric() {
-        return new FieldValidatorBuilder( NUMERIC_REGEX );
+        return new FieldValidatorBuilder( NUMERIC_REGEX )
+                .withErrorMessage( NUMERIC_ERROR_MESSAGE );
     }
     /**
      * Creates a Regex based field validator. The allowed values should match the Regex expression.

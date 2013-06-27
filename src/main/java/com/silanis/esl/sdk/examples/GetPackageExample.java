@@ -54,36 +54,11 @@ public class GetPackageExample {
                                 .withField( FieldBuilder.textField()
                                         .onPage( 0 )
                                         .atPosition( 400, 100 )
-                                        .withSize( 200, 50 ) )
-                                .withField( FieldBuilder.signatureDate()
-                                        .onPage( 0 )
-                                        .atPosition( 400, 200 )
-                                        .withSize( 200, 50 ) )
-                                .withField( FieldBuilder.checkBox()
-                                        .onPage( 0 )
-                                        .atPosition( 400, 300 )
-                                        .withSize( 200, 50 ) )
-                                .withField( FieldBuilder.signerCompany()
-                                        .onPage( 0 )
-                                        .atPosition( 400, 400 )
-                                        .withSize( 200, 50 ) )
-                                .withField( FieldBuilder.signerName()
-                                        .onPage( 0 )
-                                        .atPosition( 400, 500 )
-                                        .withSize( 200, 50 ) )
-                                .withField( FieldBuilder.signerTitle()
-                                        .onPage( 0 )
-                                        .atPosition( 400, 600 )
                                         .withSize( 200, 50 ) ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
         DocumentPackage unsentPackage = eslClient.getPackage( packageId );
-
-        eslClient.sendPackage( packageId );
-        DocumentPackage sentPackage = eslClient.getPackage( packageId );
-
-        System.out.println( "Done" );
     }
 
     public static void getCompletedPackage() {

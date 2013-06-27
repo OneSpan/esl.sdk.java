@@ -131,6 +131,18 @@ public class EslClient {
 
     /**
      * Creates a package based on an existent template
+     *
+     * @param documentPackage	the document package
+     * @param templateName	the name of the template for the new package
+     * @return	the package ID
+     */
+    public PackageId createPackageFromTemplate( DocumentPackage documentPackage, String templateName ) {
+        Package packageToCreate = documentPackage.toAPIPackage();
+        return packageService.createPackageFromTemplate( templateName, packageToCreate );
+    }
+
+    /**
+     * Creates a package based on an existent template
      * 
      * @param documentPackage	the document package
      * @param packageId	the package ID used as template for the new package
