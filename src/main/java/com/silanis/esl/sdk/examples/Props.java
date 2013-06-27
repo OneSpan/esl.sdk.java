@@ -3,7 +3,9 @@ package com.silanis.esl.sdk.examples;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
+/*
+ * Helper class to open the properties file
+ */
 public class Props {
     public static Properties get() {
         Properties signers = new Properties();

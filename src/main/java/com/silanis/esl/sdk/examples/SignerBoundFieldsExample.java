@@ -16,7 +16,9 @@ import static com.silanis.esl.sdk.builder.FieldBuilder.signerTitle;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-
+/*
+ * How to add bound fields on a document and their behaviour once the signer has completed the ceremony
+ */
 public class SignerBoundFieldsExample {
 
     private static final Properties props = Props.get();
@@ -55,7 +57,6 @@ public class SignerBoundFieldsExample {
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
-
         eslClient.sendPackage( packageId );
     }
 }

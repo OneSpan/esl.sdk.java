@@ -12,6 +12,11 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+/**
+ * 
+ * Example of how to configure the SMS authentication method for a signer
+ *
+ */
 
 public class SignerSMSAuthenticationExample {
 
@@ -23,8 +28,8 @@ public class SignerSMSAuthenticationExample {
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
-        DocumentPackage qnaExamplePackage = newPackageNamed("Policy " + format.format(new Date()))
-                .describedAs("This is a Q&A authentication example")
+        DocumentPackage smsExamplePackage = newPackageNamed("Policy " + format.format(new Date()))
+                .describedAs("This is a SMS authentication example")
                 .withSigner(newSignerWithEmail(props.getProperty("1.email"))
                         .withFirstName("John")
                         .withLastName("Smith")
@@ -36,7 +41,7 @@ public class SignerSMSAuthenticationExample {
                                 .atPosition(100, 100)))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( qnaExamplePackage );
+        PackageId packageId = eslClient.createPackage( smsExamplePackage );
 
         eslClient.sendPackage( packageId );
     }

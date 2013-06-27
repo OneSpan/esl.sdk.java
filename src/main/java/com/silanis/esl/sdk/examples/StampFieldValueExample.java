@@ -12,6 +12,11 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
+/**
+ * Stamps populate a field of a document prior to it being presented to the signer. 
+ * The value of the input is decided upon based on the integrator's needs.
+ * 
+ */
 public class StampFieldValueExample {
 
     private static final Properties props = Props.get();

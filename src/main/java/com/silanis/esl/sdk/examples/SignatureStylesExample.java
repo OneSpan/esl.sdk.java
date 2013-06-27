@@ -12,7 +12,9 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.initialsFor;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-
+/*
+ * Demonstrating the 3 options a signer can have when signing a document
+ */
 public class SignatureStylesExample {
 
     private static final Properties props = Props.get();

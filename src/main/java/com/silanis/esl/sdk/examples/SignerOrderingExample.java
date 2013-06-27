@@ -10,7 +10,9 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-
+/*
+ * Example of how to define the order in which the signers can participate in the signing ceremony
+ */
 public class SignerOrderingExample {
 
     private static final Properties props = Props.get();

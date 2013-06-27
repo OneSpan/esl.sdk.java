@@ -13,7 +13,11 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-
+/**
+ * 
+ * Create a session token based on the package ID and the signer's ID
+ *
+ */
 public class SessionCreationExample {
 
     private static final Properties props = Props.get();

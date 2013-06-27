@@ -13,7 +13,11 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
-
+/**
+ * 
+ * DOES NOT WORK: No role found for the sender, application crashes. 
+ *
+ */
 public class SignaturesForSenders {
 
     private static final Properties props = Props.get();
@@ -29,8 +33,8 @@ public class SignaturesForSenders {
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner(newSignerWithEmail(props.getProperty("1.email"))
-                        .withFirstName("d")
-                        .withLastName("lawson")
+                        .withFirstName("John")
+                        .withLastName("Smith")
                         .withTitle("Managing Director")
                         .withCompany("Acme Inc."))
                 .withDocument(newDocumentWithName("First Document")
@@ -38,7 +42,7 @@ public class SignaturesForSenders {
                         .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(100, 100))
-                        .withSignature(signatureFor(props.getProperty("0.email"))
+                        .withSignature(signatureFor(props.getProperty("5.email"))
                                 .onPage(0)
                                 .atPosition(100, 300))
                 ).build();

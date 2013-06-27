@@ -13,7 +13,12 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQuestion;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-
+/**
+ * 
+ * Example of how to configure the Question&Answer authentication method for a signer. The answer is given for testing 
+ * purposes. Never include the answer when creating packages for actual customers.
+ *
+ */
 public class SignerQnAChallengeExample {
 
     private static final Properties props = Props.get();
@@ -26,16 +31,16 @@ public class SignerQnAChallengeExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
         DocumentPackage qnaExamplePackage = newPackageNamed("Policy " + format.format(new Date()))
                 .describedAs("This is a Q&A authentication example")
-                .withSigner(newSignerWithEmail("etienne_hardy@silanis.com")
+                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
                         .withFirstName("John")
                         .withLastName("Smith")
-                        .challengedWithQuestions(firstQuestion("What's your favorite sport?")
+                        .challengedWithQuestions(firstQuestion("What's your favorite sport? (answer: golf)")
                                 .answer("golf")
-                                .secondQuestion("What music instrument do you play?")
+                                .secondQuestion("What music instrument do you play? (answer: drums)")
                                 .answer("drums")))
                 .withDocument(newDocumentWithName("First Document")
                         .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor("etienne_hardy@silanis.com")
+                        .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(100, 100)))
                 .build();

@@ -10,7 +10,9 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-
+/**
+ * Example of how to customize the e-mail message received by a signer when a DocumentPackage is sent for signing.
+ */
 public class SignerSpecificEmailMessageExample {
 
     private static final Properties props = Props.get();
