@@ -3,11 +3,15 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.NotificationEvent;
 
+import java.util.Properties;
+
 import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEventNotificationConfig;
 
 public class EventNotificationRegistration {
-    public static final String API_KEY = "c0Y5ZnZRZ1ppN2liOnNlY3JldA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );

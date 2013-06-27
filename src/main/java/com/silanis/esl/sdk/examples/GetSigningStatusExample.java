@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -19,8 +20,11 @@ import static org.joda.time.DateMidnight.now;
  * User: dave
  */
 public class GetSigningStatusExample {
-    public static final String API_KEY = "ZDQ2MzczNmUtMDMyNC00OTkxLTkzNjYtODc3YTNlOWFmYzNjOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
+
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 
     public static void main( String... args ) {
@@ -31,14 +35,14 @@ public class GetSigningStatusExample {
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
                 .inPerson( true )
-                .withSigner( newSignerWithEmail( "dlawson@silanis.com" )
+                .withSigner( newSignerWithEmail( props.getProperty("1.email") )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
                         .withTitle( "Managing Director" )
                         .withCompany( "Acme Inc." ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor( "dlawson@silanis.com" )
+                        .withSignature( signatureFor( props.getProperty("1.email") )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) ) )
                 .build();

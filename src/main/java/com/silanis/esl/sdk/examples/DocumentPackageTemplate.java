@@ -6,13 +6,17 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 
+import java.util.Properties;
+
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class DocumentPackageTemplate {
 
-    public static final String API_KEY = "YjA0ODY5MDItZjM4NC00MTA2LTk0OTgtYWVhNmZkZGQ4YjJlOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
+
     public static final String TEMPLATE_NAME = "Template Name";
     public static final String TEMPLATE_ID = "CSsDEL9rhkfMhTGgKG3sdKbU0rID";
 

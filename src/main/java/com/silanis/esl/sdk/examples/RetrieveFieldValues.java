@@ -5,10 +5,14 @@ import com.silanis.esl.sdk.FieldSummary;
 import com.silanis.esl.sdk.PackageId;
 
 import java.util.List;
+import java.util.Properties;
 
 public class RetrieveFieldValues {
-    public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
+
     public static final String PACKAGE_ID = "";
     public static final PackageId packageId = new PackageId( PACKAGE_ID );
 
