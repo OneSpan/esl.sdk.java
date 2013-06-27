@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.PackageId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -16,11 +17,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Just a simple package that lets us test whether a signer, upon clicking on their invitation to sign link, is brought to the first package they can participate in.
  */
 public class DocumentGuidanceExample {
-    public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
-
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
@@ -28,22 +30,22 @@ public class DocumentGuidanceExample {
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .withEmailMessage( "This message should be delivered to all signers" )
-                .withSigner( newSignerWithEmail( "dlawson@silanis.com" )
+                .withSigner( newSignerWithEmail( props.getProperty("1.email") )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
                         .withTitle( "Managing Director" )
                         .withCompany( "Acme Inc." ) )
-                .withSigner( newSignerWithEmail( "dave.silanis@gmail.com" )
+                .withSigner( newSignerWithEmail( props.getProperty("2.email") )
                         .withFirstName( "Patty" )
                         .withLastName( "Galant" ) )
-                .withDocument( newDocumentWithName( "dlawson@silanis.com" )
+                .withDocument( newDocumentWithName( props.getProperty("1.email") )
                         .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor("dlawson@silanis.com")
+                        .withSignature( signatureFor(props.getProperty("1.email"))
                                 .onPage( 0 )
                                 .atPosition( 100, 100 )))
-                .withDocument( newDocumentWithName( "dave.silanis@gmail.com" )
+                .withDocument( newDocumentWithName( props.getProperty("2.email") )
                         .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor("dave.silanis@gmail.com")
+                        .withSignature( signatureFor(props.getProperty("2.email"))
                                 .onPage( 0 )
                                 .atPosition( 100, 200 ) ) )
                 .build();

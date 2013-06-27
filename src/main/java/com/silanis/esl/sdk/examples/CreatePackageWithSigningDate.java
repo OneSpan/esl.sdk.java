@@ -9,11 +9,13 @@ import com.silanis.esl.sdk.service.PackageService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 public class CreatePackageWithSigningDate {
 
-    public static final String API_KEY = "YTUwOGQ5ZDktMDZmMi00MjM5LTkwNDQtYmZiZDI2MTdmNmQxOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     public static void main(String[] args) throws EslException, IOException {
 
@@ -25,7 +27,7 @@ public class CreatePackageWithSigningDate {
                 .addSigner(new Signer()
                         .setFirstName("John")
                         .setLastName("Smith")
-                        .setEmail("etienne_hardy@silanis.com"))
+                        .setEmail(props.getProperty("1.email")))
                 .setId("Role1");
 
         com.silanis.awsng.web.rest.model.Package samplePackage = new Package()

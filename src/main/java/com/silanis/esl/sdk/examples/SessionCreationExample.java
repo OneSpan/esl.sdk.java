@@ -7,6 +7,7 @@ import com.silanis.esl.sdk.SessionToken;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -14,8 +15,10 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class SessionCreationExample {
-    public static final String API_KEY = "YjJkZmNjOWYtMTEyNi00M2FhLWJiZmUtMTA4Yzk5NDc1YTdiOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 
@@ -25,13 +28,13 @@ public class SessionCreationExample {
         String signerId = "myCustomSignerId";
 
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
-                .withSigner( newSignerWithEmail( "etienne_hardy@silanis.com" )
+                .withSigner( newSignerWithEmail( props.getProperty("1.email") )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
                         .withCustomId( signerId ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor( "etienne_hardy@silanis.com" )
+                        .withSignature( signatureFor( props.getProperty("1.email") )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) ) )
                 .build();

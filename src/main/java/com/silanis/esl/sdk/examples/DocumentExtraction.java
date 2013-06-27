@@ -4,6 +4,8 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 
+import java.util.Properties;
+
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -12,9 +14,10 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * User: dave
  */
 public class DocumentExtraction {
-    public static final String API_KEY = "ZDQ2MzczNmUtMDMyNC00OTkxLTkzNjYtODc3YTNlOWFmYzNjOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
-//    public static final String API_URL = "http://localhost:8080/aws/rest/services";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );

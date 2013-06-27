@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.PackageId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -15,11 +16,11 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class SignerQnAChallengeExample {
 
-    public static final String API_KEY = "c0Y5ZnZRZ1ppN2liOnNlY3JldA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
-
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );

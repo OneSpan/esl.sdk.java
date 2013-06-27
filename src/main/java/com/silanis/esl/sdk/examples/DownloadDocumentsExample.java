@@ -4,10 +4,13 @@ import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.io.Files;
 
+import java.util.Properties;
+
 public class DownloadDocumentsExample {
 
-    public static final String API_KEY = "Q2xubnp5Y2dIQ3lROnNlY3JldA==";
-    public static final String API_URL = "https://sandbox.e-signlive.com/api";
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     public static void main( String... args ) {
         EslClient esl = new EslClient( API_KEY, API_URL );

@@ -17,16 +17,17 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * HELLO
+ * Email, Q&A, and SMS authentication example.
  */
 public class AuthenticationMethods {
-    public static final Properties props = Props.get();
+
+    private static final Properties props = Props.get();
     public static final String API_KEY = props.getProperty( "api.key" );
     public static final String API_URL = props.getProperty( "api.url" );
+
     private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
 
     public static void main( String... args ) {
-
 
         EslClient eslClient = new EslClient( API_KEY, API_URL );
 
@@ -40,10 +41,10 @@ public class AuthenticationMethods {
                 .withSigner( newSignerWithEmail( props.getProperty("2.email") )
                         .withFirstName( "Bobby" )
                         .withLastName( "Sue" )
-                        .challengedWithQuestions( firstQuestion( "What's your favorite sport?" )
-                                .answer( "golf" )
-                                .secondQuestion( "What music instrument do you play?" )
-                                .answer( "drums" ) ) )
+                        .challengedWithQuestions( firstQuestion( "What's 1+1?" )
+                                .answer( "2" )
+                                .secondQuestion( "What color's the sky?" )
+                                .answer( "blue" ) ) )
                 .withSigner( newSignerWithEmail( props.getProperty("3.email") )
                         .withFirstName( "Charlie" )
                         .withLastName( "Brown" )
