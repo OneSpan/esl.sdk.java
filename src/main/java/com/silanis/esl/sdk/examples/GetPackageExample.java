@@ -16,7 +16,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * User: dave
+ * Gets a newly created or completed package
  */
 public class GetPackageExample {
 

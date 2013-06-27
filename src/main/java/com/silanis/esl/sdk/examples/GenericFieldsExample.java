@@ -15,6 +15,9 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
+/**
+ * Example with a simple field and checkbox
+ */
 public class GenericFieldsExample {
 
     private static final Properties props = Props.get();

@@ -11,7 +11,7 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * User: dave
+ * Document-level field extraction
  */
 public class DocumentExtraction {
 
@@ -23,7 +23,7 @@ public class DocumentExtraction {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
 
         DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
-                .withSigner( newSignerWithEmail( "dlawson@silanis.com" )
+                .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
                         .withRoleId( "Signer1" )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )
@@ -36,6 +36,5 @@ public class DocumentExtraction {
         eslClient.sendPackage( packageId );
 
         DocumentPackage sentPackage = eslClient.getPackage( packageId );
-        System.out.println( "yars");
     }
 }

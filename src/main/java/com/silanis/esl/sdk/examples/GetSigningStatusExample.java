@@ -17,7 +17,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * User: dave
+ * Retrieves the signing status of a package before and after sending it
  */
 public class GetSigningStatusExample {
 
@@ -50,7 +50,9 @@ public class GetSigningStatusExample {
         PackageId packageId = eslClient.createPackage( superDuperPackage );
 
         SigningStatus draftSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+        System.out.println(draftSigningStatus.getToken());
         eslClient.sendPackage( packageId );
         SigningStatus sentSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+        System.out.println(sentSigningStatus.getToken());
     }
 }

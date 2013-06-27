@@ -7,6 +7,9 @@ import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEventNotificationConfig;
 
+/**
+ * DOES NOT WORK OUT-OF-THE-BOX Event notification registration example
+ */
 public class EventNotificationRegistration {
 
     private static final Properties props = Props.get();

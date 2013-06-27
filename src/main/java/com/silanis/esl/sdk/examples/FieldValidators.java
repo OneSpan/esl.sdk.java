@@ -21,6 +21,9 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
+/**
+ * Example of various field validators
+ */
 public class FieldValidators {
 
     private static final Properties props = Props.get();

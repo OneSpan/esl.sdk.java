@@ -14,7 +14,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * Sends completed documents by email
+ * DOES NOT WORK Sends completed documents by email
  */
 public class DocumentDeliveryOptionExample {
 

@@ -14,6 +14,9 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
+/**
+ * DOES NOT WORK (missing layout?) Document layout example
+ */
 public class DocumentLayoutExample {
 
     private static final Properties props = Props.get();
@@ -30,22 +33,22 @@ public class DocumentLayoutExample {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .inPerson(true)
-                .withSigner(newSignerWithEmail("etienne_hardy@silanis.com")
+                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
                         .withFirstName("John")
                         .withLastName("Smith")
                         .withTitle("Managing Director")
                         .withCompany("Acme Inc."))
-                .withSigner( newSignerWithEmail( "patty.galant@acme.com" )
+                .withSigner( newSignerWithEmail( props.getProperty("2.email") )
                         .withFirstName( "Patty" )
                         .withLastName( "Galant" ) )
                 .withDocument(newDocumentWithName("First Document")
                         .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor("etienne_hardy@silanis.com")
+                        .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(100, 100)))
                 .withDocument(newDocumentWithName("Second Document")
                         .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor("patty.galant@acme.com")
+                        .withSignature(signatureFor(props.getProperty("2.email"))
                                 .onPage(1)
                                 .atPosition(100, 100)))
                 .build();
@@ -56,5 +59,7 @@ public class DocumentLayoutExample {
         eslClient.applyDocumentLayout( packageId, aPackage.getDocument( "Second Document" ).getId(), LAYOUT_NAME );
         aPackage = eslClient.getPackage( packageId );
         System.out.println( aPackage.getName() );
+
+        eslClient.sendPackage( packageId );
     }
 }

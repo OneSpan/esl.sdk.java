@@ -14,7 +14,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * Just a simple package that lets us test whether a signer, upon clicking on their invitation to sign link, is brought to the first package they can participate in.
+ * DOES NOT WORK Just a simple package that lets us test whether a signer, upon clicking on their invitation to sign link, is brought to the first package they can participate in.
  */
 public class DocumentGuidanceExample {
 

@@ -11,6 +11,9 @@ import java.util.Properties;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
+/**
+ * DOES NOT WORK (no sample template) NEEDS CLEAN UP Creates a package from an existing template
+ */
 public class DocumentPackageTemplate {
 
     private static final Properties props = Props.get();

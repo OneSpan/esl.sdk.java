@@ -6,6 +6,9 @@ import com.silanis.esl.sdk.io.Files;
 
 import java.util.Properties;
 
+/**
+ * DOES NOT WORK OUT-OF-THE-BOX Downloads a document, the evidence summary, and the documents zip file
+ */
 public class DownloadDocumentsExample {
 
     private static final Properties props = Props.get();
