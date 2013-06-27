@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * NEEDS TO BE CLEANED UP Creates a package with a signing date
+ */
 public class CreatePackageWithSigningDate {
 
     private static final Properties props = Props.get();
