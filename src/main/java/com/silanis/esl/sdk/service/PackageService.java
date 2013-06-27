@@ -68,6 +68,21 @@ public class PackageService {
         }
     }
 
+    public PackageId createPackageFromTemplate( String templateName, Package aPackage ) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
+                .build();
+        String packageJson = Serialization.toJson( aPackage );
+        try {
+
+            String response = client.post(path, packageJson);
+
+            return Serialization.fromJson(response, PackageId.class);
+        } catch (Exception e) {
+            throw new EslException("Could not create a new package", e);
+        }
+    }
+
+
     /**
      * Updates the package's fields and roles.
      * @param packageId
