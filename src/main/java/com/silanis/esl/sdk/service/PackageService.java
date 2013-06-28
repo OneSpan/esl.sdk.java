@@ -57,6 +57,7 @@ public class PackageService {
     public PackageId createPackageFromTemplate( PackageId packageId, Package aPackage ) {
         String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
                 .build();
+        path += "?template=" + packageId.getId();
         String packageJson = Serialization.toJson( aPackage );
         try {
 
@@ -71,6 +72,7 @@ public class PackageService {
     public PackageId createPackageFromTemplate( String templateName, Package aPackage ) {
         String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
                 .build();
+        path += "?templateName=" + templateName;
         String packageJson = Serialization.toJson( aPackage );
         try {
 

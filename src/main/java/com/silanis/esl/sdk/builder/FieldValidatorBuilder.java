@@ -117,11 +117,6 @@ public class FieldValidatorBuilder {
         return this;
     }
 
-    public FieldValidatorBuilder withOption( String option ) {
-        this.options.add( option );
-        return this;
-    }
-
     public FieldValidatorBuilder required() {
         this.required = true;
         return this;
@@ -129,8 +124,17 @@ public class FieldValidatorBuilder {
 
     public FieldValidator build() {
         FieldValidator result = new FieldValidator();
+        if ( minLength < 0 ) {
+            throw new IllegalArgumentException("minLength can not be less than 0");
+        }
         result.setMinLength( minLength );
+        if ( maxLength < 0 ) {
+            throw new IllegalArgumentException( "maxLength can not be less than 0" );
+        }
         result.setMaxLength( maxLength );
+        if ( minLength > maxLength ) {
+            throw new IllegalArgumentException( "maxLength can not be less than minLength" );
+        }
         result.setRegex( regex );
         result.getOptions().addAll( options );
         result.setRequired(required);
