@@ -2,9 +2,6 @@ package com.silanis.esl.sdk;
 
 import java.io.Serializable;
 
-/**
- * User: dave
- */
 public class SignerId implements Serializable {
     private static final long serialVersionUID = 1L;
 

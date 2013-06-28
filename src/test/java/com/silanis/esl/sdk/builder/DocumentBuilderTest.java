@@ -10,9 +10,6 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-/**
- * User: dave
- */
 public class DocumentBuilderTest {
     @Test
     public void buildWithSpecifiedValues() {

@@ -18,9 +18,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * User: dave
- */
 public class SignatureBuilderTest {
     public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
 

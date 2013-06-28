@@ -15,9 +15,6 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
-/**
- * @author ehardy
- */
 public class LoggingTest {
     public static final String API_KEY = "NGYxMDg3ZjItZWJjYi00MzUxLWFhYzMtMWFlNmQyMjYyZmYzOkJzYnAyeXNJQURnSA==";
     public static final String API_URL = "http://localhost:8080";
