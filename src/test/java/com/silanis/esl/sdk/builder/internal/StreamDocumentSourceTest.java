@@ -9,9 +9,6 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-/**
- * @author ehardy
- */
 public class StreamDocumentSourceTest {
 
 //    @Test

@@ -1,8 +1,5 @@
 package com.silanis.esl.sdk;
 
-/**
- * User: dave
- */
 public enum SigningStatus {
     INACTIVE( "DRAFT" ),
     COMPLETE( "COMPLETED" ),

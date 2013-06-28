@@ -17,9 +17,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
-/**
- * User: dave
- */
 public class FieldBuilderTest {
 
     public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
