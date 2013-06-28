@@ -141,4 +141,9 @@ public class FieldValidatorBuilder {
         result.setErrorMessage( errorMessage );
         return result;
     }
+
+    public FieldValidatorBuilder withOption( String option ) {
+        options.add( option );
+        return this;
+    }
 }

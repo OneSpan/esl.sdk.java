@@ -3,6 +3,8 @@ package com.silanis.esl.sdk.internal.converter.sdk;
 import com.silanis.awsng.web.rest.model.FieldValidation;
 import com.silanis.esl.sdk.FieldValidator;
 
+import java.util.ArrayList;
+
 public class FieldValidatorConverter {
     private FieldValidator fieldValidator;
 
@@ -21,8 +23,9 @@ public class FieldValidatorConverter {
             fieldValidation.setMinLength( fieldValidator.getMinLength() );
         }
 
-        for ( String option : fieldValidator.getOptions() ) {
-            fieldValidation.getEnum().add( option );
+        if ( !fieldValidator.getOptions().isEmpty() ) {
+            fieldValidation.setEnum( new ArrayList<String>() );
+            fieldValidation.getEnum().addAll( fieldValidator.getOptions() );
         }
 
         fieldValidation.setRequired( fieldValidator.isRequired() );
