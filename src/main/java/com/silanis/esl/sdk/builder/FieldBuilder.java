@@ -193,6 +193,8 @@ public class FieldBuilder {
         if (!extract && style != FieldStyle.LABEL) {
             nonZero( x, "x" );
             nonZero( y, "y" );
+            nonZero( width, "width" );
+            nonZero( height, "height" );
         }
 
         Field field = new Field();

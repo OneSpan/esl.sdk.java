@@ -25,9 +25,9 @@ public class DocumentPackage implements Serializable {
     private String description;
     private Date expiryDate;
     private String packageMessage;
-    private boolean inPerson;
     private PackageId id;
     private PackageStatus status;
+    private PackageSettings settings;
 
     /**
      * 
@@ -92,12 +92,7 @@ public class DocumentPackage implements Serializable {
                 .setDescription(description)
                 .setAutocomplete(autocomplete);
 
-        if (inPerson) {
-            PackageSettings settings = new PackageSettings();
-            CeremonySettings ceremonySettings = new CeremonySettings();
-
-            ceremonySettings.setInPerson(inPerson);
-            settings.setCeremony(ceremonySettings);
+        if ( settings != null ) {
             packageToCreate.setSettings(settings);
         }
 
@@ -160,21 +155,6 @@ public class DocumentPackage implements Serializable {
         this.packageMessage = packageMessage;
     }
 
-    /**
-     * <p>Controls whether an agent can switch the signing process from one sender to another.</p>
-     * <p>Sometimes, an agent might have the signer in his office to sign a document. </p>
-     * <p>The agent would start the signing process, sign his part of the document, </p>
-     * <p>and then handover the signing process to the signer, on the same device.</p>
-     * 
-     * @param inPerson	    <p>inPerson controls whether an agent can switch the signing process from one sender to another.</p>
-							<p>Sometimes, an agent might have the signer in his office to sign a document </p>
-							<p>The agent would start the signing process, sign his part of the document, </p>
-							<p>and then handover the signing process to the signer, on the same device.</p>
-     */
-    public void setInPerson(boolean inPerson) {
-        this.inPerson = inPerson;
-    }
-
     public void setId( PackageId id ) {
         this.id = id;
     }
@@ -189,5 +169,13 @@ public class DocumentPackage implements Serializable {
 
     public PackageStatus getStatus() {
         return status;
+    }
+
+    public PackageSettings getSettings() {
+        return settings;
+    }
+
+    public void setSettings( PackageSettings settings ) {
+        this.settings = settings;
     }
 }

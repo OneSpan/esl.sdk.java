@@ -233,4 +233,9 @@ public class EslClient {
     public SigningStatus getSigningStatus( PackageId packageId, SignerId signerId, DocumentId documentId ) {
         return packageService.getSigningStatus( packageId, signerId, documentId );
     }
+
+    public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
+        Package apiPackage = documentPackage.toAPIPackage();
+        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, document.toAPIDocument( apiPackage ) );
+    }
 }

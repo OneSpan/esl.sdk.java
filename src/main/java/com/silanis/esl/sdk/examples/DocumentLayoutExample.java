@@ -32,7 +32,6 @@ public class DocumentLayoutExample {
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
-                .inPerson(true)
                 .withSigner(newSignerWithEmail(props.getProperty("1.email"))
                         .withFirstName("John")
                         .withLastName("Smith")

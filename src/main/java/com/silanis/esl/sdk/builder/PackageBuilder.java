@@ -1,9 +1,12 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.Approval;
 import com.silanis.awsng.web.rest.model.Package;
+import com.silanis.awsng.web.rest.model.PackageSettings;
 import com.silanis.awsng.web.rest.model.PackageStatus;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Signer;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -21,21 +24,22 @@ public class PackageBuilder {
     private String description = "";
     private Date expiryDate;
     private String packageMessage = "";
-    private boolean inPerson;
     private PackageId id;
     private PackageStatus status;
+    private PackageSettings settings;
 
     /**
      * The constructor of the PackageBuilder class.
-     * 
-     * @param packageName	the name of the package
+     *
+     * @param packageName the name of the package
      */
-    public PackageBuilder(String packageName) {
+    public PackageBuilder( String packageName ) {
         this.packageName = packageName;
     }
 
     /**
      * Creates and populates a new builder object based on the contents of the api package passed.
+     *
      * @param apiPackage
      */
     public PackageBuilder( Package apiPackage ) {
@@ -45,10 +49,10 @@ public class PackageBuilder {
         this.description = apiPackage.getDescription();
         this.expiryDate = apiPackage.getDue();
         this.status = apiPackage.getStatus();
-        this.inPerson = apiPackage.getSettings().getCeremony().evalInPerson();
         this.packageMessage = apiPackage.getEmailMessage();
+        this.settings = apiPackage.getSettings();
 
-        for( com.silanis.awsng.web.rest.model.Role role : apiPackage.getRoles() ) {
+        for ( com.silanis.awsng.web.rest.model.Role role : apiPackage.getRoles() ) {
             if ( role.getSigners().isEmpty() ) {
                 continue;
             }
@@ -67,18 +71,18 @@ public class PackageBuilder {
     /**
      * Creates a package having the package name set to the value of the name parameter
      *
-     * @param name	the package name
-     * @return	a package builder
+     * @param name the package name
+     * @return a package builder
      */
-    public static PackageBuilder newPackageNamed(String name) {
-        return new PackageBuilder(name);
+    public static PackageBuilder newPackageNamed( String name ) {
+        return new PackageBuilder( name );
     }
 
     /**
      * <p>Adds a signer to the package. The signer is conveniently customized by the builder provided as parameter.</p>
-     * 
-     * @param builder	the signer builder
-     * @return	the package builder itself
+     *
+     * @param builder the signer builder
+     * @return the package builder itself
      */
     public PackageBuilder withSigner( SignerBuilder builder ) {
         return withSigner( builder.build() );
@@ -86,9 +90,9 @@ public class PackageBuilder {
 
     /**
      * <p>Adds a signer to the package.</p>
-     * 
-     * @param signer	a signer that signs one or more documents belonging to the package
-     * @return	the document builder itself
+     *
+     * @param signer a signer that signs one or more documents belonging to the package
+     * @return the document builder itself
      */
     public PackageBuilder withSigner( Signer signer ) {
         signers.put( signer.getEmail(), signer );
@@ -97,105 +101,106 @@ public class PackageBuilder {
 
     /**
      * <p>Adds a document to the package. The document is conveniently customized by the builder provided as parameter.</p>
-     * 
-     * @param builder	a document builder 
-     * @return	the package builder itself
+     *
+     * @param builder a document builder
+     * @return the package builder itself
      */
-    public PackageBuilder withDocument(DocumentBuilder builder) {
+    public PackageBuilder withDocument( DocumentBuilder builder ) {
         return withDocument( builder.build() );
     }
 
-    
+
     /**
      * <p>Adds a document to the package.</p>
-     * 
-     * @param document	the new document
-     * @return	the package builder itself
+     *
+     * @param document the new document
+     * @return the package builder itself
      */
-    public PackageBuilder withDocument(Document document) {
+    public PackageBuilder withDocument( Document document ) {
         addDocument( document );
         return this;
     }
 
     /**
      * Builds the actual document package
-     * 
-     * @return	the document package
+     *
+     * @return the document package
      */
     public DocumentPackage build() {
-        DocumentPackage documentPackage = new DocumentPackage(packageName, signers, documents, autocomplete);
+        DocumentPackage documentPackage = new DocumentPackage( packageName, signers, documents, autocomplete );
 
-        documentPackage.setDescription(description);
-        documentPackage.setExpiryDate(expiryDate);
-        documentPackage.setPackageMessage(packageMessage);
-        documentPackage.setInPerson(inPerson);
-        documentPackage.setId(id);
-        documentPackage.setStatus(status);
+        documentPackage.setDescription( description );
+        documentPackage.setExpiryDate( expiryDate );
+        documentPackage.setPackageMessage( packageMessage );
+        documentPackage.setId( id );
+        documentPackage.setStatus( status );
+
+        if ( settings != null ) {
+            documentPackage.setSettings( settings );
+        }
 
         return documentPackage;
     }
 
     /**
-     * Adds a new document to the package 
-     * 
-     * @param document	the new document
+     * Adds a new document to the package
+     *
+     * @param document the new document
      */
-    private void addDocument(Document document) {
-        documents.put(document.getName(), document);
+    private void addDocument( Document document ) {
+        documents.put( document.getName(), document );
     }
 
     /**
      * Sets the autocomplete package property
-     * 
+     *
      * @param autocomplete
-     * @return	the package builder itself
+     * @return the package builder itself
      */
-    public PackageBuilder autocomplete(boolean autocomplete) {
+    public PackageBuilder autocomplete( boolean autocomplete ) {
         this.autocomplete = autocomplete;
         return this;
     }
 
     /**
      * Sets the description for the package
-     * 
+     *
      * @param description
-     * @return	the package builder itself
+     * @return the package builder itself
      */
-    public PackageBuilder describedAs(String description) {
+    public PackageBuilder describedAs( String description ) {
         this.description = description;
         return this;
     }
 
     /**
      * Sets the expiration date for the package
-     * 
+     *
      * @param expiryDate
-     * @return	the package builder itself
+     * @return the package builder itself
      */
-    public PackageBuilder expiresAt(Date expiryDate) {
+    public PackageBuilder expiresAt( Date expiryDate ) {
         this.expiryDate = expiryDate;
         return this;
     }
 
     /**
      * <p>Adds a package message to the package</p>
+     *
      * @param packageMessage
      * @return the package builder itself
      */
-    public PackageBuilder withEmailMessage(String packageMessage) {
+    public PackageBuilder withEmailMessage( String packageMessage ) {
         this.packageMessage = packageMessage;
         return this;
     }
 
-    /**
-     * <p>Sets the inPerson package property.</p>
-     * <p>If set to true it means that the agent can switch the signing process from one sender to another.</p>
-     * 
-     * @param inPerson
-     * @return	the package builder itself
-     */
-    public PackageBuilder inPerson(boolean inPerson) {
-        this.inPerson = inPerson;
+    public PackageBuilder withSettings( PackageSettingsBuilder builder ) {
+        return withSettings( builder.build() );
+    }
+
+    private PackageBuilder withSettings( PackageSettings settings ) {
+        this.settings = settings;
         return this;
     }
 }
