@@ -82,8 +82,9 @@ public class LayoutOptionsBuilder {
     }
 
     private BrandingBarOptions buildBrandingBarOptions() {
-        BrandingBarOptions brandingBarOptions = new BrandingBarOptions();
+        BrandingBarOptions brandingBarOptions = null;
         if ( logoImageLink != null || logoImageSource != null ) {
+            brandingBarOptions = new BrandingBarOptions();
             Image logo = new Image();
             logo.safeSetLink( logoImageLink );
             logo.safeSetSrc( logoImageSource );
