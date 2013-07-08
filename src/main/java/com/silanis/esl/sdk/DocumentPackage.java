@@ -6,6 +6,7 @@ import com.silanis.awsng.web.rest.model.Package;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -28,6 +29,7 @@ public class DocumentPackage implements Serializable {
     private PackageId id;
     private PackageStatus status;
     private PackageSettings settings;
+    private Locale language;
 
     /**
      * 
@@ -91,6 +93,10 @@ public class DocumentPackage implements Serializable {
                 .setEmailMessage(packageMessage)
                 .setDescription(description)
                 .setAutocomplete(autocomplete);
+
+        if (language != null) {
+            packageToCreate.setLanguage(language.getLanguage());
+        }
 
         if ( settings != null ) {
             packageToCreate.setSettings(settings);
@@ -177,5 +183,13 @@ public class DocumentPackage implements Serializable {
 
     public void setSettings( PackageSettings settings ) {
         this.settings = settings;
+    }
+
+    public void setLanguage(Locale language) {
+        this.language = language;
+    }
+
+    public Locale getLanguage() {
+        return language;
     }
 }

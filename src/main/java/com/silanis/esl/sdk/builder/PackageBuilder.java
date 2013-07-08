@@ -10,6 +10,7 @@ import com.silanis.esl.sdk.Signer;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -27,6 +28,7 @@ public class PackageBuilder {
     private PackageId id;
     private PackageStatus status;
     private PackageSettings settings;
+    private Locale language;
 
     /**
      * The constructor of the PackageBuilder class.
@@ -135,6 +137,10 @@ public class PackageBuilder {
         documentPackage.setId( id );
         documentPackage.setStatus( status );
 
+        if (language != null) {
+            documentPackage.setLanguage(language);
+        }
+
         if ( settings != null ) {
             documentPackage.setSettings( settings );
         }
@@ -201,6 +207,11 @@ public class PackageBuilder {
 
     private PackageBuilder withSettings( PackageSettings settings ) {
         this.settings = settings;
+        return this;
+    }
+
+    public PackageBuilder withLanguage(Locale language) {
+        this.language = language;
         return this;
     }
 }
