@@ -10,7 +10,6 @@ public class LayoutOptionsBuilder {
 
     private Boolean iFrame = null;
     private Boolean breadCrumbs = null;
-    private Boolean feedback = null;
     private Boolean sessionBar = null;
     private Boolean globalNavigation = null;
     private Boolean progressBar = null;
@@ -35,11 +34,6 @@ public class LayoutOptionsBuilder {
 
     public LayoutOptionsBuilder withoutBreadCrumbs() {
         breadCrumbs = false;
-        return this;
-    }
-
-    public LayoutOptionsBuilder withoutFeedback() {
-        feedback = false;
         return this;
     }
 
@@ -97,7 +91,6 @@ public class LayoutOptionsBuilder {
     private HeaderOptions buildHeaderOptions() {
         HeaderOptions headerOptions = new HeaderOptions();
         headerOptions.safeSetBreadcrumbs( breadCrumbs );
-        headerOptions.safeSetFeedback( feedback );
         headerOptions.safeSetSessionBar( sessionBar );
         headerOptions.safeSetGlobalNavigation( globalNavigation );
         headerOptions.safeSetTitleBar( buildTitleBarOptions() );

@@ -47,8 +47,18 @@ public class PackageSettingsBuilder {
         return this;
     }
 
+    public PackageSettingsBuilder disableOptOut() {
+        this.enableOptOut = false;
+        return this;
+    }
+
     public PackageSettingsBuilder enableDecline() {
         this.enableDecline = true;
+        return this;
+    }
+
+    public PackageSettingsBuilder disableDecline() {
+        this.enableDecline = false;
         return this;
     }
 

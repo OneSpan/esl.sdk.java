@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.LayoutOptionsBuilder.newLayoutOptions;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.PackageSettingsBuilder.newPackageSettings;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -30,17 +31,25 @@ public class DocumentPackageSettingsExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
         DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettings " + format.format( new Date() ) )
                 .withSettings( newPackageSettings()
-//                        .withLayoutOptions( newLayoutOptions()
-//                                .withoutProgressBar()
-//                                .withoutSessionBar()
-//                                .withoutTitle() )
+                        .withLayoutOptions( newLayoutOptions()
+                                .withoutProgressBar()
+                                .withoutSessionBar()
+                                .withoutTitle()
+                                .withoutNavigator()
+                                .withoutGlobalNavigation()
+                                .withoutBreadCrumbs()
+
+                                .withLogoLink( "sps" )
+                                .withLogoSource( "sps" )
+
+                        )
 //                        .withHandOverLink( newLink( "http://www.google.ca" )
 //                                .withText( "Return to blah" )
 //                                .withTooltip( "Link Title" )
 //                        )
-//                        .enableDecline()
+                        .disableDecline()
                         .enableInPerson()
-//                        .enableOptOut()
+                        .disableOptOut()
 //                        .withOptOutReason( "Reason One" )
 //                        .withOptOutReason( "Reason Two" )
 //                        .withOptOutReason( "Reason Three" )
