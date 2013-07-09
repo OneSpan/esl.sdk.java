@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.awsng.web.rest.model.PackageSettings;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.builder.PackageSettingsBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,14 +11,14 @@ import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
-import static com.silanis.esl.sdk.builder.PackageSettingsBuilder.newPackageSettings;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+import static org.joda.time.DateMidnight.now;
 
 /**
  * User: dave
  */
-public class DocumentPackageSettingsExample {
+public class InPersonExample {
     private static final Properties props = Props.get();
     public static final String API_KEY = props.getProperty( "api.key" );
     public static final String API_URL = props.getProperty( "api.url" );
@@ -28,38 +28,35 @@ public class DocumentPackageSettingsExample {
 
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
-        DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettings " + format.format( new Date() ) )
-                .withSettings( newPackageSettings()
-//                        .withLayoutOptions( newLayoutOptions()
-//                                .withoutProgressBar()
-//                                .withoutSessionBar()
-//                                .withoutTitle() )
-//                        .withHandOverLink( newLink( "http://www.google.ca" )
-//                                .withText( "Return to blah" )
-//                                .withTooltip( "Link Title" )
-//                        )
-//                        .enableDecline()
-                        .enableInPerson()
-//                        .enableOptOut()
-//                        .withOptOutReason( "Reason One" )
-//                        .withOptOutReason( "Reason Two" )
-//                        .withOptOutReason( "Reason Three" )
-                )
+
+        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
+                .describedAs("This is a package created using the e-SignLive SDK")
+                .expiresAt(now().plusMonths(1).toDate())
+                .withEmailMessage("This message should be delivered to all signers")
+                .withSettings( PackageSettingsBuilder.newPackageSettings()
+                        .enableInPerson())
                 .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
                         .withFirstName( "John" )
-                        .withLastName( "Smith" ) )
+                        .withLastName( "Smith" )
+                        .withTitle( "Managing Director" )
+                        .withCompany( "Acme Inc." ) )
+                .withSigner( newSignerWithEmail( props.getProperty( "2.email" ) )
+                        .withFirstName( "Patty" )
+                        .withLastName( "Galant" ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromFile( "src/main/resources/document.pdf" )
                         .withSignature( signatureFor( props.getProperty( "1.email" ) )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) ) )
+                .withDocument( newDocumentWithName( "Second Document" )
+                        .fromFile( "src/main/resources/document.pdf" )
+                        .withSignature( signatureFor( props.getProperty( "2.email" ) )
+                                .onPage( 0 )
+                                .atPosition( 100, 100 ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage( packageId );
-        DocumentPackage aPackage = eslClient.getPackage( packageId );
 
-        PackageSettings packageSettings = aPackage.getSettings();
-        System.out.println( "AHA!" );
+        eslClient.sendPackage( packageId );
     }
 }

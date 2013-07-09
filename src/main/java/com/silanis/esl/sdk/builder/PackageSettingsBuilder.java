@@ -20,16 +20,10 @@ public class PackageSettingsBuilder {
     private Integer maxAuthAttempts = null;
     private Boolean showDownloadButton = true;
     private Boolean showDialogOnComplete = null;
-    private String redirectOnComplete = null;
     private LayoutOptions layoutOptions = null;
 
     public static PackageSettingsBuilder newPackageSettings() {
         return new PackageSettingsBuilder();
-    }
-
-    public PackageSettingsBuilder redirectOnComplete( String redirectOnComplete ) {
-        this.redirectOnComplete = redirectOnComplete;
-        return this;
     }
 
     public PackageSettingsBuilder hideDialogOnComplete() {
@@ -124,7 +118,6 @@ public class PackageSettingsBuilder {
         CeremonyEvents ceremonyEvents = new CeremonyEvents();
         CeremonyEventComplete ceremonyEventComplete = new CeremonyEventComplete();
         ceremonyEventComplete.safeSetDialog( showDialogOnComplete );
-        ceremonyEventComplete.safeSetRedirect( redirectOnComplete );
         ceremonyEvents.setComplete( ceremonyEventComplete );
         result.setEvents( ceremonyEvents );
 
