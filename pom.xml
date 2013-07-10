@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>9.5-SNAPSHOT</version>
+    <version>9.5.1</version>
     <name>Java sdk</name>
     <packaging>jar</packaging>
 
@@ -12,22 +12,6 @@
     </properties>
 
 
-    <repositories>
-        <repository>
-            <id>silanis-snapshots</id>
-            <url>http://eslbuild.silanis.com:8080/artifactory/libs-snapshot-local</url>
-            <snapshots>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>eslrepository</id>
-            <url>http://eslbuild.silanis.com:8080/artifactory/libs-snapshot-local</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <plugins>
@@ -99,6 +83,19 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -108,7 +105,7 @@
         <dependency>
             <groupId>com.silanis.esl</groupId>
             <artifactId>esl-model</artifactId>
-            <version>9.4-SNAPSHOT</version>
+            <version>9.5.0</version>
         </dependency>
 
         <!--Other dependencies-->
@@ -161,5 +158,25 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:silanis/esl.model.git</connection>
+        <developerConnection>scm:git:git@github.com:silanis/esl.sdk.java.git</developerConnection>
+        <url>git@github.com:silanis/esl.sdk.java.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <email>beachy.greg@gmail.com</email>
+            <name>Greg</name>
+            <organization>Silanis</organization>
+        </developer>
+    </developers>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
 </project>
