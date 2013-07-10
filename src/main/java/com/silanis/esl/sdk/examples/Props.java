@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static com.silanis.esl.sdk.io.Streams.close;
+
 /**
  * Helper class to open the properties file
  */
@@ -19,12 +21,7 @@ public class Props {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                }
-            }
+            close(in);
         }
 
         return signers;
