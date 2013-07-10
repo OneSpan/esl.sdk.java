@@ -24,8 +24,8 @@ import static com.silanis.esl.sdk.io.Streams.toByteArray;
 
 public class RestClient {
 
-    private static final ResponseHandler<byte[]> BYTES_HANDLER = new BytesHandler();
-    private static final ResponseHandler<String> JSON_HANDLER = new JsonHandler();
+    private final ResponseHandler<byte[]> bytesHandler = new BytesHandler();
+    private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
     private final String apiToken;
     private final Support support = new Support();
@@ -43,10 +43,7 @@ public class RestClient {
         body.setContentType("application/json");
         post.setEntity(body);
 
-        String response = execute(post, apiToken, JSON_HANDLER);
-
-        support.logResponse(response);
-        return response;
+        return execute(post, apiToken, jsonHandler);
     }
 
     public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException {
@@ -60,7 +57,7 @@ public class RestClient {
 
         post.setEntity(multipart);
 
-        execute(post, apiToken, JSON_HANDLER);
+        execute(post, apiToken, jsonHandler);
     }
 
     private static <T> T execute(HttpUriRequest request, String apiToken, ResponseHandler<T> handler) throws IOException {
@@ -91,42 +88,43 @@ public class RestClient {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
-        String response = execute(get, apiToken, JSON_HANDLER);
-
-        support.logResponse(response);
-        return response;
+        return execute(get, apiToken, jsonHandler);
     }
 
     public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
-        return execute(get, apiToken, BYTES_HANDLER);
+        return execute(get, apiToken, bytesHandler);
     }
 
     public String delete(String path) throws HttpException, IOException, URISyntaxException {
         support.logRequest("DELETE", path);
         HttpDelete delete = new HttpDelete( path );
 
-        return execute(delete, apiToken, JSON_HANDLER);
+        return execute(delete, apiToken, jsonHandler);
     }
 
     private static interface ResponseHandler<T> {
         T extract(InputStream input);
     }
 
-    private static class BytesHandler implements ResponseHandler<byte[]> {
+    private class BytesHandler implements ResponseHandler<byte[]> {
 
         public byte[] extract(InputStream input) {
             return toByteArray(input);
         }
     }
 
-    private static class JsonHandler implements ResponseHandler<String> {
+    private class JsonHandler implements ResponseHandler<String> {
 
         public String extract(InputStream input) {
             try {
-                return Streams.toString(input);
+
+                String responseBody = Streams.toString(input);
+
+                support.logResponse(responseBody);
+                return responseBody;
             } catch (UnsupportedEncodingException e) {
                 throw new EslException("", e);
             }

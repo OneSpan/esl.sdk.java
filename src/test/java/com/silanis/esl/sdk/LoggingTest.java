@@ -1,13 +1,14 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.*;
 import com.silanis.awsng.web.rest.model.Package;
+import com.silanis.esl.sdk.examples.Props;
 import com.silanis.esl.sdk.service.PackageService;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.LogManager;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -16,8 +17,10 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class LoggingTest {
-    public static final String API_KEY = "NGYxMDg3ZjItZWJjYi00MzUxLWFhYzMtMWFlNmQyMjYyZmYzOkJzYnAyeXNJQURnSA==";
-    public static final String API_URL = "http://localhost:8080";
+
+    private static final Properties props = Props.get();
+    public static final String API_KEY = props.getProperty( "api.key" );
+    public static final String API_URL = props.getProperty( "api.url" );
 
     @Before
     public void configureLogging() throws IOException {
@@ -31,12 +34,12 @@ public class LoggingTest {
 
         DocumentPackage superDuperPackage = newPackageNamed("Policy")
                 .describedAs("Checking logging...")
-                .withSigner(newSignerWithEmail("etienne_hardy@silanis.com")
+                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
                         .withFirstName("John")
                         .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document")
                         .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor("etienne_hardy@silanis.com")
+                        .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(500, 100)))
                 .build();
@@ -52,12 +55,12 @@ public class LoggingTest {
 
         DocumentPackage superDuperPackage = newPackageNamed("Policy")
                 .describedAs("Checking logging...")
-                .withSigner(newSignerWithEmail("etienne_hardy@silanis.com")
+                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
                         .withFirstName("John")
                         .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document")
                         .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor("etienne_hardy@silanis.com")
+                        .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(500, 100)))
                 .build();
