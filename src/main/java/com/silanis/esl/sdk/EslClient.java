@@ -130,6 +130,18 @@ public class EslClient {
     }
 
     /**
+     * <p>Creates a new packages, and immediately sends it to be signed.</p>
+     *
+     * @param documentPackage the document package to be created and signed
+     * @return the packageId for the newly created package.
+     */
+    public PackageId createAndSendPackage(DocumentPackage documentPackage) {
+        PackageId result = createPackage( documentPackage );
+        sendPackage( result );
+        return result;
+    }
+
+    /**
      * Creates a package based on an existent template
      *
      * @param documentPackage	the document package
