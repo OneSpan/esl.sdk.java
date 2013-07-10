@@ -1,28 +1,24 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.awsng.web.rest.model.Callback;
-import com.silanis.awsng.web.rest.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.EventNotificationConfig;
 import com.silanis.esl.sdk.builder.EventNotificationConfigBuilder;
-import com.silanis.esl.sdk.internal.HttpMethods;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import org.apache.http.entity.StringEntity;
 
 /**
  * This class is used for registering to the e-SL notification system 
  */
 public class EventNotificationService {
-    private String apiToken;
-    private UrlTemplate template;
-    private RestClient client;
 
-    public EventNotificationService( String apiToken, String baseUrl ) {
-        this.apiToken = apiToken;
+    private final UrlTemplate template;
+    private final RestClient client;
+
+    public EventNotificationService( RestClient client, String baseUrl ) {
         template = new UrlTemplate( baseUrl );
-        client = new RestClient(apiToken);
+        this.client = client;
     }
 
     /**

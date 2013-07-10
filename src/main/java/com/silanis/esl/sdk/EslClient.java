@@ -2,6 +2,7 @@ package com.silanis.esl.sdk;
 
 import com.silanis.awsng.web.rest.model.Package;
 import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.service.AuditService;
 import com.silanis.esl.sdk.service.EventNotificationService;
 import com.silanis.esl.sdk.service.FieldSummaryService;
@@ -21,7 +22,6 @@ import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
  */
 public class EslClient {
 
-    private String apiKey;
     private String baseURL;
     private PackageService packageService;
     private SessionService sessionService;
@@ -37,14 +37,14 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL) {
         notNullOrEmpty( apiKey, "apiKey" );
         notNullOrEmpty( baseURL, "baseURL" );
-        this.apiKey = apiKey;
         this.baseURL = baseURL;//addAPIPathToURL(baseURL);
 
-        packageService = new PackageService(apiKey, this.baseURL);
-        sessionService = new SessionService(apiKey, this.baseURL);
-        fieldSummaryService = new FieldSummaryService(apiKey, this.baseURL);
-        auditService = new AuditService(apiKey, this.baseURL);
-        eventNotificationService = new EventNotificationService( apiKey, this.baseURL );
+        RestClient client = new RestClient(apiKey);
+        packageService = new PackageService(client, this.baseURL);
+        sessionService = new SessionService(client, this.baseURL);
+        fieldSummaryService = new FieldSummaryService(client, this.baseURL);
+        auditService = new AuditService(client, this.baseURL);
+        eventNotificationService = new EventNotificationService( client, this.baseURL );
     }
 
 //    /**

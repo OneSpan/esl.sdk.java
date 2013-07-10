@@ -1,11 +1,8 @@
 package com.silanis.esl.sdk.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.FieldSummary;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.internal.HttpMethods;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
@@ -17,14 +14,12 @@ import java.util.List;
  */
 public class FieldSummaryService {
 
-    private String apiToken;
     private UrlTemplate template;
     private RestClient client;
 
-    public FieldSummaryService( String apiToken, String baseUrl ) {
-        this.apiToken = apiToken;
+    public FieldSummaryService( RestClient client, String baseUrl ) {
         template = new UrlTemplate( baseUrl );
-        client = new RestClient(apiToken);
+        this.client = client;
     }
 
     /**

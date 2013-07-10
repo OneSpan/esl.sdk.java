@@ -1,32 +1,22 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.awsng.web.rest.model.Signer;
-import com.silanis.awsng.web.rest.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SessionToken;
-import com.silanis.esl.sdk.internal.HttpMethods;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.StringEntity;
-
-import java.net.URISyntaxException;
 
 /**
  * The SessionService class provides a method to create a session token for a signer.
  */
 public class SessionService {
 
-    private String apiToken;
     private UrlTemplate template;
     private RestClient client;
 
-    public SessionService(String apiToken, String baseUrl) {
-        this.apiToken = apiToken;
+    public SessionService(RestClient client, String baseUrl) {
         template = new UrlTemplate(baseUrl);
-        client = new RestClient(apiToken);
+        this.client = client;
     }
 
     /**

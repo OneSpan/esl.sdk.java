@@ -5,10 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.sdk.Audit;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.internal.HttpMethods;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import org.apache.http.entity.StringEntity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,14 +17,12 @@ import java.util.List;
  */
 public class AuditService {
 
-    private String apiToken;
-    private UrlTemplate template;
-    private RestClient client;
+    private final UrlTemplate template;
+    private final RestClient client;
 
-    public AuditService(String apiToken, String baseUrl) {
-        this.apiToken = apiToken;
+    public AuditService(RestClient client, String baseUrl) {
         template = new UrlTemplate(baseUrl);
-        client = new RestClient(apiToken);
+        this.client = client;
     }
 
     /**

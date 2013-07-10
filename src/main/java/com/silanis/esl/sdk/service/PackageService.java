@@ -6,8 +6,15 @@ import com.silanis.awsng.web.rest.model.Document;
 import com.silanis.awsng.web.rest.model.Package;
 import com.silanis.awsng.web.rest.model.Role;
 import com.silanis.awsng.web.rest.util.JacksonUtil;
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.DocumentId;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.RoleList;
+import com.silanis.esl.sdk.SignerId;
+import com.silanis.esl.sdk.SigningStatus;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UrlTemplate;
 
 import java.util.List;
 
@@ -17,13 +24,11 @@ import java.util.List;
  */
 public class PackageService {
 
-    private String apiToken;
     private UrlTemplate template;
     private RestClient client;
 
-    public PackageService(String apiToken, String baseUrl) {
-        this.apiToken = apiToken;
-        client = new RestClient(apiToken);
+    public PackageService(RestClient client, String baseUrl) {
+        this.client = client;
         template = new UrlTemplate(baseUrl);
     }
 
