@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 public class Streams {
 
@@ -35,6 +36,10 @@ public class Streams {
         } finally {
             close(bis);
         }
+    }
+
+    public static String toString(InputStream input) throws UnsupportedEncodingException {
+        return new String(toByteArray(input), "UTF-8");
     }
 
     public static void close(Closeable closeable) {

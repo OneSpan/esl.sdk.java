@@ -41,7 +41,7 @@ public class ErrorHandling {
                 .withDocument(newDocumentWithName("First Document")
                         .fromFile("src/main/resources/document.pdf")
                         .withSignature(signatureFor(props.getProperty("1.email"))
-                                .onPage(3)
+                                .onPage(0)
                                 .atPosition(100, 100)))
                 .build();
 
