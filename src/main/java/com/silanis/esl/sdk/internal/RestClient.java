@@ -70,6 +70,14 @@ public class RestClient {
 
         try {
             HttpResponse response = client.execute(request);
+
+            if (response.getStatusLine().getStatusCode() >= 400) {
+                throw new CommunicationException(request.getRequestLine().getMethod(),
+                        request.getRequestLine().getUri(),
+                        response.getStatusLine().getStatusCode(),
+                        response.getStatusLine().getReasonPhrase());
+            }
+
             InputStream bodyContent = response.getEntity().getContent();
 
             return handler.extract(bodyContent);
