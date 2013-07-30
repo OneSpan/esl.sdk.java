@@ -28,7 +28,7 @@ public class DocumentPackage implements Serializable {
     private String packageMessage;
     private PackageId id;
     private PackageStatus status;
-    private PackageSettings settings;
+    private DocumentPackageSettings settings;
     private Locale language;
 
     /**
@@ -99,7 +99,7 @@ public class DocumentPackage implements Serializable {
         }
 
         if ( settings != null ) {
-            packageToCreate.setSettings(settings);
+            packageToCreate.setSettings(settings.toAPIPackageSettings());
         }
 
         int signerCount = 1;
@@ -177,11 +177,11 @@ public class DocumentPackage implements Serializable {
         return status;
     }
 
-    public PackageSettings getSettings() {
+    public DocumentPackageSettings getSettings() {
         return settings;
     }
 
-    public void setSettings( PackageSettings settings ) {
+    public void setSettings( DocumentPackageSettings settings ) {
         this.settings = settings;
     }
 

@@ -3,10 +3,7 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.awsng.web.rest.model.Package;
 import com.silanis.awsng.web.rest.model.PackageSettings;
 import com.silanis.awsng.web.rest.model.PackageStatus;
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -27,7 +24,7 @@ public class PackageBuilder {
     private String packageMessage = "";
     private PackageId id;
     private PackageStatus status;
-    private PackageSettings settings;
+    private DocumentPackageSettings settings;
     private Locale language;
 
     /**
@@ -52,7 +49,7 @@ public class PackageBuilder {
         this.expiryDate = apiPackage.getDue();
         this.status = apiPackage.getStatus();
         this.packageMessage = apiPackage.getEmailMessage();
-        this.settings = apiPackage.getSettings();
+        this.settings = new DocumentPackageSettingsBuilder(apiPackage.getSettings()).build();
 
         for ( com.silanis.awsng.web.rest.model.Role role : apiPackage.getRoles() ) {
             if ( role.getSigners().isEmpty() ) {
@@ -201,11 +198,11 @@ public class PackageBuilder {
         return this;
     }
 
-    public PackageBuilder withSettings( PackageSettingsBuilder builder ) {
+    public PackageBuilder withSettings( DocumentPackageSettingsBuilder builder ) {
         return withSettings( builder.build() );
     }
 
-    private PackageBuilder withSettings( PackageSettings settings ) {
+    private PackageBuilder withSettings( DocumentPackageSettings settings ) {
         this.settings = settings;
         return this;
     }

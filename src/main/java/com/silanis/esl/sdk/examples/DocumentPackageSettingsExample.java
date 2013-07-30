@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.awsng.web.rest.model.PackageSettings;
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentPackageSettings;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 
@@ -9,10 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import static com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
-import static com.silanis.esl.sdk.builder.LayoutOptionsBuilder.newLayoutOptions;
+import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
-import static com.silanis.esl.sdk.builder.PackageSettingsBuilder.newPackageSettings;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
@@ -30,29 +30,27 @@ public class DocumentPackageSettingsExample {
     public static void main( String... args ) {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
         DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettings " + format.format( new Date() ) )
-                .withSettings( newPackageSettings()
-                        .withLayoutOptions( newLayoutOptions()
+                .withSettings( newDocumentPackageSettings()
+                        .withInPerson()
+                        .withoutDecline()
+                        .withOptOut()
+                        .withOptOutReason( "Reason One" )
+                        .withOptOutReason( "Reason Two" )
+                        .withOptOutReason( "Reason Three" )
+                        .withHandOverLinkHref( "http://www.google.ca" )
+                        .withHandOverLinkText( "click here" )
+                        .withHandOverLinkTooltip( "link tooltip" )
+
+                        .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
                                 .withoutProgressBar()
                                 .withoutSessionBar()
                                 .withoutTitle()
                                 .withoutNavigator()
                                 .withoutGlobalNavigation()
                                 .withoutBreadCrumbs()
-
                                 .withLogoLink( "sps" )
                                 .withLogoSource( "sps" )
-
                         )
-//                        .withHandOverLink( newLink( "http://www.google.ca" )
-//                                .withText( "Return to blah" )
-//                                .withTooltip( "Link Title" )
-//                        )
-                        .disableDecline()
-                        .enableInPerson()
-                        .disableOptOut()
-//                        .withOptOutReason( "Reason One" )
-//                        .withOptOutReason( "Reason Two" )
-//                        .withOptOutReason( "Reason Three" )
                 )
                 .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
                         .withFirstName( "John" )
@@ -68,7 +66,7 @@ public class DocumentPackageSettingsExample {
         eslClient.sendPackage( packageId );
         DocumentPackage aPackage = eslClient.getPackage( packageId );
 
-        PackageSettings packageSettings = aPackage.getSettings();
+        DocumentPackageSettings documentPackageSettings = aPackage.getSettings();
         System.out.println( "AHA!" );
     }
 }

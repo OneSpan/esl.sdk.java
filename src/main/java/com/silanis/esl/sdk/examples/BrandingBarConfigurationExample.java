@@ -3,18 +3,15 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.builder.LayoutOptionsBuilder;
-import com.silanis.esl.sdk.builder.PackageSettingsBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Properties;
 
+import static com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
-import static com.silanis.esl.sdk.builder.LayoutOptionsBuilder.newLayoutOptions;
+import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
-import static com.silanis.esl.sdk.builder.PackageSettingsBuilder.newPackageSettings;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
@@ -34,18 +31,20 @@ public class BrandingBarConfigurationExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
 
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
-                .describedAs("This is a package created using the e-SignLive SDK")
-                .withSettings(newPackageSettings().withLayoutOptions(newLayoutOptions().withoutGlobalNavigation()))
-                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
-                        .withFirstName("John")
-                        .withLastName("Smith")
-                        .withTitle("Managing Director")
-                        .withCompany("Acme Inc."))
-                .withDocument(newDocumentWithName("First Document")
-                        .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor(props.getProperty("1.email"))
-                                .onPage(0)
-                                .atPosition(100, 100)))
+                .describedAs( "This is a package created using the e-SignLive SDK" )
+                .withSettings( newDocumentPackageSettings()
+                        .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
+                                .withoutGlobalNavigation() ) )
+                .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
+                        .withFirstName( "John" )
+                        .withLastName( "Smith" )
+                        .withTitle( "Managing Director" )
+                        .withCompany( "Acme Inc." ) )
+                .withDocument( newDocumentWithName( "First Document" )
+                        .fromFile( "src/main/resources/document.pdf" )
+                        .withSignature( signatureFor( props.getProperty( "1.email" ) )
+                                .onPage( 0 )
+                                .atPosition( 100, 100 ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );

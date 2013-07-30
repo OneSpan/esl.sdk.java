@@ -1,0 +1,93 @@
+package com.silanis.esl.sdk.builder;
+
+import com.silanis.awsng.web.rest.model.CeremonySettings;
+import com.silanis.esl.sdk.CeremonyLayoutSettings;
+
+public class CeremonyLayoutSettingsBuilder {
+    private Boolean iFrame = null;
+    private Boolean breadCrumbs = null;
+    private Boolean sessionBar = null;
+    private Boolean globalNavigation = null;
+    private Boolean progressBar = null;
+    private Boolean showTitle = null;
+    private Boolean navigator = null;
+    private String logoImageSource = null;
+    private String logoImageLink = null;
+
+    public static CeremonyLayoutSettingsBuilder newCeremonyLayoutSettings() {
+        return new CeremonyLayoutSettingsBuilder();
+    }
+
+    private CeremonyLayoutSettingsBuilder(){}
+
+    public CeremonyLayoutSettingsBuilder( CeremonySettings ceremonySettings ) {
+        iFrame = ceremonySettings.getLayout().getIframe();
+        breadCrumbs = ceremonySettings.getLayout().getHeader().getBreadcrumbs();
+        sessionBar = ceremonySettings.getLayout().getHeader().getSessionBar();
+        globalNavigation = ceremonySettings.getLayout().getHeader().getGlobalNavigation();
+        progressBar = ceremonySettings.getLayout().getHeader().getTitleBar().getProgressBar();
+        showTitle = ceremonySettings.getLayout().getHeader().getTitleBar().getTitle();
+        navigator = ceremonySettings.getLayout().getNavigator();
+        logoImageSource = ceremonySettings.getLayout().getBrandingBar().getLogo().getSrc();
+        logoImageLink = ceremonySettings.getLayout().getBrandingBar().getLogo().getLink();
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutNavigator() {
+        navigator = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutGlobalNavigation() {
+        globalNavigation = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutBreadCrumbs() {
+        breadCrumbs = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutSessionBar() {
+        sessionBar = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withIFrame() {
+        iFrame = true;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutTitle() {
+        showTitle = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutProgressBar() {
+        progressBar = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withLogoLink( String logoImageLink ) {
+        this.logoImageLink = logoImageLink;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withLogoSource( String logoImageSource ) {
+        this.logoImageSource = logoImageSource;
+        return this;
+    }
+
+    public CeremonyLayoutSettings build() {
+        CeremonyLayoutSettings result = new CeremonyLayoutSettings();
+        result.setNavigator( navigator );
+        result.setBreadCrumbs( breadCrumbs );
+        result.setGlobalNavigation( globalNavigation );
+        result.setiFrame( iFrame );
+        result.setLogoImageLink( logoImageLink );
+        result.setLogoImageSource( logoImageSource );
+        result.setProgressBar( progressBar );
+        result.setSessionBar( sessionBar );
+        result.setShowTitle( showTitle );
+        return result;
+    }
+}

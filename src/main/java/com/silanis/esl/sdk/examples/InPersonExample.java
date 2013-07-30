@@ -3,13 +3,13 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.builder.PackageSettingsBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -30,11 +30,11 @@ public class InPersonExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
 
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
-                .describedAs("This is a package created using the e-SignLive SDK")
-                .expiresAt(now().plusMonths(1).toDate())
-                .withEmailMessage("This message should be delivered to all signers")
-                .withSettings( PackageSettingsBuilder.newPackageSettings()
-                        .enableInPerson())
+                .describedAs( "This is a package created using the e-SignLive SDK" )
+                .expiresAt( now().plusMonths( 1 ).toDate() )
+                .withEmailMessage( "This message should be delivered to all signers" )
+                .withSettings( newDocumentPackageSettings()
+                        .withInPerson() )
                 .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
