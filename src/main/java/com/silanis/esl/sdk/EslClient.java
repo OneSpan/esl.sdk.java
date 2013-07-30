@@ -238,10 +238,6 @@ public class EslClient {
         return packageService.downloadZippedDocuments(packageId);
     }
 
-    public void applyDocumentLayout( PackageId packageId, DocumentId documentId, String layoutName ) {
-        packageService.applyDocumentLayout( packageId.getId(), documentId.getId(), layoutName );
-    }
-
     public SigningStatus getSigningStatus( PackageId packageId, SignerId signerId, DocumentId documentId ) {
         return packageService.getSigningStatus( packageId, signerId, documentId );
     }
