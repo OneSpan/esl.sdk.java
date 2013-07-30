@@ -314,7 +314,7 @@ public class PackageService {
     }
 
     /**
-     * Downloads the zipped documents from the package and returns a byte[].
+     * Downloads the documents (in a zip archive) from the package and returns a byte[].
      *
      * @param packageId
      * @return The zipped documents in bytes
@@ -332,7 +332,7 @@ public class PackageService {
     }
 
     /**
-     * Downloads the evidence summary from the package and returns a byte[].
+     * Downloads the evidence summary (in PDF) from the package and returns a byte[].
      *
      * @param packageId
      * @return The evidence summary in bytes
