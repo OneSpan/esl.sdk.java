@@ -349,10 +349,19 @@ public class PackageService {
         }
     }
 
-    public void applyDocumentLayout( String packageId, String documentId, String layoutName ) {
-        // TODO: NEEDS IMPLEMENTATION
-    }
-
+    /**
+     * Retrieves the current signing status of the DocumentPackage, Document or Signer specified.
+     * @param packageId     Id of the DocumentPackage who's status we are to retrieve
+     * @param signerId      If not null, the id of the signer who's status we are to retrieve
+     * @param documentId    If not null, the id of the document who's status we are to retrieve
+     * @return              One of the following values:
+     *   INACTIVE -  process is not active
+     *   COMPLETE - process has been completed
+     *   ARCHIVED - process has been archived
+     *   SIGNING-PENDING - process is active, but not all signatures have been added
+     *   SIGNING-COMPLETE - process is active, all signaures have been added
+     *
+     */
     public SigningStatus getSigningStatus( PackageId packageId, SignerId signerId, DocumentId documentId ) {
         String path = template.urlFor( UrlTemplate.SIGNING_STATUS_PATH )
                 .replace( "{packageId}", packageId.getId() )
@@ -371,6 +380,12 @@ public class PackageService {
         }
     }
 
+    /**
+     * Returns a Page of DocumentPackages, which represents a paginated query response.  Important once you have many DocumentPackages.
+     * @param status        Returned DocumentPackages must have their status set to this value to be included in the result set
+     * @param request       Identifying which page of results to return
+     * @return              List of DocumentPackages that populate the specified page
+     */
     public Page<DocumentPackage> getPackages( PackageStatus status, PageRequest request ) {
         String path = template.urlFor( UrlTemplate.PACKAGE_LIST_PATH )
                 .replace( "{status}", status.toString() )
@@ -400,6 +415,10 @@ public class PackageService {
         return new Page<DocumentPackage>( converted, results.getCount(), request );
     }
 
+    /**
+     * Deletes the specified package.
+     * @param packageId     The id of the package to be deleted
+     */
     public void deletePackage( PackageId packageId ) {
         String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
                 .replace( "{packageId}", packageId.getId() )
@@ -413,6 +432,12 @@ public class PackageService {
         }
     }
 
+    /**
+     * Notifies the specified signer by email, including a custom message.
+     * @param packageId     The id of the package containing the signer to be notified
+     * @param signerEmail   The email of the signer to be notified
+     * @param message       The custom message to be included in the email sent as notification to the signer
+     */
     public void notifySigner( PackageId packageId, String signerEmail, String message ) {
         String path = template.urlFor( UrlTemplate.NOTIFICATIONS_PATH )
                 .replace( "{packageId}", packageId.getId() )
