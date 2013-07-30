@@ -10,15 +10,15 @@ import com.silanis.awsng.web.rest.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.internal.Converter;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import org.apache.http.HttpException;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -410,6 +410,23 @@ public class PackageService {
         } catch ( Exception e ) {
             e.printStackTrace();
             throw new EslException( "Unable to delete package. Exception: " + e.getMessage() );
+        }
+    }
+
+    public void notifySigner( PackageId packageId, String signerEmail, String message ) {
+        String path = template.urlFor( UrlTemplate.NOTIFICATIONS_PATH )
+                .replace( "{packageId}", packageId.getId() )
+                .build();
+
+        Map<String,Object> jsonMap = new HashMap<String,Object>();
+        jsonMap.put( "email", signerEmail );
+        jsonMap.put( "message", message );
+
+        try {
+            String payload = JacksonUtil.serialize( jsonMap );
+            client.post( path, payload );
+        } catch ( Exception e ) {
+            throw new EslException( "Could not send email notification to signer. Exception: " + e.getMessage() );
         }
     }
 }
