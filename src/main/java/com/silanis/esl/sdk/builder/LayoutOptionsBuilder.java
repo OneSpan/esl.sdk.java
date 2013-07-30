@@ -98,10 +98,6 @@ public class LayoutOptionsBuilder {
         return headerOptions;
     }
 
-    private FooterOptions buildFooterOptions() {
-        return new FooterOptions();
-    }
-
     public LayoutOptions build() {
         LayoutOptions result = new LayoutOptions();
         result.safeSetIframe( iFrame );
