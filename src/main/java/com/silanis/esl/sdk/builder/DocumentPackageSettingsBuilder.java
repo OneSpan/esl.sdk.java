@@ -52,6 +52,11 @@ public class DocumentPackageSettingsBuilder {
 
     }
 
+    public DocumentPackageSettingsBuilder withDialogOnComplete() {
+        showDialogOnComplete = true;
+        return this;
+    }
+
     public DocumentPackageSettingsBuilder withoutDialogOnComplete() {
         showDialogOnComplete = false;
         return this;
@@ -84,6 +89,11 @@ public class DocumentPackageSettingsBuilder {
 
     public DocumentPackageSettingsBuilder withoutDecline() {
         enableDecline = false;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder withWatermark() {
+        hideWatermark = false;
         return this;
     }
 

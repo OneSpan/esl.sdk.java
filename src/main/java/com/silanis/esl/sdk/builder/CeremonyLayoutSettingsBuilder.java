@@ -32,8 +32,18 @@ public class CeremonyLayoutSettingsBuilder {
         logoImageLink = ceremonySettings.getLayout().getBrandingBar().getLogo().getLink();
     }
 
+    public CeremonyLayoutSettingsBuilder withNavigator() {
+        navigator = true;
+        return this;
+    }
+
     public CeremonyLayoutSettingsBuilder withoutNavigator() {
         navigator = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withGlobalNavigation() {
+        globalNavigation = true;
         return this;
     }
 
@@ -42,8 +52,18 @@ public class CeremonyLayoutSettingsBuilder {
         return this;
     }
 
+    public CeremonyLayoutSettingsBuilder withBreadCrumbs() {
+        breadCrumbs = true;
+        return this;
+    }
+
     public CeremonyLayoutSettingsBuilder withoutBreadCrumbs() {
         breadCrumbs = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withSessionBar() {
+        sessionBar = true;
         return this;
     }
 
@@ -52,13 +72,29 @@ public class CeremonyLayoutSettingsBuilder {
         return this;
     }
 
+    public CeremonyLayoutSettingsBuilder withoutIFrame() {
+        iFrame = false;
+        return this;
+    }
+
     public CeremonyLayoutSettingsBuilder withIFrame() {
         iFrame = true;
         return this;
     }
 
+    public CeremonyLayoutSettingsBuilder withTitle() {
+        showTitle = true;
+        return this;
+    }
+
+
     public CeremonyLayoutSettingsBuilder withoutTitle() {
         showTitle = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withProgressBar() {
+        progressBar = true;
         return this;
     }
 
