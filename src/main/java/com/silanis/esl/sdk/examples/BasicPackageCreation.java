@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.SessionToken;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,27 +35,29 @@ public class BasicPackageCreation {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(props.getProperty("1.email"))
-                        .withFirstName("John")
+                        .withCustomId( "Client1" )
+                        .withFirstName( "John" )
                         .withLastName("Smith")
                         .withTitle("Managing Director")
                         .withCompany("Acme Inc."))
-                .withSigner( newSignerWithEmail( props.getProperty("2.email") )
+                .withSigner( newSignerWithEmail( props.getProperty( "2.email" ) )
                         .withFirstName( "Patty" )
                         .withLastName( "Galant" ) )
-                .withDocument(newDocumentWithName("First Document")
-                        .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor(props.getProperty("1.email"))
-                                .onPage(0)
-                                .atPosition(100, 100)))
-                .withDocument(newDocumentWithName("Second Document")
-                        .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor(props.getProperty("2.email"))
-                                .onPage(0)
-                                .atPosition(100, 100)))
+                .withDocument( newDocumentWithName( "First Document" )
+                        .fromFile( "src/main/resources/document.pdf" )
+                        .withSignature( signatureFor( props.getProperty( "1.email" ) )
+                                .onPage( 0 )
+                                .atPosition( 100, 100 ) ) )
+                .withDocument( newDocumentWithName( "Second Document" )
+                        .fromFile( "src/main/resources/document.pdf" )
+                        .withSignature( signatureFor( props.getProperty( "2.email" ) )
+                                .onPage( 0 )
+                                .atPosition( 100, 100 ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
-
         eslClient.sendPackage( packageId );
+
+        SessionToken sessionToken = eslClient.getSessionService().createSessionToken(  packageId.toString(), "Client1" );
     }
 }
