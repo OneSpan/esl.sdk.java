@@ -52,5 +52,8 @@ public class ConsentExample {
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
+
+        DocumentPackage documentPackage = eslClient.getPackage( packageId );
+        System.out.println( "WHAT THE FUCK JUST HAPPENED!?" );
     }
 }

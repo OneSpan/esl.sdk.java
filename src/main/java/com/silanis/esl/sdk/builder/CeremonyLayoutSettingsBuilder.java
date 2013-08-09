@@ -18,7 +18,8 @@ public class CeremonyLayoutSettingsBuilder {
         return new CeremonyLayoutSettingsBuilder();
     }
 
-    private CeremonyLayoutSettingsBuilder(){}
+    private CeremonyLayoutSettingsBuilder() {
+    }
 
     public CeremonyLayoutSettingsBuilder( CeremonySettings ceremonySettings ) {
         iFrame = ceremonySettings.getLayout().getIframe();
@@ -28,8 +29,11 @@ public class CeremonyLayoutSettingsBuilder {
         progressBar = ceremonySettings.getLayout().getHeader().getTitleBar().getProgressBar();
         showTitle = ceremonySettings.getLayout().getHeader().getTitleBar().getTitle();
         navigator = ceremonySettings.getLayout().getNavigator();
-        logoImageSource = ceremonySettings.getLayout().getBrandingBar().getLogo().getSrc();
-        logoImageLink = ceremonySettings.getLayout().getBrandingBar().getLogo().getLink();
+        if ( ceremonySettings.getLayout().getBrandingBar() != null &&
+                ceremonySettings.getLayout().getBrandingBar().getLogo() != null ) {
+            logoImageSource = ceremonySettings.getLayout().getBrandingBar().getLogo().getSrc();
+            logoImageLink = ceremonySettings.getLayout().getBrandingBar().getLogo().getLink();
+        }
     }
 
     public CeremonyLayoutSettingsBuilder withNavigator() {

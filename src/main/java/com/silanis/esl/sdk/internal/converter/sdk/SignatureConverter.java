@@ -37,6 +37,8 @@ public class SignatureConverter {
                 return FieldSubtype.CAPTURE;
             case INITIALS:
                 return FieldSubtype.INITIALS;
+            case ACCEPTANCE:
+                return FieldSubtype.FULLNAME;
             default:
                 throw new ConversionException( Signature.class, Approval.class, "Unable to decode signature type." );
         }

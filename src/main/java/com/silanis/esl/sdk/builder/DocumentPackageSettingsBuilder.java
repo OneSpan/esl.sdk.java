@@ -42,7 +42,12 @@ public class DocumentPackageSettingsBuilder {
         hideCaptureText = settings.getCeremony().getHideCaptureText();
         optOutReasons.addAll( settings.getCeremony().getOptOutReasons() );
         maxAuthAttempts = settings.getCeremony().getMaxAuthFailsAllowed();
-        showDownloadButton = settings.getCeremony().getDocumentToolbarOptions().getDownloadButton();
+
+        if ( settings.getCeremony().getDocumentToolbarOptions() != null )
+            showDownloadButton = settings.getCeremony().getDocumentToolbarOptions().getDownloadButton();
+
+        if ( settings.getCeremony().getEvents() != null &&
+                settings.getCeremony().getEvents().getComplete() != null )
         showDialogOnComplete = settings.getCeremony().getEvents().getComplete().getDialog();
 
         if ( settings.getCeremony().getHandOver() != null ) {

@@ -55,6 +55,7 @@ final public class SignatureBuilder {
      */
     public static SignatureBuilder acceptanceFor(String signerEmail) {
         SignatureBuilder builder = signatureFor( signerEmail )
+                .withStyle( SignatureStyle.ACCEPTANCE )
                 .atPosition( 0, 0 )
                 .withSize( 0, 0 )
                 .onPage( 0 );
