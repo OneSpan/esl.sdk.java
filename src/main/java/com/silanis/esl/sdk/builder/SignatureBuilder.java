@@ -48,6 +48,20 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Creates an acceptance consent for the signer having the email address provided.
+     *
+     * @param signerEmail the signer's email address
+     * @return a SignatureBuilder instance
+     */
+    public static SignatureBuilder acceptanceFor(String signerEmail) {
+        SignatureBuilder builder = signatureFor( signerEmail )
+                .atPosition( 0, 0 )
+                .withSize( 0, 0 )
+                .onPage( 0 );
+        return builder;
+    }
+
+    /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.INITIALS
      * 
