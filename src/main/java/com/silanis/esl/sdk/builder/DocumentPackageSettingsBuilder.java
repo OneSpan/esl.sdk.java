@@ -3,9 +3,12 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.awsng.web.rest.model.PackageSettings;
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
+import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
 
 public class DocumentPackageSettingsBuilder {
     private Boolean enableInPerson = null;
@@ -108,7 +111,14 @@ public class DocumentPackageSettingsBuilder {
     }
 
     public DocumentPackageSettingsBuilder withHandOverLinkHref( String href ) {
+        notNullOrEmpty(href, "href");
         linkHref = href;
+
+        //If no protocol was specified, we assume https
+        if (!linkHref.startsWith("http://") && !linkHref.startsWith("https://")) {
+            linkHref = "https://" + linkHref;
+        }
+
         return this;
     }
 
