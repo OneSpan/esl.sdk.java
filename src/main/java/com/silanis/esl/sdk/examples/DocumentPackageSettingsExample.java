@@ -26,6 +26,7 @@ public class DocumentPackageSettingsExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
         DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettings " + format.format( new Date() ) )
                 .withSettings( newDocumentPackageSettings()
+                        .withDialogOnComplete()
                         .withInPerson()
                         .withoutDecline()
                         .withOptOut()
@@ -53,6 +54,6 @@ public class DocumentPackageSettingsExample {
                                 .atPosition( 100, 100 ) ) )
                 .build();
 
-        eslClient.createPackage( superDuperPackage );
+        eslClient.createAndSendPackage( superDuperPackage );
     }
 }
