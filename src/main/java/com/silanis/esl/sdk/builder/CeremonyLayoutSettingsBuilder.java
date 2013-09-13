@@ -13,6 +13,9 @@ public class CeremonyLayoutSettingsBuilder {
     private Boolean navigator = null;
     private String logoImageSource = null;
     private String logoImageLink = null;
+    private Boolean showGlobalSaveAsLayoutButton = null;
+    private Boolean showGlobalConfirmButton = null;
+    private Boolean showGlobalDownloadButton = null;
 
     public static CeremonyLayoutSettingsBuilder newCeremonyLayoutSettings() {
         return new CeremonyLayoutSettingsBuilder();
@@ -117,6 +120,36 @@ public class CeremonyLayoutSettingsBuilder {
         return this;
     }
 
+    public CeremonyLayoutSettingsBuilder withGlobalConfirmButton() {
+        this.showGlobalConfirmButton = true;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutGlobalConfirmButton() {
+        this.showGlobalConfirmButton = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withGlobalSaveAsLayoutButton() {
+        this.showGlobalSaveAsLayoutButton = true;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutGlobalSaveAsLayoutButton() {
+        this.showGlobalSaveAsLayoutButton = false;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withGlobalDownloadButton() {
+        this.showGlobalDownloadButton = true;
+        return this;
+    }
+
+    public CeremonyLayoutSettingsBuilder withoutGlobalDownloadButton() {
+        this.showGlobalDownloadButton = false;
+        return this;
+    }
+
     public CeremonyLayoutSettings build() {
         CeremonyLayoutSettings result = new CeremonyLayoutSettings();
         result.setNavigator( navigator );
@@ -128,6 +161,9 @@ public class CeremonyLayoutSettingsBuilder {
         result.setProgressBar( progressBar );
         result.setSessionBar( sessionBar );
         result.setShowTitle( showTitle );
+        result.setShowGlobalSaveAsLayoutButton( showGlobalSaveAsLayoutButton );
+        result.setShowGlobalConfirmButton( showGlobalConfirmButton );
+        result.setShowGlobalDownloadButton( showGlobalDownloadButton );
         return result;
     }
 }

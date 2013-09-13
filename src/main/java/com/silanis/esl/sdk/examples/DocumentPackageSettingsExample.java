@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
+import com.silanis.esl.sdk.PackageId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +27,7 @@ public class DocumentPackageSettingsExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
         DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettings " + format.format( new Date() ) )
                 .withSettings( newDocumentPackageSettings()
+                        .withDocumentToolbarDownloadButton()
                         .withInPerson()
                         .withoutDecline()
                         .withOptOut()
@@ -37,10 +39,9 @@ public class DocumentPackageSettingsExample {
                         .withHandOverLinkTooltip( "link tooltip" )
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
-                                .withoutProgressBar()
-                                .withoutSessionBar()
-                                .withoutTitle()
-                                .withoutBreadCrumbs()
+                                .withoutGlobalDownloadButton()
+                                .withoutGlobalConfirmButton()
+                                .withoutGlobalSaveAsLayoutButton()
                         )
                 )
                 .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
@@ -53,6 +54,7 @@ public class DocumentPackageSettingsExample {
                                 .atPosition( 100, 100 ) ) )
                 .build();
 
-        eslClient.createPackage( superDuperPackage );
+        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        eslClient.sendPackage( packageId );
     }
 }

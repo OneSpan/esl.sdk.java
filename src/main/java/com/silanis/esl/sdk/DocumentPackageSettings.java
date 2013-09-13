@@ -14,7 +14,7 @@ public class DocumentPackageSettings {
     private Boolean hideCaptureText = null;
     private List<String> optOutReasons = new ArrayList<String>();
     private Integer maxAuthAttempts = null;
-    private Boolean showDownloadButton = true;
+    private Boolean showDocumentToolbarDownloadButton = true;
     private Boolean showDialogOnComplete = null;
 
     private String linkText;
@@ -50,9 +50,9 @@ public class DocumentPackageSettings {
             ceremonyEvents.setComplete( ceremonyEventComplete );
         }
 
-        if ( showDownloadButton != null ) {
+        if ( showDocumentToolbarDownloadButton != null ) {
             DocumentToolbarOptions documentToolbarOptions = new DocumentToolbarOptions();
-            documentToolbarOptions.setDownloadButton( showDownloadButton );
+            documentToolbarOptions.setDownloadButton( showDocumentToolbarDownloadButton );
             ceremonySettings.setDocumentToolbarOptions( documentToolbarOptions );
         }
 
@@ -118,12 +118,12 @@ public class DocumentPackageSettings {
         this.maxAuthAttempts = maxAuthAttempts;
     }
 
-    public Boolean getShowDownloadButton() {
-        return showDownloadButton;
+    public Boolean getShowDocumentToolbarDownloadButton() {
+        return showDocumentToolbarDownloadButton;
     }
 
-    public void setShowDownloadButton( Boolean showDownloadButton ) {
-        this.showDownloadButton = showDownloadButton;
+    public void setShowDocumentToolbarDownloadButton( Boolean showDocumentToolbarDownloadButton ) {
+        this.showDocumentToolbarDownloadButton = showDocumentToolbarDownloadButton;
     }
 
     public Boolean getShowDialogOnComplete() {

@@ -15,6 +15,9 @@ public class CeremonyLayoutSettings {
     private Boolean navigator = null;
     private String logoImageSource = null;
     private String logoImageLink = null;
+    private Boolean showGlobalConfirmButton = null;
+    private Boolean showGlobalDownloadButton = null;
+    private Boolean showSaveAsLayoutButton = null;
 
     protected LayoutOptions toAPILayoutOptions() {
 
@@ -27,6 +30,12 @@ public class CeremonyLayoutSettings {
         headerOptions.safeSetSessionBar( sessionBar );
         headerOptions.safeSetGlobalNavigation( globalNavigation );
         headerOptions.safeSetTitleBar( titleBarOptions );
+
+        GlobalActionsOptions globalActionsOptions = new GlobalActionsOptions();
+        globalActionsOptions.safeSetConfirm( showGlobalConfirmButton );
+        globalActionsOptions.safeSetDownload( showGlobalDownloadButton );
+        globalActionsOptions.safeSetSaveAsLayout( showSaveAsLayoutButton );
+        headerOptions.setGlobalActions( globalActionsOptions );
 
         BrandingBarOptions brandingBarOptions = null;
         if ( logoImageLink != null || logoImageSource != null ) {
@@ -117,5 +126,29 @@ public class CeremonyLayoutSettings {
 
     public void setLogoImageLink( String logoImageLink ) {
         this.logoImageLink = logoImageLink;
+    }
+
+    public Boolean getShowGlobalConfirmButton() {
+        return showGlobalConfirmButton;
+    }
+
+    public void setShowGlobalConfirmButton( Boolean showGlobalConfirmButton ) {
+        this.showGlobalConfirmButton = showGlobalConfirmButton;
+    }
+
+    public Boolean getShowGlobalDownloadButton() {
+        return showGlobalDownloadButton;
+    }
+
+    public void setShowGlobalDownloadButton( Boolean showGlobalDownloadButton ) {
+        this.showGlobalDownloadButton = showGlobalDownloadButton;
+    }
+
+    public Boolean getShowSaveAsLayoutButton() {
+        return showSaveAsLayoutButton;
+    }
+
+    public void setShowGlobalSaveAsLayoutButton( Boolean showSaveAsLayoutButton ) {
+        this.showSaveAsLayoutButton = showSaveAsLayoutButton;
     }
 }

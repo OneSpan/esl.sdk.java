@@ -3,7 +3,6 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.awsng.web.rest.model.PackageSettings;
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
-import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean hideCaptureText = null;
     private List<String> optOutReasons = new ArrayList<String>();
     private Integer maxAuthAttempts = null;
-    private Boolean showDownloadButton = true;
+    private Boolean showDocumentToolbarDownloadButton = true;
     private Boolean showDialogOnComplete = null;
 
     private String linkText = null;
@@ -44,7 +43,7 @@ public class DocumentPackageSettingsBuilder {
         maxAuthAttempts = settings.getCeremony().getMaxAuthFailsAllowed();
 
         if ( settings.getCeremony().getDocumentToolbarOptions() != null )
-            showDownloadButton = settings.getCeremony().getDocumentToolbarOptions().getDownloadButton();
+            showDocumentToolbarDownloadButton = settings.getCeremony().getDocumentToolbarOptions().getDownloadButton();
 
         if ( settings.getCeremony().getEvents() != null &&
                 settings.getCeremony().getEvents().getComplete() != null )
@@ -156,7 +155,7 @@ public class DocumentPackageSettingsBuilder {
         result.setHideCaptureText( hideCaptureText );
         result.getOptOutReasons().addAll( optOutReasons );
         result.setMaxAuthAttempts( maxAuthAttempts );
-        result.setShowDownloadButton( showDownloadButton );
+        result.setShowDocumentToolbarDownloadButton( showDocumentToolbarDownloadButton );
         result.setShowDialogOnComplete( showDialogOnComplete );
         result.setLinkHref( linkHref );
         result.setLinkText( linkText );
@@ -169,6 +168,14 @@ public class DocumentPackageSettingsBuilder {
 
     public DocumentPackageSettingsBuilder withOptOutReason( String reason ) {
         optOutReasons.add( reason );
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder withDocumentToolbarDownloadButton() {
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder withoutDocumentToolbarDownloadButton() {
         return this;
     }
 }
