@@ -43,6 +43,10 @@ public class FieldConverter {
             result.setValidation( new FieldValidatorConverter( field.getFieldValidator() ).getESLFieldValidation() );
         }
 
+        if ( field.getTextAnchor() != null ) {
+            result.setExtractAnchor( new TextAnchorConverter( field.getTextAnchor() ).getESLExtractAnchor() );
+        }
+
         return result;
     }
 

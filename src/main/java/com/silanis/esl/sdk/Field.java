@@ -22,6 +22,7 @@ public class Field implements Serializable {
     private boolean extraction;
     private FieldValidator fieldValidator;
     private FieldId id;
+    private TextAnchor textAnchor;
 
     public Field() {}
 
@@ -147,5 +148,13 @@ public class Field implements Serializable {
 
     public FieldId getId() {
         return id;
+    }
+
+    public TextAnchor getTextAnchor() {
+        return textAnchor;
+    }
+
+    public void setTextAnchor( TextAnchor textAnchor ) {
+        this.textAnchor = textAnchor;
     }
 }
