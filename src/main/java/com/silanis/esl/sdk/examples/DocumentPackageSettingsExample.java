@@ -27,7 +27,6 @@ public class DocumentPackageSettingsExample {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
         DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettings " + format.format( new Date() ) )
                 .withSettings( newDocumentPackageSettings()
-                        .withDocumentToolbarDownloadButton()
                         .withInPerson()
                         .withoutDecline()
                         .withOptOut()

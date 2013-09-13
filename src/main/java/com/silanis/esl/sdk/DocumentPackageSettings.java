@@ -48,6 +48,7 @@ public class DocumentPackageSettings {
             CeremonyEventComplete ceremonyEventComplete = new CeremonyEventComplete();
             ceremonyEventComplete.setDialog( showDialogOnComplete );
             ceremonyEvents.setComplete( ceremonyEventComplete );
+            ceremonySettings.setEvents(ceremonyEvents);
         }
 
         if ( showDocumentToolbarDownloadButton != null ) {
