@@ -5,6 +5,7 @@ import com.silanis.awsng.web.rest.model.Package;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureStyle;
+import com.silanis.esl.sdk.TextAnchor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +29,7 @@ final public class SignatureBuilder {
     private SignatureStyle style = DEFAULT_STYLE;
     private Collection<Field> fields = new ArrayList<Field>();
     private boolean extract;
+    private TextAnchor textAnchor;
 
     /**
      * 
@@ -172,6 +174,15 @@ final public class SignatureBuilder {
         return this;
     }
 
+    public SignatureBuilder withPositionAnchor( TextAnchorBuilder builder ) {
+        return withPositionAnchor( builder.build() );
+    }
+
+    public SignatureBuilder withPositionAnchor( TextAnchor textAnchor ) {
+        this.textAnchor = textAnchor;
+        return this;
+    }
+
     /**
      * This method actually builds the Signature object
      * @return	the Signature object
@@ -185,6 +196,7 @@ final public class SignatureBuilder {
         signature.setHeight( height );
         signature.addFields( fields );
         signature.setExtraction( extract );
+        signature.setTextAnchor( textAnchor );
 
         return signature;
     }

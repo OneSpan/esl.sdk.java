@@ -1,9 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.Field;
-import com.silanis.esl.sdk.FieldId;
-import com.silanis.esl.sdk.FieldStyle;
-import com.silanis.esl.sdk.FieldValidator;
+import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.internal.converter.sdk.TextAnchorConverter;
 
 import static com.silanis.esl.sdk.internal.Asserts.nonZero;
 
@@ -33,6 +31,7 @@ public class FieldBuilder {
     private FieldValidator fieldValidator;
     private String value;
     private FieldId fieldId;
+    private TextAnchor textAnchor;
 
     /**
      * Creates a field builder
@@ -156,6 +155,15 @@ public class FieldBuilder {
         return this;
     }
 
+    public FieldBuilder withPositionAnchor(TextAnchorBuilder builder) {
+        return withPositionAnchor( builder.build() );
+    }
+
+    public FieldBuilder withPositionAnchor(TextAnchor textAnchor) {
+        this.textAnchor = textAnchor;
+        return this;
+    }
+
     /**
      * Sets a validator on the field. So, the values of the field should be matched by the provided validator.
      * @param fieldValidator	the field valdator
@@ -190,7 +198,7 @@ public class FieldBuilder {
      * @return	the build field
      */
     public Field build() {
-        if (!extract && style != FieldStyle.LABEL) {
+        if (!extract && style != FieldStyle.LABEL && textAnchor == null) {
             nonZero( x, "x" );
             nonZero( y, "y" );
             nonZero( width, "width" );
@@ -210,6 +218,9 @@ public class FieldBuilder {
         field.setValue( value );
         if ( fieldId != null ) {
             field.setId( fieldId );
+        }
+        if ( textAnchor != null ) {
+            field.setTextAnchor( textAnchor );
         }
 
         return field;
@@ -264,6 +275,10 @@ public class FieldBuilder {
         }
 
         fieldBuilder.withValue( apiField.getValue() );
+
+        if ( apiField.getExtractAnchor() != null ) {
+            fieldBuilder.withPositionAnchor( new TextAnchorConverter(apiField.getExtractAnchor()).getSDKTextAnchor() );
+        }
 
         return fieldBuilder;
     }

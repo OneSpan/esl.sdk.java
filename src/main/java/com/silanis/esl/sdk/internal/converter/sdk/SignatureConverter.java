@@ -23,6 +23,10 @@ public class SignatureConverter {
             result.setHeight( signature.getHeight() );
         }
 
+        if (signature.getTextAnchor() != null ) {
+            result.setExtractAnchor( new TextAnchorConverter(signature.getTextAnchor()).getESLExtractAnchor() );
+        }
+
         result.setType( FieldType.SIGNATURE );
         result.setSubtype( getSignatureSubtype(signature) );
 
@@ -52,7 +56,6 @@ public class SignatureConverter {
         for ( com.silanis.esl.sdk.Field field : signature.getFields() ) {
             result.addField( ConversionService.convert( field ) );
         }
-
 
         return result;
     }

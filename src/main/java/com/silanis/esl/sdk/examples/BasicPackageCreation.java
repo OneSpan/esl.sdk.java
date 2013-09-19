@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SessionToken;
+import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,28 +32,35 @@ public class BasicPackageCreation {
         EslClient eslClient = new EslClient( API_KEY, API_URL );
 
         DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
-                .describedAs("This is a package created using the e-SignLive SDK")
-                .expiresAt(now().plusMonths(1).toDate())
-                .withEmailMessage("This message should be delivered to all signers")
-                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
+                .describedAs( "This is a package created using the e-SignLive SDK" )
+                .expiresAt( now().plusMonths( 1 ).toDate() )
+                .withEmailMessage( "This message should be delivered to all signers" )
+                .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
                         .withCustomId( "Client1" )
                         .withFirstName( "John" )
-                        .withLastName("Smith")
-                        .withTitle("Managing Director")
-                        .withCompany("Acme Inc."))
-                .withSigner( newSignerWithEmail( props.getProperty( "2.email" ) )
-                        .withFirstName( "Patty" )
-                        .withLastName( "Galant" ) )
+                        .withLastName( "Smith" )
+                        .withTitle( "Managing Director" )
+                        .withCompany( "Acme Inc." ) )
+//                .withSigner( newSignerWithEmail( props.getProperty( "2.email" ) )
+//                        .withFirstName( "Patty" )
+//                        .withLastName( "Galant" ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromFile( "src/main/resources/document.pdf" )
                         .withSignature( signatureFor( props.getProperty( "1.email" ) )
                                 .onPage( 0 )
+                                .withField( FieldBuilder.checkBox()
+                                        .onPage( 0 )
+                                        .atPosition( 400, 200 )
+                                        .withValue( "x" )
+                                )
                                 .atPosition( 100, 100 ) ) )
-                .withDocument( newDocumentWithName( "Second Document" )
-                        .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor( props.getProperty( "2.email" ) )
-                                .onPage( 0 )
-                                .atPosition( 100, 100 ) ) )
+//                .withDocument( newDocumentWithName( "Second Document" )
+//                        .fromFile( "src/main/resources/document.pdf" )
+//                        .withSignature( signatureFor( props.getProperty( "2.email" ) )
+//                                .onPage( 0 )
+//                                .atPosition( 100, 200 )
+//                        )
+//                )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );

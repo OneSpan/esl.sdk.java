@@ -59,6 +59,16 @@ public class DocumentPackageSettingsBuilder {
 
     }
 
+    public DocumentPackageSettingsBuilder withDownloadButton() {
+        showDownloadButton = true;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder withoutDownloadButton() {
+        showDownloadButton = false;
+        return this;
+    }
+
     public DocumentPackageSettingsBuilder withDialogOnComplete() {
         showDialogOnComplete = true;
         return this;

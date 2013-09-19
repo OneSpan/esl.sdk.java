@@ -22,6 +22,7 @@ public class Signature implements Serializable {
     private Collection<Field> fields = new ArrayList<Field>();
     private String name;
     private boolean extraction;
+    private TextAnchor textAnchor;
 
     /**
      * 
@@ -99,5 +100,13 @@ public class Signature implements Serializable {
 
     public boolean isExtraction() {
         return extraction;
+    }
+
+    public void setTextAnchor( TextAnchor textAnchor ) {
+        this.textAnchor = textAnchor;
+    }
+
+    public TextAnchor getTextAnchor() {
+        return textAnchor;
     }
 }
