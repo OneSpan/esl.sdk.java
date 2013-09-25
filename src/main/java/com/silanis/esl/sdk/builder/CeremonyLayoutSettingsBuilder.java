@@ -26,11 +26,17 @@ public class CeremonyLayoutSettingsBuilder {
 
     public CeremonyLayoutSettingsBuilder( CeremonySettings ceremonySettings ) {
         iFrame = ceremonySettings.getLayout().getIframe();
-        breadCrumbs = ceremonySettings.getLayout().getHeader().getBreadcrumbs();
-        sessionBar = ceremonySettings.getLayout().getHeader().getSessionBar();
-        globalNavigation = ceremonySettings.getLayout().getHeader().getGlobalNavigation();
-        progressBar = ceremonySettings.getLayout().getHeader().getTitleBar().getProgressBar();
-        showTitle = ceremonySettings.getLayout().getHeader().getTitleBar().getTitle();
+        if ( ceremonySettings.getLayout().getHeader() != null ) {
+            breadCrumbs = ceremonySettings.getLayout().getHeader().getBreadcrumbs();
+            sessionBar = ceremonySettings.getLayout().getHeader().getSessionBar();
+            globalNavigation = ceremonySettings.getLayout().getHeader().getGlobalNavigation();
+
+            if ( ceremonySettings.getLayout().getHeader().getTitleBar() != null ) {
+                progressBar = ceremonySettings.getLayout().getHeader().getTitleBar().getProgressBar();
+                showTitle = ceremonySettings.getLayout().getHeader().getTitleBar().getTitle();
+            }
+        }
+
         navigator = ceremonySettings.getLayout().getNavigator();
         if ( ceremonySettings.getLayout().getBrandingBar() != null &&
                 ceremonySettings.getLayout().getBrandingBar().getLogo() != null ) {
