@@ -5,12 +5,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.awsng.web.rest.model.Document;
 import com.silanis.awsng.web.rest.model.Package;
-import com.silanis.awsng.web.rest.model.*;
+import com.silanis.awsng.web.rest.model.PackageStatus;
+import com.silanis.awsng.web.rest.model.Result;
+import com.silanis.awsng.web.rest.model.Role;
 import com.silanis.awsng.web.rest.util.JacksonUtil;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentId;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.RoleList;
+import com.silanis.esl.sdk.SignerId;
+import com.silanis.esl.sdk.SigningStatus;
 import com.silanis.esl.sdk.builder.PackageBuilder;
-import com.silanis.esl.sdk.internal.Converter;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
@@ -64,9 +72,10 @@ public class PackageService {
      * @return PackageId
      */
     public PackageId createPackageFromTemplate( PackageId packageId, Package aPackage ) {
-        String path = template.urlFor( UrlTemplate.PACKAGE_PATH )
+        String path = template.urlFor( UrlTemplate.TEMPLATE_PATH )
+                .replace("{packageId}", packageId.getId())
                 .build();
-        path += "?template=" + packageId.getId();
+
         String packageJson = Serialization.toJson( aPackage );
         try {
 
@@ -77,22 +86,6 @@ public class PackageService {
             throw new EslException( "Could not create a new package", e );
         }
     }
-
-    public PackageId createPackageFromTemplate( String templateName, Package aPackage ) {
-        String path = template.urlFor( UrlTemplate.PACKAGE_PATH )
-                .build();
-        path += "?templateName=" + templateName;
-        String packageJson = Serialization.toJson( aPackage );
-        try {
-
-            String response = client.post( path, packageJson );
-
-            return Serialization.fromJson( response, PackageId.class );
-        } catch ( Exception e ) {
-            throw new EslException( "Could not create a new package", e );
-        }
-    }
-
 
     /**
      * Updates the package's fields and roles.
@@ -388,9 +381,9 @@ public class PackageService {
      */
     public Page<DocumentPackage> getPackages( PackageStatus status, PageRequest request ) {
         String path = template.urlFor( UrlTemplate.PACKAGE_LIST_PATH )
-                .replace( "{status}", status.toString() )
-                .replace( "{from}", "" + request.getFrom() )
-                .replace( "{to}", "" + request.to() )
+                .replace("{status}", status.toString())
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace( "{to}", Integer.toString(request.to()) )
                 .build();
 
         try {
@@ -452,6 +445,22 @@ public class PackageService {
             client.post( path, payload );
         } catch ( Exception e ) {
             throw new EslException( "Could not send email notification to signer. Exception: " + e.getMessage() );
+        }
+    }
+
+    public Page<DocumentPackage> getTemplates(PageRequest request) {
+        String path = template.urlFor(UrlTemplate.TEMPLATE_LIST_PATH)
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace("{to}", Integer.toString(request.to()))
+                .build();
+
+        try {
+            String response = client.get(path);
+            Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {});
+
+            return convertToPage(results, request);
+        } catch (Exception e) {
+            throw new EslException("Could not get template list. Exception: " + e.getMessage());
         }
     }
 }

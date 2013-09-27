@@ -206,15 +206,13 @@ final public class SignatureBuilder {
         Signer apiSigner = null;
         for ( Role role : apiPackage.getRoles() ) {
             if ( role.getId().equals( apiApproval.getRole() ) ) {
-                apiSigner = role.getSigners().get( 0 );
+                if (!isPlaceholder(role)) {
+                    apiSigner = role.getSigners().get( 0 );
+                }
             }
         }
 
-        if ( apiSigner == null ) {
-            return null;
-        }
-
-        SignatureBuilder signatureBuilder = new SignatureBuilder( apiSigner.getEmail() );
+        SignatureBuilder signatureBuilder = new SignatureBuilder( apiSigner != null ? apiSigner.getEmail() : "");
         signatureBuilder.withName( apiApproval.getName() );
 
         com.silanis.awsng.web.rest.model.Field apiSignatureField = null;
@@ -242,5 +240,9 @@ final public class SignatureBuilder {
         }
 
         return signatureBuilder;
+    }
+
+    private static boolean isPlaceholder(Role role) {
+        return role.getSigners().isEmpty();
     }
 }
