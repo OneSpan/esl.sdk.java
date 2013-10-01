@@ -7,7 +7,11 @@ import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
+import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.LogManager;
+
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
  * Basic package with in-person mode set at the document package level. Expires in a month.
@@ -18,21 +22,34 @@ public class CreatePackageFromTemplateExample {
     public static final String API_KEY = props.getProperty( "api.key" );
     public static final String API_URL = props.getProperty( "api.url" );
 
-    public static void main( String... args ) {
+    public static void main( String... args ) throws IOException {
+        LogManager.getLogManager().readConfiguration(CreatePackageFromTemplateExample.class.getResourceAsStream("/logging.properties"));
         EslClient esl = new EslClient( API_KEY, API_URL );
         Page<DocumentPackage> templates = esl.getPackageService().getTemplates(new PageRequest(0));
 
-        if (templates.getTotalElements() > 0) {
-            DocumentPackage template = templates.iterator().next();
-            DocumentPackage packageData = PackageBuilder.newPackageNamed("Package from template")
-                    .build();
-
-            PackageId id = esl.createPackageFromTemplate(packageData, template.getId());
-
-            System.out.println("New package id = " + id);
-        }
-        else {
+        if (templates.getTotalElements() == 0) {
             System.out.println("No templates found");
+            return;
         }
+
+        DocumentPackage template = templates.iterator().next();
+        DocumentPackage packageData = PackageBuilder.newPackageNamed("Package from template")
+                .withSigner(newSignerWithEmail("etienne_hardy@silanis.com")
+                    .withFirstName("John")
+                    .withLastName("Smith")
+                    .withTitle("Manager")
+                    .withCompany("Acme Inc.")
+                    .withCustomId("Signer1") )
+                .withSigner(newSignerWithEmail("etienne.hardy@gmail.com")
+                    .withFirstName("Elvis")
+                    .withLastName("Presley")
+                    .withTitle("The King")
+                    .withCompany("Elvis Presley International")
+                    .withCustomId("Signer2"))
+                .build();
+
+        PackageId id = esl.createPackageFromTemplate(packageData, template.getId());
+
+        esl.sendPackage(id);
     }
 }

@@ -8,6 +8,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -44,6 +45,18 @@ public class RestClient {
         post.setEntity(body);
 
         return execute(post, apiToken, jsonHandler);
+    }
+
+    public String put(String path, String jsonPayload) throws IOException {
+        support.logRequest("PUT", path, jsonPayload);
+
+        HttpPut put = new HttpPut( path );
+        StringEntity body = new StringEntity(jsonPayload);
+
+        body.setContentType("application/json");
+        put.setEntity(body);
+
+        return execute(put, apiToken, jsonHandler);
     }
 
     public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException {

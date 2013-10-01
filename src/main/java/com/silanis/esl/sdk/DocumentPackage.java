@@ -105,11 +105,11 @@ public class DocumentPackage implements Serializable {
         int signerCount = 1;
         for (Signer signer : signers.values()) {
             Role role = new Role()
-                    .setName( "signer" + signerCount )
+                    .setName( signer.getId() == null ? "signer" + signerCount : signer.getId() )
                     .addSigner( signer.toAPISigner() )
                     .setIndex( signer.getSigningOrder() )
                     .setReassign( signer.canChangeSigner() )
-                    .setId( signer.getRoleId() == null ? "role" + signerCount : signer.getRoleId() );
+                    .setId( signer.getId() == null ? "role" + signerCount : signer.getId() );
 
             signerCount++;
 

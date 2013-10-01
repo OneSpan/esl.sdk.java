@@ -24,6 +24,7 @@ import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,15 +77,49 @@ public class PackageService {
                 .replace("{packageId}", packageId.getId())
                 .build();
 
+        List<Role> roles = aPackage.getRoles();
+
+        aPackage.setRoles(Collections.<Role>emptyList());
+
         String packageJson = Serialization.toJson( aPackage );
+        PackageId newPackageId = null;
         try {
 
             String response = client.post( path, packageJson );
 
-            return Serialization.fromJson( response, PackageId.class );
+            newPackageId = Serialization.fromJson( response, PackageId.class );
         } catch ( Exception e ) {
             throw new EslException( "Could not create a new package", e );
         }
+
+        Package createdPackage = getPackage(newPackageId);
+
+        for (Role role : roles) {
+            String roleUid = findRoleUidByName(createdPackage.getRoles(), role.getName());
+
+            if (roleUid == null) {
+                continue;
+            }
+
+            role.setId(roleUid);
+            updateRole(newPackageId, role);
+        }
+
+        return newPackageId;
+    }
+
+    private String findRoleUidByName(List<Role> roles, String roleName) {
+        if (roleName == null || roleName.trim().isEmpty()) {
+            return null;
+        }
+
+        for (Role role : roles) {
+            if (roleName.equalsIgnoreCase(role.getName())) {
+                return role.getId();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -255,8 +290,7 @@ public class PackageService {
         String roleJson = JacksonUtil.serializeDirty( role );
         String stringResponse;
         try {
-            stringResponse = client.post( path, roleJson );
-
+            stringResponse = client.put(path, roleJson);
         } catch ( Exception e ) {
             throw new EslException( "Could not update role", e );
         }
