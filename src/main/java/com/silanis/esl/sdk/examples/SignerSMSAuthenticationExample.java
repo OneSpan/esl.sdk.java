@@ -2,9 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
-import com.sun.xml.internal.ws.api.server.SDDocumentSource;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -15,10 +13,9 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+
 /**
- * 
  * Example of how to configure the SMS authentication method for a signer
- *
  */
 
 public class SignerSMSAuthenticationExample extends SDKSample {
@@ -47,16 +44,16 @@ public class SignerSMSAuthenticationExample extends SDKSample {
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "SignerSMSAuthenticationExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .describedAs("This is a SMS authentication example")
-                .withSigner(newSignerWithEmail(email1)
-                        .withFirstName("John")
-                        .withLastName("Smith")
-                        .withSmsSentTo(sms1))
-                .withDocument(newDocumentWithName("First Document")
+                .describedAs( "This is a SMS authentication example" )
+                .withSigner( newSignerWithEmail( email1 )
+                        .withFirstName( "John" )
+                        .withLastName( "Smith" )
+                        .withSmsSentTo( sms1 ) )
+                .withDocument( newDocumentWithName( "First Document" )
                         .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature(signatureFor(email1)
-                                .onPage(0)
-                                .atPosition(100, 100)))
+                        .withSignature( signatureFor( email1 )
+                                .onPage( 0 )
+                                .atPosition( 100, 100 ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
