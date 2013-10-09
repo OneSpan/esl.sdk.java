@@ -19,7 +19,8 @@ public class UrlTemplate {
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
     public static final String NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
 
-    public static final String TEMPLATE_PATH = "/templates";
+    public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
+    public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";

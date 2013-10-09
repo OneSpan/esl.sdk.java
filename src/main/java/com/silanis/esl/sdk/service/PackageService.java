@@ -10,15 +10,11 @@ import com.silanis.awsng.web.rest.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.builder.PackageBuilder;
-import com.silanis.esl.sdk.internal.Converter;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -64,35 +60,54 @@ public class PackageService {
      * @return PackageId
      */
     public PackageId createPackageFromTemplate( PackageId packageId, Package aPackage ) {
-        String path = template.urlFor( UrlTemplate.PACKAGE_PATH )
+        String path = template.urlFor( UrlTemplate.TEMPLATE_PATH )
+                .replace( "{packageId}", packageId.getId() )
                 .build();
-        path += "?template=" + packageId.getId();
+
+        List<Role> roles = aPackage.getRoles();
+
+        aPackage.setRoles(Collections.<Role>emptyList());
+
         String packageJson = Serialization.toJson( aPackage );
+        PackageId newPackageId = null;
         try {
 
             String response = client.post( path, packageJson );
 
-            return Serialization.fromJson( response, PackageId.class );
+            newPackageId = Serialization.fromJson( response, PackageId.class );
         } catch ( Exception e ) {
             throw new EslException( "Could not create a new package", e );
         }
-    }
 
-    public PackageId createPackageFromTemplate( String templateName, Package aPackage ) {
-        String path = template.urlFor( UrlTemplate.PACKAGE_PATH )
-                .build();
-        path += "?templateName=" + templateName;
-        String packageJson = Serialization.toJson( aPackage );
-        try {
+        Package createdPackage = getPackage(newPackageId);
 
-            String response = client.post( path, packageJson );
+        for (Role role : roles) {
+            String roleUid = findRoleUidByName(createdPackage.getRoles(), role.getName());
 
-            return Serialization.fromJson( response, PackageId.class );
-        } catch ( Exception e ) {
-            throw new EslException( "Could not create a new package", e );
+            if (roleUid == null) {
+                continue;
+            }
+
+            role.setId(roleUid);
+            updateRole(newPackageId, role);
         }
+
+        return newPackageId;
     }
 
+    private String findRoleUidByName(List<Role> roles, String roleName) {
+        if (roleName == null || roleName.trim().isEmpty()) {
+            return null;
+        }
+
+        for (Role role : roles) {
+            if (roleName.equalsIgnoreCase(role.getName())) {
+                return role.getId();
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Updates the package's fields and roles.
@@ -262,8 +277,7 @@ public class PackageService {
         String roleJson = JacksonUtil.serializeDirty( role );
         String stringResponse;
         try {
-            stringResponse = client.post( path, roleJson );
-
+            stringResponse = client.put( path, roleJson );
         } catch ( Exception e ) {
             throw new EslException( "Could not update role", e );
         }
@@ -388,9 +402,9 @@ public class PackageService {
      */
     public Page<DocumentPackage> getPackages( PackageStatus status, PageRequest request ) {
         String path = template.urlFor( UrlTemplate.PACKAGE_LIST_PATH )
-                .replace( "{status}", status.toString() )
-                .replace( "{from}", "" + request.getFrom() )
-                .replace( "{to}", "" + request.to() )
+                .replace("{status}", status.toString())
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace( "{to}", Integer.toString(request.to()) )
                 .build();
 
         try {
@@ -452,6 +466,22 @@ public class PackageService {
             client.post( path, payload );
         } catch ( Exception e ) {
             throw new EslException( "Could not send email notification to signer. Exception: " + e.getMessage() );
+        }
+    }
+
+    public Page<DocumentPackage> getTemplates(PageRequest request) {
+        String path = template.urlFor(UrlTemplate.TEMPLATE_LIST_PATH)
+                .replace( "{from}", Integer.toString( request.getFrom() ) )
+                .replace("{to}", Integer.toString( request.to() ))
+                .build();
+
+        try {
+            String response = client.get( path );
+            Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {});
+
+            return convertToPage(results, request);
+        } catch (Exception e) {
+            throw new EslException("Could not get template list. Exception: " + e.getMessage());
         }
     }
 }

@@ -1,39 +1,51 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.awsng.web.rest.model.Role;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.EslClient;
-import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.builder.PackageBuilder;
 
+import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.LogManager;
 
-import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static org.joda.time.DateMidnight.now;
 
+/**
+ * Basic package with in-person mode set at the document package level. Expires in a month.
+ */
 public class CreatePackageFromTemplateExample {
+
     private static final Properties props = Props.get();
     public static final String API_KEY = props.getProperty( "api.key" );
     public static final String API_URL = props.getProperty( "api.url" );
 
-    public static void main( String... args ) {
-        EslClient eslClient = new EslClient( API_KEY, API_URL );
-        DocumentPackage superDuperPackage = newPackageNamed( "Create Package Template Example" )
-                .describedAs( "This is a package created from a template using the e-SignLive SDK" )
-                .expiresAt( now().plusMonths( 1 ).toDate() )
-                .withEmailMessage( "This message should be delivered to all signers" )
+    public static void main( String... args ) throws IOException {
+        LogManager.getLogManager().readConfiguration( CreatePackageFromTemplateExample.class.getResourceAsStream( "/logging.properties" ) );
+        EslClient esl = new EslClient( API_KEY, API_URL );
+        Page<DocumentPackage> templates = esl.getPackageService().getTemplates( new PageRequest( 0 ) );
+
+        if ( templates.getTotalElements() == 0 ) {
+            System.out.println( "No templates found" );
+            return;
+        }
+
+        DocumentPackage template = templates.iterator().next();
+        DocumentPackage packageData = PackageBuilder.newPackageNamed( "Package from template" )
                 .withSigner( newSignerWithEmail( props.getProperty( "1.email" ) )
-                        .withCustomId( "Client1" )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
-                        .withTitle( "Managing Director" )
-                        .withCompany( "Acme Inc." ) )
+                        .withTitle( "Manager" )
+                        .withCompany( "Acme Inc." )
+                        .withCustomId( "Signer1" ) )
                 .withSigner( newSignerWithEmail( props.getProperty( "2.email" ) )
-                        .withFirstName( "Patty" )
-                        .withLastName( "Galant" ) )
+                        .withFirstName( "Elvis" )
+                        .withLastName( "Presley" )
+                        .withTitle( "The King" )
+                        .withCompany( "Elvis Presley International" )
+                        .withCustomId( "Signer2" ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackageFromTemplate( superDuperPackage, "TestTemplate" );
-        eslClient.sendPackage( packageId );
+        PackageId id = esl.createPackageFromTemplate( packageData, template.getId() );
+
+        esl.sendPackage( id );
     }
 }

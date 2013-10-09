@@ -29,7 +29,6 @@ final public class SignerBuilder {
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
     private boolean locked = false;
-    private String roleId;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -109,7 +108,6 @@ final public class SignerBuilder {
         signer.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
         signer.setId(id);
         signer.setLocked(locked);
-        signer.setRoleId( roleId );
         return signer;
     }
 
@@ -186,7 +184,7 @@ final public class SignerBuilder {
         return this;
     }
 
-    public static SignerBuilder newSignerFromAPISigner( com.silanis.awsng.web.rest.model.Role role ) {
+    static SignerBuilder newSignerFromAPISigner( com.silanis.awsng.web.rest.model.Role role ) {
         com.silanis.awsng.web.rest.model.Signer eslSigner = role.getSigners().get( 0 );
 
         SignerBuilder signerBuilder = SignerBuilder.newSignerWithEmail( eslSigner.getEmail() )
@@ -212,9 +210,14 @@ final public class SignerBuilder {
         return signerBuilder;
     }
 
+    /**
+     * @deprecated Use withCustomId() from now on. Will get deleted in a future release
+     * @param roleId
+     * @return
+     */
+    @Deprecated
     public SignerBuilder withRoleId( String roleId ) {
-        this.roleId = roleId;
-        return this;
+        return withCustomId(roleId);
     }
 
     /**
