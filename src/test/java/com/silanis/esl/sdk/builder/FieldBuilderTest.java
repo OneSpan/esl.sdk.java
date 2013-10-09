@@ -55,11 +55,6 @@ public class FieldBuilderTest {
         assertEquals( FieldBuilder.DEFAULT_STYLE, field.getStyle() );
     }
 
-    @Test(expected = EslException.class)
-    public void cannotCreateFieldWithoutPosition() {
-        signatureDate().build();
-    }
-
     @Test
     public void creatingNewSignatureDateFieldSetsStyle() {
         Field field = signatureDate().atPosition(100, 100).build();

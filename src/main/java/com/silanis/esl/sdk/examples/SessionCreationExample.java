@@ -1,10 +1,8 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.EslClient;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.SessionToken;
+import com.silanis.esl.sdk.*;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -18,27 +16,39 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Create a session token based on the package ID and the signer's ID
  *
  */
-public class SessionCreationExample {
+public class SessionCreationExample extends SDKSample {
 
-    private static final Properties props = Props.get();
-    public static final String API_KEY = props.getProperty( "api.key" );
-    public static final String API_URL = props.getProperty( "api.url" );
-
-    private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
-
+    private String email1;
+    private InputStream documentInputStream1;
 
     public static void main( String... args ) {
-        EslClient eslClient = new EslClient( API_KEY, API_URL );
+        new SessionCreationExample( Props.get() ).run();
+    }
+
+    public SessionCreationExample( Properties properties ) {
+        this( properties.getProperty( "api.key" ),
+                properties.getProperty( "api.url" ),
+                properties.getProperty( "1.email" ) );
+    }
+
+    public SessionCreationExample( String apiKey, String apiUrl, String email1 ) {
+        super( apiKey, apiUrl );
+        this.email1 = email1;
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+    }
+
+    @Override
+    public void execute() {
         String signerId = "myCustomSignerId";
 
-        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + format.format( new Date() ) )
-                .withSigner( newSignerWithEmail( props.getProperty("1.email") )
+        DocumentPackage superDuperPackage = newPackageNamed( "SessionCreationExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+                .withSigner(newSignerWithEmail(email1)
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
                         .withCustomId( signerId ) )
                 .withDocument( newDocumentWithName( "First Document" )
-                        .fromFile( "src/main/resources/document.pdf" )
-                        .withSignature( signatureFor( props.getProperty("1.email") )
+                        .fromStream( documentInputStream1, DocumentType.PDF )
+                        .withSignature(signatureFor(email1)
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) ) )
                 .build();
@@ -46,6 +56,5 @@ public class SessionCreationExample {
         PackageId packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
         SessionToken signerSessionToken = eslClient.createSessionToken( packageId, signerId );
-        System.out.println( ">>>" + signerSessionToken.getSessionToken() + "<<<" );
     }
 }

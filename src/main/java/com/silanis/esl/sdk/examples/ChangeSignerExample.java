@@ -1,9 +1,11 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 
+import java.io.InputStream;
 import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -14,23 +16,36 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 /**
  * Allows the signer to be changed during the ceremony
  */
-public class ChangeSignerExample {
+public class ChangeSignerExample extends SDKSample {
 
-    private static final Properties props = Props.get();
-    public static final String API_KEY = props.getProperty( "api.key" );
-    public static final String API_URL = props.getProperty( "api.url" );
+    private String email1;
+    private InputStream documentInputStream;
 
     public static void main( String... args ) {
-        EslClient eslClient = new EslClient( API_KEY, API_URL );
+        new ChangeSignerExample(Props.get()).run();
+    }
 
+    public ChangeSignerExample( Properties props ) {
+        this( props.getProperty( "api.key" ),
+                props.getProperty( "api.url" ),
+                props.getProperty( "1.email" ) );
+    }
+
+    public ChangeSignerExample( String apiKey, String apiUrl, String email1 ) {
+        super( apiKey, apiUrl );
+        this.email1 = email1;
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+    }
+
+    public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
-                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
+                .withSigner( newSignerWithEmail( email1 )
                         .withFirstName("John")
                         .withLastName("Smith")
                         .canChangeSigner())
                 .withDocument(newDocumentWithName("First Document")
-                        .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor(props.getProperty("1.email"))
+                        .fromStream( documentInputStream, DocumentType.PDF )
+                        .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(500, 100)))
                 .build();

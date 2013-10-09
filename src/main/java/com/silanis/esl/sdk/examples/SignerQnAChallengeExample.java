@@ -1,9 +1,11 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -19,19 +21,31 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * purposes. Never include the answer when creating packages for actual customers.
  *
  */
-public class SignerQnAChallengeExample {
+public class SignerQnAChallengeExample extends SDKSample {
 
-    private static final Properties props = Props.get();
-    public static final String API_KEY = props.getProperty( "api.key" );
-    public static final String API_URL = props.getProperty( "api.url" );
-
-    private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
+    private String email1;
+    private InputStream documentInputStream1;
 
     public static void main( String... args ) {
-        EslClient eslClient = new EslClient( API_KEY, API_URL );
-        DocumentPackage qnaExamplePackage = newPackageNamed("Policy " + format.format(new Date()))
+        new SignerQnAChallengeExample( Props.get() ).run();
+    }
+
+    public SignerQnAChallengeExample( Properties properties ) {
+        this( properties.getProperty( "api.key" ),
+                properties.getProperty( "api.url" ),
+                properties.getProperty( "1.email" ) );
+    }
+
+    public SignerQnAChallengeExample( String apiKey, String apiUrl, String email1 ) {
+        super( apiKey, apiUrl );
+        this.email1 = email1;
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+    }
+
+    public void execute() {
+        DocumentPackage superDuperPackage = newPackageNamed( "SignerQnAChallengeExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs("This is a Q&A authentication example")
-                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
+                .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith")
                         .challengedWithQuestions(firstQuestion("What's your favorite sport? (answer: golf)")
@@ -39,13 +53,13 @@ public class SignerQnAChallengeExample {
                                 .secondQuestion("What music instrument do you play? (answer: drums)")
                                 .answer("drums")))
                 .withDocument(newDocumentWithName("First Document")
-                        .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor(props.getProperty("1.email"))
+                        .fromStream( documentInputStream1, DocumentType.PDF )
+                        .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(100, 100)))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( qnaExamplePackage );
+        PackageId packageId = eslClient.createPackage( superDuperPackage );
 
         eslClient.sendPackage( packageId );
     }

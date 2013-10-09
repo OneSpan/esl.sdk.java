@@ -1,9 +1,12 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
+import com.sun.xml.internal.ws.api.server.SDDocumentSource;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -18,30 +21,45 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  *
  */
 
-public class SignerSMSAuthenticationExample {
+public class SignerSMSAuthenticationExample extends SDKSample {
 
-    private static final Properties props = Props.get();
-    public static final String API_KEY = props.getProperty( "api.key" );
-    public static final String API_URL = props.getProperty( "api.url" );
-
-    private static final SimpleDateFormat format = new SimpleDateFormat( "HH:mm:ss" );
+    private String email1;
+    private String sms1;
+    private InputStream documentInputStream1;
 
     public static void main( String... args ) {
-        EslClient eslClient = new EslClient( API_KEY, API_URL );
-        DocumentPackage smsExamplePackage = newPackageNamed("Policy " + format.format(new Date()))
+        new SignerSMSAuthenticationExample( Props.get() ).run();
+    }
+
+    public SignerSMSAuthenticationExample( Properties properties ) {
+        this( properties.getProperty( "api.key" ),
+                properties.getProperty( "api.url" ),
+                properties.getProperty( "1.email" ),
+                properties.getProperty( "1.sms" ) );
+    }
+
+    public SignerSMSAuthenticationExample( String apiKey, String apiUrl, String email1, String sms1 ) {
+        super( apiKey, apiUrl );
+        this.email1 = email1;
+        this.sms1 = sms1;
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+    }
+
+    public void execute() {
+        DocumentPackage superDuperPackage = newPackageNamed( "SignerSMSAuthenticationExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs("This is a SMS authentication example")
-                .withSigner(newSignerWithEmail(props.getProperty("1.email"))
+                .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith")
-                        .withSmsSentTo(props.getProperty("1.sms")))
+                        .withSmsSentTo(sms1))
                 .withDocument(newDocumentWithName("First Document")
-                        .fromFile("src/main/resources/document.pdf")
-                        .withSignature(signatureFor(props.getProperty("1.email"))
+                        .fromStream( documentInputStream1, DocumentType.PDF )
+                        .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(100, 100)))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( smsExamplePackage );
+        PackageId packageId = eslClient.createPackage( superDuperPackage );
 
         eslClient.sendPackage( packageId );
     }

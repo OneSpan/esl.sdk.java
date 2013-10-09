@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>9.7.1</version>
+    <version>9.7-SNAPSHOT</version>
     <name>Java sdk</name>
     <packaging>jar</packaging>
 
@@ -10,8 +10,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-
 
     <build>
         <plugins>
@@ -112,13 +110,6 @@
     </profiles>
 
     <dependencies>
-
-        <!--silanis dependenices-->
-        <dependency>
-            <groupId>com.silanis.esl</groupId>
-            <artifactId>esl-model</artifactId>
-            <version>9.7-SNAPSHOT</version>
-        </dependency>
 
         <!--Other dependencies-->
         <dependency>
