@@ -196,6 +196,10 @@ final public class SignerBuilder {
                 .withTitle( eslSigner.getTitle() )
                 .signingOrder( role.getIndex() );
 
+        if ( eslSigner.getDelivery() != null && eslSigner.getDelivery().getEmail() ) {
+            signerBuilder.deliverSignedDocumentsByEmail();
+        }
+
         if ( role.evalReassign() ) {
             signerBuilder.canChangeSigner();
         }
