@@ -54,7 +54,7 @@ public class TextAnchorExtractionExample extends SDKSample {
                                         .withCharacter( 9 )
                                         .withOccurence( 0 ) ) )
                         .withSignature(signatureFor( email1 )
-                                .withPositionAnchor( TextAnchorBuilder.newTextAnchor( "Confidential" )
+                                .withPositionAnchor( TextAnchorBuilder.newTextAnchor( "Receiving" )
                                         .atPosition( TextAnchorPosition.TOPLEFT )
                                         .withSize( 150, 40 )
                                         .withOffset( 0, 0 )

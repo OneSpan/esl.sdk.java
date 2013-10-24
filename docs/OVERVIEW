@@ -1,5 +1,0 @@
-OVERVIEW
-
-The e-SignLive SDK publishes a collection of easily used methods that allow a developer to quickly issue documents for signing over the web.  The SDK communicates with the e-SignLive servers over a RESTful HTTP protocol, leaving only a simple and easy to use interface exposed to the developer.  Signers will receive emails containing links to the documents that need signing, and can do so using nothing more than a modern browser.
-
-Included are samples in both Java and C#, covering the basics, as well as an exhaustive reference.
