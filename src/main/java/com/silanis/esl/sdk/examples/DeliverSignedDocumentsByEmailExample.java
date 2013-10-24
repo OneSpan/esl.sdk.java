@@ -36,13 +36,13 @@ public class DeliverSignedDocumentsByEmailExample extends SDKSample {
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "DeliverSignedDocumentsByEmailExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .withSigner(newSignerWithEmail(email1)
+                .withSigner(newSignerWithEmail("davelawson@hotmail.com")
                         .withFirstName("John")
                         .withLastName("Smith")
                         .deliverSignedDocumentsByEmail() )
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature(signatureFor(email1)
+                        .withSignature(signatureFor("davelawson@hotmail.com")
                                 .onPage(0)
                                 .atPosition(100, 100)))
                 .build();

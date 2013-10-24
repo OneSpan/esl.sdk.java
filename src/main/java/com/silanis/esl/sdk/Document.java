@@ -30,6 +30,7 @@ public class Document implements Serializable {
     private boolean extract;
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
+    private String description;
 
     com.silanis.awsng.web.rest.model.Document toAPIDocument( Package createdPackage ) {
         com.silanis.awsng.web.rest.model.Document doc = new com.silanis.awsng.web.rest.model.Document()
@@ -39,6 +40,10 @@ public class Document implements Serializable {
 
         if ( id != null ) {
             doc.setId( id.getId() );
+        }
+
+        if ( description != null ) {
+            doc.setDescription( description );
         }
 
         SignatureConverter converter = new SignatureConverter();
@@ -186,5 +191,13 @@ public class Document implements Serializable {
 
     public void addInjectedFields( List<Field> fields ) {
         this.injectedFields.addAll( fields );
+    }
+
+    public void setDescription( String description ) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

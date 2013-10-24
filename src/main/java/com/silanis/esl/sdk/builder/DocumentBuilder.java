@@ -28,6 +28,7 @@ public class DocumentBuilder {
     private boolean extract;
     private String id;
     private List<Field> injectedFields = new ArrayList<Field>();
+    private String description;
 
     public DocumentBuilder() {
         this.name = DEFAULT_NAME;
@@ -132,6 +133,9 @@ public class DocumentBuilder {
         document.addSignatures(signatures);
         document.setIndex( index );
         document.setExtraction( extract );
+        if (description != null ) {
+            document.setDescription(description);
+        }
         if ( id != null ) {
             document.setId( new DocumentId( id ) );
         }
@@ -171,10 +175,17 @@ public class DocumentBuilder {
         return this;
     }
 
+    public DocumentBuilder withDescription( String description ) {
+        this.description = description;
+        return this;
+    }
+
     public static DocumentBuilder newDocumentFromAPIDocument( com.silanis.awsng.web.rest.model.Document apiDocument, Package aPackage ) {
         DocumentBuilder documentBuilder = DocumentBuilder.newDocumentWithName( apiDocument.getName() );
         documentBuilder.withId( apiDocument.getId() );
         documentBuilder.atIndex( apiDocument.getIndex() );
+
+        documentBuilder.withDescription( apiDocument.getDescription() );
 
         for ( Approval apiApproval : apiDocument.getApprovals() ) {
             SignatureBuilder signatureBuilder = SignatureBuilder.newSignatureFromAPIApproval( apiApproval, aPackage );

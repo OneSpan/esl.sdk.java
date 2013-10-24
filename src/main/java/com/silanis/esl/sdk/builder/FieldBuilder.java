@@ -198,13 +198,6 @@ public class FieldBuilder {
      * @return	the build field
      */
     public Field build() {
-//        if (!extract && style != FieldStyle.LABEL && textAnchor == null) {
-//            nonZero( x, "x" );
-//            nonZero( y, "y" );
-//            nonZero( width, "width" );
-//            nonZero( height, "height" );
-//        }
-
         Field field = new Field();
         field.setPage( pageNumber );
         field.setX( x );
