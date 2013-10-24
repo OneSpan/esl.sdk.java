@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal;
 
-import com.silanis.awsng.web.rest.model.Error;
+import com.silanis.esl.api.model.Error;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

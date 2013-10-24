@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.*;
-import com.silanis.awsng.web.rest.model.Package;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.Field;
@@ -180,7 +180,7 @@ public class DocumentBuilder {
         return this;
     }
 
-    public static DocumentBuilder newDocumentFromAPIDocument( com.silanis.awsng.web.rest.model.Document apiDocument, Package aPackage ) {
+    public static DocumentBuilder newDocumentFromAPIDocument( com.silanis.esl.api.model.Document apiDocument, Package aPackage ) {
         DocumentBuilder documentBuilder = DocumentBuilder.newDocumentWithName( apiDocument.getName() );
         documentBuilder.withId( apiDocument.getId() );
         documentBuilder.atIndex( apiDocument.getIndex() );
@@ -193,7 +193,7 @@ public class DocumentBuilder {
             documentBuilder.withSignature( signature );
         }
 
-        for ( com.silanis.awsng.web.rest.model.Field apiField : apiDocument.getFields() ) {
+        for ( com.silanis.esl.api.model.Field apiField : apiDocument.getFields() ) {
             FieldBuilder fieldBuilder = FieldBuilder.newFieldFromAPIField( apiField );
             documentBuilder.withInjectedField( fieldBuilder );
         }

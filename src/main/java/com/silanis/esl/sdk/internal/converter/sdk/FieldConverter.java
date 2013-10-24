@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk.internal.converter.sdk;
 
-import com.silanis.awsng.web.rest.model.FieldSubtype;
-import com.silanis.awsng.web.rest.model.FieldType;
+import com.silanis.esl.api.model.FieldSubtype;
+import com.silanis.esl.api.model.FieldType;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.internal.ConversionException;
 
@@ -13,8 +13,8 @@ public class FieldConverter {
         this.field = field;
     }
 
-    public com.silanis.awsng.web.rest.model.Field getESLField() {
-        com.silanis.awsng.web.rest.model.Field result = new com.silanis.awsng.web.rest.model.Field();
+    public com.silanis.esl.api.model.Field getESLField() {
+        com.silanis.esl.api.model.Field result = new com.silanis.esl.api.model.Field();
 
         result.setPage( getPage() );
         result.setExtract(field.isExtraction());
@@ -91,7 +91,7 @@ public class FieldConverter {
             case UNBOUND_CHECK_BOX:
                 return FieldSubtype.CHECKBOX;
             default:
-                throw new ConversionException( Field.class, com.silanis.awsng.web.rest.model.Field.class, "Unable to decode the field subtype." );
+                throw new ConversionException( Field.class, com.silanis.esl.api.model.Field.class, "Unable to decode the field subtype." );
         }
     }
 

@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.Package;
+import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.examples.Props;
 import com.silanis.esl.sdk.service.PackageService;
 import org.junit.Before;

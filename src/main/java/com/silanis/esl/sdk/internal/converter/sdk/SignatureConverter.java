@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter.sdk;
 
-import com.silanis.awsng.web.rest.model.*;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.internal.ConversionException;
 import com.silanis.esl.sdk.internal.converter.ConversionService;

@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.Delivery;
+import com.silanis.esl.api.model.Delivery;
 
 import java.io.Serializable;
 import java.util.List;
@@ -103,8 +103,8 @@ public class Signer implements Serializable {
         return authentication.getChallenges();
     }
 
-    com.silanis.awsng.web.rest.model.Signer toAPISigner() {
-        com.silanis.awsng.web.rest.model.Signer result = new com.silanis.awsng.web.rest.model.Signer()
+    com.silanis.esl.api.model.Signer toAPISigner() {
+        com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer()
                 .setEmail( email )
                 .setFirstName(firstName)
                 .setLastName(lastName)

@@ -1,8 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.Package;
-import com.silanis.awsng.web.rest.model.PackageSettings;
-import com.silanis.awsng.web.rest.model.PackageStatus;
+import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 
 import java.util.Date;
@@ -51,7 +50,7 @@ public class PackageBuilder {
         this.packageMessage = apiPackage.getEmailMessage();
         this.settings = new DocumentPackageSettingsBuilder(apiPackage.getSettings()).build();
 
-        for ( com.silanis.awsng.web.rest.model.Role role : apiPackage.getRoles() ) {
+        for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
             if ( role.getSigners().isEmpty() ) {
                 continue;
             }
@@ -60,7 +59,7 @@ public class PackageBuilder {
             this.withSigner( signer );
         }
 
-        for ( com.silanis.awsng.web.rest.model.Document apiDocument : apiPackage.getDocuments() ) {
+        for ( com.silanis.esl.api.model.Document apiDocument : apiPackage.getDocuments() ) {
             Document document = DocumentBuilder.newDocumentFromAPIDocument( apiDocument, apiPackage ).build();
 
             this.withDocument( document );

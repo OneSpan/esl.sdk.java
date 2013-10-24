@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.awsng.web.rest.model.PackageStatus;
+import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 

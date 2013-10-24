@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.*;
-import com.silanis.awsng.web.rest.model.Package;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Package;
 
 import java.io.Serializable;
 import java.util.Collection;

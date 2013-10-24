@@ -7,7 +7,7 @@ public class ConversionService {
 
     private ConversionService() {}
 
-    public static com.silanis.awsng.web.rest.model.Field convert( Field field ) {
+    public static com.silanis.esl.api.model.Field convert( Field field ) {
         return new FieldConverter( field ).getESLField();
     }
 }

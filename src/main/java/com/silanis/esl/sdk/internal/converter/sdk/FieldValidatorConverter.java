@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter.sdk;
 
-import com.silanis.awsng.web.rest.model.FieldValidation;
+import com.silanis.esl.api.model.FieldValidation;
 import com.silanis.esl.sdk.FieldValidator;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.*;
-import com.silanis.awsng.web.rest.model.Package;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureStyle;
@@ -215,8 +215,8 @@ final public class SignatureBuilder {
         SignatureBuilder signatureBuilder = new SignatureBuilder( apiSigner != null ? apiSigner.getEmail() : "");
         signatureBuilder.withName( apiApproval.getName() );
 
-        com.silanis.awsng.web.rest.model.Field apiSignatureField = null;
-        for ( com.silanis.awsng.web.rest.model.Field apiField : apiApproval.getFields() ) {
+        com.silanis.esl.api.model.Field apiSignatureField = null;
+        for ( com.silanis.esl.api.model.Field apiField : apiApproval.getFields() ) {
             if ( apiField.getType() == FieldType.SIGNATURE ) {
                 apiSignatureField = apiField;
             } else {

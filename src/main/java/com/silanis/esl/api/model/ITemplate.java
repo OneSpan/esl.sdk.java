@@ -1,0 +1,47 @@
+package com.silanis.esl.api.model;
+//
+import java.util.List;
+import java.util.Map;
+
+public interface ITemplate extends IBaseTemplate{
+    public ITemplate setAutocomplete( Boolean value);
+    public Boolean getAutocomplete();
+    public ITemplate setConsent( String value);
+    public String getConsent();
+    public ITemplate setData( Map<String, Object> value);
+    public Map<String, Object> getData();
+    public ITemplate setDescription( String value);
+    public String getDescription();
+    public ITemplate setDocuments( List<Document> value);
+    public List<Document> getDocuments();
+    public ITemplate setDue( java.util.Date value);
+    public java.util.Date getDue();
+    public ITemplate setEmailMessage( String value);
+    public String getEmailMessage();
+    public ITemplate setId( String value);
+    public String getId();
+    public ITemplate setLanguage( String value);
+    public String getLanguage();
+    public ITemplate setLimits( PackageArtifactsLimits value);
+    public PackageArtifactsLimits getLimits();
+    public ITemplate setMessages( List<Message> value);
+    public List<Message> getMessages();
+    public ITemplate setName( String value);
+    public String getName();
+    public ITemplate setRoles( List<Role> value);
+    public List<Role> getRoles();
+    public ITemplate setSender( Sender value);
+    public Sender getSender();
+    public ITemplate setSettings( PackageSettings value);
+    public PackageSettings getSettings();
+    public ITemplate setSignedDocumentDelivery( SignedDocumentDelivery value);
+    public SignedDocumentDelivery getSignedDocumentDelivery();
+    public ITemplate setStatus( PackageStatus value);
+    public PackageStatus getStatus();
+    public ITemplate setType( BasePackageType value);
+    public BasePackageType getType();
+    public ITemplate setUpdated( java.util.Date value);
+    public java.util.Date getUpdated();
+    public ITemplate setVisibility( Visibility value);
+    public Visibility getVisibility();
+    }

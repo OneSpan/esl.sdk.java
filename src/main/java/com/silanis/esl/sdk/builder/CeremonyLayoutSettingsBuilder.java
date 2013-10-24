@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.CeremonySettings;
+import com.silanis.esl.api.model.CeremonySettings;
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 
 public class CeremonyLayoutSettingsBuilder {

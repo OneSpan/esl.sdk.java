@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.Callback;
-import com.silanis.awsng.web.rest.model.CallbackEvent;
+import com.silanis.esl.api.model.Callback;
+import com.silanis.esl.api.model.CallbackEvent;
 
 import java.util.Collection;
 import java.util.HashSet;

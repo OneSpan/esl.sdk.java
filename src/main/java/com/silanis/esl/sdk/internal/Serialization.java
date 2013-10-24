@@ -3,8 +3,8 @@ package com.silanis.esl.sdk.internal;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.awsng.web.rest.model.Error;
-import com.silanis.awsng.web.rest.util.JacksonUtil;
+import com.silanis.esl.api.model.Error;
+import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 
 import java.util.ArrayList;

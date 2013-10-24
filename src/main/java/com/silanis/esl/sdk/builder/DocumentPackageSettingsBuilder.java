@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.awsng.web.rest.model.PackageSettings;
+import com.silanis.esl.api.model.PackageSettings;
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
 

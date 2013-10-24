@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter.sdk;
 
-import com.silanis.awsng.web.rest.model.ExtractAnchor;
+import com.silanis.esl.api.model.ExtractAnchor;
 import com.silanis.esl.sdk.TextAnchor;
 import com.silanis.esl.sdk.TextAnchorPosition;
 

@@ -184,8 +184,8 @@ final public class SignerBuilder {
         return this;
     }
 
-    static SignerBuilder newSignerFromAPISigner( com.silanis.awsng.web.rest.model.Role role ) {
-        com.silanis.awsng.web.rest.model.Signer eslSigner = role.getSigners().get( 0 );
+    static SignerBuilder newSignerFromAPISigner( com.silanis.esl.api.model.Role role ) {
+        com.silanis.esl.api.model.Signer eslSigner = role.getSigners().get( 0 );
 
         SignerBuilder signerBuilder = SignerBuilder.newSignerWithEmail( eslSigner.getEmail() )
                 .withCustomId( eslSigner.getId() )

@@ -1,8 +1,8 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.Approval;
-import com.silanis.awsng.web.rest.model.Package;
-import com.silanis.awsng.web.rest.model.Role;
+import com.silanis.esl.api.model.Approval;
+import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.internal.converter.ConversionService;
 import com.silanis.esl.sdk.internal.converter.sdk.SignatureConverter;
 
@@ -32,8 +32,8 @@ public class Document implements Serializable {
     private List<Field> injectedFields = new ArrayList<Field>();
     private String description;
 
-    com.silanis.awsng.web.rest.model.Document toAPIDocument( Package createdPackage ) {
-        com.silanis.awsng.web.rest.model.Document doc = new com.silanis.awsng.web.rest.model.Document()
+    com.silanis.esl.api.model.Document toAPIDocument( Package createdPackage ) {
+        com.silanis.esl.api.model.Document doc = new com.silanis.esl.api.model.Document()
                 .setIndex(index)
                 .setExtract(extract)
                 .setName(name);

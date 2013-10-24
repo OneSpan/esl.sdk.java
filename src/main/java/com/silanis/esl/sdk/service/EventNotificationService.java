@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.awsng.web.rest.model.Callback;
+import com.silanis.esl.api.model.Callback;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.EventNotificationConfig;
 import com.silanis.esl.sdk.builder.EventNotificationConfigBuilder;

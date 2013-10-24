@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.FieldSubtype;
+import com.silanis.esl.api.model.FieldSubtype;
 
 public enum SignatureStyle {
     ACCEPTANCE,

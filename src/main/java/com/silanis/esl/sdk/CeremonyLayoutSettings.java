@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.*;
+import com.silanis.esl.api.model.*;
 
 /**
  * User: dave

@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.awsng.web.rest.model.Role;
+import com.silanis.esl.api.model.Role;
 
 import java.io.Serializable;
 import java.util.List;

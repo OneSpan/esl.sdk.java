@@ -3,8 +3,6 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.sdk.TextAnchorConverter;
 
-import static com.silanis.esl.sdk.internal.Asserts.nonZero;
-
 /**
  * 
  * FieldBuilder is a convenient class used to create fields.
@@ -219,7 +217,7 @@ public class FieldBuilder {
         return field;
     }
 
-    private static FieldStyle getFieldStyleFromAPIField( com.silanis.awsng.web.rest.model.Field field ) {
+    private static FieldStyle getFieldStyleFromAPIField( com.silanis.esl.api.model.Field field ) {
 
         if ( field.getBinding() == null ) {
             switch ( field.getSubtype() ) {
@@ -247,7 +245,7 @@ public class FieldBuilder {
         }
     }
 
-    public static FieldBuilder newFieldFromAPIField( com.silanis.awsng.web.rest.model.Field apiField ) {
+    public static FieldBuilder newFieldFromAPIField( com.silanis.esl.api.model.Field apiField ) {
 
         FieldBuilder fieldBuilder = new FieldBuilder();
         fieldBuilder.onPage( apiField.getPage() );
