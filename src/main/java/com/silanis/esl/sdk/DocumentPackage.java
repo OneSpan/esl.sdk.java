@@ -1,7 +1,10 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.PackageStatus;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.util.JacksonUtil;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -30,6 +33,7 @@ public class DocumentPackage implements Serializable {
     private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
+    private Map<String, Object> attributes;
 
     /**
      * 
@@ -92,7 +96,8 @@ public class DocumentPackage implements Serializable {
                 .setDue(expiryDate)
                 .setEmailMessage(packageMessage)
                 .setDescription(description)
-                .setAutocomplete(autocomplete);
+                .setAutocomplete(autocomplete)
+                .setData(JacksonUtil.deserialize(attributes.toString(), Map.class));
 
         if (language != null) {
             packageToCreate.setLanguage(language.getLanguage());
@@ -191,5 +196,13 @@ public class DocumentPackage implements Serializable {
 
     public Locale getLanguage() {
         return language;
+    }
+
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
     }
 }

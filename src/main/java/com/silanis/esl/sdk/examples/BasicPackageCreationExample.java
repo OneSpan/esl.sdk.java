@@ -76,6 +76,7 @@ public class BasicPackageCreationExample extends SDKSample {
                                 .atPosition( 100, 200 )
                         )
                 )
+//                .withAttributes()  ///???????????????????
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
