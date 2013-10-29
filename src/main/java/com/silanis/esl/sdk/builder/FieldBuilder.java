@@ -79,6 +79,14 @@ public class FieldBuilder {
     }
 
     /**
+     * Creates a field builder having set the style to UNBOUND_CUSTOM_FIELD
+     * @return a UNBOUND_CUSTOM_FIELD styled field builder
+     */
+    public static FieldBuilder customField() {
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD );
+    }
+
+    /**
      * Creates a field builder having set the style to UNBOUND_CHECK_BOX
      * @return	a UNBOUND_CHECK_BOX styled filed builder
      */
@@ -223,6 +231,8 @@ public class FieldBuilder {
             switch ( field.getSubtype() ) {
                 case TEXTFIELD:
                     return FieldStyle.UNBOUND_TEXT_FIELD;
+                case CUSTOMFIELD:
+                    return FieldStyle.UNBOUND_CUSTOM_FIELD;
                 case CHECKBOX:
                     return FieldStyle.UNBOUND_CHECK_BOX;
                 default: {

@@ -5,13 +5,7 @@ import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.FieldStyle;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.builder.FieldBuilder.checkBox;
-import static com.silanis.esl.sdk.builder.FieldBuilder.newField;
-import static com.silanis.esl.sdk.builder.FieldBuilder.signatureDate;
-import static com.silanis.esl.sdk.builder.FieldBuilder.signerCompany;
-import static com.silanis.esl.sdk.builder.FieldBuilder.signerName;
-import static com.silanis.esl.sdk.builder.FieldBuilder.signerTitle;
-import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
+import static com.silanis.esl.sdk.builder.FieldBuilder.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -88,6 +82,13 @@ public class FieldBuilderTest {
         Field field = textField().atPosition(100, 100).build();
 
         assertThat(field.getStyle(), is(equalTo(FieldStyle.UNBOUND_TEXT_FIELD )));
+    }
+
+    @Test
+    public void creatingCustomFieldSetsStyle() {
+        Field field = customField().atPosition(100, 100).build();
+
+        assertThat(field.getStyle(), is(equalTo(FieldStyle.UNBOUND_CUSTOM_FIELD )));
     }
 
     @Test

@@ -34,6 +34,10 @@ public class UrlTemplate {
     // Session Service
     public static final String SESSION_PATH = "/sessions?package={packageId}&signer={signerId}";
 
+    // Custom Field Service
+    public static final String ACCOUNT_CUSTOMFIELD_PATH = "/account/customfields";
+    public static final String USER_CUSTOMFIELD_PATH = "/user/customfields";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }

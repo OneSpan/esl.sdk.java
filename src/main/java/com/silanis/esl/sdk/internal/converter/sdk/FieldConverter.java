@@ -82,6 +82,8 @@ public class FieldConverter {
         switch (field.getStyle()) {
             case UNBOUND_TEXT_FIELD:
                 return FieldSubtype.TEXTFIELD;
+            case UNBOUND_CUSTOM_FIELD:
+                return FieldSubtype.CUSTOMFIELD;
             case BOUND_DATE:
             case BOUND_NAME:
             case BOUND_TITLE:

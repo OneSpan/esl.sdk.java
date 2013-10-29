@@ -2,6 +2,8 @@ package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.JsonDateSerializer;
@@ -12,7 +14,7 @@ import com.silanis.esl.api.util.SchemaSanitizer;
 public class User extends Entity
       implements java.io.Serializable, IUser
 {
-    
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_ADDRESS = "address";
@@ -44,10 +46,12 @@ public class User extends Entity
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
-    
+    @JsonIgnore
+    public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
+
     // Empty Constructor
     public User ( ) {}
-    
+
     // Fields
     protected Address _address = null;
     protected String _company = "";
@@ -61,10 +65,11 @@ public class User extends Entity
     protected SignatureStyle _signature = null;
     protected String _title = "";
     protected java.util.Date _updated;
-    
+    protected List<UserCustomField> _userCustomFields = new ArrayList<UserCustomField>();
+
     // Accessors
-        
-    
+
+
     public User setAddress( Address value ){
         // TODO With proper compare
         // if ( this._address == value ) return this;
@@ -81,9 +86,9 @@ public class User extends Entity
     public Address getAddress(){
         return _address;
     }
-    
-        
-    
+
+
+
     public User setCompany( String value ){
         SchemaSanitizer.throwOnNull(FIELD_COMPANY,value);
         value = SchemaSanitizer.sanitize(value);
@@ -103,9 +108,9 @@ public class User extends Entity
     public String getCompany(){
         return _company;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public User setCreated( java.util.Date value ){
         SchemaSanitizer.throwOnNull(FIELD_CREATED,value);
@@ -125,9 +130,9 @@ public class User extends Entity
     public java.util.Date getCreated(){
         return _created;
     }
-    
-        
-    
+
+
+
     @Override
     public User setData( Map<String, Object> value ){
         super.setData(value);
@@ -139,9 +144,9 @@ public class User extends Entity
         if ( value != null ) { this.setData( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public User setEmail( String value ){
         SchemaSanitizer.throwOnNull(FIELD_EMAIL,value);
         value = SchemaSanitizer.sanitize(value);
@@ -161,9 +166,9 @@ public class User extends Entity
     public String getEmail(){
         return _email;
     }
-    
-        
-    
+
+
+
     public User setExternal( External value ){
         // TODO With proper compare
         // if ( this._external == value ) return this;
@@ -180,9 +185,9 @@ public class User extends Entity
     public External getExternal(){
         return _external;
     }
-    
-        
-    
+
+
+
     public User setFirstName( String value ){
         SchemaSanitizer.throwOnNull(FIELD_FIRSTNAME,value);
         value = SchemaSanitizer.sanitize(value);
@@ -202,9 +207,9 @@ public class User extends Entity
     public String getFirstName(){
         return _firstName;
     }
-    
-        
-    
+
+
+
     @Override
     public User setId( String value ){
         super.setId(value);
@@ -216,9 +221,9 @@ public class User extends Entity
         if ( value != null ) { this.setId( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public User setLanguage( String value ){
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
@@ -236,9 +241,9 @@ public class User extends Entity
     public String getLanguage(){
         return _language;
     }
-    
-        
-    
+
+
+
     public User setLastName( String value ){
         SchemaSanitizer.throwOnNull(FIELD_LASTNAME,value);
         value = SchemaSanitizer.sanitize(value);
@@ -258,9 +263,9 @@ public class User extends Entity
     public String getLastName(){
         return _lastName;
     }
-    
-        
-    
+
+
+
     @Override
     public User setName( String value ){
         // TODO: Figure how to do refinements of validation rules
@@ -273,9 +278,9 @@ public class User extends Entity
         if ( value != null ) { this.setName( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public User setPhone( String value ){
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
@@ -293,9 +298,9 @@ public class User extends Entity
     public String getPhone(){
         return _phone;
     }
-    
-        
-    
+
+
+
     public User setSignature( SignatureStyle value ){
         // TODO With proper compare
         // if ( this._signature == value ) return this;
@@ -312,9 +317,9 @@ public class User extends Entity
     public SignatureStyle getSignature(){
         return _signature;
     }
-    
-        
-    
+
+
+
     public User setTitle( String value ){
         value = SchemaSanitizer.sanitize(value);
         value = SchemaSanitizer.trim(value);
@@ -333,9 +338,9 @@ public class User extends Entity
     public String getTitle(){
         return _title;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public User setUpdated( java.util.Date value ){
         SchemaSanitizer.throwOnNull(FIELD_UPDATED,value);
@@ -355,6 +360,33 @@ public class User extends Entity
     public java.util.Date getUpdated(){
         return _updated;
     }
-    
-    
+
+
+
+    public User setUserCustomFields( List<UserCustomField> value ){
+        SchemaSanitizer.throwOnNull(FIELD_USERCUSTOMFIELDS,value);
+        // TODO With proper compare
+        // if ( this._userCustomFields == value ) return this;
+        this._userCustomFields = value;
+        setDirty(FIELD_USERCUSTOMFIELDS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public User safeSetUserCustomFields( List<UserCustomField> value ){
+        if ( value != null ) { this.setUserCustomFields( value ); }
+        return this;
+    }
+    public List<UserCustomField> getUserCustomFields(){
+        return _userCustomFields;
+    }
+    // List adder
+    public User addUserCustomField( UserCustomField value ){
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._userCustomFields.add(value);
+        setDirty(FIELD_USERCUSTOMFIELDS);
+        return this;
+    }
+
+
 }
