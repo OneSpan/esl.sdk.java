@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.service.EventNotificationService;
 import com.silanis.esl.sdk.service.FieldSummaryService;
 import com.silanis.esl.sdk.service.PackageService;
 import com.silanis.esl.sdk.service.SessionService;
+import com.silanis.esl.sdk.service.CustomFieldService;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
  * <p>The EslClient class creates a E-SignLive client with the given api token and base url.</p>
  * <p>The base url can be the staging or production url.</p>
  * <p>For example: http://sandbox.e-signlive.com/api</p>
- * 
+ *
  * <p>Provides access to service classes such as PackageService to help create packages.</p>
  */
 public class EslClient {
@@ -28,6 +29,7 @@ public class EslClient {
     private FieldSummaryService fieldSummaryService;
     private AuditService auditService;
     private EventNotificationService eventNotificationService;
+    private CustomFieldService customFieldService;
 
     /**
      * The constructor of the EslClient class
@@ -45,6 +47,7 @@ public class EslClient {
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
         auditService = new AuditService(client, this.baseURL);
         eventNotificationService = new EventNotificationService( client, this.baseURL );
+        customFieldService = new CustomFieldService( client, this.baseURL );
     }
 
 //    /**
@@ -80,15 +83,15 @@ public class EslClient {
         return packageService;
     }
 
- 
+
     @SuppressWarnings("unused")
     public SessionService getSessionService() {
         return sessionService;
     }
 
     /**
-     * Facilitates access to the service that provides a summary of all the document fields and their values 
-     * 
+     * Facilitates access to the service that provides a summary of all the document fields and their values
+     *
      * @return	the field summary service
      */
     public FieldSummaryService getFieldSummaryService() {
@@ -101,12 +104,21 @@ public class EslClient {
     }
 
     /**
-     * Facilitates access to the service that could be used to register for event notifications  
-     * 
+     * Facilitates access to the service that could be used to register for event notifications
+     *
      * @return  the event notification service
      */
     public EventNotificationService getEventNotificationService() {
         return eventNotificationService;
+    }
+
+    /**
+     * Facilitates access to the service that could be used to add custom field
+     *
+     * @return  the custom field service
+     */
+    public CustomFieldService getCustomFieldService() {
+        return customFieldService;
     }
 
     /**
