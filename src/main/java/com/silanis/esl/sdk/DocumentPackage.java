@@ -30,6 +30,7 @@ public class DocumentPackage implements Serializable {
     private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
+    private SenderInfo senderInfo;
 
     /**
      * 
@@ -100,6 +101,10 @@ public class DocumentPackage implements Serializable {
 
         if ( settings != null ) {
             packageToCreate.setSettings(settings.toAPIPackageSettings());
+        }
+
+        if ( senderInfo != null ) {
+            packageToCreate.setSender( senderInfo.toAPISender() );
         }
 
         int signerCount = 1;
@@ -191,5 +196,13 @@ public class DocumentPackage implements Serializable {
 
     public Locale getLanguage() {
         return language;
+    }
+
+    public void setSenderInfo( SenderInfo senderInfo ) {
+        this.senderInfo = senderInfo;
+    }
+
+    public SenderInfo getSenderInfo() {
+        return senderInfo;
     }
 }
