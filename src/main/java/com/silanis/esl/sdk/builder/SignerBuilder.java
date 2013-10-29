@@ -44,8 +44,6 @@ final public class SignerBuilder {
      * @return	a SignerBuilder object
      */
     public static SignerBuilder newSignerWithEmail( String email ) {
-        notNullOrEmpty(email, "email");
-
         return new SignerBuilder(email);
     }
 
