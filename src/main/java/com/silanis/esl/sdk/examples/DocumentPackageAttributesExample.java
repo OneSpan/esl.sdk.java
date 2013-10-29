@@ -1,9 +1,16 @@
 package com.silanis.esl.sdk.examples;
 
+/**
+ * User: jessica
+ * Date: 29/10/13
+ * Time: 4:14 PM
+ */
+
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SessionToken;
+import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
@@ -18,32 +25,26 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * Basic package with in-person mode set at the document package level. Expires in a month.
+ * Package with custom attributes
  */
-public class BasicPackageCreationExample extends SDKSample {
-
+public class DocumentPackageAttributesExample extends SDKSample{
     private String email1;
-    private String email2;
     private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
 
     public static void main( String... args ) {
-        new BasicPackageCreationExample(Props.get()).run();
+        new DocumentPackageAttributesExample(Props.get()).run();
     }
 
-    public BasicPackageCreationExample( Properties props ) {
+    public DocumentPackageAttributesExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
-                props.getProperty( "2.email" ) );
+                props.getProperty( "1.email" ));
     }
 
-    public BasicPackageCreationExample( String apiKey, String apiUrl, String email1, String email2 ) {
+    public DocumentPackageAttributesExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
-        this.email2 = email2;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     public void execute() {
@@ -57,9 +58,6 @@ public class BasicPackageCreationExample extends SDKSample {
                         .withLastName( "Smith" )
                         .withTitle( "Managing Director" )
                         .withCompany( "Acme Inc." ) )
-                .withSigner( newSignerWithEmail( email2 )
-                        .withFirstName( "Patty" )
-                        .withLastName( "Galant" ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature( signatureFor( email1 )
@@ -69,13 +67,11 @@ public class BasicPackageCreationExample extends SDKSample {
                                         .atPosition( 400, 200 )
                                         .withValue( "x" ) )
                                 .atPosition( 100, 100 ) ) )
-                .withDocument( newDocumentWithName( "Second Document" )
-                        .fromStream( documentInputStream2, DocumentType.PDF )
-                        .withSignature( signatureFor( email2 )
-                                .onPage( 0 )
-                                .atPosition( 100, 200 )
-                        )
-                )
+                .withAttributes(new DocumentPackageAttributesBuilder()
+                        .withAttribute("First Name", "Bill")
+                        .withAttribute("Last Name", "Johnson")
+                        .withAttribute("Signing Order", "1")
+                        .build())
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
@@ -83,4 +79,5 @@ public class BasicPackageCreationExample extends SDKSample {
 
         SessionToken sessionToken = eslClient.getSessionService().createSessionToken( packageId.toString(), "Client1" );
     }
+
 }

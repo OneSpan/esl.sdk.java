@@ -1,16 +1,10 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.BaseMessage;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.PackageStatus;
-import com.silanis.esl.api.model.Role;
-import com.silanis.esl.api.util.JacksonUtil;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 
@@ -33,7 +27,8 @@ public class DocumentPackage implements Serializable {
     private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
-    private Map<String, Object> attributes;
+    private DocumentPackageAttributes attributes;
+    private SenderInfo senderInfo;
 
     /**
      * 
@@ -97,7 +92,7 @@ public class DocumentPackage implements Serializable {
                 .setEmailMessage(packageMessage)
                 .setDescription(description)
                 .setAutocomplete(autocomplete)
-                .setData(JacksonUtil.deserialize(attributes.toString(), Map.class));
+                .setData(attributes.getContents());
 
         if (language != null) {
             packageToCreate.setLanguage(language.getLanguage());
@@ -105,6 +100,10 @@ public class DocumentPackage implements Serializable {
 
         if ( settings != null ) {
             packageToCreate.setSettings(settings.toAPIPackageSettings());
+        }
+
+        if ( senderInfo != null ) {
+            packageToCreate.setSender(senderInfo.toAPISender());
         }
 
         int signerCount = 1;
@@ -198,11 +197,19 @@ public class DocumentPackage implements Serializable {
         return language;
     }
 
-    public Map<String, Object> getAttributes() {
+    public void setSenderInfo( SenderInfo senderInfo ) {
+        this.senderInfo = senderInfo;
+    }
+
+    public SenderInfo getSenderInfo() {
+        return senderInfo;
+    }
+
+    public DocumentPackageAttributes getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, Object> attributes) {
+    public void setAttributes(DocumentPackageAttributes attributes) {
         this.attributes = attributes;
     }
 }

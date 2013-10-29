@@ -25,7 +25,8 @@ public class PackageBuilder {
     private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
-    private Map<String, Object> attributes;
+    private SenderInfo senderInfo = null;
+    private DocumentPackageAttributes attributes;
 
     /**
      * The constructor of the PackageBuilder class.
@@ -49,8 +50,10 @@ public class PackageBuilder {
         this.expiryDate = apiPackage.getDue();
         this.status = apiPackage.getStatus();
         this.packageMessage = apiPackage.getEmailMessage();
+        this.settings = new DocumentPackageSettingsBuilder( apiPackage.getSettings() ).build();
+        this.senderInfo = new SenderInfoBuilder( apiPackage.getSender() ).build();
         this.settings = new DocumentPackageSettingsBuilder(apiPackage.getSettings()).build();
-        this.attributes = apiPackage.getData();
+        this.attributes = new DocumentPackageAttributes(apiPackage.getData());
 
         for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
             if ( role.getSigners().isEmpty() ) {
@@ -134,11 +137,11 @@ public class PackageBuilder {
         documentPackage.setPackageMessage( packageMessage );
         documentPackage.setId( id );
         documentPackage.setStatus( status );
-        documentPackage.setAttributes(attributes);
+        documentPackage.setSenderInfo( senderInfo );
+        documentPackage.setAttributes( attributes );
 
-
-        if (language != null) {
-            documentPackage.setLanguage(language);
+        if ( language != null ) {
+            documentPackage.setLanguage( language );
         }
 
         if ( settings != null ) {
@@ -196,7 +199,7 @@ public class PackageBuilder {
      * @param packageMessage
      * @return the package builder itself
      */
-    public PackageBuilder   withEmailMessage( String packageMessage ) {
+    public PackageBuilder withEmailMessage( String packageMessage ) {
         this.packageMessage = packageMessage;
         return this;
     }
@@ -210,8 +213,17 @@ public class PackageBuilder {
         return this;
     }
 
-    public PackageBuilder withLanguage(Locale language) {
+    public PackageBuilder withLanguage( Locale language ) {
         this.language = language;
+        return this;
+    }
+
+    public PackageBuilder withSenderInfo( SenderInfoBuilder senderInfoBuilder ) {
+        return withSenderInfo( senderInfoBuilder.build() );
+    }
+
+    public PackageBuilder withSenderInfo( SenderInfo senderInfo ) {
+        this.senderInfo = senderInfo;
         return this;
     }
 
@@ -221,7 +233,7 @@ public class PackageBuilder {
      * @param attributes
      * @return the package builder itself
      */
-    public PackageBuilder withAttributes( Map<String, Object> attributes) {
+    public PackageBuilder withAttributes( DocumentPackageAttributes attributes) {
         this.attributes = attributes;
         return this;
     }
