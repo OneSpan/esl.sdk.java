@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.examples.Props;
 import com.silanis.esl.sdk.service.PackageService;
 import org.junit.Before;
@@ -42,7 +43,11 @@ public class LoggingTest {
                         .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(500, 100)))
+                .withAttributes(new DocumentPackageAttributesBuilder().withAttribute("age", "29")
+                        .withAttribute("name", "first name")
+                        .build())
                 .build();
+
 
         PackageId id = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage(id);

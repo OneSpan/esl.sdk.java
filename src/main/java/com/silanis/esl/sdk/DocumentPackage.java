@@ -4,10 +4,7 @@ import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Package;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 
@@ -30,6 +27,7 @@ public class DocumentPackage implements Serializable {
     private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
+    private DocumentPackageAttributes attributes;
     private SenderInfo senderInfo;
 
     /**
@@ -93,7 +91,8 @@ public class DocumentPackage implements Serializable {
                 .setDue(expiryDate)
                 .setEmailMessage(packageMessage)
                 .setDescription(description)
-                .setAutocomplete(autocomplete);
+                .setAutocomplete(autocomplete)
+                .setData(attributes.getContents());
 
         if (language != null) {
             packageToCreate.setLanguage(language.getLanguage());
@@ -104,7 +103,7 @@ public class DocumentPackage implements Serializable {
         }
 
         if ( senderInfo != null ) {
-            packageToCreate.setSender( senderInfo.toAPISender() );
+            packageToCreate.setSender(senderInfo.toAPISender());
         }
 
         int signerCount = 1;
@@ -204,5 +203,13 @@ public class DocumentPackage implements Serializable {
 
     public SenderInfo getSenderInfo() {
         return senderInfo;
+    }
+
+    public DocumentPackageAttributes getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(DocumentPackageAttributes attributes) {
+        this.attributes = attributes;
     }
 }

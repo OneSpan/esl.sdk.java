@@ -10,6 +10,7 @@ public enum FieldStyle {
     BOUND_TITLE( "{signer.title}" ),
     BOUND_COMPANY( "{signer.company}" ),
     UNBOUND_TEXT_FIELD( null ),
+    UNBOUND_CUSTOM_FIELD( null ),
     UNBOUND_CHECK_BOX( null ),
     LABEL( null );
 

@@ -26,6 +26,7 @@ public class PackageBuilder {
     private DocumentPackageSettings settings;
     private Locale language;
     private SenderInfo senderInfo = null;
+    private DocumentPackageAttributes attributes;
 
     /**
      * The constructor of the PackageBuilder class.
@@ -51,6 +52,8 @@ public class PackageBuilder {
         this.packageMessage = apiPackage.getEmailMessage();
         this.settings = new DocumentPackageSettingsBuilder( apiPackage.getSettings() ).build();
         this.senderInfo = new SenderInfoBuilder( apiPackage.getSender() ).build();
+        this.settings = new DocumentPackageSettingsBuilder(apiPackage.getSettings()).build();
+        this.attributes = new DocumentPackageAttributes(apiPackage.getData());
 
         for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
             if ( role.getSigners().isEmpty() ) {
@@ -135,6 +138,7 @@ public class PackageBuilder {
         documentPackage.setId( id );
         documentPackage.setStatus( status );
         documentPackage.setSenderInfo( senderInfo );
+        documentPackage.setAttributes( attributes );
 
         if ( language != null ) {
             documentPackage.setLanguage( language );
@@ -222,4 +226,17 @@ public class PackageBuilder {
         this.senderInfo = senderInfo;
         return this;
     }
+
+    /**
+     * Sets the customized attributes for the package
+     *
+     * @param attributes
+     * @return the package builder itself
+     */
+    public PackageBuilder withAttributes( DocumentPackageAttributes attributes) {
+        this.attributes = attributes;
+        return this;
+    }
+
+
 }

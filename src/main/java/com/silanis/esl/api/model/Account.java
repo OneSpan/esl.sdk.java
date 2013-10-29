@@ -13,12 +13,14 @@ import com.silanis.esl.api.util.SchemaSanitizer;
 public class Account extends Entity
       implements java.io.Serializable, IAccount
 {
-    
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_COMPANY = "company";
     @JsonIgnore
     public static final String FIELD_CREATED = "created";
+    @JsonIgnore
+    public static final String FIELD_CUSTOMFIELDS = "customFields";
     @JsonIgnore
     public static final String FIELD_DATA = "data";
     @JsonIgnore
@@ -35,22 +37,23 @@ public class Account extends Entity
     public static final String FIELD_PROVIDERS = "providers";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
-    
+
     // Empty Constructor
     public Account ( ) {}
-    
+
     // Fields
     protected Company _company;
     protected java.util.Date _created;
+    protected List<CustomField> _customFields = new ArrayList<CustomField>();
     protected List<License> _licenses = new ArrayList<License>();
     protected String _logoUrl = "";
     protected String _owner = "";
     protected AccountProviders _providers = null;
     protected java.util.Date _updated;
-    
+
     // Accessors
-        
-    
+
+
     public Account setCompany( Company value ){
         SchemaSanitizer.throwOnNull(FIELD_COMPANY,value);
         // TODO With proper compare
@@ -68,9 +71,9 @@ public class Account extends Entity
     public Company getCompany(){
         return _company;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Account setCreated( java.util.Date value ){
         SchemaSanitizer.throwOnNull(FIELD_CREATED,value);
@@ -90,9 +93,36 @@ public class Account extends Entity
     public java.util.Date getCreated(){
         return _created;
     }
-    
-        
-    
+
+
+
+    public Account setCustomFields( List<CustomField> value ){
+        SchemaSanitizer.throwOnNull(FIELD_CUSTOMFIELDS,value);
+        // TODO With proper compare
+        // if ( this._customFields == value ) return this;
+        this._customFields = value;
+        setDirty(FIELD_CUSTOMFIELDS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Account safeSetCustomFields( List<CustomField> value ){
+        if ( value != null ) { this.setCustomFields( value ); }
+        return this;
+    }
+    public List<CustomField> getCustomFields(){
+        return _customFields;
+    }
+    // List adder
+    public Account addCustomField( CustomField value ){
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._customFields.add(value);
+        setDirty(FIELD_CUSTOMFIELDS);
+        return this;
+    }
+
+
+
     @Override
     public Account setData( Map<String, Object> value ){
         super.setData(value);
@@ -104,9 +134,9 @@ public class Account extends Entity
         if ( value != null ) { this.setData( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Account setId( String value ){
         super.setId(value);
@@ -118,9 +148,9 @@ public class Account extends Entity
         if ( value != null ) { this.setId( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public Account setLicenses( List<License> value ){
         SchemaSanitizer.throwOnNull(FIELD_LICENSES,value);
         // TODO With proper compare
@@ -145,9 +175,9 @@ public class Account extends Entity
         setDirty(FIELD_LICENSES);
         return this;
     }
-    
-        
-    
+
+
+
     public Account setLogoUrl( String value ){
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
@@ -165,9 +195,9 @@ public class Account extends Entity
     public String getLogoUrl(){
         return _logoUrl;
     }
-    
-        
-    
+
+
+
     @Override
     public Account setName( String value ){
         super.setName(value);
@@ -179,9 +209,9 @@ public class Account extends Entity
         if ( value != null ) { this.setName( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public Account setOwner( String value ){
         SchemaSanitizer.throwOnNull(FIELD_OWNER,value);
         value = SchemaSanitizer.trim(value);
@@ -200,9 +230,9 @@ public class Account extends Entity
     public String getOwner(){
         return _owner;
     }
-    
-        
-    
+
+
+
     public Account setProviders( AccountProviders value ){
         // TODO With proper compare
         // if ( this._providers == value ) return this;
@@ -219,9 +249,9 @@ public class Account extends Entity
     public AccountProviders getProviders(){
         return _providers;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Account setUpdated( java.util.Date value ){
         SchemaSanitizer.throwOnNull(FIELD_UPDATED,value);
@@ -241,6 +271,6 @@ public class Account extends Entity
     public java.util.Date getUpdated(){
         return _updated;
     }
-    
-    
+
+
 }
