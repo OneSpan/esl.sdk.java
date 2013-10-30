@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder.newDocumentPackageAttributes;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -20,17 +21,18 @@ public class PackageBuilderTest {
     @Test
     public void buildWithSpecifiedValues() {
         DocumentPackage documentPackage = newPackageNamed("testing package")
-                .withSigner(newSignerWithEmail("john.doe@acme.com")
-                        .withFirstName("John")
-                        .withLastName("Doe")
-                        .build())
-                .withDocument(newDocumentWithName("first doc")
-                        .fromStream(new ByteArrayInputStream(new byte[0]), DocumentType.PDF)
-                        .withSignature(signatureFor("john.doe@acme.com"))
-                        .build())
-                .withAttributes(new DocumentPackageAttributesBuilder().withAttribute("age", "29")
-                        .withAttribute("name", "first name")
-                        .build())
+                .withSigner( newSignerWithEmail( "john.doe@acme.com" )
+                        .withFirstName( "John" )
+                        .withLastName( "Doe" )
+                        .build() )
+                .withDocument( newDocumentWithName( "first doc" )
+                        .fromStream( new ByteArrayInputStream( new byte[ 0 ] ), DocumentType.PDF )
+                        .withSignature( signatureFor( "john.doe@acme.com" ) )
+                        .build() )
+                .withAttributes( newDocumentPackageAttributes()
+                        .withAttribute( "age", "29" )
+                        .withAttribute( "name", "first name" )
+                        .build() )
                 .build();
 
         assertThat( documentPackage.getName(), is( equalTo( "testing package" ) ) );
@@ -41,16 +43,17 @@ public class PackageBuilderTest {
     @Test
     public void buildWithDefaultValues(){
         DocumentPackage documentPackage = newPackageNamed("testing package")
-                .withSigner(newSignerWithEmail("test@test.com")
-                        .withFirstName("test")
-                        .withLastName("test")
-                        .build())
-                .withDocument(newDocumentWithName("document")
-                        .fromStream(new ByteArrayInputStream(new byte[0]), DocumentType.PDF)
-                        .build())
-                .withAttributes(new DocumentPackageAttributesBuilder().withAttribute("age", "29")
-                        .withAttribute("name", "first name")
-                        .build())
+                .withSigner( newSignerWithEmail( "test@test.com" )
+                        .withFirstName( "test" )
+                        .withLastName( "test" )
+                        .build() )
+                .withDocument( newDocumentWithName( "document" )
+                        .fromStream( new ByteArrayInputStream( new byte[ 0 ] ), DocumentType.PDF )
+                        .build() )
+                .withAttributes( newDocumentPackageAttributes()
+                        .withAttribute( "age", "29" )
+                        .withAttribute( "name", "first name" )
+                        .build() )
                 .build();
 
 

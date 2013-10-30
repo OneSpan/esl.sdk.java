@@ -16,6 +16,10 @@ public class DocumentPackageAttributesBuilder {
 
     private DocumentPackageAttributesBuilder() {}
 
+    public static DocumentPackageAttributesBuilder newDocumentPackageAttributes() {
+        return new DocumentPackageAttributesBuilder();
+    }
+
     public DocumentPackageAttributesBuilder( Map<String,Object> map ) {
         this.map = map;
     }

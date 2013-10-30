@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder.newDocumentPackageAttributes;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -67,8 +68,8 @@ public class DocumentPackageAttributesExample extends SDKSample{
                                         .atPosition( 400, 200 )
                                         .withValue( "x" ) )
                                 .atPosition( 100, 100 ) ) )
-                .withAttributes(new DocumentPackageAttributesBuilder()
-                        .withAttribute("First Name", "Bill")
+                .withAttributes(newDocumentPackageAttributes()
+                        .withAttribute( "First Name", "Bill" )
                         .withAttribute("Last Name", "Johnson")
                         .withAttribute("Signing Order", "1")
                         .build())
