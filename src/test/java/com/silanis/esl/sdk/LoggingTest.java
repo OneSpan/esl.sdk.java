@@ -43,9 +43,9 @@ public class LoggingTest {
                         .withSignature(signatureFor(props.getProperty("1.email"))
                                 .onPage(0)
                                 .atPosition(500, 100)))
-                .withAttributes(new DocumentPackageAttributesBuilder().withAttribute("age", "29")
-                        .withAttribute("name", "first name")
-                        .build())
+                .withAttributes( DocumentPackageAttributesBuilder.newDocumentPackageAttributes()
+                        .withAttribute("age", "29")
+                        .withAttribute("name", "first name"))
                 .build();
 
 

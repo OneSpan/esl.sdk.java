@@ -238,5 +238,9 @@ public class PackageBuilder {
         return this;
     }
 
+    public PackageBuilder withAttributes( DocumentPackageAttributesBuilder builder) {
+        return withAttributes( builder.build() );
+    }
+
 
 }

@@ -1,47 +1,56 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.Translation;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.silanis.esl.sdk.Translation;
 
 /**
- *
  * TranslationBuilder is a convenient class used to create
  * array of translations.
  */
 public class TranslationBuilder {
-    private ArrayList<Translation> translations = new ArrayList<Translation>();
+    private String name;
+    private String language;
+    private String description;
 
     /**
      * Creates a translation builder
+     *
      * @return new instance of TranslationBuilder
      */
-    public static TranslationBuilder createTranslation(){
-        return new TranslationBuilder();
+    public static TranslationBuilder newTranslation( String language ) {
+        return new TranslationBuilder( language );
     }
 
-    /**
-     * Add a translation to the list of translation
-     * @param name of translation
-     * @param language of translation
-     * @param description of translation
-     * @return the TranslationBuilder itself
-     */
-    public TranslationBuilder addTranslation(String name, String language, String description){
-        Translation translation = new Translation();
-        translation.setName(name);
-        translation.setLanguage(language);
-        translation.setDescription(description);
-        translations.add(translation);
+    public static TranslationBuilder newTranslation( com.silanis.esl.api.model.Translation apiTranslation ) {
+        TranslationBuilder builder = new TranslationBuilder( apiTranslation.getLanguage() );
+        builder.withName( apiTranslation.getName() )
+                .withDescription( apiTranslation.getDescription() );
+        return builder;
+    }
+
+    private TranslationBuilder( String language ) {
+        this.language = language;
+    }
+
+    public TranslationBuilder withName( String name ) {
+        this.name = name;
+        return this;
+    }
+
+    public TranslationBuilder withDescription( String description ) {
+        this.description = description;
         return this;
     }
 
     /**
      * Builds the list of translation
-     * @return	the list of translation
+     *
+     * @return the list of translation
      */
-    public List<Translation> build(){
-        return translations;
+    public Translation build() {
+        Translation result = new Translation();
+        result.setName( name );
+        result.setDescription( description );
+        result.setLanguage( language );
+        return result;
     }
 }

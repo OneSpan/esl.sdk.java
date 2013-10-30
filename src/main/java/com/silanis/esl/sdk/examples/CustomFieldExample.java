@@ -1,21 +1,18 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.CustomField;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
 import java.util.Properties;
 
-import static com.silanis.esl.sdk.builder.CustomFieldBuilder.accountCustomField;
+import static com.silanis.esl.sdk.builder.CustomFieldBuilder.customFieldWithId;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static com.silanis.esl.sdk.builder.TranslationBuilder.createTranslation;
-import static com.silanis.esl.sdk.builder.UserCustomFieldBuilder.userCustomField;
+import static com.silanis.esl.sdk.builder.TranslationBuilder.newTranslation;
 
 public class CustomFieldExample extends SDKSample {
 
@@ -26,13 +23,13 @@ public class CustomFieldExample extends SDKSample {
         new CustomFieldExample( Props.get() ).run();
     }
 
-    public CustomFieldExample(Properties properties) {
-        this(properties.getProperty( "api.key" ),
+    public CustomFieldExample( Properties properties ) {
+        this( properties.getProperty( "api.key" ),
                 properties.getProperty( "api.url" ),
                 properties.getProperty( "1.email" ) );
     }
 
-    public CustomFieldExample(String apiKey, String apiUrl, String email1) {
+    public CustomFieldExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
@@ -42,33 +39,36 @@ public class CustomFieldExample extends SDKSample {
     public void execute() {
 
         CustomField customField = eslClient.getCustomFieldService()
-                .createCustomField(accountCustomField("store_id")
-                        .withDefaultValue("#12345")
-                        .withTranslation(createTranslation()
-                                .addTranslation("The Bay", "en", "The Bay store")
-                                .addTranslation("La Baie", "fr", "Le magasin La Baie"))
+                .createCustomField( customFieldWithId( "store_id" )
+                        .withDefaultValue( "#12345" )
+                        .withTranslation( newTranslation( "en" ).
+                                withName( "The Bay" ).
+                                withDescription( "The Bay store" ) )
+                        .withTranslation( newTranslation( "fr" ).
+                                withName( "La Baie" ).
+                                withDescription( "Le magasin La Baie" ) )
                         .build()
                 );
 
-        String customFieldId = eslClient.getCustomFieldService()
-                .createUserCustomField(userCustomField(customField.getId())
-                        .withValue(customField.getValue())
+        CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
+                .submitCustomFieldValue( CustomFieldValueBuilder.customFieldValueWithId( customField.getId() )
+                        .withValue( customField.getValue() )
                         .build()
                 );
 
-        DocumentPackage superDuperPackage = newPackageNamed("Sample Insurance policy")
-                .withSigner(newSignerWithEmail(email1)
-                        .withFirstName("John")
-                        .withLastName("Smith"))
-                .withDocument(newDocumentWithName("First Document")
-                        .fromStream(documentInputStream1, DocumentType.PDF)
-                        .withSignature(signatureFor(email1)
-                                .onPage(0)
-                                .atPosition(100, 100)
-                                .withField(FieldBuilder.customField()
-                                        .onPage(0)
-                                        .atPosition(400, 200)
-                                        .withName(customFieldId))))
+        DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
+                .withSigner( newSignerWithEmail( email1 )
+                        .withFirstName( "John" )
+                        .withLastName( "Smith" ) )
+                .withDocument( newDocumentWithName( "First Document" )
+                        .fromStream( documentInputStream1, DocumentType.PDF )
+                        .withSignature( signatureFor( email1 )
+                                .onPage( 0 )
+                                .atPosition( 100, 100 )
+                                .withField( FieldBuilder.customField()
+                                        .onPage( 0 )
+                                        .atPosition( 400, 200 )
+                                        .withName( customFieldValue.getId() ) ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
