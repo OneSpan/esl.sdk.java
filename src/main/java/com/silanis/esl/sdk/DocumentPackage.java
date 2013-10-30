@@ -1,15 +1,19 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.PackageStatus;
+import com.silanis.esl.api.model.Role;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 /**
- * 
  * DocumentPackage class describes all assets required for a complete signing transaction.
- * It contains information about signers, documents, signatures, 
+ * It contains information about signers, documents, signatures,
  * fields and settings for displaying the signing ceremony
  */
 public class DocumentPackage implements Serializable {
@@ -31,15 +35,13 @@ public class DocumentPackage implements Serializable {
     private SenderInfo senderInfo;
 
     /**
-     * 
-     * 
-     * @param name			the name of the package
-     * @param signers		the Map of signers
-     * @param documents		the Map of documents
-     * @param autocomplete	the autocomplete status. If it is set to true, 
-     * 						then the document package will be marked as completed automatically by the system
+     * @param name         the name of the package
+     * @param signers      the Map of signers
+     * @param documents    the Map of documents
+     * @param autocomplete the autocomplete status. If it is set to true,
+     *                     then the document package will be marked as completed automatically by the system
      */
-    public DocumentPackage(String name, Map<String, Signer> signers, Map<String, Document> documents, boolean autocomplete) {
+    public DocumentPackage( String name, Map<String, Signer> signers, Map<String, Document> documents, boolean autocomplete ) {
         this.name = name;
         this.signers = signers;
         this.documents = documents;
@@ -47,7 +49,6 @@ public class DocumentPackage implements Serializable {
     }
 
     /**
-     * 
      * @return the document package name
      */
     public String getName() {
@@ -56,58 +57,61 @@ public class DocumentPackage implements Serializable {
 
     /**
      * Retrieves a signer by its email address
-     * 
+     *
      * @param email
      * @return the signer who's email address matches the one provided as parameter
      */
-    public Signer getSigner(String email) {
-        return signers.get(email);
+    public Signer getSigner( String email ) {
+        return signers.get( email );
     }
+
     /**
-     * 
-     * @param name	the document name
+     * @param name the document name
      * @return the document identified by the name provided as parameter
      */
-    public Document getDocument(String name) {
-        return documents.get(name);
+    public Document getDocument( String name ) {
+        return documents.get( name );
     }
 
     /**
      * Returns the autocomplete status
-     * @return	<code>true</code> if the autocomplete status is set to true
-     * 			<code>false</code> otherwise.
+     *
+     * @return    <code>true</code> if the autocomplete status is set to true
+     * <code>false</code> otherwise.
      */
     public boolean getAutocomplete() {
         return autocomplete;
     }
 
     /**
-     * 
      * @return
      */
     Package toAPIPackage() {
         Package packageToCreate = new Package()
-                .setName(name)
-                .setDue(expiryDate)
-                .setEmailMessage(packageMessage)
-                .setDescription(description)
-                .setAutocomplete(autocomplete)
-                .setData(attributes.getContents());
+                .setName( name )
+                .setDue( expiryDate )
+                .setEmailMessage( packageMessage )
+                .setDescription( description )
+                .setAutocomplete( autocomplete );
 
-        if (language != null) {
-            packageToCreate.setLanguage(language.getLanguage());
+        if ( attributes != null ) {
+            packageToCreate.setData( attributes.getContents() );
+        }
+
+        if ( language != null ) {
+            packageToCreate.setLanguage( language.getLanguage() );
         }
 
         if ( settings != null ) {
-            packageToCreate.setSettings(settings.toAPIPackageSettings());
+            packageToCreate.setSettings( settings.toAPIPackageSettings() );
         }
 
         if ( senderInfo != null ) {
-            packageToCreate.setSender(senderInfo.toAPISender());
+            packageToCreate.setSender( senderInfo.toAPISender() );
         }
 
         int signerCount = 1;
-        for (Signer signer : signers.values()) {
+        for ( Signer signer : signers.values() ) {
             Role role = new Role()
                     .setName( signer.getId() == null ? "signer" + signerCount : signer.getId() )
                     .addSigner( signer.toAPISigner() )
@@ -121,7 +125,7 @@ public class DocumentPackage implements Serializable {
                 role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );
             }
 
-            packageToCreate.addRole(role);
+            packageToCreate.addRole( role );
         }
 
         return packageToCreate;
@@ -129,39 +133,38 @@ public class DocumentPackage implements Serializable {
 
     /**
      * Retrieve all the package documents
-     * 
-     * @return	Collection of documents
+     *
+     * @return Collection of documents
      */
     public Collection<Document> getDocuments() {
         return documents.values();
     }
-    
+
     /**
      * Sets the description for the document package
-     * 
-     * @param description	Description of the package
+     *
+     * @param description Description of the package
      */
-    public void setDescription(String description) {
+    public void setDescription( String description ) {
         this.description = description;
     }
 
     /**
      * Sets the expiration date for the document package.
      * TODO: What is happening after the date surpasses the expiration date and the transaction is not yet completed?
-     * 
+     *
      * @param expiryDate
      */
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate( Date expiryDate ) {
         this.expiryDate = expiryDate;
     }
 
     /**
      * Sets the package message
      *
-     * 
-     * @param packageMessage	This is a message that will get added to the email invitation sent to all signers of a package
+     * @param packageMessage This is a message that will get added to the email invitation sent to all signers of a package
      */
-    public void setPackageMessage(String packageMessage) {
+    public void setPackageMessage( String packageMessage ) {
         this.packageMessage = packageMessage;
     }
 
@@ -189,7 +192,7 @@ public class DocumentPackage implements Serializable {
         this.settings = settings;
     }
 
-    public void setLanguage(Locale language) {
+    public void setLanguage( Locale language ) {
         this.language = language;
     }
 
@@ -209,7 +212,7 @@ public class DocumentPackage implements Serializable {
         return attributes;
     }
 
-    public void setAttributes(DocumentPackageAttributes attributes) {
+    public void setAttributes( DocumentPackageAttributes attributes ) {
         this.attributes = attributes;
     }
 }
