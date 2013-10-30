@@ -95,7 +95,7 @@ public class DocumentPackage implements Serializable {
                 .setAutocomplete( autocomplete );
 
         if ( attributes != null ) {
-            packageToCreate.setData( attributes.getContents() );
+            packageToCreate.setData( attributes.toMap() );
         }
 
         if ( language != null ) {

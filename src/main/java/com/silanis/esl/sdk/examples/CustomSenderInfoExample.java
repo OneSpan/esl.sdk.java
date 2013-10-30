@@ -36,9 +36,9 @@ public class CustomSenderInfoExample extends SDKSample {
     public CustomSenderInfoExample( String apiKey, String apiUrl, String email1, String email2 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
-    this.email2 = email2;
-    documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-}
+        this.email2 = email2;
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+    }
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )

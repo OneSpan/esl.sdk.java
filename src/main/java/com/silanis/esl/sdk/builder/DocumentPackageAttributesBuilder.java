@@ -2,6 +2,9 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.DocumentPackageAttributes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * User: jessica
  * Date: 28/10/13
@@ -9,15 +12,23 @@ import com.silanis.esl.sdk.DocumentPackageAttributes;
  */
 public class DocumentPackageAttributesBuilder {
 
-    private DocumentPackageAttributes attributes = new DocumentPackageAttributes();
+    private Map<String, Object> map = new HashMap<String, Object>();
+
+    private DocumentPackageAttributesBuilder() {}
+
+    public DocumentPackageAttributesBuilder( Map<String,Object> map ) {
+        this.map = map;
+    }
 
     public DocumentPackageAttributesBuilder withAttribute( String name, Object value ) {
-        this.attributes.append(name, value);
+        map.put( name, value );
         return this;
     }
 
     public DocumentPackageAttributes build() {
-        return attributes;
+        DocumentPackageAttributes result = new DocumentPackageAttributes();
+        result.setContents( map );
+        return result;
     }
 
 }

@@ -13,11 +13,6 @@ public class DocumentPackageAttributes {
     private Map<String,Object> contents = new HashMap<String,Object>();
 
     public DocumentPackageAttributes() {
-        // empty constructor
-    }
-
-    public DocumentPackageAttributes(Map<String, Object> contents) {
-        this.contents = contents;
     }
 
     public void append( String name, Object value ) {
@@ -30,5 +25,9 @@ public class DocumentPackageAttributes {
 
     public void setContents(Map<String, Object> contents) {
         this.contents = contents;
+    }
+
+    public Map<String,Object> toMap() {
+        return contents;
     }
 }

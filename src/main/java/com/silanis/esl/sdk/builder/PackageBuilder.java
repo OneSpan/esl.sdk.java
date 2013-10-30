@@ -53,7 +53,7 @@ public class PackageBuilder {
         this.settings = new DocumentPackageSettingsBuilder( apiPackage.getSettings() ).build();
         this.senderInfo = new SenderInfoBuilder( apiPackage.getSender() ).build();
         this.settings = new DocumentPackageSettingsBuilder(apiPackage.getSettings()).build();
-        this.attributes = new DocumentPackageAttributes(apiPackage.getData());
+        this.attributes = new DocumentPackageAttributesBuilder(apiPackage.getData()).build();
 
         for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
             if ( role.getSigners().isEmpty() ) {
