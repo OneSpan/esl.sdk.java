@@ -39,9 +39,6 @@ public class ConsentExample {
                         .withLastName( "Smith2" ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromFile( "src/main/resources/document.pdf" )
-//                        .withSignature( signatureFor( props.getProperty( "2.email" ) )
-//                                .onPage( 0 )
-//                                .atPosition( 100, 100 ) )
                         .withSignature( acceptanceFor( props.getProperty( "1.email" ) ) ) )
                 .withDocument( newDocumentWithName( "Second Document" )
                         .fromFile( "src/main/resources/document.pdf" )
@@ -54,6 +51,5 @@ public class ConsentExample {
         eslClient.sendPackage( packageId );
 
         DocumentPackage documentPackage = eslClient.getPackage( packageId );
-        System.out.println( "WHAT THE FUCK JUST HAPPENED!?" );
     }
 }
