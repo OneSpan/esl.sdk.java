@@ -50,6 +50,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .withHandOverLinkHref( "http://www.google.ca" )
                         .withHandOverLinkText( "click here" )
                         .withHandOverLinkTooltip( "link tooltip" )
+                        .withDialogOnComplete()
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
                                 .withoutGlobalDownloadButton()

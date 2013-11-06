@@ -42,7 +42,7 @@ public class GenericFieldsExample extends SDKSample {
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "GenericFieldsExample Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
@@ -58,11 +58,15 @@ public class GenericFieldsExample extends SDKSample {
                                 .withField( checkBox()
                                         .onPage( 0 )
                                         .withSize( 20, 20 )
-                                        .atPosition( 400, 300 ) ) ) )
+                                        .atPosition( 400, 300 ) )
+                                .withField( checkBox()
+                                        .withValue( true )
+                                        .onPage( 0 )
+                                        .withSize( 20, 20 )
+                                        .atPosition( 400, 350 ) ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
-
         eslClient.sendPackage( packageId );
     }
 }

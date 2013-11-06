@@ -189,6 +189,13 @@ public class FieldBuilder {
         return withValidation( builder.build() );
     }
 
+    public FieldBuilder withValue(boolean value) {
+        if ( style == FieldStyle.UNBOUND_CHECK_BOX ) {
+            this.value = value?"X":"";
+        }
+        return this;
+    }
+
     public FieldBuilder withValue(String value) {
         this.value = value;
         return this;
