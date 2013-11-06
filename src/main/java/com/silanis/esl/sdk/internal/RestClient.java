@@ -60,6 +60,8 @@ public class RestClient {
     }
 
     public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException {
+        support.logRequest("POST", path, jsonPayload);
+
         MultipartEntity multipart = new MultipartEntity();
         String contentType = MimeTypeUtils.getContentTypeByFileName(fileName);
 
