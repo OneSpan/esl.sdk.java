@@ -28,4 +28,14 @@ public class Translation {
     public String getDescription() {
         return description;
     }
+
+    public com.silanis.esl.api.model.Translation toAPITranslation() {
+        com.silanis.esl.api.model.Translation result = new com.silanis.esl.api.model.Translation();
+
+        result.safeSetName( name );
+        result.safeSetLanguage( language );
+        result.safeSetDescription( description );
+
+        return result;
+    }
 }

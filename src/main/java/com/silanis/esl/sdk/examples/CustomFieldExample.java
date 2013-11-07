@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.CustomFieldBuilder.customFieldWithId;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -38,8 +39,9 @@ public class CustomFieldExample extends SDKSample {
     @Override
     public void execute() {
 
+        String customFieldId = UUID.randomUUID().toString().replaceAll( "-", "" );
         CustomField customField = eslClient.getCustomFieldService()
-                .createCustomField( customFieldWithId( "store_id" )
+                .createCustomField( customFieldWithId( customFieldId )
                         .withDefaultValue( "#12345" )
                         .withTranslation( newTranslation( "en" ).
                                 withName( "The Bay" ).

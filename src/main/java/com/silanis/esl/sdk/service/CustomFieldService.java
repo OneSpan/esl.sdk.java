@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.UserCustomField;
 import com.silanis.esl.sdk.CustomField;
 import com.silanis.esl.sdk.CustomFieldValue;
 import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.builder.CustomFieldBuilder;
 import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
@@ -33,16 +34,23 @@ public class CustomFieldService {
      */
     public CustomField createCustomField(CustomField customField ) throws EslException {
         String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_PATH).build();
+        CustomField sdkResponse = null;
+        com.silanis.esl.api.model.CustomField apiResponse;
+        com.silanis.esl.api.model.CustomField apiRequest;
 
         try {
             if ( doesCustomFieldExist( customField.getId() )){
-                String stringResponse = client.put(path,Serialization.toJson( customField ));
-                customField = Serialization.fromJson(stringResponse, CustomField.class);
+                apiRequest = customField.toAPICustomField();
+                String stringResponse = client.put(path,Serialization.toJson( apiRequest ));
+                apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
+                sdkResponse = CustomFieldBuilder.customField( apiResponse ).build();
             }else{
-                String stringResponse = client.post(path,Serialization.toJson( customField ));
-                customField = Serialization.fromJson(stringResponse, CustomField.class);
+                apiRequest = customField.toAPICustomField();
+                String stringResponse = client.post(path,Serialization.toJson( apiRequest ));
+                apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
+                sdkResponse = CustomFieldBuilder.customField( apiResponse ).build();
             }
-            return customField;
+            return sdkResponse;
         } catch ( Exception e ) {
             throw new EslException( "Could not add/update the custom field to account.", e );
         }

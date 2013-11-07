@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.esl.sdk.CustomField;
 import com.silanis.esl.sdk.Translation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,17 @@ public class CustomFieldBuilder {
      */
     public static CustomFieldBuilder customFieldWithId( String id ) {
         return new CustomFieldBuilder().withId( id );
+    }
+
+    public static CustomFieldBuilder customField( com.silanis.esl.api.model.CustomField apiCustomField ) {
+        CustomFieldBuilder result = new CustomFieldBuilder();
+        result.withId( apiCustomField.getId() )
+                .withDefaultValue( apiCustomField.getValue() );
+
+        for ( com.silanis.esl.api.model.Translation tran : apiCustomField.getTranslations() ) {
+            result.withTranslation( TranslationBuilder.newTranslation( tran ) );
+        }
+        return result;
     }
 
     /**
@@ -58,6 +70,9 @@ public class CustomFieldBuilder {
     }
 
     public CustomFieldBuilder withTranslation( Translation translation ) {
+        if ( this.translations == null ) {
+            this.translations = new ArrayList<Translation>();
+        }
         this.translations.add( translation );
         return this;
 
