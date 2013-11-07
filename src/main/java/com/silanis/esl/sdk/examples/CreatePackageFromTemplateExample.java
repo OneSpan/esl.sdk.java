@@ -1,11 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.EslClient;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.LogManager;
 
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
@@ -19,7 +22,6 @@ public class CreatePackageFromTemplateExample {
     public static final String API_URL = props.getProperty( "api.url" );
 
     public static void main( String... args ) throws IOException {
-        LogManager.getLogManager().readConfiguration( CreatePackageFromTemplateExample.class.getResourceAsStream( "/logging.properties" ) );
         EslClient esl = new EslClient( API_KEY, API_URL );
         Page<DocumentPackage> templates = esl.getPackageService().getTemplates( new PageRequest( 0 ) );
 
