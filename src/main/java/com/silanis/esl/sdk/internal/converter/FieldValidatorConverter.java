@@ -1,4 +1,4 @@
-package com.silanis.esl.sdk.internal.converter.sdk;
+package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.FieldValidation;
 import com.silanis.esl.sdk.FieldValidator;
@@ -6,13 +6,21 @@ import com.silanis.esl.sdk.FieldValidator;
 import java.util.ArrayList;
 
 public class FieldValidatorConverter {
-    private FieldValidator fieldValidator;
+    private FieldValidator fieldValidator = null;
+    private FieldValidation fieldValidation = null;
 
     public FieldValidatorConverter( FieldValidator fieldValidator ) {
         this.fieldValidator = fieldValidator;
     }
 
-    public FieldValidation getESLFieldValidation() {
+    public FieldValidatorConverter(FieldValidation fieldValidation) {
+        this.fieldValidation = fieldValidation;
+    }
+
+    public FieldValidation toAPIFieldValidation() {
+        if (fieldValidation != null) {
+            return fieldValidation;
+        }
         FieldValidation fieldValidation = new FieldValidation();
 
         if ( fieldValidator.getMaxLength() != null ) {
@@ -39,4 +47,18 @@ public class FieldValidatorConverter {
 
         return fieldValidation;
     }
+
+    public FieldValidator toSDKFieldValidator() {
+        if (fieldValidator != null) {
+            return fieldValidator;
+        }
+        FieldValidator fieldValidator = new FieldValidator();
+        fieldValidator.setErrorMessage(fieldValidation.getErrorMessage());
+        fieldValidator.setMaxLength(fieldValidation.getMaxLength());
+        fieldValidator.setMinLength(fieldValidation.getMinLength());
+        fieldValidator.setRegex(fieldValidation.getPattern());
+        fieldValidator.setRequired(fieldValidation.getRequired());
+        return fieldValidator;
+    }
+
 }
