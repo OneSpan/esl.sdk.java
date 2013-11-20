@@ -22,15 +22,31 @@ public class FieldStyleAndSubTypeConverter {
     FieldSubtype apiFieldSubType = null;
     String apiFieldBinding = null;
 
+    /**
+     * construct with SDK object involved in conversion.
+     *
+     * @param sdkFieldStyle
+     */
     public FieldStyleAndSubTypeConverter(FieldStyle sdkFieldStyle) {
         this.sdkFieldStyle = sdkFieldStyle;
     }
 
+    /**
+     * Construct with API object involved in conversion.
+     *
+     * @param apiFieldSubType
+     * @param apiFieldBinding
+     */
     public FieldStyleAndSubTypeConverter(FieldSubtype apiFieldSubType, String apiFieldBinding) {
         this.apiFieldSubType = apiFieldSubType;
         this.apiFieldBinding = apiFieldBinding;
     }
 
+    /**
+     * Concert from SDK to API.
+     *
+     * @return a FieldSubType object.
+     */
     public FieldSubtype toAPIFieldSubtype() {
         if (apiFieldSubType != null) {
             return apiFieldSubType;
@@ -53,6 +69,11 @@ public class FieldStyleAndSubTypeConverter {
         }
     }
 
+    /**
+     * Convert from API to SDK.
+     *
+     * @return a FieldStyle object.
+     */
     public FieldStyle toSDKFieldStyle() {
         if (sdkFieldStyle!= null) {
             return sdkFieldStyle;

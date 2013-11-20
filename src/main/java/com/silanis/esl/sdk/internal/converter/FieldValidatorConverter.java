@@ -5,18 +5,36 @@ import com.silanis.esl.sdk.FieldValidator;
 
 import java.util.ArrayList;
 
+/**
+ * Converter between SDK FieldValidator and API FieldValidation.
+ */
 public class FieldValidatorConverter {
     private FieldValidator fieldValidator = null;
     private FieldValidation fieldValidation = null;
 
+    /**
+     * Construct with SDK object involved in conversion.
+     *
+     * @param fieldValidator
+     */
     public FieldValidatorConverter( FieldValidator fieldValidator ) {
         this.fieldValidator = fieldValidator;
     }
 
+    /**
+     * Construct with API object involved in conversion.
+     *
+     * @param fieldValidation
+     */
     public FieldValidatorConverter(FieldValidation fieldValidation) {
         this.fieldValidation = fieldValidation;
     }
 
+    /**
+     * Convert from SDK to API.
+     *
+     * @return a FieldValidation object.
+     */
     public FieldValidation toAPIFieldValidation() {
         if (fieldValidation != null) {
             return fieldValidation;
@@ -48,6 +66,11 @@ public class FieldValidatorConverter {
         return fieldValidation;
     }
 
+    /**
+     * Convert from API to SDK.
+     *
+     * @return a FieldValidator object.
+     */
     public FieldValidator toSDKFieldValidator() {
         if (fieldValidator != null) {
             return fieldValidator;

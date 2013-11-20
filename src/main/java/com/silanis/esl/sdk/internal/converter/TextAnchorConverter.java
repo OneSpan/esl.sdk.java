@@ -4,21 +4,39 @@ import com.silanis.esl.api.model.ExtractAnchor;
 import com.silanis.esl.sdk.TextAnchor;
 import com.silanis.esl.sdk.TextAnchorPosition;
 
+/**
+ * Converter between SDK text anchor and API Extract Anchor.
+ */
 public class TextAnchorConverter {
 
     private TextAnchor sdkTextAnchor;
     private ExtractAnchor extractAnchor;
 
+    /**
+     * Construct with SDK object involved in conversion.
+     *
+     * @param textAnchor
+     */
     public TextAnchorConverter( TextAnchor textAnchor ) {
         this.sdkTextAnchor = textAnchor;
         this.extractAnchor = null;
     }
 
+    /**
+     * Construct with API object involved in conversion.
+     *
+     * @param extractAnchor
+     */
     public TextAnchorConverter( ExtractAnchor extractAnchor ) {
         this.extractAnchor = extractAnchor;
         this.sdkTextAnchor = null;
     }
 
+    /**
+     * Convert from SDK to API object.
+     *
+     * @return an ExtractAnchor object.
+     */
     public ExtractAnchor toAPIExtractAnchor() {
         ExtractAnchor result = new ExtractAnchor();
 
@@ -34,6 +52,11 @@ public class TextAnchorConverter {
         return result;
     }
 
+    /**
+     * Convert from API to SDK object.
+     *
+     * @return a TextAnchor object.
+     */
     public TextAnchor toSDKTextAnchor() {
         TextAnchor result = new TextAnchor();
 

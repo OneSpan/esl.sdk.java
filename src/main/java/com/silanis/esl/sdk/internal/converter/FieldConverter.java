@@ -14,14 +14,28 @@ public class FieldConverter {
     private com.silanis.esl.sdk.Field sdkField = null;
     private com.silanis.esl.api.model.Field apiField = null;
 
+    /**
+     * Construct with API field object involved in conversion.
+     *
+     * @param apiField
+     */
     public FieldConverter(com.silanis.esl.api.model.Field apiField) {
         this.apiField = apiField;
     }
 
+    /**
+     * Construct with SDK field object involved in conversion.
+     * @param sdkField
+     */
     public FieldConverter(com.silanis.esl.sdk.Field sdkField) {
         this.sdkField = sdkField;
     }
 
+    /**
+     * Convert from SDK field to API field.
+     *
+     * @return an API Field object.
+     */
     public com.silanis.esl.api.model.Field toAPIField() {
         if (apiField != null) {
             return apiField;
@@ -29,23 +43,23 @@ public class FieldConverter {
 
         com.silanis.esl.api.model.Field result = new com.silanis.esl.api.model.Field();
 
-        result.setPage(getPage());
+        result.setPage(sdkField.getPage());
         result.setExtract(sdkField.isExtraction());
         if ( sdkField.getName() != null ) {
             result.setName(  sdkField.getName() );
         }
 
         if (!sdkField.isExtraction()) {
-            result.setLeft( getLeft() );
-            result.setTop( getTop() );
-            result.setWidth( getWidth() );
-            result.setHeight( getHeight() );
+            result.setLeft( sdkField.getX() );
+            result.setTop( sdkField.getY() );
+            result.setWidth( sdkField.getWidth());
+            result.setHeight( sdkField.getHeight());
         }
 
-        result.setValue(getValue());
-        result.setType(getFieldType());
+        result.setValue(sdkField.getValue());
+        result.setType(FieldType.INPUT);
         result.setSubtype( new FieldStyleAndSubTypeConverter(sdkField.getStyle()).toAPIFieldSubtype() );
-        result.setBinding( getBinding() );
+        result.setBinding( sdkField.getBinding());
 
         if ( sdkField.getId() != null ) {
             result.setId( sdkField.getId().toString() );
@@ -64,6 +78,11 @@ public class FieldConverter {
 
     }
 
+    /**
+     * Convert from API field to SDK field.
+     *
+     * @return an SDK Field object.
+     */
     public com.silanis.esl.sdk.Field toSDKField() {
 
         if (sdkField != null) {
@@ -87,37 +106,4 @@ public class FieldConverter {
 
         return result;
     }
-
-    private FieldType getFieldType() {
-        return FieldType.INPUT;
-    }
-
-    private Integer getPage() {
-        return sdkField.getPage();
-    }
-
-    private Double getLeft() {
-        return sdkField.getX();
-    }
-
-    private Double getTop() {
-        return sdkField.getY();
-    }
-
-    private Double getWidth() {
-        return sdkField.getWidth();
-    }
-
-    private Double getHeight() {
-        return sdkField.getHeight();
-    }
-
-    private String getValue() {
-        return sdkField.getValue();
-    }
-
-    private String getBinding() {
-        return sdkField.getBinding();
-    }
-
 }
