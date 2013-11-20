@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Callback extends Model
-      implements java.io.Serializable, ICallback
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

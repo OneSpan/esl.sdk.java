@@ -4,10 +4,7 @@ import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>PackageBuilder is a convenient class used to create and customize a package.</p>
@@ -60,8 +57,11 @@ public class PackageBuilder {
                 continue;
             }
 
-            Signer signer = SignerBuilder.newSignerFromAPISigner( role ).build();
-            this.withSigner( signer );
+            if ( role.getSigners().get( 0 ).getGroup() != null ) {
+                this.withSigner( SignerBuilder.newSignerFromGroup( new GroupId( role.getSigners().get( 0 ).getGroup().getId() ) ) );
+            } else {
+                this.withSigner( SignerBuilder.newSignerFromAPISigner( role ).build() );
+            }
         }
 
         for ( com.silanis.esl.api.model.Document apiDocument : apiPackage.getDocuments() ) {
@@ -98,7 +98,12 @@ public class PackageBuilder {
      * @return the document builder itself
      */
     public PackageBuilder withSigner( Signer signer ) {
-        signers.put( signer.getEmail(), signer );
+
+        if ( signer.isGroupSigner() ) {
+            signers.put( signer.getGroupId().toString(), signer );
+        } else {
+            signers.put( signer.getEmail(), signer );
+        }
         return this;
     }
 
@@ -241,6 +246,4 @@ public class PackageBuilder {
     public PackageBuilder withAttributes( DocumentPackageAttributesBuilder builder) {
         return withAttributes( builder.build() );
     }
-
-
 }

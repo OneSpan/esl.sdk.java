@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Session extends Model
-      implements java.io.Serializable, ISession
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

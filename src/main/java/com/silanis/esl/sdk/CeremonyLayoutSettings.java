@@ -17,7 +17,7 @@ public class CeremonyLayoutSettings {
     private String logoImageLink = null;
     private Boolean showGlobalConfirmButton = null;
     private Boolean showGlobalDownloadButton = null;
-    private Boolean showSaveAsLayoutButton = null;
+    private Boolean showGlobalSaveAsLayoutButton = null;
 
     protected LayoutOptions toAPILayoutOptions() {
 
@@ -34,7 +34,7 @@ public class CeremonyLayoutSettings {
         GlobalActionsOptions globalActionsOptions = new GlobalActionsOptions();
         globalActionsOptions.safeSetConfirm( showGlobalConfirmButton );
         globalActionsOptions.safeSetDownload( showGlobalDownloadButton );
-        globalActionsOptions.safeSetSaveAsLayout( showSaveAsLayoutButton );
+        globalActionsOptions.safeSetSaveAsLayout( showGlobalSaveAsLayoutButton );
         headerOptions.setGlobalActions( globalActionsOptions );
 
         BrandingBarOptions brandingBarOptions = null;
@@ -144,11 +144,11 @@ public class CeremonyLayoutSettings {
         this.showGlobalDownloadButton = showGlobalDownloadButton;
     }
 
-    public Boolean getShowSaveAsLayoutButton() {
-        return showSaveAsLayoutButton;
+    public Boolean getShowGlobalSaveAsLayoutButton() {
+        return showGlobalSaveAsLayoutButton;
     }
 
     public void setShowGlobalSaveAsLayoutButton( Boolean showSaveAsLayoutButton ) {
-        this.showSaveAsLayoutButton = showSaveAsLayoutButton;
+        this.showGlobalSaveAsLayoutButton = showSaveAsLayoutButton;
     }
 }

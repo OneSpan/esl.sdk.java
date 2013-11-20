@@ -7,7 +7,7 @@ import java.util.Map;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Plan extends Entity
-      implements java.io.Serializable, IPlan
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CeremonySettings extends ViewSettings
-      implements java.io.Serializable, ICeremonySettings
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

@@ -24,6 +24,8 @@ public class Signature implements Serializable {
     private boolean extraction;
     private TextAnchor textAnchor;
 
+    private GroupId groupId;
+
     /**
      * 
      * @param signerEmail
@@ -31,11 +33,21 @@ public class Signature implements Serializable {
      * @param x
      * @param y
      */
+    // TODO: Add constructor with groupID instead of email
     public Signature(String signerEmail, int page, double x, double y) {
         this.signerEmail = signerEmail;
         this.page = page;
         this.x = x;
         this.y = y;
+        this.groupId = null;
+    }
+
+    public Signature(GroupId groupId, int page, double x, double y ) {
+        this.groupId = groupId;
+        this.x = x;
+        this.y = y;
+        this.page = page;
+        this.signerEmail = null;
     }
 
     public String getSignerEmail() {
@@ -108,5 +120,13 @@ public class Signature implements Serializable {
 
     public TextAnchor getTextAnchor() {
         return textAnchor;
+    }
+
+    public GroupId getGroupId() {
+        return groupId;
+    }
+
+    public boolean isGroupSignature() {
+        return groupId != null;
     }
 }

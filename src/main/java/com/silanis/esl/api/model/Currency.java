@@ -1,12 +1,13 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
-
+import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Currency extends Entity
-      implements java.io.Serializable, ICurrency
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

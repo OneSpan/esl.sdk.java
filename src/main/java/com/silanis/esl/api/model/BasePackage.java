@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class BasePackage extends Entity
-      implements java.io.Serializable, IBasePackage
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

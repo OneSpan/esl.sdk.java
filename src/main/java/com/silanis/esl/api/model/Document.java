@@ -7,7 +7,7 @@ import java.util.Map;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Document extends Entity
-      implements java.io.Serializable, IDocument
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

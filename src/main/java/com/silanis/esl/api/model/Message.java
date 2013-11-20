@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Message extends BaseMessage
-      implements java.io.Serializable, IMessage
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

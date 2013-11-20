@@ -3,6 +3,7 @@ package com.silanis.esl.sdk;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.AuditService;
 import com.silanis.esl.sdk.service.EventNotificationService;
 import com.silanis.esl.sdk.service.FieldSummaryService;
@@ -29,7 +30,9 @@ public class EslClient {
     private FieldSummaryService fieldSummaryService;
     private AuditService auditService;
     private EventNotificationService eventNotificationService;
+    private GroupService groupService;
     private CustomFieldService customFieldService;
+    private AccountService accountService;
 
     /**
      * The constructor of the EslClient class
@@ -39,7 +42,7 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL) {
         notNullOrEmpty( apiKey, "apiKey" );
         notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;//addAPIPathToURL(baseURL);
+        this.baseURL = baseURL;
 
         RestClient client = new RestClient(apiKey);
         packageService = new PackageService(client, this.baseURL);
@@ -47,26 +50,11 @@ public class EslClient {
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
         auditService = new AuditService(client, this.baseURL);
         eventNotificationService = new EventNotificationService( client, this.baseURL );
+        groupService = new GroupService( client, this.baseURL );
         customFieldService = new CustomFieldService( client, this.baseURL );
+        accountService = new AccountService( client, this.baseURL );
     }
 
-//    /**
-//     * Adds the api token path to the provided baseUrl argument
-//     * @param baseURL
-//     * @return	the baseUrl containing the api token
-//     */
-//    private String addAPIPathToURL(String baseURL) {
-//        if (baseURL.endsWith("/")) {
-//            baseURL = baseURL.substring(0, baseURL.lastIndexOf('/'));
-//        }
-//
-//        if (!baseURL.endsWith(API_PATH)) {
-//            baseURL += API_PATH;
-//        }
-//
-//        return baseURL;
-//    }
-//
     /**
      * Gets the baseUrl
      * @return	the baseUrl
@@ -245,5 +233,13 @@ public class EslClient {
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
         Package apiPackage = documentPackage.toAPIPackage();
         packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, document.toAPIDocument( apiPackage ) );
+    }
+
+    public GroupService getGroupService() {
+        return groupService;
+    }
+
+    public AccountService getAccountService() {
+        return accountService;
     }
 }

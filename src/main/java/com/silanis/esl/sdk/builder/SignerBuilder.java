@@ -1,13 +1,11 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.Authentication;
-import com.silanis.esl.sdk.AuthenticationMethod;
-import com.silanis.esl.sdk.Challenge;
-import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.silanis.esl.sdk.internal.Asserts.genericAssert;
 import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
 
 /**
@@ -17,7 +15,8 @@ final public class SignerBuilder {
 
     public static final int DEFAULT_SIGNING_ORDER = 0;
 
-    private String email;
+    private final String email;
+    private final GroupId groupId;
     private String firstName;
     private String lastName;
     private int signingOrder = DEFAULT_SIGNING_ORDER;
@@ -36,6 +35,12 @@ final public class SignerBuilder {
      */
     private SignerBuilder( String email ) {
         this.email = email;
+        this.groupId = null;
+    }
+
+    private SignerBuilder( GroupId groupId ) {
+        this.email = null;
+        this.groupId = groupId;
     }
 
     /**
@@ -45,6 +50,10 @@ final public class SignerBuilder {
      */
     public static SignerBuilder newSignerWithEmail( String email ) {
         return new SignerBuilder(email);
+    }
+
+    public static SignerBuilder newSignerFromGroup( GroupId groupId ) {
+        return new SignerBuilder(groupId);
     }
 
     /**
@@ -63,6 +72,7 @@ final public class SignerBuilder {
      * @return	the signer builder itself
      */
     public SignerBuilder withFirstName( String firstName ) {
+        genericAssert( !isGroupSigner(), "first name can not be set for a group signer" );
         this.firstName = firstName;
         return this;
     }
@@ -73,6 +83,7 @@ final public class SignerBuilder {
      * @return	the signer builder itself
      */
     public SignerBuilder withLastName( String lastName ) {
+        genericAssert( !isGroupSigner(), "last name can not be set for a group signer" );
         this.lastName = lastName;
         return this;
     }
@@ -92,18 +103,24 @@ final public class SignerBuilder {
      * @return	the signer object
      */
     public Signer build() {
-        notNullOrEmpty(firstName, "first name");
-        notNullOrEmpty(lastName, "last name");
 
         Authentication authentication = authenticationBuilder.build();
 
-        Signer signer = new Signer( email, firstName, lastName, authentication );
-        signer.setSigningOrder(signingOrder);
-        signer.setTitle(title);
-        signer.setCompany(company);
-        signer.setCanChangeSigner(canChangeSigner);
-        signer.setMessage(message);
-        signer.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
+        Signer signer;
+        if ( isGroupSigner() ) {
+            signer = new Signer(groupId);
+        } else {
+            notNullOrEmpty(firstName, "first name");
+            notNullOrEmpty(lastName, "last name");
+            signer = new Signer( email, firstName, lastName, authentication );
+            signer.setTitle(title);
+            signer.setCompany(company);
+            signer.setDeliverSignedDocumentsByEmail( deliverSignedDocumentsByEmail );
+        }
+
+        signer.setSigningOrder( signingOrder );
+        signer.setCanChangeSigner( canChangeSigner );
+        signer.setMessage( message );
         signer.setId(id);
         signer.setLocked(locked);
         return signer;
@@ -135,6 +152,7 @@ final public class SignerBuilder {
      * @return	the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {
+        genericAssert( !isGroupSigner(), "title can not be set for a group signer" );
         this.title = title;
         return this;
     }
@@ -145,6 +163,7 @@ final public class SignerBuilder {
      * @return	the signer builder object itself
      */
     public SignerBuilder withCompany(String company) {
+        genericAssert( !isGroupSigner(), "company can not be set for a group signer" );
         this.company = company;
         return this;
     }
@@ -185,18 +204,25 @@ final public class SignerBuilder {
     static SignerBuilder newSignerFromAPISigner( com.silanis.esl.api.model.Role role ) {
         com.silanis.esl.api.model.Signer eslSigner = role.getSigners().get( 0 );
 
-        SignerBuilder signerBuilder = SignerBuilder.newSignerWithEmail( eslSigner.getEmail() )
-                .withCustomId( eslSigner.getId() )
-                .withRoleId( role.getId() )
+        SignerBuilder signerBuilder;
+
+        if ( eslSigner.getGroup() == null ) {
+            signerBuilder = SignerBuilder.newSignerWithEmail( eslSigner.getEmail() )
                 .withFirstName( eslSigner.getFirstName() )
                 .withLastName( eslSigner.getLastName() )
                 .withCompany( eslSigner.getCompany() )
-                .withTitle( eslSigner.getTitle() )
-                .signingOrder( role.getIndex() );
+                .withTitle( eslSigner.getTitle() );
 
-        if ( eslSigner.getDelivery() != null && eslSigner.getDelivery().getEmail() ) {
-            signerBuilder.deliverSignedDocumentsByEmail();
+            if ( eslSigner.getDelivery() != null && eslSigner.getDelivery().getEmail() ) {
+                signerBuilder.deliverSignedDocumentsByEmail();
+            }
+        } else {
+            signerBuilder = SignerBuilder.newSignerFromGroup( new GroupId( eslSigner.getGroup().getId() ) );
         }
+
+        signerBuilder.withCustomId( eslSigner.getId() )
+                .withRoleId( role.getId() )
+                .signingOrder( role.getIndex() );
 
         if ( role.evalReassign() ) {
             signerBuilder.canChangeSigner();
@@ -209,6 +235,7 @@ final public class SignerBuilder {
         if ( role.getLocked() ) {
             signerBuilder.lock();
         }
+
         return signerBuilder;
     }
 
@@ -290,5 +317,9 @@ final public class SignerBuilder {
             notNullOrEmpty(phoneNumber, "phone number");
             return new Authentication(phoneNumber);
         }
+    }
+
+    private boolean isGroupSigner() {
+        return groupId != null;
     }
 }

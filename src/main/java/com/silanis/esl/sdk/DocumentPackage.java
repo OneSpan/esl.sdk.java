@@ -6,10 +6,7 @@ import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.api.model.Role;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * DocumentPackage class describes all assets required for a complete signing transaction.

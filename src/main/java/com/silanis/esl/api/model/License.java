@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class License extends Model
-      implements java.io.Serializable, ILicense
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

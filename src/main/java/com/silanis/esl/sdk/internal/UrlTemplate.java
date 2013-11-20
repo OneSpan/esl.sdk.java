@@ -38,6 +38,14 @@ public class UrlTemplate {
     public static final String ACCOUNT_CUSTOMFIELD_PATH = "/account/customfields";
     public static final String USER_CUSTOMFIELD_PATH = "/user/customfields";
 
+    // Groups Service
+    public static final String GROUPS_PATH = "/groups";
+    public static final String GROUPS_ID_PATH = "/groups/{groupId}";
+    public static final String GROUPS_MEMBER_PATH = "/groups/{groupId}/members";
+
+    // Account Service
+    public static final String ACCOUNT_INVITE_MEMBER_PATH = "/account/senders";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }

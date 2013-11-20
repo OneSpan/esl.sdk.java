@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.FieldStyle;
 import org.junit.Test;
@@ -42,7 +41,7 @@ public class FieldBuilderTest {
 
     @Test
     public void buildWithDefaultValues() {
-        Field field = newField().atPosition(100, 100).build();
+        Field field = newField().atPosition( 100, 100 ).build();
 
         assertEquals( FieldBuilder.DEFAULT_WIDTH, field.getWidth(), DEFAULT_DOUBLE_TOLERANCE );
         assertEquals( FieldBuilder.DEFAULT_HEIGHT, field.getHeight(), DEFAULT_DOUBLE_TOLERANCE );
@@ -51,50 +50,50 @@ public class FieldBuilderTest {
 
     @Test
     public void creatingNewSignatureDateFieldSetsStyle() {
-        Field field = signatureDate().atPosition(100, 100).build();
+        Field field = signatureDate().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.BOUND_DATE)));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_DATE ) ) );
     }
 
     @Test
     public void creatingNewSignerNameFieldSetsStyle() {
-        Field field = signerName().atPosition(100, 100).build();
+        Field field = signerName().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.BOUND_NAME)));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_NAME ) ) );
     }
 
     @Test
     public void creatingNewSignerTitleFieldSetsStyle() {
-        Field field = signerTitle().atPosition(100, 100).build();
+        Field field = signerTitle().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.BOUND_TITLE)));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_TITLE ) ) );
     }
 
     @Test
     public void creatingNewSignerCompanyFieldSetsStyle() {
-        Field field = signerCompany().atPosition(100, 100).build();
+        Field field = signerCompany().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.BOUND_COMPANY)));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_COMPANY ) ) );
     }
 
     @Test
     public void creatingTextFieldSetsStyle() {
-        Field field = textField().atPosition(100, 100).build();
+        Field field = textField().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.UNBOUND_TEXT_FIELD )));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_TEXT_FIELD ) ) );
     }
 
     @Test
     public void creatingCustomFieldSetsStyle() {
-        Field field = customField().atPosition(100, 100).build();
+        Field field = customField().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.UNBOUND_CUSTOM_FIELD )));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_CUSTOM_FIELD ) ) );
     }
 
     @Test
     public void creatingCheckBoxFieldSetsStyle() {
-        Field field = checkBox().atPosition(100, 100).build();
+        Field field = checkBox().atPosition( 100, 100 ).build();
 
-        assertThat(field.getStyle(), is(equalTo(FieldStyle.UNBOUND_CHECK_BOX )));
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_CHECK_BOX ) ) );
     }
 }

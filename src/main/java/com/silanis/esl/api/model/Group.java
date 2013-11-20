@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Group extends Entity
-      implements java.io.Serializable, IGroup
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

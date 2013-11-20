@@ -2,8 +2,9 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.sdk.Field;
-import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.SignatureStyle;
 import com.silanis.esl.sdk.TextAnchor;
 import com.silanis.esl.sdk.internal.converter.FieldConverter;
@@ -20,6 +21,7 @@ final public class SignatureBuilder {
     public static final double DEFAULT_HEIGHT = 50;
     public static final SignatureStyle DEFAULT_STYLE = SignatureStyle.FULL_NAME;
 
+    private GroupId groupId;
     private String name;
     private String signerEmail;
     private int pageNumber;
@@ -33,21 +35,30 @@ final public class SignatureBuilder {
     private TextAnchor textAnchor;
 
     /**
-     * 
      * @param email
      */
     private SignatureBuilder( String email ) {
         this.signerEmail = email;
+        this.groupId = null;
+    }
+
+    private SignatureBuilder( GroupId groupId ) {
+        this.groupId = groupId;
+        this.signerEmail = null;
     }
 
     /**
      * Creates a SignatureBuilder instance for the signer having the email address provided as parameter
-     * 
-     * @param signerEmail	the signer's email address
-     * @return	a SignatureBuilder instance
+     *
+     * @param signerEmail the signer's email address
+     * @return a SignatureBuilder instance
      */
-    public static SignatureBuilder signatureFor(String signerEmail) {
+    public static SignatureBuilder signatureFor( String signerEmail ) {
         return new SignatureBuilder( signerEmail );
+    }
+
+    public static SignatureBuilder signatureFor( GroupId groupId ) {
+        return new SignatureBuilder( groupId );
     }
 
     /**
@@ -56,7 +67,7 @@ final public class SignatureBuilder {
      * @param signerEmail the signer's email address
      * @return a SignatureBuilder instance
      */
-    public static SignatureBuilder acceptanceFor(String signerEmail) {
+    public static SignatureBuilder acceptanceFor( String signerEmail ) {
         SignatureBuilder builder = signatureFor( signerEmail )
                 .withStyle( SignatureStyle.ACCEPTANCE )
                 .atPosition( 0, 0 )
@@ -68,44 +79,44 @@ final public class SignatureBuilder {
     /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.INITIALS
-     * 
+     *
      * @param signerEmail
-     * @return	a SignatureBuilder instance
+     * @return a SignatureBuilder instance
      */
-    public static SignatureBuilder initialsFor(String signerEmail) {
-        return new SignatureBuilder( signerEmail ).withStyle(SignatureStyle.INITIALS);
+    public static SignatureBuilder initialsFor( String signerEmail ) {
+        return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.INITIALS );
     }
 
     /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
-
+     *
      * @param signerEmail
-     * @return	a SignatureBuilder instance
+     * @return a SignatureBuilder instance
      */
-    public static SignatureBuilder captureFor(String signerEmail) {
-        return new SignatureBuilder( signerEmail ).withStyle(SignatureStyle.HAND_DRAWN);
+    public static SignatureBuilder captureFor( String signerEmail ) {
+        return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.HAND_DRAWN );
     }
 
     /**
      * Sets the page number where this signature will be placed on.
-     * 
-     * @param pageNumber	the page number the signature will be placed on
-     * @return	the signature builder itself
+     *
+     * @param pageNumber the page number the signature will be placed on
+     * @return the signature builder itself
      */
-    public SignatureBuilder onPage(int pageNumber) {
+    public SignatureBuilder onPage( int pageNumber ) {
         this.pageNumber = pageNumber;
         return this;
     }
 
     /**
      * Sets the coordinates where where this signature will be placed at inside the page.
-     * 
-     * @param x	x-coordinate
-     * @param y	y-coordinate
-     * @return	the signature builder itself
+     *
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return the signature builder itself
      */
-    public SignatureBuilder atPosition(double x, double y) {
+    public SignatureBuilder atPosition( double x, double y ) {
         this.x = x;
         this.y = y;
         return this;
@@ -113,9 +124,9 @@ final public class SignatureBuilder {
 
     /**
      * Sets the size of the signature
-     * 
-     * @param width the width of the signature
-     * @param height	the height of the signature
+     *
+     * @param width  the width of the signature
+     * @param height the height of the signature
      * @return the signature builder itself
      */
     public SignatureBuilder withSize( double width, double height ) {
@@ -126,8 +137,8 @@ final public class SignatureBuilder {
 
     /**
      * Sets the style of the signature
-     * 
-     * @param style	the style of the signature
+     *
+     * @param style the style of the signature
      * @return the signature builder itself
      */
     public SignatureBuilder withStyle( SignatureStyle style ) {
@@ -137,9 +148,9 @@ final public class SignatureBuilder {
 
     /**
      * Adds a field bound to the signature
-     * 
-     * @param builder	a convenient field builder
-     * @return	the signature builder itself
+     *
+     * @param builder a convenient field builder
+     * @return the signature builder itself
      */
     public SignatureBuilder withField( FieldBuilder builder ) {
         return withField( builder.build() );
@@ -147,9 +158,9 @@ final public class SignatureBuilder {
 
     /**
      * Adds a field to the signature
-     * 
-     * @param field	the field
-     * @return	the signature builder itself
+     *
+     * @param field the field
+     * @return the signature builder itself
      */
     public SignatureBuilder withField( Field field ) {
         fields.add( field );
@@ -158,8 +169,9 @@ final public class SignatureBuilder {
 
     /**
      * Sets the name for the signature
-     * @param name	the signature's name
-     * @return	the signature builder itself
+     *
+     * @param name the signature's name
+     * @return the signature builder itself
      */
     public SignatureBuilder withName( String name ) {
         this.name = name;
@@ -168,7 +180,8 @@ final public class SignatureBuilder {
 
     /**
      * Enables signature extraction
-     * @return	the signature builder itself
+     *
+     * @return the signature builder itself
      */
     public SignatureBuilder withPositionExtracted() {
         this.extract = true;
@@ -186,10 +199,16 @@ final public class SignatureBuilder {
 
     /**
      * This method actually builds the Signature object
-     * @return	the Signature object
+     *
+     * @return the Signature object
      */
     public Signature build() {
-        Signature signature = new Signature(signerEmail, pageNumber, x, y);
+        Signature signature;
+        if ( signerEmail != null ) {
+            signature = new Signature( signerEmail, pageNumber, x, y );
+        } else {
+            signature = new Signature( groupId, pageNumber, x, y );
+        }
 
         signature.setName( name );
         signature.setStyle( style );
@@ -204,16 +223,25 @@ final public class SignatureBuilder {
 
     public static SignatureBuilder newSignatureFromAPIApproval( Approval apiApproval, Package apiPackage ) {
 
+        SignatureBuilder signatureBuilder = null;
         Signer apiSigner = null;
         for ( Role role : apiPackage.getRoles() ) {
             if ( role.getId().equals( apiApproval.getRole() ) ) {
-                if (!isPlaceholder(role)) {
+                if ( !isPlaceholder( role ) ) {
                     apiSigner = role.getSigners().get( 0 );
                 }
             }
         }
 
-        SignatureBuilder signatureBuilder = new SignatureBuilder( apiSigner != null ? apiSigner.getEmail() : "");
+        if ( apiSigner != null ) {
+            if ( apiSigner.getGroup() == null ) {
+                signatureBuilder = new SignatureBuilder( apiSigner.getEmail() );
+            } else {
+                signatureBuilder = new SignatureBuilder( new GroupId( apiSigner.getGroup().getId() ) );
+            }
+        } else {
+            signatureBuilder = new SignatureBuilder( "" );
+        }
         signatureBuilder.withName( apiApproval.getName() );
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
@@ -230,7 +258,7 @@ final public class SignatureBuilder {
             signatureBuilder.withSize( 0, 0 );
 
         } else {
-            signatureBuilder.withStyle( SignatureStyle.fromAPIFieldSubType(apiSignatureField.getSubtype()) );
+            signatureBuilder.withStyle( SignatureStyle.fromAPIFieldSubType( apiSignatureField.getSubtype() ) );
             signatureBuilder.onPage( apiSignatureField.getPage() );
             signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
             signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
@@ -242,7 +270,7 @@ final public class SignatureBuilder {
         return signatureBuilder;
     }
 
-    private static boolean isPlaceholder(Role role) {
+    private static boolean isPlaceholder( Role role ) {
         return role.getSigners().isEmpty();
     }
 }

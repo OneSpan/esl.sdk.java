@@ -1,15 +1,13 @@
 package com.silanis.esl.api.model;
 //
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.silanis.esl.api.util.SchemaSanitizer;
-
+import com.fasterxml.jackson.annotation.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
-
+import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class UserCustomField extends Entity
-      implements java.io.Serializable, IUserCustomField
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
@@ -23,7 +21,7 @@ public class UserCustomField extends Entity
     public static final String FIELD_VALUE = "value";
     
     // Empty Constructor
-    public UserCustomField() {}
+    public UserCustomField ( ) {}
     
     // Fields
     protected String _value = "";

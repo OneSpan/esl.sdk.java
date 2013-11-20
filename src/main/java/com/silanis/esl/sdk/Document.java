@@ -52,7 +52,11 @@ public class Document implements Serializable {
 
             Approval approval = converter.convertToApproval(signature);
 
-            approval.setRole(findRoleIdForSignature( signature.getSignerEmail(), createdPackage ));
+            if ( signature.isGroupSignature() ) {
+                approval.setRole(findRoleIdForGroup( signature.getGroupId(), createdPackage ) );
+            } else {
+                approval.setRole(findRoleIdForSignature( signature.getSignerEmail(), createdPackage ) );
+            }
             doc.addApproval(approval);
         }
 
@@ -63,10 +67,27 @@ public class Document implements Serializable {
         return doc;
     }
 
+    private String findRoleIdForGroup( GroupId groupId, Package createdPackage ) {
+        for ( Role role : createdPackage.getRoles() ) {
+            if ( !role.getSigners().isEmpty() ) {
+                if ( role.getSigners().get( 0 ).getGroup() != null ) {
+                    if ( role.getSigners().get( 0 ).getGroup().getId().equals( groupId.getId() ) ) {
+                        return role.getId();
+                    }
+                }
+            }
+        }
+        throw new IllegalStateException( "No role found for signer group " + groupId.getId() );
+    }
+
     private String findRoleIdForSignature( String signerEmail, Package createdPackage ) {
         for ( Role role : createdPackage.getRoles() ) {
-            if ( signerEmail.equals( role.getSigners().get( 0 ).getEmail() ) ) {
-                return role.getId();
+            if ( !role.getSigners().isEmpty() ) {
+                if ( role.getSigners().get( 0 ).getEmail() != null ) {
+                    if ( signerEmail.equals( role.getSigners().get( 0 ).getEmail() ) ) {
+                        return role.getId();
+                    }
+                }
             }
         }
 

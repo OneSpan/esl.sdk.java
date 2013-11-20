@@ -1,17 +1,13 @@
 package com.silanis.esl.api.model;
 //
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.silanis.esl.api.util.SchemaSanitizer;
-
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
-
+import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CustomField extends Entity
-      implements java.io.Serializable, ICustomField
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
@@ -82,7 +78,7 @@ public class CustomField extends Entity
         
     
     public CustomField setRequired( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_REQUIRED, value);
+        SchemaSanitizer.throwOnNull(FIELD_REQUIRED,value);
         // TODO With proper compare
         // if ( this._required == value ) return this;
         this._required = value;
@@ -106,7 +102,7 @@ public class CustomField extends Entity
         
     
     public CustomField setTranslations( List<Translation> value ){
-        SchemaSanitizer.throwOnNull(FIELD_TRANSLATIONS, value);
+        SchemaSanitizer.throwOnNull(FIELD_TRANSLATIONS,value);
         // TODO With proper compare
         // if ( this._translations == value ) return this;
         this._translations = value;

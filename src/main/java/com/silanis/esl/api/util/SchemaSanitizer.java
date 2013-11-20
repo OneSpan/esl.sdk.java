@@ -1,7 +1,5 @@
 package com.silanis.esl.api.util;
 
-import java.util.Arrays;
-
 public class SchemaSanitizer {
 
     /**

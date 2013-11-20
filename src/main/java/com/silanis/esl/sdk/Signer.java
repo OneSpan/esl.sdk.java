@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.api.model.*;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,6 +13,7 @@ public class Signer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final String email;
+    private final GroupId groupId;
     private final String firstName;
     private final String lastName;
     private final Authentication authentication;
@@ -38,6 +39,19 @@ public class Signer implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.authentication = authentication;
+        this.groupId = null;
+    }
+
+    public Signer(GroupId groupId) {
+        this.email = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.authentication = new Authentication(AuthenticationMethod.EMAIL);
+        this.groupId = groupId;
+    }
+
+    public boolean isGroupSigner() {
+        return groupId != null;
     }
 
     /**
@@ -104,18 +118,24 @@ public class Signer implements Serializable {
     }
 
     com.silanis.esl.api.model.Signer toAPISigner() {
-        com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer()
-                .setEmail( email )
+        com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
+
+        if ( !isGroupSigner() ) {
+            result.setEmail( email )
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setTitle(title)
                 .setCompany(company)
-                .setDelivery(new Delivery().setEmail(deliverSignedDocumentsByEmail))
-                .setAuth( authentication.toAPIAuthentication() );
+                .setDelivery( new Delivery().setEmail( deliverSignedDocumentsByEmail ) );
+        } else {
+            result.setGroup( new com.silanis.esl.api.model.Group().setId( getGroupId().toString() ) );
+        }
 
         if ( id != null ) {
             result.setId( id );
         }
+
+        result.setAuth( authentication.toAPIAuthentication() );
 
         return result;
     }
@@ -234,6 +254,10 @@ public class Signer implements Serializable {
      */
     public String getId() {
         return id;
+    }
+
+    public GroupId getGroupId() {
+        return this.groupId;
     }
 
     public void setLocked( boolean locked ) {

@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Sender extends User
-      implements java.io.Serializable, ISender
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
@@ -57,6 +57,8 @@ public class Sender extends User
     public static final String FIELD_TYPE = "type";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
+    @JsonIgnore
+    public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
     
     // Empty Constructor
     public Sender ( ) {}
@@ -407,6 +409,26 @@ public class Sender extends User
     @JsonIgnore
     public Sender safeSetUpdated( java.util.Date value ){
         if ( value != null ) { this.setUpdated( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Sender setUserCustomFields( List<UserCustomField> value ){
+        super.setUserCustomFields(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Sender safeSetUserCustomFields( List<UserCustomField> value ){
+        if ( value != null ) { this.setUserCustomFields( value ); }
+        return this;
+    }
+    // List adder
+    @Override
+    public Sender addUserCustomField( UserCustomField value ){
+        super.addUserCustomField(value);
         return this;
     }
     

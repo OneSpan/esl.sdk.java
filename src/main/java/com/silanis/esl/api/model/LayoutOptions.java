@@ -1,10 +1,12 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
+import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class LayoutOptions extends Model
-      implements java.io.Serializable, ILayoutOptions
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

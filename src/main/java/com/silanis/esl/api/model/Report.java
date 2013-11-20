@@ -1,6 +1,8 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
+import java.util.ArrayList;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -8,7 +10,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Report extends Model
-      implements java.io.Serializable, IReport
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

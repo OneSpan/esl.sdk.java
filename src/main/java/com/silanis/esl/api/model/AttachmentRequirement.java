@@ -1,17 +1,18 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AttachmentRequirement extends Entity
-      implements java.io.Serializable, IAttachmentRequirement
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
     @JsonIgnore
-    public static final String FIELD_ATTACHMENTBIN = "attachmentBin";
+    public static final String FIELD_COMMENT = "comment";
     @JsonIgnore
     public static final String FIELD_DATA = "data";
     @JsonIgnore
@@ -29,7 +30,7 @@ public class AttachmentRequirement extends Entity
     public AttachmentRequirement ( ) {}
     
     // Fields
-    protected AttachmentBin _attachmentBin = null;
+    protected String _comment = "";
     protected String _description = "";
     protected Boolean _required = true;
     protected RequirementStatus _status = RequirementStatus.INCOMPLETE;
@@ -37,21 +38,23 @@ public class AttachmentRequirement extends Entity
     // Accessors
         
     
-    public AttachmentRequirement setAttachmentBin( AttachmentBin value ){
+    public AttachmentRequirement setComment( String value ){
+        value = SchemaSanitizer.sanitize(value);
+        value = SchemaSanitizer.trim(value);
         // TODO With proper compare
-        // if ( this._attachmentBin == value ) return this;
-        this._attachmentBin = value;
-        setDirty(FIELD_ATTACHMENTBIN);
+        // if ( this._comment == value ) return this;
+        this._comment = value;
+        setDirty(FIELD_COMMENT);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public AttachmentRequirement safeSetAttachmentBin( AttachmentBin value ){
-        if ( value != null ) { this.setAttachmentBin( value ); }
+    public AttachmentRequirement safeSetComment( String value ){
+        if ( value != null ) { this.setComment( value ); }
         return this;
     }
-    public AttachmentBin getAttachmentBin(){
-        return _attachmentBin;
+    public String getComment(){
+        return _comment;
     }
     
         

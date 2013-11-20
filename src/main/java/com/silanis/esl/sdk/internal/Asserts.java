@@ -8,15 +8,14 @@ public class Asserts {
 
     private Asserts() {}
 
-    public static void notNullOrEmpty(String assertedValue, String fieldName) {
-        if (assertedValue == null || assertedValue.trim().isEmpty()) {
-            throw new EslException(format("%s cannot be null or empty", fieldName));
+
+    public static void genericAssert(boolean condition, String message) {
+        if ( !condition ) {
+            throw new EslException( message );
         }
     }
 
-    public static void nonZero(double assertedValue, String fieldName) {
-        if (assertedValue == 0) {
-            throw new EslException(format("%s cannot be 0", fieldName));
-        }
+    public static void notNullOrEmpty(String assertedValue, String fieldName) {
+        genericAssert( !(assertedValue == null || assertedValue.trim().isEmpty()), fieldName + "cannot be null or empty" );
     }
 }

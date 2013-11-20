@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AccountProviders extends Model
-      implements java.io.Serializable, IAccountProviders
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants

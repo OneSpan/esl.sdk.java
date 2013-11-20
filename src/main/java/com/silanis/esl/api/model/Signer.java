@@ -1,14 +1,17 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
-
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Signer extends User
-      implements java.io.Serializable, ISigner
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
@@ -48,6 +51,8 @@ public class Signer extends User
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
+    @JsonIgnore
+    public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
     
     // Empty Constructor
     public Signer ( ) {}
@@ -326,6 +331,26 @@ public class Signer extends User
     @JsonIgnore
     public Signer safeSetUpdated( java.util.Date value ){
         if ( value != null ) { this.setUpdated( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Signer setUserCustomFields( List<UserCustomField> value ){
+        super.setUserCustomFields(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetUserCustomFields( List<UserCustomField> value ){
+        if ( value != null ) { this.setUserCustomFields( value ); }
+        return this;
+    }
+    // List adder
+    @Override
+    public Signer addUserCustomField( UserCustomField value ){
+        super.addUserCustomField(value);
         return this;
     }
     

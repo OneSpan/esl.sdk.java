@@ -1,15 +1,13 @@
 package com.silanis.esl.api.model;
 //
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.silanis.esl.api.util.SchemaSanitizer;
-
+import com.fasterxml.jackson.annotation.*;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
-
+import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Translation extends Entity
-      implements java.io.Serializable, ITranslation
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
@@ -49,7 +47,7 @@ public class Translation extends Entity
         
     
     public Translation setDescription( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_DESCRIPTION, value);
+        SchemaSanitizer.throwOnNull(FIELD_DESCRIPTION,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._description == value ) return this;
@@ -84,7 +82,7 @@ public class Translation extends Entity
         
     
     public Translation setLanguage( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_LANGUAGE, value);
+        SchemaSanitizer.throwOnNull(FIELD_LANGUAGE,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._language == value ) return this;

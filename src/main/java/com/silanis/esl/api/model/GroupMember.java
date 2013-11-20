@@ -1,10 +1,12 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
+import java.util.List;
+import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GroupMember extends Model
-      implements java.io.Serializable, IGroupMember
+      implements java.io.Serializable
 {
     
     // Dirty Flag Constants
@@ -17,6 +19,8 @@ public class GroupMember extends Model
     @JsonIgnore
     public static final String FIELD_MEMBERTYPE = "memberType";
     @JsonIgnore
+    public static final String FIELD_PENDING = "pending";
+    @JsonIgnore
     public static final String FIELD_USERID = "userId";
     
     // Empty Constructor
@@ -27,6 +31,7 @@ public class GroupMember extends Model
     protected String _firstName = "";
     protected String _lastName = "";
     protected MemberType _memberType = MemberType.REGULAR;
+    protected Boolean _pending = false;
     protected String _userId = "";
     
     // Accessors
@@ -112,6 +117,30 @@ public class GroupMember extends Model
     }
     public MemberType getMemberType(){
         return _memberType;
+    }
+    
+        
+    
+    public GroupMember setPending( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_PENDING,value);
+        // TODO With proper compare
+        // if ( this._pending == value ) return this;
+        this._pending = value;
+        setDirty(FIELD_PENDING);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public GroupMember safeSetPending( Boolean value ){
+        if ( value != null ) { this.setPending( value ); }
+        return this;
+    }
+    public Boolean getPending(){
+        return _pending;
+    }
+    @JsonIgnore
+    public boolean evalPending(){
+        return _pending == null ? false : _pending.booleanValue();
     }
     
         
