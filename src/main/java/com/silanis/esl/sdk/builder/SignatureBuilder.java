@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureStyle;
 import com.silanis.esl.sdk.TextAnchor;
+import com.silanis.esl.sdk.internal.converter.FieldConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -220,8 +221,7 @@ final public class SignatureBuilder {
             if ( apiField.getType() == FieldType.SIGNATURE ) {
                 apiSignatureField = apiField;
             } else {
-                FieldBuilder fieldBuilder = FieldBuilder.newFieldFromAPIField( apiField );
-                signatureBuilder.withField( fieldBuilder );
+                signatureBuilder.withField( new FieldConverter(apiField).toSDKField() );
             }
 
         }

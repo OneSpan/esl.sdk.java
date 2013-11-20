@@ -1,4 +1,4 @@
-package com.silanis.esl.sdk.internal.converter.sdk;
+package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.ExtractAnchor;
 import com.silanis.esl.sdk.TextAnchor;
@@ -19,7 +19,7 @@ public class TextAnchorConverter {
         this.sdkTextAnchor = null;
     }
 
-    public ExtractAnchor getESLExtractAnchor() {
+    public ExtractAnchor toAPIExtractAnchor() {
         ExtractAnchor result = new ExtractAnchor();
 
         result.setLeftOffset( sdkTextAnchor.getXOffset() );
@@ -34,7 +34,7 @@ public class TextAnchorConverter {
         return result;
     }
 
-    public TextAnchor getSDKTextAnchor() {
+    public TextAnchor toSDKTextAnchor() {
         TextAnchor result = new TextAnchor();
 
         result.setPosition( TextAnchorPosition.valueOf( extractAnchor.getAnchorPoint() ) );

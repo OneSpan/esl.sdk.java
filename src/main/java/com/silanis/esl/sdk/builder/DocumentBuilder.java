@@ -7,6 +7,7 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.builder.internal.FileDocumentSource;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
+import com.silanis.esl.sdk.internal.converter.FieldConverter;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -194,8 +195,7 @@ public class DocumentBuilder {
         }
 
         for ( com.silanis.esl.api.model.Field apiField : apiDocument.getFields() ) {
-            FieldBuilder fieldBuilder = FieldBuilder.newFieldFromAPIField( apiField );
-            documentBuilder.withInjectedField( fieldBuilder );
+            documentBuilder.withInjectedField( new FieldConverter(apiField).toSDKField() );
         }
 
         return documentBuilder;

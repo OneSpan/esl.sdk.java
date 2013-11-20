@@ -1,18 +1,14 @@
 package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.converter.sdk.TextAnchorConverter;
+import com.silanis.esl.sdk.internal.converter.FieldConverter;
+import com.silanis.esl.sdk.internal.converter.TextAnchorConverter;
 
 /**
  * 
  * FieldBuilder is a convenient class used to create fields.
  */
 public class FieldBuilder {
-
-    private static final String BINDING_DATE = "{approval.signed}";
-    private static final String BINDING_TITLE = "{signer.title}";
-    private static final String BINDING_NAME = "{signer.name}";
-    private static final String BINDING_COMPANY = "{signer.company}";
 
     public static final int DEFAULT_WIDTH = 200;
     public static final int DEFAULT_HEIGHT = 50;
@@ -230,64 +226,5 @@ public class FieldBuilder {
         }
 
         return field;
-    }
-
-    private static FieldStyle getFieldStyleFromAPIField( com.silanis.esl.api.model.Field field ) {
-
-        if ( field.getBinding() == null ) {
-            switch ( field.getSubtype() ) {
-                case TEXTFIELD:
-                    return FieldStyle.UNBOUND_TEXT_FIELD;
-                case CUSTOMFIELD:
-                    return FieldStyle.UNBOUND_CUSTOM_FIELD;
-                case CHECKBOX:
-                    return FieldStyle.UNBOUND_CHECK_BOX;
-                default: {
-                    throw new BuilderException( "Unrecognized field style." );
-                }
-            }
-        } else {
-            String binding = field.getBinding();
-            if ( binding.equals( BINDING_DATE ) ) {
-                return FieldStyle.BOUND_DATE;
-            } else if ( binding.equals( BINDING_TITLE ) ) {
-                return FieldStyle.BOUND_TITLE;
-            } else if ( binding.equals( BINDING_NAME ) ) {
-                return FieldStyle.BOUND_NAME;
-            } else if ( binding.equals( BINDING_COMPANY ) ) {
-                return FieldStyle.BOUND_COMPANY;
-            } else {
-                throw new BuilderException( "Invalid field binding." );
-            }
-        }
-    }
-
-    public static FieldBuilder newFieldFromAPIField( com.silanis.esl.api.model.Field apiField ) {
-
-        FieldBuilder fieldBuilder = new FieldBuilder();
-        fieldBuilder.onPage( apiField.getPage() );
-        fieldBuilder.atPosition( apiField.getLeft(), apiField.getTop() );
-        fieldBuilder.withSize( apiField.getWidth(), apiField.getHeight() );
-        fieldBuilder.withStyle( getFieldStyleFromAPIField( apiField ) );
-
-        if ( apiField.getName() != null ) {
-            fieldBuilder.withName( apiField.getName() );
-        }
-
-        if ( apiField.getId() != null ) {
-            fieldBuilder.withId( new FieldId(apiField.getId()) );
-        }
-
-        if ( apiField.evalExtract() ) {
-            fieldBuilder.withPositionExtracted();
-        }
-
-        fieldBuilder.withValue( apiField.getValue() );
-
-        if ( apiField.getExtractAnchor() != null ) {
-            fieldBuilder.withPositionAnchor( new TextAnchorConverter(apiField.getExtractAnchor()).getSDKTextAnchor() );
-        }
-
-        return fieldBuilder;
     }
 }

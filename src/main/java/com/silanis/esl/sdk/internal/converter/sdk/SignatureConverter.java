@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.internal.ConversionException;
 import com.silanis.esl.sdk.internal.converter.ConversionService;
+import com.silanis.esl.sdk.internal.converter.TextAnchorConverter;
 
 public class SignatureConverter {
 
@@ -24,7 +25,7 @@ public class SignatureConverter {
         }
 
         if (signature.getTextAnchor() != null ) {
-            result.setExtractAnchor( new TextAnchorConverter(signature.getTextAnchor()).getESLExtractAnchor() );
+            result.setExtractAnchor( new TextAnchorConverter(signature.getTextAnchor()).toAPIExtractAnchor() );
         }
 
         result.setType( FieldType.SIGNATURE );

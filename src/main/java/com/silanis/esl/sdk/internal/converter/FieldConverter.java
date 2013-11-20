@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.FieldType;
 import com.silanis.esl.sdk.FieldId;
-import com.silanis.esl.sdk.internal.converter.sdk.TextAnchorConverter;
 
 /**
  * User: jessica
@@ -58,7 +57,7 @@ public class FieldConverter {
         }
 
         if ( sdkField.getTextAnchor() != null ) {
-            result.setExtractAnchor( new TextAnchorConverter( sdkField.getTextAnchor() ).getESLExtractAnchor() );
+            result.setExtractAnchor( new TextAnchorConverter( sdkField.getTextAnchor() ).toAPIExtractAnchor() );
         }
 
         return result;
@@ -79,8 +78,8 @@ public class FieldConverter {
         result.setId(new FieldId(apiField.getId()));
         result.setName(apiField.getName());
         result.setPage(apiField.getPage());
-        result.setStyle(new FieldStyleAndSubTypeConverter(apiField.getSubtype()).toSDKFieldStyle());
-        result.setTextAnchor(new TextAnchorConverter(apiField.getExtractAnchor()).getSDKTextAnchor());
+        result.setStyle(new FieldStyleAndSubTypeConverter(apiField.getSubtype(), apiField.getBinding()).toSDKFieldStyle());
+        result.setTextAnchor(new TextAnchorConverter(apiField.getExtractAnchor()).toSDKTextAnchor());
         result.setValue(apiField.getValue());
         result.setX(apiField.getLeft());
         result.setY(apiField.getTop());
