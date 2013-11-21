@@ -3,6 +3,7 @@ package com.silanis.esl.sdk;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.AuditService;
 import com.silanis.esl.sdk.service.EventNotificationService;
@@ -123,7 +124,7 @@ public class EslClient {
         PackageId id = packageService.createPackage(packageToCreate);
 
         for (Document document : documentPackage.getDocuments()) {
-            packageService.uploadDocument(id, document.getFileName(), document.getContent(), document.toAPIDocument(packageToCreate));
+            packageService.uploadDocument(id, document.getFileName(), document.getContent(), new DocumentConverter(document).toAPIDocument(packageToCreate));
         }
 
         return id;
@@ -232,7 +233,7 @@ public class EslClient {
 
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
         Package apiPackage = documentPackage.toAPIPackage();
-        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, document.toAPIDocument( apiPackage ) );
+        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, new DocumentConverter(document).toAPIDocument(apiPackage) );
     }
 
     public GroupService getGroupService() {

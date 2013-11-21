@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 
 import java.util.*;
 
@@ -65,8 +66,7 @@ public class PackageBuilder {
         }
 
         for ( com.silanis.esl.api.model.Document apiDocument : apiPackage.getDocuments() ) {
-            Document document = DocumentBuilder.newDocumentFromAPIDocument( apiDocument, apiPackage ).build();
-
+            Document document = new DocumentConverter(apiDocument, apiPackage).toSDKDocument();
             this.withDocument( document );
         }
     }
