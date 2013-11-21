@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.builder.internal.FileDocumentSource;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
 import com.silanis.esl.sdk.internal.converter.FieldConverter;
+import com.silanis.esl.sdk.internal.converter.SignatureConverter;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -189,9 +190,7 @@ public class DocumentBuilder {
         documentBuilder.withDescription( apiDocument.getDescription() );
 
         for ( Approval apiApproval : apiDocument.getApprovals() ) {
-            SignatureBuilder signatureBuilder = SignatureBuilder.newSignatureFromAPIApproval( apiApproval, aPackage );
-            Signature signature = signatureBuilder.build();
-            documentBuilder.withSignature( signature );
+            documentBuilder.withSignature( new SignatureConverter( apiApproval, aPackage ).toSDKSignature());
         }
 
         for ( com.silanis.esl.api.model.Field apiField : apiDocument.getFields() ) {

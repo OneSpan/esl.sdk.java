@@ -4,7 +4,7 @@ import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.internal.converter.ConversionService;
-import com.silanis.esl.sdk.internal.converter.sdk.SignatureConverter;
+import com.silanis.esl.sdk.internal.converter.SignatureConverter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,11 +46,9 @@ public class Document implements Serializable {
             doc.setDescription( description );
         }
 
-        SignatureConverter converter = new SignatureConverter();
-
         for ( Signature signature : signatures ) {
 
-            Approval approval = converter.convertToApproval(signature);
+            Approval approval = new SignatureConverter(signature).toAPIApproval();
 
             if ( signature.isGroupSignature() ) {
                 approval.setRole(findRoleIdForGroup( signature.getGroupId(), createdPackage ) );
