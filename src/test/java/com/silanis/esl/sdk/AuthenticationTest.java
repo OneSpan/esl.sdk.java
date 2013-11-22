@@ -2,6 +2,7 @@ package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.AuthScheme;
+import com.silanis.esl.sdk.internal.converter.AuthenticationConverter;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -66,16 +67,16 @@ public class AuthenticationTest {
     @Test
     public void emailAuthToAPIAuth() {
         Authentication authentication = newEmailAuthentication();
-        Auth auth = authentication.toAPIAuthentication();
-        assertThat( "Null value was returned by converter", auth, is( notNullValue() ) );
+        Auth auth = new AuthenticationConverter(authentication).toAPIAuthentication();
+        assertThat("Null value was returned by converter", auth, is(notNullValue()));
         assertThat( "AuthScheme was not set to NONE", auth.getScheme(), is( equalTo( AuthScheme.NONE ) ) );
     }
 
     @Test
     public void challengeAuthToAPIAuth() {
         Authentication authentication = newChallengeAuthentication();
-        Auth auth = authentication.toAPIAuthentication();
-        assertThat( "Null value was returned by converter", auth, is( notNullValue() ) );
+        Auth auth = new AuthenticationConverter(authentication).toAPIAuthentication();
+        assertThat("Null value was returned by converter", auth, is(notNullValue()));
         assertThat( "AuthScheme was not set to CHALLENGE", auth.getScheme(), is( equalTo( AuthScheme.CHALLENGE ) ) );
         assertThat( "Challenge list was set to null", auth.getChallenges(), is( notNullValue() ) );
         assertThat( "Challenge list did not contain the expected number of elements", auth.getChallenges().size(), is( equalTo( challenges.size() ) ) );
@@ -88,8 +89,8 @@ public class AuthenticationTest {
     @Test
     public void smsAuthToAPIAuth() {
         Authentication authentication = newSMSAuthentication();
-        Auth auth = authentication.toAPIAuthentication();
-        assertThat( "AuthScheme was not set to SMS", auth.getScheme(), is( equalTo( AuthScheme.SMS ) ) );
+        Auth auth = new AuthenticationConverter(authentication).toAPIAuthentication();
+        assertThat("AuthScheme was not set to SMS", auth.getScheme(), is(equalTo(AuthScheme.SMS)));
         assertThat( "Challenges list was null (should hold phone number)", auth.getChallenges(), notNullValue() );
         assertThat( "Challenges list was not length 1", auth.getChallenges().size(), is( equalTo( 1 ) ) );
         assertThat( "First challenge item should hold the phone number as question, but didn't", auth.getChallenges().get( 0 ).getQuestion(), is( equalTo( phoneNumber ) ) );

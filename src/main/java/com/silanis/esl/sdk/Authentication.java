@@ -35,33 +35,6 @@ public class Authentication {
         return challenges;
     }
 
-    Auth toAPIAuthentication() {
-        Auth auth = new Auth().setScheme(scheme());
-
-        for (Challenge challenge : challenges) {
-            auth.addChallenge(new AuthChallenge().setQuestion(challenge.getQuestion()).setAnswer(challenge.getAnswer()));
-        }
-
-        if (phoneNumber != null) {
-            auth.addChallenge(new AuthChallenge().setQuestion(phoneNumber));
-        }
-
-        return auth;
-    }
-
-    private AuthScheme scheme() {
-        switch (method) {
-            case EMAIL:
-                return AuthScheme.NONE;
-            case CHALLENGE:
-                return AuthScheme.CHALLENGE;
-            case SMS:
-                return AuthScheme.SMS;
-        }
-
-        throw new IllegalStateException("Unknown authentication method");
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
