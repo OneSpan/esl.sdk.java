@@ -1,9 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.Auth;
-import com.silanis.esl.api.model.AuthChallenge;
-import com.silanis.esl.api.model.AuthScheme;
-
 import java.util.ArrayList;
 import java.util.List;
 

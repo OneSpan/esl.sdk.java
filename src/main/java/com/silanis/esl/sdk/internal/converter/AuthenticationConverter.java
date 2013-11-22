@@ -2,8 +2,6 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
 import com.silanis.esl.api.model.AuthScheme;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.builder.SignerBuilder;
 
 /**
  * User: jessica
