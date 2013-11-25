@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class AccountMemberConverterTest {
+public class AccountMemberConverterTest implements ConverterTest{
     @Test
     public void convertNullSDKToAPI() {
         AccountMember member = null;

@@ -36,7 +36,7 @@ public class FieldValidatorConverter {
      * @return a FieldValidation object.
      */
     public FieldValidation toAPIFieldValidation() {
-        if (fieldValidation != null) {
+        if (fieldValidator == null) {
             return fieldValidation;
         }
         FieldValidation fieldValidation = new FieldValidation();
@@ -72,7 +72,7 @@ public class FieldValidatorConverter {
      * @return a FieldValidator object.
      */
     public FieldValidator toSDKFieldValidator() {
-        if (fieldValidator != null) {
+        if (fieldValidation == null) {
             return fieldValidator;
         }
         FieldValidator fieldValidator = new FieldValidator();

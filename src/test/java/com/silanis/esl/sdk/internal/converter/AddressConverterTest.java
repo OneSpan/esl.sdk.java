@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-public class AddressConverterTest {
+public class AddressConverterTest implements ConverterTest {
     @Test
     public void convertNullSDKToAPI() {
         Address address = null;

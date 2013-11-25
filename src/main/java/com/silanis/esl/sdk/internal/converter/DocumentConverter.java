@@ -42,7 +42,7 @@ public class DocumentConverter {
      */
     public com.silanis.esl.sdk.Document toSDKDocument() {
 
-        if (sdkDocument != null) {
+        if (apiDocument == null) {
             return sdkDocument;
         }
 
@@ -69,7 +69,7 @@ public class DocumentConverter {
      */
     public com.silanis.esl.api.model.Document toAPIDocument( com.silanis.esl.api.model.Package createdPackage ) {
 
-        if (apiDocument != null) {
+        if (sdkDocument == null) {
             return apiDocument;
         }
 

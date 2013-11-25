@@ -9,8 +9,8 @@ import com.silanis.esl.sdk.TextAnchorPosition;
  */
 public class TextAnchorConverter {
 
-    private TextAnchor sdkTextAnchor;
-    private ExtractAnchor extractAnchor;
+    private TextAnchor sdkTextAnchor = null;
+    private ExtractAnchor extractAnchor = null;
 
     /**
      * Construct with SDK object involved in conversion.
@@ -19,7 +19,6 @@ public class TextAnchorConverter {
      */
     public TextAnchorConverter( TextAnchor textAnchor ) {
         this.sdkTextAnchor = textAnchor;
-        this.extractAnchor = null;
     }
 
     /**
@@ -29,7 +28,6 @@ public class TextAnchorConverter {
      */
     public TextAnchorConverter( ExtractAnchor extractAnchor ) {
         this.extractAnchor = extractAnchor;
-        this.sdkTextAnchor = null;
     }
 
     /**
@@ -38,6 +36,11 @@ public class TextAnchorConverter {
      * @return an ExtractAnchor object.
      */
     public ExtractAnchor toAPIExtractAnchor() {
+
+        if (sdkTextAnchor == null) {
+            return extractAnchor;
+        }
+
         ExtractAnchor result = new ExtractAnchor();
 
         result.setLeftOffset( sdkTextAnchor.getXOffset() );
@@ -58,6 +61,11 @@ public class TextAnchorConverter {
      * @return a TextAnchor object.
      */
     public TextAnchor toSDKTextAnchor() {
+
+        if (extractAnchor == null) {
+            return sdkTextAnchor;
+        }
+
         TextAnchor result = new TextAnchor();
 
         result.setPosition( TextAnchorPosition.valueOf( extractAnchor.getAnchorPoint() ) );

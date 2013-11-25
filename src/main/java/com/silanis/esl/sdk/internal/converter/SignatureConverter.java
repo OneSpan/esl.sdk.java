@@ -42,7 +42,7 @@ public class SignatureConverter {
      */
     public com.silanis.esl.sdk.Signature toSDKSignature() {
 
-        if (sdkSignature != null) {
+        if (apiPackage == null || apiApproval == null) {
             return sdkSignature;
         }
 
@@ -93,7 +93,7 @@ public class SignatureConverter {
      */
     public Approval toAPIApproval() {
 
-        if (apiApproval != null) {
+        if (sdkSignature == null) {
             return apiApproval;
         }
 
