@@ -4,11 +4,11 @@ import com.silanis.esl.api.model.UserCustomField;
 import com.silanis.esl.sdk.CustomField;
 import com.silanis.esl.sdk.CustomFieldValue;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.builder.CustomFieldBuilder;
 import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.CustomFieldConverter;
 
 /**
  * The CustomFieldService class provides methods to create
@@ -40,15 +40,15 @@ public class CustomFieldService {
 
         try {
             if ( doesCustomFieldExist( customField.getId() )){
-                apiRequest = customField.toAPICustomField();
+                apiRequest = new CustomFieldConverter(customField).toAPICustomField();
                 String stringResponse = client.put(path,Serialization.toJson( apiRequest ));
                 apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
-                sdkResponse = CustomFieldBuilder.customField( apiResponse ).build();
+                sdkResponse = new CustomFieldConverter(apiResponse).toSDKCustomField();
             }else{
-                apiRequest = customField.toAPICustomField();
+                apiRequest = new CustomFieldConverter(customField).toAPICustomField();
                 String stringResponse = client.post(path,Serialization.toJson( apiRequest ));
                 apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
-                sdkResponse = CustomFieldBuilder.customField( apiResponse ).build();
+                sdkResponse = new CustomFieldConverter(apiResponse).toSDKCustomField();
             }
             return sdkResponse;
         } catch ( Exception e ) {

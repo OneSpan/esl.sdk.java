@@ -1,14 +1,9 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.BrandingBarOptions;
 import com.silanis.esl.api.model.LayoutOptions;
-import com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder;
-import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings;
-import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
