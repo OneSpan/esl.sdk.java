@@ -22,10 +22,4 @@ public class CustomFieldValue {
         return value;
     }
 
-    public UserCustomField toAPIUserCustomField() {
-        UserCustomField result = new UserCustomField();
-        result.setId( id );
-        result.setValue( value );
-        return result;
-    }
 }

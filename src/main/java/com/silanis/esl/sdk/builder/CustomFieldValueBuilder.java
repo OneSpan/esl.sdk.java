@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.UserCustomField;
 import com.silanis.esl.sdk.CustomFieldValue;
 
 /**
@@ -19,12 +18,6 @@ public class CustomFieldValueBuilder {
      */
     public static CustomFieldValueBuilder customFieldValueWithId( String id ) {
         return new CustomFieldValueBuilder().withId( id );
-    }
-
-    public static CustomFieldValueBuilder customFieldValue( UserCustomField userCustomField ) {
-        return new CustomFieldValueBuilder().
-                withId( userCustomField.getId() ).
-                withValue( userCustomField.getValue() );
     }
 
     /**

@@ -4,11 +4,11 @@ import com.silanis.esl.api.model.UserCustomField;
 import com.silanis.esl.sdk.CustomField;
 import com.silanis.esl.sdk.CustomFieldValue;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.CustomFieldConverter;
+import com.silanis.esl.sdk.internal.converter.CustomFieldValueConverter;
 
 /**
  * The CustomFieldService class provides methods to create
@@ -94,7 +94,7 @@ public class CustomFieldService {
         String response;
 
         try {
-            String payload = Serialization.toJson(customFieldValue.toAPIUserCustomField());
+            String payload = Serialization.toJson(new CustomFieldValueConverter(customFieldValue).toAPIUserCustomField());
             if ( doesCustomFieldValueExist( customFieldValue.getId() )){
                 response = client.put(path,payload);
             }else{
@@ -102,7 +102,7 @@ public class CustomFieldService {
             }
             UserCustomField result = Serialization.fromJson( response, UserCustomField.class );
 
-            return CustomFieldValueBuilder.customFieldValue( result ).build();
+            return new CustomFieldValueConverter(customFieldValue).toSDKCustomFieldValue();
         } catch ( Exception e ) {
             throw new EslException( "Could not add/update the custom field to account.", e );
         }
