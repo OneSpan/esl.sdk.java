@@ -19,43 +19,6 @@ public class CeremonyLayoutSettings {
     private Boolean showGlobalDownloadButton = null;
     private Boolean showGlobalSaveAsLayoutButton = null;
 
-    protected LayoutOptions toAPILayoutOptions() {
-
-        TitleBarOptions titleBarOptions = new TitleBarOptions();
-        titleBarOptions.safeSetTitle( showTitle );
-        titleBarOptions.safeSetProgressBar( progressBar );
-
-        HeaderOptions headerOptions = new HeaderOptions();
-        headerOptions.safeSetBreadcrumbs( breadCrumbs );
-        headerOptions.safeSetSessionBar( sessionBar );
-        headerOptions.safeSetGlobalNavigation( globalNavigation );
-        headerOptions.safeSetTitleBar( titleBarOptions );
-
-        GlobalActionsOptions globalActionsOptions = new GlobalActionsOptions();
-        globalActionsOptions.safeSetConfirm( showGlobalConfirmButton );
-        globalActionsOptions.safeSetDownload( showGlobalDownloadButton );
-        globalActionsOptions.safeSetSaveAsLayout( showGlobalSaveAsLayoutButton );
-        headerOptions.setGlobalActions( globalActionsOptions );
-
-        BrandingBarOptions brandingBarOptions = null;
-        if ( logoImageLink != null || logoImageSource != null ) {
-            brandingBarOptions = new BrandingBarOptions();
-            Image logo = new Image();
-            logo.safeSetLink( logoImageLink );
-            logo.safeSetSrc( logoImageSource );
-            brandingBarOptions.safeSetLogo( logo );
-        }
-
-        LayoutOptions result = new LayoutOptions();
-        result.safeSetIframe( iFrame );
-        result.safeSetNavigator( navigator );
-        result.safeSetFooter( new FooterOptions() );
-        result.safeSetHeader( headerOptions );
-        result.safeSetBrandingBar( brandingBarOptions );
-
-        return result;
-    }
-
     public Boolean getiFrame() {
         return iFrame;
     }

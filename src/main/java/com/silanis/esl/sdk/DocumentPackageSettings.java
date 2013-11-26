@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.internal.converter.CeremonyLayoutSettingsConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class DocumentPackageSettings {
         }
 
         if ( ceremonyLayoutSettings != null ) {
-            ceremonySettings.setLayout( ceremonyLayoutSettings.toAPILayoutOptions() );
+            ceremonySettings.setLayout(new CeremonyLayoutSettingsConverter(ceremonyLayoutSettings).toAPILayoutOptions());
         }
 
         PackageSettings result = new PackageSettings();

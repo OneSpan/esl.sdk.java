@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.LayoutOptions;
+import com.silanis.esl.sdk.internal.converter.CeremonyLayoutSettingsConverter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -124,7 +125,7 @@ public class CeremonyLayoutSettingsTest {
         settings.setShowGlobalConfirmButton( true );
         settings.setShowGlobalDownloadButton( true );
         settings.setShowGlobalSaveAsLayoutButton( true );
-        LayoutOptions layoutOptions = settings.toAPILayoutOptions();
+        LayoutOptions layoutOptions = layoutOptions = new CeremonyLayoutSettingsConverter(settings).toAPILayoutOptions();
         assertThat( "", layoutOptions.getBrandingBar().getLogo().getLink(), is( equalTo( settings.getLogoImageLink() ) ) );
     }
 

@@ -22,12 +22,13 @@ public class FieldConverterTest implements ConverterTest{
     private com.silanis.esl.sdk.Field sdkField2 = null;
     private com.silanis.esl.api.model.Field apiField1 = null;
     private com.silanis.esl.api.model.Field apiField2 = null;
+    private FieldConverter converter = null;
 
     @Override
     @Test
     public void convertNullSDKToAPI() {
         sdkField1 = null;
-        FieldConverter converter = new FieldConverter(sdkField1);
+        converter = new FieldConverter(sdkField1);
         assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIField(), is( nullValue() ) );
     }
 
@@ -35,7 +36,7 @@ public class FieldConverterTest implements ConverterTest{
     @Test
     public void convertNullAPIToSDK() {
         apiField1 = null;
-        FieldConverter converter = new FieldConverter(apiField1);
+        converter = new FieldConverter(apiField1);
         assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKField(), is( nullValue() ) );
     }
 
@@ -43,7 +44,7 @@ public class FieldConverterTest implements ConverterTest{
     @Test
     public void convertNullSDKToSDK() {
         sdkField1 = null;
-        FieldConverter converter = new FieldConverter(sdkField1);
+        converter = new FieldConverter(sdkField1);
         assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKField(), is( nullValue() ) );
     }
 
@@ -51,7 +52,7 @@ public class FieldConverterTest implements ConverterTest{
     @Test
     public void convertNullAPIToAPI() {
         apiField1 = null;
-        FieldConverter converter = new FieldConverter(apiField1);
+        converter = new FieldConverter(apiField1);
         assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIField(), is( nullValue() ) );
     }
 
