@@ -47,7 +47,6 @@ public class DocumentPackageConverter {
         }
 
         com.silanis.esl.api.model.Package apiPackageToCreate = new com.silanis.esl.api.model.Package()
-                .setId( sdkPackage.getId().getId())
                 .setName(sdkPackage.getName())
                 .setDue( sdkPackage.getExpiryDate() )
                 .setEmailMessage( sdkPackage.getPackageMessage() )

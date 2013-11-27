@@ -2,7 +2,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.PackageStatus;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import org.junit.Test;
 
@@ -109,7 +108,6 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiPackage1 = new DocumentPackageConverter(sdkDocumentPackage1).toAPIPackage();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiPackage1, is( notNullValue() ) );
-        assertThat("ID was not correctly set", apiPackage1.getId(), is( equalTo(sdkDocumentPackage1.getId().toString() ) ));
         assertThat("Language was not correctly set", apiPackage1.getLanguage(), is( equalTo(sdkDocumentPackage1.getLanguage().getLanguage() ) ));
         assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is( equalTo(sdkDocumentPackage1.getAutocomplete() ) ));
         assertThat("Description was not correctly set", apiPackage1.getDescription(), is( equalTo(sdkDocumentPackage1.getDescription() ) ));
@@ -128,7 +126,6 @@ public class DocumentPackageConverterTest implements ConverterTest {
         com.silanis.esl.sdk.DocumentPackage sdkDocumentPackage = PackageBuilder.newPackageNamed("SDK Package Name")
                 .withStatus(PackageStatus.DRAFT)
                 .withEmailMessage("Email message")
-                .withID(new PackageId("1"))
                 .withLanguage(Locale.CANADA)
                 .build();
         return sdkDocumentPackage;
