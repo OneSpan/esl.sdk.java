@@ -9,10 +9,10 @@ import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 
 import java.util.*;
 
@@ -422,7 +422,7 @@ public class PackageService {
         List<DocumentPackage> converted = new ArrayList<DocumentPackage>();
 
         for ( Package aPackage : results.getResults() ) {
-            DocumentPackage dp = new PackageBuilder( aPackage ).build();
+            DocumentPackage dp = new DocumentPackageConverter( aPackage ).toSDKPackage();
             converted.add( dp );
         }
 

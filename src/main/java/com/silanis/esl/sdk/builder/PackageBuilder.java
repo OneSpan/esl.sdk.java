@@ -1,9 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 
 import java.util.*;
 
@@ -36,42 +34,6 @@ public class PackageBuilder {
     }
 
     /**
-     * Creates and populates a new builder object based on the contents of the api package passed.
-     *
-     * @param apiPackage
-     */
-    public PackageBuilder( Package apiPackage ) {
-        this.id = new PackageId( apiPackage.getId() );
-        this.packageName = apiPackage.getName();
-        this.autocomplete = apiPackage.evalAutocomplete();
-        this.description = apiPackage.getDescription();
-        this.expiryDate = apiPackage.getDue();
-        this.status = apiPackage.getStatus();
-        this.packageMessage = apiPackage.getEmailMessage();
-        this.settings = new DocumentPackageSettingsBuilder( apiPackage.getSettings() ).build();
-        this.senderInfo = new SenderInfoBuilder( apiPackage.getSender() ).build();
-        this.settings = new DocumentPackageSettingsBuilder(apiPackage.getSettings()).build();
-        this.attributes = new DocumentPackageAttributesBuilder(apiPackage.getData()).build();
-
-        for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
-            if ( role.getSigners().isEmpty() ) {
-                continue;
-            }
-
-            if ( role.getSigners().get( 0 ).getGroup() != null ) {
-                this.withSigner( SignerBuilder.newSignerFromGroup( new GroupId( role.getSigners().get( 0 ).getGroup().getId() ) ) );
-            } else {
-                this.withSigner( SignerBuilder.newSignerFromAPISigner( role ).build() );
-            }
-        }
-
-        for ( com.silanis.esl.api.model.Document apiDocument : apiPackage.getDocuments() ) {
-            Document document = new DocumentConverter(apiDocument, apiPackage).toSDKDocument();
-            this.withDocument( document );
-        }
-    }
-
-    /**
      * Creates a package having the package name set to the value of the name parameter
      *
      * @param name the package name
@@ -79,6 +41,17 @@ public class PackageBuilder {
      */
     public static PackageBuilder newPackageNamed( String name ) {
         return new PackageBuilder( name );
+    }
+
+    /**
+     * <p>Adds an ID to the package.</p>
+     *
+     * @param id the package ID
+     * @return a package builder
+     */
+    public PackageBuilder withID( PackageId id ) {
+        this.id = id;
+        return this;
     }
 
     /**
@@ -175,6 +148,18 @@ public class PackageBuilder {
         this.autocomplete = autocomplete;
         return this;
     }
+
+    /**
+     * Sets the status package property
+     *
+     * @param status
+     * @return the package builder itself
+     */
+    public PackageBuilder withStatus( PackageStatus status ) {
+        this.status = status;
+        return this;
+    }
+
 
     /**
      * Sets the description for the package

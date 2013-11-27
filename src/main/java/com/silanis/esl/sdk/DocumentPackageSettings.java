@@ -24,7 +24,7 @@ public class DocumentPackageSettings {
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
-    protected PackageSettings toAPIPackageSettings() {
+    public PackageSettings toAPIPackageSettings() {
 
         CeremonySettings ceremonySettings = new CeremonySettings();
 

@@ -118,7 +118,7 @@ public class Signer implements Serializable {
         return authentication.getChallenges();
     }
 
-    com.silanis.esl.api.model.Signer toAPISigner() {
+    public com.silanis.esl.api.model.Signer toAPISigner() {
         com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
 
         if ( !isGroupSigner() ) {
