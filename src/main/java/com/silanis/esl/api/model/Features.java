@@ -13,7 +13,11 @@ public class Features extends Model
     @JsonIgnore
     public static final String FIELD_ATTACHMENTS = "attachments";
     @JsonIgnore
+    public static final String FIELD_CUSTOMFIELDS = "customfields";
+    @JsonIgnore
     public static final String FIELD_FASTTRACK = "fasttrack";
+    @JsonIgnore
+    public static final String FIELD_FORCELOGIN = "forceLogin";
     @JsonIgnore
     public static final String FIELD_GROUPS = "groups";
     
@@ -22,7 +26,9 @@ public class Features extends Model
     
     // Fields
     protected Boolean _attachments = false;
+    protected Boolean _customfields = false;
     protected Boolean _fasttrack = false;
+    protected Boolean _forceLogin = false;
     protected Boolean _groups = false;
     
     // Accessors
@@ -52,6 +58,30 @@ public class Features extends Model
     
         
     
+    public Features setCustomfields( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_CUSTOMFIELDS,value);
+        // TODO With proper compare
+        // if ( this._customfields == value ) return this;
+        this._customfields = value;
+        setDirty(FIELD_CUSTOMFIELDS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetCustomfields( Boolean value ){
+        if ( value != null ) { this.setCustomfields( value ); }
+        return this;
+    }
+    public Boolean getCustomfields(){
+        return _customfields;
+    }
+    @JsonIgnore
+    public boolean evalCustomfields(){
+        return _customfields == null ? false : _customfields.booleanValue();
+    }
+    
+        
+    
     public Features setFasttrack( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_FASTTRACK,value);
         // TODO With proper compare
@@ -72,6 +102,30 @@ public class Features extends Model
     @JsonIgnore
     public boolean evalFasttrack(){
         return _fasttrack == null ? false : _fasttrack.booleanValue();
+    }
+    
+        
+    
+    public Features setForceLogin( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_FORCELOGIN,value);
+        // TODO With proper compare
+        // if ( this._forceLogin == value ) return this;
+        this._forceLogin = value;
+        setDirty(FIELD_FORCELOGIN);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetForceLogin( Boolean value ){
+        if ( value != null ) { this.setForceLogin( value ); }
+        return this;
+    }
+    public Boolean getForceLogin(){
+        return _forceLogin;
+    }
+    @JsonIgnore
+    public boolean evalForceLogin(){
+        return _forceLogin == null ? false : _forceLogin.booleanValue();
     }
     
         

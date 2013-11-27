@@ -3,6 +3,7 @@ package com.silanis.esl.api.model;
 import com.fasterxml.jackson.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,6 +15,10 @@ public class PackageCompletionReport extends Model
 {
     
     // Dirty Flag Constants
+    @JsonIgnore
+    public static final String FIELD_CREATED = "created";
+    @JsonIgnore
+    public static final String FIELD_DATA = "data";
     @JsonIgnore
     public static final String FIELD_DOCUMENTS = "documents";
     @JsonIgnore
@@ -33,6 +38,8 @@ public class PackageCompletionReport extends Model
     public PackageCompletionReport ( ) {}
     
     // Fields
+    protected java.util.Date _created;
+    protected Map<String, Object> _data = null;
     protected List<DocumentsCompletionReport> _documents = new ArrayList<DocumentsCompletionReport>();
     protected String _id = "";
     protected String _name = "";
@@ -42,6 +49,47 @@ public class PackageCompletionReport extends Model
     protected java.util.Date _updated;
     
     // Accessors
+        
+    
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public PackageCompletionReport setCreated( java.util.Date value ){
+        SchemaSanitizer.throwOnNull(FIELD_CREATED,value);
+        // TODO With proper compare
+        // if ( this._created == value ) return this;
+        this._created = value;
+        setDirty(FIELD_CREATED);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public PackageCompletionReport safeSetCreated( java.util.Date value ){
+        if ( value != null ) { this.setCreated( value ); }
+        return this;
+    }
+    @JsonSerialize(using = JsonDateSerializer.class)
+    public java.util.Date getCreated(){
+        return _created;
+    }
+    
+        
+    
+    public PackageCompletionReport setData( Map<String, Object> value ){
+        // TODO With proper compare
+        // if ( this._data == value ) return this;
+        this._data = value;
+        setDirty(FIELD_DATA);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public PackageCompletionReport safeSetData( Map<String, Object> value ){
+        if ( value != null ) { this.setData( value ); }
+        return this;
+    }
+    public Map<String, Object> getData(){
+        return _data;
+    }
+    
         
     
     public PackageCompletionReport setDocuments( List<DocumentsCompletionReport> value ){

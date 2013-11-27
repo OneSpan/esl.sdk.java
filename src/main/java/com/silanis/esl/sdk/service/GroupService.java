@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.Group;
@@ -36,10 +37,10 @@ public class GroupService {
         String path = template.urlFor( UrlTemplate.GROUPS_PATH ).build();
         try {
             String stringResponse = client.get( path );
-            List<com.silanis.esl.api.model.Group> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<List<com.silanis.esl.api.model.Group>>() {
+            Result<com.silanis.esl.api.model.Group> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.Group>>() {
             } );
             List<Group> result = new ArrayList<Group>();
-            for ( com.silanis.esl.api.model.Group apiGroup : apiResponse ) {
+            for ( com.silanis.esl.api.model.Group apiGroup : apiResponse.getResults() ) {
                 result.add( GroupBuilder.fromAPIGroup( apiGroup ).build() );
             }
             return result;
