@@ -37,7 +37,7 @@ public class FieldConverter {
      * @return an API Field object.
      */
     public com.silanis.esl.api.model.Field toAPIField() {
-        if (apiField != null) {
+        if (sdkField == null) {
             return apiField;
         }
 
@@ -85,7 +85,7 @@ public class FieldConverter {
      */
     public com.silanis.esl.sdk.Field toSDKField() {
 
-        if (sdkField != null) {
+        if (apiField == null) {
             return sdkField;
         }
 

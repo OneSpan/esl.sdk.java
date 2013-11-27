@@ -1,0 +1,7 @@
+Converter test classes can implement ConverterTest.
+
+By using the ConverterTest interface, it is a reminder to test all the cases.
+
+In cases a test case does not apply, just implement that method with an empty body.
+
+Just do not forget the @Test annotation.

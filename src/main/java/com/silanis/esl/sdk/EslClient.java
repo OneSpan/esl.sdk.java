@@ -1,8 +1,9 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.AuditService;
 import com.silanis.esl.sdk.service.EventNotificationService;
@@ -119,11 +120,11 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackage(DocumentPackage documentPackage) {
-        Package packageToCreate = documentPackage.toAPIPackage();
+        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
 
         for (Document document : documentPackage.getDocuments()) {
-            packageService.uploadDocument(id, document.getFileName(), document.getContent(), document.toAPIDocument(packageToCreate));
+            packageService.uploadDocument(id, document.getFileName(), document.getContent(), new DocumentConverter(document).toAPIDocument(packageToCreate));
         }
 
         return id;
@@ -149,7 +150,7 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
-        Package packageToCreate = documentPackage.toAPIPackage();
+        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         return packageService.createPackageFromTemplate( packageId, packageToCreate );
     }
 
@@ -195,7 +196,8 @@ public class EslClient {
      */
     public DocumentPackage getPackage( PackageId packageId ) {
         Package aPackage = packageService.getPackage( packageId );
-        return new PackageBuilder( aPackage ).build();
+
+        return new DocumentPackageConverter(aPackage).toSDKPackage();
     }
 
     /**
@@ -231,8 +233,8 @@ public class EslClient {
     }
 
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
-        Package apiPackage = documentPackage.toAPIPackage();
-        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, document.toAPIDocument( apiPackage ) );
+        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, new DocumentConverter(document).toAPIDocument(apiPackage) );
     }
 
     public GroupService getGroupService() {

@@ -39,17 +39,4 @@ public class CustomField {
     public List<Translation> getTranslations() {
         return translations;
     }
-
-    public com.silanis.esl.api.model.CustomField toAPICustomField() {
-        com.silanis.esl.api.model.CustomField result = new com.silanis.esl.api.model.CustomField();
-
-        result.setId( id );
-        result.setValue( value );
-
-        for ( Translation translation : translations ) {
-            result.addTranslation( translation.toAPITranslation() );
-        }
-
-        return result;
-    }
 }

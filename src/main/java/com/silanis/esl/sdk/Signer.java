@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.internal.converter.AuthenticationConverter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -117,7 +118,7 @@ public class Signer implements Serializable {
         return authentication.getChallenges();
     }
 
-    com.silanis.esl.api.model.Signer toAPISigner() {
+    public com.silanis.esl.api.model.Signer toAPISigner() {
         com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
 
         if ( !isGroupSigner() ) {
@@ -135,7 +136,7 @@ public class Signer implements Serializable {
             result.setId( id );
         }
 
-        result.setAuth( authentication.toAPIAuthentication() );
+        result.setAuth( new AuthenticationConverter(authentication).toAPIAuthentication() );
 
         return result;
     }

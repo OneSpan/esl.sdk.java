@@ -26,17 +26,6 @@ public class CustomFieldBuilder {
         return new CustomFieldBuilder().withId( id );
     }
 
-    public static CustomFieldBuilder customField( com.silanis.esl.api.model.CustomField apiCustomField ) {
-        CustomFieldBuilder result = new CustomFieldBuilder();
-        result.withId( apiCustomField.getId() )
-                .withDefaultValue( apiCustomField.getValue() );
-
-        for ( com.silanis.esl.api.model.Translation tran : apiCustomField.getTranslations() ) {
-            result.withTranslation( TranslationBuilder.newTranslation( tran ) );
-        }
-        return result;
-    }
-
     /**
      * Sets id of custom field
      *

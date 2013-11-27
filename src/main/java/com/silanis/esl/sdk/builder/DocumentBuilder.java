@@ -1,13 +1,10 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.builder.internal.FileDocumentSource;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
-import com.silanis.esl.sdk.internal.converter.FieldConverter;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -179,25 +176,5 @@ public class DocumentBuilder {
     public DocumentBuilder withDescription( String description ) {
         this.description = description;
         return this;
-    }
-
-    public static DocumentBuilder newDocumentFromAPIDocument( com.silanis.esl.api.model.Document apiDocument, Package aPackage ) {
-        DocumentBuilder documentBuilder = DocumentBuilder.newDocumentWithName( apiDocument.getName() );
-        documentBuilder.withId( apiDocument.getId() );
-        documentBuilder.atIndex( apiDocument.getIndex() );
-
-        documentBuilder.withDescription( apiDocument.getDescription() );
-
-        for ( Approval apiApproval : apiDocument.getApprovals() ) {
-            SignatureBuilder signatureBuilder = SignatureBuilder.newSignatureFromAPIApproval( apiApproval, aPackage );
-            Signature signature = signatureBuilder.build();
-            documentBuilder.withSignature( signature );
-        }
-
-        for ( com.silanis.esl.api.model.Field apiField : apiDocument.getFields() ) {
-            documentBuilder.withInjectedField( new FieldConverter(apiField).toSDKField() );
-        }
-
-        return documentBuilder;
     }
 }

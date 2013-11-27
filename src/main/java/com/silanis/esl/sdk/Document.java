@@ -1,11 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.Approval;
-import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.internal.converter.ConversionService;
-import com.silanis.esl.sdk.internal.converter.sdk.SignatureConverter;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,68 +25,6 @@ public class Document implements Serializable {
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private String description;
-
-    com.silanis.esl.api.model.Document toAPIDocument( Package createdPackage ) {
-        com.silanis.esl.api.model.Document doc = new com.silanis.esl.api.model.Document()
-                .setIndex(index)
-                .setExtract(extract)
-                .setName(name);
-
-        if ( id != null ) {
-            doc.setId( id.getId() );
-        }
-
-        if ( description != null ) {
-            doc.setDescription( description );
-        }
-
-        SignatureConverter converter = new SignatureConverter();
-
-        for ( Signature signature : signatures ) {
-
-            Approval approval = converter.convertToApproval(signature);
-
-            if ( signature.isGroupSignature() ) {
-                approval.setRole(findRoleIdForGroup( signature.getGroupId(), createdPackage ) );
-            } else {
-                approval.setRole(findRoleIdForSignature( signature.getSignerEmail(), createdPackage ) );
-            }
-            doc.addApproval(approval);
-        }
-
-        for (Field field : injectedFields ) {
-            doc.addField(ConversionService.convert(field));
-        }
-
-        return doc;
-    }
-
-    private String findRoleIdForGroup( GroupId groupId, Package createdPackage ) {
-        for ( Role role : createdPackage.getRoles() ) {
-            if ( !role.getSigners().isEmpty() ) {
-                if ( role.getSigners().get( 0 ).getGroup() != null ) {
-                    if ( role.getSigners().get( 0 ).getGroup().getId().equals( groupId.getId() ) ) {
-                        return role.getId();
-                    }
-                }
-            }
-        }
-        throw new IllegalStateException( "No role found for signer group " + groupId.getId() );
-    }
-
-    private String findRoleIdForSignature( String signerEmail, Package createdPackage ) {
-        for ( Role role : createdPackage.getRoles() ) {
-            if ( !role.getSigners().isEmpty() ) {
-                if ( role.getSigners().get( 0 ).getEmail() != null ) {
-                    if ( signerEmail.equals( role.getSigners().get( 0 ).getEmail() ) ) {
-                        return role.getId();
-                    }
-                }
-            }
-        }
-
-        throw new IllegalStateException( "No role found for signer email " + signerEmail );
-    }
 
     /**
      * <p>Accessor method used to retrieve the file name</p>
@@ -187,6 +119,10 @@ public class Document implements Serializable {
         this.extract = extract;
     }
 
+    public boolean isExtract() {
+        return extract;
+    }
+
     /**
      * 
      * <p>Accessor method used to set the document ID</p>
@@ -212,6 +148,10 @@ public class Document implements Serializable {
 
     public void addInjectedFields( List<Field> fields ) {
         this.injectedFields.addAll( fields );
+    }
+
+    public List<Field> getInjectedFields() {
+        return injectedFields;
     }
 
     public void setDescription( String description ) {

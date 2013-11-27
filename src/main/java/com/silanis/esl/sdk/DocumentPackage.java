@@ -1,12 +1,12 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.BaseMessage;
-import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.PackageStatus;
-import com.silanis.esl.api.model.Role;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * DocumentPackage class describes all assets required for a complete signing transaction.
@@ -62,6 +62,10 @@ public class DocumentPackage implements Serializable {
         return signers.get( email );
     }
 
+    public Map<String, Signer> getSigners() {
+        return signers;
+    }
+
     /**
      * @param name the document name
      * @return the document identified by the name provided as parameter
@@ -80,53 +84,6 @@ public class DocumentPackage implements Serializable {
         return autocomplete;
     }
 
-    /**
-     * @return
-     */
-    Package toAPIPackage() {
-        Package packageToCreate = new Package()
-                .setName( name )
-                .setDue( expiryDate )
-                .setEmailMessage( packageMessage )
-                .setDescription( description )
-                .setAutocomplete( autocomplete );
-
-        if ( attributes != null ) {
-            packageToCreate.setData( attributes.toMap() );
-        }
-
-        if ( language != null ) {
-            packageToCreate.setLanguage( language.getLanguage() );
-        }
-
-        if ( settings != null ) {
-            packageToCreate.setSettings( settings.toAPIPackageSettings() );
-        }
-
-        if ( senderInfo != null ) {
-            packageToCreate.setSender( senderInfo.toAPISender() );
-        }
-
-        int signerCount = 1;
-        for ( Signer signer : signers.values() ) {
-            Role role = new Role()
-                    .setName( signer.getId() == null ? "signer" + signerCount : signer.getId() )
-                    .addSigner( signer.toAPISigner() )
-                    .setIndex( signer.getSigningOrder() )
-                    .setReassign( signer.canChangeSigner() )
-                    .setId( signer.getId() == null ? "role" + signerCount : signer.getId() );
-
-            signerCount++;
-
-            if ( signer.getMessage() != null ) {
-                role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );
-            }
-
-            packageToCreate.addRole( role );
-        }
-
-        return packageToCreate;
-    }
 
     /**
      * Retrieve all the package documents
@@ -146,6 +103,10 @@ public class DocumentPackage implements Serializable {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Sets the expiration date for the document package.
      * TODO: What is happening after the date surpasses the expiration date and the transaction is not yet completed?
@@ -156,6 +117,10 @@ public class DocumentPackage implements Serializable {
         this.expiryDate = expiryDate;
     }
 
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
     /**
      * Sets the package message
      *
@@ -163,6 +128,10 @@ public class DocumentPackage implements Serializable {
      */
     public void setPackageMessage( String packageMessage ) {
         this.packageMessage = packageMessage;
+    }
+
+    public String getPackageMessage() {
+        return packageMessage;
     }
 
     public void setId( PackageId id ) {

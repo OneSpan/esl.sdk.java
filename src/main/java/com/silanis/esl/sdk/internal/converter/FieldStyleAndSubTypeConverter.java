@@ -48,7 +48,7 @@ public class FieldStyleAndSubTypeConverter {
      * @return a FieldSubType object.
      */
     public FieldSubtype toAPIFieldSubtype() {
-        if (apiFieldSubType != null) {
+        if (sdkFieldStyle == null) {
             return apiFieldSubType;
         }
         switch (sdkFieldStyle) {
@@ -75,7 +75,7 @@ public class FieldStyleAndSubTypeConverter {
      * @return a FieldStyle object.
      */
     public FieldStyle toSDKFieldStyle() {
-        if (sdkFieldStyle!= null) {
+        if (apiFieldSubType == null && apiFieldBinding == null) {
             return sdkFieldStyle;
         }
 

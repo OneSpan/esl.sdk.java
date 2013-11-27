@@ -1,9 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.Auth;
-import com.silanis.esl.api.model.AuthChallenge;
-import com.silanis.esl.api.model.AuthScheme;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,33 +29,6 @@ public class Authentication {
 
     public List<Challenge> getChallenges() {
         return challenges;
-    }
-
-    Auth toAPIAuthentication() {
-        Auth auth = new Auth().setScheme(scheme());
-
-        for (Challenge challenge : challenges) {
-            auth.addChallenge(new AuthChallenge().setQuestion(challenge.getQuestion()).setAnswer(challenge.getAnswer()));
-        }
-
-        if (phoneNumber != null) {
-            auth.addChallenge(new AuthChallenge().setQuestion(phoneNumber));
-        }
-
-        return auth;
-    }
-
-    private AuthScheme scheme() {
-        switch (method) {
-            case EMAIL:
-                return AuthScheme.NONE;
-            case CHALLENGE:
-                return AuthScheme.CHALLENGE;
-            case SMS:
-                return AuthScheme.SMS;
-        }
-
-        throw new IllegalStateException("Unknown authentication method");
     }
 
     public String getPhoneNumber() {
