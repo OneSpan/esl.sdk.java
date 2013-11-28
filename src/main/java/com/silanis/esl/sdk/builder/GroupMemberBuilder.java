@@ -6,8 +6,8 @@ import com.silanis.esl.sdk.GroupMemberType;
 
 public class GroupMemberBuilder {
     private String email;
-    private String firstName;
-    private String lastName;
+    private String firstName = "";
+    private String lastName = "";
     private GroupMemberType groupMemberType = GroupMemberType.REGULAR;
 
     private GroupMemberBuilder( String email ) {
@@ -44,12 +44,12 @@ public class GroupMemberBuilder {
         return this;
     }
 
-    public GroupMemberBuilder withFirstName( String firstName ) {
+    GroupMemberBuilder withFirstName( String firstName ) {
         this.firstName = firstName;
         return this;
     }
 
-    public GroupMemberBuilder withLastName( String lastName ) {
+    GroupMemberBuilder withLastName( String lastName ) {
         this.lastName = lastName;
         return this;
     }

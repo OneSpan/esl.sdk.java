@@ -50,9 +50,7 @@ public class GroupManagementExample extends SDKSample {
         Group group1 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
                 .withId( new GroupId( UUID.randomUUID().toString() ) )
                 .withMember( GroupMemberBuilder.newGroupMember( email1 )
-                        .as( GroupMemberType.MANAGER )
-                        .withFirstName( "first1" )
-                        .withLastName( "last1" ) )
+                        .as( GroupMemberType.MANAGER ) )
                 .withEmail( "bob@aol.com" )
                 .withIndividualMemberEmailing()
                 .build();
@@ -61,21 +59,15 @@ public class GroupManagementExample extends SDKSample {
 
         eslClient.getGroupService().inviteMember( createdGroup1.getId(), GroupMemberBuilder.newGroupMember( email3 )
                 .as( GroupMemberType.MANAGER )
-                .withFirstName( "first3" )
-                .withLastName( "last3" )
                 .build() );
         eslClient.getGroupService().inviteMember( createdGroup1.getId(), GroupMemberBuilder.newGroupMember( email4 )
                 .as( GroupMemberType.MANAGER )
-                .withFirstName( "first4" )
-                .withLastName( "last4" )
                 .build() );
         Group retrievedGroup1 = eslClient.getGroupService().getGroup( createdGroup1.getId() );
 
         Group group2 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
                 .withMember( GroupMemberBuilder.newGroupMember( email2 )
-                        .as( GroupMemberType.MANAGER )
-                        .withFirstName( "first2" )
-                        .withLastName( "last2" ) )
+                        .as( GroupMemberType.MANAGER ) )
                 .withEmail( "bob@aol.com" )
                 .withIndividualMemberEmailing()
                 .build();
