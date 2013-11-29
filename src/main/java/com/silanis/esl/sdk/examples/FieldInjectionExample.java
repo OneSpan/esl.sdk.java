@@ -48,7 +48,6 @@ public class FieldInjectionExample extends SDKSample {
                                 .atPosition( 100, 100 ) )
                         .withInjectedField( textField()
                                 .withId( new FieldId( "AGENT_SIG_1" ) )
-                                .withPositionExtracted()
                                 .withName( "AGENT_SIG_1" )
                                 .withValue( "Test Value" ) ) )
                 .build();

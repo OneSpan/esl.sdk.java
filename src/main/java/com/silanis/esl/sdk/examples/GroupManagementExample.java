@@ -45,7 +45,21 @@ public class GroupManagementExample extends SDKSample {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
+    private void displayAccountGroupsAndMembers() {
+        {
+            List<Group> allGroups = eslClient.getGroupService().getMyGroups();
+            for ( Group group : allGroups ) {
+                System.out.println( group.getName() + " with email " + group.getEmail() + " and id " + group.getId() );
+                List<GroupMember> allMembers = eslClient.getGroupService().getGroupMembers( group.getId() );
+                for ( GroupMember member : allMembers ) {
+                    System.out.println( member.getGroupMemberType().toString() + " " + member.getFirstName() + " " + member.getLastName() + " with email " + member.getEmail());
+                }
+            }
+        }
+    }
+
     public void execute() {
+
         // Let's create and manage some groups
         Group group1 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
                 .withId( new GroupId( UUID.randomUUID().toString() ) )
@@ -81,6 +95,7 @@ public class GroupManagementExample extends SDKSample {
         eslClient.getGroupService().deleteGroup( createdGroup2.getId() );
 
         List<Group> allGroupsAfterDelete = eslClient.getGroupService().getMyGroups();
+
 
 //        Now let's add a signature for a group member
         DocumentPackage superDuperPackage = newPackageNamed( "GroupManagementExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )

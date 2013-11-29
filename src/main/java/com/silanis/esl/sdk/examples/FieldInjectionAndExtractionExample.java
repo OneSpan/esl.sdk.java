@@ -50,11 +50,9 @@ public class FieldInjectionAndExtractionExample extends SDKSample {
                                 .withField( signatureDate()
                                         .onPage( 0 )
                                         .atPosition( 100, 200 )
-//                                        .withPositionExtracted()
                                         .withId( new FieldId( "AGENT_SIG_2" ) ) ) )
                         .withInjectedField( textField()
                                 .withId( new FieldId( "AGENT_SIG_1" ) )
-                                .withPositionExtracted()
                                 .withName( "AGENT_SIG_1" )
                                 .withValue( "Test Value" ) ) )
                 .build();
