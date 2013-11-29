@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>10.0-SNAPSHOT</version>
+    <version>10.0</version>
     <name>Java sdk</name>
     <packaging>jar</packaging>
 
