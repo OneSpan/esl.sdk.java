@@ -198,7 +198,7 @@ public class PackageBuilder {
         return withSettings( builder.build() );
     }
 
-    private PackageBuilder withSettings( DocumentPackageSettings settings ) {
+    public PackageBuilder withSettings( DocumentPackageSettings settings ) {
         this.settings = settings;
         return this;
     }

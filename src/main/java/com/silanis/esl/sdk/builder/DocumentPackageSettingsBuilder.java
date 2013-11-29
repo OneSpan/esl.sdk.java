@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.PackageSettings;
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
 
@@ -31,32 +30,6 @@ public class DocumentPackageSettingsBuilder {
 
     public static DocumentPackageSettingsBuilder newDocumentPackageSettings() {
         return new DocumentPackageSettingsBuilder();
-    }
-
-    public DocumentPackageSettingsBuilder( PackageSettings settings ) {
-        enableInPerson = settings.getCeremony().getInPerson();
-        enableOptOut = settings.getCeremony().getOptOutButton();
-        enableDecline = settings.getCeremony().getDeclineButton();
-        hideWatermark = settings.getCeremony().getHideWatermark();
-        hideCaptureText = settings.getCeremony().getHideCaptureText();
-        optOutReasons.addAll( settings.getCeremony().getOptOutReasons() );
-        maxAuthAttempts = settings.getCeremony().getMaxAuthFailsAllowed();
-
-        if ( settings.getCeremony().getDocumentToolbarOptions() != null )
-            showDocumentToolbarDownloadButton = settings.getCeremony().getDocumentToolbarOptions().getDownloadButton();
-
-        if ( settings.getCeremony().getEvents() != null &&
-                settings.getCeremony().getEvents().getComplete() != null )
-        showDialogOnComplete = settings.getCeremony().getEvents().getComplete().getDialog();
-
-        if ( settings.getCeremony().getHandOver() != null ) {
-            linkText = settings.getCeremony().getHandOver().getText();
-            linkTooltip = settings.getCeremony().getHandOver().getTitle();
-            linkHref = settings.getCeremony().getHandOver().getHref();
-        }
-
-        ceremonyLayoutSettings = new CeremonyLayoutSettingsBuilder(settings.getCeremony()).build();
-
     }
 
     public DocumentPackageSettingsBuilder withDialogOnComplete() {

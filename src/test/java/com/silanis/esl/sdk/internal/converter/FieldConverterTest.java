@@ -16,6 +16,9 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
+/**
+ * Test FieldConverter.
+ */
 public class FieldConverterTest implements ConverterTest{
 
     private com.silanis.esl.sdk.Field sdkField1 = null;

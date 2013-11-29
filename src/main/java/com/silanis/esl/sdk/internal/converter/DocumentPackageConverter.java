@@ -62,7 +62,7 @@ public class DocumentPackageConverter {
         }
 
         if ( sdkPackage.getSettings() != null ) {
-            apiPackageToCreate.setSettings(sdkPackage.getSettings().toAPIPackageSettings());
+            apiPackageToCreate.setSettings(new DocumentPackageSettingsConverter(sdkPackage.getSettings()).toAPIPackageSettings());
         }
 
         if ( sdkPackage.getSenderInfo() != null ) {
@@ -115,7 +115,7 @@ public class DocumentPackageConverter {
         }
 
         if (apiPackage.getSettings() != null) {
-            packageBuilder.withSettings(new DocumentPackageSettingsBuilder( apiPackage.getSettings() ));
+            packageBuilder.withSettings(new DocumentPackageSettingsConverter(apiPackage.getSettings()).toSDKPackageSettings());
         }
 
         if (apiPackage.getSender() != null) {

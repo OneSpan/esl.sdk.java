@@ -1,8 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.sdk.internal.converter.CeremonyLayoutSettingsConverter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,50 +20,6 @@ public class DocumentPackageSettings {
     private String linkHref;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
-
-    public PackageSettings toAPIPackageSettings() {
-
-        CeremonySettings ceremonySettings = new CeremonySettings();
-
-        ceremonySettings.safeSetInPerson( enableInPerson );
-        ceremonySettings.safeSetOptOutButton( enableOptOut );
-        ceremonySettings.safeSetDeclineButton( enableDecline );
-        ceremonySettings.safeSetHideWatermark( hideWatermark );
-        ceremonySettings.safeSetHideCaptureText( hideCaptureText );
-        ceremonySettings.safeSetOptOutReasons( optOutReasons );
-        ceremonySettings.safeSetMaxAuthFailsAllowed( maxAuthAttempts );
-
-        if ( linkHref != null ) {
-            Link link = new Link();
-            link.setHref( linkHref );
-            link.setText( linkText == null ? linkHref : linkText );
-            link.setTitle( linkTooltip == null ? linkHref : linkTooltip );
-            ceremonySettings.setHandOver( link );
-        }
-
-        if ( showDialogOnComplete != null ) {
-            CeremonyEvents ceremonyEvents = new CeremonyEvents();
-            CeremonyEventComplete ceremonyEventComplete = new CeremonyEventComplete();
-            ceremonyEventComplete.setDialog( showDialogOnComplete );
-            ceremonyEvents.setComplete( ceremonyEventComplete );
-            ceremonySettings.setEvents(ceremonyEvents);
-        }
-
-        if ( showDocumentToolbarDownloadButton != null ) {
-            DocumentToolbarOptions documentToolbarOptions = new DocumentToolbarOptions();
-            documentToolbarOptions.setDownloadButton( showDocumentToolbarDownloadButton );
-            ceremonySettings.setDocumentToolbarOptions( documentToolbarOptions );
-        }
-
-        if ( ceremonyLayoutSettings != null ) {
-            ceremonySettings.setLayout(new CeremonyLayoutSettingsConverter(ceremonyLayoutSettings).toAPILayoutOptions());
-        }
-
-        PackageSettings result = new PackageSettings();
-        result.setCeremony( ceremonySettings );
-
-        return result;
-    }
 
     public Boolean getEnableInPerson() {
         return enableInPerson;
