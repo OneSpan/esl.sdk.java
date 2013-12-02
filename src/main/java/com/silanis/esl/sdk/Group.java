@@ -17,34 +17,6 @@ public class Group {
         members = new ArrayList<GroupMember>();
     }
 
-    public com.silanis.esl.api.model.Group toAPIGroup() {
-
-        com.silanis.esl.api.model.Group result = toAPIGroupWithoutMembers();
-
-        List<com.silanis.esl.api.model.GroupMember> apiMembers = new ArrayList<com.silanis.esl.api.model.GroupMember>();
-        for ( GroupMember sdkGroupMember : members ) {
-            apiMembers.add( sdkGroupMember.toAPIGroupMember() );
-        }
-        result.setMembers( apiMembers );
-
-        return result;
-    }
-
-    public com.silanis.esl.api.model.Group toAPIGroupWithoutMembers() {
-        com.silanis.esl.api.model.Group result = new com.silanis.esl.api.model.Group();
-        result.setName( name );
-        result.safeSetCreated( created );
-        result.safeSetUpdated( updated );
-        result.setEmail( email );
-        result.setEmailMembers( emailMembers );
-
-        if ( id != null ) {
-            result.safeSetId( id.getId() );
-        }
-
-        return result;
-    }
-
     public String getEmail() {
         return email;
     }

@@ -10,7 +10,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SessionToken;
-import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;

@@ -22,27 +22,6 @@ public class GroupBuilder {
         members = new ArrayList<GroupMember>();
     }
 
-    public static GroupBuilder fromAPIGroup( com.silanis.esl.api.model.Group group ) {
-        GroupBuilder builder = new GroupBuilder( group.getName() )
-                .withEmail( group.getEmail() );
-
-        if ( group.getEmailMembers() ) {
-            builder = builder.withIndividualMemberEmailing();
-        } else {
-            builder = builder.withoutIndividualMemberEmailing();
-        }
-
-        if ( group.getId() != null ) {
-            builder.withId( new GroupId( group.getId() ) );
-        }
-
-        for ( com.silanis.esl.api.model.GroupMember apiGroupMember : group.getMembers() ) {
-            GroupMember sdkGroupMember = GroupMemberBuilder.fromAPIGroupMember( apiGroupMember ).build();
-            builder.members.add( sdkGroupMember );
-        }
-        return builder;
-    }
-
     public static GroupBuilder newGroup( String name ) {
         return new GroupBuilder( name );
     }
