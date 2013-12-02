@@ -3,7 +3,6 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.GroupMember;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.builder.GroupBuilder;
-import com.silanis.esl.sdk.builder.GroupMemberBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class GroupConverter {
 
         List<GroupMember> apiMembers = new ArrayList<GroupMember>();
         for ( com.silanis.esl.sdk.GroupMember sdkGroupMember : sdkGroup.getMembers() ) {
-            apiMembers.add( sdkGroupMember.toAPIGroupMember() );
+            apiMembers.add( new GroupMemberConverter(sdkGroupMember).toAPIGroupMember() );
         }
         result.setMembers( apiMembers );
 
@@ -114,7 +113,7 @@ public class GroupConverter {
         result = builder.build();
 
         for ( com.silanis.esl.api.model.GroupMember apiGroupMember : apiGroup.getMembers() ) {
-            com.silanis.esl.sdk.GroupMember sdkGroupMember = GroupMemberBuilder.fromAPIGroupMember(apiGroupMember).build();
+            com.silanis.esl.sdk.GroupMember sdkGroupMember = new GroupMemberConverter(apiGroupMember).toSDKGroupMember();
             result.getMembers().add( sdkGroupMember );
         }
         return result;

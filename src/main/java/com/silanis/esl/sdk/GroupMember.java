@@ -6,15 +6,6 @@ public class GroupMember {
     private String lastName;
     private GroupMemberType groupMemberType;
 
-    public com.silanis.esl.api.model.GroupMember toAPIGroupMember() {
-        com.silanis.esl.api.model.GroupMember result = new com.silanis.esl.api.model.GroupMember();
-        result.setEmail( email );
-        result.setFirstName( firstName );
-        result.setLastName( lastName );
-        result.setMemberType( groupMemberType.toAPIMemberType() );
-        return result;
-    }
-
     public String getEmail() {
         return email;
     }
