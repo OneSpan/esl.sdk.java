@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.sdk.SenderInfo;
 
 public class SenderInfoBuilder {
@@ -14,13 +13,6 @@ public class SenderInfoBuilder {
     }
 
     private SenderInfoBuilder() {}
-
-    public SenderInfoBuilder( Sender sender ) {
-        firstName = sender.getFirstName();
-        lastName = sender.getLastName();
-        company = sender.getCompany();
-        title = sender.getTitle();
-    }
 
     public SenderInfoBuilder withName( String firstName, String lastName ) {
         this.firstName = firstName;

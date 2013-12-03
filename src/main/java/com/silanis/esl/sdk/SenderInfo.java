@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.Sender;
-
 public class SenderInfo {
     private String firstName;
     private String lastName;
@@ -38,22 +36,5 @@ public class SenderInfo {
 
     public void setTitle( String title ) {
         this.title = title;
-    }
-
-    public Sender toAPISender() {
-        Sender result = new Sender();
-        if (firstName != null ) {
-            result.setFirstName( firstName );
-        }
-        if (lastName != null ) {
-            result.setLastName( lastName );
-        }
-        if ( company != null ) {
-            result.setCompany( company );
-        }
-        if ( title != null ) {
-            result.setTitle( title );
-        }
-        return result;
     }
 }

@@ -1,13 +1,10 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.sdk.SenderInfo;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 public class SenderInfoBuilderTest {
     @Test
@@ -19,23 +16,6 @@ public class SenderInfoBuilderTest {
 
         SenderInfo senderInfo = builder.build();
 
-        assertThat( "builder returned a null object", senderInfo, is( notNullValue() ) );
-        assertThat( "company was not set correctly", senderInfo.getCompany(), is( equalTo( "company" ) ) );
-        assertThat( "title was not set correctly", senderInfo.getTitle(), is( equalTo( "title" ) ) );
-        assertThat( "first name was not set correctly", senderInfo.getFirstName(), is( equalTo( "firstName" ) ) );
-        assertThat( "last name was not set correctly", senderInfo.getLastName(), is( equalTo( "lastName" ) ) );
-    }
-
-    @Test
-    public void constructorTest() {
-        Sender sender = new Sender();
-        sender.setTitle( "title" )
-                .setCompany( "company" )
-                .setFirstName( "firstName" )
-                .setLastName( "lastName" );
-        SenderInfoBuilder builder = new SenderInfoBuilder( sender );
-
-        SenderInfo senderInfo = builder.build();
         assertThat( "builder returned a null object", senderInfo, is( notNullValue() ) );
         assertThat( "company was not set correctly", senderInfo.getCompany(), is( equalTo( "company" ) ) );
         assertThat( "title was not set correctly", senderInfo.getTitle(), is( equalTo( "title" ) ) );

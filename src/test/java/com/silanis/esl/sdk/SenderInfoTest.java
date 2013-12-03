@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.Sender;
+import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,9 +48,9 @@ public class SenderInfoTest {
         senderInfo.setFirstName( "firstName" );
         senderInfo.setLastName( "lastName" );
 
-        Sender sender = senderInfo.toAPISender();
+        Sender sender = new SenderConverter(senderInfo).toAPISender();
 
-        assertThat( "first name was not properly set or retrieved", sender.getFirstName(), is( equalTo( "firstName" ) ) );
+        assertThat("first name was not properly set or retrieved", sender.getFirstName(), is(equalTo("firstName")));
         assertThat( "last name was not properly set or retrieved", sender.getLastName(), is( equalTo( "lastName" ) ) );
         assertThat( "company was not properly set or retrieved", sender.getCompany(), is( equalTo( "company" ) ) );
         assertThat( "title was not properly set or retrieved", sender.getTitle(), is( equalTo( "title" ) ) );
