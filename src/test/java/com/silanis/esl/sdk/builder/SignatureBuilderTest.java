@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureStyle;
 import org.junit.Test;
@@ -13,13 +14,56 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.initialsFor;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SignatureBuilderTest {
     public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
+
+    @Test
+    public void buildCaptureForGroup() {
+        GroupId groupId = new GroupId( "myGroupId" );
+        Signature signature = SignatureBuilder.captureFor( groupId ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.HAND_DRAWN ) ) );
+    }
+
+    @Test
+    public void buildSignatureForGroup() {
+        GroupId groupId = new GroupId( "myGroupId" );
+        Signature signature = SignatureBuilder.signatureFor( groupId ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.FULL_NAME ) ) );
+    }
+
+    @Test
+    public void buildAcceptanceForGroup() {
+        GroupId groupId = new GroupId( "myGroupId" );
+        Signature signature = SignatureBuilder.acceptanceFor( groupId ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.ACCEPTANCE ) ) );
+    }
+
+    @Test
+    public void buildInitialsForGroup() {
+        GroupId groupId = new GroupId( "myGroupId" );
+        Signature signature = SignatureBuilder.initialsFor( groupId ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.INITIALS ) ) );
+    }
 
     @Test
     public void buildWithSpecifiedValues() {

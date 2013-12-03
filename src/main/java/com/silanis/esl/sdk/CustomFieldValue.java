@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.UserCustomField;
-
 public class CustomFieldValue {
     private String id;
     private String value;

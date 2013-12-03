@@ -76,6 +76,15 @@ final public class SignatureBuilder {
         return builder;
     }
 
+    public static SignatureBuilder acceptanceFor( GroupId groupId ) {
+        SignatureBuilder builder = signatureFor( groupId )
+                .withStyle( SignatureStyle.ACCEPTANCE )
+                .atPosition( 0, 0 )
+                .withSize( 0, 0 )
+                .onPage( 0 );
+        return builder;
+    }
+
     /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.INITIALS
@@ -87,6 +96,10 @@ final public class SignatureBuilder {
         return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.INITIALS );
     }
 
+    public static SignatureBuilder initialsFor( GroupId groupId ) {
+        return new SignatureBuilder( groupId ).withStyle( SignatureStyle.INITIALS );
+    }
+
     /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
@@ -96,6 +109,10 @@ final public class SignatureBuilder {
      */
     public static SignatureBuilder captureFor( String signerEmail ) {
         return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.HAND_DRAWN );
+    }
+
+    public static SignatureBuilder captureFor( GroupId groupId ) {
+        return new SignatureBuilder( groupId ).withStyle( SignatureStyle.HAND_DRAWN );
     }
 
     /**

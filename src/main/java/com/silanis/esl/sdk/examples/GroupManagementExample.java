@@ -1,9 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.builder.GroupBuilder;
-import com.silanis.esl.sdk.builder.GroupMemberBuilder;
-import com.silanis.esl.sdk.builder.SignerBuilder;
+import com.silanis.esl.sdk.builder.*;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -14,6 +12,7 @@ import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 
 public class GroupManagementExample extends SDKSample {
@@ -58,7 +57,35 @@ public class GroupManagementExample extends SDKSample {
         }
     }
 
+    private void inviteAccountMember( String email ) {
+        try {
+            eslClient.getAccountService().inviteUser( AccountMemberBuilder.newAccountMember( email )
+                    .withPhoneNumber( "1234567890" )
+                    .withLanguage( "en" )
+                    .withTitle( "title" )
+                    .withCompany( "company" )
+                    .withFirstName( "firstName" )
+                    .withLastName( "lastName" )
+                    .withAddress( AddressBuilder.newAddress()
+                            .withAddress1( "address1" )
+                            .withAddress2( "address2" )
+                            .withZipCode( "zipcode" )
+                            .withState( "state" )
+                            .withCountry( "country" )
+                            .withCity( "city" ) )
+                    .build() );
+        } catch (Exception e) {
+            // We don't care about exceptions as they'll be on account of the sender already being in the system.
+        }
+    }
+
     public void execute() {
+
+        // Since the user needs to already exist in the system, we invite all the emails we plan on using
+        inviteAccountMember( email1 );
+        inviteAccountMember( email2 );
+        inviteAccountMember( email3 );
+        inviteAccountMember( email4 );
 
         // Let's create and manage some groups
         Group group1 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
@@ -104,7 +131,7 @@ public class GroupManagementExample extends SDKSample {
                         .deliverSignedDocumentsByEmail() )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature( signatureFor( createdGroup1.getId() )
+                        .withSignature( captureFor( createdGroup1.getId() )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) ) )
                 .build();

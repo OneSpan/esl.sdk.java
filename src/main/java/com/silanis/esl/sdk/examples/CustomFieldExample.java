@@ -54,7 +54,7 @@ public class CustomFieldExample extends SDKSample {
 
         CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
                 .submitCustomFieldValue( CustomFieldValueBuilder.customFieldValueWithId( customField.getId() )
-                        .withValue( customField.getValue() )
+                        .withValue( "le woah" )
                         .build()
                 );
 
