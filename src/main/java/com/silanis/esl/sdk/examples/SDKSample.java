@@ -9,9 +9,19 @@ abstract public class SDKSample {
         eslClient = new EslClient(apiKey, apiUrl);
     }
 
+    void preExecute() {
+        // To be overridden by sub classes to put in pre-execution logic if applicable.
+    }
+
     abstract void execute();
 
+    void postExecute() {
+        // To be overridden by sub classes to put in post-execution logic if applicable.
+    }
+
     public void run() {
+        preExecute();
         execute();
+        postExecute();
     }
 }
