@@ -39,10 +39,13 @@ public class RestClient {
         support.logRequest("POST", path, jsonPayload);
 
         HttpPost post = new HttpPost( path );
-        StringEntity body = new StringEntity(jsonPayload);
+        if ( jsonPayload != null ) {
+            StringEntity body = new StringEntity(jsonPayload);
 
-        body.setContentType("application/json");
-        post.setEntity(body);
+            body.setContentType("application/json");
+
+            post.setEntity(body);
+        }
 
         return execute(post, apiToken, jsonHandler);
     }

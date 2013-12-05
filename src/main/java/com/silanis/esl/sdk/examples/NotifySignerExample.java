@@ -1,9 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.EslClient;
-import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;

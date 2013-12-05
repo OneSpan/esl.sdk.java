@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
@@ -231,7 +232,7 @@ public class PackageService {
         try {
             stringResponse = client.get( path );
         } catch ( Exception e ) {
-            throw new EslException( "Could not get role.", e );
+            throw new EslException( "Could not retrieve list of roles for package with id " + packageId.getId(), e );
         }
         return Serialization.fromJson( stringResponse, RoleList.class ).getResults();
     }
@@ -453,7 +454,7 @@ public class PackageService {
      * @param message       The custom message to be included in the email sent as notification to the signer
      */
     public void notifySigner( PackageId packageId, String signerEmail, String message ) {
-        String path = template.urlFor( UrlTemplate.NOTIFICATIONS_PATH )
+        String path = template.urlFor( UrlTemplate.CUSTOM_NOTIFICATIONS_PATH )
                 .replace( "{packageId}", packageId.getId() )
                 .build();
 
@@ -466,6 +467,41 @@ public class PackageService {
             client.post( path, payload );
         } catch ( Exception e ) {
             throw new EslException( "Could not send email notification to signer. Exception: " + e.getMessage() );
+        }
+    }
+
+    private Role findRoleForGroup( PackageId packageId, String groupId ) {
+        List<Role> roles = getRoles( packageId );
+
+        for ( Role role : roles ) {
+            if ( !role.getSigners().isEmpty() ) {
+                Signer signer = role.getSigners().get( 0 );
+                if ( signer.getGroup() != null ) {
+                    if (signer.getGroup().getId().equals( groupId ) ) {
+                        return role;
+                    }
+
+                }
+            }
+        }
+        return null;
+    }
+
+    public void notifySigner( PackageId packageId, GroupId groupId ) {
+        Role role = findRoleForGroup( packageId, groupId.getId() );
+        notifySigner( packageId, role.getId() );
+    }
+
+    private void notifySigner( PackageId packageId, String roleId ) {
+        String path = template.urlFor(  UrlTemplate.NOTIFY_ROLE_PATH )
+                .replace( "{packageId}", packageId.getId() )
+                .replace( "{roleId}", roleId )
+                .build();
+
+        try {
+            client.post( path, null );
+        } catch ( Exception e ) {
+            throw new EslException( "Could not send email notification.  " + e.getMessage() );
         }
     }
 

@@ -139,6 +139,8 @@ public class GroupManagementExample extends SDKSample {
         PackageId packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
 
+        eslClient.getPackageService().notifySigner( packageId, createdGroup1.getId() );
+
         DocumentPackage result = eslClient.getPackage( packageId );
     }
 }
