@@ -1,8 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.sdk.internal.converter.AuthenticationConverter;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -100,6 +97,10 @@ public class Signer implements Serializable {
         return signingOrder;
     }
 
+    public Authentication getAuthentication() {
+        return authentication;
+    }
+
     /**
      * Accessor method used to retrieve the authentication method used by the signer
      * 
@@ -116,29 +117,6 @@ public class Signer implements Serializable {
      */
     public List<Challenge> getChallengeQuestions() {
         return authentication.getChallenges();
-    }
-
-    public com.silanis.esl.api.model.Signer toAPISigner() {
-        com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
-
-        if ( !isGroupSigner() ) {
-            result.setEmail( email )
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .setTitle(title)
-                .setCompany(company)
-                .setDelivery( new Delivery().setEmail( deliverSignedDocumentsByEmail ) );
-        } else {
-            result.setGroup( new com.silanis.esl.api.model.Group().setId( getGroupId().toString() ) );
-        }
-
-        if ( id != null ) {
-            result.setId( id );
-        }
-
-        result.setAuth( new AuthenticationConverter(authentication).toAPIAuthentication() );
-
-        return result;
     }
 
     /**

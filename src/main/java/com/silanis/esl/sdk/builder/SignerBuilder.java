@@ -201,44 +201,6 @@ final public class SignerBuilder {
         return this;
     }
 
-    public static SignerBuilder newSignerFromAPISigner( com.silanis.esl.api.model.Role role ) {
-        com.silanis.esl.api.model.Signer eslSigner = role.getSigners().get( 0 );
-
-        SignerBuilder signerBuilder;
-
-        if ( eslSigner.getGroup() == null ) {
-            signerBuilder = SignerBuilder.newSignerWithEmail( eslSigner.getEmail() )
-                .withFirstName( eslSigner.getFirstName() )
-                .withLastName( eslSigner.getLastName() )
-                .withCompany( eslSigner.getCompany() )
-                .withTitle( eslSigner.getTitle() );
-
-            if ( eslSigner.getDelivery() != null && eslSigner.getDelivery().getEmail() ) {
-                signerBuilder.deliverSignedDocumentsByEmail();
-            }
-        } else {
-            signerBuilder = SignerBuilder.newSignerFromGroup( new GroupId( eslSigner.getGroup().getId() ) );
-        }
-
-        signerBuilder.withCustomId( eslSigner.getId() )
-                .withRoleId( role.getId() )
-                .signingOrder( role.getIndex() );
-
-        if ( role.evalReassign() ) {
-            signerBuilder.canChangeSigner();
-        }
-
-        if ( role.getEmailMessage() != null ) {
-            signerBuilder.withEmailMessage( role.getEmailMessage().getContent() );
-        }
-
-        if ( role.getLocked() ) {
-            signerBuilder.lock();
-        }
-
-        return signerBuilder;
-    }
-
     /**
      * @deprecated Use withCustomId() from now on. Will get deleted in a future release
      * @param roleId
