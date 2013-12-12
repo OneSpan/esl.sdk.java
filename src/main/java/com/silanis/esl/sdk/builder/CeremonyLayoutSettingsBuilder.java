@@ -30,6 +30,7 @@ public class CeremonyLayoutSettingsBuilder {
             breadCrumbs = ceremonySettings.getLayout().getHeader().getBreadcrumbs();
             sessionBar = ceremonySettings.getLayout().getHeader().getSessionBar();
             globalNavigation = ceremonySettings.getLayout().getHeader().getGlobalNavigation();
+            showGlobalDownloadButton = ceremonySettings.getLayout().getHeader().getGlobalActions().getDownload();
 
             if ( ceremonySettings.getLayout().getHeader().getTitleBar() != null ) {
                 progressBar = ceremonySettings.getLayout().getHeader().getTitleBar().getProgressBar();

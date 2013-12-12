@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.sdk.Authentication;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
@@ -111,6 +112,8 @@ public class SignerConverter {
         if ( apiRole.getLocked() ) {
             signerBuilder.lock();
         }
+
+        signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
 
         return signerBuilder.build();
     }    

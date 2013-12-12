@@ -12,9 +12,9 @@ public class Challenge {
             throw new IllegalArgumentException("question parameter cannot be null or empty");
         }
 
-        if (answer == null || answer.trim().isEmpty()) {
-            throw new IllegalArgumentException("answer parameter cannot be null or empty");
-        }
+//        if (answer == null || answer.trim().isEmpty()) {
+//            throw new IllegalArgumentException("answer parameter cannot be null or empty");
+//        }
 
         this.question = question;
         this.answer = answer;

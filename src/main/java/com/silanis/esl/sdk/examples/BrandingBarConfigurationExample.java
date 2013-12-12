@@ -2,8 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.EslClient;
-import com.silanis.esl.sdk.PackageId;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -16,6 +14,8 @@ import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocu
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 /**
  * Basic package with in-person mode set at the document package level. Expires in a month.
@@ -64,8 +64,20 @@ public class BrandingBarConfigurationExample extends SDKSample {
                                 .atPosition( 100, 100 ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
 
         eslClient.sendPackage( packageId );
+    }
+
+    @Override
+    void postExecute() {
+        // Verify if the branding bar configuration was set up correctly.
+        DocumentPackage documentPackage = eslClient.getPackage(packageId);
+
+        assertThat( "Opt out button was not set correctly.", documentPackage.getSettings().getEnableOptOut(), is( false ) );
+        assertThat( "Tool bar download button was not set correctly.", documentPackage.getSettings().getShowDocumentToolbarDownloadButton(), is( false ) );
+        assertThat( "Global navigation button was not set correctly.", documentPackage.getSettings().getCeremonyLayoutSettings().getGlobalNavigation(), is( false ) );
+        assertThat( "Global download button was not set correctly.", documentPackage.getSettings().getCeremonyLayoutSettings().getShowGlobalDownloadButton(), is( false ) );
+
     }
 }

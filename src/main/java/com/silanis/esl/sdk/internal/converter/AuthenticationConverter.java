@@ -2,6 +2,8 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
 import com.silanis.esl.api.model.AuthScheme;
+import com.silanis.esl.sdk.Authentication;
+import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.Challenge;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class AuthenticationConverter {
         if (sdkAuth == null) {
             return apiAuth;
         }
-        com.silanis.esl.api.model.Auth auth = new com.silanis.esl.api.model.Auth().setScheme(scheme());
+        com.silanis.esl.api.model.Auth auth = new com.silanis.esl.api.model.Auth().setScheme(new AuthenticationMethodConverter(sdkAuth.getMethod()).toAPIAuthMethod());
 
         for (com.silanis.esl.sdk.Challenge challenge : sdkAuth.getChallenges()) {
             auth.addChallenge(new AuthChallenge().setQuestion(challenge.getQuestion()).setAnswer(challenge.getAnswer()));
@@ -69,6 +71,7 @@ public class AuthenticationConverter {
         if (apiAuth == null) {
             return sdkAuth;
         }
+        String telephoneNumber = null;
 
         com.silanis.esl.sdk.Authentication sdkAuthentication = null;
 
@@ -76,27 +79,22 @@ public class AuthenticationConverter {
         {
             List<Challenge> sdkChallenges = new ArrayList<Challenge>();
             for (AuthChallenge apiChallenge: apiAuth.getChallenges()) {
-                sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
+                if (apiAuth.getScheme() == AuthScheme.CHALLENGE) {
+                    sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
+                } else {
+                    telephoneNumber = apiChallenge.getQuestion();
+                    break;
+                }
             }
-            sdkAuthentication = new com.silanis.esl.sdk.Authentication(sdkChallenges);
+
+            if (apiAuth.getScheme() == AuthScheme.CHALLENGE) {
+                sdkAuthentication = new com.silanis.esl.sdk.Authentication(sdkChallenges);
+            } else {
+                sdkAuthentication = new com.silanis.esl.sdk.Authentication(telephoneNumber);
+            }
         }
 
         return sdkAuthentication;
 
     }
-
-    private AuthScheme scheme() {
-        switch (sdkAuth.getMethod()) {
-            case EMAIL:
-                return AuthScheme.NONE;
-            case CHALLENGE:
-                return AuthScheme.CHALLENGE;
-            case SMS:
-                return AuthScheme.SMS;
-        }
-
-        throw new IllegalStateException("Unknown authentication method");
-    }
-
-
 }

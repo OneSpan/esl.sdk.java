@@ -28,7 +28,6 @@ import static org.joda.time.DateMidnight.now;
 public class DocumentPackageAttributesExample extends SDKSample{
     private String email1;
     private InputStream documentInputStream1;
-    private PackageId packageId;
     private String attributeKey1 = "Key 1";
     private String attributeKey2 = "Key 2";
     private String attributeKey3 = "Key 3";

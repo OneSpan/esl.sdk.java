@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.*;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -81,10 +79,20 @@ public class AuthenticationMethodsExample extends SDKSample {
                                 .atPosition( 100, 300 ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
 
         System.out.println( "PackageId: " + packageId );
 
         eslClient.sendPackage( packageId );
+    }
+
+    @Override
+    void postExecute() {
+        // Validate if the authentication methods were created correctly.
+        DocumentPackage documentPackage = eslClient.getPackage(packageId);
+
+        assert (documentPackage.getSigner(email1).getAuthentication().getMethod().equals(AuthenticationMethod.EMAIL));
+        assert (documentPackage.getSigner(email2).getAuthentication().getMethod().equals(AuthenticationMethod.CHALLENGE));
+        assert (documentPackage.getSigner(email3).getAuthentication().getMethod().equals(AuthenticationMethod.SMS));
     }
 }
