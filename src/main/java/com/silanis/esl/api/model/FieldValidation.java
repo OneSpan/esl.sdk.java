@@ -29,7 +29,7 @@ public class FieldValidation extends Model
     public FieldValidation ( ) {}
     
     // Fields
-    protected List<String> _enum = new ArrayList<String>();
+    protected List<String> _enum = null;
     protected Integer _errorCode = null;
     protected String _errorMessage = "";
     protected Integer _maxLength = null;
@@ -41,7 +41,6 @@ public class FieldValidation extends Model
         
     
     public FieldValidation setEnum( List<String> value ){
-        SchemaSanitizer.throwOnNull(FIELD_ENUM,value);
         // TODO With proper compare
         // if ( this._enum == value ) return this;
         this._enum = value;

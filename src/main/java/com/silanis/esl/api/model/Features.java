@@ -13,23 +13,32 @@ public class Features extends Model
     @JsonIgnore
     public static final String FIELD_ATTACHMENTS = "attachments";
     @JsonIgnore
-    public static final String FIELD_CUSTOMFIELDS = "customfields";
+    public static final String FIELD_CUSTOMFIELDS = "customFields";
     @JsonIgnore
-    public static final String FIELD_FASTTRACK = "fasttrack";
+    public static final String FIELD_ENCRYPTDOCUMENTS = "encryptDocuments";
+    @JsonIgnore
+    public static final String FIELD_EVIDENCESUMMARY = "evidenceSummary";
+    @JsonIgnore
+    public static final String FIELD_FASTTRACK = "fastTrack";
     @JsonIgnore
     public static final String FIELD_FORCELOGIN = "forceLogin";
     @JsonIgnore
     public static final String FIELD_GROUPS = "groups";
+    @JsonIgnore
+    public static final String FIELD_TAMPERSEALEVIDENCE = "tamperSealEvidence";
     
     // Empty Constructor
     public Features ( ) {}
     
     // Fields
     protected Boolean _attachments = false;
-    protected Boolean _customfields = false;
-    protected Boolean _fasttrack = false;
+    protected Boolean _customFields = false;
+    protected Boolean _encryptDocuments = false;
+    protected Boolean _evidenceSummary = false;
+    protected Boolean _fastTrack = false;
     protected Boolean _forceLogin = false;
     protected Boolean _groups = false;
+    protected Boolean _tamperSealEvidence = false;
     
     // Accessors
         
@@ -58,50 +67,98 @@ public class Features extends Model
     
         
     
-    public Features setCustomfields( Boolean value ){
+    public Features setCustomFields( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_CUSTOMFIELDS,value);
         // TODO With proper compare
-        // if ( this._customfields == value ) return this;
-        this._customfields = value;
+        // if ( this._customFields == value ) return this;
+        this._customFields = value;
         setDirty(FIELD_CUSTOMFIELDS);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetCustomfields( Boolean value ){
-        if ( value != null ) { this.setCustomfields( value ); }
+    public Features safeSetCustomFields( Boolean value ){
+        if ( value != null ) { this.setCustomFields( value ); }
         return this;
     }
-    public Boolean getCustomfields(){
-        return _customfields;
+    public Boolean getCustomFields(){
+        return _customFields;
     }
     @JsonIgnore
-    public boolean evalCustomfields(){
-        return _customfields == null ? false : _customfields.booleanValue();
+    public boolean evalCustomFields(){
+        return _customFields == null ? false : _customFields.booleanValue();
     }
     
         
     
-    public Features setFasttrack( Boolean value ){
+    public Features setEncryptDocuments( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_ENCRYPTDOCUMENTS,value);
+        // TODO With proper compare
+        // if ( this._encryptDocuments == value ) return this;
+        this._encryptDocuments = value;
+        setDirty(FIELD_ENCRYPTDOCUMENTS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetEncryptDocuments( Boolean value ){
+        if ( value != null ) { this.setEncryptDocuments( value ); }
+        return this;
+    }
+    public Boolean getEncryptDocuments(){
+        return _encryptDocuments;
+    }
+    @JsonIgnore
+    public boolean evalEncryptDocuments(){
+        return _encryptDocuments == null ? false : _encryptDocuments.booleanValue();
+    }
+    
+        
+    
+    public Features setEvidenceSummary( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_EVIDENCESUMMARY,value);
+        // TODO With proper compare
+        // if ( this._evidenceSummary == value ) return this;
+        this._evidenceSummary = value;
+        setDirty(FIELD_EVIDENCESUMMARY);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetEvidenceSummary( Boolean value ){
+        if ( value != null ) { this.setEvidenceSummary( value ); }
+        return this;
+    }
+    public Boolean getEvidenceSummary(){
+        return _evidenceSummary;
+    }
+    @JsonIgnore
+    public boolean evalEvidenceSummary(){
+        return _evidenceSummary == null ? false : _evidenceSummary.booleanValue();
+    }
+    
+        
+    
+    public Features setFastTrack( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_FASTTRACK,value);
         // TODO With proper compare
-        // if ( this._fasttrack == value ) return this;
-        this._fasttrack = value;
+        // if ( this._fastTrack == value ) return this;
+        this._fastTrack = value;
         setDirty(FIELD_FASTTRACK);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetFasttrack( Boolean value ){
-        if ( value != null ) { this.setFasttrack( value ); }
+    public Features safeSetFastTrack( Boolean value ){
+        if ( value != null ) { this.setFastTrack( value ); }
         return this;
     }
-    public Boolean getFasttrack(){
-        return _fasttrack;
+    public Boolean getFastTrack(){
+        return _fastTrack;
     }
     @JsonIgnore
-    public boolean evalFasttrack(){
-        return _fasttrack == null ? false : _fasttrack.booleanValue();
+    public boolean evalFastTrack(){
+        return _fastTrack == null ? false : _fastTrack.booleanValue();
     }
     
         
@@ -150,6 +207,30 @@ public class Features extends Model
     @JsonIgnore
     public boolean evalGroups(){
         return _groups == null ? false : _groups.booleanValue();
+    }
+    
+        
+    
+    public Features setTamperSealEvidence( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_TAMPERSEALEVIDENCE,value);
+        // TODO With proper compare
+        // if ( this._tamperSealEvidence == value ) return this;
+        this._tamperSealEvidence = value;
+        setDirty(FIELD_TAMPERSEALEVIDENCE);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetTamperSealEvidence( Boolean value ){
+        if ( value != null ) { this.setTamperSealEvidence( value ); }
+        return this;
+    }
+    public Boolean getTamperSealEvidence(){
+        return _tamperSealEvidence;
+    }
+    @JsonIgnore
+    public boolean evalTamperSealEvidence(){
+        return _tamperSealEvidence == null ? false : _tamperSealEvidence.booleanValue();
     }
     
     

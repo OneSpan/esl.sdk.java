@@ -34,6 +34,7 @@ public class EslClient {
     private GroupService groupService;
     private CustomFieldService customFieldService;
     private AccountService accountService;
+    private ReminderService reminderService;
 
     /**
      * The constructor of the EslClient class
@@ -54,6 +55,7 @@ public class EslClient {
         groupService = new GroupService( client, this.baseURL );
         customFieldService = new CustomFieldService( client, this.baseURL );
         accountService = new AccountService( client, this.baseURL );
+        reminderService = new ReminderService( client, this.baseURL );
     }
 
     /**
@@ -243,5 +245,9 @@ public class EslClient {
 
     public AccountService getAccountService() {
         return accountService;
+    }
+
+    public ReminderService getReminderService() {
+        return reminderService;
     }
 }

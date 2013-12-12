@@ -47,6 +47,9 @@ public class UrlTemplate {
     // Account Service
     public static final String ACCOUNT_INVITE_MEMBER_PATH = "/account/senders";
 
+    // Reminders Service
+    public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }
