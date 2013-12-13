@@ -4,6 +4,9 @@ import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 /**
  * User: jessica
  * Date: 12/12/13
@@ -22,9 +25,9 @@ public class AuthenticationMethodsExampleTest {
 
         DocumentPackage documentPackage = authenticationMethodsExample.getEslClient().getPackage(authenticationMethodsExample.getPackageId());
 
-        assert (documentPackage.getSigner(authenticationMethodsExample.email1).getAuthentication().getMethod().equals(AuthenticationMethod.EMAIL));
-        assert (documentPackage.getSigner(authenticationMethodsExample.email2).getAuthentication().getMethod().equals(AuthenticationMethod.CHALLENGE));
-        assert (documentPackage.getSigner(authenticationMethodsExample.email3).getAuthentication().getMethod().equals(AuthenticationMethod.SMS));
+        assertThat( "Signer 1 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email1).getAuthentication().getMethod(), is( AuthenticationMethod.EMAIL ) );
+        assertThat( "Signer 2 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email2).getAuthentication().getMethod(), is( AuthenticationMethod.CHALLENGE ) );
+        assertThat( "Signer 3 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email3).getAuthentication().getMethod(), is( AuthenticationMethod.SMS ) );
     }
 
 }
