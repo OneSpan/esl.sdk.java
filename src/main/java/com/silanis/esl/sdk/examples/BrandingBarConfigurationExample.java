@@ -14,15 +14,13 @@ import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocu
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 
 /**
  * Basic package with in-person mode set at the document package level. Expires in a month.
  */
 public class BrandingBarConfigurationExample extends SDKSample {
 
-    private String email1;
+    public final String email1;
     private InputStream documentInputStream;
 
 
@@ -31,9 +29,9 @@ public class BrandingBarConfigurationExample extends SDKSample {
     }
 
     public BrandingBarConfigurationExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ) );
+        this(props.getProperty("api.key"),
+                props.getProperty("api.url"),
+                props.getProperty("1.email"));
     }
 
     public BrandingBarConfigurationExample( String apiKey, String apiUrl, String email1 ) {
@@ -69,15 +67,4 @@ public class BrandingBarConfigurationExample extends SDKSample {
         eslClient.sendPackage( packageId );
     }
 
-    @Override
-    void postExecute() {
-        // Verify if the branding bar configuration was set up correctly.
-        DocumentPackage documentPackage = eslClient.getPackage(packageId);
-
-        assertThat( "Opt out button was not set correctly.", documentPackage.getSettings().getEnableOptOut(), is( false ) );
-        assertThat( "Tool bar download button was not set correctly.", documentPackage.getSettings().getShowDocumentToolbarDownloadButton(), is( false ) );
-        assertThat( "Global navigation button was not set correctly.", documentPackage.getSettings().getCeremonyLayoutSettings().getGlobalNavigation(), is( false ) );
-        assertThat( "Global download button was not set correctly.", documentPackage.getSettings().getCeremonyLayoutSettings().getShowGlobalDownloadButton(), is( false ) );
-
-    }
 }

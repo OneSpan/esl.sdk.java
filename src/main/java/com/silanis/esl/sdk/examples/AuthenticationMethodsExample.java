@@ -19,9 +19,9 @@ import static org.joda.time.DateMidnight.now;
  */
 public class AuthenticationMethodsExample extends SDKSample {
 
-    private String email1;
-    private String email2;
-    private String email3;
+    public final String email1;
+    public final String email2;
+    public final String email3;
     private String sms3;
     private InputStream documentInputStream;
 
@@ -84,15 +84,5 @@ public class AuthenticationMethodsExample extends SDKSample {
         System.out.println( "PackageId: " + packageId );
 
         eslClient.sendPackage( packageId );
-    }
-
-    @Override
-    void postExecute() {
-        // Validate if the authentication methods were created correctly.
-        DocumentPackage documentPackage = eslClient.getPackage(packageId);
-
-        assert (documentPackage.getSigner(email1).getAuthentication().getMethod().equals(AuthenticationMethod.EMAIL));
-        assert (documentPackage.getSigner(email2).getAuthentication().getMethod().equals(AuthenticationMethod.CHALLENGE));
-        assert (documentPackage.getSigner(email3).getAuthentication().getMethod().equals(AuthenticationMethod.SMS));
     }
 }
