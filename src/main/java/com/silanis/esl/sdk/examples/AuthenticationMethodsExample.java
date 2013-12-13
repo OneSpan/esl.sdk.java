@@ -85,4 +85,14 @@ public class AuthenticationMethodsExample extends SDKSample {
 
         eslClient.sendPackage( packageId );
     }
+
+    @Override
+    void postExecute() {
+        // Validate if the authentication methods were created correctly.
+        DocumentPackage documentPackage = eslClient.getPackage(packageId);
+
+        assert (documentPackage.getSigner(email1).getAuthentication().getMethod().equals(AuthenticationMethod.EMAIL));
+        assert (documentPackage.getSigner(email2).getAuthentication().getMethod().equals(AuthenticationMethod.CHALLENGE));
+        assert (documentPackage.getSigner(email3).getAuthentication().getMethod().equals(AuthenticationMethod.SMS));
+    }
 }
