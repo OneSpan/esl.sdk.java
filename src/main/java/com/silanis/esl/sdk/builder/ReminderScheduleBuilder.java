@@ -9,14 +9,14 @@ public class ReminderScheduleBuilder {
     private int daysUntilFirstReminder;
     public static final int DEFAULT_DAYS_BETWEEN_REMINDERS = 1;
     private int daysBetweenReminders;
-    public static final int DEFAULT_NUMBER_OF_REMINDERS = 1;
+    public static final int DEFAULT_NUMBER_OF_REPETITIONS = 1;
     private int numberOfRepetitions;
 
     private ReminderScheduleBuilder( PackageId packageId ) {
         this.packageId = packageId;
         daysUntilFirstReminder = DEFAULT_DAYS_UNTIL_FIRST_REMINDER;
         daysBetweenReminders = DEFAULT_DAYS_BETWEEN_REMINDERS;
-        numberOfRepetitions = DEFAULT_NUMBER_OF_REMINDERS;
+        numberOfRepetitions = DEFAULT_NUMBER_OF_REPETITIONS;
     }
 
     public static ReminderScheduleBuilder forPackageWithId( String packageId ) {

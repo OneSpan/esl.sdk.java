@@ -32,7 +32,7 @@ public class ReminderScheduleBuilderTest {
         ReminderSchedule built = builder.build();
         assertThat( built.getDaysBetweenReminders(), is( equalTo( ReminderScheduleBuilder.DEFAULT_DAYS_BETWEEN_REMINDERS ) ) );
         assertThat( built.getDaysUntilFirstReminder(), is( equalTo( ReminderScheduleBuilder.DEFAULT_DAYS_UNTIL_FIRST_REMINDER ) ) );
-        assertThat( built.getNumberOfRepetitions(), is( equalTo( ReminderScheduleBuilder.DEFAULT_NUMBER_OF_REMINDERS ) ) );
+        assertThat( built.getNumberOfRepetitions(), is( equalTo( ReminderScheduleBuilder.DEFAULT_NUMBER_OF_REPETITIONS ) ) );
     }
 
     @Test

@@ -21,6 +21,7 @@ public class ReminderScheduleConverterTest {
         sdk.setDaysBetweenReminders( 15 );
         PackageReminderSchedule api = new ReminderScheduleConverter( sdk ).toAPIPackageReminderSchedule();
 
+        assertThat( api, is( notNullValue() ) );
         assertThat( api.getPackageId(), is( equalTo( "" ) ) );
         assertThat( api.getRepetitionsCount(), is( equalTo( sdk.getNumberOfRepetitions() ) ) );
         assertThat( api.getStartInDaysDelay(), is( equalTo( sdk.getDaysUntilFirstReminder() ) ) );

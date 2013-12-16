@@ -25,7 +25,6 @@ public class ReminderConverter {
             result.setDate( sdkReminder.getDate() );
             result.setSentDate( sdkReminder.getSentDate() );
             return result;
-
         }
     }
 
