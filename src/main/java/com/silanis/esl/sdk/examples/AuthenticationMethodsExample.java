@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.*;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -21,9 +19,9 @@ import static org.joda.time.DateMidnight.now;
  */
 public class AuthenticationMethodsExample extends SDKSample {
 
-    private String email1;
-    private String email2;
-    private String email3;
+    public final String email1;
+    public final String email2;
+    public final String email3;
     private String sms3;
     private InputStream documentInputStream;
 
@@ -81,10 +79,11 @@ public class AuthenticationMethodsExample extends SDKSample {
                                 .atPosition( 100, 300 ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
 
         System.out.println( "PackageId: " + packageId );
 
         eslClient.sendPackage( packageId );
     }
+
 }

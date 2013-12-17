@@ -17,8 +17,18 @@ import static com.silanis.esl.sdk.builder.TranslationBuilder.newTranslation;
 
 public class CustomFieldExample extends SDKSample {
 
-    private String email1;
+    public final String email1;
     private InputStream documentInputStream1;
+
+    public final String defaultValue = "#12345";
+    public final String englishLanguage = "en";
+    public final String englishName = "The Bay";
+    public final String englishDescription = "The Bay store";
+    public final String frenchLanguage = "fr";
+    public final String frenchName = "La Baie";
+    public final String frenchDescription = "Le magasin La Baie";
+    public final String fieldValue = "le woah";
+    private String customFieldId;
 
     public static void main( String... args ) {
         new CustomFieldExample( Props.get() ).run();
@@ -36,25 +46,29 @@ public class CustomFieldExample extends SDKSample {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
     }
 
+    public String getCustomFieldId() {
+        return customFieldId;
+    }
+
     @Override
     public void execute() {
 
-        String customFieldId = UUID.randomUUID().toString().replaceAll( "-", "" );
+        customFieldId = UUID.randomUUID().toString().replaceAll( "-", "" );
         CustomField customField = eslClient.getCustomFieldService()
                 .createCustomField( customFieldWithId( customFieldId )
-                        .withDefaultValue( "#12345" )
-                        .withTranslation( newTranslation( "en" ).
-                                withName( "The Bay" ).
-                                withDescription( "The Bay store" ) )
-                        .withTranslation( newTranslation( "fr" ).
-                                withName( "La Baie" ).
-                                withDescription( "Le magasin La Baie" ) )
+                        .withDefaultValue( defaultValue )
+                        .withTranslation( newTranslation( englishLanguage ).
+                                withName( englishName ).
+                                withDescription( englishDescription ) )
+                        .withTranslation( newTranslation( frenchLanguage ).
+                                withName( frenchName ).
+                                withDescription( frenchDescription ) )
                         .build()
                 );
 
         CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
                 .submitCustomFieldValue( CustomFieldValueBuilder.customFieldValueWithId( customField.getId() )
-                        .withValue( "le woah" )
+                        .withValue( fieldValue )
                         .build()
                 );
 
@@ -73,7 +87,8 @@ public class CustomFieldExample extends SDKSample {
                                         .withName( customFieldValue.getId() ) ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
     }
+
 }

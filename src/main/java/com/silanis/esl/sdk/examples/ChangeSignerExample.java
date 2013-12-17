@@ -18,7 +18,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class ChangeSignerExample extends SDKSample {
 
-    private String email1;
+    public final String email1;
     private InputStream documentInputStream;
 
     public static void main( String... args ) {
@@ -50,7 +50,7 @@ public class ChangeSignerExample extends SDKSample {
                                 .atPosition(500, 100)))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage(packageId);
     }
 }

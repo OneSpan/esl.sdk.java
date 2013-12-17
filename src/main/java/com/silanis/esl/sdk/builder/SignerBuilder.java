@@ -21,6 +21,7 @@ final public class SignerBuilder {
     private String lastName;
     private int signingOrder = DEFAULT_SIGNING_ORDER;
     private AuthenticationBuilder authenticationBuilder = new AuthenticationBuilder();
+    private Authentication authentication = null;
     private String title = "";
     private String company = "";
     private boolean canChangeSigner;
@@ -104,7 +105,9 @@ final public class SignerBuilder {
      */
     public Signer build() {
 
-        Authentication authentication = authenticationBuilder.build();
+        if (authentication == null) {
+            authentication = authenticationBuilder.build();
+        }
 
         Signer signer;
         if ( isGroupSigner() ) {
@@ -143,6 +146,18 @@ final public class SignerBuilder {
      */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
         this.authenticationBuilder = new SMSAuthenticationBuilder(phoneNumber);
+        return this;
+    }
+
+
+    /**
+     * Sets the Signer's authentication.
+     *
+     * @param authentication
+     * @return
+     */
+    public SignerBuilder withAuthentication(Authentication authentication) {
+        this.authentication = authentication;
         return this;
     }
 

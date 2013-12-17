@@ -1,15 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.SessionToken;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Properties;
+
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -22,8 +21,8 @@ import static org.joda.time.DateMidnight.now;
  */
 public class BasicPackageCreationExample extends SDKSample {
 
-    private String email1;
-    private String email2;
+    public final String email1;
+    public final String email2;
     private InputStream documentInputStream1;
     private InputStream documentInputStream2;
 
@@ -78,7 +77,7 @@ public class BasicPackageCreationExample extends SDKSample {
                 )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
 
         SessionToken sessionToken = eslClient.getSessionService().createSessionToken( packageId.toString(), "Client1" );
