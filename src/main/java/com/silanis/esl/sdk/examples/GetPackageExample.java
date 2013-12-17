@@ -63,7 +63,7 @@ public class GetPackageExample extends SDKSample {
                                         .withSize( 200, 50 ) ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         DocumentPackage unsentPackage = eslClient.getPackage( packageId );
     }
 }

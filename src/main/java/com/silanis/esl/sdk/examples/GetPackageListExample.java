@@ -61,7 +61,7 @@ public class GetPackageListExample extends SDKSample {
                                         .withSize( 200, 50 ) ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
 
         Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackages( PackageStatus.SENT, new PageRequest( 1 ) );
     }

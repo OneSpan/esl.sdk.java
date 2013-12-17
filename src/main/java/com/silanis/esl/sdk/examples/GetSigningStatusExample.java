@@ -55,7 +55,7 @@ public class GetSigningStatusExample extends SDKSample {
                                 .atPosition( 100, 100 ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
 
         SigningStatus draftSigningStatus = eslClient.getSigningStatus( packageId, null, null );
         eslClient.sendPackage( packageId );

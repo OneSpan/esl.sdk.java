@@ -71,7 +71,7 @@ public class SignerBoundFieldsExample extends SDKSample {
                                         .atPosition(400, 500))))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
     }
 }

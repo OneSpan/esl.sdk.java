@@ -59,7 +59,7 @@ public class StampFieldValueExample extends SDKSample {
                                 .withValue( "Value to be stamped" ) ))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
     }
 }

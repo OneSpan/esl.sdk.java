@@ -58,7 +58,9 @@ public class DocumentUploadExample extends SDKSample{
                         .withCompany( "Acme Inc." ) )
                         .build();
 
-        superDuperPackage.setId(eslClient.createPackage(superDuperPackage));
+        packageId = eslClient.createPackage( superDuperPackage );
+
+        superDuperPackage.setId(packageId);
 
         // 2. Construct a document
         Document document = newDocumentWithName("First Document")

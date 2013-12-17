@@ -52,7 +52,7 @@ public class FieldInjectionExample extends SDKSample {
                                 .withValue( "Test Value" ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
     }
 }

@@ -56,7 +56,7 @@ public class FieldPositionExtractionExample extends SDKSample {
                                         .withName( "AGENT_SIG_2" ) ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
     }
 }

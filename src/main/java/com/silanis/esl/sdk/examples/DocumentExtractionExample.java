@@ -47,7 +47,7 @@ public class DocumentExtractionExample extends SDKSample {
                         .enableExtraction() )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
 
         DocumentPackage sentPackage = eslClient.getPackage( packageId );

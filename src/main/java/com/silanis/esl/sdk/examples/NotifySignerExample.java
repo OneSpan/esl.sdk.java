@@ -58,7 +58,7 @@ public class NotifySignerExample extends SDKSample {
                                         .withSize( 200, 50 ) ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
         eslClient.getPackageService().notifySigner( packageId, email1, "HELLO SIGNER" );
     }

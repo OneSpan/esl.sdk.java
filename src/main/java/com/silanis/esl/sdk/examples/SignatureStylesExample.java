@@ -57,7 +57,7 @@ public class SignatureStylesExample extends SDKSample {
                                 .atPosition( 500, 500 ) ) )
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
     }
 }

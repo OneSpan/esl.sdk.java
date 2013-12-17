@@ -51,7 +51,7 @@ public class SignerSpecificEmailMessageExample extends SDKSample {
                                 .atPosition(500, 100)))
                 .build();
 
-        PackageId packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage(packageId);
     }
 }
