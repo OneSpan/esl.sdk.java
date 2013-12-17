@@ -71,7 +71,7 @@ public class CustomFieldService {
             if (stringResponse==null || stringResponse.isEmpty()){
                 return false;
             }
-            Serialization.fromJson(stringResponse, CustomFieldValue.class);
+            Serialization.fromJson(stringResponse, UserCustomField.class);
             return true;
         } catch ( EslException e ) {
             return false;
