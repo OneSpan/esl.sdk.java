@@ -3,8 +3,12 @@
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
     <version>10.2-SNAPSHOT</version>
-    <name>Java sdk</name>
-    <packaging>jar</packaging>
+    <modules>
+        <module>tester</module>
+        <module>sdk</module>
+    </modules>
+    <name>java-sdk</name>
+    <packaging>pom</packaging>
 
     <description>A Java software development kit for signing documents using E-Signlive</description>
     <properties>
