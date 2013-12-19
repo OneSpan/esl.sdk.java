@@ -16,7 +16,12 @@ public class Props {
     private static Properties instance  = null;
 
     public static Properties get() {
-        return Props.get( "signers.properties" );
+        Object prop = System.getProperties().get( "properties.file" );
+        String filename = "signers.properties";
+        if ( prop != null ) {
+            filename = (String)prop;
+        }
+        return Props.get( filename );
     }
     synchronized public static Properties get(String filename) {
         if ( instance != null )
