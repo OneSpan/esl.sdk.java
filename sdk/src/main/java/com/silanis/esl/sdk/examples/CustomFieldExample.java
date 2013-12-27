@@ -6,7 +6,11 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
+import com.silanis.esl.sdk.io.Streams;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.UUID;
@@ -47,6 +51,7 @@ public class CustomFieldExample extends SDKSample {
         super( apiKey, apiUrl );
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
+
     }
 
     public String getCustomFieldId() {
@@ -87,7 +92,8 @@ public class CustomFieldExample extends SDKSample {
                                 .withField( FieldBuilder.customField()
                                         .onPage( 0 )
                                         .atPosition( 400, 200 )
-                                        .withName( customFieldValue.getId() ) ) ) )
+                                        .withName( customFieldValue.getId() ) ) )
+                )
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
