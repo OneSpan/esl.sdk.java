@@ -78,8 +78,8 @@ public class FieldBuilder {
      * Creates a field builder having set the style to UNBOUND_CUSTOM_FIELD
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
      */
-    public static FieldBuilder customField() {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD );
+    public static FieldBuilder customField(String name) {
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName( name );
     }
 
     /**

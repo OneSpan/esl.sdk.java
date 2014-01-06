@@ -29,12 +29,12 @@ public class CustomFieldExample extends SDKSample {
 
     public final String defaultValue = "#12345";
     public final String englishLanguage = "en";
-    public final String englishName = "The Bay";
-    public final String englishDescription = "The Bay store";
+    public final String englishName = "Player Number";
+    public final String englishDescription = "The number on your team jersey";
     public final String frenchLanguage = "fr";
-    public final String frenchName = "La Baie";
-    public final String frenchDescription = "Le magasin La Baie";
-    public final String fieldValue = "le woah";
+    public final String frenchName = "Numéro du Joueur";
+    public final String frenchDescription = "Le numéro dans le dos de votre chandail d'équipe";
+    public final String fieldValue = "99";
     private String customFieldId;
 
     public static void main( String... args ) {
@@ -89,10 +89,9 @@ public class CustomFieldExample extends SDKSample {
                         .withSignature( signatureFor( email1 )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 )
-                                .withField( FieldBuilder.customField()
+                                .withField( FieldBuilder.customField( customFieldValue.getId() )
                                         .onPage( 0 )
-                                        .atPosition( 400, 200 )
-                                        .withName( customFieldValue.getId() ) ) )
+                                        .atPosition( 400, 200 ) ) )
                 )
                 .build();
 
