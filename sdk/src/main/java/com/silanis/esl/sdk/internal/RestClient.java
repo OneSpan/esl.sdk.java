@@ -91,11 +91,13 @@ public class RestClient {
                         request.getRequestLine().getUri(),
                         response.getStatusLine().getStatusCode(),
                         response.getStatusLine().getReasonPhrase());
+            } else if (response.getStatusLine().getStatusCode() == 204 ) {
+                return null;
+            } else {
+                InputStream bodyContent = response.getEntity().getContent();
+
+                return handler.extract(bodyContent);
             }
-
-            InputStream bodyContent = response.getEntity().getContent();
-
-            return handler.extract(bodyContent);
         }
         finally {
             client.getConnectionManager().shutdown();

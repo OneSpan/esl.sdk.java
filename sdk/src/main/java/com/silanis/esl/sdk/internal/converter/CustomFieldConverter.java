@@ -67,7 +67,8 @@ public class CustomFieldConverter {
         }
         CustomFieldBuilder result = new CustomFieldBuilder();
         result.withId( apiCustomField.getId() )
-              .withDefaultValue(apiCustomField.getValue());
+              .withDefaultValue(apiCustomField.getValue())
+              .isRequired( apiCustomField.evalRequired() );
 
         for ( com.silanis.esl.api.model.Translation tran : apiCustomField.getTranslations() ) {
             result.withTranslation( TranslationBuilder.newTranslation(tran) );

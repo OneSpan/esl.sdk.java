@@ -24,10 +24,14 @@ public class ReminderService {
         String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", packageId.getId() ).build();
         try {
             String stringResponse = client.get( path );
-            PackageReminderSchedule apiReminderSchedule = JacksonUtil.deserialize( stringResponse, new TypeReference<PackageReminderSchedule>() {
-            } );
-            ReminderSchedule sdkReminder = new ReminderScheduleConverter( apiReminderSchedule ).toSDKReminderSchedule();
-            return sdkReminder;
+            if (stringResponse != null) {
+                PackageReminderSchedule apiReminderSchedule = JacksonUtil.deserialize( stringResponse, new TypeReference<PackageReminderSchedule>() {} );
+                ReminderSchedule sdkReminder = new ReminderScheduleConverter( apiReminderSchedule ).toSDKReminderSchedule();
+                return sdkReminder;
+            }
+            else {
+                return null;
+            }
         } catch ( Exception e ) {
             throw new EslException( "Failed to retrieve reminder.", e );
         }
@@ -50,7 +54,7 @@ public class ReminderService {
         try {
             client.delete( path );
         } catch ( Exception e ) {
-            throw new EslException( "Unable to clear reminder schedule for package with ID: " + packageId.getId() );
+            throw new EslException( "Unable to clear reminder schedule for package with ID: " + packageId.getId(), e );
         }
     }
 }

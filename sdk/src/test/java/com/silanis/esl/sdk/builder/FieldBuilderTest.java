@@ -85,7 +85,7 @@ public class FieldBuilderTest {
 
     @Test
     public void creatingCustomFieldSetsStyle() {
-        Field field = customField().atPosition( 100, 100 ).build();
+        Field field = customField("myCustomField").atPosition( 100, 100 ).build();
 
         assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_CUSTOM_FIELD ) ) );
     }

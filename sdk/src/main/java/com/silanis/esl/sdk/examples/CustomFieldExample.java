@@ -6,11 +6,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
-import com.silanis.esl.sdk.io.Streams;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.UUID;
@@ -65,12 +61,12 @@ public class CustomFieldExample extends SDKSample {
         CustomField customField = eslClient.getCustomFieldService()
                 .createCustomField( customFieldWithId( customFieldId )
                         .withDefaultValue( defaultValue )
-                        .withTranslation( newTranslation( englishLanguage ).
-                                withName( englishName ).
-                                withDescription( englishDescription ) )
-                        .withTranslation( newTranslation( frenchLanguage ).
-                                withName( frenchName ).
-                                withDescription( frenchDescription ) )
+                        .withTranslation( newTranslation( englishLanguage )
+                                .withName( englishName )
+                                .withDescription( englishDescription ) )
+                        .withTranslation( newTranslation( frenchLanguage )
+                                .withName( frenchName )
+                                .withDescription( frenchDescription ) )
                         .build()
                 );
 
