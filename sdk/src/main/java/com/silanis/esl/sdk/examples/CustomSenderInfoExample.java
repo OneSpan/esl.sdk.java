@@ -49,20 +49,19 @@ public class CustomSenderInfoExample extends SDKSample {
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
-                .withSigner( newSignerWithEmail( email1 )
+                .withSigner( newSignerWithEmail( email2 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )
-                .withSigner( newSignerWithEmail( email2 )
-                        .withFirstName( "Patty" )
-                        .withLastName( "Galant" ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature( signatureFor( email1 )
+                        .withSignature( signatureFor( email2 )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) ) )
                 .build();
 
         PackageId packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
+
+        DocumentPackage finalPackage = eslClient.getPackage( packageId );
     }
 }

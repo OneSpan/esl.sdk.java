@@ -16,30 +16,29 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
-public class ReminderExample extends SDKSample {
+public class ReminderManagementExample extends SDKSample {
     private PackageId packageId;
-    private ReminderSchedule reminderSchedule;
     private String email1;
     private InputStream documentInputStream1;
 
     public static void main( String... args ) {
-        new ReminderExample( Props.get() ).run();
+        new ReminderManagementExample( Props.get() ).run();
     }
 
-    public ReminderExample( Properties props ) {
+    public ReminderManagementExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
                 props.getProperty( "1.email" ) );
     }
 
-    public ReminderExample( String apiKey, String apiUrl, String email1 ) {
+    public ReminderManagementExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Remind Package " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "ReminderManagementExample Package " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "Patty" )
                         .withLastName( "Galant" ) )
@@ -52,7 +51,7 @@ public class ReminderExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        reminderSchedule = ReminderScheduleBuilder.forPackageWithId( packageId )
+        ReminderSchedule reminderSchedule = ReminderScheduleBuilder.forPackageWithId( packageId )
                 .withDaysUntilFirstReminder( 2 )
                 .withDaysBetweenReminders( 1 )
                 .withNumberOfRepetitions( 5 )
@@ -60,17 +59,12 @@ public class ReminderExample extends SDKSample {
 
         eslClient.getReminderService().setReminderScheduleForPackage( reminderSchedule );
 
-        ReminderSchedule reminderSchedule = eslClient.getReminderService().getReminderScheduleForPackage( packageId );
-
         eslClient.sendPackage( packageId );
+
+        eslClient.getReminderService().clearReminderScheduleForPackage( packageId );
     }
 
     public PackageId getPackageId() {
         return packageId;
     }
-
-    public ReminderSchedule getReminderSchedule() {
-        return reminderSchedule;
-    }
-
 }
