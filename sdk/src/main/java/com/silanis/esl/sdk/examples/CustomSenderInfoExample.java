@@ -18,9 +18,13 @@ import static org.joda.time.DateMidnight.now;
 
 public class CustomSenderInfoExample extends SDKSample {
 
-    private String email1;
-    private String email2;
+    public static String email1;
+    public static String email2;
     private InputStream documentInputStream1;
+    public static final String senderFirstName = "Rob";
+    public static final String senderSecondName = "Mason";
+    public static final String senderTitle = "Chief Vizierj";
+    public static final String senderCompany = "The Masons";
 
     public static void main( String... args ) {
         new CustomSenderInfoExample( Props.get() ).run();
@@ -41,11 +45,17 @@ public class CustomSenderInfoExample extends SDKSample {
     }
 
     public void execute() {
+
+        // Note on the custom sender information:
+        //
+        // The custom sender information is disregarded if the sender is one of the signers for the process.
+
+
         DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSenderInfo( SenderInfoBuilder.newSenderInfo()
-                        .withName( "Rob", "Mason" )
-                        .withTitle( "Chief Vizier" )
-                        .withCompany( "The Masons" ) )
+                        .withName( senderFirstName, senderSecondName )
+                        .withTitle( senderTitle )
+                        .withCompany( senderCompany ) )
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )

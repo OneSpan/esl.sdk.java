@@ -132,6 +132,19 @@ public class DocumentPackageConverter {
                 packageBuilder.withSigner(SignerBuilder.newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
             } else {
                 packageBuilder.withSigner( new SignerConverter(role).toSDKSigner() );
+
+                // The custom sender information is stored in the role.signer object.
+                if (role.getType() == RoleType.SENDER) {
+                    // Override sender info with the customized ones.
+                    com.silanis.esl.sdk.SenderInfo senderInfo = new com.silanis.esl.sdk.SenderInfo();
+
+                    com.silanis.esl.api.model.Signer signer = role.getSigners().get(0);
+                    senderInfo.setFirstName(signer.getFirstName());
+                    senderInfo.setLastName(signer.getLastName());
+                    senderInfo.setTitle(signer.getTitle());
+                    senderInfo.setCompany(signer.getCompany());
+                    packageBuilder.withSenderInfo(senderInfo);
+                }
             }
         }
 

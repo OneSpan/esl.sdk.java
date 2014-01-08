@@ -17,7 +17,6 @@ public class Props {
 
     public static Properties get() {
         Object prop = System.getProperties().get( "properties.file" );
-        System.out.println( ">>>" + prop.toString() );
         String filename = "signers.properties";
         if ( prop != null ) {
             filename = (String)prop;
