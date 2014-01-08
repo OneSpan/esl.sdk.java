@@ -32,7 +32,7 @@ public class Streams {
 
             return output.toByteArray();
         } catch (IOException e) {
-            throw new EslException("Could read content from InputStream", e);
+            throw new EslException("Could not read content from InputStream", e);
         } finally {
             close(bis);
         }

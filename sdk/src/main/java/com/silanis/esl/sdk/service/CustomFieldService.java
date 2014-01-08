@@ -34,22 +34,20 @@ public class CustomFieldService {
      */
     public CustomField createCustomField(CustomField customField ) throws EslException {
         String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_PATH).build();
-        CustomField sdkResponse = null;
+        CustomField sdkResponse;
         com.silanis.esl.api.model.CustomField apiResponse;
         com.silanis.esl.api.model.CustomField apiRequest;
 
         try {
+            apiRequest = new CustomFieldConverter(customField).toAPICustomField();
+            String stringResponse;
             if ( doesCustomFieldExist( customField.getId() )){
-                apiRequest = new CustomFieldConverter(customField).toAPICustomField();
-                String stringResponse = client.put(path,Serialization.toJson( apiRequest ));
-                apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
-                sdkResponse = new CustomFieldConverter(apiResponse).toSDKCustomField();
+                stringResponse = client.put(path,Serialization.toJson( apiRequest ));
             }else{
-                apiRequest = new CustomFieldConverter(customField).toAPICustomField();
-                String stringResponse = client.post(path,Serialization.toJson( apiRequest ));
-                apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
-                sdkResponse = new CustomFieldConverter(apiResponse).toSDKCustomField();
+                stringResponse = client.post(path,Serialization.toJson( apiRequest ));
             }
+            apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
+            sdkResponse = new CustomFieldConverter(apiResponse).toSDKCustomField();
             return sdkResponse;
         } catch ( Exception e ) {
             throw new EslException( "Could not add/update the custom field to account.", e );
