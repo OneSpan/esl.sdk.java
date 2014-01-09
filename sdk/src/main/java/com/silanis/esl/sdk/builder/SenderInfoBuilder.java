@@ -3,16 +3,19 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.esl.sdk.SenderInfo;
 
 public class SenderInfoBuilder {
+    private String email = null;
     private String firstName = null;
     private String lastName = null;
     private String company = null;
     private String title = null;
 
-    public static SenderInfoBuilder newSenderInfo() {
-        return new SenderInfoBuilder();
+    public static SenderInfoBuilder newSenderInfo(String email) {
+        return new SenderInfoBuilder(email);
     }
 
-    private SenderInfoBuilder() {}
+    private SenderInfoBuilder(String email) {
+        this.email = email;
+    }
 
     public SenderInfoBuilder withName( String firstName, String lastName ) {
         this.firstName = firstName;
@@ -32,6 +35,7 @@ public class SenderInfoBuilder {
 
     public SenderInfo build() {
         SenderInfo result = new SenderInfo();
+        result.setEmail( email );
         result.setFirstName( firstName );
         result.setLastName( lastName );
         result.setCompany( company );

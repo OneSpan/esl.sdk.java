@@ -42,6 +42,12 @@ public class SenderInfoTest {
     }
 
     @Test
+    public void testEmail() {
+        senderInfo.setEmail(  "email@abc.com" );
+        assertThat( "email was not properly set or retrieved", senderInfo.getEmail(), is( equalTo( "email@abc.com" ) ) );
+    }
+
+    @Test
     public void testToAPI() {
         senderInfo.setTitle( "title" );
         senderInfo.setCompany( "company" );

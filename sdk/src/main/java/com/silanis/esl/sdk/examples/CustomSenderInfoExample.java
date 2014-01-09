@@ -52,7 +52,7 @@ public class CustomSenderInfoExample extends SDKSample {
 
 
         DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .withSenderInfo( SenderInfoBuilder.newSenderInfo()
+                .withSenderInfo( SenderInfoBuilder.newSenderInfo(email1)
                         .withName( senderFirstName, senderSecondName )
                         .withTitle( senderTitle )
                         .withCompany( senderCompany ) )

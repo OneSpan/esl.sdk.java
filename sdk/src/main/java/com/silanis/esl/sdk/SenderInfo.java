@@ -5,6 +5,7 @@ public class SenderInfo {
     private String lastName;
     private String company;
     private String title;
+    private String email;
 
     public String getFirstName() {
         return firstName;
@@ -36,5 +37,13 @@ public class SenderInfo {
 
     public void setTitle( String title ) {
         this.title = title;
+    }
+
+    public void setEmail( String email ) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

@@ -42,6 +42,9 @@ public class SenderConverter {
         }
 
         com.silanis.esl.api.model.Sender result = new com.silanis.esl.api.model.Sender();
+        if (sdkSender.getEmail() != null ) {
+            result.setEmail( sdkSender.getEmail() );
+        }
         if (sdkSender.getFirstName() != null ) {
             result.setFirstName(sdkSender.getFirstName());
         }
@@ -69,6 +72,7 @@ public class SenderConverter {
         }
         com.silanis.esl.sdk.SenderInfo result = new com.silanis.esl.sdk.SenderInfo();
 
+        result.setEmail( apiSender.getEmail() );
         result.setFirstName(apiSender.getFirstName());
         result.setLastName(apiSender.getLastName());
         result.setCompany(apiSender.getCompany());
