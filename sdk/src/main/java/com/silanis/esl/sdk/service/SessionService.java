@@ -42,4 +42,16 @@ public class SessionService {
         }
         return Serialization.fromJson(stringResponse, SessionToken.class);
     }
+
+    public SessionToken createSenderSessionToken() throws EslException {
+        String path = template.urlFor(UrlTemplate.SENDER_SESSION_PATH)
+                .build();
+        String stringResponse;
+        try {
+            stringResponse = client.post(path, "");
+        } catch (Exception e) {
+            throw new EslException("Could not create a session token for sender.", e);
+        }
+        return Serialization.fromJson(stringResponse, SessionToken.class);
+    }
 }

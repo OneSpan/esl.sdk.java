@@ -178,6 +178,15 @@ public class EslClient {
         return getFieldSummaryService().getFieldSummary( packageId );
     }
 
+    public SessionToken createSenderSessionToken() {
+        return sessionService.createSenderSessionToken();
+
+    }
+
+    public SessionToken createSignerSessionToken( PackageId packageId, String signerId ) throws EslException {
+        return sessionService.createSessionToken( packageId.getId(), signerId );
+    }
+
     /**
      * <p>Creates a session token for the package and user provided as parameters.</p>
      * <p>The content of SessionToken that is returned by this method is needed to access</p>
@@ -188,6 +197,7 @@ public class EslClient {
      * @return	the session token
      * @throws EslException
      */
+    @Deprecated
     public SessionToken createSessionToken( PackageId packageId, String signerId ) throws EslException {
         return sessionService.createSessionToken( packageId.getId(), signerId );
     }
