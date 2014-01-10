@@ -17,7 +17,7 @@ public class CustomSenderInfoExample extends SDKSample {
 
     public static final String senderFirstName = "Rob";
     public static final String senderSecondName = "Mason";
-    public static final String senderTitle = "Chief Vizierj";
+    public static final String senderTitle = "Chief Vizier";
     public static final String senderCompany = "The Masons";
 
     public static void main( String... args ) {
