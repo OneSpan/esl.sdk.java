@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
 import java.io.InputStream;
@@ -18,7 +17,7 @@ import static org.joda.time.DateMidnight.now;
 
 public class CustomSenderInfoExample extends SDKSample {
 
-    public static String email1;
+    public static String email3;
     public static String email2;
     private InputStream documentInputStream1;
     public static final String senderFirstName = "Rob";
@@ -33,13 +32,13 @@ public class CustomSenderInfoExample extends SDKSample {
     public CustomSenderInfoExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
+                props.getProperty( "3.email" ),
                 props.getProperty( "2.email" ) );
     }
 
     public CustomSenderInfoExample( String apiKey, String apiUrl, String email1, String email2 ) {
         super( apiKey, apiUrl );
-        this.email1 = email1;
+        this.email3 = email1;
         this.email2 = email2;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
@@ -48,25 +47,24 @@ public class CustomSenderInfoExample extends SDKSample {
 
         // Note on the custom sender information:
         //
-        // The custom sender information is disregarded if the sender is one of the signers for the process.
+        // Sender's email has to be the account user's email.
 
-
-        DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .withSenderInfo( SenderInfoBuilder.newSenderInfo(email1)
-                        .withName( senderFirstName, senderSecondName )
-                        .withTitle( senderTitle )
-                        .withCompany( senderCompany ) )
-                .describedAs( "This is a package created using the e-SignLive SDK" )
-                .expiresAt( now().plusMonths( 1 ).toDate() )
-                .withEmailMessage( "This message should be delivered to all signers" )
+        DocumentPackage superDuperPackage = newPackageNamed("CustomSenderInfoExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+                .withSenderInfo(SenderInfoBuilder.newSenderInfo(email3)
+                        .withName(senderFirstName, senderSecondName)
+                        .withTitle(senderTitle)
+                        .withCompany(senderCompany))
+                .describedAs("This is a package created using the e-SignLive SDK")
+                .expiresAt(now().plusMonths(1).toDate())
+                .withEmailMessage("This message should be delivered to all signers")
                 .withSigner( newSignerWithEmail( email2 )
-                        .withFirstName( "John" )
+                        .withFirstName("John")
                         .withLastName( "Smith" ) )
-                .withDocument( newDocumentWithName( "First Document" )
-                        .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature( signatureFor( email2 )
-                                .onPage( 0 )
-                                .atPosition( 100, 100 ) ) )
+                .withDocument(newDocumentWithName("First Document")
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(signatureFor(email2)
+                                .onPage(0)
+                                .atPosition(100, 100)))
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );

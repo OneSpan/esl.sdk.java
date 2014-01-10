@@ -1,6 +1,10 @@
 package com.silanis.esl.sdk.builder;
 
+import com.silanis.esl.api.util.EmailValidator;
 import com.silanis.esl.sdk.SenderInfo;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class SenderInfoBuilder {
     private String email = null;
@@ -14,7 +18,10 @@ public class SenderInfoBuilder {
     }
 
     private SenderInfoBuilder(String email) {
-        this.email = email;
+        String checkedEmail = checkNotNull(email, "email cannot be null.");
+        checkArgument(!checkedEmail.isEmpty());
+        checkArgument(new EmailValidator().valid(checkedEmail));
+        this.email = checkedEmail;
     }
 
     public SenderInfoBuilder withName( String firstName, String lastName ) {

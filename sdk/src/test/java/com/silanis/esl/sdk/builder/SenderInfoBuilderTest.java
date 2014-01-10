@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
+import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SenderInfo;
 import org.junit.Test;
 
@@ -22,5 +23,53 @@ public class SenderInfoBuilderTest {
         assertThat( "first name was not set correctly", senderInfo.getFirstName(), is( equalTo( "firstName" ) ) );
         assertThat( "last name was not set correctly", senderInfo.getLastName(), is( equalTo( "lastName" ) ) );
         assertThat( "email was not set correctly", senderInfo.getEmail(), is( equalTo( "abc@email.com" ) ) );
+    }
+
+    @Test (expected=NullPointerException.class)
+    public void nullEmail() {
+        String email = null;
+        SenderInfoBuilder.newSenderInfo( email );
+    }
+
+    @Test (expected=IllegalArgumentException.class)
+    public void emptyEmail() {
+        String email = "";
+        SenderInfoBuilder.newSenderInfo( email );
+    }
+
+    @Test (expected=IllegalArgumentException.class)
+    public void invalidEmailNoHost() {
+        String email = "abc";
+        SenderInfoBuilder.newSenderInfo(email);
+    }
+
+    @Test (expected=IllegalArgumentException.class)
+    public void invalidEmailInvalidHost() {
+        String email = "abc@eee";
+        SenderInfoBuilder.newSenderInfo(email);
+    }
+
+    @Test (expected=IllegalArgumentException.class)
+    public void invalidEmailTooManyHost() {
+        String email = "abc@eee@fff";
+        SenderInfoBuilder.newSenderInfo(email);
+    }
+
+    @Test (expected=IllegalArgumentException.class)
+    public void invalidEmailEndedWithPeriod() {
+        String email = "abc@eee.";
+        SenderInfoBuilder.newSenderInfo(email);
+    }
+
+    @Test (expected=IllegalArgumentException.class)
+    public void invalidEmailEndedWithTooManyPeriod() {
+        String email = "abc@eee.com.";
+        SenderInfoBuilder.newSenderInfo(email);
+    }
+
+    @Test
+    public void validEmail() {
+        String email = "abc@email.com";
+        SenderInfoBuilder.newSenderInfo(email).build();
     }
 }
