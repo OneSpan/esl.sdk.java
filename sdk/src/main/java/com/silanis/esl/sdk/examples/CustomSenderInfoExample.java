@@ -13,7 +13,7 @@ import static org.joda.time.DateMidnight.now;
 
 public class CustomSenderInfoExample extends SDKSample {
 
-    public String email1;
+    public String senderEmail;
 
     public static final String senderFirstName = "Rob";
     public static final String senderSecondName = "Mason";
@@ -27,12 +27,12 @@ public class CustomSenderInfoExample extends SDKSample {
     public CustomSenderInfoExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ) );
+                props.getProperty( "sender.email" ) );
     }
 
     public CustomSenderInfoExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
-        this.email1 = email1;
+        this.senderEmail = email1;
     }
 
     public void execute() {
@@ -42,7 +42,7 @@ public class CustomSenderInfoExample extends SDKSample {
         // The custom sender information is disregarded if the sender is one of the signers for the process.
         // The custom sender must already be a member of the account
         eslClient.getAccountService().inviteUser(
-                AccountMemberBuilder.newAccountMember(email1 )
+                AccountMemberBuilder.newAccountMember(senderEmail )
                         .withFirstName( "firstName" )
                         .withLastName( "lastName" )
                         .withCompany( "company" )
@@ -52,7 +52,7 @@ public class CustomSenderInfoExample extends SDKSample {
                         .build() );
 
         DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .withSenderInfo( SenderInfoBuilder.newSenderInfo(email1)
+                .withSenderInfo( SenderInfoBuilder.newSenderInfo(senderEmail)
                         .withName( senderFirstName, senderSecondName )
                         .withTitle( senderTitle )
                         .withCompany( senderCompany ) )
