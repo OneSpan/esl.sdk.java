@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
-import com.sun.java.swing.plaf.nimbus.CheckBoxMenuItemPainter;
 import org.junit.Test;
 
 import java.util.Collection;
