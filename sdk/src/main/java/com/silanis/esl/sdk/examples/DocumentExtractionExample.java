@@ -18,6 +18,8 @@ public class DocumentExtractionExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream;
+    public static final String documentName = "First Document";
+    public static final String extractForRole = "Signer1";
 
     public static void main( String... args ) {
         new DocumentExtractionExample( Props.get() ).run();
@@ -39,10 +41,10 @@ public class DocumentExtractionExample extends SDKSample {
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
                 .withSigner( newSignerWithEmail( email1 )
-                        .withRoleId( "Signer1" )
+                        .withRoleId( extractForRole )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )
-                .withDocument( newDocumentWithName( "First Document" )
+                .withDocument( newDocumentWithName( documentName )
                         .fromStream( documentInputStream, DocumentType.PDF )
                         .enableExtraction() )
                 .build();
