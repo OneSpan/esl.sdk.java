@@ -15,10 +15,10 @@ public class CustomSenderInfoExample extends SDKSample {
 
     public String senderEmail;
 
-    public static final String senderFirstName = "Rob";
-    public static final String senderSecondName = "Mason";
-    public static final String senderTitle = "Chief Vizier";
-    public static final String senderCompany = "The Masons";
+    public static final String SENDER_FIRST_NAME = "Rob";
+    public static final String SENDER_SECOND_NAME = "Mason";
+    public static final String SENDER_TITLE = "Chief Vizier";
+    public static final String SENDER_COMPANY = "The Masons";
 
     public static void main( String... args ) {
         new CustomSenderInfoExample( Props.get() ).run();
@@ -53,9 +53,9 @@ public class CustomSenderInfoExample extends SDKSample {
 
         DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSenderInfo( SenderInfoBuilder.newSenderInfo(senderEmail)
-                        .withName( senderFirstName, senderSecondName )
-                        .withTitle( senderTitle )
-                        .withCompany( senderCompany ) )
+                        .withName( SENDER_FIRST_NAME, SENDER_SECOND_NAME )
+                        .withTitle( SENDER_TITLE )
+                        .withCompany( SENDER_COMPANY ) )
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
