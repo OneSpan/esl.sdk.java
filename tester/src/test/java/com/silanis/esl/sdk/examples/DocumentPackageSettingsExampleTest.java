@@ -31,12 +31,12 @@ public class DocumentPackageSettingsExampleTest {
 
         List<String> optOutReasons = documentPackageSettings.getOptOutReasons();
 
-        assertThat("Opt out reason is not set properly:", optOutReasons.contains(documentPackageSettingsExample.optOutReason1) ||
-                optOutReasons.contains(documentPackageSettingsExample.optOutReason2) ||
-                optOutReasons.contains(documentPackageSettingsExample.optOutReason3));
-        assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(documentPackageSettingsExample.handOverLinkHref));
-        assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(documentPackageSettingsExample.handOverLinkText));
-        assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(documentPackageSettingsExample.handOverLinkTooltip));
+        assertThat("Opt out reason is not set properly:", optOutReasons.contains(DocumentPackageSettingsExample.optOutReason1) ||
+                                                          optOutReasons.contains(DocumentPackageSettingsExample.optOutReason2) ||
+                                                          optOutReasons.contains(DocumentPackageSettingsExample.optOutReason3));
+        assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(DocumentPackageSettingsExample.handOverLinkHref));
+        assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(DocumentPackageSettingsExample.handOverLinkText));
+        assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(DocumentPackageSettingsExample.handOverLinkTooltip));
         assertThat("Dialog on complete flag not set correctly. ", documentPackageSettings.getShowDialogOnComplete().equals(true));
     }
 

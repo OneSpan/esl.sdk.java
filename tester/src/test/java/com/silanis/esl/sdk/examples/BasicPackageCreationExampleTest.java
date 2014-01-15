@@ -59,8 +59,6 @@ public class BasicPackageCreationExampleTest {
 
             assertThat( "Signature's signer Email was not set correctly for First Document.", signature.getSignerEmail(), is( basicPackageCreationExample.email1 ) );
             assertThat("Signature page was not set correctly for First Document.", signature.getPage(), is(0));
-//            assertEquals( 100, signature.getX(), DEFAULT_DOUBLE_TOLERANCE );
-//            assertEquals( 100, signature.getY(), DEFAULT_DOUBLE_TOLERANCE );
 
             Iterator<Field> fields = signature.getFields().iterator();
             if (fields.hasNext())
@@ -68,9 +66,6 @@ public class BasicPackageCreationExampleTest {
                 field = fields.next();
                 assertThat( "Field style for signature was not set correctly in First Document.", field.getStyle(), is( FieldStyle.UNBOUND_CHECK_BOX ) );
                 assertThat( "Field Page number was not set correctly in First Document.", field.getPage(), is( 0 ) );
-//                assertEquals( 400, field.getX(), DEFAULT_DOUBLE_TOLERANCE );
-//                assertEquals( 200, field.getY(), DEFAULT_DOUBLE_TOLERANCE );
-
                 assertThat( "Field value of signature was not set correctly in First Document.", field.getValue(), is( "x" ) );
             }
         }
@@ -84,8 +79,6 @@ public class BasicPackageCreationExampleTest {
 
             assertThat( "Signature's signer Email was not set correctly for Second Document.", signature.getSignerEmail(), is( basicPackageCreationExample.email2 ) );
             assertThat( "Signature page was not set correctly for Second Document.", signature.getPage(), is( 0 ) );
-//            assertEquals( 100, signature.getX(), DEFAULT_DOUBLE_TOLERANCE );
-//            assertEquals( 200, signature.getY(), DEFAULT_DOUBLE_TOLERANCE );
         }
 
     }    
