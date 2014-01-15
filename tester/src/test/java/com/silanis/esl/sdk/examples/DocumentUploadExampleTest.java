@@ -24,7 +24,7 @@ public class DocumentUploadExampleTest {
 
         // Verify if the document was uploaded correctly.
 
-        Document document = documentPackage.getDocument(documentUploadExample.uploadedDocumentName);
+        Document document = documentPackage.getDocument(DocumentUploadExample.uploadedDocumentName);
         byte[] documentBinary = documentUploadExample.eslClient.downloadDocument( documentUploadExample.getPackageId(), document.getId().toString() );
         assertThat("Document was not uploaded correctly. ", documentBinary.length != 0 );
     }
