@@ -19,6 +19,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentPackageSettingsExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
+    public static final String optOutReason1 = "Reason One";
+    public static final String optOutReason2 = "Reason Two";
+    public static final String optOutReason3 = "Reason Three";
+    public static final String handOverLinkHref = "http://www.google.ca";
+    public static final String handOverLinkText = "click here";
+    public static final String handOverLinkTooltip = "link tooltip";
 
     public static void main( String... args ) {
         new DocumentPackageSettingsExample( Props.get() ).run();
@@ -43,12 +49,12 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .withInPerson()
                         .withoutDecline()
                         .withOptOut()
-                        .withOptOutReason( "Reason One" )
-                        .withOptOutReason( "Reason Two" )
-                        .withOptOutReason( "Reason Three" )
-                        .withHandOverLinkHref( "http://www.google.ca" )
-                        .withHandOverLinkText( "click here" )
-                        .withHandOverLinkTooltip( "link tooltip" )
+                        .withOptOutReason( optOutReason1 )
+                        .withOptOutReason( optOutReason2 )
+                        .withOptOutReason( optOutReason3 )
+                        .withHandOverLinkHref( handOverLinkHref )
+                        .withHandOverLinkText( handOverLinkText )
+                        .withHandOverLinkTooltip( handOverLinkTooltip )
                         .withDialogOnComplete()
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
