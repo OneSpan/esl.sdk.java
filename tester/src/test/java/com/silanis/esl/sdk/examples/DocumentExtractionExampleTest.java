@@ -26,7 +26,7 @@ public class DocumentExtractionExampleTest {
         DocumentPackage documentPackage = documentExtractionExample.getEslClient().getPackage(documentExtractionExample.getPackageId());
 
         // Verify if the required information is correctly extracted.
-        Document document = documentPackage.getDocument(DocumentExtractionExample.documentName);
+        Document document = documentPackage.getDocument(DocumentExtractionExample.DOCUMENT_NAME);
 
         for (Signature signature: document.getSignatures()) {
 

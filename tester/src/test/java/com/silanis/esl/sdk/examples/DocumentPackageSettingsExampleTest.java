@@ -31,12 +31,12 @@ public class DocumentPackageSettingsExampleTest {
 
         List<String> optOutReasons = documentPackageSettings.getOptOutReasons();
 
-        assertThat("Opt out reason is not set properly:", optOutReasons.contains(DocumentPackageSettingsExample.optOutReason1) ||
-                                                          optOutReasons.contains(DocumentPackageSettingsExample.optOutReason2) ||
-                                                          optOutReasons.contains(DocumentPackageSettingsExample.optOutReason3));
-        assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(DocumentPackageSettingsExample.handOverLinkHref));
-        assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(DocumentPackageSettingsExample.handOverLinkText));
-        assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(DocumentPackageSettingsExample.handOverLinkTooltip));
+        assertThat("Opt out reason is not set properly:", optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_1) ||
+                                                          optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_2) ||
+                                                          optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_3));
+        assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_HREF));
+        assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_TEXT));
+        assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_TOOLTIP));
         assertThat("Dialog on complete flag not set correctly. ", documentPackageSettings.getShowDialogOnComplete().equals(true));
     }
 

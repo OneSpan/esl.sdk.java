@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -19,12 +18,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentPackageSettingsExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
-    public static final String optOutReason1 = "Reason One";
-    public static final String optOutReason2 = "Reason Two";
-    public static final String optOutReason3 = "Reason Three";
-    public static final String handOverLinkHref = "http://www.google.ca";
-    public static final String handOverLinkText = "click here";
-    public static final String handOverLinkTooltip = "link tooltip";
+    public static final String OPT_OUT_REASON_1 = "Reason One";
+    public static final String OPT_OUT_REASON_2 = "Reason Two";
+    public static final String OPT_OUT_REASON_3 = "Reason Three";
+    public static final String HAND_OVER_LINK_HREF = "http://www.google.ca";
+    public static final String HAND_OVER_LINK_TEXT = "click here";
+    public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
 
     public static void main( String... args ) {
         new DocumentPackageSettingsExample( Props.get() ).run();
@@ -49,12 +48,12 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .withInPerson()
                         .withoutDecline()
                         .withOptOut()
-                        .withOptOutReason( optOutReason1 )
-                        .withOptOutReason( optOutReason2 )
-                        .withOptOutReason( optOutReason3 )
-                        .withHandOverLinkHref( handOverLinkHref )
-                        .withHandOverLinkText( handOverLinkText )
-                        .withHandOverLinkTooltip( handOverLinkTooltip )
+                        .withOptOutReason(OPT_OUT_REASON_1)
+                        .withOptOutReason(OPT_OUT_REASON_2)
+                        .withOptOutReason(OPT_OUT_REASON_3)
+                        .withHandOverLinkHref(HAND_OVER_LINK_HREF)
+                        .withHandOverLinkText(HAND_OVER_LINK_TEXT)
+                        .withHandOverLinkTooltip(HAND_OVER_LINK_TOOLTIP)
                         .withDialogOnComplete()
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()

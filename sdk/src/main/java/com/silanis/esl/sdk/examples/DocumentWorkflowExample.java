@@ -22,6 +22,8 @@ public class DocumentWorkflowExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream1;
     private InputStream documentInputStream2;
+    public static final String FIRST_DOCUMENT_NAME = "First Document";
+    public static final String SECOND_DOCUMENT_NAME = "Second Document";
 
     public static void main( String... args ) {
         new DocumentWorkflowExample( Props.get() ).run();
@@ -47,13 +49,13 @@ public class DocumentWorkflowExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith"))
-                .withDocument(newDocumentWithName("Second Document")
+                .withDocument(newDocumentWithName(SECOND_DOCUMENT_NAME)
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .atIndex(2)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(100, 100)))
-                .withDocument(newDocumentWithName("First Document")
+                .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                         .fromStream( documentInputStream2, DocumentType.PDF )
                         .atIndex(1)
                         .withSignature(signatureFor(email1)
