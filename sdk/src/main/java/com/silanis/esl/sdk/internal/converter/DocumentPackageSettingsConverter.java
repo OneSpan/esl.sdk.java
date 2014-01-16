@@ -98,20 +98,24 @@ public class DocumentPackageSettingsConverter {
         }
 
         com.silanis.esl.sdk.DocumentPackageSettings result = new DocumentPackageSettings();
-        result.setEnableInPerson(apiPackageSettings.getCeremony().getInPerson());
-        result.setEnableOptOut(apiPackageSettings.getCeremony().getOptOutButton());
-        result.setEnableDecline(apiPackageSettings.getCeremony().getDeclineButton());
-        result.setHideWatermark(apiPackageSettings.getCeremony().getHideWatermark());
+        result.setEnableInPerson(apiPackageSettings.getCeremony().evalInPerson());
+
+        result.setEnableOptOut(apiPackageSettings.getCeremony().evalOptOutButton());
+        result.setEnableDecline(apiPackageSettings.getCeremony().evalDeclineButton());
+        result.setHideWatermark(apiPackageSettings.getCeremony().evalHideWatermark());
         result.setHideCaptureText(apiPackageSettings.getCeremony().getHideCaptureText());
         result.getOptOutReasons().addAll(apiPackageSettings.getCeremony().getOptOutReasons());
-        result.setMaxAuthAttempts(apiPackageSettings.getCeremony().getMaxAuthFailsAllowed());
+
+        if ( apiPackageSettings.getCeremony().getMaxAuthFailsAllowed() != null ) {
+            result.setMaxAuthAttempts(apiPackageSettings.getCeremony().getMaxAuthFailsAllowed());
+        }
 
         if (apiPackageSettings.getCeremony().getDocumentToolbarOptions() != null)
-            result.setShowDocumentToolbarDownloadButton(apiPackageSettings.getCeremony().getDocumentToolbarOptions().getDownloadButton());
+            result.setShowDocumentToolbarDownloadButton(apiPackageSettings.getCeremony().getDocumentToolbarOptions().evalDownloadButton());
 
         if (apiPackageSettings.getCeremony().getEvents() != null &&
                 apiPackageSettings.getCeremony().getEvents().getComplete() != null)
-            result.setShowDialogOnComplete(apiPackageSettings.getCeremony().getEvents().getComplete().getDialog());
+            result.setShowDialogOnComplete(apiPackageSettings.getCeremony().getEvents().getComplete().evalDialog());
 
         if (apiPackageSettings.getCeremony().getHandOver() != null) {
             result.setLinkText(apiPackageSettings.getCeremony().getHandOver().getText());

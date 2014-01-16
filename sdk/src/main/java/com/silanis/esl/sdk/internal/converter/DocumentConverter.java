@@ -48,7 +48,9 @@ public class DocumentConverter {
 
         DocumentBuilder documentBuilder = DocumentBuilder.newDocumentWithName(apiDocument.getName());
         documentBuilder.withId( apiDocument.getId() );
-        documentBuilder.atIndex( apiDocument.getIndex() );
+        if ( apiDocument.getIndex() != null ) {
+            documentBuilder.atIndex( apiDocument.getIndex() );
+        }
 
         documentBuilder.withDescription( apiDocument.getDescription() );
 

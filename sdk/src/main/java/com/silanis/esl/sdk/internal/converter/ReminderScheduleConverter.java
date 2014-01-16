@@ -47,9 +47,15 @@ public class ReminderScheduleConverter {
             if ( api.getPackageId() != null && !api.getPackageId().equals( "" ) ) {
                 result.setPackageId( new PackageId( api.getPackageId() ) );
             }
-            result.setDaysBetweenReminders( api.getIntervalInDays() );
-            result.setDaysUntilFirstReminder( api.getStartInDaysDelay() );
-            result.setNumberOfRepetitions( api.getRepetitionsCount() );
+
+            if ( api.getIntervalInDays() != null )
+                result.setDaysBetweenReminders( api.getIntervalInDays() );
+
+            if ( api.getStartInDaysDelay() != null )
+                result.setDaysUntilFirstReminder( api.getStartInDaysDelay() );
+
+            if ( api.getRepetitionsCount() != null )
+                result.setNumberOfRepetitions( api.getRepetitionsCount() );
 
             for ( PackageReminder apiReminder : api.getReminders() ) {
                 result.getReminders().add( new ReminderConverter( apiReminder ).toSDKReminder() );

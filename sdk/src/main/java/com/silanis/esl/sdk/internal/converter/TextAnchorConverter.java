@@ -69,13 +69,25 @@ public class TextAnchorConverter {
         TextAnchor result = new TextAnchor();
 
         result.setPosition( TextAnchorPosition.valueOf( extractAnchor.getAnchorPoint() ) );
-        result.setOccurrence( extractAnchor.getIndex() );
+        if ( extractAnchor.getIndex() != null )
+            result.setOccurrence( extractAnchor.getIndex() );
+
         result.setAnchorText( extractAnchor.getText() );
-        result.setCharacter( extractAnchor.getCharacterIndex() );
-        result.setXOffset( extractAnchor.getLeftOffset() );
-        result.setYOffset( extractAnchor.getTopOffset() );
-        result.setWidth( extractAnchor.getWidth() );
-        result.setHeight( extractAnchor.getHeight() );
+
+        if ( extractAnchor.getCharacterIndex() != null )
+            result.setCharacter( extractAnchor.getCharacterIndex() );
+
+        if ( extractAnchor.getLeftOffset() != null )
+            result.setXOffset( extractAnchor.getLeftOffset() );
+
+        if ( extractAnchor.getTopOffset() != null )
+            result.setYOffset( extractAnchor.getTopOffset() );
+
+        if ( extractAnchor.getWidth() != null )
+            result.setWidth( extractAnchor.getWidth() );
+
+        if ( extractAnchor.getHeight() != null )
+            result.setHeight( extractAnchor.getHeight() );
 
         return result;
     }

@@ -98,8 +98,10 @@ public class SignerConverter {
         }
 
         signerBuilder.withCustomId( apiSigner.getId() )
-                .withRoleId(apiRole.getId())
-                .signingOrder( apiRole.getIndex() );
+                .withRoleId(apiRole.getId());
+
+        if ( apiRole.getIndex() != null )
+            signerBuilder.signingOrder( apiRole.getIndex() );
 
         if ( apiRole.evalReassign() ) {
             signerBuilder.canChangeSigner();
@@ -109,7 +111,7 @@ public class SignerConverter {
             signerBuilder.withEmailMessage( apiRole.getEmailMessage().getContent() );
         }
 
-        if ( apiRole.getLocked() ) {
+        if ( apiRole.evalLocked() ) {
             signerBuilder.lock();
         }
 

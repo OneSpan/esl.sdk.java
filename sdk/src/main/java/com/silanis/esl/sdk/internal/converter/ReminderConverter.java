@@ -32,8 +32,7 @@ public class ReminderConverter {
         if ( sdkReminder != null ) {
             return sdkReminder;
         } else {
-            Reminder result = new Reminder( apiReminder.getDate(), apiReminder.getSentDate() );
-            return result;
+            return new Reminder( apiReminder.getDate(), apiReminder.getSentDate() );
         }
     }
 }

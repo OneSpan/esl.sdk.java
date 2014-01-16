@@ -73,9 +73,15 @@ public class SignatureConverter {
 
         } else {
             signatureBuilder.withStyle( com.silanis.esl.sdk.SignatureStyle.fromAPIFieldSubType(apiSignatureField.getSubtype()) );
-            signatureBuilder.onPage( apiSignatureField.getPage() );
-            signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
-            signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
+            if ( apiSignatureField.getPage() != null )
+                signatureBuilder.onPage( apiSignatureField.getPage() );
+
+            if ( apiSignatureField.getLeft() != null && apiSignatureField.getTop() != null )
+                signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
+
+            if ( apiSignatureField.getHeight() != null && apiSignatureField.getWidth() != null )
+                signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
+
             if ( apiSignatureField.evalExtract() ) {
                 signatureBuilder.withPositionExtracted();
             }

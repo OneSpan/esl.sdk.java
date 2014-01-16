@@ -91,18 +91,26 @@ public class FieldConverter {
 
         com.silanis.esl.sdk.Field result = new com.silanis.esl.sdk.Field();
 
-        result.setExtraction(apiField.getExtract());
+        result.setExtraction(apiField.evalExtract());
         result.setFieldValidator(new FieldValidatorConverter(apiField.getValidation()).toSDKFieldValidator());
-        result.setHeight(apiField.getHeight());
         result.setId(new FieldId(apiField.getId()));
         result.setName(apiField.getName());
-        result.setPage(apiField.getPage());
+
+        if ( apiField.getPage() != null )
+            result.setPage(apiField.getPage());
+
         result.setStyle(new FieldStyleAndSubTypeConverter(apiField.getSubtype(), apiField.getBinding()).toSDKFieldStyle());
         result.setTextAnchor(new TextAnchorConverter(apiField.getExtractAnchor()).toSDKTextAnchor());
         result.setValue(apiField.getValue());
-        result.setX(apiField.getLeft());
-        result.setY(apiField.getTop());
-        result.setWidth(apiField.getWidth());
+
+        if ( apiField.getLeft() != null )
+            result.setX(apiField.getLeft());
+        if ( apiField.getTop() != null )
+            result.setY(apiField.getTop());
+        if ( apiField.getWidth() != null )
+            result.setWidth(apiField.getWidth());
+        if ( apiField.getHeight() != null )
+            result.setHeight(apiField.getHeight());
 
         return result;
     }
