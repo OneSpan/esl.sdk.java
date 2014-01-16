@@ -29,12 +29,12 @@ import static org.joda.time.DateMidnight.now;
 public class DocumentPackageAttributesExample extends SDKSample{
     private String email1;
     private InputStream documentInputStream1;
-    public final String attributeKey1 = "Key 1";
-    public final String attributeKey2 = "Key 2";
-    public final String attributeKey3 = "Key 3";
-    public final String attribute1 = "Attribute 1";
-    public final String attribute2 = "Attribute 2";
-    public final String attribute3 = "Attribute 3";
+    public static final String ATTRIBUTE_KEY_1 = "Key 1";
+    public static final String ATTRIBUTE_KEY_2 = "Key 2";
+    public static final String ATTRIBUTE_KEY_3 = "Key 3";
+    public static final String ATTRIBUTE_1 = "Attribute 1";
+    public static final String ATTRIBUTE_2 = "Attribute 2";
+    public static final String ATTRIBUTE_3 = "Attribute 3";
 
     public static void main( String... args ) {
         new DocumentPackageAttributesExample(Props.get()).run();
@@ -73,9 +73,9 @@ public class DocumentPackageAttributesExample extends SDKSample{
                                         .withValue("x"))
                                 .atPosition(100, 100)))
                 .withAttributes(newDocumentPackageAttributes()
-                        .withAttribute(attributeKey1, attribute1)
-                        .withAttribute(attributeKey2, attribute2)
-                        .withAttribute(attributeKey3, attribute3)
+                        .withAttribute(ATTRIBUTE_KEY_1, ATTRIBUTE_1)
+                        .withAttribute(ATTRIBUTE_KEY_2, ATTRIBUTE_2)
+                        .withAttribute(ATTRIBUTE_KEY_3, ATTRIBUTE_3)
                         .build())
                 .build();
 

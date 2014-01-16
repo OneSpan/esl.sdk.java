@@ -23,14 +23,14 @@ public class CustomFieldExample extends SDKSample {
     public final String email1;
     private InputStream documentInputStream1;
 
-    public final String defaultValue = "#12345";
-    public final String englishLanguage = "en";
-    public final String englishName = "Player Number";
-    public final String englishDescription = "The number on your team jersey";
-    public final String frenchLanguage = "fr";
-    public final String frenchName = "Numéro du Joueur";
-    public final String frenchDescription = "Le numéro dans le dos de votre chandail d'équipe";
-    public final String fieldValue = "99";
+    public static final String DEFAULT_VALUE = "#12345";
+    public static final String ENGLISH_LANGUAGE = "en";
+    public static final String ENGLISH_NAME = "Player Number";
+    public static final String ENGLISH_DESCRIPTION = "The number on your team jersey";
+    public static final String FRENCH_LANGUAGE = "fr";
+    public static final String FRENCH_NAME = "Numéro du Joueur";
+    public static final String FRENCH_DESCRIPTION = "Le numéro dans le dos de votre chandail d'équipe";
+    public static final String FIELD_VALUE = "99";
     private String customFieldId;
 
     public static void main( String... args ) {
@@ -60,19 +60,19 @@ public class CustomFieldExample extends SDKSample {
         customFieldId = UUID.randomUUID().toString().replaceAll( "-", "" );
         CustomField customField = eslClient.getCustomFieldService()
                 .createCustomField( customFieldWithId( customFieldId )
-                        .withDefaultValue( defaultValue )
-                        .withTranslation( newTranslation( englishLanguage )
-                                .withName( englishName )
-                                .withDescription( englishDescription ) )
-                        .withTranslation( newTranslation( frenchLanguage )
-                                .withName( frenchName )
-                                .withDescription( frenchDescription ) )
+                        .withDefaultValue(DEFAULT_VALUE)
+                        .withTranslation( newTranslation(ENGLISH_LANGUAGE)
+                                .withName(ENGLISH_NAME)
+                                .withDescription(ENGLISH_DESCRIPTION) )
+                        .withTranslation( newTranslation(FRENCH_LANGUAGE)
+                                .withName(FRENCH_NAME)
+                                .withDescription(FRENCH_DESCRIPTION) )
                         .build()
                 );
 
         CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
                 .submitCustomFieldValue( CustomFieldValueBuilder.customFieldValueWithId( customField.getId() )
-                        .withValue( fieldValue )
+                        .withValue(FIELD_VALUE)
                         .build()
                 );
 

@@ -24,11 +24,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * Package with custom attributes
+ * Example to show how to upload a document to a package.
  */
 public class DocumentUploadExample extends SDKSample{
     private String email1;
     private InputStream documentInputStream1;
+    public static final String UPLOADED_DOCUMENT_NAME = "First Document";
 
     public static void main( String... args ) {
         new DocumentUploadExample(Props.get()).run();
@@ -66,7 +67,7 @@ public class DocumentUploadExample extends SDKSample{
         superDuperPackage.setId(packageId);
 
         // 2. Construct a document
-        Document document = newDocumentWithName("First Document")
+        Document document = newDocumentWithName(UPLOADED_DOCUMENT_NAME)
                 .fromStream(documentInputStream1, DocumentType.PDF)
                 .withSignature(signatureFor(email1)
                         .onPage(0)

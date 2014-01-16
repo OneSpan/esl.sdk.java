@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -18,6 +17,7 @@ public class DocumentExtractionExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream;
+    public static final String DOCUMENT_NAME = "First Document";
 
     public static void main( String... args ) {
         new DocumentExtractionExample( Props.get() ).run();
@@ -39,10 +39,10 @@ public class DocumentExtractionExample extends SDKSample {
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
                 .withSigner( newSignerWithEmail( email1 )
-                        .withRoleId( "Signer1" )
+                        .withRoleId("Signer1")
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )
-                .withDocument( newDocumentWithName( "First Document" )
+                .withDocument( newDocumentWithName(DOCUMENT_NAME)
                         .fromStream( documentInputStream, DocumentType.PDF )
                         .enableExtraction() )
                 .build();

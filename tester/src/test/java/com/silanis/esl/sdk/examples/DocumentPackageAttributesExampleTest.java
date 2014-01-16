@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
 /**
  * User: jessica
  * Date: 12/12/13
@@ -22,14 +24,12 @@ public class DocumentPackageAttributesExampleTest {
         DocumentPackage documentPackage = documentPackageAttributesExample.getEslClient().getPackage(documentPackageAttributesExample.getPackageId());
         DocumentPackageAttributes documentPackageAttributes = documentPackage.getAttributes();
         Map<String, Object> attributeMap = documentPackageAttributes.getContents();
+        assertThat("Attribute key 1 is not setup correctly.", attributeMap.containsKey(DocumentPackageAttributesExample.ATTRIBUTE_KEY_1));
+        assertThat("Attribute key 2 is not setup correctly.", attributeMap.containsKey(DocumentPackageAttributesExample.ATTRIBUTE_KEY_2));
+        assertThat("Attribute key 3 is not setup correctly.", attributeMap.containsKey(DocumentPackageAttributesExample.ATTRIBUTE_KEY_3));
 
-        assert (attributeMap.containsKey(documentPackageAttributesExample.attributeKey1));
-        assert (attributeMap.containsKey(documentPackageAttributesExample.attributeKey2));
-        assert (attributeMap.containsKey(documentPackageAttributesExample.attributeKey3));
-
-        assert (attributeMap.get(documentPackageAttributesExample.attributeKey1).toString().equals(documentPackageAttributesExample.attribute1));
-        assert (attributeMap.get(documentPackageAttributesExample.attributeKey2).toString().equals(documentPackageAttributesExample.attribute2));
-        assert (attributeMap.get(documentPackageAttributesExample.attributeKey3).toString().equals(documentPackageAttributesExample.attribute3));
-
+        assertThat("Attribute 1 is not setup correctly.", attributeMap.get(DocumentPackageAttributesExample.ATTRIBUTE_KEY_1).toString().equals(DocumentPackageAttributesExample.ATTRIBUTE_1));
+        assertThat("Attribute 2 is not setup correctly.", attributeMap.get(DocumentPackageAttributesExample.ATTRIBUTE_KEY_2).toString().equals(DocumentPackageAttributesExample.ATTRIBUTE_2));
+        assertThat("Attribute 3 is not setup correctly.", attributeMap.get(DocumentPackageAttributesExample.ATTRIBUTE_KEY_3).toString().equals(DocumentPackageAttributesExample.ATTRIBUTE_3));
     }
 }
