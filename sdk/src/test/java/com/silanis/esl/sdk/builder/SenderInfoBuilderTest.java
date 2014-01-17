@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SenderInfo;
 import org.junit.Test;
 

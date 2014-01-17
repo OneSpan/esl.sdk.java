@@ -92,7 +92,10 @@ public class FieldConverter {
         com.silanis.esl.sdk.Field result = new com.silanis.esl.sdk.Field();
 
         result.setExtraction(apiField.evalExtract());
-        result.setFieldValidator(new FieldValidatorConverter(apiField.getValidation()).toSDKFieldValidator());
+        if ( apiField.getValidation() != null ) {
+            result.setFieldValidator(new FieldValidatorConverter(apiField.getValidation()).toSDKFieldValidator());
+        }
+        result.setHeight(apiField.getHeight());
         result.setId(new FieldId(apiField.getId()));
         result.setName(apiField.getName());
 
