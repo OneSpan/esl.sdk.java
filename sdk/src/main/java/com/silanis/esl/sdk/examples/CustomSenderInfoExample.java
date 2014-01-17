@@ -13,6 +13,7 @@ import static org.joda.time.DateMidnight.now;
 
 public class CustomSenderInfoExample extends SDKSample {
 
+
     public String senderEmail;
 
     public static final String SENDER_FIRST_NAME = "Rob";
