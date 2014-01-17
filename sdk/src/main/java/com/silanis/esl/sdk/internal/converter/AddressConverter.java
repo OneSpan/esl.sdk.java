@@ -1,51 +1,54 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Optional;
 import com.silanis.esl.api.model.Address;
 
 public class AddressConverter {
 
-    private Address apiAddress = null;
-    private com.silanis.esl.sdk.Address sdkAddress = null;
+    private Optional<Address> optionalApiAddress;
+    private Optional<com.silanis.esl.sdk.Address> optionalSdkAddress;
 
     public AddressConverter( Address apiAddress ) {
-        this.apiAddress = apiAddress;
+        this.optionalApiAddress = Optional.of( apiAddress );
+        this.optionalSdkAddress = Optional.absent();
     }
 
     public AddressConverter( com.silanis.esl.sdk.Address sdkAddress ) {
-        this.sdkAddress = sdkAddress;
+        optionalApiAddress = Optional.absent();
+        optionalSdkAddress = Optional.of( sdkAddress );
     }
 
     public Address toAPIAddress() {
-        if ( sdkAddress != null ) {
+        if ( optionalSdkAddress.isPresent() ) {
             Address result = new Address();
 
-            result.setAddress1( sdkAddress.getAddress1() );
-            result.setAddress2( sdkAddress.getAddress2() );
-            result.setCity( sdkAddress.getCity() );
-            result.setCountry( sdkAddress.getCountry() );
-            result.setState( sdkAddress.getState() );
-            result.setZipcode( sdkAddress.getZipCode() );
+            result.setAddress1( optionalSdkAddress.get().getAddress1() );
+            result.setAddress2( optionalSdkAddress.get().getAddress2() );
+            result.setCity( optionalSdkAddress.get().getCity() );
+            result.setCountry( optionalSdkAddress.get().getCountry() );
+            result.setState( optionalSdkAddress.get().getState() );
+            result.setZipcode( optionalSdkAddress.get().getZipCode() );
 
             return result;
         } else {
-            return apiAddress;
+            return optionalApiAddress.get();
         }
     }
 
     public com.silanis.esl.sdk.Address toSDKAddress() {
-        if ( apiAddress != null ) {
+        if ( optionalApiAddress.isPresent() ) {
             com.silanis.esl.sdk.Address result = new com.silanis.esl.sdk.Address();
 
-            result.setAddress1( apiAddress.getAddress1() );
-            result.setAddress2( apiAddress.getAddress2() );
-            result.setState( apiAddress.getState() );
-            result.setCountry( apiAddress.getCountry() );
-            result.setCity( apiAddress.getCity() );
-            result.setZipCode( apiAddress.getZipcode() );
+            result.setAddress1( optionalApiAddress.get().getAddress1() );
+            result.setAddress2( optionalApiAddress.get().getAddress2() );
+            result.setState( optionalApiAddress.get().getState() );
+            result.setCountry( optionalApiAddress.get().getCountry() );
+            result.setCity( optionalApiAddress.get().getCity() );
+            result.setZipCode( optionalApiAddress.get().getZipcode() );
 
             return result;
         } else {
-            return sdkAddress;
+            return optionalSdkAddress.get();
         }
     }
 }

@@ -13,30 +13,18 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class AccountMemberConverterTest implements ConverterTest{
     @Test
     public void convertNullSDKToAPI() {
-        AccountMember member = null;
-        AccountMemberConverter converter = new AccountMemberConverter( member );
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIUser(), is( nullValue() ) );
     }
 
     @Test
     public void convertNullAPIToSDK() {
-        User user = null;
-        AccountMemberConverter converter = new AccountMemberConverter( user );
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKAccountMember(), is( nullValue() ) );
     }
 
     @Test
     public void convertNullSDKToSDK() {
-        AccountMember member = null;
-        AccountMemberConverter converter = new AccountMemberConverter( member );
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKAccountMember(), is( nullValue() ) );
     }
 
     @Test
     public void convertNullAPIToAPI() {
-        com.silanis.esl.api.model.User user = null;
-        AccountMemberConverter converter = new AccountMemberConverter( user );
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIUser(), is( nullValue() ) );
     }
 
     @Test

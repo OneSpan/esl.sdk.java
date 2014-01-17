@@ -12,31 +12,18 @@ import static org.hamcrest.core.IsEqual.equalTo;
 public class AddressConverterTest implements ConverterTest {
     @Test
     public void convertNullSDKToAPI() {
-        Address address = null;
-        AddressConverter converter = new AddressConverter( address );
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIAddress(), is( nullValue() ) );
     }
 
     @Test
     public void convertNullAPIToSDK() {
-        com.silanis.esl.api.model.Address address = null;
-        AddressConverter converter = new AddressConverter( address );
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKAddress(), is( nullValue() ) );
     }
 
     @Test
     public void convertNullSDKToSDK() {
-        Address address = null;
-        AddressConverter converter = new AddressConverter( address );
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKAddress(), is( nullValue() ) );
     }
 
     @Test
     public void convertNullAPIToAPI() {
-        com.silanis.esl.api.model.Address address = null;
-        AddressConverter converter = new AddressConverter( address );
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIAddress(), is( nullValue() ) );
-
     }
 
     @Test
