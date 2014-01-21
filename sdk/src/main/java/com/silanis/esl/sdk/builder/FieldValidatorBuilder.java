@@ -13,16 +13,16 @@ public class FieldValidatorBuilder {
     public static final String EMAIL_REGEX = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$";
     public static final String URL_REGEX = "^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$";
 
-    private static final String ALPHABETIC_REGEX = "^[\\sa-zA-Z]+$";
-    private static final String ALPHANUMERIC_REGEX = "^[\\s0-9a-zA-Z]+$";
-    private static final String NUMERIC_REGEX = "^[-+]?[0-9]*\\.?[0-9]*$";
-    private static final String DEFAULT_REGEX = null;
+    public static final String ALPHABETIC_REGEX = "^[\\sa-zA-Z]+$";
+    public static final String ALPHANUMERIC_REGEX = "^[\\s0-9a-zA-Z]+$";
+    public static final String NUMERIC_REGEX = "^[-+]?[0-9]*\\.?[0-9]*$";
+    public static final String DEFAULT_REGEX = null;
 
-    private static final String ALPHABETIC_ERROR_MESSAGE = "Value entered must by alphabetic only.";
-    private static final String ALPHANUMERIC_ERROR_MESSAGE = "Value entered must be alphanumeric only.";
-    private static final String NUMERIC_ERROR_MESSAGE = "Value entered must be numeric only.";
-    private static final String EMAIL_ERROR_MESSAGE = "Value entered must be an email.";
-    private static final String URL_ERROR_MESSAGE = "Value entered must be a URL.";
+    public static final String ALPHABETIC_ERROR_MESSAGE = "Value entered must by alphabetic only.";
+    public static final String ALPHANUMERIC_ERROR_MESSAGE = "Value entered must be alphanumeric only.";
+    public static final String NUMERIC_ERROR_MESSAGE = "Value entered must be numeric only.";
+    public static final String EMAIL_ERROR_MESSAGE = "Value entered must be an email.";
+    public static final String URL_ERROR_MESSAGE = "Value entered must be a URL.";
 
     private static final int DEFAULT_MAX_LENGTH = Integer.MAX_VALUE;
 
