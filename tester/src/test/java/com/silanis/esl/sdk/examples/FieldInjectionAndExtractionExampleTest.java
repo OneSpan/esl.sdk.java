@@ -1,9 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.*;
+import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -14,26 +15,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * User: jessica
  * Date: 16/01/14
  * Time: 11:47 AM
- * 
+ * <p/>
  * Test FieldInjectionAndExtractionExample.
- * 
  */
 public class FieldInjectionAndExtractionExampleTest {
     @Test
     public void verifyResult() {
-        FieldInjectionAndExtractionExample fieldInjectionAndExtractionExample = new FieldInjectionAndExtractionExample( Props.get() );
+        FieldInjectionAndExtractionExample fieldInjectionAndExtractionExample = new FieldInjectionAndExtractionExample(Props.get());
         fieldInjectionAndExtractionExample.run();
 
         DocumentPackage documentPackage = fieldInjectionAndExtractionExample.getEslClient().getPackage(fieldInjectionAndExtractionExample.getPackageId());
 
-        List<Field> fields = documentPackage.getDocument(FieldInjectionAndExtractionExample.DOCUMENT_NAME).getInjectedFields();
-        for (Field field: fields) {
-            assertThat("Injected field not extracted properly:", field.getId().equals(FieldInjectionAndExtractionExample.INJECTED_FIELD_1_ID) ||
-                                                                 field.getId().equals(FieldInjectionAndExtractionExample.INJECTED_FIELD_2_ID));
-            if (field.getId().equals(FieldInjectionAndExtractionExample.INJECTED_FIELD_1_ID)) {
-                assertThat(field.getName(), is(equalTo(FieldInjectionAndExtractionExample.INJECTED_FIELD_1_NAME)));
-                assertThat(field.getValue(), is(equalTo(FieldInjectionAndExtractionExample.INJECTED_FIELD_1_VALUE)));
-            }
-        }
+        // Verify if the fields were injected correctly into the document.
+        Document document = documentPackage.getDocument(DocumentExtractionExample.DOCUMENT_NAME);
+
+        //TODO
+
     }
 }

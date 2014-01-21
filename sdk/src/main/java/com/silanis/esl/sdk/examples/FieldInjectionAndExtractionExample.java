@@ -18,10 +18,7 @@ public class FieldInjectionAndExtractionExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
-    public static final String INJECTED_FIELD_1_ID = "AGENT_SIG_1";
-    public static final String INJECTED_FIELD_1_NAME = "AGENT_SIG_1";
-    public static final String INJECTED_FIELD_1_VALUE = "Test Value";
-    public static final String INJECTED_FIELD_2_ID = "AGENT_SIG_2";
+    public static final String INJECTED_FIELD_1_VALUE = "Test injected field Value";
 
     public static void main( String... args ) {
         new FieldInjectionAndExtractionExample( Props.get() ).run();
@@ -41,6 +38,9 @@ public class FieldInjectionAndExtractionExample extends SDKSample {
 
     @Override
     public void execute() {
+
+        // Note that the field ID for injected field is not a significant for the field injection.
+        //
         DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
@@ -54,10 +54,9 @@ public class FieldInjectionAndExtractionExample extends SDKSample {
                                 .withField( signatureDate()
                                         .onPage( 0 )
                                         .atPosition( 100, 200 )
-                                        .withId( new FieldId( INJECTED_FIELD_2_ID ) ) ) )
+                                        .withId( new FieldId( "AGENT_SIG_2" ) ) ) )
                         .withInjectedField( textField()
-                                .withId( new FieldId(INJECTED_FIELD_1_ID) )
-                                .withName( INJECTED_FIELD_1_NAME )
+                                .withName( "AGENT_SIG_1" )
                                 .withValue( INJECTED_FIELD_1_VALUE ) ) )
                 .build();
 
