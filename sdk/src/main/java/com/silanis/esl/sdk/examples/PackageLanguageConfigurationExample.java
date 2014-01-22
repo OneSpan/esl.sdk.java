@@ -22,6 +22,7 @@ public class PackageLanguageConfigurationExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream1;
+    public static final Locale LANGUAGE = Locale.FRENCH;
 
     public static void main( String... args ) {
         new PackageLanguageConfigurationExample( Props.get() ).run();
@@ -42,7 +43,7 @@ public class PackageLanguageConfigurationExample extends SDKSample {
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "PackageLanguageConfigurationExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs("This is a package created using the e-SignLive SDK")
-                .withLanguage(Locale.FRENCH)
+                .withLanguage(LANGUAGE)
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith")
