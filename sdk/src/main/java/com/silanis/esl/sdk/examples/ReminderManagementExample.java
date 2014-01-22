@@ -17,7 +17,6 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class ReminderManagementExample extends SDKSample {
-    private PackageId packageId;
     private String email1;
     private InputStream documentInputStream1;
 
@@ -62,9 +61,5 @@ public class ReminderManagementExample extends SDKSample {
         eslClient.sendPackage( packageId );
 
         eslClient.getReminderService().clearReminderScheduleForPackage( packageId );
-    }
-
-    public PackageId getPackageId() {
-        return packageId;
     }
 }
