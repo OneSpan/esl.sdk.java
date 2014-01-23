@@ -25,5 +25,4 @@ public class SignerSMSAuthenticationExampleTest {
 
         assertThat(documentPackage.getSigner(signerSMSAuthenticationExample.email1).getAuthenticationMethod(), is(equalTo(AuthenticationMethod.SMS)));
     }
-    
 }
