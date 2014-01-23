@@ -18,7 +18,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerSpecificEmailMessageExample extends SDKSample {
 
-    private String email1;
+    public final String email1;
+    public static final String EMAIL_MESSAGE =  "Hi John, could you sign this ASAP please?";
     private InputStream documentInputStream1;
 
     public static void main( String... args ) {
@@ -42,7 +43,7 @@ public class SignerSpecificEmailMessageExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith")
-                        .withEmailMessage("Hi John, could you sign this ASAP please?"))
+                        .withEmailMessage(EMAIL_MESSAGE))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature(signatureFor(email1)
