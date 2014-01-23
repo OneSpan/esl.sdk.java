@@ -82,8 +82,6 @@ public class AuthenticationMethodsExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        System.out.println( "PackageId: " + packageId );
-
         eslClient.sendPackage( packageId );
     }
 

@@ -54,6 +54,5 @@ public class DesignerExample extends SDKSample {
         packageId = eslClient.createPackage( superDuperPackage );
 
         SessionToken sessionToken = eslClient.createSenderSessionToken();
-        System.out.println( "/designer/" + packageId.getId() + "?ESIGNLIVE_SESSION_ID=" + sessionToken.getSessionToken());
     }
 }
