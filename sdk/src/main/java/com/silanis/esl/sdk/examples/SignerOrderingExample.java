@@ -19,9 +19,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerOrderingExample extends SDKSample {
 
-    public static String email1;
+    public final String email1;
     public static final int SIGNING_ORDER_FOR_EMAIL1 = 1;
-    public static String email2;
+    public final String email2;
     public static final int SIGNING_ORDER_FOR_EMAIL2 = 2;
     private InputStream documentInputStream1;
 

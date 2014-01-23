@@ -22,8 +22,8 @@ public class SignerOrderingExampleTest {
         signerOrderingExample.run();
         DocumentPackage documentPackage = signerOrderingExample.getEslClient().getPackage(signerOrderingExample.getPackageId());
 
-        assertThat(documentPackage.getSigner(SignerOrderingExample.email1).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL1)));
-        assertThat(documentPackage.getSigner(SignerOrderingExample.email2).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL2)));
+        assertThat(documentPackage.getSigner(signerOrderingExample.email1).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL1)));
+        assertThat(documentPackage.getSigner(signerOrderingExample.email2).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL2)));
     }
     
 }

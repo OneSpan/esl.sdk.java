@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -22,7 +21,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerQnAChallengeExample extends SDKSample {
 
-    private String email1;
+    public final String email1;
+    public static final String FIRST_QUESTION = "What's your favorite sport? (answer: golf)";
+    public static final String FIRST_ANSWER = "golf";
+    public static final String SECOND_QUESTION = "What music instrument do you play? (answer: drums)";
+    public static final String SECOND_ANSWER = "drums";
+
     private InputStream documentInputStream1;
 
     public static void main( String... args ) {
@@ -47,10 +51,10 @@ public class SignerQnAChallengeExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith")
-                        .challengedWithQuestions(firstQuestion("What's your favorite sport? (answer: golf)")
-                                .answer("golf")
-                                .secondQuestion("What music instrument do you play? (answer: drums)")
-                                .answer("drums")))
+                        .challengedWithQuestions(firstQuestion(FIRST_QUESTION)
+                                .answer(FIRST_ANSWER)
+                                .secondQuestion(SECOND_QUESTION)
+                                .answer(SECOND_ANSWER)))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature(signatureFor(email1)
