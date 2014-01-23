@@ -28,9 +28,6 @@ public class SignerQnAChallengeExampleTest {
                     || challenge.getQuestion().contentEquals(SignerQnAChallengeExample.SECOND_QUESTION), is(equalTo(true)));
 
         }
-
-
-
     }
 
 }

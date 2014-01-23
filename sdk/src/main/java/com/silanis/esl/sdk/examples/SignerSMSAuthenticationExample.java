@@ -20,8 +20,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class SignerSMSAuthenticationExample extends SDKSample {
 
-    private String email1;
-    private String sms1;
+    public final String email1;
+    public final String sms1;
     private InputStream documentInputStream1;
 
     public static void main( String... args ) {
