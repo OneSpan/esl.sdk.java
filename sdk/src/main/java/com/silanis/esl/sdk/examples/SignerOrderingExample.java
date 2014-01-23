@@ -19,8 +19,10 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerOrderingExample extends SDKSample {
 
-    private String email1;
-    private String email2;
+    public static String email1;
+    public static final int SIGNING_ORDER_FOR_EMAIL1 = 1;
+    public static String email2;
+    public static final int SIGNING_ORDER_FOR_EMAIL2 = 2;
     private InputStream documentInputStream1;
 
     public static void main( String... args ) {
@@ -47,11 +49,11 @@ public class SignerOrderingExample extends SDKSample {
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )
-                        .signingOrder( 1 ) )
+                        .signingOrder( SIGNING_ORDER_FOR_EMAIL1 ) )
                 .withSigner( newSignerWithEmail( email2 )
                         .withFirstName( "Patty" )
                         .withLastName( "Galant" )
-                        .signingOrder( 2 ) )
+                        .signingOrder( SIGNING_ORDER_FOR_EMAIL2 ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature( signatureFor( email1 )
