@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -38,19 +39,17 @@ public class CustomSenderInfoExample extends SDKSample {
     public CustomSenderInfoExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
-                props.getProperty( "2.email" ));
+                props.getProperty( "1.email" ));
     }
 
-    public CustomSenderInfoExample( String apiKey, String apiUrl, String senderEmail, String signerEmail ) {
+    public CustomSenderInfoExample( String apiKey, String apiUrl, String signerEmail ) {
         super( apiKey, apiUrl );
-        this.senderEmail = senderEmail;
+        this.senderEmail = UUID.randomUUID().toString().replace( "-", "" ) + "@e-signlive.com";
         this.signerEmail = signerEmail;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     public void execute() {
-
         // Note on the custom sender information:
         //
         // The custom sender information is disregarded if the sender is one of the signers for the process.
