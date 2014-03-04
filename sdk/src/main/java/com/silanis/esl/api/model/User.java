@@ -42,6 +42,8 @@ public class User extends Entity
     @JsonIgnore
     public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
+    public static final String FIELD_SIGNERTYPE = "signerType";
+    @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
@@ -62,6 +64,7 @@ public class User extends Entity
     protected String _lastName = "";
     protected String _phone = "";
     protected SignatureStyle _signature = null;
+    protected String _signerType = "";
     protected String _title = "";
     protected java.util.Date _updated;
     protected List<UserCustomField> _userCustomFields = new ArrayList<UserCustomField>();
@@ -315,6 +318,26 @@ public class User extends Entity
     }
     public SignatureStyle getSignature(){
         return _signature;
+    }
+    
+        
+    
+    public User setSignerType( String value ){
+        value = SchemaSanitizer.trim(value);
+        // TODO With proper compare
+        // if ( this._signerType == value ) return this;
+        this._signerType = value;
+        setDirty(FIELD_SIGNERTYPE);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public User safeSetSignerType( String value ){
+        if ( value != null ) { this.setSignerType( value ); }
+        return this;
+    }
+    public String getSignerType(){
+        return _signerType;
     }
     
         

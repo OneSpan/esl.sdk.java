@@ -31,28 +31,34 @@ public class EventNotificationConfig {
 
     private static CallbackEvent toAPICallbackEvent( NotificationEvent event ) {
         switch ( event ) {
-            case PACKAGE_OPT_OUT:
-                return CallbackEvent.PACKAGE_OPT_OUT;
-            case PACKAGE_COMPLETE:
-                return CallbackEvent.PACKAGE_COMPLETE;
             case PACKAGE_ACTIVATE:
                 return CallbackEvent.PACKAGE_ACTIVATE;
+            case PACKAGE_COMPLETE:
+                return CallbackEvent.PACKAGE_COMPLETE;
+            case PACKAGE_EXPIRE:
+                return CallbackEvent.PACKAGE_EXPIRE;
+            case PACKAGE_OPT_OUT:
+                return CallbackEvent.PACKAGE_OPT_OUT;
+            case PACKAGE_DECLINE:
+                return CallbackEvent.PACKAGE_DECLINE;
+            case SIGNER_COMPLETE:
+                return CallbackEvent.SIGNER_COMPLETE;
+            case DOCUMENT_SIGNED:
+                return CallbackEvent.DOCUMENT_SIGNED;
+            case ROLE_REASSIGN:
+                return CallbackEvent.ROLE_REASSIGN;
             case PACKAGE_CREATE:
                 return CallbackEvent.PACKAGE_CREATE;
             case PACKAGE_DEACTIVATE:
                 return CallbackEvent.PACKAGE_DEACTIVATE;
-            case PACKAGE_DECLINE:
-                return CallbackEvent.PACKAGE_DECLINE;
-            case PACKAGE_DELETE:
-                return CallbackEvent.PACKAGE_DELETE;
             case PACKAGE_READY_FOR_COMPLETION:
                 return CallbackEvent.PACKAGE_READY_FOR_COMPLETE;
-            case PACKAGE_RESTORE:
-                return CallbackEvent.PACKAGE_RESTORE;
             case PACKAGE_TRASH:
                 return CallbackEvent.PACKAGE_TRASH;
-            case ROLE_REASSIGN:
-                return CallbackEvent.ROLE_REASSIGN;
+            case PACKAGE_RESTORE:
+                return CallbackEvent.PACKAGE_RESTORE;
+            case PACKAGE_DELETE:
+                return CallbackEvent.PACKAGE_DELETE;
             default:
                 return null;
         }

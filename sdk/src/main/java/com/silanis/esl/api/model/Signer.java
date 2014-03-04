@@ -48,6 +48,8 @@ public class Signer extends User
     @JsonIgnore
     public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
+    public static final String FIELD_SIGNERTYPE = "signerType";
+    @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
@@ -302,6 +304,20 @@ public class Signer extends User
     @JsonIgnore
     public Signer safeSetSignature( SignatureStyle value ){
         if ( value != null ) { this.setSignature( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Signer setSignerType( String value ){
+        super.setSignerType(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetSignerType( String value ){
+        if ( value != null ) { this.setSignerType( value ); }
         return this;
     }
     

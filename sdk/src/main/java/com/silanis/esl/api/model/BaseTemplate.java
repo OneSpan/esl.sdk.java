@@ -60,7 +60,6 @@ public class BaseTemplate extends BasePackage
     public BaseTemplate ( ) {}
     
     // Fields
-    protected Visibility _visibility = Visibility.ACCOUNT;
     
     // Accessors
         
@@ -352,12 +351,9 @@ public class BaseTemplate extends BasePackage
     
         
     
+    @Override
     public BaseTemplate setVisibility( Visibility value ){
-        SchemaSanitizer.throwOnNull(FIELD_VISIBILITY,value);
-        // TODO With proper compare
-        // if ( this._visibility == value ) return this;
-        this._visibility = value;
-        setDirty(FIELD_VISIBILITY);
+        super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
@@ -365,9 +361,6 @@ public class BaseTemplate extends BasePackage
     public BaseTemplate safeSetVisibility( Visibility value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
-    }
-    public Visibility getVisibility(){
-        return _visibility;
     }
     
     

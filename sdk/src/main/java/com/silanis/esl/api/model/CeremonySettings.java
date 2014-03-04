@@ -13,6 +13,8 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public static final String FIELD_DECLINEBUTTON = "declineButton";
     @JsonIgnore
+    public static final String FIELD_DISABLEINPERSONAFFIDAVIT = "disableInPersonAffidavit";
+    @JsonIgnore
     public static final String FIELD_DOCUMENTTOOLBAROPTIONS = "documentToolbarOptions";
     @JsonIgnore
     public static final String FIELD_EVENTS = "events";
@@ -40,6 +42,7 @@ public class CeremonySettings extends ViewSettings
     
     // Fields
     protected Boolean _declineButton = false;
+    protected Boolean _disableInPersonAffidavit = false;
     protected DocumentToolbarOptions _documentToolbarOptions = null;
     protected CeremonyEvents _events = null;
     protected Link _handOver = null;
@@ -73,6 +76,30 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public boolean evalDeclineButton(){
         return _declineButton == null ? false : _declineButton.booleanValue();
+    }
+    
+        
+    
+    public CeremonySettings setDisableInPersonAffidavit( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_DISABLEINPERSONAFFIDAVIT,value);
+        // TODO With proper compare
+        // if ( this._disableInPersonAffidavit == value ) return this;
+        this._disableInPersonAffidavit = value;
+        setDirty(FIELD_DISABLEINPERSONAFFIDAVIT);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetDisableInPersonAffidavit( Boolean value ){
+        if ( value != null ) { this.setDisableInPersonAffidavit( value ); }
+        return this;
+    }
+    public Boolean getDisableInPersonAffidavit(){
+        return _disableInPersonAffidavit;
+    }
+    @JsonIgnore
+    public boolean evalDisableInPersonAffidavit(){
+        return _disableInPersonAffidavit == null ? false : _disableInPersonAffidavit.booleanValue();
     }
     
         

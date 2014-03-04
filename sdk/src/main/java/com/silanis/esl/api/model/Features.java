@@ -13,6 +13,8 @@ public class Features extends Model
     @JsonIgnore
     public static final String FIELD_ATTACHMENTS = "attachments";
     @JsonIgnore
+    public static final String FIELD_AUTHENTICATEDINBOX = "authenticatedInbox";
+    @JsonIgnore
     public static final String FIELD_CUSTOMFIELDS = "customFields";
     @JsonIgnore
     public static final String FIELD_ENCRYPTDOCUMENTS = "encryptDocuments";
@@ -25,6 +27,10 @@ public class Features extends Model
     @JsonIgnore
     public static final String FIELD_GROUPS = "groups";
     @JsonIgnore
+    public static final String FIELD_INBOXFILTERING = "inboxFiltering";
+    @JsonIgnore
+    public static final String FIELD_NOTARIZE = "notarize";
+    @JsonIgnore
     public static final String FIELD_TAMPERSEALEVIDENCE = "tamperSealEvidence";
     
     // Empty Constructor
@@ -32,12 +38,15 @@ public class Features extends Model
     
     // Fields
     protected Boolean _attachments = false;
+    protected Boolean _authenticatedInbox = false;
     protected Boolean _customFields = false;
     protected Boolean _encryptDocuments = false;
     protected Boolean _evidenceSummary = false;
     protected Boolean _fastTrack = false;
     protected Boolean _forceLogin = false;
     protected Boolean _groups = false;
+    protected Boolean _inboxFiltering = false;
+    protected Boolean _notarize = false;
     protected Boolean _tamperSealEvidence = false;
     
     // Accessors
@@ -63,6 +72,30 @@ public class Features extends Model
     @JsonIgnore
     public boolean evalAttachments(){
         return _attachments == null ? false : _attachments.booleanValue();
+    }
+    
+        
+    
+    public Features setAuthenticatedInbox( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_AUTHENTICATEDINBOX,value);
+        // TODO With proper compare
+        // if ( this._authenticatedInbox == value ) return this;
+        this._authenticatedInbox = value;
+        setDirty(FIELD_AUTHENTICATEDINBOX);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetAuthenticatedInbox( Boolean value ){
+        if ( value != null ) { this.setAuthenticatedInbox( value ); }
+        return this;
+    }
+    public Boolean getAuthenticatedInbox(){
+        return _authenticatedInbox;
+    }
+    @JsonIgnore
+    public boolean evalAuthenticatedInbox(){
+        return _authenticatedInbox == null ? false : _authenticatedInbox.booleanValue();
     }
     
         
@@ -207,6 +240,54 @@ public class Features extends Model
     @JsonIgnore
     public boolean evalGroups(){
         return _groups == null ? false : _groups.booleanValue();
+    }
+    
+        
+    
+    public Features setInboxFiltering( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_INBOXFILTERING,value);
+        // TODO With proper compare
+        // if ( this._inboxFiltering == value ) return this;
+        this._inboxFiltering = value;
+        setDirty(FIELD_INBOXFILTERING);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetInboxFiltering( Boolean value ){
+        if ( value != null ) { this.setInboxFiltering( value ); }
+        return this;
+    }
+    public Boolean getInboxFiltering(){
+        return _inboxFiltering;
+    }
+    @JsonIgnore
+    public boolean evalInboxFiltering(){
+        return _inboxFiltering == null ? false : _inboxFiltering.booleanValue();
+    }
+    
+        
+    
+    public Features setNotarize( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_NOTARIZE,value);
+        // TODO With proper compare
+        // if ( this._notarize == value ) return this;
+        this._notarize = value;
+        setDirty(FIELD_NOTARIZE);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetNotarize( Boolean value ){
+        if ( value != null ) { this.setNotarize( value ); }
+        return this;
+    }
+    public Boolean getNotarize(){
+        return _notarize;
+    }
+    @JsonIgnore
+    public boolean evalNotarize(){
+        return _notarize == null ? false : _notarize.booleanValue();
     }
     
         

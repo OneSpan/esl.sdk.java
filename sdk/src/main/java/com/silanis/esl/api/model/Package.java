@@ -57,6 +57,8 @@ public class Package extends BasePackage
     public static final String FIELD_TYPE = "type";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
+    @JsonIgnore
+    public static final String FIELD_VISIBILITY = "visibility";
     
     // Empty Constructor
     public Package ( ) {}
@@ -394,6 +396,20 @@ public class Package extends BasePackage
     @JsonIgnore
     public Package safeSetUpdated( java.util.Date value ){
         if ( value != null ) { this.setUpdated( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Package setVisibility( Visibility value ){
+        super.setVisibility(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Package safeSetVisibility( Visibility value ){
+        if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
     

@@ -53,6 +53,8 @@ public class BasePackage extends Entity
     public static final String FIELD_TYPE = "type";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
+    @JsonIgnore
+    public static final String FIELD_VISIBILITY = "visibility";
     
     // Empty Constructor
     public BasePackage ( ) {}
@@ -74,6 +76,7 @@ public class BasePackage extends Entity
     protected PackageStatus _status = PackageStatus.DRAFT;
     protected BasePackageType _type = BasePackageType.PACKAGE;
     protected java.util.Date _updated;
+    protected Visibility _visibility = Visibility.ACCOUNT;
     
     // Accessors
         
@@ -466,6 +469,26 @@ public class BasePackage extends Entity
     @JsonSerialize(using = JsonDateSerializer.class)
     public java.util.Date getUpdated(){
         return _updated;
+    }
+    
+        
+    
+    public BasePackage setVisibility( Visibility value ){
+        SchemaSanitizer.throwOnNull(FIELD_VISIBILITY,value);
+        // TODO With proper compare
+        // if ( this._visibility == value ) return this;
+        this._visibility = value;
+        setDirty(FIELD_VISIBILITY);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public BasePackage safeSetVisibility( Visibility value ){
+        if ( value != null ) { this.setVisibility( value ); }
+        return this;
+    }
+    public Visibility getVisibility(){
+        return _visibility;
     }
     
     
