@@ -27,10 +27,11 @@ public class CustomSenderInfoExampleTest {
         DocumentPackage documentPackage = customSenderInfoExample.getEslClient().getPackage(customSenderInfoExample.getPackageId());
 
         SenderInfo senderInfo = documentPackage.getSenderInfo();
-
         assertThat("Sender first name not set correctly. ", senderInfo.getFirstName(), is(equalTo(CustomSenderInfoExample.SENDER_FIRST_NAME )));
         assertThat("Sender last name not set correctly. ", senderInfo.getLastName(), is(equalTo( CustomSenderInfoExample.SENDER_SECOND_NAME )));
         assertThat("Sender title not set correctly. ", senderInfo.getTitle(), is(equalTo( CustomSenderInfoExample.SENDER_TITLE )));
         assertThat("Sender company not set correctly. ", senderInfo.getCompany(), is(equalTo( CustomSenderInfoExample.SENDER_COMPANY )));
+
+//        customSenderInfoExample.getEslClient().sendPackage( customSenderInfoExample.getPackageId() );
     }
 }

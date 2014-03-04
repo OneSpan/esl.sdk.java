@@ -125,9 +125,10 @@ public class EslClient {
     public PackageId createPackage(DocumentPackage documentPackage) {
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
+        DocumentPackage retrievedPackage = getPackage( id );
 
         for (Document document : documentPackage.getDocuments()) {
-            packageService.uploadDocument(id, document.getFileName(), document.getContent(), new DocumentConverter(document).toAPIDocument(packageToCreate));
+            uploadDocument( document, retrievedPackage );
         }
 
         return id;
@@ -248,6 +249,10 @@ public class EslClient {
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
         Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
         packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, new DocumentConverter(document).toAPIDocument(apiPackage) );
+    }
+
+    public void uploadDocument( Document document, DocumentPackage documentPackage ) {
+        uploadDocument( document.getFileName(), document.getContent(), document, documentPackage );
     }
 
     public GroupService getGroupService() {
