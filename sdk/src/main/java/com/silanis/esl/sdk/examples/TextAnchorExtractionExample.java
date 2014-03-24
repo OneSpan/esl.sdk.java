@@ -21,6 +21,15 @@ public class TextAnchorExtractionExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream1;
+    private DocumentPackage retrievedPackage;
+
+    public static final String DOCUMENT_NAME = "Document With Anchors";
+    public static final int FIELD_WIDTH = 150;
+    public static final int FIELD_HEIGHT = 40;
+
+    public DocumentPackage getRetrievedPackage() {
+        return retrievedPackage;
+    }
 
     public static void main( String... args ) {
         new TextAnchorExtractionExample( Props.get() ).run();
@@ -45,37 +54,42 @@ public class TextAnchorExtractionExample extends SDKSample {
                         .withRoleId( "Signer1" )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )
-                .withDocument( newDocumentWithName( "First Document" )
+                .withDocument( newDocumentWithName( DOCUMENT_NAME )
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .enableExtraction()
                         .withSignature(signatureFor( email1 )
                                 .withPositionAnchor( TextAnchorBuilder.newTextAnchor( "Nondisclosure" )
                                         .atPosition( TextAnchorPosition.BOTTOMRIGHT )
-                                        .withSize( 150, 40 )
+                                        .withSize( FIELD_WIDTH, FIELD_HEIGHT )
                                         .withOffset( 0, 0 )
                                         .withCharacter( 9 )
                                         .withOccurence( 0 ) ) )
                         .withSignature(signatureFor( email1 )
                                 .withPositionAnchor( TextAnchorBuilder.newTextAnchor( "Receiving" )
                                         .atPosition( TextAnchorPosition.TOPLEFT )
-                                        .withSize( 150, 40 )
+                                        .withSize( FIELD_WIDTH, FIELD_HEIGHT )
                                         .withOffset( 0, 0 )
                                         .withCharacter( 0 )
                                         .withOccurence( 0 ) )
                                 .withField( FieldBuilder.textField()
                                         .withPositionAnchor( TextAnchorBuilder.newTextAnchor("Definition")
                                                 .atPosition( TextAnchorPosition.TOPLEFT )
-                                                .withSize( 150, 40 )
+                                                .withSize( FIELD_WIDTH, FIELD_HEIGHT )
                                                 .withOffset( 0, 0 )
                                                 .withCharacter( 0 )
                                                 .withOccurence( 0 ) ) )
                                 .withField( FieldBuilder.textField()
                                         .withPositionAnchor( TextAnchorBuilder.newTextAnchor("through legitimate means")
                                                 .atPosition( TextAnchorPosition.TOPLEFT )
-                                                .withSize( 150, 40 )
+                                                .withSize( FIELD_WIDTH, FIELD_HEIGHT )
                                                 .withOffset( 100, 100 )
                                                 .withCharacter( 0 )
                                                 .withOccurence( 1 ) ) )
+                                .withField( FieldBuilder.textField()
+                                        .atPosition( 10, 10 )
+                                        .withSize( FIELD_WIDTH, FIELD_HEIGHT )
+                                        .onPage(1)
+                                )
                         )
                 )
                 .build();
@@ -83,6 +97,6 @@ public class TextAnchorExtractionExample extends SDKSample {
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
 
-        DocumentPackage sentPackage = eslClient.getPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }
