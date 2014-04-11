@@ -2,6 +2,11 @@ package com.silanis.esl.sdk.internal;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.io.Streams;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,13 +20,6 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-
-import static com.silanis.esl.sdk.io.Streams.toByteArray;
 
 public class RestClient {
 
@@ -40,7 +38,7 @@ public class RestClient {
 
         HttpPost post = new HttpPost( path );
         if ( jsonPayload != null ) {
-            StringEntity body = new StringEntity(jsonPayload);
+            StringEntity body = new StringEntity(jsonPayload, Charset.forName("UTF-8"));
 
             body.setContentType("application/json");
 
@@ -54,7 +52,7 @@ public class RestClient {
         support.logRequest("PUT", path, jsonPayload);
 
         HttpPut put = new HttpPut( path );
-        StringEntity body = new StringEntity(jsonPayload);
+        StringEntity body = new StringEntity(jsonPayload, Charset.forName("UTF-8"));
 
         body.setContentType("application/json");
         put.setEntity(body);
