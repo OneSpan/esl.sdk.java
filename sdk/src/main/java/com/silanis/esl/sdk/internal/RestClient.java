@@ -23,6 +23,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public class RestClient {
 
+    public static final String CHARSET_UTF_8 = "UTF-8";
     private final ResponseHandler<byte[]> bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
@@ -38,7 +39,7 @@ public class RestClient {
 
         HttpPost post = new HttpPost( path );
         if ( jsonPayload != null ) {
-            StringEntity body = new StringEntity(jsonPayload, Charset.forName("UTF-8"));
+            StringEntity body = new StringEntity(jsonPayload, Charset.forName(CHARSET_UTF_8));
 
             body.setContentType("application/json");
 
