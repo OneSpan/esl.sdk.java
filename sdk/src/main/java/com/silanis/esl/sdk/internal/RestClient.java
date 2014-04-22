@@ -86,10 +86,12 @@ public class RestClient {
             HttpResponse response = client.execute(request);
 
             if (response.getStatusLine().getStatusCode() >= 400) {
+                String errorDetails = Streams.toString(response.getEntity().getContent());
                 throw new CommunicationException(request.getRequestLine().getMethod(),
                         request.getRequestLine().getUri(),
                         response.getStatusLine().getStatusCode(),
-                        response.getStatusLine().getReasonPhrase());
+                        response.getStatusLine().getReasonPhrase(),
+                        errorDetails);
             } else if (response.getStatusLine().getStatusCode() == 204 ) {
                 return null;
             } else {
