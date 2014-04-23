@@ -13,6 +13,9 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
+ * A simple example that explains how to create a sender authentication token for the sender of a particular package
+ * and then use that token to obtain a sender session.
+ * For a more typical (and complex) example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForPackageSenderExample}
  * Created by mpoitras on 22/04/14.
  */
 public class SenderAuthenticationTokenExample extends SDKSample {
@@ -20,17 +23,19 @@ public class SenderAuthenticationTokenExample extends SDKSample {
     private AuthenticationClient authenticationClient;
     private String email1;
     private final InputStream documentInputStream;
+    private String sessionIdForSender;
 
     public SenderAuthenticationTokenExample(Properties props) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
               props.getProperty( "auth.url" ),
+              props.getProperty( "webpage.url" ),
               props.getProperty( "1.email" ));
     }
 
-    public SenderAuthenticationTokenExample(String apiKey, String apiUrl, String authUrl, String email1) {
+    public SenderAuthenticationTokenExample(String apiKey, String apiUrl, String authUrl, String webpageUrl, String email1) {
         super( apiKey, apiUrl);
-        authenticationClient = new AuthenticationClient(authUrl);
+        authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         this.email1 = email1;
     }
@@ -50,11 +55,20 @@ public class SenderAuthenticationTokenExample extends SDKSample {
                 .build();
         packageId = eslClient.createPackage( packageToCreate );
 
+         /* Note about the sender authentication token:
+          * This is a single use token, limited to a time period (30 minutes). Trying to reuse it or to use it will cause an unauthorized error.
+          * Trying to access pages unrelated to the package for which it was created will cause an unauthorized error
+          */
         final String senderAuthenticationToken = eslClient.createSenderAuthenticationToken(packageId.getId());
 
-        //This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser)
-        //This session is limited to operations on the package for which it was created (prepare package, modify package, download documents)
-        final String sessionIdForSender = authenticationClient.getSessionIdForSenderAuthenticationToken(senderAuthenticationToken);
+        /* This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser).
+         * It is a session valid in the same way as a normal login except it is limited to operations on the package for which
+         * it was created (prepare package, modify package, download documents)
+         */
+        sessionIdForSender = authenticationClient.getSessionIdForSenderAuthenticationToken(senderAuthenticationToken);
     }
 
+    public String getSessionIdForSender() {
+        return sessionIdForSender;
+    }
 }

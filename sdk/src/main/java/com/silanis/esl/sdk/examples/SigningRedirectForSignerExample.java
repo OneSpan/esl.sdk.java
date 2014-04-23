@@ -3,11 +3,13 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.AuthenticationClient;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.internal.Support;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -15,31 +17,33 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * A simple example that explains how to create a signer authentication token for a signer of a particular package
- * and then use that token to obtain a signing session.
- * For a more typical (and complex) example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerExample}
- * Created by mpoitras on 22/04/14.
+ * A typical example showing to create a link that can then be used by a signer to sign its document.
+ * For a simpler example usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+ * Created by mpoitras on 23/04/14.
  */
-public class SignerAuthenticationTokenExample extends SDKSample {
+public class SigningRedirectForSignerExample extends SDKSample {
+
+    private static final Logger logger = Logger.getLogger(SigningRedirectForSignerExample.class.getName());
 
     private AuthenticationClient authenticationClient;
-    private String email1;
-    private final InputStream documentInputStream;
-    private String sessionIdForSigner;
+    private String signerEmail;
+    private InputStream documentInputStream;
+    private final Support support = new Support();
+    private String generatedLinkToSigningForSigner;
 
-    public SignerAuthenticationTokenExample(Properties props) {
+    public SigningRedirectForSignerExample(Properties props) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
               props.getProperty( "auth.url" ),
               props.getProperty( "webpage.url" ),
-              props.getProperty( "1.email" ));
+              props.getProperty( "1.email" ) );
     }
 
-    public SignerAuthenticationTokenExample(String apiKey, String apiUrl, String authUrl, String webpageUrl, String email1) {
-        super( apiKey, apiUrl);
+    public SigningRedirectForSignerExample(String apiKey, String apiUrl, String authUrl, String webpageUrl, String signerEmail) {
+        super( apiKey, apiUrl );
         authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.email1 = email1;
+        this.signerEmail = signerEmail;
     }
 
     @Override
@@ -47,7 +51,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
         String signerId = UUID.randomUUID().toString();
         DocumentPackage packageToCreate = newPackageNamed("Designer Package " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
-                .withSigner(newSignerWithEmail(email1)
+                .withSigner(newSignerWithEmail(signerEmail)
                                     .withCustomId("Client1")
                                     .withFirstName("John")
                                     .withLastName("Smith")
@@ -57,27 +61,24 @@ public class SignerAuthenticationTokenExample extends SDKSample {
                 )
                 .withDocument(newDocumentWithName("First Document")
                                       .fromStream(documentInputStream, DocumentType.PDF)
-                                      .withSignature(signatureFor(email1)
+                                      .withSignature(signatureFor(signerEmail)
                                                              .onPage(0)
                                                              .atPosition(100, 100)))
                 .build();
         packageId = eslClient.createPackage(packageToCreate);
         eslClient.sendPackage( packageId );
 
-         /*Note about the signer authentication token:
-          * This is a single use token, limited to a time period (30 minutes). Trying to reuse it or to use it will cause an unauthorized error.
-          * Trying to access pages not accessible to a signer will cause an unauthorized error
-          */
         final String signerAuthenticationToken = eslClient.createSignerAuthenticationToken(packageId.getId(), signerId);
 
-        /* This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser).
-         * It is a signing session valid in the same way as clicking in an email except it is limited to signing operations on the package for which
-         * it was created (accept consent, sign, fill-out fields).
-         */
-        sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+
+        generatedLinkToSigningForSigner = authenticationClient.buildRedirectToSigningForSigner(signerAuthenticationToken, packageId.getId());
+
+
+        //This is an example url that can be used in an iFrame or to open a browser window with a signing session (created from the signer authentication token) and a redirect to the signing page.
+        logger.info(generatedLinkToSigningForSigner);
     }
 
-    public String getSessionIdForSigner() {
-        return sessionIdForSigner;
+    public String getGeneratedLinkToSigningForSigner() {
+        return generatedLinkToSigningForSigner;
     }
 }

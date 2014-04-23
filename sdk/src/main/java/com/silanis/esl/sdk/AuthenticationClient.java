@@ -9,19 +9,31 @@ public class AuthenticationClient {
 
     private final AuthenticationService authenticationService;
 
-    public AuthenticationClient(String authUrl) {
-        authenticationService = new AuthenticationService(authUrl);
+    public AuthenticationClient(String authUrl, String webpageUrl) {
+        authenticationService = new AuthenticationService(authUrl, webpageUrl);
     }
 
     public String getSessionIdForUserAuthenticationToken(String userAuthenticationToken) {
         return authenticationService.getSessionIdForUserAuthenticationToken(userAuthenticationToken);
     }
 
+    public String buildRedirectToDesignerForUserAuthenticationToken(String userAuthenticationToken, String packageId) {
+        return authenticationService.buildRedirectToDesignerForUserAuthenticationToken(userAuthenticationToken, packageId);
+    }
+
     public String getSessionIdForSenderAuthenticationToken(String senderAuthenticationToken) {
         return authenticationService.getSessionIdForSenderAuthenticationToken(senderAuthenticationToken);
     }
 
+    public String buildRedirectToDesignerForSender(String senderAuthenticationToken, String packageId) {
+        return authenticationService.buildRedirectToDesignerForSender(senderAuthenticationToken, packageId);
+    }
+
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {
         return authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+    }
+
+    public String buildRedirectToSigningForSigner(String signerAuthenticationToken, String packageId) {
+        return authenticationService.buildRedirectToSigningForSigner(signerAuthenticationToken, packageId);
     }
 }

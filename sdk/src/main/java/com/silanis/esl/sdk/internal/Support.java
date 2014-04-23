@@ -22,4 +22,8 @@ public class Support {
     public void logError( com.silanis.esl.api.model.Error errorMessage){
         LOG.severe("message:" + errorMessage.getMessage() + ", http code:" + errorMessage.getCode());
     }
+
+    public void logMessage(String message) {
+        LOG.fine("message: " + message);
+    }
 }

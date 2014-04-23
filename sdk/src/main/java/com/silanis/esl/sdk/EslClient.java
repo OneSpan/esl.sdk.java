@@ -181,11 +181,20 @@ public class EslClient {
         return getFieldSummaryService().getFieldSummary(packageId);
     }
 
+    /**
+     * @deprecated Use the {@link EslClient#createSenderAuthenticationToken} or {@link EslClient#createUserAuthenticationToken} depending if you want to
+     * create a token to authenticate as the package sender or the api key user.
+     */
+    @Deprecated
     public SessionToken createSenderSessionToken() {
         return sessionService.createSenderSessionToken();
 
     }
 
+    /**
+     * @deprecated Use the {@link EslClient#createSignerAuthenticationToken}.
+     */
+    @Deprecated
     public SessionToken createSignerSessionToken( PackageId packageId, String signerId ) throws EslException {
         return sessionService.createSessionToken(packageId.getId(), signerId);
     }
@@ -199,6 +208,7 @@ public class EslClient {
      * @param signerId	the signer ID
      * @return	the session token
      * @throws EslException
+     * @deprecated Use the {@link EslClient#createSignerAuthenticationToken}.
      */
     @Deprecated
     public SessionToken createSessionToken( PackageId packageId, String signerId ) throws EslException {
@@ -269,14 +279,35 @@ public class EslClient {
         return reminderService;
     }
 
+    /**
+     * Create a user authentication token which is used to obtain a session for the user linked to the api key.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.UserAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForApiKeyExample}
+     * @return A single use, time limited user authentication token. This token can be used to authenticate into a session for the user linked to the api key.
+     */
     public String createUserAuthenticationToken() {
         return authenticationTokensService.create();
     }
 
+    /**
+     * Create a sender authentication token which is used to obtain a signing session for that package sender.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SenderAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForPackageSenderExample}
+     * @param packageId The package for which the sender authentication token is created.
+     * @return A single use, time limited sender authentication token. This token can be used to authenticate into a sender session limited to a particular package.
+     */
     public String createSenderAuthenticationToken(String packageId) {
         return authenticationTokensService.create(packageId);
     }
 
+    /**
+     * Create a signer authentication token which is used to obtain a signing session for that signer.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerExample}
+     * @param packageId The package for which the signer authentication token is created.
+     * @param signerId The signer for which the signer authentication token is created.
+     * @return A single use, time limited signer authentication token. This token can be used to authenticate into a session.
+     */
     public String createSignerAuthenticationToken(String packageId, String signerId) {
         return authenticationTokensService.create(packageId, signerId);
     }

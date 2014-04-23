@@ -39,10 +39,13 @@ public class UrlTemplate {
     //Authentication Token Services
     public static final String USER_AUTHENTICATION_TOKEN_PATH = "/authenticationTokens";
     public static final String AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN = "?authenticationToken={authenticationToken}";
+    public static final String AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN_WITH_REDIRECT = "?authenticationToken={authenticationToken}&target={redirectUrl}";
     public static final String SENDER_AUTHENTICATION_TOKEN_PATH = "/senderAuthenticationTokens";
     public static final String AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN = "?senderAuthenticationToken={senderAuthenticationToken}";
+    public static final String AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN_WITH_REDIRECT = "?senderAuthenticationToken={senderAuthenticationToken}&target={redirectUrl}";
     public static final String SIGNER_AUTHENTICATION_TOKEN_PATH = "/signerAuthenticationTokens";
     public static final String AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN = "?signerAuthenticationToken={signerAuthenticationToken}";
+    public static final String AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN_WITH_REDIRECT = "?signerAuthenticationToken={signerAuthenticationToken}&target={redirectUrl}";
 
     // Custom Field Service
     public static final String ACCOUNT_CUSTOMFIELD_PATH = "/account/customfields";
@@ -58,6 +61,10 @@ public class UrlTemplate {
 
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
+
+    // Webpage redirect urls
+    public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
+    public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
