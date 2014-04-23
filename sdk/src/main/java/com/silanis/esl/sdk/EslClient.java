@@ -5,17 +5,17 @@ import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.service.*;
+import com.silanis.esl.sdk.service.AccountService;
 import com.silanis.esl.sdk.service.AuditService;
+import com.silanis.esl.sdk.service.AuthenticationTokensService;
+import com.silanis.esl.sdk.service.CustomFieldService;
 import com.silanis.esl.sdk.service.EventNotificationService;
 import com.silanis.esl.sdk.service.FieldSummaryService;
+import com.silanis.esl.sdk.service.GroupService;
 import com.silanis.esl.sdk.service.PackageService;
+import com.silanis.esl.sdk.service.ReminderService;
 import com.silanis.esl.sdk.service.SessionService;
-import com.silanis.esl.sdk.service.CustomFieldService;
-
 import java.util.List;
-
-import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
 
 /**
  * <p>The EslClient class creates a E-SignLive client with the given api token and base url.</p>
@@ -32,6 +32,7 @@ public class EslClient {
     private FieldSummaryService fieldSummaryService;
     private AuditService auditService;
     private EventNotificationService eventNotificationService;
+    private AuthenticationTokensService authenticationTokensService;
     private GroupService groupService;
     private CustomFieldService customFieldService;
     private AccountService accountService;
@@ -53,6 +54,7 @@ public class EslClient {
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
         auditService = new AuditService(client, this.baseURL);
         eventNotificationService = new EventNotificationService( client, this.baseURL );
+        authenticationTokensService = new AuthenticationTokensService(client, this.baseURL);
         groupService = new GroupService( client, this.baseURL );
         customFieldService = new CustomFieldService( client, this.baseURL );
         accountService = new AccountService( client, this.baseURL );
@@ -176,16 +178,25 @@ public class EslClient {
      * @return	a list of field summarys
      */
     public List<FieldSummary> getFieldValues( PackageId packageId ) {
-        return getFieldSummaryService().getFieldSummary( packageId );
+        return getFieldSummaryService().getFieldSummary(packageId);
     }
 
+    /**
+     * @deprecated Use the {@link EslClient#createSenderAuthenticationToken} or {@link EslClient#createUserAuthenticationToken} depending if you want to
+     * create a token to authenticate as the package sender or the api key user.
+     */
+    @Deprecated
     public SessionToken createSenderSessionToken() {
         return sessionService.createSenderSessionToken();
 
     }
 
+    /**
+     * @deprecated Use the {@link EslClient#createSignerAuthenticationToken}.
+     */
+    @Deprecated
     public SessionToken createSignerSessionToken( PackageId packageId, String signerId ) throws EslException {
-        return sessionService.createSessionToken( packageId.getId(), signerId );
+        return sessionService.createSessionToken(packageId.getId(), signerId);
     }
 
     /**
@@ -197,10 +208,11 @@ public class EslClient {
      * @param signerId	the signer ID
      * @return	the session token
      * @throws EslException
+     * @deprecated Use the {@link EslClient#createSignerAuthenticationToken}.
      */
     @Deprecated
     public SessionToken createSessionToken( PackageId packageId, String signerId ) throws EslException {
-        return sessionService.createSessionToken( packageId.getId(), signerId );
+        return sessionService.createSessionToken(packageId.getId(), signerId);
     }
 
     /**
@@ -243,7 +255,7 @@ public class EslClient {
     }
 
     public SigningStatus getSigningStatus( PackageId packageId, SignerId signerId, DocumentId documentId ) {
-        return packageService.getSigningStatus( packageId, signerId, documentId );
+        return packageService.getSigningStatus(packageId, signerId, documentId);
     }
 
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
@@ -265,5 +277,38 @@ public class EslClient {
 
     public ReminderService getReminderService() {
         return reminderService;
+    }
+
+    /**
+     * Create a user authentication token which is used to obtain a session for the user linked to the api key.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.UserAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForApiKeyExample}
+     * @return A single use, time limited user authentication token. This token can be used to authenticate into a session for the user linked to the api key.
+     */
+    public String createUserAuthenticationToken() {
+        return authenticationTokensService.create();
+    }
+
+    /**
+     * Create a sender authentication token which is used to obtain a signing session for that package sender.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SenderAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForPackageSenderExample}
+     * @param packageId The package for which the sender authentication token is created.
+     * @return A single use, time limited sender authentication token. This token can be used to authenticate into a sender session limited to a particular package.
+     */
+    public String createSenderAuthenticationToken(String packageId) {
+        return authenticationTokensService.create(packageId);
+    }
+
+    /**
+     * Create a signer authentication token which is used to obtain a signing session for that signer.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerExample}
+     * @param packageId The package for which the signer authentication token is created.
+     * @param signerId The signer for which the signer authentication token is created.
+     * @return A single use, time limited signer authentication token. This token can be used to authenticate into a session.
+     */
+    public String createSignerAuthenticationToken(String packageId, String signerId) {
+        return authenticationTokensService.create(packageId, signerId);
     }
 }

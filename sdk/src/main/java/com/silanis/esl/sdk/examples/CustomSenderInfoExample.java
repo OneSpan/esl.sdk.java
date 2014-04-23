@@ -2,15 +2,11 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.FieldSummary;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
-import com.silanis.esl.sdk.builder.SignerBuilder;
-
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -18,7 +14,6 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static org.joda.time.DateMidnight.now;
 
 public class CustomSenderInfoExample extends SDKSample {
 
@@ -85,7 +80,6 @@ public class CustomSenderInfoExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-        DocumentPackage retrievedPackage = eslClient.getPackage( packageId );
         eslClient.sendPackage( packageId );
     }
 }
