@@ -22,6 +22,10 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(DesignerRedirectForApiKeyExample.class.getName());
 
+    public static void main( String... args ) {
+        new DesignerRedirectForApiKeyExample( Props.get() ).run();
+    }
+
     private AuthenticationClient authenticationClient;
     private InputStream documentInputStream;
     private String generatedLinkToDesignerForApiKey;
@@ -29,13 +33,12 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
     public DesignerRedirectForApiKeyExample(Properties props) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
-              props.getProperty( "auth.url" ),
               props.getProperty( "webpage.url" ));
     }
 
-    public DesignerRedirectForApiKeyExample(String apiKey, String apiUrl, String authUrl, String webpageUrl) {
+    public DesignerRedirectForApiKeyExample(String apiKey, String apiUrl, String webpageUrl) {
         super( apiKey, apiUrl );
-        authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
+        authenticationClient = new AuthenticationClient(webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 

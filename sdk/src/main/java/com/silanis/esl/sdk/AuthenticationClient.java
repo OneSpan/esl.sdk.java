@@ -9,8 +9,8 @@ public class AuthenticationClient {
 
     private final AuthenticationService authenticationService;
 
-    public AuthenticationClient(String authUrl, String webpageUrl) {
-        authenticationService = new AuthenticationService(authUrl, webpageUrl);
+    public AuthenticationClient(String webpageUrl) {
+        authenticationService = new AuthenticationService(webpageUrl);
     }
 
     public String getSessionIdForUserAuthenticationToken(String userAuthenticationToken) {

@@ -24,6 +24,10 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(DesignerRedirectForPackageSenderExample.class.getName());
 
+    public static void main( String... args ) {
+        new DesignerRedirectForPackageSenderExample( Props.get() ).run();
+    }
+
     private AuthenticationClient authenticationClient;
     private String packageSender;
     private InputStream documentInputStream;
@@ -32,14 +36,13 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
     public DesignerRedirectForPackageSenderExample( Properties props ) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
-              props.getProperty( "auth.url" ),
               props.getProperty( "webpage.url" ),
               props.getProperty( "1.email" ));
     }
 
-    public DesignerRedirectForPackageSenderExample( String apiKey, String apiUrl, String authUrl, String webpageUrl, String packageSender ) {
+    public DesignerRedirectForPackageSenderExample( String apiKey, String apiUrl, String webpageUrl, String packageSender ) {
         super( apiKey, apiUrl );
-        authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
+        authenticationClient = new AuthenticationClient(webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         this.packageSender = packageSender;
     }

@@ -14,17 +14,17 @@ import java.net.URLEncoder;
 public class AuthenticationService {
 
     private final UnauthenticatedRestClient client;
-    private final String webpageUrl;
-    private UrlTemplate template;
+    private UrlTemplate authenticationUrlTemplate;
+    private UrlTemplate redirectUrlTemplate;
 
-    public AuthenticationService(String authUrl, String webpageUrl) {
+    public AuthenticationService(String webpageUrl) {
         client = new UnauthenticatedRestClient();
-        template = new UrlTemplate(authUrl);
-        this.webpageUrl = webpageUrl;
+        authenticationUrlTemplate = new UrlTemplate(webpageUrl + UrlTemplate.ESL_AUTHENTICATION_PATH);
+        redirectUrlTemplate = new UrlTemplate(webpageUrl);
     }
 
     public String getSessionIdForUserAuthenticationToken(String userAuthenticationToken) {
-        String path = template.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN).replace("{authenticationToken}", userAuthenticationToken).build();
+        String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN).replace("{authenticationToken}", userAuthenticationToken).build();
         try {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);
@@ -36,11 +36,11 @@ public class AuthenticationService {
 
     public String buildRedirectToDesignerForUserAuthenticationToken(String userAuthenticationToken, String packageId) {
         try {
-            final String redirectPath = new UrlTemplate(webpageUrl).urlFor(UrlTemplate.DESIGNER_REDIRECT_PATH)
+            final String redirectPath = redirectUrlTemplate.urlFor(UrlTemplate.DESIGNER_REDIRECT_PATH)
                     .replace("{packageId}", packageId)
                     .build();
             final String encodedRedirectPath = URLEncoder.encode(redirectPath, RestClient.CHARSET_UTF_8);
-            String path = template.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
+            String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
                     .replace("{authenticationToken}", userAuthenticationToken)
                     .replace("{redirectUrl}", encodedRedirectPath)
 
@@ -52,7 +52,7 @@ public class AuthenticationService {
     }
 
     public String getSessionIdForSenderAuthenticationToken(String senderAuthenticationToken) {
-        String path = template.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN).replace("{senderAuthenticationToken}", senderAuthenticationToken).build();
+        String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN).replace("{senderAuthenticationToken}", senderAuthenticationToken).build();
         try {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);
@@ -64,11 +64,11 @@ public class AuthenticationService {
 
     public String buildRedirectToDesignerForSender(String senderAuthenticationToken, String packageId) {
         try {
-            final String redirectPath = new UrlTemplate(webpageUrl).urlFor(UrlTemplate.DESIGNER_REDIRECT_PATH)
+            final String redirectPath = redirectUrlTemplate.urlFor(UrlTemplate.DESIGNER_REDIRECT_PATH)
                     .replace("{packageId}", packageId)
                     .build();
             final String encodedRedirectPath = URLEncoder.encode(redirectPath, RestClient.CHARSET_UTF_8);
-            String path = template.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
+            String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
                     .replace("{senderAuthenticationToken}", senderAuthenticationToken)
                     .replace("{redirectUrl}", encodedRedirectPath)
 
@@ -80,7 +80,7 @@ public class AuthenticationService {
     }
 
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {
-        String path = template.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN).replace("{signerAuthenticationToken}", signerAuthenticationToken).build();
+        String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN).replace("{signerAuthenticationToken}", signerAuthenticationToken).build();
         try {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);
@@ -92,11 +92,11 @@ public class AuthenticationService {
 
     public String buildRedirectToSigningForSigner(String signerAuthenticationToken, String packageId) {
         try {
-            final String redirectPath = new UrlTemplate(webpageUrl).urlFor(UrlTemplate.SIGNING_REDIRECT_PATH)
+            final String redirectPath = redirectUrlTemplate.urlFor(UrlTemplate.SIGNING_REDIRECT_PATH)
                     .replace("{packageId}", packageId)
                     .build();
             final String encodedRedirectPath = URLEncoder.encode(redirectPath, RestClient.CHARSET_UTF_8);
-            String path = template.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
+            String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
                     .replace("{signerAuthenticationToken}", signerAuthenticationToken)
                     .replace("{redirectUrl}", encodedRedirectPath)
                     .build();

@@ -20,6 +20,10 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SenderAuthenticationTokenExample extends SDKSample {
 
+    public static void main( String... args ) {
+        new SenderAuthenticationTokenExample( Props.get() ).run();
+    }
+
     private AuthenticationClient authenticationClient;
     private String email1;
     private final InputStream documentInputStream;
@@ -28,14 +32,13 @@ public class SenderAuthenticationTokenExample extends SDKSample {
     public SenderAuthenticationTokenExample(Properties props) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
-              props.getProperty( "auth.url" ),
               props.getProperty( "webpage.url" ),
               props.getProperty( "1.email" ));
     }
 
-    public SenderAuthenticationTokenExample(String apiKey, String apiUrl, String authUrl, String webpageUrl, String email1) {
+    public SenderAuthenticationTokenExample(String apiKey, String apiUrl, String webpageUrl, String email1) {
         super( apiKey, apiUrl);
-        authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
+        authenticationClient = new AuthenticationClient(webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         this.email1 = email1;
     }

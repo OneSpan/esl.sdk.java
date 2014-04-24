@@ -37,6 +37,7 @@ public class UrlTemplate {
     public static final String SENDER_SESSION_PATH = "/sessions";
 
     //Authentication Token Services
+    public static final String ESL_AUTHENTICATION_PATH= "/auth";
     public static final String USER_AUTHENTICATION_TOKEN_PATH = "/authenticationTokens";
     public static final String AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN = "?authenticationToken={authenticationToken}";
     public static final String AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN_WITH_REDIRECT = "?authenticationToken={authenticationToken}&target={redirectUrl}";

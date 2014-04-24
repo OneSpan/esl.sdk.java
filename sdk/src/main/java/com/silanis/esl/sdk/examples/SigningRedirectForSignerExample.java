@@ -25,6 +25,10 @@ public class SigningRedirectForSignerExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(SigningRedirectForSignerExample.class.getName());
 
+    public static void main( String... args ) {
+        new SigningRedirectForSignerExample( Props.get() ).run();
+    }
+
     private AuthenticationClient authenticationClient;
     private String signerEmail;
     private InputStream documentInputStream;
@@ -34,14 +38,13 @@ public class SigningRedirectForSignerExample extends SDKSample {
     public SigningRedirectForSignerExample(Properties props) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
-              props.getProperty( "auth.url" ),
               props.getProperty( "webpage.url" ),
               props.getProperty( "1.email" ) );
     }
 
-    public SigningRedirectForSignerExample(String apiKey, String apiUrl, String authUrl, String webpageUrl, String signerEmail) {
+    public SigningRedirectForSignerExample(String apiKey, String apiUrl, String webpageUrl, String signerEmail) {
         super( apiKey, apiUrl );
-        authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
+        authenticationClient = new AuthenticationClient(webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         this.signerEmail = signerEmail;
     }

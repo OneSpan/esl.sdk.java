@@ -11,20 +11,24 @@ import java.util.Properties;
  */
 public class UserAuthenticationTokenExample extends SDKSample {
 
+    public static void main( String... args ) {
+        new UserAuthenticationTokenExample( Props.get() ).run();
+    }
+
+
     private AuthenticationClient authenticationClient;
     private String sessionIdForUser;
 
     public UserAuthenticationTokenExample(Properties props) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
-              props.getProperty( "auth.url" ),
               props.getProperty( "webpage.url" )
         );
     }
 
-    public UserAuthenticationTokenExample(String apiKey, String apiUrl, String authUrl, String webpageUrl) {
+    public UserAuthenticationTokenExample(String apiKey, String apiUrl, String webpageUrl) {
         super( apiKey, apiUrl);
-        authenticationClient = new AuthenticationClient(authUrl, webpageUrl);
+        authenticationClient = new AuthenticationClient(webpageUrl);
     }
 
     @Override
