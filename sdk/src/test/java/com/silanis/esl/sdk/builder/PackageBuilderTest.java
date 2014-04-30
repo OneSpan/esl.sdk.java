@@ -2,6 +2,9 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.VersionUtil;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -12,9 +15,7 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 public class PackageBuilderTest {
 
@@ -43,19 +44,14 @@ public class PackageBuilderTest {
     @Test
     public void buildWithDefaultValues(){
         DocumentPackage documentPackage = newPackageNamed("testing package")
-                .withSigner( newSignerWithEmail( "test@test.com" )
-                        .withFirstName( "test" )
-                        .withLastName( "test" )
-                        .build() )
-                .withDocument( newDocumentWithName( "document" )
-                        .fromStream( new ByteArrayInputStream( new byte[ 0 ] ), DocumentType.PDF )
-                        .build() )
-                .withAttributes( newDocumentPackageAttributes()
-                        .withAttribute( "age", "29" )
-                        .withAttribute( "name", "first name" )
-                        .build() )
+                .withSigner(newSignerWithEmail("test@test.com")
+                        .withFirstName("test")
+                        .withLastName("test")
+                        .build())
+                .withDocument(newDocumentWithName("document")
+                        .fromStream(new ByteArrayInputStream(new byte[0]), DocumentType.PDF)
+                        .build())
                 .build();
-
 
         assertThat( documentPackage.getAutocomplete(), is( true ) );
     }

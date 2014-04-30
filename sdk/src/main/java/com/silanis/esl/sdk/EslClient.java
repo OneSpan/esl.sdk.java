@@ -15,6 +15,8 @@ import com.silanis.esl.sdk.service.GroupService;
 import com.silanis.esl.sdk.service.PackageService;
 import com.silanis.esl.sdk.service.ReminderService;
 import com.silanis.esl.sdk.service.SessionService;
+
+import javax.print.Doc;
 import java.util.List;
 
 /**
@@ -125,6 +127,12 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackage(DocumentPackage documentPackage) {
+
+
+        if(!isSdkVersionSet(documentPackage)){
+            setSdkVersion(documentPackage);
+        }
+
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
         DocumentPackage retrievedPackage = getPackage( id );
@@ -134,6 +142,25 @@ public class EslClient {
         }
 
         return id;
+    }
+
+    private void setSdkVersion(DocumentPackage documentPackage) {
+
+        DocumentPackageAttributes attributes = documentPackage.getAttributes();
+        if (attributes == null) {
+            attributes = new DocumentPackageAttributes();
+        }
+
+        attributes.append("sdk", "Java v" + VersionUtil.getVersion());
+        documentPackage.setAttributes(attributes);
+    }
+
+    private boolean isSdkVersionSet(DocumentPackage documentPackage) {
+        if (documentPackage.getAttributes() == null) {
+            return false;
+        }
+
+        return documentPackage.getAttributes().getContents().containsKey("sdk");
     }
 
     /**

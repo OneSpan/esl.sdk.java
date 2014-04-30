@@ -116,7 +116,7 @@ public class PackageBuilder {
         documentPackage.setId( id );
         documentPackage.setStatus( status );
         documentPackage.setSenderInfo( senderInfo );
-        documentPackage.setAttributes( attributes );
+        documentPackage.setAttributes(attributes);
 
         if ( language != null ) {
             documentPackage.setLanguage( language );

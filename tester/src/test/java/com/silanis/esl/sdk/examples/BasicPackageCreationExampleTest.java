@@ -1,10 +1,15 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+import java.io.*;
 import java.util.Iterator;
 
 import static org.joda.time.DateMidnight.now;
@@ -32,6 +37,12 @@ public class BasicPackageCreationExampleTest {
         assertThat( "Package description was not set correctly.", documentPackage.getDescription(), is( "This is a package created using the e-SignLive SDK" ) );
         assertThat( "Package expiry date was not set correctly.", documentPackage.getExpiryDate(), is( now().plusMonths( 1 ).toDate() ) );
         assertThat( "Package message was not set correctly.", documentPackage.getPackageMessage(), is( "This message should be delivered to all signers" ) );
+
+        // Verify if the sdk version is set correctly
+        assertThat("Package attributes are null", documentPackage.getAttributes(), is(notNullValue()));
+        assertThat("Package attributes are empty", documentPackage.getAttributes().getContents(), is(notNullValue()));
+        assertThat("SDK version was not set", documentPackage.getAttributes().toMap().containsKey("sdk"), is(true) );
+        assertThat("SDK version was not set to the correct value", documentPackage.getAttributes().toMap().get("sdk").toString(), is(equalTo("Java v" + VersionUtil.getVersion()) ) );
 
         // Signer 1
         Signer signer = documentPackage.getSigner(basicPackageCreationExample.email1);
@@ -81,5 +92,6 @@ public class BasicPackageCreationExampleTest {
             assertThat( "Signature page was not set correctly for Second Document.", signature.getPage(), is( 0 ) );
         }
 
-    }    
+    }
+
 }
