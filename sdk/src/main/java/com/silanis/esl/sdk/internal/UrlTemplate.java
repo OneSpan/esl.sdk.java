@@ -23,6 +23,12 @@ public class UrlTemplate {
     public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
+    // Signer Service
+    public static final String GET_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";
+    public static final String UPDATE_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String REMOVE_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
+
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";
 

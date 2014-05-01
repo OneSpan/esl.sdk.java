@@ -1,6 +1,9 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.sdk.Authentication;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.builder.SignerBuilder;
@@ -118,5 +121,38 @@ public class SignerConverter {
         signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
 
         return signerBuilder.build();
-    }    
+    }
+
+    /**
+     * Convert SDK signer to API role
+     *
+     * @param roleIdName
+     * @return an API Role object
+     */
+    public Role toAPIRole(String roleIdName){
+        Role role = new Role();
+
+        role.setIndex(sdkSigner.getSigningOrder());
+        role.setReassign(sdkSigner.canChangeSigner());
+
+        role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
+
+        if(sdkSigner.getId() == null || sdkSigner.getId().isEmpty()){
+            role.setId(roleIdName);
+            role.setName(roleIdName);
+        }
+        else{
+            role.setId(sdkSigner.getId());
+            role.setName(sdkSigner.getId());
+        }
+
+        if(!(sdkSigner.getMessage() == null || sdkSigner.getMessage().isEmpty())){
+            BaseMessage message = new BaseMessage();
+
+            message.setContent(sdkSigner.getMessage());
+            role.setEmailMessage(message);
+        }
+
+        return role;
+    }
 }
