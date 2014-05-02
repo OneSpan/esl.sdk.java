@@ -528,13 +528,12 @@ public class PackageService {
         }
     }
 
-    public String AddSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
+    public String addSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
         String path = template.urlFor(UrlTemplate.ADD_SIGNER_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
-
 
         try {
             String json = Serialization.toJson(apiPayload);
@@ -544,6 +543,35 @@ public class PackageService {
 
         } catch (Exception e) {
             throw new EslException("Could not add signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    public void removeSigner(PackageId packageId, String signerId) {
+        String path = template.urlFor(UrlTemplate.SIGNER_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signerId)
+                .build();
+        try {
+            client.delete(path);
+            return;
+        } catch (Exception e) {
+            throw new EslException("Could not delete signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    public void updateSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer){
+        Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
+
+        String path = template.urlFor(UrlTemplate.SIGNER_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signer.getId())
+                .build();
+
+        try {
+            String json = Serialization.toJson(apiPayload);
+            client.put(path, json);
+        } catch (Exception e) {
+            throw new EslException("Could not update signer." + " Exception: " + e.getMessage());
         }
     }
 }
