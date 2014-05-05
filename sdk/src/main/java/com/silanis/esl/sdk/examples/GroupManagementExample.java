@@ -17,9 +17,6 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 
 public class GroupManagementExample extends SDKSample {
     private String email1;
-    private String email2;
-    private String email3;
-    private String email4;
     private InputStream documentInputStream1;
 
     public static void main( String... args ) {
@@ -29,18 +26,12 @@ public class GroupManagementExample extends SDKSample {
     public GroupManagementExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
-                props.getProperty( "2.email" ),
-                props.getProperty( "3.email" ),
-                props.getProperty( "4.email" ));
+                props.getProperty( "1.email" ));
     }
 
-    public GroupManagementExample( String apiKey, String apiUrl, String email1, String email2, String email3, String email4 ) {
+    public GroupManagementExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        this.email4 = email4;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
@@ -80,6 +71,10 @@ public class GroupManagementExample extends SDKSample {
     }
 
     public void execute() {
+
+        String email2 = getRandomEmail();
+        String email3 = getRandomEmail();
+        String email4 = getRandomEmail();
 
         // Since the user needs to already exist in the system, we invite all the emails we plan on using
         inviteAccountMember( email1 );
@@ -143,4 +138,9 @@ public class GroupManagementExample extends SDKSample {
 
         DocumentPackage result = eslClient.getPackage( packageId );
     }
+
+    private String getRandomEmail() {
+        return UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
+    }
+
 }
