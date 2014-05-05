@@ -14,9 +14,9 @@ public class PackageBuilder {
     private final Map<String, Signer> signers = new HashMap<String, Signer>();
     private Map<String, Document> documents = new HashMap<String, Document>();
     private boolean autocomplete = true;
-    private String description = "";
+    private String description = null;
     private Date expiryDate;
-    private String packageMessage = "";
+    private String packageMessage = null;
     private PackageId id;
     private PackageStatus status;
     private DocumentPackageSettings settings;
@@ -110,9 +110,7 @@ public class PackageBuilder {
     public DocumentPackage build() {
         DocumentPackage documentPackage = new DocumentPackage( packageName, signers, documents, autocomplete );
 
-        documentPackage.setDescription( description );
         documentPackage.setExpiryDate( expiryDate );
-        documentPackage.setPackageMessage( packageMessage );
         documentPackage.setId( id );
         documentPackage.setStatus( status );
         documentPackage.setSenderInfo( senderInfo );
@@ -124,6 +122,14 @@ public class PackageBuilder {
 
         if ( settings != null ) {
             documentPackage.setSettings( settings );
+        }
+
+        if ( description != null ) {
+            documentPackage.setDescription(description);
+        }
+
+        if ( packageMessage != null ) {
+            documentPackage.setPackageMessage(packageMessage);
         }
 
         // The sender should not be one of the signers.

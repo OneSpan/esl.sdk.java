@@ -125,6 +125,8 @@ public class DocumentPackageConverterTest implements ConverterTest {
     private com.silanis.esl.sdk.DocumentPackage createTypicalSDKDocumentPackage() {
         com.silanis.esl.sdk.DocumentPackage sdkDocumentPackage = PackageBuilder.newPackageNamed("SDK Package Name")
                 .withStatus(PackageStatus.DRAFT)
+                .describedAs( "typical description")
+                .withEmailMessage("typical email message")
                 .withEmailMessage("Email message")
                 .withLanguage(Locale.CANADA)
                 .build();

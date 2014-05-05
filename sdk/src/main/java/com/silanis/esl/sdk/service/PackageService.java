@@ -10,6 +10,7 @@ import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
@@ -17,7 +18,9 @@ import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
 
+import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -40,7 +43,7 @@ public class PackageService {
      * @return PackageId
      * @throws com.silanis.esl.sdk.EslException
      */
-    public PackageId createApiPackage(Package aPackage) throws EslException {
+    public PackageId createPackage(Package aPackage) throws EslException {
         String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
                 .build();
         String packageJson = Serialization.toJson(aPackage);
@@ -54,47 +57,6 @@ public class PackageService {
         }
     }
 
-    public PackageId createPackage(DocumentPackage documentPackage) {
-        if(!isSdkVersionSet(documentPackage)){
-            setSdkVersion(documentPackage);
-        }
-
-        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        PackageId id = createApiPackage(apiPackage);
-        DocumentPackage retrievedPackage = getPackage( id );
-
-        for (com.silanis.esl.sdk.Document document : documentPackage.getDocuments()) {
-            uploadDocument( id, document.getFileName(), document.getContent(), document, retrievedPackage );
-        }
-
-        return id;
-    }
-
-    private void setSdkVersion(DocumentPackage documentPackage) {
-
-        DocumentPackageAttributes attributes = documentPackage.getAttributes();
-        if (attributes == null) {
-            attributes = new DocumentPackageAttributes();
-        }
-
-        attributes.append("sdk", "Java v" + VersionUtil.getVersion());
-        documentPackage.setAttributes(attributes);
-    }
-
-    private boolean isSdkVersionSet(DocumentPackage documentPackage) {
-        if (documentPackage.getAttributes() == null) {
-            return false;
-        }
-
-        return documentPackage.getAttributes().getContents().containsKey("sdk");
-    }
-
-
-    public PackageId createPackageFromTemplate(PackageId packageId, DocumentPackage documentPackage ) {
-        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        return createApiPackageFromTemplate(packageId.getId(), apiPackage);
-    }
-
     /**
      * Create a new package based on an existing template.
      *
@@ -102,9 +64,9 @@ public class PackageService {
      * @param aPackage
      * @return PackageId
      */
-    public PackageId createApiPackageFromTemplate(String packageId, Package aPackage) {
+    public PackageId createPackageFromTemplate(PackageId packageId, Package aPackage) {
         String path = template.urlFor(UrlTemplate.TEMPLATE_PATH)
-                .replace("{packageId}", packageId)
+                .replace("{packageId}", packageId.getId())
                 .build();
 
         List<Role> roles = aPackage.getRoles();
@@ -156,15 +118,17 @@ public class PackageService {
      * Updates the package's fields and roles.
      *
      * @param packageId
-     * @param aPackage
+     * @param sdkPackage
      * @throws EslException
      */
-    public void updatePackage(PackageId packageId, Package aPackage) throws EslException {
-        String path = template.urlFor(UrlTemplate.PACKAGE_ID_PATH)
-                .replace("{packageId}", packageId.getId())
+    public void updatePackage( PackageId packageId, DocumentPackage sdkPackage ) throws EslException {
+        String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
+                .replace( "{packageId}", packageId.getId() )
                 .build();
 
-        String packageJson = Serialization.toJson(aPackage);
+        Package aPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
+
+        String packageJson = Serialization.toJson( aPackage );
         try {
             client.post(path, packageJson);
         } catch (Exception e) {

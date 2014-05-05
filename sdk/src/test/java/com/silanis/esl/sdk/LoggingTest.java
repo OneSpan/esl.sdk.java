@@ -73,10 +73,9 @@ public class LoggingTest {
         PackageId id = eslClient.createPackage( superDuperPackage );
 
         PackageService packageService = eslClient.getPackageService();
-        Package aPackage = packageService.getApiPackage(id.getId());
-        aPackage.setDescription("checking change");
-        packageService.updatePackage(id, aPackage);
-
+        DocumentPackage sdkPackage = packageService.getPackage(id);
+        sdkPackage.setDescription("checking change");
+        packageService.updatePackage(id, sdkPackage);
     }
 
 

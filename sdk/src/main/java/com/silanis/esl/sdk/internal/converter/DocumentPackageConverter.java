@@ -48,10 +48,17 @@ public class DocumentPackageConverter {
 
         com.silanis.esl.api.model.Package apiPackageToCreate = new com.silanis.esl.api.model.Package()
                 .setName(sdkPackage.getName())
-                .setDue( sdkPackage.getExpiryDate() )
-                .setEmailMessage( sdkPackage.getPackageMessage() )
-                .setDescription(sdkPackage.getDescription())
+                .setDue(sdkPackage.getExpiryDate())
                 .setAutocomplete(sdkPackage.getAutocomplete());
+
+
+        if ( sdkPackage.getDescription() != null && !sdkPackage.getDescription().isEmpty() ) {
+            apiPackageToCreate.setDescription(sdkPackage.getDescription());
+        }
+
+        if ( sdkPackage.getPackageMessage() != null && !sdkPackage.getPackageMessage().isEmpty() ) {
+            apiPackageToCreate.setEmailMessage(sdkPackage.getPackageMessage());
+        }
 
         if ( sdkPackage.getAttributes() != null ) {
             apiPackageToCreate.setData(sdkPackage.getAttributes().toMap());
@@ -103,12 +110,18 @@ public class DocumentPackageConverter {
 
         PackageBuilder packageBuilder = PackageBuilder.newPackageNamed(apiPackage.getName());
 
-        packageBuilder.withID(new PackageId( apiPackage.getId() ));
-        packageBuilder.autocomplete( apiPackage.evalAutocomplete());
-        packageBuilder.describedAs( apiPackage.getDescription());
+        packageBuilder.withID(new PackageId(apiPackage.getId()));
+        packageBuilder.autocomplete(apiPackage.evalAutocomplete());
         packageBuilder.expiresAt( apiPackage.getDue());
         packageBuilder.withStatus( apiPackage.getStatus());
-        packageBuilder.withEmailMessage( apiPackage.getEmailMessage());
+
+        if (apiPackage.getDescription() != null) {
+            packageBuilder.describedAs(apiPackage.getDescription());
+        }
+
+        if (apiPackage.getEmailMessage() != null) {
+            packageBuilder.withEmailMessage(apiPackage.getEmailMessage());
+        }
 
         if (apiPackage.getLanguage() != null) {
             packageBuilder.withLanguage(new Locale(apiPackage.getLanguage()));

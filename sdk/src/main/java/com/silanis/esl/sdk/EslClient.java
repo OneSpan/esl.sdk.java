@@ -1,7 +1,11 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.model.Package;
+import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.AccountService;
 import com.silanis.esl.sdk.service.AuditService;
 import com.silanis.esl.sdk.service.AuthenticationTokensService;
@@ -12,7 +16,9 @@ import com.silanis.esl.sdk.service.GroupService;
 import com.silanis.esl.sdk.service.PackageService;
 import com.silanis.esl.sdk.service.ReminderService;
 import com.silanis.esl.sdk.service.SessionService;
+import com.silanis.esl.sdk.service.TemplateService;
 
+import javax.print.Doc;
 import java.util.List;
 
 /**
@@ -35,6 +41,7 @@ public class EslClient {
     private CustomFieldService customFieldService;
     private AccountService accountService;
     private ReminderService reminderService;
+    private TemplateService templateService;
 
     /**
      * The constructor of the EslClient class
@@ -57,6 +64,7 @@ public class EslClient {
         customFieldService = new CustomFieldService( client, this.baseURL );
         accountService = new AccountService( client, this.baseURL );
         reminderService = new ReminderService( client, this.baseURL );
+        templateService = new TemplateService(client, this.baseURL, packageService);
     }
 
     /**
@@ -123,7 +131,40 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackage(DocumentPackage documentPackage) {
-        return packageService.createPackage(documentPackage);
+
+
+        if(!isSdkVersionSet(documentPackage)){
+            setSdkVersion(documentPackage);
+        }
+
+        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        PackageId id = packageService.createPackage(packageToCreate);
+        DocumentPackage retrievedPackage = getPackage( id );
+
+        for (Document document : documentPackage.getDocuments()) {
+            uploadDocument( document, retrievedPackage );
+        }
+
+        return id;
+    }
+
+    private void setSdkVersion(DocumentPackage documentPackage) {
+
+        DocumentPackageAttributes attributes = documentPackage.getAttributes();
+        if (attributes == null) {
+            attributes = new DocumentPackageAttributes();
+        }
+
+        attributes.append("sdk", "Java v" + VersionUtil.getVersion());
+        documentPackage.setAttributes(attributes);
+    }
+
+    private boolean isSdkVersionSet(DocumentPackage documentPackage) {
+        if (documentPackage.getAttributes() == null) {
+            return false;
+        }
+
+        return documentPackage.getAttributes().getContents().containsKey("sdk");
     }
 
     /**
@@ -146,7 +187,8 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
-        return packageService.createPackageFromTemplate( packageId, documentPackage );
+        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        return packageService.createPackageFromTemplate( packageId, packageToCreate );
     }
 
     /**
@@ -245,7 +287,7 @@ public class EslClient {
     }
 
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
-        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, document, documentPackage );
+        packageService.uploadDocument(documentPackage.getId(), fileName, fileContent, document, documentPackage);
     }
 
     public void uploadDocument( Document document, DocumentPackage documentPackage ) {
@@ -262,6 +304,10 @@ public class EslClient {
 
     public ReminderService getReminderService() {
         return reminderService;
+    }
+
+    public TemplateService getTemplateService() {
+        return templateService;
     }
 
     /**
