@@ -10,16 +10,14 @@ import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
 
-import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -42,7 +40,7 @@ public class PackageService {
      * @return PackageId
      * @throws com.silanis.esl.sdk.EslException
      */
-    public PackageId createPackage(Package aPackage) throws EslException {
+    public PackageId createApiPackage(Package aPackage) throws EslException {
         String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
                 .build();
         String packageJson = Serialization.toJson(aPackage);
@@ -56,6 +54,47 @@ public class PackageService {
         }
     }
 
+    public PackageId createPackage(DocumentPackage documentPackage) {
+        if(!isSdkVersionSet(documentPackage)){
+            setSdkVersion(documentPackage);
+        }
+
+        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        PackageId id = createApiPackage(apiPackage);
+        DocumentPackage retrievedPackage = getPackage( id );
+
+        for (com.silanis.esl.sdk.Document document : documentPackage.getDocuments()) {
+            uploadDocument( id, document.getFileName(), document.getContent(), document, retrievedPackage );
+        }
+
+        return id;
+    }
+
+    private void setSdkVersion(DocumentPackage documentPackage) {
+
+        DocumentPackageAttributes attributes = documentPackage.getAttributes();
+        if (attributes == null) {
+            attributes = new DocumentPackageAttributes();
+        }
+
+        attributes.append("sdk", "Java v" + VersionUtil.getVersion());
+        documentPackage.setAttributes(attributes);
+    }
+
+    private boolean isSdkVersionSet(DocumentPackage documentPackage) {
+        if (documentPackage.getAttributes() == null) {
+            return false;
+        }
+
+        return documentPackage.getAttributes().getContents().containsKey("sdk");
+    }
+
+
+    public PackageId createPackageFromTemplate(PackageId packageId, DocumentPackage documentPackage ) {
+        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        return createApiPackageFromTemplate(packageId.getId(), apiPackage);
+    }
+
     /**
      * Create a new package based on an existing template.
      *
@@ -63,9 +102,9 @@ public class PackageService {
      * @param aPackage
      * @return PackageId
      */
-    public PackageId createPackageFromTemplate(PackageId packageId, Package aPackage) {
+    public PackageId createApiPackageFromTemplate(String packageId, Package aPackage) {
         String path = template.urlFor(UrlTemplate.TEMPLATE_PATH)
-                .replace("{packageId}", packageId.getId())
+                .replace("{packageId}", packageId)
                 .build();
 
         List<Role> roles = aPackage.getRoles();
@@ -83,7 +122,7 @@ public class PackageService {
             throw new EslException("Could not create a new package", e);
         }
 
-        Package createdPackage = getPackage(newPackageId);
+        Package createdPackage = getApiPackage(newPackageId.getId());
 
         for (Role role : roles) {
             String roleUid = findRoleUidByName(createdPackage.getRoles(), role.getName());
@@ -138,6 +177,12 @@ public class PackageService {
         }
     }
 
+    public DocumentPackage getPackage(PackageId packageId) {
+        Package aPackage = getApiPackage(packageId.getId());
+
+        return new DocumentPackageConverter(aPackage).toSDKPackage();
+    }
+
     /**
      * Gets the package.
      *
@@ -145,9 +190,9 @@ public class PackageService {
      * @return Package
      * @throws EslException
      */
-    public Package getPackage(PackageId packageId) throws EslException {
+    public Package getApiPackage(String packageId) throws EslException {
         String path = template.urlFor(UrlTemplate.PACKAGE_ID_PATH)
-                .replace("{packageId}", packageId.getId())
+                .replace("{packageId}", packageId)
                 .build();
         String stringResponse;
         try {
@@ -168,13 +213,19 @@ public class PackageService {
      * @param document  The document with approvals and fields
      * @throws EslException
      */
-    public void uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, Document document) throws EslException {
+    public void uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document, DocumentPackage documentPackage) throws EslException {
+        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        Document apiDocument = new DocumentConverter(document).toAPIDocument(apiPackage);
+
+        uploadApiDocument(packageId.getId(), fileName, fileBytes, apiDocument);
+    }
+
+    public void uploadApiDocument( String packageId, String fileName, byte[] fileBytes, Document document ) {
         String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
-                .replace("{packageId}", packageId.getId())
+                .replace("{packageId}", packageId)
                 .build();
 
         String documentJson = Serialization.toJson(document);
-
 
         try {
             client.postMultipartFile(path, fileName, fileBytes, documentJson);
@@ -574,4 +625,6 @@ public class PackageService {
             throw new EslException("Could not update signer." + " Exception: " + e.getMessage());
         }
     }
+
+
 }

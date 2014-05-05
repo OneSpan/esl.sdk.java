@@ -1,10 +1,7 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.AccountService;
 import com.silanis.esl.sdk.service.AuditService;
 import com.silanis.esl.sdk.service.AuthenticationTokensService;
@@ -16,7 +13,6 @@ import com.silanis.esl.sdk.service.PackageService;
 import com.silanis.esl.sdk.service.ReminderService;
 import com.silanis.esl.sdk.service.SessionService;
 
-import javax.print.Doc;
 import java.util.List;
 
 /**
@@ -127,40 +123,7 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackage(DocumentPackage documentPackage) {
-
-
-        if(!isSdkVersionSet(documentPackage)){
-            setSdkVersion(documentPackage);
-        }
-
-        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        PackageId id = packageService.createPackage(packageToCreate);
-        DocumentPackage retrievedPackage = getPackage( id );
-
-        for (Document document : documentPackage.getDocuments()) {
-            uploadDocument( document, retrievedPackage );
-        }
-
-        return id;
-    }
-
-    private void setSdkVersion(DocumentPackage documentPackage) {
-
-        DocumentPackageAttributes attributes = documentPackage.getAttributes();
-        if (attributes == null) {
-            attributes = new DocumentPackageAttributes();
-        }
-
-        attributes.append("sdk", "Java v" + VersionUtil.getVersion());
-        documentPackage.setAttributes(attributes);
-    }
-
-    private boolean isSdkVersionSet(DocumentPackage documentPackage) {
-        if (documentPackage.getAttributes() == null) {
-            return false;
-        }
-
-        return documentPackage.getAttributes().getContents().containsKey("sdk");
+        return packageService.createPackage(documentPackage);
     }
 
     /**
@@ -183,8 +146,7 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
-        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        return packageService.createPackageFromTemplate( packageId, packageToCreate );
+        return packageService.createPackageFromTemplate( packageId, documentPackage );
     }
 
     /**
@@ -243,14 +205,11 @@ public class EslClient {
     }
 
     /**
-     * TODO: NOT IMPLEMENTED
      * @param packageId The document package identifier
      * @return the document package with the given packageId
      */
     public DocumentPackage getPackage( PackageId packageId ) {
-        Package aPackage = packageService.getPackage( packageId );
-
-        return new DocumentPackageConverter(aPackage).toSDKPackage();
+        return packageService.getPackage( packageId );
     }
 
     /**
@@ -286,8 +245,7 @@ public class EslClient {
     }
 
     public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
-        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, new DocumentConverter(document).toAPIDocument(apiPackage) );
+        packageService.uploadDocument( documentPackage.getId(), fileName, fileContent, document, documentPackage );
     }
 
     public void uploadDocument( Document document, DocumentPackage documentPackage ) {

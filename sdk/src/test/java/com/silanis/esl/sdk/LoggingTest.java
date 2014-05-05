@@ -73,7 +73,7 @@ public class LoggingTest {
         PackageId id = eslClient.createPackage( superDuperPackage );
 
         PackageService packageService = eslClient.getPackageService();
-        Package aPackage = packageService.getPackage(id);
+        Package aPackage = packageService.getApiPackage(id.getId());
         aPackage.setDescription("checking change");
         packageService.updatePackage(id, aPackage);
 
