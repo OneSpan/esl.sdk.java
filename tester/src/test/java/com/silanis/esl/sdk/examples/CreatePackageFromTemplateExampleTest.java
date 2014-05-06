@@ -36,9 +36,9 @@ public class CreatePackageFromTemplateExampleTest {
         assertThat("Package signer 2 last name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail2()).getLastName(), is(example.PACKAGE_SIGNER2_LAST));
 
         //TODO: Make sure that this is correctly preserved.
-//        assertThat("Package settings.inPerson", retrievedPackage.getSettings().getEnableInPerson(), is(false));
-        assertThat("Package settings.", retrievedPackage.getSettings().getEnableDecline(), is(false));
-        assertThat("Package settings.", retrievedPackage.getSettings().getEnableOptOut(), is(false));
-        assertThat("Package settings.", retrievedPackage.getSettings().getHideWatermark(), is(false));
+//        assertThat("Package settings.inPerson incorrectly returned.", retrievedPackage.getSettings().getEnableInPerson(), is(false));
+        assertThat("Package settings.enableDecline is incorrectly returned.", retrievedPackage.getSettings().getEnableDecline(), is(false));
+        assertThat("Package settings.enableOptOut incorrectly returned.", retrievedPackage.getSettings().getEnableOptOut(), is(false));
+        assertThat("Package settings.hideWatermark incorrectly returned.", retrievedPackage.getSettings().getHideWatermark(), is(false));
     }
 }
