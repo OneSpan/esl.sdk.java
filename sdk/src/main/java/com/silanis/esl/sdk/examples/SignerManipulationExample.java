@@ -22,8 +22,13 @@ public class SignerManipulationExample extends SDKSample {
     public final String email1;
     public final String email2;
     public final String email3;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
+
+    public DocumentPackage createdPackage;
+    public DocumentPackage createdPackageWithAddedSigner;
+    public DocumentPackage createdPackageWithRemovedSigner;
+    public DocumentPackage createdPackageWithUpdatedSigner;
+
+    private InputStream documentInputStream;
 
     public static void main(String... args) {
         new SignerManipulationExample(Props.get()).run();
@@ -42,8 +47,7 @@ public class SignerManipulationExample extends SDKSample {
         this.email1 = email1;
         this.email2 = email2;
         this.email3 = email3;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
     @Override
@@ -58,7 +62,7 @@ public class SignerManipulationExample extends SDKSample {
                         .withLastName("lastName2")
                         .withTitle("Title2"))
                 .withDocument(newDocumentWithName("First Document")
-                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .fromStream(documentInputStream, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(500, 100))
@@ -69,7 +73,7 @@ public class SignerManipulationExample extends SDKSample {
 
         packageId = eslClient.createPackage(superDuperPackage);
 
-        DocumentPackage createdPackage = eslClient.getPackage(packageId);
+        createdPackage = eslClient.getPackage(packageId);
 
         String signerId = createdPackage.getSigners().get(email1).getId();
         String signer2Id = createdPackage.getSigners().get(email2).getId();
@@ -80,14 +84,14 @@ public class SignerManipulationExample extends SDKSample {
                 .withTitle("Title3")
                 .build());
 
-        DocumentPackage createdPackageWithAddedSigner = eslClient.getPackage(packageId);
-        packageId = createdPackageWithAddedSigner.getId();
+        createdPackageWithAddedSigner = eslClient.getPackage(packageId);
 
+        //This is how you would remove a signer
         eslClient.getPackageService().removeSigner(packageId, signerId);
 
-        DocumentPackage createdPackageWithRemovedSigner = eslClient.getPackage(packageId);
-        packageId = createdPackageWithRemovedSigner.getId();
+        createdPackageWithRemovedSigner = eslClient.getPackage(packageId);
 
+        //This is how you would update an existing signer
         eslClient.getPackageService().updateSigner(packageId, SignerBuilder.newSignerWithEmail("timbob@aol.com")
                 .withCustomId(signer2Id)
                 .withFirstName("updateFirstName1")
@@ -95,8 +99,7 @@ public class SignerManipulationExample extends SDKSample {
                 .withTitle("updateTitle1")
                 .build());
 
-        DocumentPackage createdPackageWithUpdatedSigner = eslClient.getPackage(packageId);
-        packageId = createdPackageWithUpdatedSigner.getId();
+        createdPackageWithUpdatedSigner = eslClient.getPackage(packageId);
 
         eslClient.sendPackage(packageId);
 
