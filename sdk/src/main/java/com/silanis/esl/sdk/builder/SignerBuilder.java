@@ -59,8 +59,10 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the ID of the signer.
-     * @param id	the signer's ID
+     * Sets the ID of the signer for this package. 
+     * <p>
+     * E.g.: the signer's email makes for a good unique ID. john@do.com 
+     * @param id	the signer's ID @size(min="1")
      * @return	the signer builder itself
      */
     public SignerBuilder withCustomId( String id ) {
@@ -70,7 +72,7 @@ final public class SignerBuilder {
 
     /**
      * Sets the signer's first name
-     * @param firstName	the signer's first name
+     * @param firstName	the signer's first name @size(min="1", max="64")
      * @return	the signer builder itself
      */
     public SignerBuilder withFirstName( String firstName ) {
@@ -81,7 +83,7 @@ final public class SignerBuilder {
 
     /**
      * Sets the signer's last name
-     * @param lastName	the signer's last name
+     * @param lastName	the signer's last name @size(min="1", max="64")
      * @return	the signer builder itself
      */
     public SignerBuilder withLastName( String lastName ) {
@@ -91,7 +93,9 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signing order.
+     * Sets the signing order. If all signers can sign in any order, don't set this setting.
+     * <p>
+     * E.g.: a signer with a signingOrder of 1 would be required to sign before a signer with a signingOrder of 2, for example.
      * @param signingOrder	a value greater than zero
      * @return	the signer builder itself
      */
@@ -130,21 +134,34 @@ final public class SignerBuilder {
         return signer;
     }
 
-    /**
-     * <p>Sets the signer's authentication type to CHALLENGE.</p>
-     * @param challengeBuilder	the challenge builder
-     * @return	the signer builder object itself
-     */
+	/**
+	 * <p>
+	 * Sets the signer's authentication type to CHALLENGE.
+	 * </p>
+	 * The signer will be asked to authenticate, before accessing his signing
+	 * ceremony, by providing answers to authentication questions.
+	 * 
+	 * @see ChallengeBuilder
+	 * @param challengeBuilder
+	 *            the challenge builder
+	 * @return the signer builder object itself
+	 */
     public SignerBuilder challengedWithQuestions(ChallengeBuilder challengeBuilder) {
         this.authenticationBuilder = challengeBuilder;
         return this;
     }
 
-    /**
-     * <p>Sets the signer's authentication type to SMS.</p>
-     * @param phoneNumber
-     * @return	the signer builder object itself
-     */
+	/**
+	 * <p>
+	 * Sets the signer's authentication type to SMS.
+	 * </p>
+	 * The signer will be asked to authenticate, before accessing his signing
+	 * ceremony, by providing an SMS PIN number that will have been sent by
+	 * e-SignLive to his phone.
+	 * 
+	 * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent.
+	 * @return the signer builder object itself
+	 */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
         this.authenticationBuilder = new SMSAuthenticationBuilder(phoneNumber);
         return this;
@@ -153,6 +170,7 @@ final public class SignerBuilder {
 
     /**
      * Sets the Signer's authentication.
+     * TODO: provide a better definition of what this truely mean
      *
      * @param authentication
      * @return
@@ -164,6 +182,7 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the signer's title.</p>
+     * E.g.: Mr., Mrs., Ms., etc...
      * @param title the signer's title
      * @return	the signer builder object itself
      */
@@ -177,6 +196,7 @@ final public class SignerBuilder {
      * <p>Sets the signer's company name.</p>
      * @param company	the signer's company name
      * @return	the signer builder object itself
+     * @throws EslException throws an exception if signer is a group signer.
      */
     public SignerBuilder withCompany(String company) {
         Asserts.genericAssert( !isGroupSigner(), "company can not be set for a group signer" );
