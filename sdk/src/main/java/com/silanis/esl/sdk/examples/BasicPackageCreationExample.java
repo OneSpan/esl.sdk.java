@@ -34,14 +34,13 @@ public class BasicPackageCreationExample extends SDKSample {
     public BasicPackageCreationExample( Properties props ) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
-                props.getProperty( "2.email" ) );
+                props.getProperty( "1.email" ) );
     }
 
-    public BasicPackageCreationExample( String apiKey, String apiUrl, String email1, String email2 ) {
+    public BasicPackageCreationExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
-        this.email2 = email2;
+        this.email2 = "CapitalLetters@email.com";
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }

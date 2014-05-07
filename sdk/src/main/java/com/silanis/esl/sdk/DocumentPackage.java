@@ -59,9 +59,36 @@ public class DocumentPackage implements Serializable {
      * @return the signer who's email address matches the one provided as parameter
      */
     public Signer getSigner( String email ) {
-        return signers.get( email );
+        return signers.get( email.toLowerCase() );
     }
 
+    /**
+     * Adds a signer
+     *
+     * @param signer the signer to add
+     */
+    public void addSigner(Signer signer) {
+        if (!signers.containsKey(signer.getEmail().toLowerCase())) {
+            signers.put(signer.getEmail().toLowerCase(), signer);
+        } else {
+            throw new EslException("Another signer with same email already exists.");
+        }
+    }
+
+    /**
+     * Removes a signer
+     *
+     * @param signer the signer to remove
+     */
+    public void removeSigner(Signer signer) {
+        if (signers.containsKey(signer.getEmail().toLowerCase())) {
+            signers.remove(signer.getEmail().toLowerCase());
+        } else {
+            throw new EslException("Signer does not exist.");
+        }
+    }
+
+    @Deprecated
     public Map<String, Signer> getSigners() {
         return signers;
     }

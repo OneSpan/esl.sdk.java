@@ -33,7 +33,12 @@ public class Signer implements Serializable {
      * @param authentication the authentication used by the signer to join to a eSL signing ceremony 
      */
     public Signer(String email, String firstName, String lastName, Authentication authentication) {
-        this.email = email;
+        if (email == null) {
+            this.email = email;
+        } else {
+            this.email = email.toLowerCase();
+        }
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.authentication = authentication;

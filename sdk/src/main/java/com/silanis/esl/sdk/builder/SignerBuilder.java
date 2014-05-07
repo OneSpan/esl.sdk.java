@@ -36,7 +36,11 @@ final public class SignerBuilder {
      * @param email	the signer's email.
      */
     private SignerBuilder( String email ) {
-        this.email = email;
+        if (email == null) {
+            this.email = email;
+        } else {
+            this.email = email.toLowerCase();
+        }
         this.groupId = null;
     }
 

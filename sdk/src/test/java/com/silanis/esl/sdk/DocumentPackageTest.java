@@ -1,0 +1,133 @@
+package com.silanis.esl.sdk;
+
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
+
+/**
+ * Created by lena on 2014-05-06.
+ */
+public class DocumentPackageTest {
+
+    public static final String lowerCaseEmail1 = "email1@email.com";
+    public static final String lowerCaseEmail2 = "email2@email.com";
+    public static final String upperCaseEmail1 = "EmaIL1@email.com";
+    public static final String upperCaseEmail2 = "eMAIL2@Email.com";
+
+    @Test
+    public void addTypicalSigner() {
+        Signer signer1 = SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(signer1)
+                .build();
+
+        Signer newSigner = SignerBuilder.newSignerWithEmail(lowerCaseEmail2)
+                .withFirstName("Patty")
+                .withLastName("Galant")
+                .build();
+        documentPackage.addSigner(newSigner);
+
+        assertThat("Document package should have 2 signers.", documentPackage.getSigners().keySet().size(), is(2));
+        assertThat("Document package is missing signer1.", documentPackage.getSigners().get(lowerCaseEmail1), is(signer1));
+        assertThat("Document package did not add the new signer.", documentPackage.getSigners().get(lowerCaseEmail2), is(newSigner));
+    }
+
+    @Test
+    public void addDuplicateSigner() {
+        Signer signer1 = SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(signer1)
+                .build();
+
+        try {
+            documentPackage.addSigner(SignerBuilder.newSignerWithEmail(upperCaseEmail1)
+                    .withFirstName("Patty")
+                    .withLastName("Galant")
+                    .build());
+            fail("No exception thrown");
+        } catch (EslException e) {
+            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same email already exists."));
+        }
+        assertThat("Document package should not add duplicate signers.", documentPackage.getSigners().size(), is(1));
+        assertThat("Document package is missing signer1", documentPackage.getSigners().get(lowerCaseEmail1), is(signer1));
+    }
+
+    @Test
+    public void addSignerWithUpperCaseEmail() {
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .build();
+
+        Signer signer1 = new Signer(lowerCaseEmail1, "John", "Smith", new Authentication(AuthenticationMethod.EMAIL));
+        Signer signer2 = SignerBuilder.newSignerWithEmail(upperCaseEmail2)
+                .withFirstName("Patty")
+                .withLastName("Galant")
+                .build();
+        documentPackage.addSigner(signer1);
+        documentPackage.addSigner(signer2);
+
+        assertThat("Document package should have 2 signers", documentPackage.getSigners().size(), is(2));
+        assertThat("Document package should have the signer1's email in lower case.", documentPackage.getSigners().get(lowerCaseEmail1), is(signer1));
+        assertThat("Document package should have the signer2's email in lower case.", documentPackage.getSigners().get(lowerCaseEmail2), is(signer2));
+    }
+
+    @Test
+    public void removeTypicalSigner() {
+        Signer signer1 = SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(signer1)
+                .build();
+
+        documentPackage.removeSigner(signer1);
+
+        assertThat("Document package should have 0 signers.", documentPackage.getSigners().size(), is(0));
+    }
+
+    @Test
+    public void removeAbsentSigner() {
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .build();
+
+        try {
+            documentPackage.removeSigner(SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                    .withFirstName("John")
+                    .withLastName("Smith")
+                    .build());
+            fail("No exception thrown");
+        } catch (EslException e) {
+            assertThat("Wrong exception thrown", e.getMessage(), is("Signer does not exist."));
+        }
+        assertThat("Document package should have 0 signers.", documentPackage.getSigners().size(), is(0));
+    }
+
+    @Test
+    public void removeSignerWithUpperCaseEmail() {
+        Signer signer1 = SignerBuilder.newSignerWithEmail(upperCaseEmail1)
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(signer1)
+                .build();
+
+        documentPackage.removeSigner(SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build());
+
+        assertThat("Document package should have 0 signers.", documentPackage.getSigners().size(), is(0));
+    }
+
+}

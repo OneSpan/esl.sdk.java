@@ -88,7 +88,7 @@ public class BasicPackageCreationExampleTest {
         if (signatures.hasNext()) {
             signature = signatures.next();
 
-            assertThat( "Signature's signer Email was not set correctly for Second Document.", signature.getSignerEmail(), is( basicPackageCreationExample.email2 ) );
+            assertThat( "Signature's signer Email was not set correctly for Second Document.", signature.getSignerEmail(), is( "capitalletters@email.com" ) );
             assertThat( "Signature page was not set correctly for Second Document.", signature.getPage(), is( 0 ) );
         }
 

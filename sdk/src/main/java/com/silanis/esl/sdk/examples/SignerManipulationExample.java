@@ -71,8 +71,8 @@ public class SignerManipulationExample extends SDKSample {
 
         DocumentPackage createdPackage = eslClient.getPackage(packageId);
 
-        String signerId = createdPackage.getSigners().get(email1).getId();
-        String signer2Id = createdPackage.getSigners().get(email2).getId();
+        String signerId = createdPackage.getSigner(email1).getId();
+        String signer2Id = createdPackage.getSigner(email2).getId();
 
         String addedSignerId = eslClient.getPackageService().addSigner(packageId, SignerBuilder.newSignerWithEmail(email3)
                 .withFirstName("firstName3")

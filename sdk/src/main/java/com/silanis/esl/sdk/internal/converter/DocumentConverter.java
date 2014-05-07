@@ -138,7 +138,7 @@ public class DocumentConverter {
         for ( Role role : createdPackage.getRoles() ) {
             if ( !role.getSigners().isEmpty() ) {
                 if ( role.getSigners().get( 0 ).getEmail() != null ) {
-                    if ( signerEmail.equals( role.getSigners().get( 0 ).getEmail() ) ) {
+                    if ( signerEmail.equalsIgnoreCase( role.getSigners().get( 0 ).getEmail() ) ) {
                         return role.getId();
                     }
                 }
