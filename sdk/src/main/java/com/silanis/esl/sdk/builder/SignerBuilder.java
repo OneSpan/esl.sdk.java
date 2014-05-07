@@ -183,7 +183,7 @@ final public class SignerBuilder {
     /**
      * <p>Sets the signer's title.</p>
      * E.g.: Mr., Mrs., Ms., etc...
-     * @param title the signer's title
+     * @param title the signer's title @size(min="0", max="64")
      * @return	the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {
@@ -205,6 +205,7 @@ final public class SignerBuilder {
     }
 
     /**
+     * TODO: provide definition
      * <p>Sets the canChangeSigner property to true.</p>
      * @return	the signer builder object itself
      */
@@ -214,8 +215,8 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signer's email message
-     * @param message	the message the signer will receive in the email invitation to start the signing ceremony
+     * Sets the signer's email message they will receive in the email invitation to start the signing ceremony
+     * @param message	the message the signer will receive in the email invitation to start the signing ceremony @size(min="0", max="2000")
      * @return	the signet builder object itself
      */
     public SignerBuilder withEmailMessage(String message) {
@@ -224,7 +225,7 @@ final public class SignerBuilder {
     }
 
     /**
-     * <p>Sets the deliverSignedDocumentsByEmail to true.</p>
+     * <p>Invoking this method results in documents being distributed back to the sender as an email attachments once the package is complete.</p>
      * @return	the signer builder object itself
      */
     public SignerBuilder deliverSignedDocumentsByEmail() {
@@ -258,10 +259,12 @@ final public class SignerBuilder {
         }
     }
 
-    /**
-     * Challenge builder is a convenient class used to create an Authentication object.  
-     * 
-     */
+	/**
+	 * Challenge builder is a convenient class used to create an Authentication
+	 * object. It is used to help define the authentication questions and
+	 * answers when the user logs on to e-SignLive.
+	 * 
+	 */
     public static class ChallengeBuilder extends AuthenticationBuilder {
 
         private String question;
@@ -275,15 +278,38 @@ final public class SignerBuilder {
             this.question = question;
         }
 
+        /**
+         * First question asked to the user when they log on to e-SignLive.
+         * @param question
+         * @return This
+         */
         public static ChallengeBuilder firstQuestion(String question) {
             return new ChallengeBuilder(question);
         }
 
+        /**
+         * Second question asked to the user when they log on to e-SignLive.
+         * @param question
+         * @return This
+         */
         public ChallengeBuilder secondQuestion(String question) {
             this.question = question;
             return this;
         }
 
+		/**
+		 * Add answer to the first and second question. Must be invoked in order
+		 * in order to provide the first question's answer and the second
+		 * question's answer. 
+		 * 
+		 * <p>
+		 * It should not be invoked more than twice.
+		 * 
+		 * @see #firstQuestion(String)
+		 * @see #secondQuestion(String)
+		 * @param answer answer to the authentication questions
+		 * @return This
+		 */
         public ChallengeBuilder answer(String answer) {
             challenges.add(new Challenge(question, answer));
             return this;
@@ -306,6 +332,13 @@ final public class SignerBuilder {
 
         private final String phoneNumber;
 
+		/**
+		 * Builder used to define authentication with e-SignLive by entering an
+		 * SMS PIN number sent at the phone number defined below when the user
+		 * attempts to log in.
+		 * 
+		 * @param phoneNumber
+		 */
         public SMSAuthenticationBuilder(String phoneNumber) {
             this.phoneNumber = phoneNumber;
         }
