@@ -107,6 +107,28 @@ public class DocumentConverter {
         return resultAPIDocument;
     }
 
+    public com.silanis.esl.api.model.Document toAPIDocumentMetadata(){
+
+        if (sdkDocument == null) {
+            throw new IllegalArgumentException("No SDK document available to perform conversion");
+        }
+
+        com.silanis.esl.api.model.Document resultAPIDocument = new com.silanis.esl.api.model.Document()
+                .setIndex(sdkDocument.getIndex())
+                .setExtract(sdkDocument.isExtract())
+                .setName(sdkDocument.getName());
+
+        if( sdkDocument.getId() != null){
+            resultAPIDocument.setId( sdkDocument.getId().toString() );
+        }
+
+        if( sdkDocument.getDescription() != null){
+            resultAPIDocument.setDescription( sdkDocument.getDescription() );
+        }
+
+        return resultAPIDocument;
+    }
+
     /**
      * Find the role ID for a specified group in a specified package.
      * @param groupId

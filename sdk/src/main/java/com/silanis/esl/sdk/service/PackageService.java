@@ -3,14 +3,14 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.esl.api.model.Document;
-import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Document;
+import com.silanis.esl.api.model.Field;
+import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
@@ -18,9 +18,7 @@ import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
 
-import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -202,18 +200,48 @@ public class PackageService {
      * Deletes the document from the package.
      *
      * @param packageId
-     * @param document
+     * @param documentId
      * @throws EslException
      */
-    public void deleteDocument(PackageId packageId, Document document) throws EslException {
+    public void deleteDocument(PackageId packageId, String documentId) throws EslException {
         String path = template.urlFor(UrlTemplate.DOCUMENT_ID_PATH)
                 .replace("{packageId}", packageId.getId())
-                .replace("{documentId}", document.getId())
+                .replace("{documentId}", documentId)
                 .build();
         try {
             client.delete(path);
         } catch (Exception e) {
             throw new EslException("Could not delete document from package.", e);
+        }
+    }
+
+
+    /**
+     * Updates the document from the package
+     *
+     * @param documentPackage
+     * @param document
+     */
+
+    public void updateDocumentMetadata(DocumentPackage documentPackage, com.silanis.esl.sdk.Document document) {
+        String path = template.urlFor(UrlTemplate.DOCUMENT_ID_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .replace("{documentId}", document.getId().toString())
+                .build();
+
+        Document internalDoc = new DocumentConverter(document).toAPIDocumentMetadata();
+
+        // Wipe out the members not related to the metadata
+        internalDoc.setApprovals(new ArrayList<Approval>());
+        internalDoc.setFields(new ArrayList<Field>());
+        internalDoc.setPages(new ArrayList<com.silanis.esl.api.model.Page>());
+
+        try {
+            String json = Serialization.toJson(internalDoc);
+
+            client.post(path, json);
+        } catch (Exception e) {
+            throw new EslException("Could not upload the document to package." + " Exception: " + e.getMessage());
         }
     }
 
