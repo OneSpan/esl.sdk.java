@@ -37,7 +37,7 @@ public class DocumentBuilder {
     /**
      * <p>The constructor of this class.</p>
      *
-     * @param name the name of the document produced by the document builder
+     * @param name the name of the document produced by the document builder. @size(max="64")
      */
     public DocumentBuilder( String name ) {
         this();
@@ -47,27 +47,32 @@ public class DocumentBuilder {
     /**
      * <p>Creates the document.</p>
      *
-     * @param name the name of the document
+     * @param name the name of the document. @size(max="64")
      * @return a document builder
      */
     public static DocumentBuilder newDocumentWithName( String name ) {
         return new DocumentBuilder( name );
     }
 
-    /**
-     * Enables the extraction operation against the document
-     *
-     * @return the document builder itself
-     */
+	/**
+	 * Enables the extraction operation against the document. Enabling this
+	 * setting indicate to the e-SignLive document engine that signature
+	 * positions on the document will be extracted from form fields on the
+	 * document as opposed to being explicitly defined using x-y coordinates,
+	 * for example.
+	 *
+	 * @return the document builder itself
+	 */
     public DocumentBuilder enableExtraction() {
         extract = true;
         return this;
     }
 
     /**
-     * Creates a document from a file. The extension of the file is used to determine the document type.
+     * Creates a signing ceremony document from a file on the file system. The extension of the file is used to determine the document type @see DocumentType.
+     * 
      *
-     * @param fileName the name of the file
+     * @param fileName a valid file path
      * @return the document builder itself
      */
     public DocumentBuilder fromFile( String fileName ) {
@@ -77,7 +82,7 @@ public class DocumentBuilder {
     }
 
     /**
-     * <p>Creates a document from a stream.</p>
+     * <p>Creates a signing ceremony document from a stream.</p>
      *
      * @param input the document content input stream
      * @param type  the document type
@@ -145,7 +150,7 @@ public class DocumentBuilder {
      * <p>Defines the order that documents must be signed in.</p>
      * <p>Thus, the documents with smaller values of their index will be shown first to the signer in the overall document workflow.</p>
      *
-     * @param index the order of the document in the document workflow
+     * @param index the order of the document in the document workflow. @min="0"
      * @return the document builder itself
      */
     public DocumentBuilder atIndex( int index ) {
@@ -156,7 +161,7 @@ public class DocumentBuilder {
     /**
      * Sets the ID value of the document
      *
-     * @param id
+     * @param id @size(min="1")
      * @return the document builder itself
      */
     public DocumentBuilder withId( String id ) {
@@ -164,6 +169,13 @@ public class DocumentBuilder {
         return this;
     }
 
+	/**
+	 * Set form fields (text, checkbox, etc...) that are stamped on the
+	 * document. Those fields become part of the document and are not editable.
+	 * 
+	 * @param builder
+	 * @return
+	 */
     public DocumentBuilder withInjectedField( FieldBuilder builder ) {
         return withInjectedField( builder.build() );
     }

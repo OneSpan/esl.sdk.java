@@ -7,8 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * CustomFieldBuilder is a convenient class used to create
- * account custom fields.
+ * CustomFieldBuilder is a convenient class used to create account custom
+ * fields. A custom field is a user defined form field that may be stamped on
+ * the document.
+ * <p>
+ * E.g.: user's pharmacist license number.
  */
 public class CustomFieldBuilder {
     private String id;
@@ -16,40 +19,46 @@ public class CustomFieldBuilder {
     private List<Translation> translations;
     private Boolean required = Boolean.TRUE;
 
-    /**
-     * Creates a custom field builder with field id
-     *
-     * @param id of custom field
-     * @return a custom field builder with field id
-     */
+	/**
+	 * Creates a custom field builder with field id. This id is used to query
+	 * the package for the field value. This id must be unique per account.
+	 *
+	 * @param id
+	 *            of custom field
+	 * @return a custom field builder with field id
+	 */
     public static CustomFieldBuilder customFieldWithId( String id ) {
         return new CustomFieldBuilder().withId( id );
     }
 
-    /**
-     * Sets id of custom field
-     *
-     * @param id of custom field
-     * @return the custom field builder itself
-     */
+	/**
+	 * Sets unique id of custom field. This id is used to query the package for
+	 * the field value. This id must be unique per account.
+	 *
+	 * @param id
+	 *            of custom field
+	 * @return the custom field builder itself
+	 */
     public CustomFieldBuilder withId( String id ) {
         this.id = id;
         return this;
     }
 
-    /**
-     * Sets value of custom field
-     *
-     * @param value of custom field
-     * @return the custom field builder itself
-     */
+	/**
+	 * Sets the default value of custom field if the Senders don't override its
+	 * value in his identity settings.
+	 *
+	 * @param value
+	 *            of custom field
+	 * @return the custom field builder itself
+	 */
     public CustomFieldBuilder withDefaultValue( String value ) {
         this.value = value;
         return this;
     }
 
     /**
-     * Sets translation of custom field
+     * Sets translation of the custom field's label
      *
      * @param builder translation builder
      * @return the custom field builder itself
@@ -58,6 +67,13 @@ public class CustomFieldBuilder {
         return withTranslation( builder.build() );
     }
 
+    /**
+     * Sets translation of the custom field's label.
+     * 
+     * @see #withTranslation(TranslationBuilder)
+     * @param translation
+     * @return This
+     */
     public CustomFieldBuilder withTranslation( Translation translation ) {
         if ( this.translations == null ) {
             this.translations = new ArrayList<Translation>();
@@ -67,12 +83,16 @@ public class CustomFieldBuilder {
 
     }
 
-    /**
-     * Sets required indication of custom field
-     *
-     * @param required indication of custom field
-     * @return the custom field builder itself
-     */
+	/**
+	 * Sets whether or not this field must have a value assigned or not before
+	 * allowing the signer to continue with his signing ceremony. If the field
+	 * is required and not value was defined, the signer will be prompted to
+	 * complete his identity information and enter a value for this custom
+	 * field.
+	 *
+	 * @param required whether the custom field is required or optional.
+	 * @return the custom field builder itself
+	 */
     public CustomFieldBuilder isRequired( Boolean required ) {
         this.required = required;
         return this;
