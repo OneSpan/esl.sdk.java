@@ -102,21 +102,44 @@ public class FieldValidatorBuilder {
         return new FieldValidatorBuilder( DEFAULT_REGEX );
     }
 
+	/**
+	 * Sets the error message returned to the end user should the validator not
+	 * validate the input.
+	 * 
+	 * @param errorMessage
+	 * @return
+	 */
     public FieldValidatorBuilder withErrorMessage( String errorMessage ) {
         this.errorMessage = errorMessage;
         return this;
     }
 
+    /**
+     * Set the minimum length of the input allowed
+     * @param minLength
+     * @return
+     */
     public FieldValidatorBuilder minLength( int minLength ) {
         this.minLength = minLength;
         return this;
     }
 
+    /**
+     * Sets the maximum length of the input allowed.
+     * @param maxLength
+     * @return
+     */
     public FieldValidatorBuilder maxLength( int maxLength ) {
         this.maxLength = maxLength;
         return this;
     }
 
+	/**
+	 * Set that the field is mandatory to be filled before the signer is allowed
+	 * to complete signing his document.
+	 * 
+	 * @return
+	 */
     public FieldValidatorBuilder required() {
         this.required = true;
         return this;
@@ -142,6 +165,11 @@ public class FieldValidatorBuilder {
         return result;
     }
 
+    /**
+     * TODO: what does this mean???
+     * @param option
+     * @return
+     */
     public FieldValidatorBuilder withOption( String option ) {
         options.add( option );
         return this;

@@ -25,7 +25,7 @@ final public class EventNotificationConfigBuilder {
     }
 
     /**
-     * <p>Creates a new newEventNotificationConfigBuilder for the url specifies as argument</p>
+     * <p>Creates a new newEventNotificationConfigBuilder for the url specified as argument</p>
      * @param url	represents the endpoint to which e-SL will post HTTP based notifications 
      * @return a new newEventNotificationConfigBuilder instance
      */
