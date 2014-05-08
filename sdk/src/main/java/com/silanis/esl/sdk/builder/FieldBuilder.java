@@ -7,6 +7,7 @@ import com.silanis.esl.sdk.internal.converter.TextAnchorConverter;
 /**
  * 
  * FieldBuilder is a convenient class used to create fields.
+ * {@link http://docs.e-signlive.com/doku.php?id=esl:e-signlive_guide_fields}
  */
 public class FieldBuilder {
 
@@ -35,16 +36,24 @@ public class FieldBuilder {
         return new FieldBuilder();
     }
 
-    /**
-     * Creates a field builder having set the style to BOUND_DATE 
-     * @return	a BOUND_DATE styled field builder
-     */
+	/**
+	 * Creates a field builder having set the style to BOUND_DATE. A date string
+	 * will be displayed at the location defined for the field when the signer
+	 * signs the associated signature field.
+	 * 
+	 * @see FieldStyle
+	 * @return a BOUND_DATE styled field builder
+	 */
     public static FieldBuilder signatureDate() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_DATE);
     }
 
     /**
-     * Creates a filed builder having set the style to BOUND_NAME
+     * Creates a filed builder having set the style to BOUND_NAME. The signer's name
+	 * will be displayed at the location defined for the field when the signer
+	 * signs the associated signature field.
+	 * 
+	 * @see FieldStyle
      * @return a BOUND_NAME styled field builder
      */
     public static FieldBuilder signerName() {
@@ -52,30 +61,43 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to BOUND_TITLE
+     * Creates a field builder having set the style to BOUND_TITLE. The signer's title string
+	 * will be displayed at the location defined for the field when the signer
+	 * signs the associated signature field.
+	 * 
+	 * @see FieldStyle
      * @return	a BOUND_TITLE styled field builder
      */
     public static FieldBuilder signerTitle() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_TITLE);
     }
     /**
-     * Creates a field builder having set the style to BOUND_COMPANY
+     * Creates a field builder having set the style to BOUND_COMPANY. The signer's company string
+	 * will be displayed at the location defined for the field when the signer
+	 * signs the associated signature field.
+	 * 
+	 * @see FieldStyle
      * @return	a BOUND_COMPANY styled field builder
      */
     public static FieldBuilder signerCompany() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_COMPANY);
     }
 
-    /**
-     * Creates a field builder having set the style to UNBOUND_TEXT_FIELD
-     * @return a UNBOUND_TEXT_FIELD styled field builder
-     */
+	/**
+	 * Creates a field builder having set the style to UNBOUND_TEXT_FIELD. It
+	 * defines a text field at the location defined that the signer may be
+	 * required to fill prior to signing the its associated signature.
+	 * 
+	 * @see FieldStyle
+	 * @return a UNBOUND_TEXT_FIELD styled field builder
+	 */
     public static FieldBuilder textField() {
         return new FieldBuilder().withStyle(FieldStyle.UNBOUND_TEXT_FIELD );
     }
 
     /**
      * Creates a field builder having set the style to UNBOUND_CUSTOM_FIELD
+     * TODO: What is an unbound custom field??
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
      */
     public static FieldBuilder customField(String name) {
@@ -83,19 +105,26 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to UNBOUND_CHECK_BOX
+     * Creates a field builder having set the style to UNBOUND_CHECK_BOX. It
+	 * defines a checkbox field at the location defined that the signer may be
+	 * required to check prior to signing the its associated signature.
+	 * 
+	 * @see FieldStyle
      * @return	a UNBOUND_CHECK_BOX styled filed builder
      */
     public static FieldBuilder checkBox() {
         return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CHECK_BOX );
     }
 
+    /*
+     * TODO: What is the label??
+     */
     public static FieldBuilder label() {
         return new FieldBuilder().withStyle(FieldStyle.LABEL);
     }
 
     /**
-     * Sets the field on page specified by the pageNumber argument
+     * Sets the page on which the field is located.
      * @param pageNumber	the page number
      * @return	the field builder itself
      */
@@ -105,9 +134,10 @@ public class FieldBuilder {
     }
 
     /**
-     * Sets the field at the position specified by x and y coordinates
-     * @param x	the x coordinate
-     * @param y	the y coordinate
+     * Sets the field at the position in pixel relative to the original document, specified by x and y coordinates
+     * TODO: is this the position of the top-left? top-right? etc... corner of the field???
+     * @param x	the x coordinate @min="0"
+     * @param y	the y coordinate @min="0"
      * @return	the field builder itself
      */
     public FieldBuilder atPosition(double x, double y) {
@@ -117,9 +147,9 @@ public class FieldBuilder {
     }
 
     /**
-     * Sets the size of the field
-     * @param width	the with of the field
-     * @param height	the height of the field
+     * Sets the size, in pixel, of the field
+     * @param width	the with of the field @min="0"
+     * @param height	the height of the field @min="0"
      * @return	the field builder itself
      */
     public FieldBuilder withSize( double width, double height ) {
@@ -130,6 +160,7 @@ public class FieldBuilder {
 
     /**
      * Sets the style of the field
+     * @see FieldStyle
      * @param style	the style of the field
      * @return	the field builder itself
      */
@@ -138,29 +169,59 @@ public class FieldBuilder {
         return this;
     }
 
-    /**
-     * Sets the name of the field
-     * @param name	the name of the field
-     * @return	the field builder itself
-     */
+	/**
+	 * Sets the name of the field. The name corresponds to the id of the
+	 * corresponding acrobat form field. This name is used when positioning form
+	 * fields based on their original position on the PDF document.
+	 * 
+	 * @param name
+	 *            the name of the field @size(max="64")
+	 * @return the field builder itself
+	 */
     public FieldBuilder withName( String name ) {
         this.name = name;
         return this;
     }
 
-    /**
-     * 
-     * @return	the field builder itself
-     */
+	/**
+	 * Informs the e-SignLive document engine that the position of the field
+	 * must be inferred from the position of an acrobat form field with a
+	 * specified name (@see #withName(String)).
+	 * <p>
+	 * When using {@link #withPositionExtracted()} you must not use
+	 * {@link #withSize(double, double)} and {@link #atPosition(double, double)}.
+	 * 
+	 * @return the field builder itself
+	 */
     public FieldBuilder withPositionExtracted() {
         this.extract = true;
         return this;
     }
 
+    /**
+     * Informs the e-SignLive document engine that the position of the field
+	 * must be defined relative to the position of a certain text string on the document.
+	 * <p>
+	 * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
+	 * {@link #withSize(double, double)}.
+     * @param builder
+     * @return
+     */
     public FieldBuilder withPositionAnchor(TextAnchorBuilder builder) {
         return withPositionAnchor( builder.build() );
     }
 
+    /**
+     * Informs the e-SignLive document engine that the position of the field
+	 * must be defined relative to the position of a certain text string on the document.
+	 * <p>
+	 * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
+	 * {@link #withSize(double, double)}.
+	 * 
+	 * @see #withPositionAnchor(TextAnchorBuilder)
+     * @param textAnchor
+     * @return
+     */
     public FieldBuilder withPositionAnchor(TextAnchor textAnchor) {
         this.textAnchor = textAnchor;
         return this;
@@ -168,7 +229,8 @@ public class FieldBuilder {
 
     /**
      * Sets a validator on the field. So, the values of the field should be matched by the provided validator.
-     * @param fieldValidator	the field valdator
+     * TODO: How do we know which validator can be associated with which kind of fields??
+     * @param fieldValidator	the field validator
      * @return	the field builder itself
      */
     public FieldBuilder withValidation( FieldValidator fieldValidator ) {
@@ -185,6 +247,11 @@ public class FieldBuilder {
         return withValidation( builder.build() );
     }
 
+    /**
+     * Set a field's value.
+     * @param value
+     * @return
+     */
     public FieldBuilder withValue(boolean value) {
         if ( style == FieldStyle.UNBOUND_CHECK_BOX ) {
             this.value = value?"X":"";
@@ -192,11 +259,23 @@ public class FieldBuilder {
         return this;
     }
 
+    /**
+     * Set a field's value.
+     * @param value
+     * @return
+     */
     public FieldBuilder withValue(String value) {
         this.value = value;
         return this;
     }
 
+	/**
+	 * Set a field's unique ID. This id allows the field value to be retrieved
+	 * when querying a package for information.
+	 * 
+	 * @param fieldId
+	 * @return
+	 */
     public FieldBuilder withId( FieldId fieldId ) {
         this.fieldId = fieldId;
         return this;

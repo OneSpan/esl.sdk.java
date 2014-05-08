@@ -185,6 +185,11 @@ public class DocumentBuilder {
         return this;
     }
 
+    /**
+     * Set this document's description
+     * @param description @size(max="255")
+     * @return
+     */
     public DocumentBuilder withDescription( String description ) {
         this.description = description;
         return this;
