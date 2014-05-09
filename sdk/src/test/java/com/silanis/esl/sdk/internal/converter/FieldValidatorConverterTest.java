@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -25,33 +26,33 @@ public class FieldValidatorConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertNullSDKToAPI() {
-//        sdkFieldValidator1 = null;
-//        FieldValidatorConverter converter = new FieldValidatorConverter(sdkFieldValidator1);
-//        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIFieldValidation(), is( nullValue() ) );
+        sdkFieldValidator1 = null;
+        FieldValidatorConverter converter = new FieldValidatorConverter(sdkFieldValidator1);
+        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIFieldValidation(), is( nullValue() ) );
     }
 
     @Override
     @Test
     public void convertNullAPIToSDK() {
-//        apiFieldValidation1 = null;
-//        FieldValidatorConverter converter = new FieldValidatorConverter(apiFieldValidation1);
-//        assertThat( "Converter didn't return a null sdk object for a null api object", new FieldValidatorConverter(apiFieldValidation1).toAPIFieldValidation(), is( nullValue() ) );
+        apiFieldValidation1 = null;
+        FieldValidatorConverter converter = new FieldValidatorConverter(apiFieldValidation1);
+        assertThat( "Converter didn't return a null sdk object for a null api object", new FieldValidatorConverter(apiFieldValidation1).toAPIFieldValidation(), is( nullValue() ) );
     }
 
     @Override
     @Test
     public void convertNullSDKToSDK() {
-//        sdkFieldValidator1 = null;
-//        FieldValidatorConverter converter = new FieldValidatorConverter(sdkFieldValidator1);
-//        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKFieldValidator(), is( nullValue() ) );
+        sdkFieldValidator1 = null;
+        FieldValidatorConverter converter = new FieldValidatorConverter(sdkFieldValidator1);
+        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKFieldValidator(), is( nullValue() ) );
     }
 
     @Override
     @Test
     public void convertNullAPIToAPI() {
-//        apiFieldValidation1 = null;
-//        FieldValidatorConverter converter = new FieldValidatorConverter(apiFieldValidation1);
-//        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIFieldValidation(), is( nullValue() ) );
+        apiFieldValidation1 = null;
+        FieldValidatorConverter converter = new FieldValidatorConverter(apiFieldValidation1);
+        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIFieldValidation(), is( nullValue() ) );
     }
 
     @Override
@@ -80,12 +81,10 @@ public class FieldValidatorConverterTest implements ConverterTest {
         apiFieldValidation1 = createTypicalAPIFieldValidation();
         sdkFieldValidator1 = new FieldValidatorConverter(apiFieldValidation1).toSDKFieldValidator();
 
-        assertThat( "Error code was not set correctly", apiFieldValidation1.getErrorCode(), is( equalTo(100) ) );
         assertThat( "Error message was not set correctly",apiFieldValidation1.getErrorMessage(), is( equalTo( sdkFieldValidator1.getErrorMessage()) ) );
         assertThat( "Max length was not set correctly",apiFieldValidation1.getMaxLength(), is( equalTo( sdkFieldValidator1.getMaxLength()) ) );
         assertThat( "Min length was not set correctly", apiFieldValidation1.getMinLength(), is( equalTo( sdkFieldValidator1.getMinLength()) ) );
         assertThat( "Required was not set correctly",apiFieldValidation1.getRequired(), is( equalTo( sdkFieldValidator1.isRequired()) ) );
-        assertThat( "Pattern was not set correctly", apiFieldValidation1.getPattern(), is( equalTo( sdkFieldValidator1.getRegex()) ) );
     }
 
     @Override
@@ -94,10 +93,12 @@ public class FieldValidatorConverterTest implements ConverterTest {
         sdkFieldValidator1 = createTypicalSDKFieldValidator();
         apiFieldValidation1 = new FieldValidatorConverter(sdkFieldValidator1).toAPIFieldValidation();
 
+        assertThat( "Error code was not set correctly", apiFieldValidation1.getErrorCode(), is( nullValue() ) );
         assertThat( "Error message was not set correctly",apiFieldValidation1.getErrorMessage(), is( equalTo( sdkFieldValidator1.getErrorMessage()) ) );
         assertThat( "Max length was not set correctly",apiFieldValidation1.getMaxLength(), is( equalTo( sdkFieldValidator1.getMaxLength()) ) );
         assertThat( "Min length was not set correctly", apiFieldValidation1.getMinLength(), is( equalTo( sdkFieldValidator1.getMinLength()) ) );
         assertThat( "Required was not set correctly",apiFieldValidation1.getRequired(), is( equalTo( sdkFieldValidator1.isRequired()) ) );
+        assertThat( "Pattern was not set correctly", apiFieldValidation1.getPattern(), is( equalTo( sdkFieldValidator1.getRegex()) ) );
     }
 
     /**
