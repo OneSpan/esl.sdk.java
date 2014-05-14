@@ -38,6 +38,19 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getHeight(), is(equalTo(GenericFieldsExample.CHECKBOX_2_HEIGHT)));
                     assertThat(field.getValue(), is(equalTo(String.valueOf(GenericFieldsExample.CHECKBOX_2_VALUE))));
                 }
+                if(field.getX() == GenericFieldsExample.RADIO_1_POSITION_X && field.getY() == GenericFieldsExample.RADIO_1_POSITION_Y){
+                    assertThat(field.getPage(), is(equalTo(GenericFieldsExample.RADIO_1_PAGE)));
+                    assertThat(field.getWidth(), is(equalTo(GenericFieldsExample.RADIO_1_WIDTH)));
+                    assertThat(field.getHeight(), is(equalTo(GenericFieldsExample.RADIO_1_HEIGHT)));
+                    assertThat(field.getFieldValidator().getOptions().get(0), is(equalTo(GenericFieldsExample.RADIO_1_GROUP)));
+                }
+                if(field.getX() == GenericFieldsExample.RADIO_2_POSITION_X && field.getY() == GenericFieldsExample.RADIO_2_POSITION_Y){
+                    assertThat(field.getPage(), is(equalTo(GenericFieldsExample.RADIO_2_PAGE)));
+                    assertThat(field.getWidth(), is(equalTo(GenericFieldsExample.RADIO_2_WIDTH)));
+                    assertThat(field.getHeight(), is(equalTo(GenericFieldsExample.RADIO_2_HEIGHT)));
+                    assertThat(field.getValue(), is(equalTo(String.valueOf(GenericFieldsExample.RADIO_2_VALUE))));
+                    assertThat(field.getFieldValidator().getOptions().get(0), is(equalTo(GenericFieldsExample.RADIO_2_GROUP)));
+                }
                 if (field.getX() == GenericFieldsExample.TEXTFIELD_POSITION_X && field.getY() == GenericFieldsExample.TEXTFIELD_POSITION_Y) {
                     assertThat(field.getPage(), is(equalTo(GenericFieldsExample.TEXTFIELD_PAGE)));
                 }

@@ -70,7 +70,7 @@ public class DocumentPackageAttributesExample extends SDKSample{
                                 .withField(FieldBuilder.checkBox()
                                         .onPage(0)
                                         .atPosition(400, 200)
-                                        .withValue("x"))
+                                        .withValue(FieldBuilder.RADIO_SELECTED))
                                 .atPosition(100, 100)))
                 .withAttributes(newDocumentPackageAttributes()
                         .withAttribute(ATTRIBUTE_KEY_1, ATTRIBUTE_1)

@@ -96,4 +96,11 @@ public class FieldBuilderTest {
 
         assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_CHECK_BOX ) ) );
     }
+
+    @Test
+    public void creatingRadioButtonFieldSetsStyle(){
+        Field field = radioButton("group").atPosition( 100, 100 ).build();
+
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.UNBOUND_RADIO_BUTTON)));
+    }
 }

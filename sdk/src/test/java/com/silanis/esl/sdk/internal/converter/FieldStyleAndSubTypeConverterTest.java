@@ -106,6 +106,10 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
         assertThat("Checkbox type was not correctly set", fieldStyle, is( equalTo(FieldStyle.UNBOUND_CHECK_BOX)));
 
+        fieldSubtype = FieldSubtype.RADIO;
+        binding = null;
+        fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
+        assertThat("Radio button type was not correctly set", fieldStyle, is( equalTo(FieldStyle.UNBOUND_RADIO_BUTTON)));
 
         // Where the conversion is based on binding.
         fieldSubtype = null;
@@ -147,6 +151,10 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldStyle = FieldStyle.UNBOUND_CHECK_BOX;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.CHECKBOX)));
+
+        fieldStyle = FieldStyle.UNBOUND_RADIO_BUTTON;
+        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
+        assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.RADIO)));
 
         fieldStyle = FieldStyle.BOUND_DATE;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();

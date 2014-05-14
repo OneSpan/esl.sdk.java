@@ -74,7 +74,7 @@ public class DocumentUploadExample extends SDKSample{
                         .withField(FieldBuilder.checkBox()
                                 .onPage(0)
                                 .atPosition(400, 200)
-                                .withValue("x"))
+                                .withValue(FieldBuilder.CHECKBOX_CHECKED))
                         .atPosition(100, 100))
                 .build();
 

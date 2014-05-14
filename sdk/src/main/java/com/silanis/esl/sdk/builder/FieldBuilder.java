@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.converter.FieldConverter;
-import com.silanis.esl.sdk.internal.converter.TextAnchorConverter;
 
 /**
  * 
@@ -13,6 +11,9 @@ public class FieldBuilder {
     public static final int DEFAULT_WIDTH = 200;
     public static final int DEFAULT_HEIGHT = 50;
     public static final FieldStyle DEFAULT_STYLE = FieldStyle.UNBOUND_TEXT_FIELD;
+    public static final String SELECTED_VALUE = "X";
+    public static final String CHECKBOX_CHECKED = SELECTED_VALUE;
+    public static final String RADIO_SELECTED = SELECTED_VALUE;
 
     private int pageNumber;
     private double x;
@@ -79,7 +80,7 @@ public class FieldBuilder {
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
      */
     public static FieldBuilder customField(String name) {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName( name );
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName(name);
     }
 
     /**
@@ -87,7 +88,19 @@ public class FieldBuilder {
      * @return	a UNBOUND_CHECK_BOX styled filed builder
      */
     public static FieldBuilder checkBox() {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CHECK_BOX );
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CHECK_BOX);
+    }
+
+    public static FieldBuilder radioButton(String group) {
+
+        if (group == null) {
+            throw new BuilderException("Radio button must have a group.");
+        }
+
+        return new FieldBuilder()
+                .withStyle(FieldStyle.UNBOUND_RADIO_BUTTON)
+                .withValidation(FieldValidatorBuilder.basic()
+                        .withOption(group));
     }
 
     public static FieldBuilder label() {
@@ -168,7 +181,7 @@ public class FieldBuilder {
 
     /**
      * Sets a validator on the field. So, the values of the field should be matched by the provided validator.
-     * @param fieldValidator	the field valdator
+     * @param fieldValidator	the field validator
      * @return	the field builder itself
      */
     public FieldBuilder withValidation( FieldValidator fieldValidator ) {
@@ -186,8 +199,8 @@ public class FieldBuilder {
     }
 
     public FieldBuilder withValue(boolean value) {
-        if ( style == FieldStyle.UNBOUND_CHECK_BOX ) {
-            this.value = value?"X":"";
+        if ( style == FieldStyle.UNBOUND_CHECK_BOX || style == FieldStyle.UNBOUND_RADIO_BUTTON) {
+            this.value = value?SELECTED_VALUE:"";
         }
         return this;
     }

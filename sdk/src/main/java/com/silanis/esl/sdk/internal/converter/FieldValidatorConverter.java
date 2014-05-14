@@ -78,16 +78,24 @@ public class FieldValidatorConverter {
         FieldValidator fieldValidator = new FieldValidator();
 
         fieldValidator.setErrorMessage(fieldValidation.getErrorMessage());
-        if ( fieldValidation.getMaxLength() != null)
-            fieldValidator.setMaxLength(fieldValidation.getMaxLength());
 
-        if ( fieldValidation.getMinLength() != null)
+        if ( fieldValidation.getMaxLength() != null) {
+            fieldValidator.setMaxLength(fieldValidation.getMaxLength());
+        }
+
+        if ( fieldValidation.getMinLength() != null) {
             fieldValidator.setMinLength(fieldValidation.getMinLength());
+        }
 
         fieldValidator.setRegex(fieldValidation.getPattern());
 
-        if (fieldValidation.getRequired())
+        if (fieldValidation.getRequired()) {
             fieldValidator.setRequired(fieldValidation.getRequired());
+        }
+
+        if(fieldValidation.getEnum()!=null){
+            fieldValidator.getOptions().addAll(fieldValidation.getEnum());
+        }
 
         return fieldValidator;
     }
