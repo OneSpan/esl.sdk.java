@@ -45,22 +45,22 @@ public class SignerBuilderTest {
 
     @Test(expected = EslException.class)
     public void signerFirstNameCannotBeNull() {
-        newSignerWithEmail("joe@blow.com").build();
+        newSignerWithEmail("joe@blow.com").withFirstName(null).build();
     }
 
     @Test(expected = EslException.class)
     public void signerFirstNameCannotBeEmptyString() {
-        newSignerWithEmail("joe@blow.com").build();
+        newSignerWithEmail("joe@blow.com").withFirstName("").build();
     }
 
     @Test(expected = EslException.class)
     public void signerLastNameCannotBeNull() {
-        newSignerWithEmail("joe@blow.com").withFirstName("Joe").build();
+        newSignerWithEmail("joe@blow.com").withLastName(null).build();
     }
 
     @Test(expected = EslException.class)
     public void signerLastNameCannotBeEmptyString() {
-        newSignerWithEmail("joe@blow.com").withFirstName("Joe").build();
+        newSignerWithEmail("joe@blow.com").withLastName("").build();
     }
 
     @Test
@@ -161,4 +161,44 @@ public class SignerBuilderTest {
 
         assertThat(signer.isDeliverSignedDocumentsByEmail(), is(true));
     }
+
+    @Test
+    public void canSetAndGetAttachmentRequirements() {
+        com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement = AttachmentRequirementBuilder.newAttachmentRequirementWithName("Driver's license")
+                .withDescription("Please upload scanned driver's license.")
+                .isRequiredAttachment()
+                .build();
+
+        Signer signer = newSignerWithEmail("joe@blow.com")
+                .withFirstName("Joe")
+                .withLastName("Blow")
+                .withAttachmentRequirement(attachmentRequirement)
+                .build();
+
+        assertThat("Signer should have only 1 attachment.", signer.getAttachmentRequirement().size(), is(1));
+        assertThat("Attachment information was set incorrectly.", signer.getAttachmentRequirement().get("Driver's license"), is(attachmentRequirement));
+    }
+
+    @Test
+    public void canAddTwoAttachmentRequirement() {
+        com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement1 = AttachmentRequirementBuilder.newAttachmentRequirementWithName("Driver's license")
+                .withDescription("Please upload scanned driver's license.")
+                .isRequiredAttachment()
+                .build();
+        com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement2 = AttachmentRequirementBuilder.newAttachmentRequirementWithName("Medicare card")
+                .withDescription("Please upload scanned medicare card.")
+                .isRequiredAttachment()
+                .build();
+        Signer signer = newSignerWithEmail("joe@blow.com")
+                .withFirstName("Joe")
+                .withLastName("Blow")
+                .withAttachmentRequirement(attachmentRequirement1)
+                .withAttachmentRequirement(attachmentRequirement2)
+                .build();
+
+        assertThat("Signer should have 2 attachment.", signer.getAttachmentRequirement().size(), is(2));
+        assertThat("Attachment1 information was set incorrectly.", signer.getAttachmentRequirement().get("Driver's license"), is(attachmentRequirement1));
+        assertThat("Attachment2 information was set incorrectly.", signer.getAttachmentRequirement().get("Medicare card"), is(attachmentRequirement2));
+    }
+
 }

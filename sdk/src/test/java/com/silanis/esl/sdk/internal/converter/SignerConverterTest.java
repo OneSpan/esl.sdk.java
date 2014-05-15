@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.BaseMessage;
-import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -102,6 +102,13 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Signing order was not correctly set", apiRole.getIndex(), is(equalTo(sdkSigner1.getSigningOrder())));
         assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(equalTo(sdkSigner1.canChangeSigner())));
         assertThat("Email was not correctly set", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
+
+        String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
+        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getName())));
+        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getDescription())));
+        assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement().get(attachmentName).isRequired()));
+        assertThat("Attachment's status was not set correctly", apiRole.getAttachmentRequirements().get(0).getStatus().toString(), is(sdkSigner1.getAttachmentRequirement().get(attachmentName).getStatus().toString()));
+        assertThat("Attachment's comments was not set correctly", apiRole.getAttachmentRequirements().get(0).getComment(), is(Matchers.equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getSenderComment())));
     }
 
     @Override
@@ -142,6 +149,10 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Name was not set correctly", apiRole.getName().toString(), is(equalTo(sdkSigner1.getId())));
         assertThat("Message was not set correctly", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
 
+        String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
+        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getName())));
+        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getDescription())));
+        assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement().get(attachmentName).isRequired()));
     }
 
     @Test
@@ -195,6 +206,10 @@ public class SignerConverterTest implements ConverterTest {
                 .withLastName("last name")
                 .withEmailMessage("Email message.")
                 .withTitle("Miss")
+                .withAttachmentRequirement(AttachmentRequirementBuilder.newAttachmentRequirementWithName("driver license")
+                    .withDescription("Please upload your scanned driver license.")
+                    .isRequiredAttachment()
+                    .build())
                 .build();
     }
 
@@ -232,6 +247,14 @@ public class SignerConverterTest implements ConverterTest {
         baseMessage.setContent("Base message content.");
         apiRole.setEmailMessage(baseMessage);
         apiRole.setLocked(true);
+
+        AttachmentRequirement attachmentRequirement = new AttachmentRequirement();
+        attachmentRequirement.setName("Driver license");
+        attachmentRequirement.setDescription("Please upload your scanned driver license.");
+        attachmentRequirement.setStatus(RequirementStatus.INCOMPLETE);
+        attachmentRequirement.setRequired(true);
+        attachmentRequirement.setComment("Attachment was not uploaded");
+        apiRole.addAttachmentRequirement(attachmentRequirement);
 
         return apiRole;
     }

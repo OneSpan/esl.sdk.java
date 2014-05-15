@@ -1,10 +1,8 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.AccountService;
 import com.silanis.esl.sdk.service.AuditService;
@@ -17,8 +15,8 @@ import com.silanis.esl.sdk.service.PackageService;
 import com.silanis.esl.sdk.service.ReminderService;
 import com.silanis.esl.sdk.service.SessionService;
 import com.silanis.esl.sdk.service.TemplateService;
+import com.silanis.esl.sdk.service.AttachmentRequirementService;
 
-import javax.print.Doc;
 import java.util.List;
 
 /**
@@ -42,6 +40,7 @@ public class EslClient {
     private AccountService accountService;
     private ReminderService reminderService;
     private TemplateService templateService;
+    private AttachmentRequirementService attachmentRequirementService;
 
     /**
      * The constructor of the EslClient class
@@ -65,6 +64,7 @@ public class EslClient {
         accountService = new AccountService( client, this.baseURL );
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);
+        attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
     }
 
     /**
@@ -291,7 +291,7 @@ public class EslClient {
     }
 
     public void uploadDocument( Document document, DocumentPackage documentPackage ) {
-        uploadDocument( document.getFileName(), document.getContent(), document, documentPackage );
+        uploadDocument(document.getFileName(), document.getContent(), document, documentPackage);
     }
 
     public GroupService getGroupService() {
@@ -308,6 +308,10 @@ public class EslClient {
 
     public TemplateService getTemplateService() {
         return templateService;
+    }
+
+    public AttachmentRequirementService getAttachmentRequirementService() {
+        return attachmentRequirementService;
     }
 
     /**

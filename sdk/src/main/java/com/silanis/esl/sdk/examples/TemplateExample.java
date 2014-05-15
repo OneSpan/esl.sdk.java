@@ -30,6 +30,7 @@ public static final String PACKAGE_SIGNER1_FIRST = "John";
 public static final String PACKAGE_SIGNER1_LAST = "Smith";
 public static final String PACKAGE_SIGNER2_FIRST = "Patty";
 public static final String PACKAGE_SIGNER2_LAST = "Galant";
+
     public DocumentPackage getRetrievedPackage() {
         return retrievedPackage;
     }

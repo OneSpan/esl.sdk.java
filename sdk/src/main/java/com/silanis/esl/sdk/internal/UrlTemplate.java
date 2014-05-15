@@ -71,6 +71,9 @@ public class UrlTemplate {
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
     public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
 
+    // AttachmentRequirement Service
+    public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }

@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.BasePackageType;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslException;
@@ -13,20 +12,17 @@ import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * The TemplateService class provides methods to help create templates from packages.
  */
 public class TemplateService {
 
     private UrlTemplate urls;
-    private RestClient restClient;
+    private RestClient client;
     private PackageService packageService;
 
-    public TemplateService(RestClient restClient, String baseUrl, PackageService packageService) {
-        this.restClient = restClient;
+    public TemplateService(RestClient client, String baseUrl, PackageService packageService) {
+        this.client = client;
         urls = new UrlTemplate(baseUrl);
         this.packageService = packageService;
     }
@@ -49,7 +45,7 @@ public class TemplateService {
 
         Package returnedPackage;
         try {
-            String response = restClient.post(path, deltaJson);
+            String response = client.post(path, deltaJson);
             returnedPackage = Serialization.fromJson(response, Package.class);
         } catch (Exception e) {
             throw new EslException("Could not create template", e);
@@ -99,7 +95,7 @@ public class TemplateService {
 
         Package createdPackage;
         try {
-            String response = restClient.post(path, packageJson);
+            String response = client.post(path, packageJson);
             createdPackage = Serialization.fromJson( response, Package.class );
         } catch ( Exception e ) {
             throw new EslException( "Could not create a new package from template", e );
@@ -122,7 +118,7 @@ public class TemplateService {
 
         PackageId templateId;
         try {
-            String response = restClient.post(path, packageJson);
+            String response = client.post(path, packageJson);
             templateId = Serialization.fromJson(response, PackageId.class);
         } catch (Exception e) {
             throw new EslException("Could not create template", e);

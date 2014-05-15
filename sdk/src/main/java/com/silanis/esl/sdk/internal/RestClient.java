@@ -46,7 +46,7 @@ public class RestClient {
             post.setEntity(body);
         }
 
-        return execute(post, apiToken, jsonHandler);
+        return execute(post, jsonHandler);
     }
 
     public String put(String path, String jsonPayload) throws IOException {
@@ -58,7 +58,7 @@ public class RestClient {
         body.setContentType("application/json");
         put.setEntity(body);
 
-        return execute(put, apiToken, jsonHandler);
+        return execute(put, jsonHandler);
     }
 
     public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException {
@@ -74,13 +74,17 @@ public class RestClient {
 
         post.setEntity(multipart);
 
-        execute(post, apiToken, jsonHandler);
+        execute(post, jsonHandler);
     }
 
-    private static <T> T execute(HttpUriRequest request, String apiToken, ResponseHandler<T> handler) throws IOException {
+    protected void addAuthorizationHeader(HttpUriRequest request) {
+        request.setHeader("Authorization", "Basic " + apiToken);
+    }
+
+    private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException {
         HttpClient client = new DefaultHttpClient();
 
-        request.setHeader( "Authorization", "Basic " + apiToken );
+        addAuthorizationHeader(request);
 
         try {
             HttpResponse response = client.execute(request);
@@ -109,21 +113,21 @@ public class RestClient {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
-        return execute(get, apiToken, jsonHandler);
+        return execute(get, jsonHandler);
     }
 
     public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
-        return execute(get, apiToken, bytesHandler);
+        return execute(get, bytesHandler);
     }
 
     public String delete(String path) throws HttpException, IOException, URISyntaxException {
         support.logRequest("DELETE", path);
         HttpDelete delete = new HttpDelete( path );
 
-        return execute(delete, apiToken, jsonHandler);
+        return execute(delete, jsonHandler);
     }
 
     private static interface ResponseHandler<T> {

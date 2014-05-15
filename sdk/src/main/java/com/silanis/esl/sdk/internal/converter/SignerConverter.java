@@ -1,11 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.BaseMessage;
-import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.Role;
-import com.silanis.esl.api.model.Signer;
-import com.silanis.esl.sdk.Authentication;
-import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
 /**
@@ -120,6 +116,10 @@ public class SignerConverter {
 
         signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
 
+        for (com.silanis.esl.api.model.AttachmentRequirement attachmentRequirement : apiRole.getAttachmentRequirements()) {
+            signerBuilder.withAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toSDKAttachmentRequirement());
+        }
+
         return signerBuilder.build();
     }
 
@@ -151,6 +151,10 @@ public class SignerConverter {
 
             message.setContent(sdkSigner.getMessage());
             role.setEmailMessage(message);
+        }
+
+        for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirement().values()) {
+            role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }
 
         return role;

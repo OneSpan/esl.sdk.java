@@ -91,6 +91,10 @@ public class DocumentPackageConverter {
                 role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );
             }
 
+            for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirement().values()) {
+                role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
+            }
+
             apiPackageToCreate.addRole(role);
         }
 

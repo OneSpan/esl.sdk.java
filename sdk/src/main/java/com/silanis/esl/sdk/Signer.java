@@ -2,6 +2,7 @@ package com.silanis.esl.sdk;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>The Signer class contains all the information about an user that is supposed to sign a document.</p>
@@ -23,6 +24,7 @@ public class Signer implements Serializable {
     private boolean deliverSignedDocumentsByEmail;
     private String id;
     private boolean locked;
+    private Map<String, AttachmentRequirement> attachments;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -250,5 +252,17 @@ public class Signer implements Serializable {
 
     public boolean isLocked() {
         return locked;
+    }
+
+    public Map<String, AttachmentRequirement> getAttachmentRequirement() {
+        return attachments;
+    }
+
+    public void setAttachmentRequirement(Map<String, AttachmentRequirement> attachments) {
+        this.attachments = attachments;
+    }
+
+    public void addAttachmentRequirement(AttachmentRequirement attachment) {
+        this.attachments.put(attachment.getName(), attachment);
     }
 }

@@ -4,7 +4,9 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.silanis.esl.sdk.internal.Asserts.genericAssert;
 import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
@@ -30,12 +32,14 @@ final public class SignerBuilder {
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
     private boolean locked = false;
+    private Map<String, AttachmentRequirement> attachments = new HashMap<String, AttachmentRequirement>();
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
-     * @param email	the signer's email.
+     *
+     * @param email the signer's email.
      */
-    private SignerBuilder( String email ) {
+    private SignerBuilder(String email) {
         if (email == null) {
             this.email = email;
         } else {
@@ -44,69 +48,75 @@ final public class SignerBuilder {
         this.groupId = null;
     }
 
-    private SignerBuilder( GroupId groupId ) {
+    private SignerBuilder(GroupId groupId) {
         this.email = null;
         this.groupId = groupId;
     }
 
     /**
      * <p>Creates a SignerBuilder object.</p>
-     * @param email	the signer's email
-     * @return	a SignerBuilder object
+     *
+     * @param email the signer's email
+     * @return a SignerBuilder object
      */
-    public static SignerBuilder newSignerWithEmail( String email ) {
+    public static SignerBuilder newSignerWithEmail(String email) {
         return new SignerBuilder(email);
     }
 
-    public static SignerBuilder newSignerFromGroup( GroupId groupId ) {
+    public static SignerBuilder newSignerFromGroup(GroupId groupId) {
         return new SignerBuilder(groupId);
     }
 
     /**
      * Sets the ID of the signer.
-     * @param id	the signer's ID
-     * @return	the signer builder itself
+     *
+     * @param id the signer's ID
+     * @return the signer builder itself
      */
-    public SignerBuilder withCustomId( String id ) {
+    public SignerBuilder withCustomId(String id) {
         this.id = id;
         return this;
     }
 
     /**
      * Sets the signer's first name
-     * @param firstName	the signer's first name
-     * @return	the signer builder itself
+     *
+     * @param firstName the signer's first name
+     * @return the signer builder itself
      */
-    public SignerBuilder withFirstName( String firstName ) {
-        Asserts.genericAssert( !isGroupSigner(), "first name can not be set for a group signer" );
+    public SignerBuilder withFirstName(String firstName) {
+        Asserts.genericAssert(!isGroupSigner(), "first name can not be set for a group signer");
         this.firstName = firstName;
         return this;
     }
 
     /**
      * Sets the signer's last name
-     * @param lastName	the signer's last name
-     * @return	the signer builder itself
+     *
+     * @param lastName the signer's last name
+     * @return the signer builder itself
      */
-    public SignerBuilder withLastName( String lastName ) {
-        Asserts.genericAssert( !isGroupSigner(), "last name can not be set for a group signer" );
+    public SignerBuilder withLastName(String lastName) {
+        Asserts.genericAssert(!isGroupSigner(), "last name can not be set for a group signer");
         this.lastName = lastName;
         return this;
     }
 
     /**
      * Sets the signing order.
-     * @param signingOrder	a value greater than zero
-     * @return	the signer builder itself
+     *
+     * @param signingOrder a value greater than zero
+     * @return the signer builder itself
      */
-    public SignerBuilder signingOrder( int signingOrder ) {
+    public SignerBuilder signingOrder(int signingOrder) {
         this.signingOrder = signingOrder;
         return this;
     }
 
     /**
      * Builds the actual signer object
-     * @return	the signer object
+     *
+     * @return the signer object
      */
     public Signer build() {
 
@@ -115,29 +125,32 @@ final public class SignerBuilder {
         }
 
         Signer signer;
-        if ( isGroupSigner() ) {
+        if (isGroupSigner()) {
             signer = new Signer(groupId);
         } else {
-            Asserts.notNullOrEmpty( firstName, "first name" );
-            Asserts.notNullOrEmpty( lastName, "last name" );
-            signer = new Signer( email, firstName, lastName, authentication );
+            Asserts.notNullOrEmpty(firstName, "first name");
+            Asserts.notNullOrEmpty(lastName, "last name");
+            signer = new Signer(email, firstName, lastName, authentication);
             signer.setTitle(title);
             signer.setCompany(company);
-            signer.setDeliverSignedDocumentsByEmail( deliverSignedDocumentsByEmail );
+            signer.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
         }
 
-        signer.setSigningOrder( signingOrder );
-        signer.setCanChangeSigner( canChangeSigner );
-        signer.setMessage( message );
+        signer.setSigningOrder(signingOrder);
+        signer.setCanChangeSigner(canChangeSigner);
+        signer.setMessage(message);
         signer.setId(id);
         signer.setLocked(locked);
+        signer.setAttachmentRequirement(attachments);
+
         return signer;
     }
 
     /**
      * <p>Sets the signer's authentication type to CHALLENGE.</p>
-     * @param challengeBuilder	the challenge builder
-     * @return	the signer builder object itself
+     *
+     * @param challengeBuilder the challenge builder
+     * @return the signer builder object itself
      */
     public SignerBuilder challengedWithQuestions(ChallengeBuilder challengeBuilder) {
         this.authenticationBuilder = challengeBuilder;
@@ -146,8 +159,9 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the signer's authentication type to SMS.</p>
+     *
      * @param phoneNumber
-     * @return	the signer builder object itself
+     * @return the signer builder object itself
      */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
         this.authenticationBuilder = new SMSAuthenticationBuilder(phoneNumber);
@@ -168,29 +182,32 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the signer's title.</p>
+     *
      * @param title the signer's title
-     * @return	the signer builder object itself
+     * @return the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {
-        Asserts.genericAssert( !isGroupSigner(), "title can not be set for a group signer" );
+        Asserts.genericAssert(!isGroupSigner(), "title can not be set for a group signer");
         this.title = title;
         return this;
     }
 
     /**
      * <p>Sets the signer's company name.</p>
-     * @param company	the signer's company name
-     * @return	the signer builder object itself
+     *
+     * @param company the signer's company name
+     * @return the signer builder object itself
      */
     public SignerBuilder withCompany(String company) {
-        Asserts.genericAssert( !isGroupSigner(), "company can not be set for a group signer" );
+        Asserts.genericAssert(!isGroupSigner(), "company can not be set for a group signer");
         this.company = company;
         return this;
     }
 
     /**
      * <p>Sets the canChangeSigner property to true.</p>
-     * @return	the signer builder object itself
+     *
+     * @return the signer builder object itself
      */
     public SignerBuilder canChangeSigner() {
         canChangeSigner = true;
@@ -199,8 +216,9 @@ final public class SignerBuilder {
 
     /**
      * Sets the signer's email message
-     * @param message	the message the signer will receive in the email invitation to start the signing ceremony
-     * @return	the signet builder object itself
+     *
+     * @param message the message the signer will receive in the email invitation to start the signing ceremony
+     * @return the signet builder object itself
      */
     public SignerBuilder withEmailMessage(String message) {
         this.message = message;
@@ -209,7 +227,8 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the deliverSignedDocumentsByEmail to true.</p>
-     * @return	the signer builder object itself
+     *
+     * @return the signer builder object itself
      */
     public SignerBuilder deliverSignedDocumentsByEmail() {
         deliverSignedDocumentsByEmail = true;
@@ -222,19 +241,48 @@ final public class SignerBuilder {
     }
 
     /**
-     * @deprecated Use withCustomId() from now on. Will get deleted in a future release
      * @param roleId
      * @return
+     * @deprecated Use withCustomId() from now on. Will get deleted in a future release
      */
     @Deprecated
-    public SignerBuilder withRoleId( String roleId ) {
+    public SignerBuilder withRoleId(String roleId) {
         return withCustomId(roleId);
     }
 
     /**
-     * 
-     * @author admin
+     * <p>Adds an attachment requirement for the signer. The attachment requirement is conveniently customized by the
+     * builder provided as parameter.</p>
      *
+     * @param builder
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withAttachmentRequirement(AttachmentRequirementBuilder builder) {
+        return withAttachmentRequirement(builder.build());
+    }
+
+    /**
+     * Adds an attachment requirement for the signer.
+     *
+     * @param attachmentRequirement
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withAttachmentRequirement(AttachmentRequirement attachmentRequirement) {
+        addAttachment(attachmentRequirement);
+        return this;
+    }
+
+    /**
+     * Adds an attachment requirement for the signer.
+     *
+     * @param attachmentRequirement the attachment
+     */
+    private void addAttachment(AttachmentRequirement attachmentRequirement) {
+        attachments.put(attachmentRequirement.getName(), attachmentRequirement);
+    }
+
+    /**
+     * @author admin
      */
     public static class AuthenticationBuilder {
         public Authentication build() {
@@ -243,8 +291,7 @@ final public class SignerBuilder {
     }
 
     /**
-     * Challenge builder is a convenient class used to create an Authentication object.  
-     * 
+     * Challenge builder is a convenient class used to create an Authentication object.
      */
     public static class ChallengeBuilder extends AuthenticationBuilder {
 
@@ -252,7 +299,6 @@ final public class SignerBuilder {
         private final List<Challenge> challenges = new ArrayList<Challenge>();
 
         /**
-         * 
          * @param question
          */
         public ChallengeBuilder(String question) {
@@ -296,7 +342,7 @@ final public class SignerBuilder {
 
         @Override
         public Authentication build() {
-            Asserts.notNullOrEmpty( phoneNumber, "phone number" );
+            Asserts.notNullOrEmpty(phoneNumber, "phone number");
             return new Authentication(phoneNumber);
         }
     }
@@ -304,4 +350,5 @@ final public class SignerBuilder {
     private boolean isGroupSigner() {
         return groupId != null;
     }
+
 }
