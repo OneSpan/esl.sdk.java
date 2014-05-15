@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.FieldId;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -22,33 +23,39 @@ public class GenericFieldsExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
+    public static final String TEXTFIELD_ID = "textFieldId";
     public static final int TEXTFIELD_PAGE = 0;
-    public static final int TEXTFIELD_POSITION_X = 400;
-    public static final int TEXTFIELD_POSITION_Y = 200;
+    public static final String CHECKBOX_1_ID = "checkbox1Id";
     public static final int CHECKBOX_1_PAGE = 0;
-    public static final double CHECKBOX_1_WIDTH = 20;
-    public static final double CHECKBOX_1_HEIGHT = 20;
-    public static final int CHECKBOX_1_POSITION_X = 400;
-    public static final int CHECKBOX_1_POSITION_Y = 300;
+    public static final String CHECKBOX_2_ID = "checkbox2Id";
     public static final int CHECKBOX_2_PAGE = 0;
-    public static final double CHECKBOX_2_WIDTH = 20;
-    public static final double CHECKBOX_2_HEIGHT = 20;
-    public static final int CHECKBOX_2_POSITION_X = 400;
-    public static final int CHECKBOX_2_POSITION_Y = 350;
     public static final boolean CHECKBOX_2_VALUE = true;
+    public static final String RADIO_1_ID = "radio1Id";
     public static final int RADIO_1_PAGE = 0;
-    public static final double RADIO_1_WIDTH = 20;
-    public static final double RADIO_1_HEIGHT = 20;
-    public static final int RADIO_1_POSITION_X = 400;
-    public static final int RADIO_1_POSITION_Y = 400;
     public static final String RADIO_1_GROUP = "group";
+    public static final String RADIO_2_ID = "radio2Id";
     public static final int RADIO_2_PAGE = 0;
-    public static final double RADIO_2_WIDTH = 20;
-    public static final double RADIO_2_HEIGHT = 20;
-    public static final int RADIO_2_POSITION_X = 400;
-    public static final int RADIO_2_POSITION_Y = 450;
     public static final boolean RADIO_2_VALUE = true;
     public static final String RADIO_2_GROUP = "group";
+
+    private int textfieldPositionX = 400;
+    private int textfieldPositionY = 200;
+    private double checkbox1Width = 20;
+    private double checkbox1Height = 20;
+    private int checkbox1PositionX = 400;
+    private int checkbox1PositionY = 300;
+    private double checkbox2Width = 20;
+    private double checkbox2Height = 20;
+    private int checkbox2PositionX = 400;
+    private int checkbox2PositionY = 350;
+    private double radio1Width = 20;
+    private double radio1Height = 20;
+    private int radio1PositionX = 400;
+    private int radio1PositionY = 400;
+    private double radio2Width = 20;
+    private double radio2Height = 20;
+    private int radio2PositionX = 400;
+    private int radio2PositionY = 450;
 
     public static void main( String... args ) {
         new GenericFieldsExample( Props.get() ).run();
@@ -79,26 +86,31 @@ public class GenericFieldsExample extends SDKSample {
                                 .onPage(0)
                                 .atPosition(400, 100)
                                 .withField(textField()
+                                        .withId(new FieldId(TEXTFIELD_ID))
                                         .onPage(TEXTFIELD_PAGE)
-                                        .atPosition(TEXTFIELD_POSITION_X, TEXTFIELD_POSITION_Y))
+                                        .atPosition(textfieldPositionX, textfieldPositionY))
                                 .withField(checkBox()
+                                        .withId(new FieldId(CHECKBOX_1_ID))
                                         .onPage(CHECKBOX_1_PAGE)
-                                        .withSize(CHECKBOX_1_WIDTH, CHECKBOX_1_HEIGHT)
-                                        .atPosition(CHECKBOX_1_POSITION_X, CHECKBOX_1_POSITION_Y))
+                                        .withSize(checkbox1Width, checkbox1Height)
+                                        .atPosition(checkbox1PositionX, checkbox1PositionY))
                                 .withField(checkBox()
+                                        .withId(new FieldId(CHECKBOX_2_ID))
                                         .withValue(CHECKBOX_2_VALUE)
                                         .onPage(CHECKBOX_2_PAGE)
-                                        .withSize(CHECKBOX_2_WIDTH, CHECKBOX_2_HEIGHT)
-                                        .atPosition(CHECKBOX_2_POSITION_X, CHECKBOX_2_POSITION_Y))
+                                        .withSize(checkbox2Width, checkbox2Height)
+                                        .atPosition(checkbox2PositionX, checkbox2PositionY))
                                 .withField(radioButton(RADIO_1_GROUP)
+                                        .withId(new FieldId(RADIO_1_ID))
                                         .onPage(RADIO_1_PAGE)
-                                        .withSize(RADIO_1_WIDTH, RADIO_1_HEIGHT)
-                                        .atPosition(RADIO_1_POSITION_X, RADIO_1_POSITION_Y))
-                                .withField(radioButton(RADIO_1_GROUP)
+                                        .withSize(radio1Width, radio1Height)
+                                        .atPosition(radio1PositionX, radio1PositionY))
+                                .withField(radioButton(RADIO_2_GROUP)
+                                        .withId(new FieldId(RADIO_2_ID))
                                         .withValue(RADIO_2_VALUE)
                                         .onPage(RADIO_2_PAGE)
-                                        .withSize(RADIO_2_WIDTH, RADIO_2_HEIGHT)
-                                        .atPosition(RADIO_2_POSITION_X, RADIO_2_POSITION_Y))))
+                                        .withSize(radio2Width, radio2Height)
+                                        .atPosition(radio2PositionX, radio2PositionY))))
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
