@@ -95,7 +95,7 @@ public class FieldConverter {
         if ( apiField.getValidation() != null ) {
             result.setFieldValidator(new FieldValidatorConverter(apiField.getValidation()).toSDKFieldValidator());
         }
-        result.setHeight(apiField.getHeight());
+
         result.setId(new FieldId(apiField.getId()));
         result.setName(apiField.getName());
 
