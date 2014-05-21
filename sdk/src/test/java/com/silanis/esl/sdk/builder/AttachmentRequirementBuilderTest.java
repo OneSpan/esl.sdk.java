@@ -17,7 +17,6 @@ public class AttachmentRequirementBuilderTest {
     @Test
     public void buildWithSpecificValues() {
         String name = "Driver's license";
-        String id = "attachment1";
         String description = "Please upload driver's license.";
         boolean isRequired = true;
 

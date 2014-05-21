@@ -13,7 +13,7 @@ public class AttachmentRequirementConverter {
     private com.silanis.esl.api.model.AttachmentRequirement apiAttachmentRequirement = null;
 
     /**
-     * Construct with API signer object involved in conversion.
+     * Construct with API AttachmentRequirement object involved in conversion.
      *
      * @param apiAttachmentRequirement
      */

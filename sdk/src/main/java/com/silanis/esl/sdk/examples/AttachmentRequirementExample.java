@@ -18,18 +18,14 @@ import java.util.Properties;
 import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.*;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
-/**
- * Created by lena on 2014-05-08.
- */
 public class AttachmentRequirementExample extends SDKSample {
 
     private InputStream documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
 
     private String email1;
     private String email2;
-    private String email3;
-    private Signer signer3;
-    private String attachment3Id;
+    public Signer signer1;
+    private String attachment1Id;
     private DocumentPackage retrievedPackage;
 
     public static final String name1 = "Driver's license";
@@ -38,7 +34,7 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String description2 = "Optional attachment.";
     public static final String name3 = "Third Attachment";
     public static final String description3 = "Third description";
-    public static final String signer3Id = "signer3";
+    public static final String signer1Id = "signer1Id";
     public static final String rejectionComment = "Reject: uploaded wrong attachment.";
 
     public static void main(String... args) {
@@ -49,15 +45,13 @@ public class AttachmentRequirementExample extends SDKSample {
         this(properties.getProperty("api.key"),
                 properties.getProperty("api.url"),
                 properties.getProperty("1.email"),
-                properties.getProperty("2.email"),
-                properties.getProperty("3.email"));
+                properties.getProperty("2.email"));
     }
 
-    public AttachmentRequirementExample(String apiKey, String apiUrl, String email1, String email2, String email3) {
+    public AttachmentRequirementExample(String apiKey, String apiUrl, String email1, String email2) {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.email2 = email2;
-        this.email3 = email3;
     }
 
     public String getEmail1() {
@@ -68,10 +62,6 @@ public class AttachmentRequirementExample extends SDKSample {
         return email2;
     }
 
-    public String getEmail3() {
-        return email3;
-    }
-
     public DocumentPackage getRetrievedPackage() {
         return retrievedPackage;
     }
@@ -80,48 +70,36 @@ public class AttachmentRequirementExample extends SDKSample {
     public void execute() {
 
         // Signer1 with 1 attachment requirement
-        Signer signer1 = SignerBuilder.newSignerWithEmail(email1)
+        signer1 = SignerBuilder.newSignerWithEmail(email1)
                 .withFirstName("John")
                 .withLastName("Smith")
+                .withCustomId(signer1Id)
                 .withAttachmentRequirement(newAttachmentRequirementWithName(name1)
                         .withDescription(description1)
                         .isRequiredAttachment()
                         .build())
                 .build();
 
-        AttachmentRequirement attachmentRequirement2 = newAttachmentRequirementWithName(name2)
-                .withDescription(description2)
-                .build();
-        AttachmentRequirement attachmentRequirement3 = new AttachmentRequirement(name3);
-        attachmentRequirement3.setDescription(description3);
-        attachmentRequirement3.setRequired(true);
-
-        HashMap<String, AttachmentRequirement> attachmentMap = new HashMap<String, AttachmentRequirement>();
-        attachmentMap.put(attachmentRequirement2.getName(),attachmentRequirement2);
-        attachmentMap.put(attachmentRequirement3.getName(), attachmentRequirement3);
-
         // Signer2 with 2 attachment requirements
-        Signer signer2 = new Signer(email2, "Patty", "Galant", new Authentication(AuthenticationMethod.EMAIL));
-        signer2.setCompany("Elvis Presley International");
-        signer2.setAttachmentRequirement(attachmentMap);
-
-        // Signer3 with 2 attachment requirements
-        signer3 = SignerBuilder.newSignerWithEmail(email3)
-                .withFirstName("Elvis")
-                .withLastName("Presley")
-                .withCustomId(signer3Id)
-                .withAttachmentRequirement(attachmentRequirement2)
-                .withAttachmentRequirement(attachmentRequirement3)
+        Signer signer2 = SignerBuilder.newSignerWithEmail(email2)
+                .withFirstName("Patty")
+                .withLastName("Galant")
+                .withAttachmentRequirement(newAttachmentRequirementWithName(name2)
+                        .withDescription(description2)
+                        .build())
+                .withAttachmentRequirement(newAttachmentRequirementWithName(name3)
+                    .withDescription(description3)
+                    .isRequiredAttachment()
+                    .build())
                 .build();
 
         DocumentPackage superDuperPackage = newPackageNamed("AttachmentRequirementExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner(signer1)
                 .withSigner(signer2)
-                .withSigner(signer3)
                 .withDocument(DocumentBuilder.newDocumentWithName("test document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
-                        .withSignature(SignatureBuilder.signatureFor(email3)
+                        .withSignature(SignatureBuilder.signatureFor(email1)
                                 .build())
                         .build())
                 .build();
@@ -130,26 +108,28 @@ public class AttachmentRequirementExample extends SDKSample {
 
         retrievedPackage = eslClient.getPackage(packageId);
 
-        attachment3Id = retrievedPackage.getSigner(email3).getAttachmentRequirement().get(name3).getId();
-        signer3 = retrievedPackage.getSigner(email3);
+        attachment1Id = retrievedPackage.getSigner(email1).getAttachmentRequirement().get(name1).getId();
+        signer1 = retrievedPackage.getSigner(email1);
 
-        // Signer3 uploads attachmentRequirement3
+        // Signer1 uploads required attachment
         // Sender can accept/reject the uploaded attachment
 
     }
 
+    // Sender rejects Signer1's uploaded attachment
     public void rejectAttachment() {
-        eslClient.getAttachmentRequirementService().rejectAttachment(packageId, signer3, name3, rejectionComment);
+        eslClient.getAttachmentRequirementService().rejectAttachment(packageId, signer1, name1, rejectionComment);
         retrievedPackage = eslClient.getPackage(packageId);
     }
 
+    // Sender accepts Signer1's uploaded attachment
     public void acceptAttachment() {
-        eslClient.getAttachmentRequirementService().acceptAttachment(packageId, signer3, name3);
+        eslClient.getAttachmentRequirementService().acceptAttachment(packageId, signer1, name1);
         retrievedPackage = eslClient.getPackage(packageId);
     }
 
-    public void downloadAttachment() {
-        byte[] attachment = eslClient.getAttachmentRequirementService().downloadAttachment(packageId, attachment3Id);
-        Files.saveTo(attachment,  "/dev/null");
+    // Sender downloads Signer1's attachment
+    public byte[] downloadAttachment() {
+        return eslClient.getAttachmentRequirementService().downloadAttachment(packageId, attachment1Id);
     }
 }

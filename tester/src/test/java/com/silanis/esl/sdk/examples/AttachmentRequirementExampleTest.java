@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
 import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.io.Files;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -36,7 +37,6 @@ public class AttachmentRequirementExampleTest {
         DocumentPackage retrievedPackage = example.getRetrievedPackage();
         Map<String, AttachmentRequirement> signer1Attachments = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement();
         Map<String, AttachmentRequirement> signer2Attachments = retrievedPackage.getSigner(example.getEmail2()).getAttachmentRequirement();
-        Map<String, AttachmentRequirement> signer3Attachments = retrievedPackage.getSigner(example.getEmail3()).getAttachmentRequirement();
 
         assertThat("Signer1 should have 1 attachment requirement.", signer1Attachments.size(), is(1));
         AttachmentRequirement signer1Att1 = signer1Attachments.get(example.name1);
@@ -57,20 +57,8 @@ public class AttachmentRequirementExampleTest {
         assertThat("Signer2's attachment3's isRequired property was set incorrectly.", signer2Att2.isRequired(), is(true));
         assertThat("Signer2's attachment3's status was set incorrectly.", signer2Att2.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
 
-        assertThat("Signer3 should have 2 attachment requirements.", signer3Attachments.size(), is(2));
-        AttachmentRequirement signer3Att1 = signer3Attachments.get(example.name2);
-        AttachmentRequirement signer3Att2 = signer3Attachments.get(example.name3);
-        assertThat("Signer3's attachment2's name was set incorrectly.", signer3Att1.getName(), is(equalTo(example.name2)));
-        assertThat("Signer3's attachment2's description was set incorrectly.", signer3Att1.getDescription(), is(equalTo(example.description2)));
-        assertThat("Signer3's attachment2's isRequired property was set incorrectly.", signer3Att1.isRequired(), is(false));
-        assertThat("Signer3's attachment2's status was set incorrectly.", signer3Att1.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
-        assertThat("Signer3's attachment3's name was set incorrectly.", signer3Att2.getName(), is(equalTo(example.name3)));
-        assertThat("Signer3's attachment3's description was set incorrectly.", signer3Att2.getDescription(), is(equalTo(example.description3)));
-        assertThat("Signer3's attachment3's isRequired property was set incorrectly.", signer3Att2.isRequired(), is(true));
-        assertThat("Signer3's attachment3's status was set incorrectly.", signer3Att2.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
-
-        // Upload second attachment for signer3
-        final String signerAuthenticationToken = example.eslClient.createSignerAuthenticationToken(example.getPackageId().getId(), example.signer3Id);
+        // Upload attachment for signer1
+        final String signerAuthenticationToken = example.eslClient.createSignerAuthenticationToken(example.getPackageId().getId(), example.signer1Id);
         AuthenticationClient authenticationClient = new AuthenticationClient(Props.get().getProperty("webpage.url"));
         String sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
@@ -78,23 +66,23 @@ public class AttachmentRequirementExampleTest {
         template = new UrlTemplate(Props.get().getProperty("api.url"));
 
         InputStream documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        uploadAttachment(example.getPackageId(), signer3Att2.getId(), "Test Attachment", documentInputStream1);
+        uploadAttachment(example.getPackageId(), signer1Att1.getId(), "Test Attachment", documentInputStream1);
 
-        // Reject signer3's second attachment
+        // Reject signer1's attachment
         example.rejectAttachment();
-        signer3Att2 = retrievedPackage.getSigner(example.getEmail3()).getAttachmentRequirement().get(example.name3);
-        assertThat("Signer3's attachment3's status should be changed to REJECTED.", signer3Att2.getStatus().toString(), is(equalTo(RequirementStatus.REJECTED.toString())));
-        assertThat("Signer3's attachment3's sender comment was set incorrectly.", signer3Att2.getSenderComment(), is(equalTo(example.rejectionComment)));
+        signer1Att1 = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement().get(example.name1);
+        assertThat("Signer3's attachment3's status should be changed to REJECTED.", signer1Att1.getStatus().toString(), is(equalTo(RequirementStatus.REJECTED.toString())));
+        assertThat("Signer3's attachment3's sender comment was set incorrectly.", signer1Att1.getSenderComment(), is(equalTo(example.rejectionComment)));
 
-        // Accept signer3's second attachment
+        // Accept signer1's attachment
         example.acceptAttachment();
-        signer3Att2 = retrievedPackage.getSigner(example.getEmail3()).getAttachmentRequirement().get(example.name3);
-        assertThat("Signer3's attachment3's status should be changed back to COMPLETE.", signer3Att2.getStatus().toString(), is(equalTo(RequirementStatus.COMPLETE.toString())));
-        assertThat("Signer3's attachment3's sender comment should be empty.", signer3Att2.getSenderComment(), is(""));
+        signer1Att1 = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement().get(example.name1);
+        assertThat("Signer3's attachment3's status should be changed back to COMPLETE.", signer1Att1.getStatus().toString(), is(equalTo(RequirementStatus.COMPLETE.toString())));
+        assertThat("Signer3's attachment3's sender comment should be empty.", signer1Att1.getSenderComment(), is(""));
 
-        // Download signer3's second attachment
-        example.downloadAttachment();
-
+        // Download signer1's attachment
+        byte[] downloadedAttachment = example.downloadAttachment();
+        Files.saveTo(downloadedAttachment, "/dev/null");
     }
 
     private void uploadAttachment(PackageId packageId, String attachmentId, String filename, InputStream input) {
