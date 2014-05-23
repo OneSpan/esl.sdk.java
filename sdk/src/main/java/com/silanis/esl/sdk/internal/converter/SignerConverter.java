@@ -2,7 +2,9 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
+import com.silanis.esl.sdk.internal.Asserts;
 
 /**
  * User: jessica
@@ -69,17 +71,7 @@ public class SignerConverter {
         return result;
     }
 
-    /**
-     * Convert from API signer to SDK signer.
-     *
-     * @return an SDK Signer object.
-     */
-    public com.silanis.esl.sdk.Signer toSDKSigner() {
-
-        if (apiRole == null) {
-            return sdkSigner;
-        }
-
+    private Signer newRegularSignerFromAPIRole(){
         SignerBuilder signerBuilder;
 
         if ( apiSigner.getGroup() == null ) {
@@ -123,6 +115,45 @@ public class SignerConverter {
         return signerBuilder.build();
     }
 
+    private Signer newSignerPlaceholderFromAPIRole(){
+        Asserts.notNullOrEmpty(apiRole.getId(), "role.id");
+
+        SignerBuilder signerBuilder = SignerBuilder.newSignerPlaceholder(new Placeholder(apiRole.getId()))
+                .signingOrder(apiRole.getIndex());
+
+        if(apiRole.evalReassign()){
+            signerBuilder.canChangeSigner();
+        }
+
+        if(apiRole.getEmailMessage() != null){
+            signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
+        }
+
+        if(apiRole.getLocked()){
+            signerBuilder.lock();
+        }
+
+        return signerBuilder.build();
+    }
+    /**
+     * Convert from API signer to SDK signer.
+     *
+     * @return an SDK Signer object.
+     */
+    public com.silanis.esl.sdk.Signer toSDKSigner() {
+
+        if (apiRole == null) {
+            return sdkSigner;
+        }
+
+        if(apiRole.getSigners() == null || apiRole.getSigners().size() == 0){
+            return newSignerPlaceholderFromAPIRole();
+        }
+        else{
+            return newRegularSignerFromAPIRole();
+        }
+    }
+
     /**
      * Convert SDK signer to API role
      *
@@ -132,10 +163,12 @@ public class SignerConverter {
     public Role toAPIRole(String roleIdName){
         Role role = new Role();
 
+        if(!sdkSigner.isPlaceholderSigner()){
+            role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
+        }
+
         role.setIndex(sdkSigner.getSigningOrder());
         role.setReassign(sdkSigner.canChangeSigner());
-
-        role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
 
         if(sdkSigner.getId() == null || sdkSigner.getId().isEmpty()){
             role.setId(roleIdName);

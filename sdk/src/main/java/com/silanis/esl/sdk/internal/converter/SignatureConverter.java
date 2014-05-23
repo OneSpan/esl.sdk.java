@@ -1,7 +1,8 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
-import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.internal.ConversionException;
@@ -46,16 +47,22 @@ public class SignatureConverter {
             return sdkSignature;
         }
 
-        Signer apiSigner = null;
+        SignatureBuilder signatureBuilder = null;
+
         for ( Role role : apiPackage.getRoles() ) {
             if ( role.getId().equals( apiApproval.getRole() ) ) {
-                if (!isPlaceholder(role)) {
-                    apiSigner = role.getSigners().get( 0 );
+                if ( isPlaceholder(role)) {
+                    signatureBuilder = SignatureBuilder.signatureFor(new Placeholder(role.getId()));
+                }
+                else if ( isGroupRole(role) ){
+                    signatureBuilder = SignatureBuilder.signatureFor(new GroupId(role.getSigners().get(0).getGroup().getId()));
+                }
+                else{
+                    signatureBuilder = SignatureBuilder.signatureFor(role.getSigners().get(0).getEmail());
                 }
             }
         }
 
-        SignatureBuilder signatureBuilder = SignatureBuilder.signatureFor(apiSigner != null ? apiSigner.getEmail() : "");
         signatureBuilder.withName( apiApproval.getName() );
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
@@ -122,6 +129,10 @@ public class SignatureConverter {
      */
     private static boolean isPlaceholder(Role role) {
         return role.getSigners().isEmpty();
+    }
+
+    private static boolean isGroupRole(Role role) {
+        return role.getSigners().get(0).getGroup() != null;
     }
 
     /**

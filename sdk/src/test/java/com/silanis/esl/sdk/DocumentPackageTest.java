@@ -130,4 +130,65 @@ public class DocumentPackageTest {
         assertThat("Document package should have 0 signers.", documentPackage.getSigners().size(), is(0));
     }
 
+    @Test
+    public void addPlaceholder(){
+        Signer placeholder1 = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
+                            .build();
+
+        Signer placeholder2 = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId2"))
+                .build();
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(placeholder1)
+                .withSigner(placeholder2)
+                .build();
+
+        assertThat("Document package should have 2 placeholders.", documentPackage.getPlaceholders().size(), is(2));
+        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().containsKey("placeholderId1"));
+        assertThat("Document package is missing placeholder2", documentPackage.getPlaceholders().containsKey("placeholderId2"));
+    }
+
+    @Test
+    public void addDuplicatePlaceholder(){
+        Signer placeholder1 = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
+                .build();
+
+        Signer placeholder2 = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
+                .build();
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(placeholder1)
+                .withSigner(placeholder2)
+                .build();
+
+        assertThat("Document package should have 1 placeholder.", documentPackage.getPlaceholders().size(), is(1));
+        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().containsKey("placeholderId1"));
+    }
+
+    @Test
+    public void removePlaceholder(){
+        Signer placeholder = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
+                .build();
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(placeholder)
+                .build();
+
+        documentPackage.removePlaceholder(placeholder);
+
+        assertThat("Document package should have 1 placeholder.", documentPackage.getPlaceholders().size(), is(0));
+        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().containsKey("placeholderId1"), is(false));
+    }
+
+
+    @Test(expected = EslException.class)
+    public void removeAbsentPlaceholder(){
+        Signer placeholder = SignerBuilder.newSignerPlaceholder(new Placeholder("absent"))
+                .build();
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .build();
+
+        documentPackage.removePlaceholder(placeholder);
+    }
 }

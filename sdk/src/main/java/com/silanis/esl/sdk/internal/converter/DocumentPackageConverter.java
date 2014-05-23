@@ -98,6 +98,12 @@ public class DocumentPackageConverter {
             apiPackageToCreate.addRole(role);
         }
 
+        for ( com.silanis.esl.sdk.Signer signer : sdkPackage.getPlaceholders().values() ) {
+            Role role = new SignerConverter(signer).toAPIRole("role" + signerCount);
+            signerCount++;
+            apiPackageToCreate.addRole(role);
+        }
+
         return apiPackageToCreate;
     }
 
@@ -141,11 +147,11 @@ public class DocumentPackageConverter {
         packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 
         for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
-            if ( role.getSigners().isEmpty() ) {
-                continue;
-            }
 
-            if ( role.getSigners().get( 0 ).getGroup() != null ) {
+            if(role.getSigners().isEmpty()){
+                packageBuilder.withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(role.getId())));
+            }
+            else if ( role.getSigners().get( 0 ).getGroup() != null ) {
                 packageBuilder.withSigner(SignerBuilder.newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
             } else {
                 packageBuilder.withSigner( new SignerConverter(role).toSDKSigner() );

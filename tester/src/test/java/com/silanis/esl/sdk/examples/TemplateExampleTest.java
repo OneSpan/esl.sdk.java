@@ -12,6 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class TemplateExampleTest {
 
+
     @Test
     public void verifyResult() {
         TemplateExample example = new TemplateExample( Props.get() );
@@ -32,6 +33,9 @@ public class TemplateExampleTest {
         assertThat("Package signer 1 last name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail1()).getLastName(), is(example.PACKAGE_SIGNER1_LAST));
         assertThat("Package signer 2 first name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail2()).getFirstName(), is(example.PACKAGE_SIGNER2_FIRST));
         assertThat("Package signer 2 last name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail2()).getLastName(), is(example.PACKAGE_SIGNER2_LAST));
+
+        assertThat("Number of package placeholders is incorrectly returned.", retrievedPackage.getPlaceholders().size(), is(1));
+        assertThat("Package placeholder id is incorrectly returned", retrievedPackage.getPlaceholders().containsKey(example.PLACEHOLDER_ID));
     }
 
 }

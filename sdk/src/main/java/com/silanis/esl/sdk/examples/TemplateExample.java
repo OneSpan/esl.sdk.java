@@ -3,14 +3,17 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
-import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+
+import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
 /**
  * Created by lena on 2014-04-30.
@@ -30,6 +33,7 @@ public static final String PACKAGE_SIGNER1_FIRST = "John";
 public static final String PACKAGE_SIGNER1_LAST = "Smith";
 public static final String PACKAGE_SIGNER2_FIRST = "Patty";
 public static final String PACKAGE_SIGNER2_LAST = "Galant";
+public static final String PLACEHOLDER_ID = "PlaceholderId1";
 
     public DocumentPackage getRetrievedPackage() {
         return retrievedPackage;
@@ -67,6 +71,9 @@ public static final String PACKAGE_SIGNER2_LAST = "Galant";
         Document document = DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
                 .withId(DOCUMENT_ID)
                 .fromStream(documentInputStream1, DocumentType.PDF)
+                .withSignature(SignatureBuilder.signatureFor(new Placeholder(PLACEHOLDER_ID))
+                            .onPage(0)
+                            .atPosition(100,100))
                 .build();
 
         DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
@@ -78,6 +85,7 @@ public static final String PACKAGE_SIGNER2_LAST = "Galant";
                 .withSigner(SignerBuilder.newSignerWithEmail(email2)
                         .withFirstName(PACKAGE_SIGNER2_FIRST)
                         .withLastName(PACKAGE_SIGNER2_LAST))
+                .withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(PLACEHOLDER_ID)))
                 .withDocument(document)
                 .build();
 

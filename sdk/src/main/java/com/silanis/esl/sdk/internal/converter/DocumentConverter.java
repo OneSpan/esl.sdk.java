@@ -91,8 +91,10 @@ public class DocumentConverter {
         for ( Signature signature : sdkDocument.getSignatures() ) {
 
             Approval approval = new SignatureConverter(signature).toAPIApproval();
-
-            if ( signature.isGroupSignature() ) {
+            if( signature.isPlaceholderSignature() ){
+                approval.setRole(signature.getRoleId().getId());
+            }
+            else if ( signature.isGroupSignature() ) {
                 approval.setRole(findRoleIdForGroup( signature.getGroupId(), createdPackage ) );
             } else {
                 approval.setRole(findRoleIdForSignature( signature.getSignerEmail(), createdPackage ) );

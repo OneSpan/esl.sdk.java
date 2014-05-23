@@ -12,6 +12,7 @@ public class PackageBuilder {
 
     private final String packageName;
     private final Map<String, Signer> signers = new HashMap<String, Signer>();
+    private final Map<String, Signer> placeholders = new HashMap<String, Signer>();
     private Map<String, Document> documents = new HashMap<String, Document>();
     private boolean autocomplete = true;
     private String description = null;
@@ -72,7 +73,10 @@ public class PackageBuilder {
      */
     public PackageBuilder withSigner( Signer signer ) {
 
-        if ( signer.isGroupSigner() ) {
+        if(signer.isPlaceholderSigner()){
+            placeholders.put(signer.getId().toString(), signer);
+        }
+        else if ( signer.isGroupSigner() ) {
             signers.put( signer.getGroupId().toString(), signer );
         } else {
             signers.put( signer.getEmail(), signer );
@@ -108,7 +112,7 @@ public class PackageBuilder {
      * @return the document package
      */
     public DocumentPackage build() {
-        DocumentPackage documentPackage = new DocumentPackage( packageName, signers, documents, autocomplete );
+        DocumentPackage documentPackage = new DocumentPackage( packageName, signers, placeholders, documents, autocomplete );
 
         documentPackage.setExpiryDate( expiryDate );
         documentPackage.setId( id );

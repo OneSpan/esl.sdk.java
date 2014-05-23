@@ -1,12 +1,10 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.AuthenticationMethod;
-import com.silanis.esl.sdk.Challenge;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.*;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQuestion;
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -31,6 +29,15 @@ public class SignerBuilderTest {
         assertEquals( firstName, signer.getFirstName() );
         assertEquals( lastName, signer.getLastName() );
         assertEquals( signingOrder, signer.getSigningOrder() );
+    }
+
+    @Test
+    public void buildPlaceholder(){
+        String id = "placeholderId";
+        Signer signer = newSignerPlaceholder(new Placeholder(id))
+                        .build();
+
+        assertEquals( id, signer.getId() );
     }
 
     @Test(expected = EslException.class)
@@ -61,6 +68,11 @@ public class SignerBuilderTest {
     @Test(expected = EslException.class)
     public void signerLastNameCannotBeEmptyString() {
         newSignerWithEmail("joe@blow.com").withLastName("").build();
+    }
+
+    @Test(expected = EslException.class)
+    public void placeholderCannotBeNull() {
+        newSignerPlaceholder(new Placeholder(null)).build();
     }
 
     @Test

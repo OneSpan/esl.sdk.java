@@ -1,18 +1,13 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.Field;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.Signature;
-import com.silanis.esl.sdk.SignatureStyle;
+import com.silanis.esl.sdk.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import static com.silanis.esl.sdk.builder.FieldBuilder.newField;
-import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
-import static com.silanis.esl.sdk.builder.SignatureBuilder.initialsFor;
-import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
@@ -20,6 +15,50 @@ import static org.junit.Assert.assertTrue;
 
 public class SignatureBuilderTest {
     public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
+
+    @Test
+    public void buildCaptureForPlaceholder(){
+        Placeholder placeholder = new Placeholder("placeholderId");
+        Signature signature = captureFor(placeholder).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.HAND_DRAWN ) ) );
+    }
+
+    @Test
+    public void buildSignatureForPlaceholder() {
+        Placeholder placeholder = new Placeholder("placeholderId");
+        Signature signature = signatureFor(placeholder).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.FULL_NAME ) ) );
+    }
+
+    @Test
+    public void buildAcceptanceForPlaceholder() {
+        Placeholder placeholder = new Placeholder("placeholderId");
+        Signature signature = SignatureBuilder.acceptanceFor( placeholder ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.ACCEPTANCE ) ) );
+    }
+
+    @Test
+    public void buildInitialsForPlaceholder() {
+        Placeholder placeholder = new Placeholder("placeholderId");
+        Signature signature = initialsFor( placeholder ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.INITIALS ) ) );
+    }
 
     @Test
     public void buildCaptureForGroup() {

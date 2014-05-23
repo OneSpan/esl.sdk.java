@@ -19,6 +19,7 @@ public class DocumentPackage implements Serializable {
 
     private final String name;
     private final Map<String, Signer> signers;
+    private final Map<String, Signer> placeholders;
     private final Map<String, Document> documents;
     private final boolean autocomplete;
     private String description;
@@ -38,9 +39,10 @@ public class DocumentPackage implements Serializable {
      * @param autocomplete the autocomplete status. If it is set to true,
      *                     then the document package will be marked as completed automatically by the system
      */
-    public DocumentPackage( String name, Map<String, Signer> signers, Map<String, Document> documents, boolean autocomplete ) {
+    public DocumentPackage( String name, Map<String, Signer> signers, Map<String, Signer> placeholders, Map<String, Document> documents, boolean autocomplete ) {
         this.name = name;
         this.signers = signers;
+        this.placeholders = placeholders;
         this.documents = documents;
         this.autocomplete = autocomplete;
     }
@@ -92,6 +94,16 @@ public class DocumentPackage implements Serializable {
     public Map<String, Signer> getSigners() {
         return signers;
     }
+
+    public void removePlaceholder(Signer signer) {
+        if (placeholders.containsKey(signer.getId())) {
+            placeholders.remove(signer.getId());
+        } else {
+            throw new EslException("Placeholder does not exist.");
+        }
+    }
+
+    public Map<String, Signer> getPlaceholders(){ return  placeholders; }
 
     /**
      * @param name the document name

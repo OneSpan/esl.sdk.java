@@ -1,13 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.Signer;
-import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.SignatureStyle;
-import com.silanis.esl.sdk.TextAnchor;
-import com.silanis.esl.sdk.internal.converter.FieldConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +15,7 @@ final public class SignatureBuilder {
     public static final SignatureStyle DEFAULT_STYLE = SignatureStyle.FULL_NAME;
 
     private GroupId groupId;
+    private Placeholder roleId;
     private String name;
     private String signerEmail;
     private int pageNumber;
@@ -40,11 +34,19 @@ final public class SignatureBuilder {
     private SignatureBuilder( String email ) {
         this.signerEmail = email;
         this.groupId = null;
+        this.roleId = null;
     }
 
     private SignatureBuilder( GroupId groupId ) {
         this.groupId = groupId;
         this.signerEmail = null;
+        this.roleId = null;
+    }
+
+    private SignatureBuilder( Placeholder roleId ) {
+        this.groupId = null;
+        this.signerEmail = null;
+        this.roleId = roleId;
     }
 
     /**
@@ -60,6 +62,8 @@ final public class SignatureBuilder {
     public static SignatureBuilder signatureFor( GroupId groupId ) {
         return new SignatureBuilder( groupId );
     }
+
+    public static SignatureBuilder signatureFor( Placeholder roleId ) { return new SignatureBuilder( roleId );}
 
     /**
      * Creates an acceptance consent for the signer having the email address provided.
@@ -85,6 +89,15 @@ final public class SignatureBuilder {
         return builder;
     }
 
+    public static SignatureBuilder acceptanceFor( Placeholder roleId ) {
+        SignatureBuilder builder = signatureFor( roleId )
+                .withStyle( SignatureStyle.ACCEPTANCE )
+                .atPosition( 0, 0 )
+                .withSize( 0, 0 )
+                .onPage( 0 );
+        return builder;
+    }
+
     /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.INITIALS
@@ -100,6 +113,10 @@ final public class SignatureBuilder {
         return new SignatureBuilder( groupId ).withStyle( SignatureStyle.INITIALS );
     }
 
+    public static SignatureBuilder initialsFor( Placeholder roleId ) {
+        return new SignatureBuilder( roleId ).withStyle( SignatureStyle.INITIALS );
+    }
+
     /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
@@ -113,6 +130,10 @@ final public class SignatureBuilder {
 
     public static SignatureBuilder captureFor( GroupId groupId ) {
         return new SignatureBuilder( groupId ).withStyle( SignatureStyle.HAND_DRAWN );
+    }
+
+    public static SignatureBuilder captureFor( Placeholder roleId ) {
+        return new SignatureBuilder( roleId ).withStyle( SignatureStyle.HAND_DRAWN );
     }
 
     /**
@@ -221,7 +242,10 @@ final public class SignatureBuilder {
      */
     public Signature build() {
         Signature signature;
-        if ( signerEmail != null ) {
+        if ( roleId != null){
+            signature = new Signature( roleId, pageNumber, x, y );
+        }
+        else if ( signerEmail != null ) {
             signature = new Signature( signerEmail, pageNumber, x, y );
         } else {
             signature = new Signature( groupId, pageNumber, x, y );

@@ -12,6 +12,7 @@ public class Signature implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String signerEmail;
+    private Placeholder roleId;
     private int page;
     private double x;
     private double y;
@@ -40,10 +41,21 @@ public class Signature implements Serializable {
         this.x = x;
         this.y = y;
         this.groupId = null;
+        this.roleId = null;
     }
 
     public Signature(GroupId groupId, int page, double x, double y ) {
         this.groupId = groupId;
+        this.roleId = null;
+        this.x = x;
+        this.y = y;
+        this.page = page;
+        this.signerEmail = null;
+    }
+
+    public Signature(Placeholder roleId, int page, double x, double y ) {
+        this.groupId = null;
+        this.roleId = roleId;
         this.x = x;
         this.y = y;
         this.page = page;
@@ -53,6 +65,8 @@ public class Signature implements Serializable {
     public String getSignerEmail() {
         return signerEmail;
     }
+
+    public Placeholder getRoleId(){return roleId;}
 
     public int getPage() {
         return page;
@@ -129,4 +143,6 @@ public class Signature implements Serializable {
     public boolean isGroupSignature() {
         return groupId != null;
     }
+
+    public boolean isPlaceholderSignature() { return roleId != null; }
 }

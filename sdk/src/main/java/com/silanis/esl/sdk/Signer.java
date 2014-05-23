@@ -55,8 +55,21 @@ public class Signer implements Serializable {
         this.groupId = groupId;
     }
 
+    public Signer(String id){
+        this.email = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.authentication = new Authentication(AuthenticationMethod.EMAIL);
+        this.groupId = null;
+        this.id = id;
+    }
+
     public boolean isGroupSigner() {
         return groupId != null;
+    }
+
+    public boolean isPlaceholderSigner(){
+        return groupId == null && email == null;
     }
 
     /**
@@ -265,4 +278,5 @@ public class Signer implements Serializable {
     public void addAttachmentRequirement(AttachmentRequirement attachment) {
         this.attachments.put(attachment.getName(), attachment);
     }
+
 }

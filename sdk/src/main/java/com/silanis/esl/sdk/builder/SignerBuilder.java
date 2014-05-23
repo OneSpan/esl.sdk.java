@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.silanis.esl.sdk.internal.Asserts.genericAssert;
-import static com.silanis.esl.sdk.internal.Asserts.notNullOrEmpty;
-
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
  */
@@ -53,6 +50,12 @@ final public class SignerBuilder {
         this.groupId = groupId;
     }
 
+    private SignerBuilder(Placeholder placeholder){
+        this.email = null;
+        this.groupId = null;
+        this.id = placeholder.getId();
+    }
+
     /**
      * <p>Creates a SignerBuilder object.</p>
      *
@@ -67,6 +70,10 @@ final public class SignerBuilder {
         return new SignerBuilder(groupId);
     }
 
+    public static SignerBuilder newSignerPlaceholder(Placeholder roleId) {
+        return new SignerBuilder(roleId);
+    }
+
     /**
      * Sets the ID of the signer.
      *
@@ -75,6 +82,11 @@ final public class SignerBuilder {
      */
     public SignerBuilder withCustomId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public SignerBuilder replacing( Placeholder placeholder){
+        this.id = placeholder.getId();
         return this;
     }
 
@@ -113,6 +125,55 @@ final public class SignerBuilder {
         return this;
     }
 
+    private Signer buildGroupSigner(){
+        Signer result = new Signer(groupId);
+
+        result.setSigningOrder(signingOrder);
+        result.setCanChangeSigner(canChangeSigner);
+        result.setMessage(message);
+        result.setId(id);
+        result.setLocked(locked);
+        result.setAttachmentRequirement(attachments);
+
+        return result;
+    }
+
+    private Signer buildPlaceholderSigner(){
+        Signer result = new Signer(id);
+
+        Asserts.notNullOrEmpty( id, "No placeholder set for this signer!" );
+        result.setSigningOrder(signingOrder);
+        result.setCanChangeSigner(canChangeSigner);
+        result.setMessage(message);
+        result.setLocked(locked);
+        result.setAttachmentRequirement(attachments);
+        return result;
+    }
+
+    private Signer buildRegularSigner(){
+        if (authentication == null) {
+            authentication = authenticationBuilder.build();
+        }
+
+        Signer result;
+
+        Asserts.notNullOrEmpty(firstName, "first name");
+        Asserts.notNullOrEmpty(lastName, "last name");
+        result = new Signer(email, firstName, lastName, authentication);
+        result.setTitle(title);
+        result.setCompany(company);
+        result.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
+
+        result.setSigningOrder(signingOrder);
+        result.setCanChangeSigner(canChangeSigner);
+        result.setMessage(message);
+        result.setId(id);
+        result.setLocked(locked);
+        result.setAttachmentRequirement(attachments);
+
+        return result;
+    }
+
     /**
      * Builds the actual signer object
      *
@@ -120,30 +181,18 @@ final public class SignerBuilder {
      */
     public Signer build() {
 
-        if (authentication == null) {
-            authentication = authenticationBuilder.build();
-        }
-
         Signer signer;
         if (isGroupSigner()) {
-            signer = new Signer(groupId);
-        } else {
-            Asserts.notNullOrEmpty(firstName, "first name");
-            Asserts.notNullOrEmpty(lastName, "last name");
-            signer = new Signer(email, firstName, lastName, authentication);
-            signer.setTitle(title);
-            signer.setCompany(company);
-            signer.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
+            signer = buildGroupSigner();
         }
-
-        signer.setSigningOrder(signingOrder);
-        signer.setCanChangeSigner(canChangeSigner);
-        signer.setMessage(message);
-        signer.setId(id);
-        signer.setLocked(locked);
-        signer.setAttachmentRequirement(attachments);
-
+        else if (isPlaceholder()){
+            signer = buildPlaceholderSigner();
+        }
+        else{
+            signer = buildRegularSigner();
+        }
         return signer;
+
     }
 
     /**
@@ -167,7 +216,6 @@ final public class SignerBuilder {
         this.authenticationBuilder = new SMSAuthenticationBuilder(phoneNumber);
         return this;
     }
-
 
     /**
      * Sets the Signer's authentication.
@@ -351,4 +399,7 @@ final public class SignerBuilder {
         return groupId != null;
     }
 
+    private boolean isPlaceholder(){
+        return groupId == null && email == null;
+    }
 }
