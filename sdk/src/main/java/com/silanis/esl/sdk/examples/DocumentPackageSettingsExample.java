@@ -43,7 +43,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "not defined Download DocumentPackageSettingsExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "DocumentPackageSettingsExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSettings( newDocumentPackageSettings()
                         .withInPerson()
                         .withoutDecline()
@@ -57,19 +57,19 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .withDialogOnComplete()
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
+                                .withoutGlobalDownloadButton()
+                                .withoutGlobalConfirmButton()
+                                .withoutGlobalSaveAsLayoutButton()
                         )
                 )
-                .withSigner( newSignerWithEmail( "lena.silanis@gmail.com" )
+                .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )
                 .withDocument( newDocumentWithName( "First Document" )
                         .fromStream( documentInputStream, DocumentType.PDF )
-                        .withSignature( signatureFor( "lena.silanis@gmail.com" )
+                        .withSignature( signatureFor( email1 )
                                 .onPage( 0 )
-                                .atPosition( 100, 100 ) )
-                        .withSignature( signatureFor( "lena.silanis@gmail.com")
-                                .onPage(0)
-                                .atPosition(200, 900)))
+                                .atPosition( 100, 100 ) ) )
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
