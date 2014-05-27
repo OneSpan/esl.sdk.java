@@ -29,7 +29,9 @@ final public class SignatureBuilder {
     private TextAnchor textAnchor;
 
     /**
-     * @param email
+     * SignatureBuilder constructor for regular signature with email
+     *
+     * @param email the signer's email address
      */
     private SignatureBuilder( String email ) {
         this.signerEmail = email;
@@ -37,12 +39,22 @@ final public class SignatureBuilder {
         this.roleId = null;
     }
 
+    /**
+     * SignatureBuilder constructor for group signature
+     *
+     * @param groupId the group signer id
+     */
     private SignatureBuilder( GroupId groupId ) {
         this.groupId = groupId;
         this.signerEmail = null;
         this.roleId = null;
     }
 
+    /**
+     * SignatureBuilder constructor for placeholder
+     *
+     * @param roleId the placeholder's id
+     */
     private SignatureBuilder( Placeholder roleId ) {
         this.groupId = null;
         this.signerEmail = null;
@@ -59,10 +71,22 @@ final public class SignatureBuilder {
         return new SignatureBuilder( signerEmail );
     }
 
+    /**
+     * Creates a SignatureBuilder instance for any members of the group provided as parameter.
+     *
+     * @param groupId id of the group for which any of its members can sign.
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder signatureFor( GroupId groupId ) {
         return new SignatureBuilder( groupId );
     }
 
+    /**
+     * Creates a SignatureBuilder instance for the placeholder having the role id as parameter
+     *
+     * @param roleId the placeholder's id
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder signatureFor( Placeholder roleId ) { return new SignatureBuilder( roleId );}
 
     /**
@@ -80,6 +104,12 @@ final public class SignatureBuilder {
         return builder;
     }
 
+    /**
+     * Creates a SignatureBuilder instance for any members of the group provided as parameter.
+     *
+     * @param groupId id of the group for which any of its members can sign.
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder acceptanceFor( GroupId groupId ) {
         SignatureBuilder builder = signatureFor( groupId )
                 .withStyle( SignatureStyle.ACCEPTANCE )
@@ -89,6 +119,12 @@ final public class SignatureBuilder {
         return builder;
     }
 
+    /**
+     * Creates an acceptance consent for the signer having the placeholder's id provided
+     *
+     * @param roleId the placeholder's id
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder acceptanceFor( Placeholder roleId ) {
         SignatureBuilder builder = signatureFor( roleId )
                 .withStyle( SignatureStyle.ACCEPTANCE )
@@ -109,10 +145,24 @@ final public class SignatureBuilder {
         return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.INITIALS );
     }
 
+    /**
+     * Creates a SignatureBuilder instance for any members of the group provided as parameter.
+     * The signature style will be also set toSignatureStyle.INITIALS
+     * 
+     * @param groupId id of the group for which any of its members can sign.
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder initialsFor( GroupId groupId ) {
         return new SignatureBuilder( groupId ).withStyle( SignatureStyle.INITIALS );
     }
 
+    /**
+     * Creates a SignatureBuilder instance for the signer with the placeholder's id provided as parameter
+     * The signature style will be also set toSignatureStyle.INITIALS
+     *
+     * @param roleId the placeholder's id
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder initialsFor( Placeholder roleId ) {
         return new SignatureBuilder( roleId ).withStyle( SignatureStyle.INITIALS );
     }
@@ -121,17 +171,31 @@ final public class SignatureBuilder {
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
      *
-     * @param signerEmail
+     * @param signerEmail the signer's email address
      * @return a SignatureBuilder instance
      */
     public static SignatureBuilder captureFor( String signerEmail ) {
         return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.HAND_DRAWN );
     }
 
+    /**
+     * Creates a SignatureBuilder instance for the signer with the group id provided as parameter
+     * The signature style will be also set to SignatureStyle.HAND_DRAWN
+     *
+     * @param groupId id of the group for which any of its members can sign.
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder captureFor( GroupId groupId ) {
         return new SignatureBuilder( groupId ).withStyle( SignatureStyle.HAND_DRAWN );
     }
 
+    /**
+     * Creates a SignatureBuilder instance for the signer with the placeholder's id provided as parameter
+     * The signature style will be also set to SignatureStyle.HAND_DRAWN
+     *
+     * @param roleId the placeholder's id
+     * @return a SignatureBuilder instance
+     */
     public static SignatureBuilder captureFor( Placeholder roleId ) {
         return new SignatureBuilder( roleId ).withStyle( SignatureStyle.HAND_DRAWN );
     }
@@ -139,7 +203,7 @@ final public class SignatureBuilder {
     /**
      * Sets the page number where this signature will be placed on.
      *
-     * @param pageNumber the page number the signature will be placed on
+     * @param pageNumber the page number the signature will be placed on @min="0"
      * @return the signature builder itself
      */
     public SignatureBuilder onPage( int pageNumber ) {
@@ -148,10 +212,10 @@ final public class SignatureBuilder {
     }
 
     /**
-     * Sets the coordinates where where this signature will be placed at inside the page.
+     * Sets the pixel coordinates, relative to the original document, where this signature will be placed at inside the page.
      *
-     * @param x x-coordinate
-     * @param y y-coordinate
+     * @param x x-coordinate of the signature's top-left corner @min="0"
+     * @param y y-coordinate of the signature's top-;eft corner @min="0"
      * @return the signature builder itself
      */
     public SignatureBuilder atPosition( double x, double y ) {
@@ -161,10 +225,10 @@ final public class SignatureBuilder {
     }
 
     /**
-     * Sets the size of the signature
+     * Sets the size, in pixel, of the signature
      *
-     * @param width  the width of the signature
-     * @param height the height of the signature
+     * @param width  the width of the signature @min="0"
+     * @param height the height of the signature @min="0"
      * @return the signature builder itself
      */
     public SignatureBuilder withSize( double width, double height ) {
@@ -174,7 +238,7 @@ final public class SignatureBuilder {
     }
 
     /**
-     * Sets the style of the signature
+     * Sets the style of the signature. E.g.: hand-drawn, full name, initial, etc...
      *
      * @param style the style of the signature
      * @return the signature builder itself
@@ -206,7 +270,8 @@ final public class SignatureBuilder {
     }
 
     /**
-     * Sets the name for the signature
+     * Sets the name of the signature form field on the original PDF document.
+     * This is used in conjunction with {@link #withPositionExtracted()}.
      *
      * @param name the signature's name
      * @return the signature builder itself
@@ -217,7 +282,12 @@ final public class SignatureBuilder {
     }
 
     /**
-     * Enables signature extraction
+     * Enables signature extraction. Indicates to the e-SignLive document engine
+     * to position and size this signature block based on the size and
+     * coordinates of the corresponding PDF form field.
+     * {@link #withName(String)}.
+     * <p>
+     * When using this method, you must not also use {@link #atPosition(double, double)} and {@link #withSize(double, double)}}
      *
      * @return the signature builder itself
      */
@@ -226,10 +296,28 @@ final public class SignatureBuilder {
         return this;
     }
 
+
+    /**
+     * Enables positioning the signature relative to a text string in the
+     * original document. When using this method, you must not also use
+     * {@link #atPosition(double, double)}.
+     *
+     * @param builder
+     * @return
+     */
     public SignatureBuilder withPositionAnchor( TextAnchorBuilder builder ) {
         return withPositionAnchor( builder.build() );
     }
 
+
+    /**
+     * Enables positioning the signature relative to a text string in the
+     * original document. When using this method, you must not also use
+     * {@link #atPosition(double, double)}.
+     *
+     * @param textAnchor
+     * @return
+     */
     public SignatureBuilder withPositionAnchor( TextAnchor textAnchor ) {
         this.textAnchor = textAnchor;
         return this;

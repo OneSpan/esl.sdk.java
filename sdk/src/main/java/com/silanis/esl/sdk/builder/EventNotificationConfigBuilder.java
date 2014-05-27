@@ -8,6 +8,8 @@ import java.util.Set;
 
 /**
  * <p>The EventNotificationConfigBuilder class is used to build and configure event notifications.</p>
+ * @see <a href=http://docs.e-signlive.com/doku.php?id=esl:e-signlive_guide_event-notification>
+ * Events and Event Notifications    [e-SignLive™ Documentation Project]</a>
  */
 final public class EventNotificationConfigBuilder {
 
@@ -24,7 +26,7 @@ final public class EventNotificationConfigBuilder {
     }
 
     /**
-     * <p>Creates a new newEventNotificationConfigBuilder for the url specifies as argument</p>
+     * <p>Creates a new newEventNotificationConfigBuilder for the url specified as argument</p>
      * @param url	represents the endpoint to which e-SL will post HTTP based notifications 
      * @return a new newEventNotificationConfigBuilder instance
      */

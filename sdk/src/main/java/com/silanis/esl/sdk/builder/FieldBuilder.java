@@ -37,15 +37,23 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to BOUND_DATE 
-     * @return	a BOUND_DATE styled field builder
+     * Creates a field builder having set the style to BOUND_DATE. A date string
+     * will be displayed at the location defined for the field when the signer
+     * signs the associated signature field.
+     *
+     * @see FieldStyle
+     * @return a BOUND_DATE styled field builder
      */
     public static FieldBuilder signatureDate() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_DATE);
     }
 
     /**
-     * Creates a filed builder having set the style to BOUND_NAME
+     * Creates a filed builder having set the style to BOUND_NAME. The signer's name
+     * will be displayed at the location defined for the field when the signer
+     * signs the associated signature field.
+     *
+     * @see FieldStyle
      * @return a BOUND_NAME styled field builder
      */
     public static FieldBuilder signerName() {
@@ -53,14 +61,22 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to BOUND_TITLE
+     * Creates a field builder having set the style to BOUND_TITLE. The signer's title string
+     * will be displayed at the location defined for the field when the signer
+     * signs the associated signature field.
+     *
+     * @see FieldStyle
      * @return	a BOUND_TITLE styled field builder
      */
     public static FieldBuilder signerTitle() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_TITLE);
     }
     /**
-     * Creates a field builder having set the style to BOUND_COMPANY
+     * Creates a field builder having set the style to BOUND_COMPANY. The signer's company string
+     * will be displayed at the location defined for the field when the signer
+     * signs the associated signature field.
+     *
+     * @see FieldStyle
      * @return	a BOUND_COMPANY styled field builder
      */
     public static FieldBuilder signerCompany() {
@@ -68,7 +84,11 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to UNBOUND_TEXT_FIELD
+     * Creates a field builder having set the style to UNBOUND_TEXT_FIELD. It
+     * defines a text field at the location defined that the signer may be
+     * required to fill prior to signing the its associated signature.
+     *
+     * @see FieldStyle
      * @return a UNBOUND_TEXT_FIELD styled field builder
      */
     public static FieldBuilder textField() {
@@ -77,19 +97,37 @@ public class FieldBuilder {
 
     /**
      * Creates a field builder having set the style to UNBOUND_CUSTOM_FIELD
+     * It defines a user defined form field that may be stamped on  the document.
+     *
+     * E.g.: user's pharmacist license number.
+     * @see FieldStyle
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
      */
     public static FieldBuilder customField(String name) {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName(name);
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName( name );
     }
 
     /**
-     * Creates a field builder having set the style to UNBOUND_CHECK_BOX
-     * @return	a UNBOUND_CHECK_BOX styled filed builder
+     * Creates a field builder having set the style to UNBOUND_CHECK_BOX. It
+     * defines a checkbox field at the location defined that the signer may be
+     * required to check prior to signing the its associated signature.
+     *
+     * @see FieldStyle
+     * @return	a UNBOUND_CHECK_BOX styled field builder
      */
     public static FieldBuilder checkBox() {
         return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CHECK_BOX);
     }
+
+    /**
+     * Creates a field builder having set the style to UNBOUND_RADIO_BUTTON. It defines
+     * a radio button field in a group specified by the user. Only one radio button from
+     * a group can be selected at a time.
+     *
+     * @see FieldStyle
+     * @param group the radio button group
+     * @return a UNBOUND_RADIO_BUTTON styled field builder
+     */
 
     public static FieldBuilder radioButton(String group) {
 
@@ -103,12 +141,19 @@ public class FieldBuilder {
                         .withOption(group));
     }
 
+    /**
+     * Every bound field (Date, Title, Name) is a label.
+     * The user should not have to set a field style to label.
+     *
+     * @see FieldStyle
+     * @return a LABEL styled field builder
+     */
     public static FieldBuilder label() {
         return new FieldBuilder().withStyle(FieldStyle.LABEL);
     }
 
     /**
-     * Sets the field on page specified by the pageNumber argument
+     * Sets the page on which the field is located.
      * @param pageNumber	the page number
      * @return	the field builder itself
      */
@@ -118,9 +163,9 @@ public class FieldBuilder {
     }
 
     /**
-     * Sets the field at the position specified by x and y coordinates
-     * @param x	the x coordinate
-     * @param y	the y coordinate
+     * Sets the field at the position in pixel relative to the original document, specified by x and y coordinates
+     * @param x	the x coordinate of the top-left corner @min="0"
+     * @param y	the y coordinate of the top-left corner @min="0"
      * @return	the field builder itself
      */
     public FieldBuilder atPosition(double x, double y) {
@@ -130,9 +175,9 @@ public class FieldBuilder {
     }
 
     /**
-     * Sets the size of the field
-     * @param width	the with of the field
-     * @param height	the height of the field
+     * Sets the size, in pixel, of the field
+     * @param width	the width of the field @min="0"
+     * @param height the height of the field @min="0"
      * @return	the field builder itself
      */
     public FieldBuilder withSize( double width, double height ) {
@@ -143,6 +188,7 @@ public class FieldBuilder {
 
     /**
      * Sets the style of the field
+     * @see FieldStyle
      * @param style	the style of the field
      * @return	the field builder itself
      */
@@ -152,9 +198,12 @@ public class FieldBuilder {
     }
 
     /**
-     * Sets the name of the field
-     * @param name	the name of the field
-     * @return	the field builder itself
+     * Sets the name of the field. The name corresponds to the id of the
+     * corresponding acrobat form field. This name is used when positioning form
+     * fields based on their original position on the PDF document.
+     *
+     * @param name the name of the field @size(max="64")
+     * @return the field builder itself
      */
     public FieldBuilder withName( String name ) {
         this.name = name;
@@ -162,18 +211,44 @@ public class FieldBuilder {
     }
 
     /**
-     * 
-     * @return	the field builder itself
+     * Informs the e-SignLive document engine that the position of the field
+     * must be inferred from the position of an acrobat form field with a
+     * specified name (@see #withName(String)).
+     * <p>
+     * When using {@link #withPositionExtracted()} you must not use
+     * {@link #withSize(double, double)} and {@link #atPosition(double, double)}.
+     *
+     * @return the field builder itself
      */
     public FieldBuilder withPositionExtracted() {
         this.extract = true;
         return this;
     }
 
+    /**
+     * Informs the e-SignLive document engine that the position of the field
+     * must be defined relative to the position of a certain text string on the document.
+     * <p>
+     * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
+     * {@link #withSize(double, double)}.
+     * @param builder
+     * @return the field builder itself
+     */
     public FieldBuilder withPositionAnchor(TextAnchorBuilder builder) {
         return withPositionAnchor( builder.build() );
     }
 
+    /**
+     * Informs the e-SignLive document engine that the position of the field
+     * must be defined relative to the position of a certain text string on the document.
+     * <p>
+     * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
+     * {@link #withSize(double, double)}.
+     *
+     * @see #withPositionAnchor(TextAnchorBuilder)
+     * @param textAnchor
+     * @return the field builder itself
+     */
     public FieldBuilder withPositionAnchor(TextAnchor textAnchor) {
         this.textAnchor = textAnchor;
         return this;
@@ -181,6 +256,10 @@ public class FieldBuilder {
 
     /**
      * Sets a validator on the field. So, the values of the field should be matched by the provided validator.
+     * It is necessary only for the radio button field to have a FieldValidator that defines its group.
+     * It is up to the user to decide which validators they want to set to put constrains on the field.
+     * Leave blank otherwise.
+     *
      * @param fieldValidator	the field validator
      * @return	the field builder itself
      */
@@ -198,6 +277,12 @@ public class FieldBuilder {
         return withValidation( builder.build() );
     }
 
+
+    /**
+     * Set a field's value for a radio button or a checkbox
+     * @param value true for checked and false for unchecked
+     * @return the field builder itself
+     */
     public FieldBuilder withValue(boolean value) {
         if ( style == FieldStyle.UNBOUND_CHECK_BOX || style == FieldStyle.UNBOUND_RADIO_BUTTON) {
             this.value = value?SELECTED_VALUE:"";
@@ -205,19 +290,33 @@ public class FieldBuilder {
         return this;
     }
 
+    /**
+     * Set a field's value.
+     * @param value
+     * @return the field builder itself
+     */
+
     public FieldBuilder withValue(String value) {
         this.value = value;
         return this;
     }
 
+    /**
+     * Set a field's unique ID. This id allows the field value to be retrieved
+     * when querying a package for information.
+     *
+     * @param fieldId
+     * @return the field builder itself
+     */
     public FieldBuilder withId( FieldId fieldId ) {
         this.fieldId = fieldId;
         return this;
     }
 
     /**
-     * Builds the field
-     * @return	the build field
+     * Builds the actual Field with the values specified.
+     *
+     * @return	the built Field
      */
     public Field build() {
         Field field = new Field();

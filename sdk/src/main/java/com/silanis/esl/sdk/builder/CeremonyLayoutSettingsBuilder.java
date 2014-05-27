@@ -10,7 +10,7 @@ import com.silanis.esl.sdk.CeremonyLayoutSettings;
  * be presented and how they should be presented.
  *
  * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony">
- * http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony</a>
+ *      Customizing the Signing Ceremony    [e-Sign Enterprise Documentation Project]</a>
  */
 public class CeremonyLayoutSettingsBuilder {
     private Boolean iFrame = null;
