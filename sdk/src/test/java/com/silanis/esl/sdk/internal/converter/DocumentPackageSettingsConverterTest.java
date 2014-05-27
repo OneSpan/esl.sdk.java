@@ -103,9 +103,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(equalTo(sdkPackageSettings1.getHideWatermark())));
         assertThat("Max auth fails allowed was not correctly set",apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(equalTo(sdkPackageSettings1.getMaxAuthAttempts())));
 
-//        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton())));
-//        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton())));
-//        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton())));
+        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton())));
+        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton())));
+        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton())));
 
     }
 
@@ -205,15 +205,12 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         headerOptions.setBreadcrumbs(true);
         headerOptions.setFeedback(true);
 
-//TODO - to evaluate
-// Currently, the converter from API to SDK doesn't convert the global actions options.
+        GlobalActionsOptions globalActionsOptions = new GlobalActionsOptions();
+        globalActionsOptions.setConfirm(true);
+        globalActionsOptions.setDownload(true);
+        globalActionsOptions.setSaveAsLayout(true);
 
-//        GlobalActionsOptions globalActionsOptions = new GlobalActionsOptions();
-//        globalActionsOptions.setConfirm(true);
-//        globalActionsOptions.setDownload(true);
-//        globalActionsOptions.setSaveAsLayout(true);
-//
-//        headerOptions.setGlobalActions(globalActionsOptions);
+        headerOptions.setGlobalActions(globalActionsOptions);
         layoutOptions.setHeader(headerOptions);
 
 

@@ -34,7 +34,6 @@ public class Signature implements Serializable {
      * @param x
      * @param y
      */
-    // TODO: Add constructor with groupID instead of email
     public Signature(String signerEmail, int page, double x, double y) {
         this.signerEmail = signerEmail;
         this.page = page;

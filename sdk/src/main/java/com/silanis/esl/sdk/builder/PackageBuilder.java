@@ -35,7 +35,7 @@ public class PackageBuilder {
     }
 
     /**
-     * Creates a package having the package name set to the value of the name parameter
+     * Creates a package having the package name set to the value of the name parameter.
      *
      * @param name the package name
      * @return a package builder
@@ -45,7 +45,8 @@ public class PackageBuilder {
     }
 
     /**
-     * <p>Adds an ID to the package.</p>
+     * <p>Set a custom ID for the package. If none is provided, the system will assign one by default.
+     * This package id needs to be unique per account.</p>
      *
      * @param id the package ID
      * @return a package builder
@@ -107,7 +108,7 @@ public class PackageBuilder {
     }
 
     /**
-     * Builds the actual document package
+     * Builds the actual document package.
      *
      * @return the document package
      */
@@ -146,7 +147,7 @@ public class PackageBuilder {
     }
 
     /**
-     * Adds a new document to the package
+     * Adds a new document to the package.
      *
      * @param document the new document
      */
@@ -155,7 +156,11 @@ public class PackageBuilder {
     }
 
     /**
-     * Sets the autocomplete package property
+     * Sets the autocomplete package property. When set to true, the package is automatically marked as complete
+     * once all the signature fields are signed. When set to false, the sender needs to manually mark the package
+     * as complete.
+     * <p>
+     * By default, autocomplete is set to true.
      *
      * @param autocomplete
      * @return the package builder itself
@@ -166,9 +171,9 @@ public class PackageBuilder {
     }
 
     /**
-     * Sets the status package property
+     * Sets the status package property.
      *
-     * @param status
+     * @param status the package status
      * @return the package builder itself
      */
     public PackageBuilder withStatus( PackageStatus status ) {
@@ -178,9 +183,9 @@ public class PackageBuilder {
 
 
     /**
-     * Sets the description for the package
+     * Sets the description for the package.
      *
-     * @param description
+     * @param description package textual description @size(min="0", max="255")
      * @return the package builder itself
      */
     public PackageBuilder describedAs( String description ) {
@@ -189,9 +194,9 @@ public class PackageBuilder {
     }
 
     /**
-     * Sets the expiration date for the package
+     * Sets the expiration date for the package.
      *
-     * @param expiryDate
+     * @param expiryDate the package's expiration date
      * @return the package builder itself
      */
     public PackageBuilder expiresAt( Date expiryDate ) {
@@ -200,7 +205,7 @@ public class PackageBuilder {
     }
 
     /**
-     * <p>Adds a package message to the package</p>
+     * <p>Adds an email message which will be sent to all the signers in the package.</p>
      *
      * @param packageMessage
      * @return the package builder itself
@@ -210,33 +215,69 @@ public class PackageBuilder {
         return this;
     }
 
+    /**
+     * Set the package configuration options such as options to opt-out, decline, watermark, etc...
+     *
+     * @see #withSettings(DocumentPackageSettingsBuilder)
+     * @param builder the document package settings builder
+     * @return the package builder itself
+     */
     public PackageBuilder withSettings( DocumentPackageSettingsBuilder builder ) {
         return withSettings( builder.build() );
     }
 
+    /**
+     * Set the package configuration options such as options to opt-out, decline, watermark, etc...
+     *
+     * @see #withSettings(DocumentPackageSettingsBuilder)
+     * @param settings
+     * @return the package builder itself
+     */
     public PackageBuilder withSettings( DocumentPackageSettings settings ) {
         this.settings = settings;
         return this;
     }
 
+    /**
+     * Set the default package language. It defines the default language in which the UI will be
+     * presented to the signers.
+     *
+     * @param language default language the UI will present the information.
+     * @return the package builder itself
+     */
     public PackageBuilder withLanguage( Locale language ) {
         this.language = language;
         return this;
     }
 
+    /**
+     * Set information about the package sender user.
+     *
+     * @param senderInfoBuilder package sender user information
+     * @return the package builder itself
+     */
     public PackageBuilder withSenderInfo( SenderInfoBuilder senderInfoBuilder ) {
         return withSenderInfo( senderInfoBuilder.build() );
     }
 
+    /**
+     * Set information about the package sender user.
+     *
+     * @see #withSenderInfo(SenderInfoBuilder)
+     * @param senderInfo package sender user information
+     * @return the package builder itself
+     */
     public PackageBuilder withSenderInfo( SenderInfo senderInfo ) {
         this.senderInfo = senderInfo;
         return this;
     }
 
     /**
-     * Sets the customized attributes for the package
+     * Sets the customized attributes for the package. Attributes are key/value pairs of user defined information.
+     * It can be anything.
      *
-     * @param attributes
+     * @see #withAttributes(DocumentPackageAttributesBuilder)
+     * @param attributes the document attributes
      * @return the package builder itself
      */
     public PackageBuilder withAttributes( DocumentPackageAttributes attributes) {
@@ -244,6 +285,16 @@ public class PackageBuilder {
         return this;
     }
 
+    /**
+     * Sets the customized attributes for the package. Attributes are key/value pairs of user defined information.
+     * It can be anything.
+     * <p>
+     * E.g.: animal = cat
+     *
+     * @see #withAttributes(DocumentPackageAttributesBuilder)
+     * @param builder the document package attributes builder
+     * @return the package builder itself
+     */
     public PackageBuilder withAttributes( DocumentPackageAttributesBuilder builder) {
         return withAttributes( builder.build() );
     }

@@ -16,6 +16,7 @@ final public class AttachmentRequirementBuilder {
 
     /**
      * <p>The constructor of the AttachmentRequirementBuilder class.</p>
+     *
      * @param name the attachment name
      */
     private AttachmentRequirementBuilder(String name) {
@@ -24,6 +25,7 @@ final public class AttachmentRequirementBuilder {
 
     /**
      * <p>Creates a AttachmentRequirementBuilder object.</p>
+     *
      * @param name the attachment name
      * @return the attachment requirement builder itself
      */
@@ -33,6 +35,7 @@ final public class AttachmentRequirementBuilder {
 
     /**
      * Sets the attachment's description.
+     *
      * @param description the attachment's description
      * @return the attachment requirement builder itself
      */
@@ -43,6 +46,7 @@ final public class AttachmentRequirementBuilder {
 
     /**
      * Sets the isRequired property to true.
+     *
      * @return the attachment requirement builder itself
      */
     public AttachmentRequirementBuilder isRequiredAttachment() {
@@ -50,6 +54,11 @@ final public class AttachmentRequirementBuilder {
         return this;
     }
 
+    /**
+     * Builds the actual attachment requirement.
+     *
+     * @return the attachment requirement
+     */
     public AttachmentRequirement build() {
         Asserts.notNullOrEmpty(name, "name");
         AttachmentRequirement attachmentRequirement = new AttachmentRequirement(name);

@@ -69,7 +69,7 @@ public class TextAnchorExtractionExample extends SDKSample {
                                         .atPosition( TextAnchorPosition.TOPLEFT )
                                         .withSize( FIELD_WIDTH, FIELD_HEIGHT )
                                         .withOffset( 0, 0 )
-                                        .withCharacter( 0 )
+                                        .withCharacter( 6 )
                                         .withOccurence( 0 ) )
                                 .withField( FieldBuilder.textField()
                                         .withPositionAnchor( TextAnchorBuilder.newTextAnchor("Definition")

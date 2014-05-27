@@ -45,11 +45,21 @@ final public class SignerBuilder {
         this.groupId = null;
     }
 
+    /**
+     * <p>The constructor of the SignerBuilderClass.</p>
+     *
+     * @param groupId the group ID.
+     */
     private SignerBuilder(GroupId groupId) {
         this.email = null;
         this.groupId = groupId;
     }
 
+    /**
+     * <p>The constructor of the SignerBuilderClass.</p>
+     *
+     * @param placeholder the placeholder.
+     */
     private SignerBuilder(Placeholder placeholder){
         this.email = null;
         this.groupId = null;
@@ -60,24 +70,37 @@ final public class SignerBuilder {
      * <p>Creates a SignerBuilder object.</p>
      *
      * @param email the signer's email
-     * @return a SignerBuilder object
+     * @return the signer builder itself
      */
     public static SignerBuilder newSignerWithEmail(String email) {
         return new SignerBuilder(email);
     }
 
+    /**
+     * <p>Creates a SignerBuilder object.</p>
+     *
+     * @param groupId the group ID.
+     * @return the signer builder itself
+     */
     public static SignerBuilder newSignerFromGroup(GroupId groupId) {
         return new SignerBuilder(groupId);
     }
 
+    /**
+     * <p>Creates a SignerBuilder object.</p>
+     *
+     * @param roleId the placeholder's ID.
+     * @return the signer builder itself
+     */
     public static SignerBuilder newSignerPlaceholder(Placeholder roleId) {
         return new SignerBuilder(roleId);
     }
 
     /**
-     * Sets the ID of the signer.
-     *
-     * @param id the signer's ID
+     * Sets the ID of the signer for this package.
+     * <p>
+     * E.g.: the signer's email makes for a good unique ID. john@do.com
+     * @param id the signer's ID @size(min="1")
      * @return the signer builder itself
      */
     public SignerBuilder withCustomId(String id) {
@@ -85,15 +108,20 @@ final public class SignerBuilder {
         return this;
     }
 
+    /**
+     * Sets the signer's ID to the placeholder's ID.
+     * @param placeholder
+     * @return
+     */
     public SignerBuilder replacing( Placeholder placeholder){
         this.id = placeholder.getId();
         return this;
     }
 
     /**
-     * Sets the signer's first name
+     * Sets the signer's first name.
      *
-     * @param firstName the signer's first name
+     * @param firstName the signer's first name @size(min="1", max="64")
      * @return the signer builder itself
      */
     public SignerBuilder withFirstName(String firstName) {
@@ -103,9 +131,9 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signer's last name
+     * Sets the signer's last name.
      *
-     * @param lastName the signer's last name
+     * @param lastName the signer's last name @size(min="1", max="64")
      * @return the signer builder itself
      */
     public SignerBuilder withLastName(String lastName) {
@@ -115,10 +143,11 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signing order.
-     *
-     * @param signingOrder a value greater than zero
-     * @return the signer builder itself
+     * Sets the signing order. If all signers can sign in any order, don't set this setting.
+     * <p>
+     * E.g.: a signer with a signingOrder of 1 would be required to sign before a signer with a signingOrder of 2, for example.
+     * @param signingOrder	a value greater than zero
+     * @return	the signer builder itself
      */
     public SignerBuilder signingOrder(int signingOrder) {
         this.signingOrder = signingOrder;
@@ -175,7 +204,7 @@ final public class SignerBuilder {
     }
 
     /**
-     * Builds the actual signer object
+     * Builds the actual signer object.
      *
      * @return the signer object
      */
@@ -196,8 +225,13 @@ final public class SignerBuilder {
     }
 
     /**
-     * <p>Sets the signer's authentication type to CHALLENGE.</p>
+     * <p>
+     * Sets the signer's authentication type to CHALLENGE.
+     * </p>
+     * The signer will be asked to authenticate, before accessing his signing
+     * ceremony, by providing answers to authentication questions.
      *
+     * @see ChallengeBuilder
      * @param challengeBuilder the challenge builder
      * @return the signer builder object itself
      */
@@ -207,9 +241,14 @@ final public class SignerBuilder {
     }
 
     /**
-     * <p>Sets the signer's authentication type to SMS.</p>
+     * <p>
+     * Sets the signer's authentication type to SMS.
+     * </p>
+     * The signer will be asked to authenticate, before accessing his signing
+     * ceremony, by providing an SMS PIN number that will have been sent by
+     * e-SignLive to his phone.
      *
-     * @param phoneNumber
+     * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent.
      * @return the signer builder object itself
      */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
@@ -218,7 +257,8 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the Signer's authentication.
+     * Sets the Signer's authentication. The authentication types are email,
+     * questions and answers (challenges) or SMS.
      *
      * @param authentication
      * @return
@@ -230,9 +270,9 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the signer's title.</p>
-     *
-     * @param title the signer's title
-     * @return the signer builder object itself
+     * E.g.: Mr., Mrs., Ms., etc...
+     * @param title the signer's title @size(min="0", max="64")
+     * @return	the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {
         Asserts.genericAssert(!isGroupSigner(), "title can not be set for a group signer");
@@ -242,9 +282,9 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the signer's company name.</p>
-     *
-     * @param company the signer's company name
-     * @return the signer builder object itself
+     * @param company	the signer's company name
+     * @return	the signer builder object itself
+     * @throws EslException throws an exception if signer is a group signer.
      */
     public SignerBuilder withCompany(String company) {
         Asserts.genericAssert(!isGroupSigner(), "company can not be set for a group signer");
@@ -253,9 +293,9 @@ final public class SignerBuilder {
     }
 
     /**
+     * The signer can assign someone else to sign the package.
      * <p>Sets the canChangeSigner property to true.</p>
-     *
-     * @return the signer builder object itself
+     * @return	the signer builder object itself
      */
     public SignerBuilder canChangeSigner() {
         canChangeSigner = true;
@@ -263,10 +303,9 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signer's email message
-     *
-     * @param message the message the signer will receive in the email invitation to start the signing ceremony
-     * @return the signet builder object itself
+     * Sets the signer's email message they will receive in the email invitation to start the signing ceremony
+     * @param message	the message the signer will receive in the email invitation to start the signing ceremony @size(min="0", max="2000")
+     * @return	the signet builder object itself
      */
     public SignerBuilder withEmailMessage(String message) {
         this.message = message;
@@ -274,15 +313,18 @@ final public class SignerBuilder {
     }
 
     /**
-     * <p>Sets the deliverSignedDocumentsByEmail to true.</p>
-     *
-     * @return the signer builder object itself
+     * <p>Invoking this method results in documents being distributed back to the sender as an email attachments once the package is complete.</p>
+     * @return	the signer builder object itself
      */
     public SignerBuilder deliverSignedDocumentsByEmail() {
         deliverSignedDocumentsByEmail = true;
         return this;
     }
 
+    /**
+     * Locks the signer.
+     * @return the signer builder object itself
+     */
     public SignerBuilder lock() {
         locked = true;
         return this;
@@ -302,7 +344,8 @@ final public class SignerBuilder {
      * <p>Adds an attachment requirement for the signer. The attachment requirement is conveniently customized by the
      * builder provided as parameter.</p>
      *
-     * @param builder
+     * @see AttachmentRequirementBuilder
+     * @param builder the attachment requirement buildser
      * @return the signer builder object itself
      */
     public SignerBuilder withAttachmentRequirement(AttachmentRequirementBuilder builder) {
@@ -312,7 +355,7 @@ final public class SignerBuilder {
     /**
      * Adds an attachment requirement for the signer.
      *
-     * @param attachmentRequirement
+     * @param attachmentRequirement the attachment
      * @return the signer builder object itself
      */
     public SignerBuilder withAttachmentRequirement(AttachmentRequirement attachmentRequirement) {
@@ -330,6 +373,8 @@ final public class SignerBuilder {
     }
 
     /**
+     * Authentication builder is a convenient class used to create an Authentication object
+     * with email defined as the authentication method.
      * @author admin
      */
     public static class AuthenticationBuilder {
@@ -339,7 +384,10 @@ final public class SignerBuilder {
     }
 
     /**
-     * Challenge builder is a convenient class used to create an Authentication object.
+     * Challenge builder is a convenient class used to create an Authentication
+     * object. It is used to help define the authentication questions and
+     * answers when the user logs on to e-SignLive.
+     *
      */
     public static class ChallengeBuilder extends AuthenticationBuilder {
 
@@ -347,26 +395,51 @@ final public class SignerBuilder {
         private final List<Challenge> challenges = new ArrayList<Challenge>();
 
         /**
+         * Challenge builder constructor.
          * @param question
          */
         public ChallengeBuilder(String question) {
             this.question = question;
         }
 
+        /**
+         * First question asked to the user when they log on to e-SignLive.
+         * @param question
+         * @return This
+         */
         public static ChallengeBuilder firstQuestion(String question) {
             return new ChallengeBuilder(question);
         }
 
+        /**
+         * Second question asked to the user when they log on to e-SignLive.
+         * @param question
+         * @return This
+         */
         public ChallengeBuilder secondQuestion(String question) {
             this.question = question;
             return this;
         }
 
+        /**
+         * Add answer to the first and second question. Must be invoked in order
+         * in order to provide the first question's answer and the second
+         * question's answer.
+         *
+         * <p>
+         * It should not be invoked more than twice.
+         *
+         * @see #firstQuestion(String)
+         * @see #secondQuestion(String)
+         * @param answer answer to the authentication questions
+         * @return This
+         */
         public ChallengeBuilder answer(String answer) {
             challenges.add(new Challenge(question, answer));
             return this;
         }
 
+        @Override
         public Authentication build() {
             if (questionProvided() && challenges.isEmpty()) {
                 throw new IllegalStateException("Question challenge was provided with no answer");
@@ -384,6 +457,13 @@ final public class SignerBuilder {
 
         private final String phoneNumber;
 
+        /**
+         * Builder used to define authentication with e-SignLive by entering an
+         * SMS PIN number sent at the phone number defined below when the user
+         * attempts to log in.
+         *
+         * @param phoneNumber
+         */
         public SMSAuthenticationBuilder(String phoneNumber) {
             this.phoneNumber = phoneNumber;
         }
