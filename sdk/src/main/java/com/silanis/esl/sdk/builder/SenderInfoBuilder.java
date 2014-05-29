@@ -18,8 +18,8 @@ public class SenderInfoBuilder {
 
     /**
      * Defines a new sender and uniquely identify him using his email address.
-     * @param email the sender's email address uniquely identifying him. @size(min="6")
-     * @return
+     * @param email the sender's email address uniquely identifying him. @size(min="6", max="255", valid email address)
+     * @return This
      */
     public static SenderInfoBuilder newSenderInfo(String email) {
         return new SenderInfoBuilder(email);
@@ -37,7 +37,7 @@ public class SenderInfoBuilder {
      *
      * @param firstName sender's first name @size(min="1", max="64")
      * @param lastName sender's last name @size(min="1", max="64")
-     * @return
+     * @return This
      */
     public SenderInfoBuilder withName( String firstName, String lastName ) {
         this.firstName = firstName;
@@ -48,8 +48,8 @@ public class SenderInfoBuilder {
     /**
      * Set the Sender's company.
      *
-     * @param company name of the company
-     * @return
+     * @param company name of the company @size(max="255")
+     * @return This
      */
     public SenderInfoBuilder withCompany( String company ) {
         this.company = company;
@@ -59,7 +59,7 @@ public class SenderInfoBuilder {
     /**
      * Set the sender's title. E.g.: M. Mr. Ms. etc...
      * @param title the sender's title. @size(min="0", max="64")
-     * @return
+     * @return This
      */
     public SenderInfoBuilder withTitle( String title ) {
         this.title = title;

@@ -41,8 +41,8 @@ public class DocumentPackageAttributesBuilder {
     /**
      * Adds an attribute to the package's attribute map.
      *
-     * @param name the name of the attribute
-     * @param value the value of the attribute
+     * @param name the name of the attribute @size(min="1", max="255")
+     * @param value the value of the attribute @size(min="1", max="255")
      * @return the document package attributes builder itself
      */
     public DocumentPackageAttributesBuilder withAttribute( String name, Object value ) {

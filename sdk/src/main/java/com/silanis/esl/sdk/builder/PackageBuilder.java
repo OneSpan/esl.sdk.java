@@ -28,7 +28,7 @@ public class PackageBuilder {
     /**
      * The constructor of the PackageBuilder class.
      *
-     * @param packageName the name of the package
+     * @param packageName the name of the package @size(min="1", max="64")
      */
     public PackageBuilder( String packageName ) {
         this.packageName = packageName;
@@ -37,7 +37,7 @@ public class PackageBuilder {
     /**
      * Creates a package having the package name set to the value of the name parameter.
      *
-     * @param name the package name
+     * @param name the package name @size(min="1", max="64")
      * @return a package builder
      */
     public static PackageBuilder newPackageNamed( String name ) {
@@ -48,7 +48,7 @@ public class PackageBuilder {
      * <p>Set a custom ID for the package. If none is provided, the system will assign one by default.
      * This package id needs to be unique per account.</p>
      *
-     * @param id the package ID
+     * @param id the package ID @size(min="1", max="64")
      * @return a package builder
      */
     public PackageBuilder withID( PackageId id ) {
@@ -70,7 +70,7 @@ public class PackageBuilder {
      * <p>Adds a signer to the package.</p>
      *
      * @param signer a signer that signs one or more documents belonging to the package
-     * @return the document builder itself
+     * @return the package builder itself
      */
     public PackageBuilder withSigner( Signer signer ) {
 
@@ -207,7 +207,7 @@ public class PackageBuilder {
     /**
      * <p>Adds an email message which will be sent to all the signers in the package.</p>
      *
-     * @param packageMessage
+     * @param packageMessage the email message @size(max="255")
      * @return the package builder itself
      */
     public PackageBuilder withEmailMessage( String packageMessage ) {

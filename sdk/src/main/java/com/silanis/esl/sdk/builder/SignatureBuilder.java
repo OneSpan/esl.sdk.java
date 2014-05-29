@@ -31,7 +31,7 @@ final public class SignatureBuilder {
     /**
      * SignatureBuilder constructor for regular signature with email
      *
-     * @param email the signer's email address
+     * @param email the signer's email address @size(min="6", max="255", valid email address)
      */
     private SignatureBuilder( String email ) {
         this.signerEmail = email;
@@ -64,8 +64,8 @@ final public class SignatureBuilder {
     /**
      * Creates a SignatureBuilder instance for the signer having the email address provided as parameter
      *
-     * @param signerEmail the signer's email address
-     * @return a SignatureBuilder instance
+     * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
+     * @return the signature builder itself
      */
     public static SignatureBuilder signatureFor( String signerEmail ) {
         return new SignatureBuilder( signerEmail );
@@ -75,7 +75,7 @@ final public class SignatureBuilder {
      * Creates a SignatureBuilder instance for any members of the group provided as parameter.
      *
      * @param groupId id of the group for which any of its members can sign.
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder signatureFor( GroupId groupId ) {
         return new SignatureBuilder( groupId );
@@ -85,15 +85,15 @@ final public class SignatureBuilder {
      * Creates a SignatureBuilder instance for the placeholder having the role id as parameter
      *
      * @param roleId the placeholder's id
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder signatureFor( Placeholder roleId ) { return new SignatureBuilder( roleId );}
 
     /**
      * Creates an acceptance consent for the signer having the email address provided.
      *
-     * @param signerEmail the signer's email address
-     * @return a SignatureBuilder instance
+     * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
+     * @return the signature builder itself
      */
     public static SignatureBuilder acceptanceFor( String signerEmail ) {
         SignatureBuilder builder = signatureFor( signerEmail )
@@ -108,7 +108,7 @@ final public class SignatureBuilder {
      * Creates a SignatureBuilder instance for any members of the group provided as parameter.
      *
      * @param groupId id of the group for which any of its members can sign.
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder acceptanceFor( GroupId groupId ) {
         SignatureBuilder builder = signatureFor( groupId )
@@ -123,7 +123,7 @@ final public class SignatureBuilder {
      * Creates an acceptance consent for the signer having the placeholder's id provided
      *
      * @param roleId the placeholder's id
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder acceptanceFor( Placeholder roleId ) {
         SignatureBuilder builder = signatureFor( roleId )
@@ -138,8 +138,8 @@ final public class SignatureBuilder {
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.INITIALS
      *
-     * @param signerEmail
-     * @return a SignatureBuilder instance
+     * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
+     * @return the signature builder itself
      */
     public static SignatureBuilder initialsFor( String signerEmail ) {
         return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.INITIALS );
@@ -150,7 +150,7 @@ final public class SignatureBuilder {
      * The signature style will be also set toSignatureStyle.INITIALS
      * 
      * @param groupId id of the group for which any of its members can sign.
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder initialsFor( GroupId groupId ) {
         return new SignatureBuilder( groupId ).withStyle( SignatureStyle.INITIALS );
@@ -161,7 +161,7 @@ final public class SignatureBuilder {
      * The signature style will be also set toSignatureStyle.INITIALS
      *
      * @param roleId the placeholder's id
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder initialsFor( Placeholder roleId ) {
         return new SignatureBuilder( roleId ).withStyle( SignatureStyle.INITIALS );
@@ -171,8 +171,8 @@ final public class SignatureBuilder {
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
      *
-     * @param signerEmail the signer's email address
-     * @return a SignatureBuilder instance
+     * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
+     * @return the signature builder itself
      */
     public static SignatureBuilder captureFor( String signerEmail ) {
         return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.HAND_DRAWN );
@@ -183,7 +183,7 @@ final public class SignatureBuilder {
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
      *
      * @param groupId id of the group for which any of its members can sign.
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder captureFor( GroupId groupId ) {
         return new SignatureBuilder( groupId ).withStyle( SignatureStyle.HAND_DRAWN );
@@ -194,7 +194,7 @@ final public class SignatureBuilder {
      * The signature style will be also set to SignatureStyle.HAND_DRAWN
      *
      * @param roleId the placeholder's id
-     * @return a SignatureBuilder instance
+     * @return the signature builder itself
      */
     public static SignatureBuilder captureFor( Placeholder roleId ) {
         return new SignatureBuilder( roleId ).withStyle( SignatureStyle.HAND_DRAWN );
@@ -273,7 +273,7 @@ final public class SignatureBuilder {
      * Sets the name of the signature form field on the original PDF document.
      * This is used in conjunction with {@link #withPositionExtracted()}.
      *
-     * @param name the signature's name
+     * @param name the signature's name @size(min="1", max="255")
      * @return the signature builder itself
      */
     public SignatureBuilder withName( String name ) {
@@ -302,8 +302,8 @@ final public class SignatureBuilder {
      * original document. When using this method, you must not also use
      * {@link #atPosition(double, double)}.
      *
-     * @param builder
-     * @return
+     * @param builder the text anchor builder
+     * @return the signature builder itself
      */
     public SignatureBuilder withPositionAnchor( TextAnchorBuilder builder ) {
         return withPositionAnchor( builder.build() );
@@ -315,8 +315,8 @@ final public class SignatureBuilder {
      * original document. When using this method, you must not also use
      * {@link #atPosition(double, double)}.
      *
-     * @param textAnchor
-     * @return
+     * @param textAnchor the text anchor
+     * @return the signature builder itself
      */
     public SignatureBuilder withPositionAnchor( TextAnchor textAnchor ) {
         this.textAnchor = textAnchor;
@@ -326,7 +326,7 @@ final public class SignatureBuilder {
     /**
      * This method actually builds the Signature object
      *
-     * @return the Signature object
+     * @return the signature
      */
     public Signature build() {
         Signature signature;

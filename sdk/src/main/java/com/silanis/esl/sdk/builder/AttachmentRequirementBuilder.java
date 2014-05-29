@@ -17,7 +17,7 @@ final public class AttachmentRequirementBuilder {
     /**
      * <p>The constructor of the AttachmentRequirementBuilder class.</p>
      *
-     * @param name the attachment name
+     * @param name the attachment name @size(min="1", max="255")
      */
     private AttachmentRequirementBuilder(String name) {
         this.name = name;
@@ -26,7 +26,7 @@ final public class AttachmentRequirementBuilder {
     /**
      * <p>Creates a AttachmentRequirementBuilder object.</p>
      *
-     * @param name the attachment name
+     * @param name the attachment name @size(min="1", max="255")
      * @return the attachment requirement builder itself
      */
     public static AttachmentRequirementBuilder newAttachmentRequirementWithName(String name) {
@@ -36,7 +36,7 @@ final public class AttachmentRequirementBuilder {
     /**
      * Sets the attachment's description.
      *
-     * @param description the attachment's description
+     * @param description the attachment's description @size(max="255")
      * @return the attachment requirement builder itself
      */
     public AttachmentRequirementBuilder withDescription(String description) {

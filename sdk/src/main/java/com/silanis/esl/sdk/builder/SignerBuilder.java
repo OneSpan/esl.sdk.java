@@ -34,7 +34,7 @@ final public class SignerBuilder {
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
      *
-     * @param email the signer's email.
+     * @param email the signer's email @size(min="6", max="255", valid email address)
      */
     private SignerBuilder(String email) {
         if (email == null) {
@@ -69,7 +69,7 @@ final public class SignerBuilder {
     /**
      * <p>Creates a SignerBuilder object.</p>
      *
-     * @param email the signer's email
+     * @param email the signer's email @size(min="6", max="255", valid email address)
      * @return the signer builder itself
      */
     public static SignerBuilder newSignerWithEmail(String email) {
@@ -100,7 +100,7 @@ final public class SignerBuilder {
      * Sets the ID of the signer for this package.
      * <p>
      * E.g.: the signer's email makes for a good unique ID. john@do.com
-     * @param id the signer's ID @size(min="1")
+     * @param id the signer's ID @size(min="1", max="64")
      * @return the signer builder itself
      */
     public SignerBuilder withCustomId(String id) {
@@ -146,6 +146,7 @@ final public class SignerBuilder {
      * Sets the signing order. If all signers can sign in any order, don't set this setting.
      * <p>
      * E.g.: a signer with a signingOrder of 1 would be required to sign before a signer with a signingOrder of 2, for example.
+     *
      * @param signingOrder	a value greater than zero
      * @return	the signer builder itself
      */
@@ -248,7 +249,7 @@ final public class SignerBuilder {
      * ceremony, by providing an SMS PIN number that will have been sent by
      * e-SignLive to his phone.
      *
-     * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent.
+     * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent @size(min="10", max="40")
      * @return the signer builder object itself
      */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
@@ -260,7 +261,7 @@ final public class SignerBuilder {
      * Sets the Signer's authentication. The authentication types are email,
      * questions and answers (challenges) or SMS.
      *
-     * @param authentication
+     * @param authentication the authentication object
      * @return
      */
     public SignerBuilder withAuthentication(Authentication authentication) {
@@ -271,6 +272,7 @@ final public class SignerBuilder {
     /**
      * <p>Sets the signer's title.</p>
      * E.g.: Mr., Mrs., Ms., etc...
+     *
      * @param title the signer's title @size(min="0", max="64")
      * @return	the signer builder object itself
      */
@@ -282,7 +284,8 @@ final public class SignerBuilder {
 
     /**
      * <p>Sets the signer's company name.</p>
-     * @param company	the signer's company name
+     *
+     * @param company the signer's company name @size(max="255")
      * @return	the signer builder object itself
      * @throws EslException throws an exception if signer is a group signer.
      */
@@ -295,7 +298,7 @@ final public class SignerBuilder {
     /**
      * The signer can assign someone else to sign the package.
      * <p>Sets the canChangeSigner property to true.</p>
-     * @return	the signer builder object itself
+     * @return the signer builder object itself
      */
     public SignerBuilder canChangeSigner() {
         canChangeSigner = true;
@@ -303,9 +306,10 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signer's email message they will receive in the email invitation to start the signing ceremony
-     * @param message	the message the signer will receive in the email invitation to start the signing ceremony @size(min="0", max="2000")
-     * @return	the signet builder object itself
+     * Sets the signer's email message they will receive in the email invitation to start the signing ceremony.
+     *
+     * @param message the message the signer will receive in the email invitation to start the signing ceremony @size(min="0", max="2000")
+     * @return the signet builder object itself
      */
     public SignerBuilder withEmailMessage(String message) {
         this.message = message;
@@ -345,7 +349,7 @@ final public class SignerBuilder {
      * builder provided as parameter.</p>
      *
      * @see AttachmentRequirementBuilder
-     * @param builder the attachment requirement buildser
+     * @param builder the attachment requirement builder
      * @return the signer builder object itself
      */
     public SignerBuilder withAttachmentRequirement(AttachmentRequirementBuilder builder) {
@@ -396,7 +400,7 @@ final public class SignerBuilder {
 
         /**
          * Challenge builder constructor.
-         * @param question
+         * @param question the question @size(min="1", max="255")
          */
         public ChallengeBuilder(String question) {
             this.question = question;
@@ -404,7 +408,7 @@ final public class SignerBuilder {
 
         /**
          * First question asked to the user when they log on to e-SignLive.
-         * @param question
+         * @param question the first question @size(min="1", max="255")
          * @return This
          */
         public static ChallengeBuilder firstQuestion(String question) {
@@ -413,7 +417,7 @@ final public class SignerBuilder {
 
         /**
          * Second question asked to the user when they log on to e-SignLive.
-         * @param question
+         * @param question the second question @size(min="1", max="255")
          * @return This
          */
         public ChallengeBuilder secondQuestion(String question) {
@@ -431,7 +435,7 @@ final public class SignerBuilder {
          *
          * @see #firstQuestion(String)
          * @see #secondQuestion(String)
-         * @param answer answer to the authentication questions
+         * @param answer answer to the authentication questions @size(min="1", max="255")
          * @return This
          */
         public ChallengeBuilder answer(String answer) {
@@ -462,7 +466,7 @@ final public class SignerBuilder {
          * SMS PIN number sent at the phone number defined below when the user
          * attempts to log in.
          *
-         * @param phoneNumber
+         * @param phoneNumber the phone number @size(min="10", max="40")
          */
         public SMSAuthenticationBuilder(String phoneNumber) {
             this.phoneNumber = phoneNumber;
