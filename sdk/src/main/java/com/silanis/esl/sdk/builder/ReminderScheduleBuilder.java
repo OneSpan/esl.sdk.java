@@ -48,7 +48,7 @@ public class ReminderScheduleBuilder {
      * to SENT when the first email reminder should be sent to signers who have
      * not completed signing their documents.
      *
-     * @param daysUntilFirstReminder @min="1"
+     * @param daysUntilFirstReminder @min="1" @max="65535"
      * @return
      */
     public ReminderScheduleBuilder withDaysUntilFirstReminder( int daysUntilFirstReminder ) {
@@ -58,7 +58,7 @@ public class ReminderScheduleBuilder {
 
     /**
      * Set the number of days between sending of reminders.
-     * @param daysBetweenReminders @min="1"
+     * @param daysBetweenReminders @min="1"" @max="65535"
      * @return
      */
     public ReminderScheduleBuilder withDaysBetweenReminders( int daysBetweenReminders ) {
@@ -70,7 +70,7 @@ public class ReminderScheduleBuilder {
      * Set the maximum number of reminders that should be sent if a signer has
      * not completed his signing process.
      *
-     * @param numberOfRepetitions @min="1"
+     * @param numberOfRepetitions @min="1"" @max="65535"
      * @return
      */
     public ReminderScheduleBuilder withNumberOfRepetitions( int numberOfRepetitions ) {

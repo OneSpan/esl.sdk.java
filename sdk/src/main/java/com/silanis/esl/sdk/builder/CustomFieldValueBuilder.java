@@ -13,7 +13,7 @@ public class CustomFieldValueBuilder {
     /**
      * Creates an user custom field builder with field id
      *
-     * @param id of user custom field
+     * @param id of user custom field @size(max="255")
      * @return a user custom field builder with field id
      */
     public static CustomFieldValueBuilder customFieldValueWithId( String id ) {
@@ -23,7 +23,7 @@ public class CustomFieldValueBuilder {
     /**
      * Sets id of user custom field
      *
-     * @param id of user custom field
+     * @param id of user custom field @size(max="255")
      * @return the user custom field builder itself
      */
     public CustomFieldValueBuilder withId( String id ) {
@@ -34,7 +34,7 @@ public class CustomFieldValueBuilder {
     /**
      * Sets value of user custom field
      *
-     * @param value of user custom field
+     * @param value of user custom field @size(max="255")
      * @return the user custom field builder itself
      */
     public CustomFieldValueBuilder withValue( String value ) {

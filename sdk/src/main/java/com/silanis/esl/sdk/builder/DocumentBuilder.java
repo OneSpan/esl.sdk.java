@@ -161,7 +161,7 @@ public class DocumentBuilder {
     /**
      * Sets the ID value of the document
      *
-     * @param id @size(min="1")
+     * @param id @size(min="1" max="255")
      * @return the document builder itself
      */
     public DocumentBuilder withId( String id ) {

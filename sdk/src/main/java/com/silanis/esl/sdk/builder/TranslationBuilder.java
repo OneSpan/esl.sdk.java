@@ -47,7 +47,7 @@ public class TranslationBuilder {
     /**
      * Set the translation of a custom field description
      *
-     * @param description custom field description translation
+     * @param description custom field description translation @size(max="255")
      * @return This
      */
     public TranslationBuilder withDescription( String description ) {

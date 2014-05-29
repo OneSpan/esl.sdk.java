@@ -38,7 +38,7 @@ public class GroupBuilder {
     /**
      * Set this group email's address.
      *
-     * @param email @size(min="6")
+     * @param email @size(min="6" max="255")
      * @return the group builder itself
      */
     public GroupBuilder withEmail( String email ) {

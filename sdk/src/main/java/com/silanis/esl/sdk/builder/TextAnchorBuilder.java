@@ -23,7 +23,7 @@ public class TextAnchorBuilder {
     /**
      * Creates a new textanchor for a given text string
      *
-     * @param anchorText the text string that MUST be present in the document.
+     * @param anchorText the text string that MUST be present in the document. @size(max="255")
      * @return This
      */
     public static TextAnchorBuilder newTextAnchor( String anchorText ) {

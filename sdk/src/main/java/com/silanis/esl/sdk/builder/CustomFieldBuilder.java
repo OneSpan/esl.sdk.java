@@ -24,7 +24,7 @@ public class CustomFieldBuilder {
      * the package for the field value. This id must be unique per account.
      *
      * @param id
-     *            of custom field
+     *            of custom field @size(max="255")
      * @return a custom field builder with field id
      */
     public static CustomFieldBuilder customFieldWithId( String id ) {
@@ -36,7 +36,7 @@ public class CustomFieldBuilder {
      * the field value. This id must be unique per account.
      *
      * @param id
-     *            of custom field
+     *            of custom field @size(max="255")
      * @return the custom field builder itself
      */
     public CustomFieldBuilder withId( String id ) {
@@ -49,7 +49,7 @@ public class CustomFieldBuilder {
      * value in his identity settings.
      *
      * @param value
-     *            of custom field
+     *            of custom field @size(max="255")
      * @return the custom field builder itself
      */
     public CustomFieldBuilder withDefaultValue( String value ) {

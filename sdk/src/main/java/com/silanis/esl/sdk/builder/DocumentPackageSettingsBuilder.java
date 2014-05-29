@@ -191,7 +191,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      * <img src="doc-files/esl_ui_handoverlink.png" alt="eSL UI hand over link options"/>
      *
-     * @param href URL to where the user will be redirected upon clicking on the link.
+     * @param href URL to where the user will be redirected upon clicking on the link. @size(max="255")
      * @return This
      */
     public DocumentPackageSettingsBuilder withHandOverLinkHref( String href ) {
@@ -212,7 +212,7 @@ public class DocumentPackageSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      * @see #withHandOverLinkHref(String)
-     * @param text text displayed to represent the handoverlink href on the e-SignLive UI.
+     * @param text text displayed to represent the handoverlink href on the e-SignLive UI. @size(max="255")
      * @return This
      */
 
@@ -232,7 +232,7 @@ public class DocumentPackageSettingsBuilder {
      * @see #withHandOverLinkHref(String)
      * @param tooltip
      *            text displayed to represent the handoverlink href tool tip on
-     *            the e-SignLive UI.
+     *            the e-SignLive UI. @size(max="255")
      * @return This
      */
     public DocumentPackageSettingsBuilder withHandOverLinkTooltip( String tooltip ) {
@@ -295,7 +295,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      *
      * @see #withOptOut()
-     * @param reason
+     * @param reason @size(max="255")
      * @return This
      */
     public DocumentPackageSettingsBuilder withOptOutReason( String reason ) {

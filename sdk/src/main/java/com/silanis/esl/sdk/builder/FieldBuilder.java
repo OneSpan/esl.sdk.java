@@ -292,7 +292,7 @@ public class FieldBuilder {
 
     /**
      * Set a field's value.
-     * @param value
+     * @param value String value of the field @size(max="255")
      * @return the field builder itself
      */
 
