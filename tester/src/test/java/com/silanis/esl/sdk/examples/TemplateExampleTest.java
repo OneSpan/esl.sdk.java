@@ -12,7 +12,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class TemplateExampleTest {
 
-
     @Test
     public void verifyResult() {
         TemplateExample example = new TemplateExample( Props.get() );

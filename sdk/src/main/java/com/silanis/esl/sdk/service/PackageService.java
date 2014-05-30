@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.CompletionReport;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
@@ -11,12 +12,15 @@ import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.internal.DateHelper;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.CompletionReportConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
+import org.joda.time.DateTime;
 
 import java.util.*;
 
@@ -618,5 +622,24 @@ public class PackageService {
         }
     }
 
+    public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(PackageStatus packageStatus, String senderId, Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        String path = template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
+                .replace("{from}", fromDate)
+                .replace("{to}", toDate)
+                .replace("{status}", packageStatus.toString())
+                .replace("{senderId}", senderId)
+                .build();
+
+        try {
+            String json = client.get(path);
+            CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
+            return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
+        } catch (Exception e) {
+            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
+        }
+    }
 
 }

@@ -16,6 +16,7 @@ public class UrlTemplate {
     public static final String PDF_PATH = "/packages/{packageId}/documents/{documentId}/pdf";
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";
     public static final String EVIDENCE_SUMMARY_PATH = "/packages/{packageId}/evidence/summary";
+    public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
     public static final String CUSTOM_NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
     public static final String NOTIFY_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/notifications";

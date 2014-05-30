@@ -17,8 +17,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
  * Test SenderConverter.
  */
 public class SenderConverterTest implements ConverterTest{
-    private com.silanis.esl.sdk.SenderInfo sdkSender1 = null;
-    private com.silanis.esl.sdk.SenderInfo sdkSender2 = null;
+    private com.silanis.esl.sdk.SenderInfo sdkSenderInfo1 = null;
+    private com.silanis.esl.sdk.SenderInfo sdkSenderInfo2 = null;
+    private com.silanis.esl.sdk.Sender sdkSender = null;
     private com.silanis.esl.api.model.Sender apiSender1 = null;
     private com.silanis.esl.api.model.Sender apiSender2 = null;
     private SenderConverter converter = null;
@@ -26,8 +27,8 @@ public class SenderConverterTest implements ConverterTest{
     @Override
     @Test
     public void convertNullSDKToAPI() {
-        sdkSender1 = null;
-        converter = new SenderConverter(sdkSender1);
+        sdkSenderInfo1 = null;
+        converter = new SenderConverter(sdkSenderInfo1);
         assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPISender(), is( nullValue() ) );
     }
 
@@ -36,15 +37,15 @@ public class SenderConverterTest implements ConverterTest{
     public void convertNullAPIToSDK() {
         apiSender1 = null;
         converter = new SenderConverter(apiSender1);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKSender(), is( nullValue() ) );
+        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKSenderInfo(), is( nullValue() ) );
     }
 
     @Override
     @Test
     public void convertNullSDKToSDK() {
-        sdkSender1 = null;
-        converter = new SenderConverter(sdkSender1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKSender(), is( nullValue() ) );
+        sdkSenderInfo1 = null;
+        converter = new SenderConverter(sdkSenderInfo1);
+        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKSenderInfo(), is( nullValue() ) );
     }
 
     @Override
@@ -59,10 +60,10 @@ public class SenderConverterTest implements ConverterTest{
     @Test
     public void convertSDKToSDK() {
 
-        sdkSender1 = createTypicalSDKSender();
-        sdkSender2 = new SenderConverter(sdkSender1).toSDKSender();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkSender2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkSender2, is( equalTo( sdkSender1 ) ) );
+        sdkSenderInfo1 = createTypicalSDKSender();
+        sdkSenderInfo2 = new SenderConverter(sdkSenderInfo1).toSDKSenderInfo();
+        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkSenderInfo2, is( notNullValue() ) );
+        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkSenderInfo2, is( equalTo(sdkSenderInfo1) ) );
     }
 
     @Override
@@ -80,27 +81,48 @@ public class SenderConverterTest implements ConverterTest{
     @Test
     public void convertAPIToSDK() {
         apiSender1 = createTypicalAPISender();
-        sdkSender1 = new SenderConverter(apiSender1).toSDKSender();
+        sdkSenderInfo1 = new SenderConverter(apiSender1).toSDKSenderInfo();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiSender1, is( notNullValue() ) );
-        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), Matchers.is(Matchers.equalTo(sdkSender1.getFirstName())));
-        assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSender1.getLastName())));
-        assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSender1.getCompany())));
-        assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSender1.getTitle())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiSender1, is(notNullValue()));
+        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getFirstName())));
+        assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getLastName())));
+        assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getCompany())));
+        assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTitle())));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
 
-        sdkSender1 = createTypicalSDKSender();
-        apiSender1 = new SenderConverter(sdkSender1).toAPISender();
+        sdkSenderInfo1 = createTypicalSDKSender();
+        apiSender1 = new SenderConverter(sdkSenderInfo1).toAPISender();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiSender1, is( notNullValue() ) );
-        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), Matchers.is(Matchers.equalTo(sdkSender1.getFirstName())));
-        assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSender1.getLastName())));
-        assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSender1.getCompany())));
-        assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSender1.getTitle())));
+        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getFirstName())));
+        assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getLastName())));
+        assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getCompany())));
+        assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTitle())));
+    }
+
+    @Test
+    public void convertAPIToSDKSender() {
+        apiSender1 = createTypicalAPISender();
+        sdkSender = new SenderConverter(apiSender1).toSDKSender();
+
+        assertThat("Sender status is incorrect.", sdkSender.getStatus().toString(), is(apiSender1.getStatus().toString()));
+        assertThat("Sender last name is incorrect.", sdkSender.getLastName(), is(apiSender1.getLastName()));
+        assertThat("Sender first name is incorrect.", sdkSender.getFirstName(), is(apiSender1.getFirstName()));
+        assertThat("Sender company is incorrect.", sdkSender.getCompany(), is(apiSender1.getCompany()));
+        assertThat("Sender created date is incorrect.", sdkSender.getCreated(), is(apiSender1.getCreated()));
+        assertThat("Sender email is incorrect.", sdkSender.getEmail(), is(apiSender1.getEmail()));
+        assertThat("Sender language is incorrect.", sdkSender.getLanguage(), is(apiSender1.getLanguage()));
+        assertThat("Sender phone number is incorrect.", sdkSender.getPhone(), is(apiSender1.getPhone()));
+        assertThat("Sender name is incorrect.", sdkSender.getName(), is(apiSender1.getName()));
+        assertThat("Sender title is incorrect.", sdkSender.getTitle(), is(apiSender1.getTitle()));
+        assertThat("Sender type is incorrect.", sdkSender.getType().toString(), is(apiSender1.getType().toString()));
+        assertThat("Sender updated date is incorrect.", sdkSender.getUpdated(), is(apiSender1.getUpdated()));
+        assertThat("Sender signer type is incorrect.", sdkSender.getSignerType(), is(apiSender1.getSignerType()));
+        assertThat("Sender id is incorrect.", sdkSender.getId(), is(apiSender1.getId()));
     }
 
     /**

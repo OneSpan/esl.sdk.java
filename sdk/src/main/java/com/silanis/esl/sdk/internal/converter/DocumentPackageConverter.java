@@ -142,7 +142,7 @@ public class DocumentPackageConverter {
         }
 
         if (apiPackage.getSender() != null) {
-            packageBuilder.withSenderInfo(new SenderConverter(apiPackage.getSender()).toSDKSender());
+            packageBuilder.withSenderInfo(new SenderConverter(apiPackage.getSender()).toSDKSenderInfo());
         }
         packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 
