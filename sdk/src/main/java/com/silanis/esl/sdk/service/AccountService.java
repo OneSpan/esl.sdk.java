@@ -3,9 +3,7 @@ package com.silanis.esl.sdk.service;
 import com.silanis.esl.api.model.User;
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 
 public class AccountService {
@@ -23,6 +21,8 @@ public class AccountService {
         User user = new AccountMemberConverter( accountMember ).toAPIUser();
         try {
             client.post( path, Serialization.toJson( user ) );
+        } catch (RequestException e){
+            throw new EslServerException( "Unable to invite member to account.", e);
         } catch ( Exception e ) {
             throw new EslException( "Unable to invite member to account.", e );
         }

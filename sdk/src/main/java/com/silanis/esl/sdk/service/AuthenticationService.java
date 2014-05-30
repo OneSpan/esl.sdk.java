@@ -2,10 +2,8 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SessionToken;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UnauthenticatedRestClient;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
+
 import java.net.URLEncoder;
 
 /**
@@ -29,6 +27,8 @@ public class AuthenticationService {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);
             return sessionIdToken.getSessionToken();
+        } catch (RequestException e){
+            throw new EslServerException("Could not authenticate using an authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not authenticate using an authentication token.", e);
         }
@@ -57,6 +57,8 @@ public class AuthenticationService {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);
             return sessionIdToken.getSessionToken();
+        } catch (RequestException e){
+            throw new EslServerException("Could not authenticate using a sender authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not authenticate using a sender authentication token.", e);
         }
@@ -85,6 +87,8 @@ public class AuthenticationService {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);
             return sessionIdToken.getSessionToken();
+        } catch (RequestException e){
+            throw new EslServerException( "Could not authenticate using a signer authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not authenticate using a signer authentication token.", e);
         }

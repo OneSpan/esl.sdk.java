@@ -3,9 +3,7 @@ package com.silanis.esl.sdk.service;
 import com.silanis.esl.api.model.RequirementStatus;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
 
 import java.util.UUID;
@@ -44,6 +42,8 @@ public class AttachmentRequirementService {
         try {
             String json = Serialization.toJson(apiPayload);
             client.put(path, json);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not accept attachment for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not accept attachment for signer." + " Exception: " + e.getMessage());
         }
@@ -71,6 +71,8 @@ public class AttachmentRequirementService {
         try {
             String json = Serialization.toJson(apiPayload);
             client.put(path, json);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not reject attachment for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not reject attachment for signer." + " Exception: " + e.getMessage());
         }
@@ -91,6 +93,8 @@ public class AttachmentRequirementService {
 
         try {
             return client.getBytes(path);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not download the pdf attachment.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the pdf attachment." + " Exception: " + e.getMessage());
         }

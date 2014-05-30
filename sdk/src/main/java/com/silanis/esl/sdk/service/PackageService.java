@@ -12,15 +12,11 @@ import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.internal.DateHelper;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.CompletionReportConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
-import org.joda.time.DateTime;
 
 import java.util.*;
 
@@ -54,6 +50,8 @@ public class PackageService {
             String response = client.post(path, packageJson);
 
             return Serialization.fromJson(response, PackageId.class);
+        }catch (RequestException e) {
+            throw new EslServerException("Could not create a new package", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package", e);
         }
@@ -82,6 +80,8 @@ public class PackageService {
             String response = client.post(path, packageJson);
 
             newPackageId = Serialization.fromJson(response, PackageId.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a new package", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package", e);
         }
@@ -133,6 +133,8 @@ public class PackageService {
         String packageJson = Serialization.toJson( aPackage );
         try {
             client.post(path, packageJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
             throw new EslException("Could not update the package.", e);
         }
@@ -163,6 +165,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.get(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package.", e);
         } catch (Exception e) {
             throw new EslException("Could not get package.", e);
         }
@@ -195,6 +199,8 @@ public class PackageService {
 
         try {
             client.postMultipartFile(path, fileName, fileBytes, documentJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload document to package.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload document to package.", e);
         }
@@ -214,6 +220,8 @@ public class PackageService {
                 .build();
         try {
             client.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete document from package.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete document from package.", e);
         }
@@ -244,6 +252,8 @@ public class PackageService {
             String json = Serialization.toJson(internalDoc);
 
             client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload the document to package.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload the document to package." + " Exception: " + e.getMessage());
         }
@@ -262,6 +272,8 @@ public class PackageService {
         String json = "{\"status\":\"SENT\"}";
         try {
             client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not send the package.", e);
         } catch (Exception e) {
             throw new EslException("Could not send the package.", e);
         }
@@ -281,6 +293,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.get(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not retrieve list of roles for package with id " + packageId.getId(), e);
         } catch (Exception e) {
             throw new EslException("Could not retrieve list of roles for package with id " + packageId.getId(), e);
         }
@@ -304,7 +318,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.post(path, roleJson);
-
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add role.", e);
         } catch (Exception e) {
             throw new EslException("Could not add role.", e);
         }
@@ -329,6 +344,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.put(path, roleJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update role", e);
         } catch (Exception e) {
             throw new EslException("Could not update role", e);
         }
@@ -349,6 +366,8 @@ public class PackageService {
                 .build();
         try {
             client.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete role", e);
         } catch (Exception e) {
             throw new EslException("Could not delete role", e);
         }
@@ -373,6 +392,8 @@ public class PackageService {
                 .build();
         try {
             return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the pdf document.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the pdf document.", e);
         }
@@ -391,6 +412,8 @@ public class PackageService {
                 .build();
         try {
             return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the documents to a zip file.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the documents to a zip file.", e);
         }
@@ -409,6 +432,8 @@ public class PackageService {
                 .build();
         try {
             return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the evidence summary.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the evidence summary.", e);
         }
@@ -440,6 +465,8 @@ public class PackageService {
             JsonNode topNode = objectMapper.readTree(stringResponse);
             String statusString = topNode.get("status").textValue();
             return SigningStatus.statusForToken(statusString);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not retrieve signing status.", e);
         } catch (Exception e) {
             throw new EslException("Could not retrieve signing status.", e);
         }
@@ -464,6 +491,8 @@ public class PackageService {
             Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {
             });
             return convertToPage(results, request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package list.", e);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EslException("Could not get package list. Exception: " + e.getMessage());
@@ -493,6 +522,8 @@ public class PackageService {
 
         try {
             client.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Unable to delete package.", e);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EslException("Unable to delete package. Exception: " + e.getMessage());
@@ -518,6 +549,8 @@ public class PackageService {
         try {
             String payload = JacksonUtil.serialize(jsonMap);
             client.post(path, payload);
+        } catch (RequestException e) {
+            throw new EslException("Could not send email notification to signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not send email notification to signer. Exception: " + e.getMessage());
         }
@@ -553,6 +586,8 @@ public class PackageService {
 
         try {
             client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not send email notification.", e);
         } catch (Exception e) {
             throw new EslException("Could not send email notification.  " + e.getMessage());
         }
@@ -570,6 +605,8 @@ public class PackageService {
             });
 
             return convertToPage(results, request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get template list.", e);
         } catch (Exception e) {
             throw new EslException("Could not get template list. Exception: " + e.getMessage());
         }
@@ -588,6 +625,8 @@ public class PackageService {
             Role apiRole = Serialization.fromJson(response, Role.class);
             return apiRole.getId();
 
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not add signer." + " Exception: " + e.getMessage());
         }
@@ -601,6 +640,8 @@ public class PackageService {
         try {
             client.delete(path);
             return;
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete signer." + " Exception: " + e.getMessage());
         }
@@ -617,6 +658,8 @@ public class PackageService {
         try {
             String json = Serialization.toJson(apiPayload);
             client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslException("Could not update signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not update signer." + " Exception: " + e.getMessage());
         }
@@ -637,6 +680,8 @@ public class PackageService {
             String json = client.get(path);
             CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
             return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
+        } catch (RequestException e) {
+            throw new EslException("Could not download the completion report.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
         }

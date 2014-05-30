@@ -2,24 +2,21 @@ package com.silanis.esl.sdk.internal;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.io.Streams;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 public class RestClient {
 
@@ -34,7 +31,7 @@ public class RestClient {
         this.apiToken = apiToken;
     }
 
-    public String post(String path, String jsonPayload) throws IOException, HttpException, URISyntaxException {
+    public String post(String path, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
         HttpPost post = new HttpPost( path );
@@ -49,7 +46,7 @@ public class RestClient {
         return execute(post, jsonHandler);
     }
 
-    public String put(String path, String jsonPayload) throws IOException {
+    public String put(String path, String jsonPayload) throws IOException, RequestException {
         support.logRequest("PUT", path, jsonPayload);
 
         HttpPut put = new HttpPut( path );
@@ -61,7 +58,7 @@ public class RestClient {
         return execute(put, jsonHandler);
     }
 
-    public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException {
+    public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
         MultipartEntity multipart = new MultipartEntity();
@@ -81,7 +78,7 @@ public class RestClient {
         request.setHeader("Authorization", "Basic " + apiToken);
     }
 
-    private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException {
+    private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
         HttpClient client = new DefaultHttpClient();
 
         addAuthorizationHeader(request);
@@ -91,7 +88,7 @@ public class RestClient {
 
             if (response.getStatusLine().getStatusCode() >= 400) {
                 String errorDetails = Streams.toString(response.getEntity().getContent());
-                throw new CommunicationException(request.getRequestLine().getMethod(),
+                throw new RequestException(request.getRequestLine().getMethod(),
                         request.getRequestLine().getUri(),
                         response.getStatusLine().getStatusCode(),
                         response.getStatusLine().getReasonPhrase(),
@@ -109,21 +106,21 @@ public class RestClient {
         }
     }
 
-    public String get(String path) throws IOException, HttpException, URISyntaxException {
+    public String get(String path) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
         return execute(get, jsonHandler);
     }
 
-    public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException {
+    public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
         return execute(get, bytesHandler);
     }
 
-    public String delete(String path) throws HttpException, IOException, URISyntaxException {
+    public String delete(String path) throws HttpException, IOException, URISyntaxException, RequestException {
         support.logRequest("DELETE", path);
         HttpDelete delete = new HttpDelete( path );
 

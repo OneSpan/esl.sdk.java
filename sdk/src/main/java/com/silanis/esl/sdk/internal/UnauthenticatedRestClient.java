@@ -2,14 +2,15 @@ package com.silanis.esl.sdk.internal;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.io.Streams;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by mpoitras on 22/04/14.
@@ -19,14 +20,14 @@ public class UnauthenticatedRestClient {
     private final Support support = new Support();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
-    public String get(String path) throws IOException {
+    public String get(String path) throws IOException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
 
         return execute(get, jsonHandler);
     }
 
-    private static <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException {
+    private static <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
         HttpClient client = new DefaultHttpClient();
 
         try {
@@ -34,7 +35,7 @@ public class UnauthenticatedRestClient {
 
             if (response.getStatusLine().getStatusCode() >= 400) {
                 String errorDetails = Streams.toString(response.getEntity().getContent());
-                throw new CommunicationException(request.getRequestLine().getMethod(),
+                throw new RequestException(request.getRequestLine().getMethod(),
                                                  request.getRequestLine().getUri(),
                                                  response.getStatusLine().getStatusCode(),
                                                  response.getStatusLine().getReasonPhrase(),
