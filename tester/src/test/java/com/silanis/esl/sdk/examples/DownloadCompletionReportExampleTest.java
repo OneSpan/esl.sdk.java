@@ -14,7 +14,7 @@ public class DownloadCompletionReportExampleTest {
 
     @Test
     public void verifyResult() {
-        DownloadCompletionReportExample example = new DownloadCompletionReportExample(Props.get(), "lhsieh");
+        DownloadCompletionReportExample example = new DownloadCompletionReportExample(Props.get());
         example.run();
 
         CompletionReport completionReport = example.getSdkCompetionReport();

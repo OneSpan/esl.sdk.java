@@ -24,18 +24,18 @@ public class DownloadCompletionReportExample extends SDKSample {
     private com.silanis.esl.sdk.CompletionReport sdkCompetionReport;
 
     public static void main(String... args) {
-        new DownloadCompletionReportExample(Props.get(), "senderUID").run();
+        new DownloadCompletionReportExample(Props.get()).run();
     }
 
     public com.silanis.esl.sdk.CompletionReport getSdkCompetionReport() {
         return sdkCompetionReport;
     }
 
-    public DownloadCompletionReportExample(Properties properties, String senderUID) {
+    public DownloadCompletionReportExample(Properties properties) {
         this(properties.getProperty("api.key"),
                 properties.getProperty("api.url"),
                 properties.getProperty("1.email"),
-                senderUID);
+                properties.getProperty("api.uid"));
     }
 
     public DownloadCompletionReportExample(String apiKey, String apiUrl, String email1, String senderUID) {
