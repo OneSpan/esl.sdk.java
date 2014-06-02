@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
@@ -21,14 +20,14 @@ public class DownloadCompletionReportExample extends SDKSample {
 
     private String email1;
     private String senderUID;
-    private com.silanis.esl.sdk.CompletionReport sdkCompetionReport;
+    private com.silanis.esl.sdk.CompletionReport sdkCompletionReport;
 
     public static void main(String... args) {
         new DownloadCompletionReportExample(Props.get()).run();
     }
 
-    public com.silanis.esl.sdk.CompletionReport getSdkCompetionReport() {
-        return sdkCompetionReport;
+    public com.silanis.esl.sdk.CompletionReport getSdkCompletionReport() {
+        return sdkCompletionReport;
     }
 
     public DownloadCompletionReportExample(Properties properties) {
@@ -73,18 +72,18 @@ public class DownloadCompletionReportExample extends SDKSample {
                                         .withSize(200, 50))))
                 .build();
 
-        packageId = eslClient.createAndSendPackage(superDuperPackage);
+        packageId = eslClient.createPackage(superDuperPackage);
 
-        // Date and time range to get the completion report
-
-        Calendar fromCalendar = new GregorianCalendar(2014, 4, 20, 0, 0, 0);
+        // Date and time range to get completion report.
+        Calendar fromCalendar = new GregorianCalendar();
+        fromCalendar.add(Calendar.DATE, -1);
         Date from = fromCalendar.getTime();
 
         Calendar toCalendar = new GregorianCalendar();
         toCalendar.setTime(new Date(System.currentTimeMillis()));
         Date to = toCalendar.getTime();
 
-        sdkCompetionReport = eslClient.getPackageService().downloadCompletionReport(PackageStatus.SENT, senderUID, from, to);
+        sdkCompletionReport = eslClient.getPackageService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
 
     }
 }

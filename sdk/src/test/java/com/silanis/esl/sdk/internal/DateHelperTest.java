@@ -15,7 +15,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class DateHelperTest {
 
-    static final String dateInUTC = "2010-01-01T12:30:00Z";
+    static final String expectedDateInUTC = "2010-01-01T12:30:00Z";
 
     @Test
     public void dateToIsoUtcFormatTest() {
@@ -25,6 +25,6 @@ public class DateHelperTest {
 
         String result = DateHelper.dateToIsoUtcFormat(date);
 
-        assertThat("Date format is not correct.", result, is(dateInUTC));
+        assertThat("Date format is not correct.", result, is(expectedDateInUTC));
     }
 }

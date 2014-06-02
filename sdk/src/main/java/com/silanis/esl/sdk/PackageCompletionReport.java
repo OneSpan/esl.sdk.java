@@ -15,7 +15,7 @@ public class PackageCompletionReport {
     private String id;
     private String name;
     private List<SignersCompletionReport> signers = new ArrayList<SignersCompletionReport>();
-    private PackageStatus packageStatus;
+    private com.silanis.esl.sdk.PackageStatus packageStatus;
     private boolean trashed;
 
     public PackageCompletionReport(String name) {
@@ -70,11 +70,11 @@ public class PackageCompletionReport {
         this.signers.add(signer);
     }
 
-    public PackageStatus getPackageStatus() {
+    public com.silanis.esl.sdk.PackageStatus getPackageStatus() {
         return packageStatus;
     }
 
-    public void setPackageStatus(PackageStatus packageStatus) {
+    public void setPackageStatus(com.silanis.esl.sdk.PackageStatus packageStatus) {
         this.packageStatus = packageStatus;
     }
 

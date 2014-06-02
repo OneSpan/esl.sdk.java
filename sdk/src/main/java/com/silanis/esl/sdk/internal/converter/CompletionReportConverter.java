@@ -52,14 +52,14 @@ public class CompletionReportConverter {
                 for (PackageCompletionReport apiPackageCompletionReport : packageCompletionReportList) {
                     sdkPackageCompletionReport = toSDKPackageCompletionReport(apiPackageCompletionReport);
 
-                    List<DocumentsCompletionReport> documentCompletionReportList = packageCompletionReportList.get(0).getDocuments();
+                    List<DocumentsCompletionReport> documentCompletionReportList = apiPackageCompletionReport.getDocuments();
                     com.silanis.esl.sdk.DocumentsCompletionReport sdkDocumentsCompletionReport;
                     for (DocumentsCompletionReport apiDocumentsCompletionReport : documentCompletionReportList) {
                         sdkDocumentsCompletionReport = toSDKDocumentCompletionReport(apiDocumentsCompletionReport);
                         sdkPackageCompletionReport.addDocument(sdkDocumentsCompletionReport);
                     }
 
-                    List<SignersCompletionReport> signersCompletionReportList = packageCompletionReportList.get(0).getSigners();
+                    List<SignersCompletionReport> signersCompletionReportList = apiPackageCompletionReport.getSigners();
                     com.silanis.esl.sdk.SignersCompletionReport sdkSignersCompletionReport;
                     for (SignersCompletionReport apiSignersCompletionReport : signersCompletionReportList) {
                         sdkSignersCompletionReport = toSDKSignersCompletionReport(apiSignersCompletionReport);
@@ -91,7 +91,7 @@ public class CompletionReportConverter {
         com.silanis.esl.sdk.PackageCompletionReport sdkPackageCompletionReport = new com.silanis.esl.sdk.PackageCompletionReport(apiPackageCompletionReport.getName());
         sdkPackageCompletionReport.setId(apiPackageCompletionReport.getId());
         sdkPackageCompletionReport.setCreated(apiPackageCompletionReport.getCreated());
-        sdkPackageCompletionReport.setPackageStatus(apiPackageCompletionReport.getStatus());
+        sdkPackageCompletionReport.setPackageStatus(new PackageStatusConverter(apiPackageCompletionReport.getStatus()).toSDKPackageStatus());
         sdkPackageCompletionReport.setTrashed(apiPackageCompletionReport.getTrashed());
 
         return sdkPackageCompletionReport;

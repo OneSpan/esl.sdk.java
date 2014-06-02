@@ -18,7 +18,7 @@ public class AttachmentRequirement implements Serializable {
     private String id;
     private final String name;
     private boolean isRequired;
-    private RequirementStatus status;
+    private com.silanis.esl.sdk.RequirementStatus status;
 
     /**
      * <p>The constructor of the AttachmentRequirement class.</p>
@@ -73,11 +73,11 @@ public class AttachmentRequirement implements Serializable {
         this.isRequired = isRequired;
     }
 
-    public RequirementStatus getStatus() {
+    public com.silanis.esl.sdk.RequirementStatus getStatus() {
         return status;
     }
 
-    public void setStatus(RequirementStatus status) {
+    public void setStatus(com.silanis.esl.sdk.RequirementStatus status) {
         this.status = status;
     }
 }

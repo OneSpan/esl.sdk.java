@@ -64,7 +64,7 @@ final public class AttachmentRequirementBuilder {
         AttachmentRequirement attachmentRequirement = new AttachmentRequirement(name);
         attachmentRequirement.setDescription(description);
         attachmentRequirement.setRequired(isRequired);
-        attachmentRequirement.setStatus(RequirementStatus.INCOMPLETE);
+        attachmentRequirement.setStatus(com.silanis.esl.sdk.RequirementStatus.INCOMPLETE);
 
         return attachmentRequirement;
     }

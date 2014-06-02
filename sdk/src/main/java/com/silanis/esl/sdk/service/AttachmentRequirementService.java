@@ -37,7 +37,7 @@ public class AttachmentRequirementService {
                 .build();
 
         signer.getAttachmentRequirement().get(attachmentName).setSenderComment("");
-        signer.getAttachmentRequirement().get(attachmentName).setStatus(RequirementStatus.COMPLETE);
+        signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.COMPLETE);
 
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
@@ -64,7 +64,7 @@ public class AttachmentRequirementService {
                 .build();
 
         signer.getAttachmentRequirement().get(attachmentName).setSenderComment(senderComment);
-        signer.getAttachmentRequirement().get(attachmentName).setStatus(RequirementStatus.REJECTED);
+        signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.REJECTED);
 
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
