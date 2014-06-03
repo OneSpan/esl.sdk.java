@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
+import com.silanis.esl.sdk.internal.Converter;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -33,14 +34,13 @@ public class DownloadCompletionReportExample extends SDKSample {
     public DownloadCompletionReportExample(Properties properties) {
         this(properties.getProperty("api.key"),
                 properties.getProperty("api.url"),
-                properties.getProperty("1.email"),
-                properties.getProperty("api.uid"));
+                properties.getProperty("1.email"));
     }
 
-    public DownloadCompletionReportExample(String apiKey, String apiUrl, String email1, String senderUID) {
+    public DownloadCompletionReportExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
-        this.senderUID = senderUID;
+        this.senderUID = Converter.apiKeyToUID(apiKey);
     }
 
     public String getEmail1() {
