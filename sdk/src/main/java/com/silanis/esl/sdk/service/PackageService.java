@@ -479,7 +479,7 @@ public class PackageService {
      * @param request Identifying which page of results to return
      * @return List of DocumentPackages that populate the specified page
      */
-    public Page<DocumentPackage> getPackages(PackageStatus status, PageRequest request) {
+    public Page<DocumentPackage> getPackages(com.silanis.esl.api.model.PackageStatus status, PageRequest request) {
         String path = template.urlFor(UrlTemplate.PACKAGE_LIST_PATH)
                 .replace("{status}", status.toString())
                 .replace("{from}", Integer.toString(request.getFrom()))
@@ -665,7 +665,7 @@ public class PackageService {
         }
     }
 
-    public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(PackageStatus packageStatus, String senderId, Date from, Date to) {
+    public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 

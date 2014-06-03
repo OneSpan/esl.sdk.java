@@ -17,7 +17,7 @@ public class DownloadCompletionReportExampleTest {
         DownloadCompletionReportExample example = new DownloadCompletionReportExample(Props.get());
         example.run();
 
-        CompletionReport completionReport = example.getSdkCompetionReport();
+        CompletionReport completionReport = example.getSdkCompletionReport();
 
         assertThat("There should be only 1 sender.", completionReport.getSenders().size(), is(greaterThanOrEqualTo(1)));
         assertThat("Number of package completion reports should be greater than 1.", completionReport.getSenders().get(0).getPackages().size(), is(greaterThanOrEqualTo(1)));

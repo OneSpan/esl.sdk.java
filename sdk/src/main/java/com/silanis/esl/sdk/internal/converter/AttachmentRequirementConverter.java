@@ -58,7 +58,7 @@ public class AttachmentRequirementConverter {
         if (sdkAttachmentRequirement.getStatus() == null) {
             result.setStatus(RequirementStatus.INCOMPLETE);
         } else {
-            result.setStatus(sdkAttachmentRequirement.getStatus());
+            result.setStatus(new RequirementStatusConverter(sdkAttachmentRequirement.getStatus()).toAPIRequirementStatus());
         }
 
         return result;
@@ -82,7 +82,7 @@ public class AttachmentRequirementConverter {
             result.setDescription(apiAttachmentRequirement.getDescription());
             result.setId(apiAttachmentRequirement.getId());
             result.setRequired(apiAttachmentRequirement.getRequired());
-            result.setStatus(apiAttachmentRequirement.getStatus());
+            result.setStatus(new RequirementStatusConverter(apiAttachmentRequirement.getStatus()).toSDKRequirementStatus());
 
             return result;
         }
