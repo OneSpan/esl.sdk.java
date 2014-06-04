@@ -150,7 +150,7 @@ public class DocumentBuilder {
      * <p>Defines the order that documents must be signed in.</p>
      * <p>Thus, the documents with smaller values of their index will be shown first to the signer in the overall document workflow.</p>
      *
-     * @param index the order of the document in the document workflow. @min="0"
+     * @param index the order of the document in the document workflow. @min="1"
      * @return the document builder itself
      */
     public DocumentBuilder atIndex( int index ) {
