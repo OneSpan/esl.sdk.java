@@ -78,12 +78,23 @@ public class DocumentPackageConverter {
 
         int signerCount = 1;
         for ( com.silanis.esl.sdk.Signer signer : sdkPackage.getSigners().values() ) {
+            String id;
+            if(signer.getId() != null ) {
+                id = signer.getId();
+            }
+            else if(signer.getGroupId() == null){
+                id = "role" + signerCount;
+            }
+            else{
+                id = signer.getGroupId().getId();
+            }
+
             Role role = new Role()
                     .setName( signer.getId() == null ? "signer" + signerCount : signer.getId() )
                     .addSigner( new SignerConverter(signer).toAPISigner() )
                     .setIndex( signer.getSigningOrder() )
                     .setReassign( signer.canChangeSigner() )
-                    .setId( signer.getId() == null ? "role" + signerCount : signer.getId() );
+                    .setId( id );
 
             signerCount++;
 
