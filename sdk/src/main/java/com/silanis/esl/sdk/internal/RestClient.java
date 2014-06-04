@@ -115,13 +115,6 @@ public class RestClient {
     public String get(String path) throws IOException, HttpException, URISyntaxException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
-
-        return execute(get, jsonHandler);
-    }
-
-    public String get2(String path) throws IOException, HttpException, URISyntaxException {
-        support.logRequest("GET", path);
-        HttpGet get = new HttpGet( path );
         Header header = new BasicHeader("Accept", "application/json");
         get.addHeader(header);
 
