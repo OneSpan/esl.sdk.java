@@ -71,7 +71,7 @@ public class SigningRedirectForSignerExample extends SDKSample {
         packageId = eslClient.createPackage(packageToCreate);
         eslClient.sendPackage( packageId );
 
-        final String signerAuthenticationToken = eslClient.createSignerAuthenticationToken(packageId.getId(), signerId);
+        final String signerAuthenticationToken = eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(packageId.getId(), signerId);
 
 
         generatedLinkToSigningForSigner = authenticationClient.buildRedirectToSigningForSigner(signerAuthenticationToken, packageId.getId());

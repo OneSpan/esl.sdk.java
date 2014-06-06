@@ -67,7 +67,7 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
 
         createPackageWithCustomSender();
 
-        final String senderAuthenticationToken = eslClient.createSenderAuthenticationToken(packageId.getId());
+        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
 
 
         generatedLinkToDesignerForSender = authenticationClient.buildRedirectToDesignerForSender(senderAuthenticationToken, packageId.getId());

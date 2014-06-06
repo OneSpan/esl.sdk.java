@@ -53,7 +53,7 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
                                       .build();
         packageId = eslClient.createPackage( superDuperPackage );
 
-        final String userAuthenticationToken = eslClient.createUserAuthenticationToken();
+        final String userAuthenticationToken = eslClient.getAuthenticationTokensService().createUserAuthenticationToken();
 
 
         generatedLinkToDesignerForApiKey = authenticationClient.buildRedirectToDesignerForUserAuthenticationToken(userAuthenticationToken, packageId.getId());

@@ -33,7 +33,7 @@ public class UserAuthenticationTokenExample extends SDKSample {
 
     @Override
     void execute() {
-        final String userAuthenticationToken = eslClient.createUserAuthenticationToken();
+        final String userAuthenticationToken = eslClient.getAuthenticationTokensService().createUserAuthenticationToken();
          /* Note about the user authentication token:
           * This is a single use token, limited to a time period (30 minutes). Trying to reuse it or to use it will cause an unauthorized error.
           * This can only be created for the user linked to the api key provided. It is not possible to obtain a token for another user. For exception to this,
