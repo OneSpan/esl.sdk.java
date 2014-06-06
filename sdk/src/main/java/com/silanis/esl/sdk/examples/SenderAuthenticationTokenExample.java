@@ -62,7 +62,7 @@ public class SenderAuthenticationTokenExample extends SDKSample {
           * This is a single use token, limited to a time period (30 minutes). Trying to reuse it or to use it will cause an unauthorized error.
           * Trying to access pages unrelated to the package for which it was created will cause an unauthorized error
           */
-        final String senderAuthenticationToken = eslClient.createSenderAuthenticationToken(packageId.getId());
+        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
 
         /* This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser).
          * It is a session valid in the same way as a normal login except it is limited to operations on the package for which

@@ -58,7 +58,7 @@ public class AttachmentRequirementExampleTest {
         assertThat("Signer2's attachment3's status was set incorrectly.", signer2Att2.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
 
         // Upload attachment for signer1
-        final String signerAuthenticationToken = example.eslClient.createSignerAuthenticationToken(example.getPackageId().getId(), example.signer1Id);
+        final String signerAuthenticationToken = example.eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(example.getPackageId().getId(), example.signer1Id);
         AuthenticationClient authenticationClient = new AuthenticationClient(Props.get().getProperty("webpage.url"));
         String sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
