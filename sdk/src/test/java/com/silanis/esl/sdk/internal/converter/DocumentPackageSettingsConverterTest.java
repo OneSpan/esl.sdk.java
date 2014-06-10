@@ -107,6 +107,10 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton())));
         assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton())));
 
+        assertThat("Hide Language Drop Down was not correctly set", sdkPackageSettings1.getShowLanguageDropDown(), is(equalTo(!apiPackageSettings1.getCeremony().getHideLanguageDropdown())));
+        assertThat("Hide package owner from in person drop down was not correctly set", sdkPackageSettings1.getShowPackageOwnerInPerson(), is(equalTo(!apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson())));
+        assertThat("Hide first affidavit was not correctly set", sdkPackageSettings1.getEnableFirstAffidavit(), is(equalTo(!apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit())));
+        assertThat("Hide second affidavit was not correctly set", sdkPackageSettings1.getEnableSecondAffidavit(), is(equalTo(!apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit())));
     }
 
     @Override
@@ -131,6 +135,11 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton())));
         assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton())));
         assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton())));
+
+        assertThat("Hide Language Drop Down was not correctly set", apiPackageSettings1.getCeremony().getHideLanguageDropdown(), is(equalTo(!sdkPackageSettings1.getShowLanguageDropDown())));
+        assertThat("Hide package owner from in person drop down was not correctly set", apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson(), is(equalTo(!sdkPackageSettings1.getShowPackageOwnerInPerson())));
+        assertThat("Hide first affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit(), is(equalTo(!sdkPackageSettings1.getEnableFirstAffidavit())));
+        assertThat("Hide second affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit(), is(equalTo(!sdkPackageSettings1.getEnableSecondAffidavit())));
     }
 
     /**
@@ -145,7 +154,11 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withOptOut()
                 .withoutWatermark()
                 .withoutCaptureText()
-                .withOptOutReason( "Reason One" )
+                .disableFirstAffidavit()
+                .disableSecondAffidavit()
+                .hideOwnerInPersonDropDown()
+                .withoutLanguageDropDown()
+                .withOptOutReason("Reason One")
                 .withOptOutReason( "Reason Two" )
                 .withOptOutReason( "Reason Three" )
                 .withHandOverLinkHref( "http://www.google.ca" )
@@ -186,6 +199,11 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setHideCaptureText(true);
         apiCeremonySettings.setHideWatermark(true);
         apiCeremonySettings.setMaxAuthFailsAllowed(3);
+
+        apiCeremonySettings.setDisableFirstInPersonAffidavit( true);
+        apiCeremonySettings.setDisableSecondInPersonAffidavit( true);
+        apiCeremonySettings.setHideLanguageDropdown(true);
+        apiCeremonySettings.setHidePackageOwnerInPerson(true);
 
         Style style = new Style();
         style.setBackgroundColor("white");
