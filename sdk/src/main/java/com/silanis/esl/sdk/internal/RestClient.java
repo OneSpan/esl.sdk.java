@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+
+import org.apache.http.Header;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -20,6 +22,7 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 
 public class RestClient {
 
@@ -110,8 +113,14 @@ public class RestClient {
     }
 
     public String get(String path) throws IOException, HttpException, URISyntaxException {
+        return get(path, "application/json");
+    }
+
+    public String get(String path, String acceptType) throws IOException, HttpException, URISyntaxException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
+        Header header = new BasicHeader("Accept", acceptType);
+        get.addHeader(header);
 
         return execute(get, jsonHandler);
     }

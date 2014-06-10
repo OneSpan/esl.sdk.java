@@ -84,6 +84,7 @@ public class DownloadCompletionReportExample extends SDKSample {
         Date to = toCalendar.getTime();
 
         sdkCompletionReport = eslClient.getPackageService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
-
+        String csvCompletionReport = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
+        System.out.println(" wtf" );
     }
 }
