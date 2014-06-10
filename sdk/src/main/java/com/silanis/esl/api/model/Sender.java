@@ -48,9 +48,9 @@ public class Sender extends User
     @JsonIgnore
     public static final String FIELD_PHONE = "phone";
     @JsonIgnore
-    public static final String FIELD_SIGNATURE = "signature";
+    public static final String FIELD_PROFESSIONALIDENTITYFIELDS = "professionalIdentityFields";
     @JsonIgnore
-    public static final String FIELD_SIGNERTYPE = "signerType";
+    public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
     public static final String FIELD_STATUS = "status";
     @JsonIgnore
@@ -334,6 +334,26 @@ public class Sender extends User
         
     
     @Override
+    public Sender setProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
+        super.setProfessionalIdentityFields(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Sender safeSetProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
+        if ( value != null ) { this.setProfessionalIdentityFields( value ); }
+        return this;
+    }
+    // List adder
+    @Override
+    public Sender addProfessionalIdentityField( ProfessionalIdentityField value ){
+        super.addProfessionalIdentityField(value);
+        return this;
+    }
+    
+        
+    
+    @Override
     public Sender setSignature( SignatureStyle value ){
         super.setSignature(value);
         return this;
@@ -342,20 +362,6 @@ public class Sender extends User
     @JsonIgnore
     public Sender safeSetSignature( SignatureStyle value ){
         if ( value != null ) { this.setSignature( value ); }
-        return this;
-    }
-    
-        
-    
-    @Override
-    public Sender setSignerType( String value ){
-        super.setSignerType(value);
-        return this;
-    }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public Sender safeSetSignerType( String value ){
-        if ( value != null ) { this.setSignerType( value ); }
         return this;
     }
     

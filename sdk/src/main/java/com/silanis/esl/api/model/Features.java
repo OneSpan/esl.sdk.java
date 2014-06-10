@@ -31,6 +31,8 @@ public class Features extends Model
     @JsonIgnore
     public static final String FIELD_NOTARIZE = "notarize";
     @JsonIgnore
+    public static final String FIELD_SHOWDOCUMENTSPREVIEW = "showDocumentsPreview";
+    @JsonIgnore
     public static final String FIELD_TAMPERSEALEVIDENCE = "tamperSealEvidence";
     
     // Empty Constructor
@@ -47,6 +49,7 @@ public class Features extends Model
     protected Boolean _groups = false;
     protected Boolean _inboxFiltering = false;
     protected Boolean _notarize = false;
+    protected Boolean _showDocumentsPreview = false;
     protected Boolean _tamperSealEvidence = false;
     
     // Accessors
@@ -288,6 +291,30 @@ public class Features extends Model
     @JsonIgnore
     public boolean evalNotarize(){
         return _notarize == null ? false : _notarize.booleanValue();
+    }
+    
+        
+    
+    public Features setShowDocumentsPreview( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_SHOWDOCUMENTSPREVIEW,value);
+        // TODO With proper compare
+        // if ( this._showDocumentsPreview == value ) return this;
+        this._showDocumentsPreview = value;
+        setDirty(FIELD_SHOWDOCUMENTSPREVIEW);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetShowDocumentsPreview( Boolean value ){
+        if ( value != null ) { this.setShowDocumentsPreview( value ); }
+        return this;
+    }
+    public Boolean getShowDocumentsPreview(){
+        return _showDocumentsPreview;
+    }
+    @JsonIgnore
+    public boolean evalShowDocumentsPreview(){
+        return _showDocumentsPreview == null ? false : _showDocumentsPreview.booleanValue();
     }
     
         

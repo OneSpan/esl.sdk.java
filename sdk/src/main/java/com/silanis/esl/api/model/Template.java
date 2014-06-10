@@ -40,6 +40,8 @@ public class Template extends BaseTemplate
     @JsonIgnore
     public static final String FIELD_NAME = "name";
     @JsonIgnore
+    public static final String FIELD_NOTARIZED = "notarized";
+    @JsonIgnore
     public static final String FIELD_ROLES = "roles";
     @JsonIgnore
     public static final String FIELD_SENDER = "sender";
@@ -240,6 +242,20 @@ public class Template extends BaseTemplate
     @JsonIgnore
     public Template safeSetName( String value ){
         if ( value != null ) { this.setName( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Template setNotarized( Boolean value ){
+        super.setNotarized(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Template safeSetNotarized( Boolean value ){
+        if ( value != null ) { this.setNotarized( value ); }
         return this;
     }
     

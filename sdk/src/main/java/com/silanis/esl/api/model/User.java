@@ -40,9 +40,9 @@ public class User extends Entity
     @JsonIgnore
     public static final String FIELD_PHONE = "phone";
     @JsonIgnore
-    public static final String FIELD_SIGNATURE = "signature";
+    public static final String FIELD_PROFESSIONALIDENTITYFIELDS = "professionalIdentityFields";
     @JsonIgnore
-    public static final String FIELD_SIGNERTYPE = "signerType";
+    public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
@@ -63,8 +63,8 @@ public class User extends Entity
     protected String _language = "";
     protected String _lastName = "";
     protected String _phone = "";
+    protected List<ProfessionalIdentityField> _professionalIdentityFields = new ArrayList<ProfessionalIdentityField>();
     protected SignatureStyle _signature = null;
-    protected String _signerType = "";
     protected String _title = "";
     protected java.util.Date _updated;
     protected List<UserCustomField> _userCustomFields = new ArrayList<UserCustomField>();
@@ -303,6 +303,33 @@ public class User extends Entity
     
         
     
+    public User setProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
+        SchemaSanitizer.throwOnNull(FIELD_PROFESSIONALIDENTITYFIELDS,value);
+        // TODO With proper compare
+        // if ( this._professionalIdentityFields == value ) return this;
+        this._professionalIdentityFields = value;
+        setDirty(FIELD_PROFESSIONALIDENTITYFIELDS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public User safeSetProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
+        if ( value != null ) { this.setProfessionalIdentityFields( value ); }
+        return this;
+    }
+    public List<ProfessionalIdentityField> getProfessionalIdentityFields(){
+        return _professionalIdentityFields;
+    }
+    // List adder
+    public User addProfessionalIdentityField( ProfessionalIdentityField value ){
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._professionalIdentityFields.add(value);
+        setDirty(FIELD_PROFESSIONALIDENTITYFIELDS);
+        return this;
+    }
+    
+        
+    
     public User setSignature( SignatureStyle value ){
         // TODO With proper compare
         // if ( this._signature == value ) return this;
@@ -318,26 +345,6 @@ public class User extends Entity
     }
     public SignatureStyle getSignature(){
         return _signature;
-    }
-    
-        
-    
-    public User setSignerType( String value ){
-        value = SchemaSanitizer.trim(value);
-        // TODO With proper compare
-        // if ( this._signerType == value ) return this;
-        this._signerType = value;
-        setDirty(FIELD_SIGNERTYPE);
-        return this;
-    }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public User safeSetSignerType( String value ){
-        if ( value != null ) { this.setSignerType( value ); }
-        return this;
-    }
-    public String getSignerType(){
-        return _signerType;
     }
     
         

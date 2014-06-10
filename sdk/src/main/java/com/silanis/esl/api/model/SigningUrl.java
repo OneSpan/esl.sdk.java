@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class SignerAuthenticationToken extends AuthenticationToken
+public class SigningUrl extends Model
       implements java.io.Serializable
 {
     
@@ -13,21 +13,22 @@ public class SignerAuthenticationToken extends AuthenticationToken
     @JsonIgnore
     public static final String FIELD_PACKAGEID = "packageId";
     @JsonIgnore
-    public static final String FIELD_SIGNERID = "signerId";
+    public static final String FIELD_ROLEID = "roleId";
     @JsonIgnore
-    public static final String FIELD_VALUE = "value";
+    public static final String FIELD_URL = "url";
     
     // Empty Constructor
-    public SignerAuthenticationToken ( ) {}
+    public SigningUrl ( ) {}
     
     // Fields
     protected String _packageId = "";
-    protected String _signerId = "";
+    protected String _roleId = "";
+    protected String _url = "";
     
     // Accessors
         
     
-    public SignerAuthenticationToken setPackageId( String value ){
+    public SigningUrl setPackageId( String value ){
         SchemaSanitizer.throwOnNull(FIELD_PACKAGEID,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
@@ -38,7 +39,7 @@ public class SignerAuthenticationToken extends AuthenticationToken
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerAuthenticationToken safeSetPackageId( String value ){
+    public SigningUrl safeSetPackageId( String value ){
         if ( value != null ) { this.setPackageId( value ); }
         return this;
     }
@@ -48,37 +49,43 @@ public class SignerAuthenticationToken extends AuthenticationToken
     
         
     
-    public SignerAuthenticationToken setSignerId( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_SIGNERID,value);
+    public SigningUrl setRoleId( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_ROLEID,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
-        // if ( this._signerId == value ) return this;
-        this._signerId = value;
-        setDirty(FIELD_SIGNERID);
+        // if ( this._roleId == value ) return this;
+        this._roleId = value;
+        setDirty(FIELD_ROLEID);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerAuthenticationToken safeSetSignerId( String value ){
-        if ( value != null ) { this.setSignerId( value ); }
+    public SigningUrl safeSetRoleId( String value ){
+        if ( value != null ) { this.setRoleId( value ); }
         return this;
     }
-    public String getSignerId(){
-        return _signerId;
+    public String getRoleId(){
+        return _roleId;
     }
     
         
     
-    @Override
-    public SignerAuthenticationToken setValue( String value ){
-        super.setValue(value);
+    public SigningUrl setUrl( String value ){
+        value = SchemaSanitizer.trim(value);
+        // TODO With proper compare
+        // if ( this._url == value ) return this;
+        this._url = value;
+        setDirty(FIELD_URL);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerAuthenticationToken safeSetValue( String value ){
-        if ( value != null ) { this.setValue( value ); }
+    public SigningUrl safeSetUrl( String value ){
+        if ( value != null ) { this.setUrl( value ); }
         return this;
+    }
+    public String getUrl(){
+        return _url;
     }
     
     
