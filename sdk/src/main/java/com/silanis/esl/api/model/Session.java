@@ -19,6 +19,8 @@ public class Session extends Model
     @JsonIgnore
     public static final String FIELD_PACKAGES = "packages";
     @JsonIgnore
+    public static final String FIELD_SUPPORT = "support";
+    @JsonIgnore
     public static final String FIELD_USER = "user";
     
     // Empty Constructor
@@ -29,6 +31,7 @@ public class Session extends Model
     protected Features _features = null;
     protected Boolean _inPerson = false;
     protected List<String> _packages = new ArrayList<String>();
+    protected SupportConfiguration _support = null;
     protected User _user;
     
     // Accessors
@@ -119,6 +122,25 @@ public class Session extends Model
         this._packages.add(value);
         setDirty(FIELD_PACKAGES);
         return this;
+    }
+    
+        
+    
+    public Session setSupport( SupportConfiguration value ){
+        // TODO With proper compare
+        // if ( this._support == value ) return this;
+        this._support = value;
+        setDirty(FIELD_SUPPORT);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Session safeSetSupport( SupportConfiguration value ){
+        if ( value != null ) { this.setSupport( value ); }
+        return this;
+    }
+    public SupportConfiguration getSupport(){
+        return _support;
     }
     
         

@@ -25,6 +25,10 @@ public class DocumentPackageSettingsBuilder {
     private Integer maxAuthAttempts = null;
     private Boolean showDocumentToolbarDownloadButton = true;
     private Boolean showDialogOnComplete = null;
+    private Boolean showPackageOwnerInPerson = null;
+    private Boolean showLanguageDropDown = null;
+    private Boolean enableFirstAffidavit = null;
+    private Boolean enableSecondAffidavit = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -37,6 +41,53 @@ public class DocumentPackageSettingsBuilder {
 
     public static DocumentPackageSettingsBuilder newDocumentPackageSettings() {
         return new DocumentPackageSettingsBuilder();
+    }
+
+    /**
+     * Displays the owner int the list of users, when switching users during an inPerson signing ceremony.
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder showOwnerInPersonDropDown() {
+        showPackageOwnerInPerson = true;
+        return this;
+    }
+    /**
+     * Removes the owner of the package from the list of users, when switching users during an inPerson signing ceremony.
+     */
+    public DocumentPackageSettingsBuilder hideOwnerInPersonDropDown() {
+        showPackageOwnerInPerson = false;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder withLanguageDropDown() {
+        showLanguageDropDown = true;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder withoutLanguageDropDown() {
+        showLanguageDropDown = false;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder enableFirstAffidavit() {
+        enableFirstAffidavit = true;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder disableFirstAffidavit() {
+        enableFirstAffidavit = false;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder enableSecondAffidavit() {
+        enableSecondAffidavit = true;
+        return this;
+    }
+
+    public DocumentPackageSettingsBuilder disableSecondAffidavit() {
+        enableSecondAffidavit = false;
+        return this;
     }
 
     /**
@@ -278,6 +329,10 @@ public class DocumentPackageSettingsBuilder {
         result.setMaxAuthAttempts( maxAuthAttempts );
         result.setShowDocumentToolbarDownloadButton( showDocumentToolbarDownloadButton );
         result.setShowDialogOnComplete( showDialogOnComplete );
+        result.setEnableFirstAffidavit( enableFirstAffidavit);
+        result.setEnableSecondAffidavit( enableSecondAffidavit);
+        result.setShowLanguageDropDown( showLanguageDropDown);
+        result.setShowPackageOwnerInPerson( showPackageOwnerInPerson);
         result.setLinkHref( linkHref );
         result.setLinkText( linkText );
         result.setLinkTooltip( linkTooltip );

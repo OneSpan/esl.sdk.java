@@ -14,12 +14,20 @@ public class DocumentPackageSettings {
     private Integer maxAuthAttempts = null;
     private Boolean showDocumentToolbarDownloadButton = true;
     private Boolean showDialogOnComplete = null;
+    private Boolean showPackageOwnerInPerson = null;
+    private Boolean showLanguageDropDown = null;
+    private Boolean enableFirstAffidavit = null;
+    private Boolean enableSecondAffidavit = null;
 
     private String linkText;
     private String linkTooltip;
     private String linkHref;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
+
+    public Boolean getShowPackageOwnerInPerson() { return showPackageOwnerInPerson; }
+
+    public void setShowPackageOwnerInPerson( Boolean showPackageOwnerInPerson ) { this.showPackageOwnerInPerson = showPackageOwnerInPerson; }
 
     public Boolean getEnableInPerson() {
         return enableInPerson;
@@ -119,5 +127,29 @@ public class DocumentPackageSettings {
 
     public void setCeremonyLayoutSettings( CeremonyLayoutSettings ceremonyLayoutSettings ) {
         this.ceremonyLayoutSettings = ceremonyLayoutSettings;
+    }
+
+    public Boolean getShowLanguageDropDown() {
+        return showLanguageDropDown;
+    }
+
+    public void setShowLanguageDropDown(Boolean showLanguageDropDown) {
+        this.showLanguageDropDown = showLanguageDropDown;
+    }
+
+    public Boolean getEnableFirstAffidavit() {
+        return enableFirstAffidavit;
+    }
+
+    public void setEnableFirstAffidavit(Boolean enableFirstAffidavit) {
+        this.enableFirstAffidavit = enableFirstAffidavit;
+    }
+
+    public Boolean getEnableSecondAffidavit() {
+        return enableSecondAffidavit;
+    }
+
+    public void setEnableSecondAffidavit(Boolean enableSecondAffidavit) {
+        this.enableSecondAffidavit = enableSecondAffidavit;
     }
 }

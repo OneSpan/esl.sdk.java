@@ -11,6 +11,7 @@ import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.internal.DateHelper;
 import com.silanis.esl.sdk.internal.RestClient;
@@ -623,20 +624,34 @@ public class PackageService {
     }
 
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String toDate = DateHelper.dateToIsoUtcFormat(to);
-        String fromDate = DateHelper.dateToIsoUtcFormat(from);
-
-        String path = template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
-                .replace("{from}", fromDate)
-                .replace("{to}", toDate)
-                .replace("{status}", packageStatus.toString())
-                .replace("{senderId}", senderId)
-                .build();
+        String path = getCompletionReportUrl(packageStatus, senderId, from, to);
 
         try {
             String json = client.get(path);
             CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
             return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
+        } catch (Exception e) {
+            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    private String getCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
+                .replace("{from}", fromDate)
+                .replace("{to}", toDate)
+                .replace("{status}", packageStatus.toString())
+                .replace("{senderId}", senderId)
+                .build();
+    }
+
+    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
+        String path = getCompletionReportUrl(packageStatus, senderId, from, to);
+
+        try {
+            return client.get(path, "text/csv");
         } catch (Exception e) {
             throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
         }

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -38,6 +39,11 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_TEXT));
         assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_TOOLTIP));
         assertThat("Dialog on complete flag not set correctly. ", documentPackageSettings.getShowDialogOnComplete().equals(true));
+        assertThat("Disable first affidavit was not set correctly. ", documentPackageSettings.getEnableFirstAffidavit(), is(equalTo(false)));
+        assertThat("Disable second affidavit was not set correctly. ", documentPackageSettings.getEnableSecondAffidavit(), is(equalTo(false)));
+        assertThat("Hide owner from in person drop list.", documentPackageSettings.getShowPackageOwnerInPerson(), is(equalTo(false)));
+        assertThat("Hide language drop list.", documentPackageSettings.getShowLanguageDropDown(), is(equalTo(false)));
+
     }
 
 }

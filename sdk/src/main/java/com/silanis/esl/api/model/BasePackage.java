@@ -40,6 +40,8 @@ public class BasePackage extends Entity
     @JsonIgnore
     public static final String FIELD_NAME = "name";
     @JsonIgnore
+    public static final String FIELD_NOTARIZED = "notarized";
+    @JsonIgnore
     public static final String FIELD_ROLES = "roles";
     @JsonIgnore
     public static final String FIELD_SENDER = "sender";
@@ -69,6 +71,7 @@ public class BasePackage extends Entity
     protected String _language = "";
     protected PackageArtifactsLimits _limits = null;
     protected List<Message> _messages = new ArrayList<Message>();
+    protected Boolean _notarized = false;
     protected List<Role> _roles = new ArrayList<Role>();
     protected Sender _sender;
     protected PackageSettings _settings = null;
@@ -322,6 +325,30 @@ public class BasePackage extends Entity
     public BasePackage safeSetName( String value ){
         if ( value != null ) { this.setName( value ); }
         return this;
+    }
+    
+        
+    
+    public BasePackage setNotarized( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_NOTARIZED,value);
+        // TODO With proper compare
+        // if ( this._notarized == value ) return this;
+        this._notarized = value;
+        setDirty(FIELD_NOTARIZED);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public BasePackage safeSetNotarized( Boolean value ){
+        if ( value != null ) { this.setNotarized( value ); }
+        return this;
+    }
+    public Boolean getNotarized(){
+        return _notarized;
+    }
+    @JsonIgnore
+    public boolean evalNotarized(){
+        return _notarized == null ? false : _notarized.booleanValue();
     }
     
         

@@ -13,7 +13,11 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public static final String FIELD_DECLINEBUTTON = "declineButton";
     @JsonIgnore
+    public static final String FIELD_DISABLEFIRSTINPERSONAFFIDAVIT = "disableFirstInPersonAffidavit";
+    @JsonIgnore
     public static final String FIELD_DISABLEINPERSONAFFIDAVIT = "disableInPersonAffidavit";
+    @JsonIgnore
+    public static final String FIELD_DISABLESECONDINPERSONAFFIDAVIT = "disableSecondInPersonAffidavit";
     @JsonIgnore
     public static final String FIELD_DOCUMENTTOOLBAROPTIONS = "documentToolbarOptions";
     @JsonIgnore
@@ -22,6 +26,10 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_HANDOVER = "handOver";
     @JsonIgnore
     public static final String FIELD_HIDECAPTURETEXT = "hideCaptureText";
+    @JsonIgnore
+    public static final String FIELD_HIDELANGUAGEDROPDOWN = "hideLanguageDropdown";
+    @JsonIgnore
+    public static final String FIELD_HIDEPACKAGEOWNERINPERSON = "hidePackageOwnerInPerson";
     @JsonIgnore
     public static final String FIELD_HIDEWATERMARK = "hideWatermark";
     @JsonIgnore
@@ -42,11 +50,15 @@ public class CeremonySettings extends ViewSettings
     
     // Fields
     protected Boolean _declineButton = false;
+    protected Boolean _disableFirstInPersonAffidavit = false;
     protected Boolean _disableInPersonAffidavit = false;
+    protected Boolean _disableSecondInPersonAffidavit = false;
     protected DocumentToolbarOptions _documentToolbarOptions = null;
     protected CeremonyEvents _events = null;
     protected Link _handOver = null;
     protected Boolean _hideCaptureText = false;
+    protected Boolean _hideLanguageDropdown = false;
+    protected Boolean _hidePackageOwnerInPerson = false;
     protected Boolean _hideWatermark = false;
     protected Boolean _inPerson = false;
     protected Integer _maxAuthFailsAllowed = null;
@@ -80,6 +92,30 @@ public class CeremonySettings extends ViewSettings
     
         
     
+    public CeremonySettings setDisableFirstInPersonAffidavit( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_DISABLEFIRSTINPERSONAFFIDAVIT,value);
+        // TODO With proper compare
+        // if ( this._disableFirstInPersonAffidavit == value ) return this;
+        this._disableFirstInPersonAffidavit = value;
+        setDirty(FIELD_DISABLEFIRSTINPERSONAFFIDAVIT);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetDisableFirstInPersonAffidavit( Boolean value ){
+        if ( value != null ) { this.setDisableFirstInPersonAffidavit( value ); }
+        return this;
+    }
+    public Boolean getDisableFirstInPersonAffidavit(){
+        return _disableFirstInPersonAffidavit;
+    }
+    @JsonIgnore
+    public boolean evalDisableFirstInPersonAffidavit(){
+        return _disableFirstInPersonAffidavit == null ? false : _disableFirstInPersonAffidavit.booleanValue();
+    }
+    
+        
+    
     public CeremonySettings setDisableInPersonAffidavit( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_DISABLEINPERSONAFFIDAVIT,value);
         // TODO With proper compare
@@ -100,6 +136,30 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public boolean evalDisableInPersonAffidavit(){
         return _disableInPersonAffidavit == null ? false : _disableInPersonAffidavit.booleanValue();
+    }
+    
+        
+    
+    public CeremonySettings setDisableSecondInPersonAffidavit( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_DISABLESECONDINPERSONAFFIDAVIT,value);
+        // TODO With proper compare
+        // if ( this._disableSecondInPersonAffidavit == value ) return this;
+        this._disableSecondInPersonAffidavit = value;
+        setDirty(FIELD_DISABLESECONDINPERSONAFFIDAVIT);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetDisableSecondInPersonAffidavit( Boolean value ){
+        if ( value != null ) { this.setDisableSecondInPersonAffidavit( value ); }
+        return this;
+    }
+    public Boolean getDisableSecondInPersonAffidavit(){
+        return _disableSecondInPersonAffidavit;
+    }
+    @JsonIgnore
+    public boolean evalDisableSecondInPersonAffidavit(){
+        return _disableSecondInPersonAffidavit == null ? false : _disableSecondInPersonAffidavit.booleanValue();
     }
     
         
@@ -181,6 +241,54 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public boolean evalHideCaptureText(){
         return _hideCaptureText == null ? false : _hideCaptureText.booleanValue();
+    }
+    
+        
+    
+    public CeremonySettings setHideLanguageDropdown( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_HIDELANGUAGEDROPDOWN,value);
+        // TODO With proper compare
+        // if ( this._hideLanguageDropdown == value ) return this;
+        this._hideLanguageDropdown = value;
+        setDirty(FIELD_HIDELANGUAGEDROPDOWN);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetHideLanguageDropdown( Boolean value ){
+        if ( value != null ) { this.setHideLanguageDropdown( value ); }
+        return this;
+    }
+    public Boolean getHideLanguageDropdown(){
+        return _hideLanguageDropdown;
+    }
+    @JsonIgnore
+    public boolean evalHideLanguageDropdown(){
+        return _hideLanguageDropdown == null ? false : _hideLanguageDropdown.booleanValue();
+    }
+    
+        
+    
+    public CeremonySettings setHidePackageOwnerInPerson( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_HIDEPACKAGEOWNERINPERSON,value);
+        // TODO With proper compare
+        // if ( this._hidePackageOwnerInPerson == value ) return this;
+        this._hidePackageOwnerInPerson = value;
+        setDirty(FIELD_HIDEPACKAGEOWNERINPERSON);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetHidePackageOwnerInPerson( Boolean value ){
+        if ( value != null ) { this.setHidePackageOwnerInPerson( value ); }
+        return this;
+    }
+    public Boolean getHidePackageOwnerInPerson(){
+        return _hidePackageOwnerInPerson;
+    }
+    @JsonIgnore
+    public boolean evalHidePackageOwnerInPerson(){
+        return _hidePackageOwnerInPerson == null ? false : _hidePackageOwnerInPerson.booleanValue();
     }
     
         

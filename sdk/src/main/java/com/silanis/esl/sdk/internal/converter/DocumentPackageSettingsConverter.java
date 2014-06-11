@@ -52,6 +52,21 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetHideCaptureText( sdkPackageSettings.getHideCaptureText() );
         ceremonySettings.safeSetOptOutReasons( sdkPackageSettings.getOptOutReasons() );
         ceremonySettings.safeSetMaxAuthFailsAllowed( sdkPackageSettings.getMaxAuthAttempts() );
+        if (sdkPackageSettings.getEnableFirstAffidavit() != null ) {
+            ceremonySettings.safeSetDisableFirstInPersonAffidavit( !sdkPackageSettings.getEnableFirstAffidavit());
+        }
+
+        if ( sdkPackageSettings.getEnableSecondAffidavit() != null ) {
+            ceremonySettings.safeSetDisableSecondInPersonAffidavit( !sdkPackageSettings.getEnableSecondAffidavit());
+        }
+
+        if ( sdkPackageSettings.getShowLanguageDropDown() != null ) {
+            ceremonySettings.safeSetHideLanguageDropdown( !sdkPackageSettings.getShowLanguageDropDown());
+        }
+
+        if (sdkPackageSettings.getShowPackageOwnerInPerson() != null ) {
+            ceremonySettings.safeSetHidePackageOwnerInPerson( !sdkPackageSettings.getShowPackageOwnerInPerson());
+        }
 
         if ( sdkPackageSettings.getLinkHref() != null ) {
             Link link = new Link();
@@ -105,6 +120,22 @@ public class DocumentPackageSettingsConverter {
         result.setHideWatermark(apiPackageSettings.getCeremony().evalHideWatermark());
         result.setHideCaptureText(apiPackageSettings.getCeremony().getHideCaptureText());
         result.getOptOutReasons().addAll(apiPackageSettings.getCeremony().getOptOutReasons());
+
+        if (apiPackageSettings.getCeremony().getHideLanguageDropdown() != null ) {
+            result.setShowLanguageDropDown(!apiPackageSettings.getCeremony().getHideLanguageDropdown());
+        }
+
+        if ( apiPackageSettings.getCeremony().getHidePackageOwnerInPerson() != null ) {
+            result.setShowPackageOwnerInPerson(!apiPackageSettings.getCeremony().getHidePackageOwnerInPerson());
+        }
+
+        if ( apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit() != null ) {
+            result.setEnableFirstAffidavit( !apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit());
+        }
+
+        if ( apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit() != null ) {
+            result.setEnableSecondAffidavit( !apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit());
+        }
 
         if ( apiPackageSettings.getCeremony().getMaxAuthFailsAllowed() != null ) {
             result.setMaxAuthAttempts(apiPackageSettings.getCeremony().getMaxAuthFailsAllowed());
