@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk.builder;
 
+import com.google.common.base.Optional;
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.Address;
 import com.silanis.esl.sdk.SenderStatus;
-import com.sun.org.glassfish.gmbal.AMXMBeanInterface;
 
 /**
  * AccountMemberBuilder is a convenience class to define individual that will be
@@ -19,7 +19,7 @@ public class AccountMemberBuilder {
     private String language;
     private String phoneNumber;
     private String title;
-    private SenderStatus status;
+    private Optional<SenderStatus> status = Optional.absent();
 
     private AccountMemberBuilder( String email ) {
         this.email = email;
@@ -120,7 +120,7 @@ public class AccountMemberBuilder {
     }
 
     public AccountMemberBuilder withStatus( SenderStatus status ) {
-        this.status = status;
+        this.status = Optional.of(status);
         return this;
     }
 
@@ -140,7 +140,9 @@ public class AccountMemberBuilder {
         result.setLanguage(language);
         result.setPhoneNumber(phoneNumber);
         result.setTitle(title);
-        result.setStatus(status);
+        if ( status.isPresent() ) {
+            result.setStatus(status.get());
+        }
 
         return result;
     }

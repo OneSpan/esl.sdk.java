@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import com.google.common.base.Optional;
+
 public class AccountMember {
     private Address address;
     private String company;
@@ -9,8 +11,7 @@ public class AccountMember {
     private String language;
     private String phoneNumber;
     private String title;
-
-    private SenderStatus status;
+    private Optional<SenderStatus> status = Optional.absent();
 
     public void setAddress( Address address ) {
         this.address = address;
@@ -35,7 +36,6 @@ public class AccountMember {
     public String getEmail() {
         return email;
     }
-
 
     public void setFirstName( String firstName ) {
         this.firstName = firstName;
@@ -77,11 +77,11 @@ public class AccountMember {
         return title;
     }
 
-    public SenderStatus getStatus() {
+    public Optional<SenderStatus> getStatus() {
         return status;
     }
 
     public void setStatus(SenderStatus status) {
-        this.status = status;
+        this.status = Optional.of( status );
     }
 }

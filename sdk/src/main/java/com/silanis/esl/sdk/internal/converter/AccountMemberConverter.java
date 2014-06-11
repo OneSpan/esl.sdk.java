@@ -35,7 +35,9 @@ public class AccountMemberConverter {
             result.setTitle( optionalAccountMember.get().getTitle() );
             result.setLanguage( optionalAccountMember.get().getLanguage() );
             result.setPhone( optionalAccountMember.get().getPhoneNumber() );
-            result.setStatus( new SenderStatusConverter(optionalAccountMember.get().getStatus()).toAPISenderStatus() );
+            if (optionalAccountMember.get().getStatus().isPresent()) {
+                result.setStatus( new SenderStatusConverter(optionalAccountMember.get().getStatus().get()).toAPISenderStatus() );
+            }
 
             return result;
         } else {

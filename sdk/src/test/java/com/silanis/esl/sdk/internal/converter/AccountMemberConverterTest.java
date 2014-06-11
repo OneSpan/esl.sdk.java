@@ -60,7 +60,8 @@ public class AccountMemberConverterTest implements ConverterTest{
         assertThat( "first name was not correctly set", result.getFirstName(), is( equalTo( sender.getFirstName() ) ) );
         assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( sender.getLastName() ) ) );
         assertThat( "was not correctly set", result.getTitle(), is( equalTo( sender.getTitle() ) ) );
-        assertThat( "status was not correclty set", result.getStatus(), is (equalTo( com.silanis.esl.sdk.SenderStatus.ACTIVE )));
+        assertThat( "status was not set", result.getStatus().isPresent(), is(true) );
+        assertThat( "status was not correclty set", result.getStatus().get(), is (equalTo( com.silanis.esl.sdk.SenderStatus.ACTIVE )));
     }
 
     @Test

@@ -35,6 +35,7 @@ public class AccountMemberBuilderTest {
         assertThat( "company was not set correctly", result.getCompany(), is( equalTo( "company" ) ) );
         assertThat( "language was not set correctly", result.getLanguage(), is( equalTo( "language" ) ) );
         assertThat( "phoneNumber was not set correctly", result.getPhoneNumber(), is( equalTo( "phoneNumber" ) ) );
-        assertThat( "sender status was not set correctly", result.getStatus(), is( equalTo( SenderStatus.ACTIVE)));
+        assertThat( "sender status was not set", result.getStatus().isPresent(), is (true));
+        assertThat( "sender status was not set correctly", result.getStatus().get(), is( equalTo( SenderStatus.ACTIVE)));
     }
 }
