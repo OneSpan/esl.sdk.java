@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.Address;
+import com.silanis.esl.sdk.SenderStatus;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -20,7 +21,8 @@ public class AccountMemberBuilderTest {
                 .withLastName( "lastName" )
                 .withCompany( "company" )
                 .withLanguage( "language" )
-                .withPhoneNumber( "phoneNumber" );
+                .withStatus(SenderStatus.ACTIVE)
+                .withPhoneNumber("phoneNumber");
 
         AccountMember result = builder.build();
 
@@ -33,5 +35,6 @@ public class AccountMemberBuilderTest {
         assertThat( "company was not set correctly", result.getCompany(), is( equalTo( "company" ) ) );
         assertThat( "language was not set correctly", result.getLanguage(), is( equalTo( "language" ) ) );
         assertThat( "phoneNumber was not set correctly", result.getPhoneNumber(), is( equalTo( "phoneNumber" ) ) );
+        assertThat( "sender status was not set correctly", result.getStatus(), is( equalTo( SenderStatus.ACTIVE)));
     }
 }

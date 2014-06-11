@@ -1,8 +1,10 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.User;
+import com.silanis.esl.api.model.Sender;
+import com.silanis.esl.api.model.SenderStatus;
 import com.silanis.esl.sdk.AccountMember;
 import org.junit.Test;
+import org.omg.PortableInterceptor.ACTIVE;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
@@ -38,33 +40,34 @@ public class AccountMemberConverterTest implements ConverterTest{
 
     @Test
     public void convertAPIToAPI() {
-        com.silanis.esl.api.model.User user = createTypicalAPIUser();
-        AccountMemberConverter converter = new AccountMemberConverter( user );
-        com.silanis.esl.api.model.User result = converter.toAPIUser();
+        com.silanis.esl.api.model.Sender sender = createTypicalAPISender();
+        AccountMemberConverter converter = new AccountMemberConverter( sender );
+        com.silanis.esl.api.model.Sender result = converter.toAPISender();
         assertThat( "Converter returned a null api object for a non null api object", result, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", result, is( equalTo( user ) ) );
+        assertThat( "Converter didn't return the same non-null api object it was given", result, is( equalTo( sender ) ) );
     }
 
     @Test
     public void convertAPIToSDK() {
-        com.silanis.esl.api.model.User user = createTypicalAPIUser();
-        AccountMemberConverter converter = new AccountMemberConverter( user );
+        com.silanis.esl.api.model.Sender sender = createTypicalAPISender();
+        AccountMemberConverter converter = new AccountMemberConverter( sender );
         AccountMember result = converter.toSDKAccountMember();
         assertThat( "Converter returned a null sdk object for a non null api object", result, is( notNullValue() ) );
-        assertThat( "company was not correctly set", result.getCompany(), is( equalTo( user.getCompany() ) ) );
-        assertThat( "language was not correctly set", result.getLanguage(), is( equalTo( user.getLanguage() ) ) );
-        assertThat( "email was not correctly set", result.getEmail(), is( equalTo( user.getEmail() ) ) );
-        assertThat( "phone number was not correctly set", result.getPhoneNumber(), is( equalTo( user.getPhone() ) ) );
-        assertThat( "first name was not correctly set", result.getFirstName(), is( equalTo( user.getFirstName() ) ) );
-        assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( user.getLastName() ) ) );
-        assertThat( "was not correctly set", result.getTitle(), is( equalTo( user.getTitle() ) ) );
+        assertThat( "company was not correctly set", result.getCompany(), is( equalTo( sender.getCompany() ) ) );
+        assertThat( "language was not correctly set", result.getLanguage(), is( equalTo( sender.getLanguage() ) ) );
+        assertThat( "email was not correctly set", result.getEmail(), is( equalTo( sender.getEmail() ) ) );
+        assertThat( "phone number was not correctly set", result.getPhoneNumber(), is( equalTo( sender.getPhone() ) ) );
+        assertThat( "first name was not correctly set", result.getFirstName(), is( equalTo( sender.getFirstName() ) ) );
+        assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( sender.getLastName() ) ) );
+        assertThat( "was not correctly set", result.getTitle(), is( equalTo( sender.getTitle() ) ) );
+        assertThat( "status was not correclty set", result.getStatus(), is (equalTo( com.silanis.esl.sdk.SenderStatus.ACTIVE )));
     }
 
     @Test
     public void convertSDKToAPI() {
         AccountMember member = createTypicalSDKAccountMember();
         AccountMemberConverter converter = new AccountMemberConverter( member );
-        com.silanis.esl.api.model.User result = converter.toAPIUser();
+        com.silanis.esl.api.model.Sender result = converter.toAPISender();
         assertThat( "Converter returned a null api object for a non null sdk object", result, is( notNullValue() ) );
         assertThat( "company was not correctly set", result.getCompany(), is( equalTo( member.getCompany() ) ) );
         assertThat( "language was not correctly set", result.getLanguage(), is( equalTo( member.getLanguage() ) ) );
@@ -73,6 +76,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         assertThat( "first name was not correctly set", result.getFirstName(), is( equalTo( member.getFirstName() ) ) );
         assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( member.getLastName() ) ) );
         assertThat( "title was not correctly set", result.getTitle(), is( equalTo( member.getTitle() ) ) );
+        assertThat( "status was not correctly set", result.getStatus(), is( equalTo( com.silanis.esl.api.model.SenderStatus.ACTIVE)));
     }
 
     private AccountMember createTypicalSDKAccountMember() {
@@ -84,11 +88,12 @@ public class AccountMemberConverterTest implements ConverterTest{
         result.setFirstName( "first" );
         result.setLastName( "last" );
         result.setTitle( "title" );
+        result.setStatus(com.silanis.esl.sdk.SenderStatus.ACTIVE);
         return result;
     }
 
-    private com.silanis.esl.api.model.User createTypicalAPIUser() {
-        com.silanis.esl.api.model.User result = new com.silanis.esl.api.model.User();
+    private Sender createTypicalAPISender() {
+        com.silanis.esl.api.model.Sender result = new com.silanis.esl.api.model.Sender();
         result.setCompany( "company" );
         result.setLanguage( "language" );
         result.setEmail( "email" );
@@ -96,6 +101,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         result.setFirstName( "first" );
         result.setLastName( "last" );
         result.setTitle( "title" );
+        result.setStatus(com.silanis.esl.api.model.SenderStatus.ACTIVE);
         return result;
     }
 }
