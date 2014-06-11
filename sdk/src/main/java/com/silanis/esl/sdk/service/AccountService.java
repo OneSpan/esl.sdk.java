@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.User;
+import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.internal.RestClient;
@@ -20,9 +20,9 @@ public class AccountService {
 
     public void inviteUser( AccountMember accountMember ) {
         String path = template.urlFor( UrlTemplate.ACCOUNT_INVITE_MEMBER_PATH ).build();
-        User user = new AccountMemberConverter( accountMember ).toAPIUser();
+        Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
         try {
-            client.post( path, Serialization.toJson( user ) );
+            client.post( path, Serialization.toJson( sender ) );
         } catch ( Exception e ) {
             throw new EslException( "Unable to invite member to account.", e );
         }

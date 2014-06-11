@@ -1,28 +1,29 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.google.common.base.Optional;
+import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.User;
 import com.silanis.esl.sdk.AccountMember;
 
 public class AccountMemberConverter {
 
-    private Optional<User> optionalUser;
+    private Optional<Sender> optionalSender;
     private Optional<AccountMember> optionalAccountMember;
 
-    public AccountMemberConverter( User apiUser ) {
-        optionalUser = Optional.of( apiUser );
+    public AccountMemberConverter( Sender apiSender ) {
+        optionalSender = Optional.of( apiSender );
         optionalAccountMember = Optional.absent();
     }
 
     public AccountMemberConverter( AccountMember sdkAccountMember ) {
-        optionalUser = Optional.absent();
+        optionalSender = Optional.absent();
         optionalAccountMember = Optional.of( sdkAccountMember );
     }
 
-    public User toAPIUser() {
+    public Sender toAPISender() {
         if ( optionalAccountMember.isPresent()) {
 
-            User result = new User();
+            Sender result = new Sender();
 
             if ( optionalAccountMember.get().getAddress() != null ) {
                 result.setAddress( new AddressConverter( optionalAccountMember.get().getAddress() ).toAPIAddress() );
@@ -34,27 +35,29 @@ public class AccountMemberConverter {
             result.setTitle( optionalAccountMember.get().getTitle() );
             result.setLanguage( optionalAccountMember.get().getLanguage() );
             result.setPhone( optionalAccountMember.get().getPhoneNumber() );
+            result.setStatus( new SenderStatusConverter(optionalAccountMember.get().getStatus()).toAPISenderStatus() );
 
             return result;
         } else {
-            return optionalUser.get();
+            return optionalSender.get();
         }
     }
 
     public AccountMember toSDKAccountMember() {
-        if ( optionalUser.isPresent() ) {
+        if ( optionalSender.isPresent() ) {
             AccountMember result = new AccountMember();
 
-            if ( optionalUser.get().getAddress() != null ) {
-                result.setAddress( new AddressConverter( optionalUser.get().getAddress() ).toSDKAddress() );
+            if ( optionalSender.get().getAddress() != null ) {
+                result.setAddress( new AddressConverter( optionalSender.get().getAddress() ).toSDKAddress() );
             }
-            result.setCompany( optionalUser.get().getCompany() );
-            result.setEmail( optionalUser.get().getEmail() );
-            result.setFirstName( optionalUser.get().getFirstName() );
-            result.setLastName( optionalUser.get().getLastName() );
-            result.setTitle( optionalUser.get().getTitle() );
-            result.setLanguage( optionalUser.get().getLanguage() );
-            result.setPhoneNumber( optionalUser.get().getPhone() );
+            result.setCompany(optionalSender.get().getCompany() );
+            result.setEmail( optionalSender.get().getEmail() );
+            result.setFirstName( optionalSender.get().getFirstName() );
+            result.setLastName( optionalSender.get().getLastName() );
+            result.setTitle( optionalSender.get().getTitle() );
+            result.setLanguage( optionalSender.get().getLanguage() );
+            result.setPhoneNumber( optionalSender.get().getPhone() );
+            result.setStatus( new SenderStatusConverter( optionalSender.get().getStatus() ).toSDKSenderStatus() );
 
             return result;
         } else {

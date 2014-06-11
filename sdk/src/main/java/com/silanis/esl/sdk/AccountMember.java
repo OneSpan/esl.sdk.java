@@ -10,6 +10,8 @@ public class AccountMember {
     private String phoneNumber;
     private String title;
 
+    private SenderStatus status;
+
     public void setAddress( Address address ) {
         this.address = address;
     }
@@ -73,5 +75,13 @@ public class AccountMember {
 
     public String getTitle() {
         return title;
+    }
+
+    public SenderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SenderStatus status) {
+        this.status = status;
     }
 }

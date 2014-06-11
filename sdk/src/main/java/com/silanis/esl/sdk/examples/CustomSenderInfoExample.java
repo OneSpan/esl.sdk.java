@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.SenderStatus;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 import java.io.InputStream;
@@ -50,14 +51,15 @@ public class CustomSenderInfoExample extends SDKSample {
         // The custom sender information is disregarded if the sender is one of the signers for the process.
         // The custom sender must already be a member of the account
         eslClient.getAccountService().inviteUser(
-                AccountMemberBuilder.newAccountMember( senderEmail )
-                        .withFirstName( "firstName" )
-                        .withLastName( "lastName" )
-                        .withCompany( "company" )
-                        .withTitle( "title" )
-                        .withLanguage( "language" )
-                        .withPhoneNumber( "phoneNumber" )
-                        .build() );
+                AccountMemberBuilder.newAccountMember(senderEmail)
+                        .withFirstName("firstName")
+                        .withLastName("lastName")
+                        .withCompany("company")
+                        .withTitle("title")
+                        .withLanguage("language")
+                        .withPhoneNumber("phoneNumber")
+                        .withStatus(SenderStatus.ACTIVE)
+                        .build());
 
         DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSenderInfo( SenderInfoBuilder.newSenderInfo( senderEmail )
