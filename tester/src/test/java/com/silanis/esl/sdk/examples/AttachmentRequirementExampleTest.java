@@ -3,6 +3,8 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.api.model.RequirementStatus;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.io.Files;
@@ -94,6 +96,8 @@ public class AttachmentRequirementExampleTest {
         filename = DocumentType.PDF.normalizeName(filename);
         try {
             client.postMultipartFile(path, filename, fileBytes, "");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload attachment for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload attachment for signer." + " Exception: " + e.getMessage());
         }

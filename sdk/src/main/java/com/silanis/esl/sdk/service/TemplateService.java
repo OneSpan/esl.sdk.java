@@ -7,9 +7,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.PackageBuilder;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 
 /**
@@ -47,6 +45,8 @@ public class TemplateService {
         try {
             String response = client.post(path, deltaJson);
             returnedPackage = Serialization.fromJson(response, Package.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create template", e);
         } catch (Exception e) {
             throw new EslException("Could not create template", e);
         }
@@ -97,6 +97,8 @@ public class TemplateService {
         try {
             String response = client.post(path, packageJson);
             createdPackage = Serialization.fromJson( response, Package.class );
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Could not create a new package from template", e );
         } catch ( Exception e ) {
             throw new EslException( "Could not create a new package from template", e );
         }
@@ -120,6 +122,8 @@ public class TemplateService {
         try {
             String response = client.post(path, packageJson);
             templateId = Serialization.fromJson(response, PackageId.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create template", e);
         } catch (Exception e) {
             throw new EslException("Could not create template", e);
         }

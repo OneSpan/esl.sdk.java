@@ -7,9 +7,7 @@ import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.Group;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.GroupMember;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.GroupConverter;
 import com.silanis.esl.sdk.internal.converter.GroupMemberConverter;
 
@@ -41,6 +39,8 @@ public class GroupService {
                 result.add( new GroupConverter(apiGroup).toSDKGroup());
             }
             return result;
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Failed to retrieve Groups list.", e );
         } catch ( Exception e ) {
             throw new EslException( "Failed to retrieve Groups list.", e );
         }
@@ -58,6 +58,8 @@ public class GroupService {
             String stringResponse = client.get( path );
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
             return new GroupConverter(apiResponse).toSDKGroup();
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Failed to retrieve Group.", e );
         } catch ( Exception e ) {
             throw new EslException( "Failed to retrieve Group.", e );
         }
@@ -80,6 +82,8 @@ public class GroupService {
                 inviteMember( resultGroup.getId(), groupMember );
             }
             return resultGroup;
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to create Group.", e );
         } catch ( Exception e ) {
             throw new EslException( "Unable to create Group.", e );
         }
@@ -93,6 +97,8 @@ public class GroupService {
             com.silanis.esl.api.model.GroupMember apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.GroupMember.class );
             GroupMember resultGroupMember = new GroupMemberConverter(apiResponse).toSDKGroupMember();
             return resultGroupMember;
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to invite member to group.", e );
         } catch ( Exception e ) {
             throw new EslException( "Unable to invite member to group.", e );
         }
@@ -107,6 +113,8 @@ public class GroupService {
         String path = template.urlFor( UrlTemplate.GROUPS_ID_PATH ).replace( "{groupId}", groupId.getId() ).build();
         try {
             client.delete( path );
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Failed to delete Group.", e );
         } catch ( Exception e ) {
             throw new EslException( "Failed to delete Group.", e );
         }

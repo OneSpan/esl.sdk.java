@@ -4,9 +4,7 @@ import com.silanis.esl.api.model.Callback;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.EventNotificationConfig;
 import com.silanis.esl.sdk.builder.EventNotificationConfigBuilder;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 
 /**
  * This class is used for registering to the e-SL notification system 
@@ -33,6 +31,8 @@ public class EventNotificationService {
 
         try {
             client.post(path, packageJson );
+        } catch ( RequestException rootException ) {
+            throw new EslServerException( "Unable to register for event notification.", rootException );
         } catch ( Exception rootException ) {
             throw new EslException( "Unable to register for event notification.", rootException );
         }

@@ -2,9 +2,7 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SessionToken;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 
 /**
  * The SessionService class provides a method to create a session token for a signer.
@@ -37,6 +35,8 @@ public class SessionService {
         String stringResponse;
         try {
             stringResponse = client.post(path, "");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a session token for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not create a session token for signer.", e);
         }
@@ -49,6 +49,8 @@ public class SessionService {
         String stringResponse;
         try {
             stringResponse = client.post(path, "");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a session token for sender.", e);
         } catch (Exception e) {
             throw new EslException("Could not create a session token for sender.", e);
         }

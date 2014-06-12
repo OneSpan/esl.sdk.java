@@ -6,6 +6,7 @@ import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.SenderInfo;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
@@ -31,6 +32,8 @@ public class AccountService {
         Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
         try {
             client.post( path, Serialization.toJson( sender ) );
+        } catch (RequestException e){
+            throw new EslServerException( "Unable to invite member to account.", e);
         } catch ( Exception e ) {
             throw new EslException( "Unable to invite member to account.", e );
         }
@@ -48,7 +51,11 @@ public class AccountService {
                 result.put(sender.getEmail(), new SenderConverter(sender).toSDKSender());
             }
             return result;
-        } catch (Exception e) {
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Failed to retrieve Account Members List.", e);
+        }
+        catch (Exception e) {
             throw new EslException("Failed to retrieve Account Members List.", e);
         }
     }
@@ -59,7 +66,11 @@ public class AccountService {
                 .build();
         try {
             client.delete( path );
-        } catch ( Exception e ) {
+        }
+        catch ( RequestException e ) {
+            throw new EslServerException( "Could not delete sender.", e );
+        }
+        catch ( Exception e ) {
             throw new EslException( "Could not delete sender." + " Exception: " + e.getMessage(), e );
         }
     }
@@ -72,7 +83,11 @@ public class AccountService {
         try {
             String json = Serialization.toJson(apiPayload);
             client.post(path, json);
-        } catch ( Exception e ) {
+        }
+        catch ( RequestException e ) {
+            throw new EslServerException( "Could not update sender.", e );
+        }
+        catch ( Exception e ) {
             throw new EslException( "Could not update sender." + " Exception: " + e.getMessage(), e );
         }
     }

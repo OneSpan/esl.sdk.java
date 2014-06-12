@@ -5,9 +5,7 @@ import com.silanis.esl.api.model.SenderAuthenticationToken;
 import com.silanis.esl.api.model.SignerAuthenticationToken;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 
 /**
  * Created by mpoitras on 22/04/14.
@@ -34,6 +32,8 @@ public class AuthenticationTokensService {
             String stringResponse = client.post(path, "");
             final AuthenticationToken authenticationToken = Serialization.fromJson(stringResponse, AuthenticationToken.class);
             return authenticationToken.getValue();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a user authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not create a user authentication token.", e);
         }
@@ -56,6 +56,8 @@ public class AuthenticationTokensService {
             String stringResponse = client.post(path, payload);
             final SenderAuthenticationToken resultObject = Serialization.fromJson(stringResponse, SenderAuthenticationToken.class);
             return resultObject.getValue();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a sender authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not create a sender authentication token.", e);
         }
@@ -80,6 +82,8 @@ public class AuthenticationTokensService {
             String stringResponse = client.post(path, payload);
             final SignerAuthenticationToken resultObject = Serialization.fromJson(stringResponse, SignerAuthenticationToken.class);
             return resultObject.getValue();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a signer authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not create a signer authentication token.", e);
         }

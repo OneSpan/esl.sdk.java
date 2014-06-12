@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.sdk.Audit;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 
@@ -40,6 +42,8 @@ public class AuditService {
 
             String stringResponse = client.get(path);
             auditList = mapToAudit(stringResponse);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not get audit.", e);
         } catch (Exception e) {
             throw new EslException("Could not get audit.", e);
         }
