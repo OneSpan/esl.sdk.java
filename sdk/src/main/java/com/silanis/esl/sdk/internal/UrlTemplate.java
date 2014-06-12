@@ -63,7 +63,8 @@ public class UrlTemplate {
     public static final String GROUPS_MEMBER_PATH = "/groups/{groupId}/members";
 
     // Account Service
-    public static final String ACCOUNT_INVITE_MEMBER_PATH = "/account/senders";
+    public static final String ACCOUNT_MEMBER_PATH = "/account/senders";
+    public static final String SENDER_PATH = "/account/senders/{senderUid}";
 
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
