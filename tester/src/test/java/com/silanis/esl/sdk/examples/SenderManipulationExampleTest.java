@@ -29,7 +29,7 @@ public class SenderManipulationExampleTest {
         assertThat("Sender was not deleted properly", !senderManipulationExample.accountMembersWithDeletedSender.containsKey(senderManipulationExample.email2));
 
         // Update sender info
-        Sender sender = senderManipulationExample.accountMembersWithDeletedSender.get(senderManipulationExample.email3);
+        Sender sender = senderManipulationExample.accountMembersWithUpdatedSender.get(senderManipulationExample.email3);
         SenderInfo updateInfo = senderManipulationExample.updatedSenderInfo;
         assertThat("Sender's first name was not updated properly", updateInfo.getFirstName(), is(sender.getFirstName()));
         assertThat("Sender's last name was not updated properly", updateInfo.getLastName(), is(sender.getLastName()));
