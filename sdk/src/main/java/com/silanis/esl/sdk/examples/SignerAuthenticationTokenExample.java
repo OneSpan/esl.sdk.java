@@ -71,7 +71,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
           * This is a single use token, limited to a time period (30 minutes). Trying to reuse it or to use it will cause an unauthorized error.
           * Trying to access pages not accessible to a signer will cause an unauthorized error
           */
-        final String signerAuthenticationToken = eslClient.createSignerAuthenticationToken(packageId.getId(), signerId);
+        final String signerAuthenticationToken = eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(packageId.getId(), signerId);
 
         /* This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser).
          * It is a signing session valid in the same way as clicking in an email except it is limited to signing operations on the package for which

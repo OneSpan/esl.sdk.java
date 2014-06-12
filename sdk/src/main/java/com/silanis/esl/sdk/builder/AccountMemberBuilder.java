@@ -1,7 +1,9 @@
 package com.silanis.esl.sdk.builder;
 
+import com.google.common.base.Optional;
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.Address;
+import com.silanis.esl.sdk.SenderStatus;
 
 /**
  * AccountMemberBuilder is a convenience class to define individual that will be
@@ -17,6 +19,7 @@ public class AccountMemberBuilder {
     private String language;
     private String phoneNumber;
     private String title;
+    private Optional<SenderStatus> status = Optional.absent();
 
     private AccountMemberBuilder( String email ) {
         this.email = email;
@@ -116,6 +119,11 @@ public class AccountMemberBuilder {
         return this;
     }
 
+    public AccountMemberBuilder withStatus( SenderStatus status ) {
+        this.status = Optional.of(status);
+        return this;
+    }
+
     /**
      * Build the actual SenderInfo with the specified values
      *
@@ -132,6 +140,9 @@ public class AccountMemberBuilder {
         result.setLanguage(language);
         result.setPhoneNumber(phoneNumber);
         result.setTitle(title);
+        if ( status.isPresent() ) {
+            result.setStatus(status.get());
+        }
 
         return result;
     }

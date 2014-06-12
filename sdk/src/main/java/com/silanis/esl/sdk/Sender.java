@@ -1,8 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.sdk.SenderStatus;
-import com.silanis.esl.sdk.SenderType;
-
 import java.util.Date;
 
 /**

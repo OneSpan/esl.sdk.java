@@ -21,7 +21,14 @@ public class AuthenticationTokensService {
         this.client = client;
     }
 
-    public String create() {
+    /**
+     * Create a user authentication token which is used to obtain a session for the user linked to the api key.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.UserAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForApiKeyExample}
+     * @return A single use, time limited user authentication token. This token can be used to authenticate into a session for the user linked to the api key.
+     */
+
+    public String createUserAuthenticationToken() {
         String path = template.urlFor(UrlTemplate.USER_AUTHENTICATION_TOKEN_PATH).build();
         try {
             String stringResponse = client.post(path, "");
@@ -32,7 +39,15 @@ public class AuthenticationTokensService {
         }
     }
 
-    public String create(String packageId) {
+    /**
+     * Create a sender authentication token which is used to obtain a signing session for that package sender.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SenderAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.DesignerRedirectForPackageSenderExample}
+     * @param packageId The package for which the sender authentication token is created.
+     * @return A single use, time limited sender authentication token. This token can be used to authenticate into a sender session limited to a particular package.
+     */
+
+    public String createSenderAuthenticationToken(String packageId) {
         String path = template.urlFor(UrlTemplate.SENDER_AUTHENTICATION_TOKEN_PATH).build();
         final SenderAuthenticationToken payloadObject = new SenderAuthenticationToken();
         payloadObject.setPackageId(packageId);
@@ -46,7 +61,16 @@ public class AuthenticationTokensService {
         }
     }
 
-    public String create(String packageId, String signerId) {
+    /**
+     * Create a signer authentication token which is used to obtain a signing session for that signer.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerExample}
+     * @param packageId The package for which the signer authentication token is created.
+     * @param signerId The signer for which the signer authentication token is created.
+     * @return A single use, time limited signer authentication token. This token can be used to authenticate into a session.
+     */
+
+    public String createSignerAuthenticationToken(String packageId, String signerId) {
         String path = template.urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_PATH).build();
         final SignerAuthenticationToken payloadObject = new SignerAuthenticationToken();
         payloadObject.setPackageId(packageId);

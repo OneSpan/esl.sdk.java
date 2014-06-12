@@ -102,7 +102,6 @@ public class SenderConverter {
         result.setLanguage(apiSender.getLanguage());
         result.setName(apiSender.getName());
         result.setPhone(apiSender.getPhone());
-        result.setSignerType(apiSender.getSignerType());
         result.setStatus(new SenderStatusConverter(apiSender.getStatus()).toSDKSenderStatus());
         result.setType(new SenderTypeConverter(apiSender.getType()).toSDKSenderType());
         result.setTitle(apiSender.getTitle());

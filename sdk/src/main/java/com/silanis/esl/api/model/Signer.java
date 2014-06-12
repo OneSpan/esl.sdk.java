@@ -46,9 +46,9 @@ public class Signer extends User
     @JsonIgnore
     public static final String FIELD_PHONE = "phone";
     @JsonIgnore
-    public static final String FIELD_SIGNATURE = "signature";
+    public static final String FIELD_PROFESSIONALIDENTITYFIELDS = "professionalIdentityFields";
     @JsonIgnore
-    public static final String FIELD_SIGNERTYPE = "signerType";
+    public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
@@ -296,6 +296,26 @@ public class Signer extends User
         
     
     @Override
+    public Signer setProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
+        super.setProfessionalIdentityFields(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
+        if ( value != null ) { this.setProfessionalIdentityFields( value ); }
+        return this;
+    }
+    // List adder
+    @Override
+    public Signer addProfessionalIdentityField( ProfessionalIdentityField value ){
+        super.addProfessionalIdentityField(value);
+        return this;
+    }
+    
+        
+    
+    @Override
     public Signer setSignature( SignatureStyle value ){
         super.setSignature(value);
         return this;
@@ -304,20 +324,6 @@ public class Signer extends User
     @JsonIgnore
     public Signer safeSetSignature( SignatureStyle value ){
         if ( value != null ) { this.setSignature( value ); }
-        return this;
-    }
-    
-        
-    
-    @Override
-    public Signer setSignerType( String value ){
-        super.setSignerType(value);
-        return this;
-    }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public Signer safeSetSignerType( String value ){
-        if ( value != null ) { this.setSignerType( value ); }
         return this;
     }
     

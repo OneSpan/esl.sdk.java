@@ -121,7 +121,6 @@ public class SenderConverterTest implements ConverterTest{
         assertThat("Sender title is incorrect.", sdkSender.getTitle(), is(apiSender1.getTitle()));
         assertThat("Sender type is incorrect.", sdkSender.getType().toString(), is(apiSender1.getType().toString()));
         assertThat("Sender updated date is incorrect.", sdkSender.getUpdated(), is(apiSender1.getUpdated()));
-        assertThat("Sender signer type is incorrect.", sdkSender.getSignerType(), is(apiSender1.getSignerType()));
         assertThat("Sender id is incorrect.", sdkSender.getId(), is(apiSender1.getId()));
     }
 
