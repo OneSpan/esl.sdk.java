@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>10.4.2-SNAPSHOT</version>
+    <version>10.4.3</version>
     <modules>
         <module>tester</module>
         <module>sdk</module>
@@ -200,6 +200,11 @@
         <developer>
             <email>beachy.greg@gmail.com</email>
             <name>Greg</name>
+            <organization>Silanis</organization>
+        </developer>
+        <developer>
+            <email>dave.silanis@gmail.com</email>
+            <name>Dave</name>
             <organization>Silanis</organization>
         </developer>
     </developers>
