@@ -89,7 +89,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiPackage1 = createTypicalAPIDocumentPackage();
         sdkDocumentPackage1 = new DocumentPackageConverter(apiPackage1).toSDKPackage();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiPackage1, is( notNullValue() ) );
+        assertThat("Converter returned a null sdk object for a non null api object", sdkDocumentPackage1, is( notNullValue() ) );
         assertThat("ID was not correctly set", apiPackage1.getId(), is( equalTo(sdkDocumentPackage1.getId().toString()) ));
         assertThat("Language was not correctly set", apiPackage1.getLanguage(), is( equalTo(sdkDocumentPackage1.getLanguage().getLanguage()) ));
         assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is( equalTo(sdkDocumentPackage1.getAutocomplete()) ));
@@ -127,7 +127,6 @@ public class DocumentPackageConverterTest implements ConverterTest {
                 .withStatus(PackageStatus.DRAFT)
                 .describedAs( "typical description")
                 .withEmailMessage("typical email message")
-                .withEmailMessage("Email message")
                 .withLanguage(Locale.CANADA)
                 .build();
         return sdkDocumentPackage;
