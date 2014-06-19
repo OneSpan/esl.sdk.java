@@ -3,20 +3,11 @@ package com.silanis.esl.sdk;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.service.AccountService;
-import com.silanis.esl.sdk.service.AuditService;
-import com.silanis.esl.sdk.service.AuthenticationTokensService;
-import com.silanis.esl.sdk.service.CustomFieldService;
-import com.silanis.esl.sdk.service.EventNotificationService;
-import com.silanis.esl.sdk.service.FieldSummaryService;
-import com.silanis.esl.sdk.service.GroupService;
-import com.silanis.esl.sdk.service.PackageService;
-import com.silanis.esl.sdk.service.ReminderService;
-import com.silanis.esl.sdk.service.SessionService;
-import com.silanis.esl.sdk.service.TemplateService;
-import com.silanis.esl.sdk.service.AttachmentRequirementService;
+import com.silanis.esl.sdk.service.*;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -142,7 +133,6 @@ public class EslClient {
      */
     public PackageId createPackage(DocumentPackage documentPackage) {
 
-
         if(!isSdkVersionSet(documentPackage)){
             setSdkVersion(documentPackage);
         }
@@ -156,6 +146,31 @@ public class EslClient {
         }
 
         return id;
+    }
+
+    /**
+     * Creates the package in one step
+     *
+     * WARNING: DOES NOT WORK WHEN SENDER HAS A SIGNATURE
+     *
+     * @param documentPackage the document package
+     * @return the package ID
+     */
+
+    public PackageId createPackageOneStep(DocumentPackage documentPackage) {
+
+        if(!isSdkVersionSet(documentPackage)){
+            setSdkVersion(documentPackage);
+        }
+
+        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        for ( Document document : documentPackage.getDocuments() ) {
+            com.silanis.esl.api.model.Document apiDocument = new DocumentConverter(document).toAPIDocument(packageToCreate);
+            packageToCreate.addDocument(apiDocument);
+        }
+        Collection<Document> documents = documentPackage.getDocuments();
+        return packageService.createPackageOneStep(packageToCreate, documents);
+
     }
 
     private void setSdkVersion(DocumentPackage documentPackage) {
@@ -184,7 +199,7 @@ public class EslClient {
      * @return the packageId for the newly created package.
      */
     public PackageId createAndSendPackage(DocumentPackage documentPackage) {
-        PackageId result = createPackage( documentPackage );
+        PackageId result = createPackage(documentPackage);
         sendPackage( result );
         return result;
     }

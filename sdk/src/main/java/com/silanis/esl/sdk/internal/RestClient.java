@@ -1,8 +1,8 @@
 package com.silanis.esl.sdk.internal;
 
+import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.io.Streams;
-
 import org.apache.http.Header;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.util.Collection;
 
 public class RestClient {
 
@@ -75,6 +76,23 @@ public class RestClient {
         post.setEntity(multipart);
 
         execute(post, jsonHandler);
+    }
+
+    public String postMultipartPackage(String path, Collection<Document> documents, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
+        support.logRequest("POST", path, jsonPayload);
+
+        MultipartEntity multipart = new MultipartEntity();
+        multipart.addPart("payload", new StringBody(jsonPayload));
+
+        for(com.silanis.esl.sdk.Document document : documents) {
+            String contentType = MimeTypeUtils.getContentTypeByFileName(document.getFileName());
+            multipart.addPart("file", new ByteArrayBody(document.getContent(), contentType, document.getName()));
+        }
+
+        HttpPost post = new HttpPost(path);
+
+        post.setEntity(multipart);
+        return execute(post, jsonHandler);
     }
 
     protected void addAuthorizationHeader(HttpUriRequest request) {
