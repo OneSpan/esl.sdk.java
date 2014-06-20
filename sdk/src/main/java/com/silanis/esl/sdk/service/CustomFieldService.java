@@ -61,8 +61,9 @@ public class CustomFieldService {
      * @return true if existed otherwise false
      */
     public boolean doesCustomFieldExist( String id ){
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_PATH).build();
-        path += "/" + id;
+        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_ID_PATH)
+                .replace("{customFieldId}", id)
+                .build();
 
         try {
             String stringResponse = client.get(path);
@@ -81,9 +82,27 @@ public class CustomFieldService {
     }
 
     /**
+     * Delete an account custom field.
+     *
+     * @param id of custom field to delete.
+     */
+    public void deleteCustomField(String id) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_ID_PATH)
+                .replace("{customFieldId}", id)
+                .build();
+
+        try {
+            client.delete(path);
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Could not delete the custom field from account.", e);
+        } catch ( Exception e ) {
+            throw new EslException("Could not delete the custom field from account.", e);
+        }
+    }
+
+    /**
      * Create an user custom field.
      * If the custom field already existed then update it.
-     *
      *
      * @param customFieldValue
      * @return user custom field id
@@ -117,8 +136,9 @@ public class CustomFieldService {
      * @return true if existed otherwise false
      */
     public boolean doesCustomFieldValueExist( String id ){
-        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_PATH).build();
-        path += "/" + id;
+        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_ID_PATH)
+                .replace("{customFieldId}", id)
+                .build();
 
         try {
             String stringResponse = client.get(path);

@@ -41,26 +41,26 @@ public class AttachmentRequirementExampleTest {
         Map<String, AttachmentRequirement> signer2Attachments = retrievedPackage.getSigner(example.getEmail2()).getAttachmentRequirement();
 
         assertThat("Signer1 should have 1 attachment requirement.", signer1Attachments.size(), is(1));
-        AttachmentRequirement signer1Att1 = signer1Attachments.get(example.name1);
-        assertThat("Signer1's attachment1's name was set incorrectly.", signer1Att1.getName(), is(equalTo(example.name1)));
-        assertThat("Signer1's attachment1's description was set incorrectly.", signer1Att1.getDescription(), is(equalTo(example.description1)));
+        AttachmentRequirement signer1Att1 = signer1Attachments.get(example.NAME1);
+        assertThat("Signer1's attachment1's name was set incorrectly.", signer1Att1.getName(), is(equalTo(example.NAME1)));
+        assertThat("Signer1's attachment1's description was set incorrectly.", signer1Att1.getDescription(), is(equalTo(example.DESCRIPTION1)));
         assertThat("Signer1's attachment1's isRequired property was set incorrectly.", signer1Att1.isRequired(), is(true));
         assertThat("Signer1's attachment1's status was set incorrectly.", signer1Att1.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
 
         assertThat("Signer2 should have 2 attachment requirements.", signer2Attachments.size(), is(2));
-        AttachmentRequirement signer2Att1 = signer2Attachments.get(example.name2);
-        AttachmentRequirement signer2Att2 = signer2Attachments.get(example.name3);
-        assertThat("Signer2's attachment2's name was set incorrectly.", signer2Att1.getName(), is(equalTo(example.name2)));
-        assertThat("Signer2's attachment2's description was set incorrectly.", signer2Att1.getDescription(), is(equalTo(example.description2)));
+        AttachmentRequirement signer2Att1 = signer2Attachments.get(example.NAME2);
+        AttachmentRequirement signer2Att2 = signer2Attachments.get(example.NAME3);
+        assertThat("Signer2's attachment2's name was set incorrectly.", signer2Att1.getName(), is(equalTo(example.NAME2)));
+        assertThat("Signer2's attachment2's description was set incorrectly.", signer2Att1.getDescription(), is(equalTo(example.DESCRIPTION2)));
         assertThat("Signer2's attachment2's isRequired property was set incorrectly.", signer2Att1.isRequired(), is(false));
         assertThat("Signer2's attachment2's status was set incorrectly.", signer2Att1.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
-        assertThat("Signer2's attachment3's name was set incorrectly.", signer2Att2.getName(), is(equalTo(example.name3)));
-        assertThat("Signer2's attachment3's description was set incorrectly.", signer2Att2.getDescription(), is(equalTo(example.description3)));
+        assertThat("Signer2's attachment3's name was set incorrectly.", signer2Att2.getName(), is(equalTo(example.NAME3)));
+        assertThat("Signer2's attachment3's description was set incorrectly.", signer2Att2.getDescription(), is(equalTo(example.DESCRIPTION3)));
         assertThat("Signer2's attachment3's isRequired property was set incorrectly.", signer2Att2.isRequired(), is(true));
         assertThat("Signer2's attachment3's status was set incorrectly.", signer2Att2.getStatus().toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
 
         // Upload attachment for signer1
-        final String signerAuthenticationToken = example.eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(example.getPackageId().getId(), example.signer1Id);
+        final String signerAuthenticationToken = example.eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(example.getPackageId().getId(), example.SIGNER1Id);
         AuthenticationClient authenticationClient = new AuthenticationClient(Props.get().getProperty("webpage.url"));
         String sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
@@ -72,13 +72,13 @@ public class AttachmentRequirementExampleTest {
 
         // Reject signer1's attachment
         example.rejectAttachment();
-        signer1Att1 = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement().get(example.name1);
+        signer1Att1 = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement().get(example.NAME1);
         assertThat("Signer3's attachment3's status should be changed to REJECTED.", signer1Att1.getStatus().toString(), is(equalTo(RequirementStatus.REJECTED.toString())));
-        assertThat("Signer3's attachment3's sender comment was set incorrectly.", signer1Att1.getSenderComment(), is(equalTo(example.rejectionComment)));
+        assertThat("Signer3's attachment3's sender comment was set incorrectly.", signer1Att1.getSenderComment(), is(equalTo(example.REJECTION_COMMENT)));
 
         // Accept signer1's attachment
         example.acceptAttachment();
-        signer1Att1 = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement().get(example.name1);
+        signer1Att1 = retrievedPackage.getSigner(example.getEmail1()).getAttachmentRequirement().get(example.NAME1);
         assertThat("Signer3's attachment3's status should be changed back to COMPLETE.", signer1Att1.getStatus().toString(), is(equalTo(RequirementStatus.COMPLETE.toString())));
         assertThat("Signer3's attachment3's sender comment should be empty.", signer1Att1.getSenderComment(), is(""));
 

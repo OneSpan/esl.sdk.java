@@ -55,7 +55,9 @@ public class UrlTemplate {
 
     // Custom Field Service
     public static final String ACCOUNT_CUSTOMFIELD_PATH = "/account/customfields";
+    public static final String ACCOUNT_CUSTOMFIELD_ID_PATH = "/account/customfields/{customFieldId}";
     public static final String USER_CUSTOMFIELD_PATH = "/user/customfields";
+    public static final String USER_CUSTOMFIELD_ID_PATH = "/user/customfields/{customFieldId}";
 
     // Groups Service
     public static final String GROUPS_PATH = "/groups";

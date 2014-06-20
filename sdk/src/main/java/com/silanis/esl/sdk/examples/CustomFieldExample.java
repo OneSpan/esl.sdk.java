@@ -1,9 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.CustomField;
-import com.silanis.esl.sdk.CustomFieldValue;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
@@ -31,68 +28,99 @@ public class CustomFieldExample extends SDKSample {
     public static final String FRENCH_NAME = "Numéro du Joueur";
     public static final String FRENCH_DESCRIPTION = "Le numéro dans le dos de votre chandail d'équipe";
     public static final String FIELD_VALUE = "99";
-    private String customFieldId;
 
-    public static void main( String... args ) {
-        new CustomFieldExample( Props.get() ).run();
+    public static final String DEFAULT_VALUE2 = "Red";
+    public static final String ENGLISH_NAME2 = "Jersey Color";
+    public static final String ENGLISH_DESCRIPTION2 = "The color of your team jersey";
+
+    private String customFieldId1, customFieldId2;
+
+    public static void main(String... args) {
+        new CustomFieldExample(Props.get()).run();
     }
 
-    public CustomFieldExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
+    public CustomFieldExample(Properties properties) {
+        this(properties.getProperty("api.key"),
+                properties.getProperty("api.url"),
+                properties.getProperty("1.email"));
     }
 
-    public CustomFieldExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
+    public CustomFieldExample(String apiKey, String apiUrl, String email1) {
+        super(apiKey, apiUrl);
         this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-with-fields.pdf");
 
     }
 
-    public String getCustomFieldId() {
-        return customFieldId;
+    public String getCustomFieldId1() {
+        return customFieldId1;
+    }
+
+    public String getCustomFieldId2() {
+        return customFieldId2;
     }
 
     @Override
     public void execute() {
-
-        customFieldId = UUID.randomUUID().toString().replaceAll( "-", "" );
+        // First custom field
+        customFieldId1 = UUID.randomUUID().toString().replaceAll("-", "");
         CustomField customField = eslClient.getCustomFieldService()
-                .createCustomField( customFieldWithId( customFieldId )
-                        .withDefaultValue(DEFAULT_VALUE)
-                        .withTranslation( newTranslation(ENGLISH_LANGUAGE)
-                                .withName(ENGLISH_NAME)
-                                .withDescription(ENGLISH_DESCRIPTION) )
-                        .withTranslation( newTranslation(FRENCH_LANGUAGE)
-                                .withName(FRENCH_NAME)
-                                .withDescription(FRENCH_DESCRIPTION) )
-                        .build()
+                .createCustomField(customFieldWithId(customFieldId1)
+                                .withDefaultValue(DEFAULT_VALUE)
+                                .withTranslation(newTranslation(ENGLISH_LANGUAGE)
+                                        .withName(ENGLISH_NAME)
+                                        .withDescription(ENGLISH_DESCRIPTION))
+                                .withTranslation(newTranslation(FRENCH_LANGUAGE)
+                                        .withName(FRENCH_NAME)
+                                        .withDescription(FRENCH_DESCRIPTION))
+                                .build()
                 );
 
         CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
-                .submitCustomFieldValue( CustomFieldValueBuilder.customFieldValueWithId( customField.getId() )
-                        .withValue(FIELD_VALUE)
-                        .build()
+                .submitCustomFieldValue(CustomFieldValueBuilder.customFieldValueWithId(customField.getId())
+                                .withValue(FIELD_VALUE)
+                                .build()
                 );
 
-        DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
-                .withSigner( newSignerWithEmail( email1 )
-                        .withFirstName( "John" )
-                        .withLastName( "Smith" ) )
-                .withDocument( newDocumentWithName( "First Document" )
-                        .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature( signatureFor( email1 )
-                                .onPage( 0 )
-                                .atPosition( 100, 100 )
-                                .withField( FieldBuilder.customField( customFieldValue.getId() )
-                                        .onPage( 0 )
-                                        .atPosition( 400, 200 ) ) )
+        // Second custom field
+        customFieldId2 = UUID.randomUUID().toString().replaceAll("-", "");
+        CustomField customField2 = eslClient.getCustomFieldService()
+                .createCustomField(customFieldWithId(customFieldId2)
+                                .withDefaultValue(DEFAULT_VALUE2)
+                                .withTranslation(newTranslation(ENGLISH_LANGUAGE)
+                                        .withName(ENGLISH_NAME2)
+                                        .withDescription(ENGLISH_DESCRIPTION2))
+                                .build()
+                );
+
+        // Create and send package with two custom fields
+        DocumentPackage superDuperPackage = newPackageNamed("Sample Insurance policy")
+                .withSigner(newSignerWithEmail(email1)
+                        .withFirstName("John")
+                        .withLastName("Smith")
+                        .withCustomId("signer1"))
+                .withDocument(newDocumentWithName("First Document")
+                                .fromStream(documentInputStream1, DocumentType.PDF)
+                                .withSignature(signatureFor(email1)
+                                        .onPage(0)
+                                        .atPosition(100, 100)
+                                        .withField(FieldBuilder.customField(customFieldValue.getId())
+                                                .onPage(0)
+                                                .atPosition(400, 200)))
+                                .withSignature(signatureFor(email1)
+                                        .onPage(0)
+                                        .atPosition(100, 400)
+                                        .withField(FieldBuilder.customField(customField2.getId())
+                                                .onPage(0)
+                                                .atPosition(400, 400)))
                 )
                 .build();
 
-        packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage( packageId );
+        packageId = eslClient.createPackage(superDuperPackage);
+        eslClient.sendPackage(packageId);
+
+        // Delete the second custom field from account
+        eslClient.getCustomFieldService().deleteCustomField(customField2.getId());
     }
 
 }
