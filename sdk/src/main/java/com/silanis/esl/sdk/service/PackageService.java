@@ -261,6 +261,31 @@ public class PackageService {
     }
 
     /**
+     * Updates the documents signing order
+     *
+     * @param documentPackage
+     */
+    public void orderDocuments(DocumentPackage documentPackage){
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .build();
+
+        List<Document> documents = new ArrayList<Document>();
+        for( com.silanis.esl.sdk.Document document : documentPackage.getDocuments()){
+            documents.add(new DocumentConverter(document).toAPIDocumentMetadata());
+        }
+        try {
+            String json = Serialization.toJson(documents);
+
+            client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not order the documents.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not order the documents." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Sends the package.
      *
      * @param packageId
