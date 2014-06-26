@@ -49,12 +49,36 @@ public class PackageService {
 
         try {
             String response = client.post(path, packageJson);
-
             return Serialization.fromJson(response, PackageId.class);
         }catch (RequestException e) {
             throw new EslServerException("Could not create a new package", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package", e);
+        }
+    }
+
+
+    /**
+     * Creates a package and uploads the documents in one step
+     *
+     * @param aPackage
+     * @param documents
+     * @return
+     * @throws EslException
+     */
+    public PackageId createPackageOneStep(Package aPackage, Collection<com.silanis.esl.sdk.Document> documents) throws EslException{
+        String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
+                .build();
+        String packageJson = Serialization.toJson(aPackage);
+
+        try {
+            String response = client.postMultipartPackage(path, documents, packageJson);
+            return Serialization.fromJson(response, PackageId.class);
+
+        }catch (RequestException e) {
+            throw new EslServerException("Could not create a new package in one-step", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create a new package in one-step", e);
         }
     }
 
@@ -149,7 +173,11 @@ public class PackageService {
     public DocumentPackage getPackage(PackageId packageId) {
         Package aPackage = getApiPackage(packageId.getId());
 
-        return new DocumentPackageConverter(aPackage).toSDKPackage();
+        return packageConverter(aPackage).toSDKPackage();
+    }
+
+    private DocumentPackageConverter packageConverter(Package aPackage){
+        return new DocumentPackageConverter(aPackage);
     }
 
     /**
