@@ -267,12 +267,22 @@ public class EslClient {
 
     /**
      * Downloads a document that belongs to a package
-     * @param packageId	the document ID
-     * @param documentId	the package ID
+     * @param packageId	the package ID
+     * @param documentId the document ID
      * @return	the content of the document
      */
     public byte[] downloadDocument(PackageId packageId, String documentId) {
         return packageService.downloadDocument(packageId, documentId);
+    }
+
+    /**
+     * Downloads an original document that belongs to a package.
+     * @param packageId the package ID
+     * @param documentId the document ID
+     * @return the content of the original document
+     */
+    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) {
+        return packageService.downloadOriginalDocument(packageId, documentId);
     }
 
     /**

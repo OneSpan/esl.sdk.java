@@ -402,8 +402,8 @@ public class PackageService {
     /**
      * Downloads a document from the package and returns a byte[].
      *
-     * @param packageId
-     * @param document
+     * @param packageId Id of the DocumentPackage we want to download
+     * @param document Id of the Document we want to download
      * @return The document in bytes
      * @throws EslException
      */
@@ -426,9 +426,31 @@ public class PackageService {
     }
 
     /**
+     * Downloads the original document (without fields) from the package and returns a byte[].
+     *
+     * @param packageId Id of the DocumentPackage we want to download
+     * @param documentId Id of the Document we want to download
+     * @return The original document in bytes
+     * @throws EslException
+     */
+    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) throws EslException {
+        String path = template.urlFor(UrlTemplate.ORIGINAL_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{documentId}", documentId)
+                .build();
+        try {
+            return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the original document.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the original document.", e);
+        }
+    }
+
+    /**
      * Downloads the documents (in a zip archive) from the package and returns a byte[].
      *
-     * @param packageId
+     * @param packageId Id of the DocumentPackage we want to download
      * @return The zipped documents in bytes
      * @throws EslException
      */
