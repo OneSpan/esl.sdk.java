@@ -25,6 +25,7 @@ public class Document implements Serializable {
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private String description;
+    private External external;
 
     /**
      * <p>Accessor method used to retrieve the file name</p>
@@ -141,6 +142,20 @@ public class Document implements Serializable {
     public DocumentId getId() {
         return id;
     }
+
+    /**
+     * <p>Accessor method used to get the information from the external provider</p>
+     *
+     * @return the external provider
+     */
+    public External getExternal(){return external;}
+
+    /**
+     * <p>Accessor method used to set the document external provider</p>
+     *
+     * @param external the external provider of the document null if none
+     */
+    public void setExternal(External external){this.external = external;}
 
     public void addSignatures(List<Signature> signatures) {
         this.signatures.addAll(signatures);

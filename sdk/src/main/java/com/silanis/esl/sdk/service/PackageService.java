@@ -14,10 +14,7 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.internal.*;
-import com.silanis.esl.sdk.internal.converter.CompletionReportConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.internal.converter.SignerConverter;
+import com.silanis.esl.sdk.internal.converter.*;
 
 import java.util.*;
 
@@ -312,6 +309,50 @@ public class PackageService {
             throw new EslException("Could not order the documents." + " Exception: " + e.getMessage());
         }
     }
+
+
+    /**
+     * Upload documents with external content to the package.
+     *
+     * @param packageId
+     */
+    public void addDocumentWithExternalContent(String packageId, List<Document> providerDocuments){
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", packageId)
+                .build();
+
+        try {
+            String json = Serialization.toJson(providerDocuments);
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload the documents.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not upload the documents." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Gets the documents from the history list
+     *
+     * @return
+     */
+    public List<Document> getDocuments(){
+        String path = template.urlFor(UrlTemplate.PROVIDER_DOCUMENTS).build();
+
+        try {
+            String stringResponse = client.get(path);
+            List<Document> apiResponse = JacksonUtil.deserialize(stringResponse, new TypeReference<List<Document>>() {
+            });
+            return apiResponse;
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Failed to retrieve documents from history List.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Failed to retrieve documents from history list.", e);
+        }
+    }
+
 
     /**
      * Sends the package.
