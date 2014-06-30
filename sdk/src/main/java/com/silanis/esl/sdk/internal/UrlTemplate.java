@@ -69,6 +69,9 @@ public class UrlTemplate {
     public static final String ACCOUNT_MEMBER_PATH = "/account/senders";
     public static final String SENDER_PATH = "/account/senders/{senderUid}";
 
+    // Approval Service
+    public static final String APPROVAL_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}";
+
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
 

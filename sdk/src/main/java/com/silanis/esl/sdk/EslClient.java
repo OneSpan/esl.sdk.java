@@ -29,6 +29,7 @@ public class EslClient {
     private GroupService groupService;
     private CustomFieldService customFieldService;
     private AccountService accountService;
+    private ApprovalService approvalService;
     private ReminderService reminderService;
     private TemplateService templateService;
     private AttachmentRequirementService attachmentRequirementService;
@@ -53,6 +54,7 @@ public class EslClient {
         groupService = new GroupService( client, this.baseURL );
         customFieldService = new CustomFieldService( client, this.baseURL );
         accountService = new AccountService( client, this.baseURL );
+        approvalService = new ApprovalService(client, this.baseURL);
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);
         attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
@@ -139,7 +141,7 @@ public class EslClient {
 
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
-        DocumentPackage retrievedPackage = getPackage( id );
+        DocumentPackage retrievedPackage = getPackage(id);
 
         for (Document document : documentPackage.getDocuments()) {
             uploadDocument( document, retrievedPackage );
@@ -336,6 +338,10 @@ public class EslClient {
 
     public AccountService getAccountService() {
         return accountService;
+    }
+
+    public ApprovalService getApprovalService() {
+        return approvalService;
     }
 
     public ReminderService getReminderService() {

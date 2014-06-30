@@ -14,6 +14,7 @@ final public class SignatureBuilder {
     public static final double DEFAULT_HEIGHT = 50;
     public static final SignatureStyle DEFAULT_STYLE = SignatureStyle.FULL_NAME;
 
+    private SignatureId id;
     private GroupId groupId;
     private Placeholder roleId;
     private String name;
@@ -201,6 +202,18 @@ final public class SignatureBuilder {
     }
 
     /**
+     * <p>Set a custom ID for the signature. If none is provided, the system will assign one by default.
+     * This package id needs to be unique per document.</p>
+     *
+     * @param id the signature ID @size(min="1", max="64")
+     * @return
+     */
+    public SignatureBuilder withId( SignatureId id ){
+        this.id = id;
+        return this;
+    }
+
+    /**
      * Sets the page number where this signature will be placed on.
      *
      * @param pageNumber the page number the signature will be placed on @min="0"
@@ -339,6 +352,7 @@ final public class SignatureBuilder {
             signature = new Signature( groupId, pageNumber, x, y );
         }
 
+        signature.setId( id );
         signature.setName( name );
         signature.setStyle( style );
         signature.setWidth( width );

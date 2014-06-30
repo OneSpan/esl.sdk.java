@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerManipulationExampleTest {
 
     @Test
-    public void verifyAddSigner() {
+    public void verifyResult() {
         SignerManipulationExample signerManipulationExample = new SignerManipulationExample(Props.get());
         signerManipulationExample.run();
         DocumentPackage documentPackage = signerManipulationExample.createdPackageWithAddedSigner;
@@ -24,24 +24,14 @@ public class SignerManipulationExampleTest {
         assertThat("Added signer first name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getFirstName(), is(equalTo("firstName3")));
         assertThat("Added signer last name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getLastName(), is(equalTo("lastName3")));
         assertThat("Added signer title was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getTitle(), is(equalTo("Title3")));
-    }
 
-    @Test
-    public void verifyRemoveSigner() {
-        SignerManipulationExample signerManipulationExample = new SignerManipulationExample(Props.get());
-        signerManipulationExample.run();
-        DocumentPackage documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
+        documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(3));
 
         assertThat("Signer 1 was not removed", documentPackage.getSigners().containsKey(signerManipulationExample.email1), is(false));
-    }
 
-    @Test
-    public void verifyUpdatedSigner() {
-        SignerManipulationExample signerManipulationExample = new SignerManipulationExample(Props.get());
-        signerManipulationExample.run();
-        DocumentPackage documentPackage = signerManipulationExample.createdPackageWithUpdatedSigner;
+        documentPackage = signerManipulationExample.createdPackageWithUpdatedSigner;
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(3));
 
