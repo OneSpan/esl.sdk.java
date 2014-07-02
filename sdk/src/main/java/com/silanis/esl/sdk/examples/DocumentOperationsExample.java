@@ -1,12 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.builder.FieldBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -20,11 +22,13 @@ import static org.joda.time.DateMidnight.now;
  */
 public class DocumentOperationsExample extends SDKSample {
 
+    private String email1;
     private InputStream documentInputStream;
 
     public DocumentPackage builtPackage;
     public DocumentPackage retrievedPackage;
     public DocumentPackage retrievedPackageWithNewDocument;
+    public Document retrievedUpdatedDocument;
     public DocumentPackage retrievedPackageWithUpdatedDocument;
     public DocumentPackage retrievedPackageWithDeletedDocument;
 
@@ -40,11 +44,13 @@ public class DocumentOperationsExample extends SDKSample {
 
     public DocumentOperationsExample(Properties props) {
         this(props.getProperty("api.key"),
-                props.getProperty("api.url"));
+                props.getProperty("api.url"),
+                props.getProperty("1.email"));
     }
 
-    public DocumentOperationsExample(String apiKey, String apiUrl) {
+    public DocumentOperationsExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
+        this.email1 = email1;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
@@ -54,7 +60,7 @@ public class DocumentOperationsExample extends SDKSample {
         builtPackage = newPackageNamed("Policy " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package demonstrating document upload")
                 .expiresAt(now().plusMonths(1).toDate())
-                .withSigner(newSignerWithEmail("john.smith@email.com")
+                .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith")
                         .withTitle("Managing Director")
@@ -69,8 +75,12 @@ public class DocumentOperationsExample extends SDKSample {
         Document document = newDocumentWithName(ORIGINAL_DOCUMENT_NAME)
                 .fromStream(documentInputStream, DocumentType.PDF)
                 .withId("documentId")
-                .withSignature(signatureFor("john.smith@email.com")
-                        .onPage(0))
+                .withSignature(signatureFor(email1)
+                        .atPosition(100, 100)
+                        .onPage(0)
+                        .withField(FieldBuilder.textField()
+                                .onPage(0)
+                                .atPosition(200, 200)))
                 .withDescription(ORIGINAL_DOCUMENT_DESCRIPTION)
                 .build();
 
@@ -79,18 +89,17 @@ public class DocumentOperationsExample extends SDKSample {
 
         retrievedPackageWithNewDocument = eslClient.getPackage(packageId);
 
-        //This is how you would update a document's metadata (name, description)
+        //This is how you would update and get a document's metadata (name, description)
         document.setName(UPDATED_DOCUMENT_NAME);
         document.setDescription(UPDATED_DOCUMENT_DESCRIPTION);
 
         eslClient.getPackageService().updateDocumentMetadata(retrievedPackage, document);
-
+        retrievedUpdatedDocument = eslClient.getPackageService().getDocumentMetadata(retrievedPackage, document.getId().getId());
         retrievedPackageWithUpdatedDocument = eslClient.getPackage(packageId);
 
         //This is how you would delete a document from a package
         eslClient.getPackageService().deleteDocument(packageId, document.getId().toString());
 
         retrievedPackageWithDeletedDocument = eslClient.getPackage(packageId);
-
     }
 }

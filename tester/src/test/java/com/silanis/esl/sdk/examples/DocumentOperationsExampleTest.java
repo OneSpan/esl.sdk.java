@@ -33,13 +33,14 @@ public class DocumentOperationsExampleTest {
         documentOperationsExample.run();
 
         DocumentPackage documentPackage = documentOperationsExample.retrievedPackageWithUpdatedDocument;
+        Document document = documentOperationsExample.retrievedUpdatedDocument;
 
         // Verify if the document was updated correctly.
 
         assertThat("Original document still exists.", documentPackage.getDocument(DocumentOperationsExample.ORIGINAL_DOCUMENT_NAME), is(nullValue()));
-        assertThat("Document's name was not updated correctly.", documentPackage.getDocument(DocumentOperationsExample.UPDATED_DOCUMENT_NAME), is(notNullValue()));
+        assertThat("Document should have one signature.", documentPackage.getDocument(DocumentOperationsExample.UPDATED_DOCUMENT_NAME).getSignatures().size(), is(greaterThan(0)));
 
-        Document document = documentPackage.getDocument(DocumentOperationsExample.UPDATED_DOCUMENT_NAME);
+        assertThat("Document's name was not updated correctly.", document.getName(), equalTo(DocumentOperationsExample.UPDATED_DOCUMENT_NAME));
         assertThat("Document's description was not updated correctly", document.getDescription(), equalTo(DocumentOperationsExample.UPDATED_DOCUMENT_DESCRIPTION));
     }
 

@@ -258,12 +258,41 @@ public class PackageService {
 
 
     /**
-     * Updates the document from the package
+     * Get the document's metadata from the package.
+     *
+     * @param documentPackage The DocumentPackage we want to get document from.
+     * @param documentId Id of document to get.
+     * @return the document's metadata
+     */
+    public com.silanis.esl.sdk.Document getDocumentMetadata(DocumentPackage documentPackage, String documentId) {
+        String path = template.urlFor(UrlTemplate.DOCUMENT_ID_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .replace("{documentId}", documentId)
+                .build();
+
+        try {
+            String response = client.get(path);
+            Document apilDocument = Serialization.fromJson(response, Document.class);
+
+            // Wipe out the members not related to the metadata
+            apilDocument.setApprovals(new ArrayList<Approval>());
+            apilDocument.setFields(new ArrayList<Field>());
+            apilDocument.setPages(new ArrayList<com.silanis.esl.api.model.Page>());
+
+            return new DocumentConverter(apilDocument, new DocumentPackageConverter(documentPackage).toAPIPackage()).toSDKDocument();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the document's metadata.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the document's metadata." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates the document's metadata from the package.
      *
      * @param documentPackage
      * @param document
      */
-
     public void updateDocumentMetadata(DocumentPackage documentPackage, com.silanis.esl.sdk.Document document) {
         String path = template.urlFor(UrlTemplate.DOCUMENT_ID_PATH)
                 .replace("{packageId}", documentPackage.getId().getId())
@@ -272,19 +301,14 @@ public class PackageService {
 
         Document internalDoc = new DocumentConverter(document).toAPIDocumentMetadata();
 
-        // Wipe out the members not related to the metadata
-        internalDoc.setApprovals(new ArrayList<Approval>());
-        internalDoc.setFields(new ArrayList<Field>());
-        internalDoc.setPages(new ArrayList<com.silanis.esl.api.model.Page>());
-
         try {
             String json = Serialization.toJson(internalDoc);
 
             client.post(path, json);
         } catch (RequestException e) {
-            throw new EslServerException("Could not upload the document to package.", e);
+            throw new EslServerException("Could not update the document's metadata.", e);
         } catch (Exception e) {
-            throw new EslException("Could not upload the document to package." + " Exception: " + e.getMessage());
+            throw new EslException("Could not update the document's metadata." + " Exception: " + e.getMessage());
         }
     }
 
