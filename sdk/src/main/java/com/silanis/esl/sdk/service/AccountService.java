@@ -77,6 +77,7 @@ public class AccountService {
 
     public void updateSender(SenderInfo sender, String senderId){
         Sender apiPayload = new SenderConverter( sender ).toAPISender();
+        apiPayload.setId(senderId);
         String path = template.urlFor(UrlTemplate.SENDER_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
