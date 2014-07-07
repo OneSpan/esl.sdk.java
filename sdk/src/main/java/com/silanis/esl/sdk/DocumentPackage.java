@@ -3,10 +3,7 @@ package com.silanis.esl.sdk;
 import com.silanis.esl.api.model.PackageStatus;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * DocumentPackage class describes all assets required for a complete signing transaction.
@@ -31,6 +28,7 @@ public class DocumentPackage implements Serializable {
     private Locale language;
     private DocumentPackageAttributes attributes;
     private SenderInfo senderInfo;
+    private List<Message> messages;
 
     /**
      * @param name         the name of the package
@@ -219,5 +217,18 @@ public class DocumentPackage implements Serializable {
 
     public void setAttributes( DocumentPackageAttributes attributes ) {
         this.attributes = attributes;
+    }
+
+    /**
+     * Get the package's messages (ex: opt-out or decline messages).
+     *
+     * @return the list of package messages.
+     */
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 }

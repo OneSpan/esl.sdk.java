@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.SenderType;
+import com.silanis.esl.sdk.builder.BuilderException;
 
 /**
  * Created by lena on 2014-05-29.
@@ -41,7 +41,7 @@ public class SenderTypeConverter {
             case REGULAR:
                 return sdkSenderType.REGULAR;
             default:
-                return sdkSenderType;
+                throw new BuilderException("Unrecognized sender type.");
         }
     }
 
@@ -56,7 +56,7 @@ public class SenderTypeConverter {
             case REGULAR:
                 return apiSenderType.REGULAR;
             default:
-                return apiSenderType;
+                throw new BuilderException("Unrecognized sender type.");
         }
     }
 

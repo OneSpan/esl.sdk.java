@@ -3,8 +3,10 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.Message;
 import com.silanis.esl.sdk.builder.*;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -187,7 +189,15 @@ public class DocumentPackageConverter {
             packageBuilder.withDocument( document );
         }
 
-        return packageBuilder.build();
+        DocumentPackage documentPackage = packageBuilder.build();
+
+        ArrayList<Message> messages = new ArrayList<Message>();
+        for (com.silanis.esl.api.model.Message apiMessage : apiPackage.getMessages()) {
+            messages.add(new MessageConverter(apiMessage).toSDKMessage());
+        }
+        documentPackage.setMessages(messages);
+
+        return documentPackage;
     }
 
 }

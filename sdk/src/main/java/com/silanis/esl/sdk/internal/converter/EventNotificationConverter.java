@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.CallbackEvent;
 import com.silanis.esl.sdk.NotificationEvent;
+import com.silanis.esl.sdk.builder.BuilderException;
 
 /**
  * Created by lena on 2014-06-17.
@@ -69,7 +70,7 @@ public class EventNotificationConverter {
             case PACKAGE_DELETE:
                 return CallbackEvent.PACKAGE_DELETE;
             default:
-                return null;
+                throw new BuilderException("Unrecognized event notification type.");
         }
     }
 
@@ -113,7 +114,7 @@ public class EventNotificationConverter {
             case PACKAGE_DELETE:
                 return NotificationEvent.PACKAGE_DELETE;
             default:
-                return null;
+                throw new BuilderException("Unrecognized event notification type.");
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.builder.BuilderException;
+
 /**
  * Created by lena on 2014-06-02.
  *
@@ -49,7 +51,7 @@ public class PackageStatusConverter {
             case EXPIRED:
                 return sdkPackageStatus.EXPIRED;
             default:
-                return sdkPackageStatus;
+                throw new BuilderException("Unrecognized package status type.");
         }
     }
 
@@ -74,7 +76,7 @@ public class PackageStatusConverter {
             case EXPIRED:
                 return apiPackageStatus.EXPIRED;
             default:
-                return apiPackageStatus;
+                throw new BuilderException("Unrecognized package status type.");
         }
     }
 }
