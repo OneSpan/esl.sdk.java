@@ -1,8 +1,10 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 
 /**
@@ -53,7 +55,7 @@ public class DocumentConverter {
         }
 
         documentBuilder.withDescription( apiDocument.getDescription() );
-
+        documentBuilder.withExternal(new ExternalConverter(apiDocument.getExternal()).toSDKExternal());
         for ( Approval apiApproval : apiDocument.getApprovals() ) {
             documentBuilder.withSignature( new SignatureConverter( apiApproval, apiPackage ).toSDKSignature());
         }
@@ -79,6 +81,10 @@ public class DocumentConverter {
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
                 .setName(sdkDocument.getName());
+
+        if(sdkDocument.getExternal() != null){
+            resultAPIDocument.setExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal());
+        }
 
         if ( sdkDocument.getId() != null ) {
             resultAPIDocument.setId(sdkDocument.getId().getId());

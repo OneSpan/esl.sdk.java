@@ -71,6 +71,9 @@ public class UrlTemplate {
 
     // Approval Service
     public static final String APPROVAL_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}";
+    
+    // Provider Document Resource
+    public static final String PROVIDER_DOCUMENTS = "/documents";
 
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";

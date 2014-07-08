@@ -27,6 +27,7 @@ public class DocumentBuilder {
     private String id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private String description;
+    private External external;
 
     public DocumentBuilder() {
         this.name = DEFAULT_NAME;
@@ -116,6 +117,11 @@ public class DocumentBuilder {
         return this;
     }
 
+    public DocumentBuilder withExternal( External external ){
+        this.external = external;
+        return this;
+    }
+
     private void validate() {
         if ( id == null && fileName == null && documentSource == null ) {
             throw new BuilderException( "Document fileName or Content must be set." );
@@ -136,6 +142,7 @@ public class DocumentBuilder {
         document.addSignatures(signatures);
         document.setIndex( index );
         document.setExtraction( extract );
+        document.setExternal(external);
         if (description != null ) {
             document.setDescription(description);
         }
