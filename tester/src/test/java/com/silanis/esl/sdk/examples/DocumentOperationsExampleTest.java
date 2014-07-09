@@ -12,8 +12,9 @@ import static org.hamcrest.core.Is.is;
  * Created by chi-wing on 5/5/14.
  */
 public class DocumentOperationsExampleTest {
+
     @Test
-    public void verifyNewDocument() {
+    public void verifyResult() {
         DocumentOperationsExample documentOperationsExample = new DocumentOperationsExample(Props.get());
         documentOperationsExample.run();
 
@@ -25,15 +26,9 @@ public class DocumentOperationsExampleTest {
 
         Document document = documentPackage.getDocument(DocumentOperationsExample.ORIGINAL_DOCUMENT_NAME);
         assertThat("Document's description was not set correctly", document.getDescription(), equalTo(DocumentOperationsExample.ORIGINAL_DOCUMENT_DESCRIPTION));
-    }
 
-    @Test
-    public void verifyUpdatedDocument() {
-        DocumentOperationsExample documentOperationsExample = new DocumentOperationsExample(Props.get());
-        documentOperationsExample.run();
-
-        DocumentPackage documentPackage = documentOperationsExample.retrievedPackageWithUpdatedDocument;
-        Document document = documentOperationsExample.retrievedUpdatedDocument;
+        documentPackage = documentOperationsExample.retrievedPackageWithUpdatedDocument;
+        document = documentOperationsExample.retrievedUpdatedDocument;
 
         // Verify if the document was updated correctly.
 
@@ -42,14 +37,8 @@ public class DocumentOperationsExampleTest {
 
         assertThat("Document's name was not updated correctly.", document.getName(), equalTo(DocumentOperationsExample.UPDATED_DOCUMENT_NAME));
         assertThat("Document's description was not updated correctly", document.getDescription(), equalTo(DocumentOperationsExample.UPDATED_DOCUMENT_DESCRIPTION));
-    }
 
-    @Test
-    public void verifyDeletedDocument() {
-        DocumentOperationsExample documentOperationsExample = new DocumentOperationsExample(Props.get());
-        documentOperationsExample.run();
-
-        DocumentPackage documentPackage = documentOperationsExample.retrievedPackageWithDeletedDocument;
+        documentPackage = documentOperationsExample.retrievedPackageWithDeletedDocument;
 
         // Verify if the document was deleted correctly.
 
