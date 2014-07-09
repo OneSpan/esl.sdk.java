@@ -69,9 +69,7 @@ public class AccountMemberBuilder {
      * Set the member's preferred language to be used in email communications and the web UI interface.
      * @param language The two-letter abbreviation for the language (ie. "en", "fr", "de", etc.);
      * @return This
-     * @deprecated Please use withLanguage( Locale locale ) instead
      */
-    @Deprecated
     public AccountMemberBuilder withLanguage( String language ) {
         this.language = language;
         return this;
