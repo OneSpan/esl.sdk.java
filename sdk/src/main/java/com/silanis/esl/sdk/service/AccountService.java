@@ -17,6 +17,10 @@ import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * The AccountService provides methods to help create senders for an account
+ */
 public class AccountService {
 
     private UrlTemplate template;
@@ -27,6 +31,11 @@ public class AccountService {
         this.client = client;
     }
 
+    /**
+     * Invite a new member to the account
+     *
+     * @param accountMember The member to be invited
+     */
     public void inviteUser( AccountMember accountMember ) {
         String path = template.urlFor( UrlTemplate.ACCOUNT_MEMBER_PATH).build();
         Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
@@ -39,6 +48,11 @@ public class AccountService {
         }
     }
 
+    /**
+     * Get a list of all the senders from the account
+     *
+     * @return A list mapping all the senders to their respective name
+     */
     public Map<String, com.silanis.esl.sdk.Sender> getSenders(){
         String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_PATH).build();
 
@@ -60,6 +74,12 @@ public class AccountService {
         }
     }
 
+    /**
+     * Delete a sender from the account
+     *
+     * @param senderId The sender Id
+     */
+
     public void deleteSender(String senderId){
         String path = template.urlFor(UrlTemplate.SENDER_PATH)
                 .replace("{senderUid}", senderId)
@@ -75,6 +95,13 @@ public class AccountService {
         }
     }
 
+
+    /**
+     * Update the information of a sender
+     *
+     * @param sender The updated info of the sender
+     * @param senderId The sender Id
+     */
     public void updateSender(SenderInfo sender, String senderId){
         Sender apiPayload = new SenderConverter( sender ).toAPISender();
         apiPayload.setId(senderId);

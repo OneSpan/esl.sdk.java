@@ -175,6 +175,12 @@ public class EslClient {
 
     }
 
+
+    /**
+     * Sets the document package to the sdk current version
+     *
+     * @param documentPackage
+     */
     private void setSdkVersion(DocumentPackage documentPackage) {
 
         DocumentPackageAttributes attributes = documentPackage.getAttributes();
@@ -186,6 +192,14 @@ public class EslClient {
         documentPackage.setAttributes(attributes);
     }
 
+
+    /**
+     * Checks if the document package version is already set
+     *
+     * @param documentPackage
+     * @return return true if the version is already set false otherwise
+     *
+     */
     private boolean isSdkVersionSet(DocumentPackage documentPackage) {
         if (documentPackage.getAttributes() == null) {
             return false;

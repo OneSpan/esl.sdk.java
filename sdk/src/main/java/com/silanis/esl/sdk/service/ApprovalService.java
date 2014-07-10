@@ -10,6 +10,10 @@ import com.silanis.esl.sdk.internal.UrlTemplate;
 /**
  * Created by chi-wing on 6/19/14.
  */
+
+/**
+ *
+ */
 public class ApprovalService {
     private UrlTemplate template;
     private RestClient client;
@@ -20,6 +24,14 @@ public class ApprovalService {
     }
 
 
+    /**
+     * Delete a signature from a document
+     *
+     * @param packageId The package Id
+     * @param documentId The document Id
+     * @param approvalId The approval Id
+     * @throws EslException
+     */
     public void deleteApproval(PackageId packageId, String documentId, String approvalId) throws EslException {
         String path = template.urlFor(UrlTemplate.APPROVAL_ID_PATH)
                 .replace("{packageId}", packageId.getId())

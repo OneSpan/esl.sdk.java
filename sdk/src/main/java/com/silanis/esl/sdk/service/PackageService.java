@@ -753,6 +753,14 @@ public class PackageService {
         }
     }
 
+
+    /**
+     * Adds a signer to the specified package
+     *
+     * @param packageId The id of the package in which the signer will be added
+     * @param signer The signer to be added
+     * @return The role id of the signer
+     */
     public String addSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
@@ -773,6 +781,13 @@ public class PackageService {
         }
     }
 
+
+    /**
+     * Removes a signer from a package
+     *
+     * @param packageId The id of the package containing the signer to be deleted
+     * @param signerId The role id of the signer to be deleted
+     */
     public void removeSigner(PackageId packageId, String signerId) {
         String path = template.urlFor(UrlTemplate.SIGNER_PATH)
                 .replace("{packageId}", packageId.getId())
@@ -788,6 +803,13 @@ public class PackageService {
         }
     }
 
+
+    /**
+     * Updates a signer's information from a package
+     *
+     * @param packageId The id of the package containing the signer to be updated
+     * @param signer The signer with the updated information
+     */
     public void updateSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer){
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
@@ -806,6 +828,17 @@ public class PackageService {
         }
     }
 
+
+    /**
+     * Downloads the completion report from a sender
+     *
+     * @param packageStatus Status of the packages
+     * @param senderId Id of the sender
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report
+     * @return The completion report
+     */
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
         String path = getCompletionReportUrl(packageStatus, senderId, from, to);
 
