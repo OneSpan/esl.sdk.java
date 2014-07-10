@@ -154,7 +154,7 @@ public class DocumentPackageSettingsConverter {
             result.setLinkHref(apiPackageSettings.getCeremony().getHandOver().getHref());
         }
 
-        result.setCeremonyLayoutSettings( new CeremonyLayoutSettingsBuilder(apiPackageSettings.getCeremony()).build());
+        result.setCeremonyLayoutSettings( new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings() );
 
         return result;
     }

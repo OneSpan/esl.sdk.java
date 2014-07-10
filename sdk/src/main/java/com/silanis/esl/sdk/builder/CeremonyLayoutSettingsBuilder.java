@@ -39,38 +39,6 @@ public class CeremonyLayoutSettingsBuilder {
     }
 
     /**
-     * Create a new ceremony layout settings builder with the provided settings.
-     *
-     * @param ceremonySettings the ceremony settings
-     */
-    public CeremonyLayoutSettingsBuilder( CeremonySettings ceremonySettings ) {
-        iFrame = ceremonySettings.getLayout().getIframe();
-        if ( ceremonySettings.getLayout().getHeader() != null ) {
-            breadCrumbs = ceremonySettings.getLayout().getHeader().getBreadcrumbs();
-            sessionBar = ceremonySettings.getLayout().getHeader().getSessionBar();
-            globalNavigation = ceremonySettings.getLayout().getHeader().getGlobalNavigation();
-
-            if (ceremonySettings.getLayout().getHeader().getGlobalActions() != null) {
-                showGlobalSaveAsLayoutButton = ceremonySettings.getLayout().getHeader().getGlobalActions().getSaveAsLayout();
-                showGlobalConfirmButton = ceremonySettings.getLayout().getHeader().getGlobalActions().getConfirm();
-                showGlobalDownloadButton = ceremonySettings.getLayout().getHeader().getGlobalActions().getDownload();
-            }
-
-            if ( ceremonySettings.getLayout().getHeader().getTitleBar() != null ) {
-                progressBar = ceremonySettings.getLayout().getHeader().getTitleBar().getProgressBar();
-                showTitle = ceremonySettings.getLayout().getHeader().getTitleBar().getTitle();
-            }
-        }
-
-        navigator = ceremonySettings.getLayout().getNavigator();
-        if ( ceremonySettings.getLayout().getBrandingBar() != null &&
-                ceremonySettings.getLayout().getBrandingBar().getLogo() != null ) {
-            logoImageSource = ceremonySettings.getLayout().getBrandingBar().getLogo().getSrc();
-            logoImageLink = ceremonySettings.getLayout().getBrandingBar().getLogo().getLink();
-        }
-    }
-
-    /**
      * Enables displaying the Navigator, which directs the signer to the next available signature.
      * <p>
      * DEFAULT: ENABLED
