@@ -34,6 +34,7 @@ public class CustomFieldExample extends SDKSample {
     public static final String ENGLISH_DESCRIPTION2 = "The color of your team jersey";
 
     private String customFieldId1, customFieldId2;
+    private CustomField retrieveCustomField;
 
     public static void main(String... args) {
         new CustomFieldExample(Props.get()).run();
@@ -58,6 +59,10 @@ public class CustomFieldExample extends SDKSample {
 
     public String getCustomFieldId2() {
         return customFieldId2;
+    }
+
+    public CustomField getRetrieveCustomField() {
+        return retrieveCustomField;
     }
 
     @Override
@@ -119,8 +124,11 @@ public class CustomFieldExample extends SDKSample {
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
 
+        // Get the first custom field from account
+        retrieveCustomField = eslClient.getCustomFieldService().getCustomField(customFieldId1);
+
         // Delete the second custom field from account
-        eslClient.getCustomFieldService().deleteCustomField(customField2.getId());
+        eslClient.getCustomFieldService().deleteCustomField(customFieldId2);
     }
 
 }
