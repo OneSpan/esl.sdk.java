@@ -1,11 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Signature;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -16,25 +18,35 @@ public class SignatureManipulationExampleTest {
     public void verifyResult() {
         SignatureManipulationExample signatureManipulationExample = new SignatureManipulationExample(Props.get());
         signatureManipulationExample.run();
-        DocumentPackage documentPackage = signatureManipulationExample.createdPackage;
 
-        Document sdkDocument = documentPackage.getDocument("First Document");
-        Signature sdkSignature1 = null;
-        Signature sdkSignature2 = null;
+        // Test if all signatures are added properly
+        Map<String,Signature> signatureMap = convertListToMap(signatureManipulationExample.addedSignatures);
 
-        if(sdkDocument != null){
-            for(Signature signature : sdkDocument.getSignatures()){
-                if(signature.getSignerEmail().equals(signatureManipulationExample.email1)){
-                    sdkSignature1 = signature;
-                }
-                if(signature.getSignerEmail().equals(signatureManipulationExample.email2)){
-                    sdkSignature2 = signature;
-                }
-            }
+        assertThat("Signature 1 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email1), is(true));
+        assertThat("Signature 2 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email2), is(true));
+        assertThat("Signature 3 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email3), is(true));
+
+        // Test if signature1 is deleted properly
+        signatureMap = convertListToMap(signatureManipulationExample.deletedSignatures);
+
+        assertThat("Signature 1 was not deleted correctly", signatureMap.containsKey(signatureManipulationExample.email1), is(false));
+        assertThat("Signature 2 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email2), is(true));
+        assertThat("Signature 3 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email3), is(true));
+
+        // Test if signature3 is updated properly and is assigned to signer1
+        signatureMap = convertListToMap(signatureManipulationExample.updatedSignatures);
+
+        assertThat("Signature 1 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email1), is(true));
+        assertThat("Signature 2 was not set correctly", signatureMap.containsKey(signatureManipulationExample.email2), is(true));
+        assertThat("Signature 3 was not modified correctly", signatureMap.containsKey(signatureManipulationExample.email3), is(false));
+    }
+
+    private Map<String, Signature> convertListToMap(Collection<Signature> signatures){
+        Map<String,Signature> signatureMap = new HashMap<String, Signature>();
+        for (Signature signature : signatures){
+            signatureMap.put(signature.getSignerEmail(), signature);
         }
 
-        assertThat("Document was not uploaded correctly", sdkDocument, is(notNullValue()));
-        assertThat("Signature 1 was not deleted correctly", sdkSignature1, is(nullValue()));
-        assertThat("Signature 2 was not set correctly", sdkSignature2, is(notNullValue()));
+        return signatureMap;
     }
 }

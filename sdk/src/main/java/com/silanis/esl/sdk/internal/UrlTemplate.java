@@ -70,6 +70,7 @@ public class UrlTemplate {
     public static final String SENDER_PATH = "/account/senders/{senderUid}";
 
     // Approval Service
+    public static final String APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/approvals";
     public static final String APPROVAL_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}";
     
     // Provider Document Resource
