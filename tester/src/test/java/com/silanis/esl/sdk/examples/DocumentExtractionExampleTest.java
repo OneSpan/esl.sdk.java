@@ -40,7 +40,7 @@ public class DocumentExtractionExampleTest {
                     if (field.getName().startsWith("CHECKBOX")) {
                         assertThat("Check box not extracted properly.", field.getStyle(), is(FieldStyle.UNBOUND_CHECK_BOX));
                     }
-                    if (field.getName().startsWith("DATETIME")) {
+                    if (field.getName().startsWith("LABEL")) {
                         assertThat("Date field not extracted properly.", field.getStyle(), is(FieldStyle.BOUND_DATE));
                     }
                 }

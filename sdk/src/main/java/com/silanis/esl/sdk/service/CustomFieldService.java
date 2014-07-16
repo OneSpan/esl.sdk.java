@@ -82,6 +82,28 @@ public class CustomFieldService {
     }
 
     /**
+     * Get an account custom field.
+     *
+     * @param id of custom field to get
+     * @return the custom field
+     */
+    public CustomField getCustomField(String id) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_ID_PATH)
+                .replace("{customFieldId}", id)
+                .build();
+
+        try {
+            String stringResponse = client.get(path);
+            com.silanis.esl.api.model.CustomField apiCustomField = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
+            return new CustomFieldConverter(apiCustomField).toSDKCustomField();
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Could not get the custom field from account.", e );
+        } catch ( Exception e ) {
+            throw new EslException( "Could not get the custom field from account.", e );
+        }
+    }
+
+    /**
      * Delete an account custom field.
      *
      * @param id of custom field to delete.

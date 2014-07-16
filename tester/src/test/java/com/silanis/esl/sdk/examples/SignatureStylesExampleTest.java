@@ -26,15 +26,15 @@ public class SignatureStylesExampleTest {
 
         for (Signature signature: documentPackage.getDocument(SignatureStylesExample.DOCUMENT_NAME).getSignatures()) {
 
-            if (signature.getX() == SignatureStylesExample.FULL_NAME_SIGNATURE_POSITION_X && signature.getY() == SignatureStylesExample.FULL_NAME_SIGNATURE_POSITION_Y ) {
+            if ((int)(signature.getX() + 0.1) == SignatureStylesExample.FULL_NAME_SIGNATURE_POSITION_X && (int)(signature.getY() + 0.1) == SignatureStylesExample.FULL_NAME_SIGNATURE_POSITION_Y ) {
                 assertThat(signature.getStyle(), is(equalTo(SignatureStyle.FULL_NAME)));
                 assertThat(signature.getPage(), is(equalTo(SignatureStylesExample.FULL_NAME_SIGNATURE_PAGE)));
             }
-            if (signature.getX() == SignatureStylesExample.HAND_DRAWN_SIGNATURE_POSITION_X && signature.getY() == SignatureStylesExample.HAND_DRAWN_SIGNATURE_POSITION_Y ) {
+            if ((int)(signature.getX() + 0.1) == SignatureStylesExample.HAND_DRAWN_SIGNATURE_POSITION_X && (int)(signature.getY() + 0.1) == SignatureStylesExample.HAND_DRAWN_SIGNATURE_POSITION_Y ) {
                 assertThat(signature.getStyle(), is(equalTo(SignatureStyle.HAND_DRAWN)));
                 assertThat(signature.getPage(), is(equalTo(SignatureStylesExample.HAND_DRAWN_SIGNATURE_PAGE)));
             }
-            if (signature.getX() == SignatureStylesExample.INITIAL_SIGNATURE_POSITION_X && signature.getY() == SignatureStylesExample.INITIAL_SIGNATURE_POSITION_Y ) {
+            if ((int)(signature.getX() + 0.1) == SignatureStylesExample.INITIAL_SIGNATURE_POSITION_X && (int)(signature.getY() + 0.1) == SignatureStylesExample.INITIAL_SIGNATURE_POSITION_Y ) {
                 assertThat(signature.getStyle(), is(equalTo(SignatureStyle.INITIALS)));
                 assertThat(signature.getPage(), is(equalTo(SignatureStylesExample.INITIAL_SIGNATURE_PAGE)));
             }

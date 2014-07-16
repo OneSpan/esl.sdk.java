@@ -42,8 +42,15 @@ public class CustomFieldExampleTest {
 
         Collection<Field> fields = signature.getFields();
         assertThat("Fields not set correctly.", fields.iterator().hasNext(), is(true));
+
+        CustomField retrieveCustomField = example.getRetrieveCustomField();
+        assertThat("Custom field name was not set correctly.", retrieveCustomField.getId(), is(example.getCustomFieldId1()));
+        assertThat("Custom field default value was not set correctly.", retrieveCustomField.getValue(), is(example.DEFAULT_VALUE));
+        assertThat("Custom field English translation name was not set correctly.", retrieveCustomField.getTranslations().get(0).getName(), is(example.ENGLISH_NAME));
+        assertThat("Custom field English translation name was not set correctly.", retrieveCustomField.getTranslations().get(0).getLanguage(), is(example.ENGLISH_LANGUAGE));
+        assertThat("Custom field English translation description was not set correctly.", retrieveCustomField.getTranslations().get(0).getDescription(), is(example.ENGLISH_DESCRIPTION));
+        assertThat("Custom field French translation name was not set correctly.", retrieveCustomField.getTranslations().get(1).getName(), is(example.FRENCH_NAME));
+        assertThat("Custom field French translation language was not set correctly.", retrieveCustomField.getTranslations().get(1).getLanguage(), is(example.FRENCH_LANGUAGE));
+        assertThat("Custom field French translation description was not set correctly.", retrieveCustomField.getTranslations().get(1).getDescription(), is(example.FRENCH_DESCRIPTION));
     }
 }
-
-
-
