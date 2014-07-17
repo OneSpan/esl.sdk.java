@@ -30,9 +30,13 @@ public class FieldManipulationExample extends SDKSample {
     public Field field2;
     public Field field3;
 
+    public FieldId fieldId1 = new FieldId("fieldId1");
+    public FieldId fieldId2 = new FieldId("fieldId2");
+    public FieldId fieldId3 = new FieldId("fieldId3");
+
     public Collection<Field> addedFields;
-    public Collection<Signature> deletedSignatures;
-    public Collection<Signature> updatedSignatures;
+    public Collection<Field> deletedFields;
+    public Collection<Field> updatedFields;
 
     public DocumentPackage createdPackage;
 
@@ -73,6 +77,7 @@ public class FieldManipulationExample extends SDKSample {
 
         field1 = FieldBuilder.radioButton("group1")
                 .withName("field1")
+                .withId(fieldId1)
                 .atPosition(400, 100)
                 .withValue(true)
                 .onPage(0)
@@ -80,23 +85,31 @@ public class FieldManipulationExample extends SDKSample {
 
         field2 = FieldBuilder.radioButton("group1")
                 .withName("field2")
+                .withId(fieldId2)
                 .atPosition(400, 200)
                 .onPage(0)
                 .build();
 
-        field3 = FieldBuilder
-                .radioButton("group1")
+        field3 = FieldBuilder.radioButton("group1")
                 .withName("field3")
+                .withId(fieldId3)
                 .atPosition(400, 300)
                 .onPage(0)
                 .build();
 
-        // Adding the signatures
+        // Adding the fields
         eslClient.getApprovalService().addField(packageId, documentId, signatureId, field1);
         eslClient.getApprovalService().addField(packageId, documentId, signatureId, field2);
         eslClient.getApprovalService().addField(packageId, documentId, signatureId, field3);
 
         createdPackage = eslClient.getPackageService().getPackage(packageId);
         addedFields = eslClient.getApprovalService().getSignature(createdPackage, documentId, signatureId).getFields();
+
+        // Deleting field1
+        eslClient.getApprovalService().deleteField(packageId, documentId, signatureId, fieldId1);
+
+        createdPackage = eslClient.getPackageService().getPackage(packageId);
+        deletedFields = eslClient.getApprovalService().getSignature(createdPackage, documentId, signatureId).getFields();
+
     }
 }

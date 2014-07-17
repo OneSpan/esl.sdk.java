@@ -19,10 +19,17 @@ public class FieldManipulationExampleTest {
         FieldManipulationExample fieldManipulationExample = new FieldManipulationExample(Props.get());
         fieldManipulationExample.run();
 
+        // Test if all fields are added properly
         Map<String,Field> fieldMap = convertListToMap(fieldManipulationExample.addedFields);
-        assertThat("Signature 1 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field1.getName()), is(true));
-        assertThat("Signature 2 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field2.getName()), is(true));
-        assertThat("Signature 3 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field3.getName()), is(true));
+        assertThat("Field 1 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field1.getName()), is(true));
+        assertThat("Field 2 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field2.getName()), is(true));
+        assertThat("Field 3 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field3.getName()), is(true));
+
+        // Test if field1 is deleted properly
+        fieldMap = convertListToMap(fieldManipulationExample.deletedFields);
+        assertThat("Field 1 was not deleted correctly", fieldMap.containsKey(fieldManipulationExample.field1.getName()), is(false));
+        assertThat("Field 2 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field2.getName()), is(true));
+        assertThat("Field 3 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field3.getName()), is(true));
 
     }
 
