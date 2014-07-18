@@ -31,6 +31,10 @@ public class FieldManipulationExampleTest {
         assertThat("Field 2 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field2.getName()), is(true));
         assertThat("Field 3 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field3.getName()), is(true));
 
+        // Test if field3 is updated properly
+        fieldMap = convertListToMap(fieldManipulationExample.updatedFields);
+        assertThat("Field 3 was not updated correctly", fieldMap.containsKey(fieldManipulationExample.updatedField.getName()), is(true));
+
     }
 
     private Map<String, Field> convertListToMap(Collection<Field> fields){

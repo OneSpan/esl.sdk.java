@@ -153,7 +153,6 @@ public class ApprovalService {
     }
 
     /**
-     *
      * Add a field to a signature
      *
      * @param packageId The package Id
@@ -185,6 +184,32 @@ public class ApprovalService {
         }
     }
 
+    /**
+     * Update a field from a signature
+     *
+     * @param packageId The package Id
+     * @param documentId The document Id
+     * @param signatureId The approval Id
+     * @param field The SDK Field to be updated
+     */
+    public void updateField(PackageId packageId, String documentId, SignatureId signatureId, Field field){
+        String path = template.urlFor(UrlTemplate.FIELD_ID_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{documentId}", documentId)
+                .replace("{approvalId}", signatureId.getId())
+                .replace("{fieldId}", field.getId().getId())
+                .build();
+
+        try {
+            com.silanis.esl.api.model.Field apiPayload = new FieldConverter(field).toAPIField();
+            String json = Serialization.toJson(apiPayload);
+            client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update field from signature.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update field from signature.", e);
+        }
+    }
 
     /**
      * Delete a field from a signature

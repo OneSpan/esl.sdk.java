@@ -29,6 +29,7 @@ public class FieldManipulationExample extends SDKSample {
     public Field field1;
     public Field field2;
     public Field field3;
+    public Field updatedField;
 
     public FieldId fieldId1 = new FieldId("fieldId1");
     public FieldId fieldId2 = new FieldId("fieldId2");
@@ -97,6 +98,13 @@ public class FieldManipulationExample extends SDKSample {
                 .onPage(0)
                 .build();
 
+        updatedField = FieldBuilder.radioButton("group1")
+                .withName("updatedField")
+                .withId(fieldId3)
+                .atPosition(400, 300)
+                .onPage(0)
+                .build();
+
         // Adding the fields
         eslClient.getApprovalService().addField(packageId, documentId, signatureId, field1);
         eslClient.getApprovalService().addField(packageId, documentId, signatureId, field2);
@@ -111,5 +119,10 @@ public class FieldManipulationExample extends SDKSample {
         createdPackage = eslClient.getPackageService().getPackage(packageId);
         deletedFields = eslClient.getApprovalService().getSignature(createdPackage, documentId, signatureId).getFields();
 
+        // Updating the information for the third field
+        eslClient.getApprovalService().updateField(packageId, documentId, signatureId, updatedField);
+
+        createdPackage = eslClient.getPackageService().getPackage(packageId);
+        updatedFields = eslClient.getApprovalService().getSignature(createdPackage, documentId, signatureId).getFields();
     }
 }
