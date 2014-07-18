@@ -25,8 +25,8 @@ public class CustomFieldExample extends SDKSample {
     public static final String ENGLISH_NAME = "Player Number";
     public static final String ENGLISH_DESCRIPTION = "The number on your team jersey";
     public static final String FRENCH_LANGUAGE = "fr";
-    public static final String FRENCH_NAME = "Numéro du Joueur";
-    public static final String FRENCH_DESCRIPTION = "Le numéro dans le dos de votre chandail d'équipe";
+    public static final String FRENCH_NAME = "Numero du Joueur";
+    public static final String FRENCH_DESCRIPTION = "Le numero dans le dos de votre chandail d'equipe";
     public static final String FIELD_VALUE = "99";
 
     public static final String DEFAULT_VALUE2 = "Red";
