@@ -10,6 +10,7 @@ public class FieldSummary implements Serializable {
     private String documentId;
     private String fieldId;
     private String fieldValue;
+    private String fieldName;
 
     public String getSignerId() {
         return signerId;
@@ -25,6 +26,10 @@ public class FieldSummary implements Serializable {
 
     public String getFieldValue() {
         return fieldValue;
+    }
+
+    public String getFieldName() {
+        return fieldName;
     }
 
 }
