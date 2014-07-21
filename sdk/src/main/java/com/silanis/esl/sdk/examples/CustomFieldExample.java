@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ public class CustomFieldExample extends SDKSample {
 
     private String customFieldId1, customFieldId2;
     private CustomField retrieveCustomField;
+    private List<CustomField> retrieveCustomFieldList1, retrieveCustomFieldList2;
 
     public static void main(String... args) {
         new CustomFieldExample(Props.get()).run();
@@ -50,7 +52,6 @@ public class CustomFieldExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-with-fields.pdf");
-
     }
 
     public String getCustomFieldId1() {
@@ -63,6 +64,14 @@ public class CustomFieldExample extends SDKSample {
 
     public CustomField getRetrieveCustomField() {
         return retrieveCustomField;
+    }
+
+    public List<CustomField> getRetrieveCustomFieldList1() {
+        return retrieveCustomFieldList1;
+    }
+
+    public List<CustomField> getRetrieveCustomFieldList2() {
+        return retrieveCustomFieldList2;
     }
 
     @Override
@@ -123,6 +132,12 @@ public class CustomFieldExample extends SDKSample {
 
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
+
+        // Get the entire list of custom field from account
+        retrieveCustomFieldList1 = eslClient.getCustomFieldService().getCustomFields(Direction.ASCENDING);
+
+        // Get a list of custom fields from index [1, 2] sorted by its id (first two custom fields)
+        retrieveCustomFieldList2 = eslClient.getCustomFieldService().getCustomFields(Direction.ASCENDING, 1, 2);
 
         // Get the first custom field from account
         retrieveCustomField = eslClient.getCustomFieldService().getCustomField(customFieldId1);

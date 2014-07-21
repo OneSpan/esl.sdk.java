@@ -1,12 +1,16 @@
 package com.silanis.esl.sdk.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.UserCustomField;
-import com.silanis.esl.sdk.CustomField;
-import com.silanis.esl.sdk.CustomFieldValue;
-import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.api.util.JacksonUtil;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.CustomFieldConverter;
 import com.silanis.esl.sdk.internal.converter.CustomFieldValueConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The CustomFieldService class provides methods to create
@@ -100,6 +104,48 @@ public class CustomFieldService {
             throw new EslServerException( "Could not get the custom field from account.", e );
         } catch ( Exception e ) {
             throw new EslException( "Could not get the custom field from account.", e );
+        }
+    }
+
+    /**
+     * Get the entire list of account custom fields.
+     *
+     * @param direction of retrieved list to be sorted in ascending or descending order by id
+     * @return the list of custom fields
+     */
+    public List<CustomField> getCustomFields(Direction direction) {
+        return getCustomFields(direction, 0, 0);
+    }
+
+    /**
+     * Get the list of account custom fields in the index [from, to] inclusively.
+     *
+     * @param direction of retrieved list to be sorted in ascending or descending order by id
+     * @param from index of custom field to start from @size(min="1")
+     * @param to index of custom field to end at @size(min="1")
+     * @return the list of custom fields
+     */
+    public List<CustomField> getCustomFields(Direction direction, int from, int to) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_LIST_PATH)
+                .replace("{dir}", direction.getDir())
+                .replace("{from}", Integer.toString(from))
+                .replace("{to}", Integer.toString(to))
+                .build();
+
+        try {
+            String stringResponse = client.get(path);
+            List<com.silanis.esl.api.model.CustomField> customFieldList = Serialization.fromJsonToList(stringResponse, com.silanis.esl.api.model.CustomField.class);
+
+            List<CustomField> result = new ArrayList<CustomField>();
+            for (com.silanis.esl.api.model.CustomField apiCustomField : customFieldList) {
+                result.add(new CustomFieldConverter(apiCustomField).toSDKCustomField());
+            }
+
+            return result;
+        }catch ( RequestException e ) {
+            throw new EslServerException( "Could not get the list of custom fields from account.", e );
+        } catch ( Exception e ) {
+            throw new EslException( "Could not get the list of custom fields from account.", e );
         }
     }
 

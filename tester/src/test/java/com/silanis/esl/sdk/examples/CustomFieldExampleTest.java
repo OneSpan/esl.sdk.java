@@ -1,16 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.SignerRestClient;
 import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.UUID;
 
-import static com.silanis.esl.sdk.builder.CustomFieldBuilder.customFieldWithId;
 import static com.silanis.esl.sdk.builder.TranslationBuilder.newTranslation;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -43,6 +41,7 @@ public class CustomFieldExampleTest {
         Collection<Field> fields = signature.getFields();
         assertThat("Fields not set correctly.", fields.iterator().hasNext(), is(true));
 
+        // Get first custom field
         CustomField retrieveCustomField = example.getRetrieveCustomField();
         assertThat("Custom field name was not set correctly.", retrieveCustomField.getId(), is(example.getCustomFieldId1()));
         assertThat("Custom field default value was not set correctly.", retrieveCustomField.getValue(), is(example.DEFAULT_VALUE));
@@ -52,5 +51,11 @@ public class CustomFieldExampleTest {
         assertThat("Custom field French translation name was not set correctly.", retrieveCustomField.getTranslations().get(1).getName(), is(example.FRENCH_NAME));
         assertThat("Custom field French translation language was not set correctly.", retrieveCustomField.getTranslations().get(1).getLanguage(), is(example.FRENCH_LANGUAGE));
         assertThat("Custom field French translation description was not set correctly.", retrieveCustomField.getTranslations().get(1).getDescription(), is(example.FRENCH_DESCRIPTION));
+
+        // Get entire list of custom fields
+        assertThat("There should be at least two custom fields.", example.getRetrieveCustomFieldList1().size(), is(greaterThan(1)));
+
+        // Get first two custom fields
+        assertThat("There should be two custom fields in list.", example.getRetrieveCustomFieldList2().size(), is(2));
     }
 }
