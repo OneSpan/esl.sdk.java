@@ -827,6 +827,30 @@ public class PackageService {
         }
     }
 
+    /**
+     * Updates the signer order in a package.
+     *
+     * @param documentPackage The id of the package to update signer order
+     */
+    public void orderSigners(DocumentPackage documentPackage) {
+        String path = template.urlFor(UrlTemplate.ROLE_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .build();
+
+        List<Role> roles = new ArrayList<Role>();
+        for (com.silanis.esl.sdk.Signer signer : documentPackage.getSigners().values()) {
+            roles.add(new SignerConverter(signer).toAPIRole(signer.getId()));
+        }
+
+        try {
+            String json = Serialization.toJson(roles);
+            client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not order signers.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not order signers." + " Exception: " + e.getMessage());
+        }
+    }
 
     /**
      * Updates a signer's information from a package

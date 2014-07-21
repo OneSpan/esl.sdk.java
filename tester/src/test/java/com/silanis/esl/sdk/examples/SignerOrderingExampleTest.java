@@ -20,10 +20,16 @@ public class SignerOrderingExampleTest {
     public void verifyResult() {
         SignerOrderingExample signerOrderingExample = new SignerOrderingExample( Props.get() );
         signerOrderingExample.run();
-        DocumentPackage documentPackage = signerOrderingExample.getEslClient().getPackage(signerOrderingExample.getPackageId());
 
-        assertThat(documentPackage.getSigner(signerOrderingExample.email1).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL1)));
-        assertThat(documentPackage.getSigner(signerOrderingExample.email2).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL2)));
+        // Initial signer order
+        DocumentPackage beforeReorder = signerOrderingExample.initialOrder;
+        assertThat(beforeReorder.getSigner(signerOrderingExample.email1).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL1)));
+        assertThat(beforeReorder.getSigner(signerOrderingExample.email2).getSigningOrder(), is(equalTo(SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL2)));
+
+        // After reordering signers
+        DocumentPackage afterReorder = signerOrderingExample.afterReorder;
+        assertThat(afterReorder.getSigner(signerOrderingExample.email1).getSigningOrder(), is(equalTo(2)));
+        assertThat(afterReorder.getSigner(signerOrderingExample.email2).getSigningOrder(), is(equalTo(1)));
     }
     
 }
