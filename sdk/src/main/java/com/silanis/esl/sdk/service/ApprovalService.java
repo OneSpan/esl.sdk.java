@@ -237,6 +237,34 @@ public class ApprovalService {
     }
 
     /**
+     * Get a field from a signature
+     *
+     * @param packageId The package Id
+     * @param documentId The document Id
+     * @param signatureId The approval Id
+     * @param fieldId The field Id
+     * @return The field corresponding to the specified Ids
+     */
+    public Field getField(PackageId packageId, String documentId, SignatureId signatureId, FieldId fieldId){
+        String path = template.urlFor(UrlTemplate.FIELD_ID_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{documentId}", documentId)
+                .replace("{approvalId}", signatureId.getId())
+                .replace("{fieldId}", fieldId.getId())
+                .build();
+
+        try {
+            String stringResponse = client.get(path);
+            com.silanis.esl.api.model.Field apiField = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.Field.class);
+            return new FieldConverter(apiField).toSDKField();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get field from signature.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get field from signature.", e);
+        }
+    }
+
+    /**
      * Find the role ID for a specified group in a specified package.
      * @param groupId
      * @param createdPackage
