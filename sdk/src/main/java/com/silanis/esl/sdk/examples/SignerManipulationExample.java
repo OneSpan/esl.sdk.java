@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import java.io.InputStream;
@@ -27,6 +28,7 @@ public class SignerManipulationExample extends SDKSample {
     public DocumentPackage createdPackageWithAddedSigner;
     public DocumentPackage createdPackageWithRemovedSigner;
     public DocumentPackage createdPackageWithUpdatedSigner;
+    public Signer updatedSigner;
 
     private InputStream documentInputStream;
 
@@ -99,10 +101,12 @@ public class SignerManipulationExample extends SDKSample {
                 .withTitle("updateTitle1")
                 .build());
 
+        //This is how you would get a signer
+        updatedSigner = eslClient.getPackageService().getSigner(packageId, signer2Id);
+
         createdPackageWithUpdatedSigner = eslClient.getPackage(packageId);
 
         eslClient.sendPackage(packageId);
-
 
     }
 }

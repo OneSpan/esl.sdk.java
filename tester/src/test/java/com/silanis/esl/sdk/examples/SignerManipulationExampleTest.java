@@ -35,9 +35,9 @@ public class SignerManipulationExampleTest {
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(3));
 
-        assertThat("Signer 2 email was not updated correctly", documentPackage.getSigners().containsKey("timbob@aol.com"), is(true));
-        assertThat("Signer 2 first name was not updated correctly", documentPackage.getSigner("timbob@aol.com").getFirstName(), is(equalTo("updateFirstName1")));
-        assertThat("Signer 2 last name was not updated correctly", documentPackage.getSigner("timbob@aol.com").getLastName(), is(equalTo("updateLastName1")));
-        assertThat("Signer 2 title was updated set correctly", documentPackage.getSigner("timbob@aol.com").getTitle(), is(equalTo("updateTitle1")));
+        assertThat("Signer 2 email was not updated correctly", signerManipulationExample.updatedSigner.getEmail(), is("timbob@aol.com"));
+        assertThat("Signer 2 first name was not updated correctly", signerManipulationExample.updatedSigner.getFirstName(), is(equalTo("updateFirstName1")));
+        assertThat("Signer 2 last name was not updated correctly", signerManipulationExample.updatedSigner.getLastName(), is(equalTo("updateLastName1")));
+        assertThat("Signer 2 title was updated set correctly", signerManipulationExample.updatedSigner.getTitle(), is(equalTo("updateTitle1")));
     }
 }

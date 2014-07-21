@@ -781,6 +781,30 @@ public class PackageService {
         }
     }
 
+    /**
+     * Get a signer from the specified package
+     *
+     * @param packageId The id of the package in which to get the signer
+     * @param signerId The id of signer to get
+     * @return The signer
+     */
+    public com.silanis.esl.sdk.Signer getSigner(PackageId packageId, String signerId) {
+        String path = template.urlFor(UrlTemplate.SIGNER_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signerId)
+                .build();
+
+        try {
+            String response = client.get(path);
+            Role apiRole = Serialization.fromJson(response, Role.class);
+            return new SignerConverter(apiRole).toSDKSigner();
+
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get signer." + " Exception: " + e.getMessage());
+        }
+    }
 
     /**
      * Removes a signer from a package
