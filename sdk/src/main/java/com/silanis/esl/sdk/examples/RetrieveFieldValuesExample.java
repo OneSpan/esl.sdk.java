@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.FieldSummary;
 import com.silanis.esl.sdk.PackageId;
 
@@ -10,30 +9,34 @@ import java.util.Properties;
 /**
  * Retrieves the values found in the fields of each of the documents in a package
  */
-public class RetrieveFieldValuesExample {
+public class RetrieveFieldValuesExample extends SDKSample {
 
     private InputStream documentInputStream;
-    private String apiKey;
-    private String apiUrl;
+
+    public static void main( String... args ) {
+        new RetrieveFieldValuesExample(Props.get()).run();
+    }
 
     public RetrieveFieldValuesExample( Properties properties ) {
         this( properties.getProperty( "api.key" ), properties.getProperty( "api.url" ) );
     }
 
     public RetrieveFieldValuesExample( String apiKey, String apiUrl ) {
-        this.apiKey = apiKey;
-        this.apiUrl = apiUrl;
+        super( apiKey, apiUrl );
     }
 
     void execute() {
-        EslClient eslClient = new EslClient( apiKey, apiUrl );
         PackageId packageId = new PackageId( "" );
 
         List<FieldSummary> fieldSummaries = eslClient.getFieldValues( packageId );
 
-        System.out.println( "SignerId, DocumentId, FieldId: Value" );
+        System.out.println( "SignerId,\t DocumentId, \tFieldId \tFieldName \tValue" );
         for ( FieldSummary fieldSummary : fieldSummaries ) {
-            System.out.print( fieldSummary.getSignerId() + ", " + fieldSummary.getDocumentId() + ", " + fieldSummary.getFieldId() + ": " + fieldSummary.getFieldValue() + "\n" );
+            System.out.print( fieldSummary.getSignerId() + ", \t" +
+                    fieldSummary.getDocumentId() + ", \t" +
+                    fieldSummary.getFieldId() + ", \t" +
+                    fieldSummary.getFieldName() + ", \t" +
+                    fieldSummary.getFieldValue() + "\n" );
         }
     }
 }
