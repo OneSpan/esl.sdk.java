@@ -13,11 +13,23 @@ import java.util.UUID;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
-import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 
 public class GroupManagementExample extends SDKSample {
-    private String email1;
+    public String email1;
+    public String email2;
+    public String email3;
+    public String email4;
     private InputStream documentInputStream1;
+
+    public List<Group> allGroupsBeforeDelete;
+    public List<String> groupMemberEmailsBeforeDelete;
+    public List<Group> allGroupsAfterDelete;
+    public List<String> groupMemberEmailsAfterUpdate;
+
+    Group createdGroup1;
+    Group createdGroup2;
+    Group createdGroup3;
+    Group createdGroup3Updated;
 
     public static void main( String... args ) {
         new GroupManagementExample( Props.get() ).run();
@@ -72,9 +84,9 @@ public class GroupManagementExample extends SDKSample {
 
     public void execute() {
 
-        String email2 = getRandomEmail();
-        String email3 = getRandomEmail();
-        String email4 = getRandomEmail();
+        email2 = getRandomEmail();
+        email3 = getRandomEmail();
+        email4 = getRandomEmail();
 
         // Since the user needs to already exist in the system, we invite all the emails we plan on using
         inviteAccountMember( email1 );
@@ -90,7 +102,7 @@ public class GroupManagementExample extends SDKSample {
                 .withEmail( "bob@aol.com" )
                 .withIndividualMemberEmailing()
                 .build();
-        Group createdGroup1 = eslClient.getGroupService().createGroup( group1 );
+        createdGroup1 = eslClient.getGroupService().createGroup( group1 );
         System.out.println( "GroupId: " + createdGroup1.getId().toString() );
 
         eslClient.getGroupService().inviteMember( createdGroup1.getId(), GroupMemberBuilder.newGroupMember( email3 )
@@ -107,17 +119,42 @@ public class GroupManagementExample extends SDKSample {
                 .withEmail( "bob@aol.com" )
                 .withIndividualMemberEmailing()
                 .build();
-        Group createdGroup2 = eslClient.getGroupService().createGroup( group2 );
+
+        createdGroup2 = eslClient.getGroupService().createGroup( group2 );
         Group retrievedGroup2 = eslClient.getGroupService().getGroup( createdGroup2.getId() );
 
-        List<Group> allGroupsBeforeDelete = eslClient.getGroupService().getMyGroups();
-        List<GroupMember> groupMembersBeforeDelete = eslClient.getGroupService().getGroupMembers( createdGroup1.getId() );
-        List<String> groupMemberEmailsBeforeDelete = eslClient.getGroupService().getGroupMemberEmails( createdGroup1.getId() );
+        Group group3 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
+                .withMember( GroupMemberBuilder.newGroupMember( email3 )
+                        .as( GroupMemberType.MANAGER ) )
+                .withEmail( "bob@aol.com" )
+                .withIndividualMemberEmailing()
+                .build();
+
+        createdGroup3 = eslClient.getGroupService().createGroup( group3 );
+        Group retrievedGroup3 = eslClient.getGroupService().getGroup( createdGroup3.getId() );
+
+        allGroupsBeforeDelete = eslClient.getGroupService().getMyGroups();
+        groupMemberEmailsBeforeDelete = eslClient.getGroupService().getGroupMemberEmails( createdGroup1.getId() );
 
         eslClient.getGroupService().deleteGroup( createdGroup2.getId() );
 
-        List<Group> allGroupsAfterDelete = eslClient.getGroupService().getMyGroups();
+        allGroupsAfterDelete = eslClient.getGroupService().getMyGroups();
 
+        Group groupUpdated = GroupBuilder.newGroup( UUID.randomUUID().toString() )
+                .withMember( GroupMemberBuilder.newGroupMember( email2 )
+                        .as( GroupMemberType.MANAGER ) )
+                .withMember( GroupMemberBuilder.newGroupMember( email3 )
+                        .as( GroupMemberType.REGULAR ))
+                .withMember( GroupMemberBuilder.newGroupMember( email4 )
+                        .as( GroupMemberType.REGULAR ))
+                .withEmail( "bob@aol.com" )
+                .withIndividualMemberEmailing()
+                .build();
+
+        createdGroup3Updated = eslClient.getGroupService().updateGroup( groupUpdated , createdGroup3.getId() );
+        Group retrievedGroup3Updated = eslClient.getGroupService().getGroup( createdGroup3Updated.getId() );
+
+        groupMemberEmailsAfterUpdate = eslClient.getGroupService().getGroupMemberEmails( createdGroup3.getId() );
 
 //        Now let's add a signature for a group member
         DocumentPackage superDuperPackage = newPackageNamed( "GroupManagementExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )

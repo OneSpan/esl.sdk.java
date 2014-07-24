@@ -79,13 +79,37 @@ public class GroupService {
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
             Group resultGroup =  new GroupConverter(apiResponse).toSDKGroup();
             for ( GroupMember groupMember : group.getMembers() ) {
-                inviteMember( resultGroup.getId(), groupMember );
+                inviteMember(resultGroup.getId(), groupMember);
             }
             return resultGroup;
         } catch ( RequestException e ) {
             throw new EslServerException( "Unable to create Group.", e );
         } catch ( Exception e ) {
             throw new EslException( "Unable to create Group.", e );
+        }
+    }
+
+    /**
+     * Update a group belonging to this account
+     *
+     * @param group
+     * @return
+     */
+    public Group updateGroup( Group group, GroupId groupId ) {
+        String path = template.urlFor( UrlTemplate.GROUPS_ID_PATH )
+                .replace("{groupId}", groupId.getId())
+                .build();
+        com.silanis.esl.api.model.Group apiGroup = new GroupConverter(group).toAPIGroup();
+        try {
+            String stringResponse = client.put( path, Serialization.toJson( apiGroup ) );
+            com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
+
+            Group resultGroup =  new GroupConverter(apiResponse).toSDKGroup();
+            return resultGroup;
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to update Group.", e );
+        } catch ( Exception e ) {
+            throw new EslException( "Unable to update Group.", e );
         }
     }
 
