@@ -29,8 +29,8 @@ public class GroupManagementExampleTest {
         assertThat("Group 3 was not added properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup3.getId()), is(true));
 
         assertThat("Group was not updated properly, member 1 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email2));
-        assertThat("Group was not updated properly, member 1 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email3));
-        assertThat("Group was not updated properly, member 1 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email4));
+        assertThat("Group was not updated properly, member 2 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email3));
+        assertThat("Group was not updated properly, member 3 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email4));
 
     }
 

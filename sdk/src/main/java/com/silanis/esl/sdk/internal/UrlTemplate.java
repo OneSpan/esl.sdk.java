@@ -65,6 +65,7 @@ public class UrlTemplate {
     public static final String GROUPS_PATH = "/groups";
     public static final String GROUPS_ID_PATH = "/groups/{groupId}";
     public static final String GROUPS_MEMBER_PATH = "/groups/{groupId}/members";
+    public static final String GROUPS_INVITE_PATH = "/groups/{groupId}/invite";
 
     // Account Service
     public static final String ACCOUNT_MEMBER_PATH = "/account/senders";

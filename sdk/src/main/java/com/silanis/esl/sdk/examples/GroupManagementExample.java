@@ -22,7 +22,6 @@ public class GroupManagementExample extends SDKSample {
     private InputStream documentInputStream1;
 
     public List<Group> allGroupsBeforeDelete;
-    public List<String> groupMemberEmailsBeforeDelete;
     public List<Group> allGroupsAfterDelete;
     public List<String> groupMemberEmailsAfterUpdate;
 
@@ -89,6 +88,7 @@ public class GroupManagementExample extends SDKSample {
         email4 = getRandomEmail();
 
         // Since the user needs to already exist in the system, we invite all the emails we plan on using
+        // The group members need to be account members, if they aren't already you may need to invite them to your account.
         inviteAccountMember( email1 );
         inviteAccountMember( email2 );
         inviteAccountMember( email3 );
@@ -105,12 +105,14 @@ public class GroupManagementExample extends SDKSample {
         createdGroup1 = eslClient.getGroupService().createGroup( group1 );
         System.out.println( "GroupId: " + createdGroup1.getId().toString() );
 
-        eslClient.getGroupService().inviteMember( createdGroup1.getId(), GroupMemberBuilder.newGroupMember( email3 )
-                .as( GroupMemberType.MANAGER )
-                .build() );
-        eslClient.getGroupService().inviteMember( createdGroup1.getId(), GroupMemberBuilder.newGroupMember( email4 )
-                .as( GroupMemberType.MANAGER )
-                .build() );
+        // Inviting members with the two different calls
+        // addMember returns the group member while inviteMember returns the group itself
+        GroupMember groupMemberAdd = eslClient.getGroupService().addMember(createdGroup1.getId(), GroupMemberBuilder.newGroupMember(email3)
+                .as(GroupMemberType.MANAGER)
+                .build());
+        Group groupMemberInvite = eslClient.getGroupService().inviteMember(createdGroup1.getId(), GroupMemberBuilder.newGroupMember(email4)
+                .as(GroupMemberType.MANAGER)
+                .build());
         Group retrievedGroup1 = eslClient.getGroupService().getGroup( createdGroup1.getId() );
 
         Group group2 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
@@ -121,7 +123,6 @@ public class GroupManagementExample extends SDKSample {
                 .build();
 
         createdGroup2 = eslClient.getGroupService().createGroup( group2 );
-        Group retrievedGroup2 = eslClient.getGroupService().getGroup( createdGroup2.getId() );
 
         Group group3 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
                 .withMember( GroupMemberBuilder.newGroupMember( email3 )
@@ -131,15 +132,15 @@ public class GroupManagementExample extends SDKSample {
                 .build();
 
         createdGroup3 = eslClient.getGroupService().createGroup( group3 );
-        Group retrievedGroup3 = eslClient.getGroupService().getGroup( createdGroup3.getId() );
 
         allGroupsBeforeDelete = eslClient.getGroupService().getMyGroups();
-        groupMemberEmailsBeforeDelete = eslClient.getGroupService().getGroupMemberEmails( createdGroup1.getId() );
 
+        // Here is how we delete group 2
         eslClient.getGroupService().deleteGroup( createdGroup2.getId() );
 
         allGroupsAfterDelete = eslClient.getGroupService().getMyGroups();
 
+        // This shows up how to update group 3
         Group groupUpdated = GroupBuilder.newGroup( UUID.randomUUID().toString() )
                 .withMember( GroupMemberBuilder.newGroupMember( email2 )
                         .as( GroupMemberType.MANAGER ) )
@@ -152,7 +153,6 @@ public class GroupManagementExample extends SDKSample {
                 .build();
 
         createdGroup3Updated = eslClient.getGroupService().updateGroup( groupUpdated , createdGroup3.getId() );
-        Group retrievedGroup3Updated = eslClient.getGroupService().getGroup( createdGroup3Updated.getId() );
 
         groupMemberEmailsAfterUpdate = eslClient.getGroupService().getGroupMemberEmails( createdGroup3.getId() );
 

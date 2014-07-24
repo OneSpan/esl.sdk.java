@@ -79,7 +79,7 @@ public class GroupService {
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
             Group resultGroup =  new GroupConverter(apiResponse).toSDKGroup();
             for ( GroupMember groupMember : group.getMembers() ) {
-                inviteMember(resultGroup.getId(), groupMember);
+                addMember(resultGroup.getId(), groupMember);
             }
             return resultGroup;
         } catch ( RequestException e ) {
@@ -113,7 +113,14 @@ public class GroupService {
         }
     }
 
-    public GroupMember inviteMember( GroupId groupId, GroupMember groupMember ) {
+    /**
+     * Invite a new sender to the group. Can be used to add a new member to a group.
+     *
+     * @param groupId
+     * @param groupMember
+     * @return The group member
+     */
+    public GroupMember addMember(GroupId groupId, GroupMember groupMember) {
         String path = template.urlFor(  UrlTemplate.GROUPS_MEMBER_PATH ).build().replace( "{groupId}", groupId.getId() );
         com.silanis.esl.api.model.GroupMember apiGroupMember = new GroupMemberConverter(groupMember).toAPIGroupMember();
         try {
@@ -121,6 +128,28 @@ public class GroupService {
             com.silanis.esl.api.model.GroupMember apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.GroupMember.class );
             GroupMember resultGroupMember = new GroupMemberConverter(apiResponse).toSDKGroupMember();
             return resultGroupMember;
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to add member to group.", e );
+        } catch ( Exception e ) {
+            throw new EslException( "Unable to add member to group.", e );
+        }
+    }
+
+    /**
+     * Invite a new sender to the group. Can be used to add a new member to a group.
+     *
+     * @param groupId
+     * @param groupMember
+     * @return The group with the new member
+     */
+    public Group inviteMember(GroupId groupId, GroupMember groupMember) {
+        String path = template.urlFor(  UrlTemplate.GROUPS_INVITE_PATH ).build().replace( "{groupId}", groupId.getId() );
+        com.silanis.esl.api.model.GroupMember apiGroupMember = new GroupMemberConverter(groupMember).toAPIGroupMember();
+        try {
+            String stringResponse = client.post( path, Serialization.toJson( apiGroupMember ) );
+            com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
+            Group resultGroup = new GroupConverter(apiResponse).toSDKGroup();
+            return resultGroup;
         } catch ( RequestException e ) {
             throw new EslServerException( "Unable to invite member to group.", e );
         } catch ( Exception e ) {
