@@ -90,6 +90,11 @@ public class UrlTemplate {
     // AttachmentRequirement Service
     public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
 
+    // Layout Service
+    public static final String LAYOUT_PATH = "/layouts";
+    public static final String LAYOUT_LIST_PATH = "/layouts?to={to}&from={from}&dir={dir}";
+    public static final String APPLY_LAYOUT_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutId={layoutId}";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }

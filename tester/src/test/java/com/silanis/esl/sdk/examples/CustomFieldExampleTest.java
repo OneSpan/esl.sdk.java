@@ -55,7 +55,7 @@ public class CustomFieldExampleTest {
         // Get entire list of custom fields
         assertThat("There should be at least two custom fields.", example.getRetrieveCustomFieldList1().size(), is(greaterThan(1)));
 
-        // Get first two custom fields
-        assertThat("There should be two custom fields in list.", example.getRetrieveCustomFieldList2().size(), is(2));
+        // Get first page of custom field
+        assertThat("There should be two custom fields in list.", example.getRetrieveCustomFieldList2().size(), is(greaterThan(1)));
     }
 }

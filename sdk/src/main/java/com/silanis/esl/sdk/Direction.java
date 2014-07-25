@@ -6,13 +6,13 @@ package com.silanis.esl.sdk;
 public enum Direction {
     ASCENDING("asc"), DESCENDING("desc");
 
-    private final String dir;
+    private final String direction;
 
-    Direction(String dir) {
-        this.dir = dir;
+    Direction(String direction) {
+        this.direction = direction;
     }
 
-    public String getDir() {
-        return dir;
+    public String getDirection() {
+        return direction;
     }
 }

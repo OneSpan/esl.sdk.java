@@ -33,6 +33,7 @@ public class EslClient {
     private ReminderService reminderService;
     private TemplateService templateService;
     private AttachmentRequirementService attachmentRequirementService;
+    private LayoutService layoutService;
 
     /**
      * The constructor of the EslClient class
@@ -58,6 +59,7 @@ public class EslClient {
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);
         attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
+        layoutService = new LayoutService(client, this.baseURL);
     }
 
     /**
@@ -229,7 +231,7 @@ public class EslClient {
      */
     public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        return packageService.createPackageFromTemplate( packageId, packageToCreate );
+        return packageService.createPackageFromTemplate(packageId, packageToCreate);
     }
 
     /**
@@ -293,7 +295,7 @@ public class EslClient {
      * @return the document package with the given packageId
      */
     public DocumentPackage getPackage( PackageId packageId ) {
-        return packageService.getPackage( packageId );
+        return packageService.getPackage(packageId);
     }
 
     /**
@@ -368,6 +370,10 @@ public class EslClient {
 
     public AttachmentRequirementService getAttachmentRequirementService() {
         return attachmentRequirementService;
+    }
+
+    public LayoutService getLayoutService() {
+        return layoutService;
     }
 
 }

@@ -1,11 +1,14 @@
 package com.silanis.esl.sdk.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.UserCustomField;
-import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.CustomField;
+import com.silanis.esl.sdk.CustomFieldValue;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.CustomFieldConverter;
 import com.silanis.esl.sdk.internal.converter.CustomFieldValueConverter;
 
@@ -114,22 +117,21 @@ public class CustomFieldService {
      * @return the list of custom fields
      */
     public List<CustomField> getCustomFields(Direction direction) {
-        return getCustomFields(direction, 0, 0);
+        return getCustomFields(direction, new PageRequest(0, -1));
     }
 
     /**
-     * Get the list of account custom fields in the index [from, to] inclusively.
+     * Get the list of account custom fields.
      *
      * @param direction of retrieved list to be sorted in ascending or descending order by id
-     * @param from index of custom field to start from @size(min="1")
-     * @param to index of custom field to end at @size(min="1")
+     * @param request identifying which page of results to return.
      * @return the list of custom fields
      */
-    public List<CustomField> getCustomFields(Direction direction, int from, int to) {
+    public List<CustomField> getCustomFields(Direction direction, PageRequest request) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_LIST_PATH)
-                .replace("{dir}", direction.getDir())
-                .replace("{from}", Integer.toString(from))
-                .replace("{to}", Integer.toString(to))
+                .replace("{dir}", direction.getDirection())
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace("{to}", Integer.toString(request.to()))
                 .build();
 
         try {

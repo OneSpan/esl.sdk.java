@@ -136,8 +136,8 @@ public class CustomFieldExample extends SDKSample {
         // Get the entire list of custom field from account
         retrieveCustomFieldList1 = eslClient.getCustomFieldService().getCustomFields(Direction.ASCENDING);
 
-        // Get a list of custom fields from index [1, 2] sorted by its id (first two custom fields)
-        retrieveCustomFieldList2 = eslClient.getCustomFieldService().getCustomFields(Direction.ASCENDING, 1, 2);
+        // Get a list of custom fields on page 1 sorted in descending order by its id
+        retrieveCustomFieldList2 = eslClient.getCustomFieldService().getCustomFields(Direction.ASCENDING, new PageRequest(1));
 
         // Get the first custom field from account
         retrieveCustomField = eslClient.getCustomFieldService().getCustomField(customFieldId1);
