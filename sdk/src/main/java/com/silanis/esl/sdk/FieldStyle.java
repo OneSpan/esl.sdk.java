@@ -13,6 +13,7 @@ public enum FieldStyle {
     UNBOUND_CUSTOM_FIELD( null ),
     UNBOUND_CHECK_BOX( null ),
     UNBOUND_RADIO_BUTTON( null ),
+    UNBOUND_QRCODE( null ),
     LABEL( null );
 
     private final String binding;
