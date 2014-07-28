@@ -6,11 +6,8 @@ import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.AccountMember;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.SenderInfo;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
 
@@ -36,11 +33,13 @@ public class AccountService {
      *
      * @param accountMember The member to be invited
      */
-    public void inviteUser( AccountMember accountMember ) {
+    public com.silanis.esl.sdk.Sender inviteUser( AccountMember accountMember ) {
         String path = template.urlFor( UrlTemplate.ACCOUNT_MEMBER_PATH).build();
         Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
         try {
-            client.post( path, Serialization.toJson( sender ) );
+            String stringResponse = client.post( path, Serialization.toJson( sender ) );
+            Sender apiResponse = Serialization.fromJson( stringResponse, Sender.class );
+            return new SenderConverter( apiResponse ).toSDKSender();
         } catch (RequestException e){
             throw new EslServerException( "Unable to invite member to account.", e);
         } catch ( Exception e ) {
@@ -75,13 +74,34 @@ public class AccountService {
     }
 
     /**
+     * Get the sender
+     *
+     * @param senderId The sender Id
+     * @return The sender corresponding to the senderId
+     */
+    public com.silanis.esl.sdk.Sender getSender( String senderId  ) {
+        String path = template.urlFor( UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
+                .replace("{senderUid}", senderId)
+                .build();
+        try {
+            String stringResponse = client.get(path);
+            Sender apiResponse = Serialization.fromJson( stringResponse, Sender.class );
+            return new SenderConverter( apiResponse ).toSDKSender();
+        } catch (RequestException e){
+            throw new EslServerException( "Unable to get member from account.", e);
+        } catch ( Exception e ) {
+            throw new EslException( "Unable to get member from account.", e );
+        }
+    }
+
+    /**
      * Delete a sender from the account
      *
      * @param senderId The sender Id
      */
 
     public void deleteSender(String senderId){
-        String path = template.urlFor(UrlTemplate.SENDER_PATH)
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
@@ -105,7 +125,7 @@ public class AccountService {
     public void updateSender(SenderInfo sender, String senderId){
         Sender apiPayload = new SenderConverter( sender ).toAPISender();
         apiPayload.setId(senderId);
-        String path = template.urlFor(UrlTemplate.SENDER_PATH)
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {

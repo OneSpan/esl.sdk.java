@@ -70,9 +70,10 @@ public class SenderManipulationExample extends SDKSample {
                 .withPhoneNumber( "phoneNumber3" )
                 .build();
 
-        eslClient.getAccountService().inviteUser(accountMember1);
-        eslClient.getAccountService().inviteUser(accountMember2);
-        eslClient.getAccountService().inviteUser(accountMember3);
+        Sender createdSender1 = eslClient.getAccountService().inviteUser(accountMember1);
+        Sender retrievedSender1 = eslClient.getAccountService().getSender(createdSender1.getId());
+        Sender createdSender2 = eslClient.getAccountService().inviteUser(accountMember2);
+        Sender createdSender3 = eslClient.getAccountService().inviteUser(accountMember3);
 
         accountMembers = eslClient.getAccountService().getSenders();
 
