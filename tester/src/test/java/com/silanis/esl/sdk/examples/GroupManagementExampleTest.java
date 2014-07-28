@@ -2,7 +2,10 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Group;
 import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.internal.EslServerException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,20 +18,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Created by dave on 05/05/14.
  */
 public class GroupManagementExampleTest {
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Test
     public void verifyResult() {
         GroupManagementExample example = new GroupManagementExample(Props.get());
         example.run();
 
-        System.out.println( "Before Delete" );
-        assertThat("Group 1 was not added properly", getGroupsId(example.allGroupsBeforeDelete).contains(example.createdGroup1.getId()), is(true));
-        assertThat("Group 2 was not added properly", getGroupsId(example.allGroupsBeforeDelete).contains(example.createdGroup2.getId()), is(true));
-        assertThat("Group 3 was not added properly", getGroupsId(example.allGroupsBeforeDelete).contains(example.createdGroup3.getId()), is(true));
+        assertThat("Group 1 was not added properly", example.createdGroup1.getId(), is(example.retrievedGroup1.getId()));
+        assertThat("Group 2 was not added properly", example.createdGroup2.getId(), is(example.retrievedGroup2.getId()));
+        assertThat("Group 3 was not added properly", example.createdGroup3.getId(), is(example.retrievedGroup3.getId()));
 
-        System.out.println( "After Delete" );
-        assertThat("Group 1 was not added properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup1.getId()), is(true));
-        assertThat("Group 2 was not deleted properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup2.getId()), is(false));
-        assertThat("Group 3 was not added properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup3.getId()), is(true));
+        exception.expect(EslServerException.class);
+        example.getEslClient().getGroupService().getGroup(example.createdGroup2.getId());
 
         assertThat("Group was not updated properly, member 1 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email2));
         assertThat("Group was not updated properly, member 2 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email3));
@@ -40,7 +43,6 @@ public class GroupManagementExampleTest {
     private List<GroupId> getGroupsId(Collection<Group> groups){
         List<GroupId> groupsId = new ArrayList<GroupId>();
         for (Group group : groups){
-            System.out.println( "GroupId: " + group.getId().getId() );
             groupsId.add(group.getId());
         }
         return groupsId;
