@@ -20,10 +20,12 @@ public class GroupManagementExampleTest {
         GroupManagementExample example = new GroupManagementExample(Props.get());
         example.run();
 
+        System.out.println( "Before Delete" );
         assertThat("Group 1 was not added properly", getGroupsId(example.allGroupsBeforeDelete).contains(example.createdGroup1.getId()), is(true));
         assertThat("Group 2 was not added properly", getGroupsId(example.allGroupsBeforeDelete).contains(example.createdGroup2.getId()), is(true));
         assertThat("Group 3 was not added properly", getGroupsId(example.allGroupsBeforeDelete).contains(example.createdGroup3.getId()), is(true));
 
+        System.out.println( "After Delete" );
         assertThat("Group 1 was not added properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup1.getId()), is(true));
         assertThat("Group 2 was not deleted properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup2.getId()), is(false));
         assertThat("Group 3 was not added properly", getGroupsId(example.allGroupsAfterDelete).contains(example.createdGroup3.getId()), is(true));
@@ -38,6 +40,7 @@ public class GroupManagementExampleTest {
     private List<GroupId> getGroupsId(Collection<Group> groups){
         List<GroupId> groupsId = new ArrayList<GroupId>();
         for (Group group : groups){
+            System.out.println( "GroupId: " + group.getId().getId() );
             groupsId.add(group.getId());
         }
         return groupsId;

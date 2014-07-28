@@ -103,7 +103,6 @@ public class GroupManagementExample extends SDKSample {
                 .withIndividualMemberEmailing()
                 .build();
         createdGroup1 = eslClient.getGroupService().createGroup( group1 );
-        System.out.println( "GroupId: " + createdGroup1.getId().toString() );
 
         // Inviting members with the two different calls
         // addMember returns the group member while inviteMember returns the group itself
@@ -132,6 +131,10 @@ public class GroupManagementExample extends SDKSample {
                 .build();
 
         createdGroup3 = eslClient.getGroupService().createGroup( group3 );
+
+        System.out.println( "GroupId: " + createdGroup1.getId().getId() );
+        System.out.println( "GroupId: " + createdGroup2.getId().getId() );
+        System.out.println( "GroupId: " + createdGroup3.getId().getId() );
 
         allGroupsBeforeDelete = eslClient.getGroupService().getMyGroups();
 
