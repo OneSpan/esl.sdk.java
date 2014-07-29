@@ -888,7 +888,7 @@ public class PackageService {
      * @return The completion report
      */
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String path = getCompletionReportUrl(packageStatus, senderId, from, to);
+        String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
 
         try {
             String json = client.get(path);
@@ -903,7 +903,28 @@ public class PackageService {
         }
     }
 
-    private String getCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
+    /**
+     * Downloads the completion report from a sender in csv format.
+     *
+     * @param packageStatus Status of the packages
+     * @param senderId Id of the sender
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report in csv format
+     */
+    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
+        String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
+
+        try {
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the completion report in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the completion report in csv." + " Exception: " + e.getMessage());
+        }
+    }
+
+    private String buildCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
@@ -915,16 +936,56 @@ public class PackageService {
                 .build();
     }
 
-    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String path = getCompletionReportUrl(packageStatus, senderId, from, to);
+    /**
+     * Downloads the usage report.
+     *
+     * @param from Starting date
+     * @param to Ending date
+     * @return The usage report
+     */
+    public com.silanis.esl.sdk.UsageReport downloadUsageReport(Date from, Date to) {
+        String path = buildUsageReportUrl(from, to);
+
+        try {
+            String json = client.get(path);
+            com.silanis.esl.api.model.UsageReport apiUsageReport = Serialization.fromJson(json, com.silanis.esl.api.model.UsageReport.class);
+            return new UsageReportConverter(apiUsageReport).toSDKUsageReport();
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the usage report.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Could not download the usage report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the usage report in csv format.
+     * @param from Starting date
+     * @param to Ending date
+     * @return The usage report in csv format
+     */
+    public String downloadUsageReportAsCSV(Date from, Date to) {
+        String path = buildUsageReportUrl(from, to);
 
         try {
             return client.get(path, "text/csv");
         } catch (RequestException e) {
-            throw new EslException("Could not download the completion report.", e);
+            throw new EslException("Could not download the usage report in csv.", e);
         } catch (Exception e) {
-            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
+            throw new EslException("Could not download the usage report in csv." + " Exception: " + e.getMessage());
         }
+
+    }
+
+    private String buildUsageReportUrl(Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        return template.urlFor(UrlTemplate.USAGE_REPORT_PATH)
+                .replace("{from}", fromDate)
+                .replace("{to}", toDate)
+                .build();
     }
 
 }
