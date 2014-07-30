@@ -9,6 +9,9 @@ import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.FieldConverter;
 import com.silanis.esl.sdk.internal.converter.SignatureConverter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by chi-wing on 6/19/14.
  */
@@ -120,6 +123,46 @@ public class ApprovalService {
             throw new EslServerException("Could not modify signature from document.", e);
         } catch (Exception e) {
             throw new EslException("Could not modify signature from document.", e);
+        }
+    }
+
+    /**
+     * Update the all the signatures for a document
+     *
+     * @param sdkPackage The sdk package containing the signatures
+     * @param documentId The document Id of document containing the signatures
+     * @param signatureList The list of signatures to update for the document
+     */
+    public void updateSignatures(DocumentPackage sdkPackage, String documentId, List<Signature> signatureList) {
+        String path = template.urlFor(UrlTemplate.APPROVAL_PATH)
+                .replace("{packageId}", sdkPackage.getId().getId())
+                .replace("{documentId}", documentId)
+                .build();
+
+        Package aPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
+
+        List<Approval> approvalList = new ArrayList<Approval>();
+        for (Signature signature : signatureList) {
+            Approval approval = new SignatureConverter(signature).toAPIApproval();
+
+            if( signature.isPlaceholderSignature() ){
+                approval.setRole(signature.getRoleId().getId());
+            }
+            else if ( signature.isGroupSignature() ) {
+                approval.setRole(findRoleIdForGroup( signature.getGroupId(), aPackage ) );
+            } else {
+                approval.setRole(findRoleIdForSignature( signature.getSignerEmail(), aPackage ) );
+            }
+            approvalList.add(approval);
+        }
+
+        try {
+            String json = Serialization.toJson(approvalList);
+            client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update signatures from document.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update signatures from document.", e);
         }
     }
 

@@ -4,12 +4,11 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureId;
+import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -21,6 +20,9 @@ import static org.joda.time.DateMidnight.now;
  * Created by chi-wing on 6/19/14.
  */
 public class SignatureManipulationExample extends SDKSample {
+
+    public static final String DOCUMENT_NAME = "SignatureManipulationExample";
+
     public final String email1;
     public final String email2;
     public final String email3;
@@ -33,15 +35,22 @@ public class SignatureManipulationExample extends SDKSample {
     public Signature signature1;
     public Signature signature2;
     public Signature signature3;
-    public Signature updatedSignature;
+    public Signature modifiedSignature;
+    public Signature updatedSignature1;
+    public Signature updatedSignature2;
 
     private InputStream documentInputStream;
 
     public Collection<Signature> addedSignatures;
     public Collection<Signature> deletedSignatures;
+    public Collection<Signature> modifiedSignatures;
     public Collection<Signature> updatedSignatures;
 
     public DocumentPackage createdPackage;
+
+    public static void main( String... args ) {
+        new SignatureManipulationExample(Props.get()).run();
+    }
 
     public SignatureManipulationExample(Properties properties) {
         this(properties.getProperty("api.key"),
@@ -77,7 +86,7 @@ public class SignatureManipulationExample extends SDKSample {
                         .withCustomId("signer3")
                         .withFirstName("firstName3")
                         .withLastName("lastName3"))
-                .withDocument(newDocumentWithName("SignatureManipulationExample")
+                .withDocument(newDocumentWithName(DOCUMENT_NAME)
                                 .fromStream(documentInputStream, DocumentType.PDF)
                                 .withId(documentId)
                 )
@@ -103,7 +112,7 @@ public class SignatureManipulationExample extends SDKSample {
                 .withId(signatureId3)
                 .build();
 
-        updatedSignature = signatureFor(email1)
+        modifiedSignature = signatureFor(email1)
                 .onPage(0)
                 .atPosition(100, 300)
                 .withId(signatureId3)
@@ -114,16 +123,37 @@ public class SignatureManipulationExample extends SDKSample {
         eslClient.getApprovalService().addSignature(createdPackage, documentId, signature1);
         eslClient.getApprovalService().addSignature(createdPackage, documentId, signature2);
         eslClient.getApprovalService().addSignature(createdPackage, documentId, signature3);
-        addedSignatures = eslClient.getPackage(packageId).getDocument("SignatureManipulationExample").getSignatures();
+        addedSignatures = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getSignatures();
 
         // Deleting signature for signer 1
         eslClient.getApprovalService().deleteSignature(packageId, documentId, signatureId1);
-        deletedSignatures = eslClient.getPackage(packageId).getDocument("SignatureManipulationExample").getSignatures();
+        deletedSignatures = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getSignatures();
 
         // Updating the information for the third signature
         createdPackage = eslClient.getPackageService().getPackage(packageId);
-        eslClient.getApprovalService().modifySignature(createdPackage, documentId, updatedSignature);
-        updatedSignatures = eslClient.getPackage(packageId).getDocument("SignatureManipulationExample").getSignatures();
+        eslClient.getApprovalService().modifySignature(createdPackage, documentId, modifiedSignature);
+        modifiedSignatures = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getSignatures();
 
+        // Update all the signatures in the document with the provided list of signatures
+        updatedSignature1 = signatureFor(email2)
+                .onPage(0)
+                .atPosition(300, 300)
+                .withId(signatureId2)
+                .withField(FieldBuilder
+                        .signerName()
+                        .atPosition(100, 100)
+                        .onPage(0))
+                .build();
+        updatedSignature2 = signatureFor(email3)
+                .onPage(0)
+                .atPosition(300, 500)
+                .withId(signatureId3)
+                .build();
+
+        List<Signature> signatureList = new ArrayList<Signature>();
+        signatureList.add(updatedSignature1);
+        signatureList.add(updatedSignature2);
+        eslClient.getApprovalService().updateSignatures(createdPackage, documentId, signatureList);
+        updatedSignatures = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getSignatures();
     }
 }
