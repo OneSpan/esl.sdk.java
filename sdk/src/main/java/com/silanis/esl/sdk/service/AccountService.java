@@ -48,6 +48,24 @@ public class AccountService {
     }
 
     /**
+     * Send a reminder invite to a sender
+     *
+     * @param senderId The sender Id
+     */
+    public void sendInvite(String senderId){
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_INVITE_PATH)
+                .replace("{senderUid}", senderId)
+                .build();
+        try {
+            client.post(path, null);
+        } catch (RequestException e){
+            throw new EslServerException( "Unable to send invite to member.", e);
+        } catch ( Exception e ) {
+            throw new EslException( "Unable to send invite to member.", e );
+        }
+    }
+
+    /**
      * Get a list of all the senders from the account
      *
      * @return A list mapping all the senders to their respective name

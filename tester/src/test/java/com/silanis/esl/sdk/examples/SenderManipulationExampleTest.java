@@ -4,8 +4,6 @@ import com.silanis.esl.sdk.Sender;
 import com.silanis.esl.sdk.SenderInfo;
 import org.junit.Test;
 
-import java.util.Map;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,13 +15,6 @@ public class SenderManipulationExampleTest {
     public void verifyResult() {
         SenderManipulationExample senderManipulationExample = new SenderManipulationExample(Props.get());
         senderManipulationExample.run();
-
-        Map<String, Sender> accountMembers = senderManipulationExample.accountMembers;
-
-        // Invite account members
-        assertThat("Member 1 was not invited", accountMembers.containsKey(senderManipulationExample.email1));
-        assertThat("Member 2 was not invited", accountMembers.containsKey(senderManipulationExample.email2));
-        assertThat("Member 3 was not invited", accountMembers.containsKey(senderManipulationExample.email3));
 
         // Delete sender
         assertThat("Sender was not deleted properly", !senderManipulationExample.accountMembersWithDeletedSender.containsKey(senderManipulationExample.email2));
