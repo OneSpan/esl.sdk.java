@@ -71,6 +71,7 @@ public class UrlTemplate {
     // Account Service
     public static final String ACCOUNT_MEMBER_PATH = "/account/senders";
     public static final String ACCOUNT_MEMBER_ID_PATH = "/account/senders/{senderUid}";
+    public static final String ACCOUNT_MEMBER_INVITE_PATH = "/account/senders/{senderUid}/invite";
 
     // Approval Service
     public static final String APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/approvals";
