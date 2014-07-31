@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
+import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +19,13 @@ import java.util.Map;
  */
 public class AccountService {
 
+    private AccountApiClient apiClient;
+
     private UrlTemplate template;
     private RestClient client;
 
-    public AccountService( RestClient client, String baseUrl ) {
+    public AccountService( AccountApiClient apiClient, RestClient client, String baseUrl ) {
+        this.apiClient = apiClient;
         template = new UrlTemplate( baseUrl );
         this.client = client;
     }
@@ -32,17 +36,9 @@ public class AccountService {
      * @param accountMember The member to be invited
      */
     public com.silanis.esl.sdk.Sender inviteUser( AccountMember accountMember ) {
-        String path = template.urlFor( UrlTemplate.ACCOUNT_MEMBER_PATH).build();
         Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
-        try {
-            String stringResponse = client.post( path, Serialization.toJson( sender ) );
-            Sender apiResponse = Serialization.fromJson( stringResponse, Sender.class );
-            return new SenderConverter( apiResponse ).toSDKSender();
-        } catch (RequestException e){
-            throw new EslServerException( "Unable to invite member to account.", e);
-        } catch ( Exception e ) {
-            throw new EslException( "Unable to invite member to account.", e );
-        }
+        sender = apiClient.inviteUser(sender);
+        return new SenderConverter( sender ).toSDKSender();
     }
 
     /**
@@ -145,20 +141,8 @@ public class AccountService {
      * @param senderId The sender Id
      */
     public void updateSender(SenderInfo sender, String senderId){
-        Sender apiPayload = new SenderConverter( sender ).toAPISender();
-        apiPayload.setId(senderId);
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
-                .replace("{senderUid}", senderId)
-                .build();
-        try {
-            String json = Serialization.toJson(apiPayload);
-            client.post(path, json);
-        }
-        catch ( RequestException e ) {
-            throw new EslServerException( "Could not update sender.", e );
-        }
-        catch ( Exception e ) {
-            throw new EslException( "Could not update sender." + " Exception: " + e.getMessage(), e );
-        }
+        Sender apiSender = new SenderConverter( sender ).toAPISender();
+        apiSender.setId(senderId);
+        apiClient.updateSender( apiSender, senderId );
     }
 }

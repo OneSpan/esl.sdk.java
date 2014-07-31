@@ -26,7 +26,7 @@ public class RetrieveFieldValuesExample extends SDKSample {
     }
 
     void execute() {
-        PackageId packageId = new PackageId( "" );
+        PackageId packageId = new PackageId( "562d70a0-585c-4570-90c9-d00568fa1b43" );
 
         List<FieldSummary> fieldSummaries = eslClient.getFieldValues( packageId );
 
