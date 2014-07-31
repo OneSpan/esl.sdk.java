@@ -72,6 +72,7 @@ public class UrlTemplate {
     public static final String ACCOUNT_MEMBER_PATH = "/account/senders";
     public static final String ACCOUNT_MEMBER_ID_PATH = "/account/senders/{senderUid}";
     public static final String ACCOUNT_MEMBER_INVITE_PATH = "/account/senders/{senderUid}/invite";
+    public static final String ACCOUNT_MEMBER_LIST_PATH = "/account/senders?to={to}&from={from}&dir={dir}";
 
     // Approval Service
     public static final String APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/approvals";

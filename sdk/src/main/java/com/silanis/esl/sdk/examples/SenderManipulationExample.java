@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.AccountMember;
-import com.silanis.esl.sdk.Sender;
-import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
@@ -76,10 +74,10 @@ public class SenderManipulationExample extends SDKSample {
         Sender createdSender3 = eslClient.getAccountService().inviteUser(accountMember3);
 
         eslClient.getAccountService().sendInvite(createdSender2.getId());
-        accountMembers = eslClient.getAccountService().getSenders();
+        accountMembers = eslClient.getAccountService().getSenders(Direction.ASCENDING);
 
         eslClient.getAccountService().deleteSender(createdSender2.getId());
-        accountMembersWithDeletedSender = eslClient.getAccountService().getSenders();
+        accountMembersWithDeletedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING);
 
         updatedSenderInfo = SenderInfoBuilder.newSenderInfo(email3)
                 .withName( "updatedFirstName", "updatedLastName" )
@@ -88,7 +86,7 @@ public class SenderManipulationExample extends SDKSample {
                 .build();
 
         eslClient.getAccountService().updateSender(updatedSenderInfo, accountMembersWithDeletedSender.get(email3).getId());
-        accountMembersWithUpdatedSender = eslClient.getAccountService().getSenders();
+        accountMembersWithUpdatedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING);
 
     }
 }

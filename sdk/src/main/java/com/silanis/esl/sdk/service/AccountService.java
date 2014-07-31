@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.AccountMember;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
@@ -68,10 +66,26 @@ public class AccountService {
     /**
      * Get a list of all the senders from the account
      *
+     * @param direction of retrieved list to be sorted in ascending or descending order by name.
      * @return A list mapping all the senders to their respective name
      */
-    public Map<String, com.silanis.esl.sdk.Sender> getSenders(){
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_PATH).build();
+    public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction) {
+        return getSenders(direction, new PageRequest(1, 1));
+    }
+
+    /**
+     * Get a list of senders from the account base on page request
+     *
+     * @param direction of retrieved list to be sorted in ascending or descending order by name.
+     * @param request   Identifying which page of results to return.
+     * @return A list mapping all the senders to their respective name
+     */
+    public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction, PageRequest request){
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_LIST_PATH)
+                .replace("{dir}", direction.getDirection())
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace("{to}", Integer.toString(request.to()))
+                .build();
 
         try {
             String stringResponse = client.get(path);
@@ -103,7 +117,7 @@ public class AccountService {
                 .build();
         try {
             String stringResponse = client.get(path);
-            Sender apiResponse = Serialization.fromJson( stringResponse, Sender.class );
+            Sender apiResponse = Serialization.fromJson(stringResponse, Sender.class);
             return new SenderConverter( apiResponse ).toSDKSender();
         } catch (RequestException e){
             throw new EslServerException( "Unable to get member from account.", e);
