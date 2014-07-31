@@ -1,9 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Direction;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.Sender;
-import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.*;
 import org.junit.Test;
 
 import java.util.Map;
@@ -36,7 +33,7 @@ public class CustomSenderInfoExampleTest {
         assertThat("Sender title not set correctly. ", senderInfo.getTitle(), is(equalTo(CustomSenderInfoExample.SENDER_TITLE)));
         assertThat("Sender company not set correctly. ", senderInfo.getCompany(), is(equalTo(CustomSenderInfoExample.SENDER_COMPANY)));
 
-        Map<String, Sender> senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING);
+        Map<String, Sender> senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 500));
         assertThat("Sender was not added correctly.", senders.containsKey(customSenderInfoExample.senderEmail), is(true));
         assertThat("Sender language was not set correctly.", senders.get(customSenderInfoExample.senderEmail).getLanguage(), is(equalTo("fr")));
     }

@@ -64,16 +64,6 @@ public class AccountService {
     }
 
     /**
-     * Get a list of all the senders from the account
-     *
-     * @param direction of retrieved list to be sorted in ascending or descending order by name.
-     * @return A list mapping all the senders to their respective name
-     */
-    public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction) {
-        return getSenders(direction, new PageRequest(1, 1));
-    }
-
-    /**
      * Get a list of senders from the account base on page request
      *
      * @param direction of retrieved list to be sorted in ascending or descending order by name.
