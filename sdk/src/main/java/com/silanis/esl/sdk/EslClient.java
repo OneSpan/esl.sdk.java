@@ -35,6 +35,7 @@ public class EslClient {
     private TemplateService templateService;
     private AttachmentRequirementService attachmentRequirementService;
     private LayoutService layoutService;
+    private QRCodeService qrCodeService;
 
     /**
      * The constructor of the EslClient class
@@ -61,6 +62,7 @@ public class EslClient {
         templateService = new TemplateService(client, this.baseURL, packageService);
         attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
+        qrCodeService = new QRCodeService(client, this.baseURL);
     }
 
     /**
@@ -377,4 +379,7 @@ public class EslClient {
         return layoutService;
     }
 
+    public QRCodeService getQrCodeService() {
+        return qrCodeService;
+    }
 }

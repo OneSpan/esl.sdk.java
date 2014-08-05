@@ -79,7 +79,7 @@ public class UrlTemplate {
     public static final String APPROVAL_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}";
     public static final String FIELD_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}/fields";
     public static final String FIELD_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}/fields/{fieldId}";
-    
+
     // Provider Document Resource
     public static final String PROVIDER_DOCUMENTS = "/documents";
 
@@ -97,6 +97,10 @@ public class UrlTemplate {
     public static final String LAYOUT_PATH = "/layouts";
     public static final String LAYOUT_LIST_PATH = "/layouts?to={to}&from={from}&dir={dir}";
     public static final String APPLY_LAYOUT_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutId={layoutId}";
+
+    // QR Code Service
+    public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";
+    public static final String QRCODE_ID_PATH = "/packages/{packageId}/documents/{documentId}/fields/{fieldId}";
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;

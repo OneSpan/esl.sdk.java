@@ -153,6 +153,19 @@ public class FieldBuilder {
     }
 
     /**
+     * Creates a field builder having set the style to UNBOUND_QRCODE.
+     * A QR code field will be displayed at the location defined with a
+     * default size of width=77 and height=77.
+     *
+     * @see FieldStyle
+     * @return a UNBOUND_QRCODE styled field builder
+     */
+    public static FieldBuilder qrCode() {
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_QRCODE)
+                .withSize(77.0, 77.0);
+    }
+
+    /**
      * Sets the page on which the field is located.
      * @param pageNumber	the page number
      * @return	the field builder itself

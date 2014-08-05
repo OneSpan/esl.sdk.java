@@ -127,7 +127,7 @@ public class ApprovalService {
     }
 
     /**
-     * Update the all the signatures for a document
+     * Update all the signatures for a document
      *
      * @param sdkPackage The sdk package containing the signatures
      * @param documentId The document Id of document containing the signatures
