@@ -13,6 +13,7 @@ public class UrlTemplate {
     public static final String DOCUMENT_ID_PATH = "/packages/{packageId}/documents/{documentId}";
     public static final String ROLE_PATH = "/packages/{packageId}/roles";
     public static final String ROLE_ID_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String ROLE_UNLOCK_PATH = "/packages/{packageId}/roles/{roleId}/unlock";
     public static final String PDF_PATH = "/packages/{packageId}/documents/{documentId}/pdf";
     public static final String ORIGINAL_PATH = "/packages/{packageId}/documents/{documentId}/original";
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";

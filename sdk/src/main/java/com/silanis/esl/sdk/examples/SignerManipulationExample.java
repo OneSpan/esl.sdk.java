@@ -84,6 +84,7 @@ public class SignerManipulationExample extends SDKSample {
                 .withFirstName("firstName3")
                 .withLastName("lastName3")
                 .withTitle("Title3")
+                .lock()
                 .build());
 
         createdPackageWithAddedSigner = eslClient.getPackage(packageId);
@@ -104,7 +105,11 @@ public class SignerManipulationExample extends SDKSample {
         //This is how you would get a signer
         updatedSigner = eslClient.getPackageService().getSigner(packageId, signer2Id);
 
+        //This is how you unlocked the added Signer
+        eslClient.getPackageService().unlockSigner(packageId, addedSignerId);
+
         createdPackageWithUpdatedSigner = eslClient.getPackage(packageId);
+
 
         eslClient.sendPackage(packageId);
 

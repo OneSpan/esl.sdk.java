@@ -876,6 +876,24 @@ public class PackageService {
         }
     }
 
+    /**
+     * Unlock a signer which has been locked out due to too many failed authentication attempts.
+     *
+     * @param signerId If not null, the id of the signer who's status we are to retrieve
+     */
+    public void unlockSigner(PackageId packageId,String signerId){
+        String path = template.urlFor(UrlTemplate.ROLE_UNLOCK_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signerId)
+                .build();
+        try{
+            client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslException("Could not unlock signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not unlock signer." + " Exception: " + e.getMessage());
+        }
+    }
 
     /**
      * Downloads the completion report from a sender
