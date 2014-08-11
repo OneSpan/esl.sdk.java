@@ -7,6 +7,7 @@ import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
+import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
 
 import java.util.Collection;
 import java.util.List;
@@ -57,7 +58,7 @@ public class EslClient {
         groupService = new GroupService( client, this.baseURL );
         customFieldService = new CustomFieldService( client, this.baseURL );
         accountService = new AccountService( new AccountApiClient(client, this.baseURL));
-        approvalService = new ApprovalService(client, this.baseURL);
+        approvalService = new ApprovalService( new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);
         attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
