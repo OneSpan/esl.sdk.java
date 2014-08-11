@@ -9,11 +9,11 @@ public enum FieldStyle {
     BOUND_NAME( "{signer.name}" ),
     BOUND_TITLE( "{signer.title}" ),
     BOUND_COMPANY( "{signer.company}" ),
+    BOUND_QRCODE( null ),
     UNBOUND_TEXT_FIELD( null ),
     UNBOUND_CUSTOM_FIELD( null ),
     UNBOUND_CHECK_BOX( null ),
     UNBOUND_RADIO_BUTTON( null ),
-    UNBOUND_QRCODE( null ),
     LABEL( null );
 
     private final String binding;

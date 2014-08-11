@@ -220,7 +220,7 @@ public class DocumentPackage implements Serializable {
     }
 
     /**
-     * Get the package's messages (ex: opt-out or decline messages).
+     * Get the package's messages (ex: opt out or decline messages).
      *
      * @return the list of package messages.
      */

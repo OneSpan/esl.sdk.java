@@ -58,12 +58,11 @@ public class QRCodeExample extends SDKSample {
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(100, 100))
-                        .withInjectedField(FieldBuilder.qrCode()
+                        .withQRCode(FieldBuilder.qrCode()
                                 .withId(qrCodeId1)
                                 .onPage(0)
                                 .atPosition(400, 100)))
                 .build();
-
 
         packageId = eslClient.createPackage(superDuperPackage);
 
@@ -87,11 +86,11 @@ public class QRCodeExample extends SDKSample {
                 .build();
 
         eslClient.getQrCodeService().modifyQRCode(packageId, DOCUMENT_ID, modifiedQRCode);
-        modifiedQRCodeList = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getInjectedFields();
+        modifiedQRCodeList = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getQrCodes();
 
         // Delete the second QR code
         eslClient.getQrCodeService().deleteQRCode(packageId, DOCUMENT_ID, qrCodeId2);
-        deletedQRCodeList = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getInjectedFields();
+        deletedQRCodeList = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getQrCodes();
 
         // Update all the QR codes in the document with the provided list of fields
         Field updatedQRCode1 = FieldBuilder.qrCode()
@@ -110,6 +109,6 @@ public class QRCodeExample extends SDKSample {
         qrCodeList.add(updatedQRCode1);
         qrCodeList.add(updatedQRCode2);
         eslClient.getQrCodeService().updateQRCodes(packageId, DOCUMENT_ID, qrCodeList);
-        updatedQRCodeList = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getInjectedFields();
+        updatedQRCodeList = eslClient.getPackage(packageId).getDocument(DOCUMENT_NAME).getQrCodes();
     }
 }

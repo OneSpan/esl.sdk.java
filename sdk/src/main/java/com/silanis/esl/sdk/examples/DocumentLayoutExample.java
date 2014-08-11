@@ -55,7 +55,7 @@ public class DocumentLayoutExample extends SDKSample {
     }
 
     public void execute() {
-        // Create a package with one document and one signature with two fields.
+        // Create a package with one document and one signature with two fields
         DocumentPackage superDuperPackage = newPackageNamed(LAYOUT_PACKAGE_NAME)
                 .describedAs(LAYOUT_PACKAGE_DESCRIPTION)
                 .withSigner(newSignerWithEmail(email1)
@@ -84,13 +84,13 @@ public class DocumentLayoutExample extends SDKSample {
         PackageId packageId1 = eslClient.createPackage(superDuperPackage);
         superDuperPackage.setId(packageId1);
 
-        // Create layout from package.
+        // Create layout from package
         layoutId = eslClient.getLayoutService().createLayout(superDuperPackage);
 
         // Get a list of layouts
         layouts = eslClient.getLayoutService().getLayouts(Direction.ASCENDING, new PageRequest(1, 100));
 
-        // Create a new package to apply document layout to.
+        // Create a new package to apply document layout to
         DocumentPackage packageFromLayout = newPackageNamed("DocumentLayoutExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withEmailMessage("This message should be delivered to all signers")
@@ -108,7 +108,7 @@ public class DocumentLayoutExample extends SDKSample {
 
         packageId = eslClient.createPackage(packageFromLayout);
 
-        // Apply the layout to document in package.
+        // Apply the layout to document in package
         eslClient.getLayoutService().applyLayout(packageId, APPLY_LAYOUT_DOCUMENT_ID, layoutId);
 
         packageWithLayout = eslClient.getPackage(packageId);

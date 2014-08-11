@@ -66,7 +66,7 @@ public class FieldStyleAndSubTypeConverter {
                 return FieldSubtype.CHECKBOX;
             case UNBOUND_RADIO_BUTTON:
                 return FieldSubtype.RADIO;
-            case UNBOUND_QRCODE:
+            case BOUND_QRCODE:
                 return FieldSubtype.QRCODE;
             default:
                 throw new ConversionException( com.silanis.esl.sdk.FieldStyle.class, com.silanis.esl.api.model.FieldSubtype.class, "Unable to decode the field subtype." );
@@ -94,7 +94,7 @@ public class FieldStyleAndSubTypeConverter {
                 case RADIO:
                     return FieldStyle.UNBOUND_RADIO_BUTTON;
                 case QRCODE:
-                    return FieldStyle.UNBOUND_QRCODE;
+                    return FieldStyle.BOUND_QRCODE;
                 default: {
                     throw new ConversionException( com.silanis.esl.api.model.FieldSubtype.class, com.silanis.esl.sdk.FieldStyle.class, "Unable to decode the field subtype." );
                 }
