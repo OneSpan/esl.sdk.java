@@ -56,7 +56,7 @@ public class EslClient {
         authenticationTokensService = new AuthenticationTokensService(client, this.baseURL);
         groupService = new GroupService( client, this.baseURL );
         customFieldService = new CustomFieldService( client, this.baseURL );
-        accountService = new AccountService( new AccountApiClient(client, this.baseURL), client, this.baseURL );
+        accountService = new AccountService( new AccountApiClient(client, this.baseURL));
         approvalService = new ApprovalService(client, this.baseURL);
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);

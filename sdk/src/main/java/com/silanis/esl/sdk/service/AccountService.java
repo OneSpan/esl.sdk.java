@@ -1,11 +1,11 @@
 package com.silanis.esl.sdk.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
-import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.AccountMember;
+import com.silanis.esl.sdk.Direction;
+import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.SenderInfo;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
@@ -21,13 +21,8 @@ public class AccountService {
 
     private AccountApiClient apiClient;
 
-    private UrlTemplate template;
-    private RestClient client;
-
-    public AccountService( AccountApiClient apiClient, RestClient client, String baseUrl ) {
+    public AccountService(AccountApiClient apiClient) {
         this.apiClient = apiClient;
-        template = new UrlTemplate( baseUrl );
-        this.client = client;
     }
 
     /**
@@ -35,10 +30,10 @@ public class AccountService {
      *
      * @param accountMember The member to be invited
      */
-    public com.silanis.esl.sdk.Sender inviteUser( AccountMember accountMember ) {
-        Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
+    public com.silanis.esl.sdk.Sender inviteUser(AccountMember accountMember) {
+        Sender sender = new AccountMemberConverter(accountMember).toAPISender();
         sender = apiClient.inviteUser(sender);
-        return new SenderConverter( sender ).toSDKSender();
+        return new SenderConverter(sender).toSDKSender();
     }
 
     /**
@@ -46,17 +41,8 @@ public class AccountService {
      *
      * @param senderId The sender Id
      */
-    public void sendInvite(String senderId){
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_INVITE_PATH)
-                .replace("{senderUid}", senderId)
-                .build();
-        try {
-            client.post(path, null);
-        } catch (RequestException e){
-            throw new EslServerException( "Unable to send invite to member.", e);
-        } catch ( Exception e ) {
-            throw new EslException( "Unable to send invite to member.", e );
-        }
+    public void sendInvite(String senderId) {
+        apiClient.sendInvite(senderId);
     }
 
     /**
@@ -66,29 +52,13 @@ public class AccountService {
      * @param request   Identifying which page of results to return.
      * @return A list mapping all the senders to their respective name
      */
-    public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction, PageRequest request){
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_LIST_PATH)
-                .replace("{dir}", direction.getDirection())
-                .replace("{from}", Integer.toString(request.getFrom()))
-                .replace("{to}", Integer.toString(request.to()))
-                .build();
-
-        try {
-            String stringResponse = client.get(path);
-            Result<Sender> apiResponse = JacksonUtil.deserialize(stringResponse, new TypeReference<Result<Sender>>() {
-            });
-            Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
-            for ( Sender sender : apiResponse.getResults() ) {
-                result.put(sender.getEmail(), new SenderConverter(sender).toSDKSender());
-            }
-            return result;
+    public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction, PageRequest request) {
+        Result<Sender> apiResponse = apiClient.getSenders(direction, request);
+        Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
+        for (Sender sender : apiResponse.getResults()) {
+            result.put(sender.getEmail(), new SenderConverter(sender).toSDKSender());
         }
-        catch (RequestException e) {
-            throw new EslServerException("Failed to retrieve Account Members List.", e);
-        }
-        catch (Exception e) {
-            throw new EslException("Failed to retrieve Account Members List.", e);
-        }
+        return result;
     }
 
     /**
@@ -97,19 +67,9 @@ public class AccountService {
      * @param senderId The sender Id
      * @return The sender corresponding to the senderId
      */
-    public com.silanis.esl.sdk.Sender getSender( String senderId  ) {
-        String path = template.urlFor( UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
-                .replace("{senderUid}", senderId)
-                .build();
-        try {
-            String stringResponse = client.get(path);
-            Sender apiResponse = Serialization.fromJson(stringResponse, Sender.class);
-            return new SenderConverter( apiResponse ).toSDKSender();
-        } catch (RequestException e){
-            throw new EslServerException( "Unable to get member from account.", e);
-        } catch ( Exception e ) {
-            throw new EslException( "Unable to get member from account.", e );
-        }
+    public com.silanis.esl.sdk.Sender getSender(String senderId) {
+        Sender apiResponse = apiClient.getSender(senderId);
+        return new SenderConverter(apiResponse).toSDKSender();
     }
 
     /**
@@ -117,32 +77,20 @@ public class AccountService {
      *
      * @param senderId The sender Id
      */
-
-    public void deleteSender(String senderId){
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
-                .replace("{senderUid}", senderId)
-                .build();
-        try {
-            client.delete( path );
-        }
-        catch ( RequestException e ) {
-            throw new EslServerException( "Could not delete sender.", e );
-        }
-        catch ( Exception e ) {
-            throw new EslException( "Could not delete sender." + " Exception: " + e.getMessage(), e );
-        }
+    public void deleteSender(String senderId) {
+        apiClient.deleteSender(senderId);
     }
 
 
     /**
      * Update the information of a sender
      *
-     * @param sender The updated info of the sender
+     * @param sender   The updated info of the sender
      * @param senderId The sender Id
      */
-    public void updateSender(SenderInfo sender, String senderId){
-        Sender apiSender = new SenderConverter( sender ).toAPISender();
+    public void updateSender(SenderInfo sender, String senderId) {
+        Sender apiSender = new SenderConverter(sender).toAPISender();
         apiSender.setId(senderId);
-        apiClient.updateSender( apiSender, senderId );
+        apiClient.updateSender(apiSender, senderId);
     }
 }
