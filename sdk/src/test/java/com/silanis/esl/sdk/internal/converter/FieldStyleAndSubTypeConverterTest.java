@@ -114,7 +114,7 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldSubtype = FieldSubtype.QRCODE;
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("QR code type was not correctly set", fieldStyle, is( equalTo(FieldStyle.UNBOUND_QRCODE)));
+        assertThat("QR code type was not correctly set", fieldStyle, is( equalTo(FieldStyle.BOUND_QRCODE)));
 
         // Where the conversion is based on binding.
         fieldSubtype = null;
@@ -161,7 +161,7 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.RADIO)));
 
-        fieldStyle = FieldStyle.UNBOUND_QRCODE;
+        fieldStyle = FieldStyle.BOUND_QRCODE;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.QRCODE)));
 

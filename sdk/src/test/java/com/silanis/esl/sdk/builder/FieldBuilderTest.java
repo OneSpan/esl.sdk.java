@@ -108,7 +108,7 @@ public class FieldBuilderTest {
     public void creatingQRCodeStyle() {
         Field field = qrCode().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo(FieldStyle.UNBOUND_QRCODE)));
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.BOUND_QRCODE)));
         assertThat( field.getHeight(), is(77.0));
         assertThat( field.getWidth(), is(77.0));
     }
