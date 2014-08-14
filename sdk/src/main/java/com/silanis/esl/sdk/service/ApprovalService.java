@@ -108,7 +108,7 @@ public class ApprovalService {
             approvalList.add(approval);
         }
 
-        apiClient.updateSignatures(apiPackage.getId(), documentId, approvalList);
+        apiClient.updateSignatures(sdkPackage.getId().getId(), documentId, approvalList);
     }
 
     /**
