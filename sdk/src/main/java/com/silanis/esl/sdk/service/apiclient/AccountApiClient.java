@@ -9,6 +9,8 @@ import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.internal.*;
 
+import java.util.List;
+
 /**
  * Created by dave on 31/07/14.
  */
@@ -105,6 +107,20 @@ public class AccountApiClient {
             throw new EslServerException("Could not update sender.", e);
         } catch (Exception e) {
             throw new EslException("Could not update sender." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<Sender> getContacts() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_CONTACTS_PATH)
+                .build();
+
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, Sender.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get contacts.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get contacts." + " Exception: " + e.getMessage(), e);
         }
     }
 }

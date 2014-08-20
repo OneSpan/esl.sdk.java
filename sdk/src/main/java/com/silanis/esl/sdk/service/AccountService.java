@@ -2,15 +2,13 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
-import com.silanis.esl.sdk.AccountMember;
-import com.silanis.esl.sdk.Direction;
-import com.silanis.esl.sdk.PageRequest;
-import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -92,5 +90,21 @@ public class AccountService {
         Sender apiSender = new SenderConverter(sender).toAPISender();
         apiSender.setId(senderId);
         apiClient.updateSender(apiSender, senderId);
+    }
+
+    /**
+     * Get the contacts from account
+     *
+     * @return the contacts (key=email, value=Sender)
+     */
+    public Map<String, com.silanis.esl.sdk.Sender> getContacts() {
+        List<Sender> contacts = apiClient.getContacts();
+
+        Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
+        for (Sender apiSender : contacts) {
+            result.put(apiSender.getEmail(), new SenderConverter(apiSender).toSDKSender());
+        }
+
+        return result;
     }
 }

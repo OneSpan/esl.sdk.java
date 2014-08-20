@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.External;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -122,6 +123,9 @@ public class SenderConverterTest implements ConverterTest{
         assertThat("Sender type is incorrect.", sdkSender.getType().toString(), is(apiSender1.getType().toString()));
         assertThat("Sender updated date is incorrect.", sdkSender.getUpdated(), is(apiSender1.getUpdated()));
         assertThat("Sender id is incorrect.", sdkSender.getId(), is(apiSender1.getId()));
+        assertThat("Sender external id is incorrect.", sdkSender.getExternal().getId(), is(apiSender1.getExternal().getId()));
+        assertThat("Sender external provider is incorrect.", sdkSender.getExternal().getProvider(), is(apiSender1.getExternal().getProvider()));
+        assertThat("Sender external provider name is incorrect.", sdkSender.getExternal().getProviderName(), is(apiSender1.getExternal().getProviderName()));
     }
 
     /**
@@ -152,6 +156,7 @@ public class SenderConverterTest implements ConverterTest{
         apiSender.setCompany("Sender company");
         apiSender.setFirstName("Sender first name");
         apiSender.setLastName("Sender last name");
+        apiSender.setExternal(new External().setId("externalId").setProvider("provider").setProviderName("providerName"));
 
         return apiSender;
     }    

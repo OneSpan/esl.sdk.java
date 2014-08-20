@@ -23,14 +23,13 @@ public class HistoryDocumentExampleTest {
 
         HistoryDocumentExample historyDocumentExample = new HistoryDocumentExample(Props.get());
         historyDocumentExample.run();
-        DocumentPackage documentPackage = historyDocumentExample.getEslClient().getPackage(historyDocumentExample.getPackageId());
 
+        DocumentPackage documentPackage = historyDocumentExample.getEslClient().getPackage(historyDocumentExample.getPackageId());
 
         // History document
         Document historyDocument = documentPackage.getDocument(historyDocumentExample.externalDocumentName);
         assertThat("The history document was not added correctly", historyDocument, IsNull.notNullValue());
         assertThat("The history document name was not set correctly", historyDocument.getName(), is(historyDocumentExample.externalDocumentName));
-
     }
 
 }

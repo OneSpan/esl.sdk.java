@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
-import com.silanis.esl.sdk.internal.EslServerException;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -19,7 +18,6 @@ import static org.joda.time.DateMidnight.now;
  * Basic package with in-person mode set at the document package level. Expires in a month.
  */
 public class BasicPackageCreationExample extends SDKSample {
-
 
     public final String email1;
     public final String email2;

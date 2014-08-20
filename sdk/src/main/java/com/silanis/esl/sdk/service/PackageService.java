@@ -340,13 +340,17 @@ public class PackageService {
      *
      * @param packageId
      */
-    public void addDocumentWithExternalContent(String packageId, List<Document> providerDocuments){
+    public void addDocumentWithExternalContent(String packageId, List<com.silanis.esl.sdk.Document> providerDocuments){
         String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
                 .replace("{packageId}", packageId)
                 .build();
 
+        List<Document> apiDocuments = new ArrayList<Document>();
+        for( com.silanis.esl.sdk.Document document : providerDocuments){
+            apiDocuments.add(new DocumentConverter(document).toAPIDocumentMetadata());
+        }
         try {
-            String json = Serialization.toJson(providerDocuments);
+            String json = Serialization.toJson(apiDocuments);
             client.post(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not upload the documents.", e);
@@ -360,14 +364,18 @@ public class PackageService {
      *
      * @return
      */
-    public List<Document> getDocuments(){
+    public List<com.silanis.esl.sdk.Document> getDocuments(){
         String path = template.urlFor(UrlTemplate.PROVIDER_DOCUMENTS).build();
 
         try {
             String stringResponse = client.get(path);
             List<Document> apiResponse = JacksonUtil.deserialize(stringResponse, new TypeReference<List<Document>>() {
             });
-            return apiResponse;
+            List<com.silanis.esl.sdk.Document> documents = new ArrayList<com.silanis.esl.sdk.Document>();
+            for (Document document : apiResponse) {
+                documents.add(new DocumentConverter(document, null).toSDKDocument());
+            }
+            return documents;
         }
         catch (RequestException e) {
             throw new EslServerException("Failed to retrieve documents from history List.", e);

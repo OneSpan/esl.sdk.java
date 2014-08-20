@@ -15,11 +15,11 @@ public class Sender {
     private String lastName;
     private String language;
     private String phone;
-    private String signerType;
     private String title;
     private Date updated;
     private String id;
     private String name;
+    private External external;
 
     public SenderStatus getStatus() {
         return status;
@@ -93,14 +93,6 @@ public class Sender {
         this.phone = phone;
     }
 
-    public String getSignerType() {
-        return signerType;
-    }
-
-    public void setSignerType(String signerType) {
-        this.signerType = signerType;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -131,5 +123,13 @@ public class Sender {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public External getExternal() {
+        return external;
+    }
+
+    public void setExternal(External external) {
+        this.external = external;
     }
 }
