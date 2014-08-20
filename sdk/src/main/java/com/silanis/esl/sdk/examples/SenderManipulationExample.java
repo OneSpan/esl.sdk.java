@@ -74,10 +74,10 @@ public class SenderManipulationExample extends SDKSample {
         Sender createdSender3 = eslClient.getAccountService().inviteUser(accountMember3);
 
         eslClient.getAccountService().sendInvite(createdSender2.getId());
-        accountMembers = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 500));
+        accountMembers = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 1000));
 
         eslClient.getAccountService().deleteSender(createdSender2.getId());
-        accountMembersWithDeletedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 500));
+        accountMembersWithDeletedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 1000));
 
         updatedSenderInfo = SenderInfoBuilder.newSenderInfo(email3)
                 .withName( "updatedFirstName", "updatedLastName" )
