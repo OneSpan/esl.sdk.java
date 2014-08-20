@@ -86,7 +86,8 @@ public class SenderManipulationExample extends SDKSample {
                 .build();
 
         eslClient.getAccountService().updateSender(updatedSenderInfo, accountMembersWithDeletedSender.get(email3).getId());
-        accountMembersWithUpdatedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 500));
+        accountMembersWithUpdatedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 1000));
 
+        System.out.println("# of senders : " + accountMembersWithUpdatedSender.size());
     }
 }
