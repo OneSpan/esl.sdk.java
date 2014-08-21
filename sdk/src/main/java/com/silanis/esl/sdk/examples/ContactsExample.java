@@ -17,7 +17,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
-public class ContactExample extends SDKSample {
+public class ContactsExample extends SDKSample {
 
     public final String email1;
     public final String email2;
@@ -27,16 +27,16 @@ public class ContactExample extends SDKSample {
     public Map<String, Sender> afterContacts;
 
     public static void main(String... args) {
-        new ContactExample(Props.get()).run();
+        new ContactsExample(Props.get()).run();
     }
 
-    public ContactExample(Properties props) {
+    public ContactsExample(Properties props) {
         this(props.getProperty("api.key"),
                 props.getProperty("api.url"),
                 props.getProperty("1.email"));
     }
 
-    public ContactExample(String apiKey, String apiUrl, String email1) {
+    public ContactsExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.email2 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
@@ -44,11 +44,11 @@ public class ContactExample extends SDKSample {
     }
 
     public void execute() {
-        // Get the account contacts (Senders)
+        // Get the contacts (Senders) from account
         beforeContacts = eslClient.getAccountService().getContacts();
         signerForPackage = beforeContacts.get(email1);
 
-        // Create package with signer using information from the account contacts
+        // Create package with signer using information from contacts
         DocumentPackage superDuperPackage = newPackageNamed("ContactExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())

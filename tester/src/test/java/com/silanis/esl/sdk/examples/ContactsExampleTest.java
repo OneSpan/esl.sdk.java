@@ -12,11 +12,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Created by lena on 2014-08-18.
  */
-public class ContactExampleTest {
+public class ContactsExampleTest {
 
     @Test
     public void verifyResult() {
-        ContactExample example = new ContactExample(Props.get());
+        ContactsExample example = new ContactsExample(Props.get());
         example.run();
 
         DocumentPackage documentPackage = example.eslClient.getPackage(example.packageId);
