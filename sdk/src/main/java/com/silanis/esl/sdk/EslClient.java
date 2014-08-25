@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
+import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +62,7 @@ public class EslClient {
         approvalService = new ApprovalService( new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);
-        attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
+        attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL),client,this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
     }
