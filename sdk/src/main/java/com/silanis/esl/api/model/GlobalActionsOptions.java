@@ -15,6 +15,8 @@ public class GlobalActionsOptions extends Model
     @JsonIgnore
     public static final String FIELD_DOWNLOAD = "download";
     @JsonIgnore
+    public static final String FIELD_HIDEEVIDENCESUMMARY = "hideEvidenceSummary";
+    @JsonIgnore
     public static final String FIELD_SAVEASLAYOUT = "saveAsLayout";
     
     // Empty Constructor
@@ -23,6 +25,7 @@ public class GlobalActionsOptions extends Model
     // Fields
     protected Boolean _confirm = true;
     protected Boolean _download = true;
+    protected Boolean _hideEvidenceSummary = false;
     protected Boolean _saveAsLayout = true;
     
     // Accessors
@@ -72,6 +75,30 @@ public class GlobalActionsOptions extends Model
     @JsonIgnore
     public boolean evalDownload(){
         return _download == null ? false : _download.booleanValue();
+    }
+    
+        
+    
+    public GlobalActionsOptions setHideEvidenceSummary( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_HIDEEVIDENCESUMMARY,value);
+        // TODO With proper compare
+        // if ( this._hideEvidenceSummary == value ) return this;
+        this._hideEvidenceSummary = value;
+        setDirty(FIELD_HIDEEVIDENCESUMMARY);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public GlobalActionsOptions safeSetHideEvidenceSummary( Boolean value ){
+        if ( value != null ) { this.setHideEvidenceSummary( value ); }
+        return this;
+    }
+    public Boolean getHideEvidenceSummary(){
+        return _hideEvidenceSummary;
+    }
+    @JsonIgnore
+    public boolean evalHideEvidenceSummary(){
+        return _hideEvidenceSummary == null ? false : _hideEvidenceSummary.booleanValue();
     }
     
         

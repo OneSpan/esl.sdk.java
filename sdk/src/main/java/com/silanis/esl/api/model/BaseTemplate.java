@@ -42,6 +42,8 @@ public class BaseTemplate extends BasePackage
     @JsonIgnore
     public static final String FIELD_NOTARIZED = "notarized";
     @JsonIgnore
+    public static final String FIELD_NOTARYROLEID = "notaryRoleId";
+    @JsonIgnore
     public static final String FIELD_ROLES = "roles";
     @JsonIgnore
     public static final String FIELD_SENDER = "sender";
@@ -256,6 +258,20 @@ public class BaseTemplate extends BasePackage
     @JsonIgnore
     public BaseTemplate safeSetNotarized( Boolean value ){
         if ( value != null ) { this.setNotarized( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public BaseTemplate setNotaryRoleId( String value ){
+        super.setNotaryRoleId(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public BaseTemplate safeSetNotaryRoleId( String value ){
+        if ( value != null ) { this.setNotaryRoleId( value ); }
         return this;
     }
     

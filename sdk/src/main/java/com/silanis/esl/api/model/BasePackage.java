@@ -42,6 +42,8 @@ public class BasePackage extends Entity
     @JsonIgnore
     public static final String FIELD_NOTARIZED = "notarized";
     @JsonIgnore
+    public static final String FIELD_NOTARYROLEID = "notaryRoleId";
+    @JsonIgnore
     public static final String FIELD_ROLES = "roles";
     @JsonIgnore
     public static final String FIELD_SENDER = "sender";
@@ -71,7 +73,8 @@ public class BasePackage extends Entity
     protected String _language = "";
     protected PackageArtifactsLimits _limits = null;
     protected List<Message> _messages = new ArrayList<Message>();
-    protected Boolean _notarized = false;
+    protected Boolean _notarized = null;
+    protected String _notaryRoleId = "";
     protected List<Role> _roles = new ArrayList<Role>();
     protected Sender _sender;
     protected PackageSettings _settings = null;
@@ -330,7 +333,6 @@ public class BasePackage extends Entity
         
     
     public BasePackage setNotarized( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_NOTARIZED,value);
         // TODO With proper compare
         // if ( this._notarized == value ) return this;
         this._notarized = value;
@@ -346,9 +348,25 @@ public class BasePackage extends Entity
     public Boolean getNotarized(){
         return _notarized;
     }
+    
+        
+    
+    public BasePackage setNotaryRoleId( String value ){
+        value = SchemaSanitizer.trim(value);
+        // TODO With proper compare
+        // if ( this._notaryRoleId == value ) return this;
+        this._notaryRoleId = value;
+        setDirty(FIELD_NOTARYROLEID);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public boolean evalNotarized(){
-        return _notarized == null ? false : _notarized.booleanValue();
+    public BasePackage safeSetNotaryRoleId( String value ){
+        if ( value != null ) { this.setNotaryRoleId( value ); }
+        return this;
+    }
+    public String getNotaryRoleId(){
+        return _notaryRoleId;
     }
     
         

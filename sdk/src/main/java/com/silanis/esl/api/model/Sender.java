@@ -52,6 +52,8 @@ public class Sender extends User
     @JsonIgnore
     public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
+    public static final String FIELD_SPECIALTYPES = "specialTypes";
+    @JsonIgnore
     public static final String FIELD_STATUS = "status";
     @JsonIgnore
     public static final String FIELD_TITLE = "title";
@@ -362,6 +364,26 @@ public class Sender extends User
     @JsonIgnore
     public Sender safeSetSignature( SignatureStyle value ){
         if ( value != null ) { this.setSignature( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Sender setSpecialTypes( List<String> value ){
+        super.setSpecialTypes(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Sender safeSetSpecialTypes( List<String> value ){
+        if ( value != null ) { this.setSpecialTypes( value ); }
+        return this;
+    }
+    // List adder
+    @Override
+    public Sender addSpecialType( String value ){
+        super.addSpecialType(value);
         return this;
     }
     
