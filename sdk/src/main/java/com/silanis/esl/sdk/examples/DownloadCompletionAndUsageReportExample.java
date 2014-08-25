@@ -6,10 +6,7 @@ import com.silanis.esl.sdk.internal.Converter;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Properties;
+import java.util.*;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -17,41 +14,36 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
-public class DownloadCompletionReportExample extends SDKSample {
+public class DownloadCompletionAndUsageReportExample extends SDKSample {
 
-    private String email1;
+    public final String email1;
     private String senderUID;
-    private com.silanis.esl.sdk.CompletionReport sdkCompletionReport;
+    private InputStream documentInputStream1;
+
+    public com.silanis.esl.sdk.CompletionReport sdkCompletionReport;
+    public com.silanis.esl.sdk.UsageReport sdkUsageReport;
+    public String csvCompletionReport;
+    public String csvUsageReport;
 
     public static void main(String... args) {
-        new DownloadCompletionReportExample(Props.get()).run();
+        new DownloadCompletionAndUsageReportExample(Props.get()).run();
     }
 
-    public com.silanis.esl.sdk.CompletionReport getSdkCompletionReport() {
-        return sdkCompletionReport;
-    }
-
-    public DownloadCompletionReportExample(Properties properties) {
+    public DownloadCompletionAndUsageReportExample(Properties properties) {
         this(properties.getProperty("api.key"),
                 properties.getProperty("api.url"),
                 properties.getProperty("1.email"));
     }
 
-    public DownloadCompletionReportExample(String apiKey, String apiUrl, String email1) {
+    public DownloadCompletionAndUsageReportExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.senderUID = Converter.apiKeyToUID(apiKey);
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
-
-    public String getEmail1() {
-        return email1;
-    }
-
     @Override
     public void execute() {
-        InputStream documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-
-        DocumentPackage superDuperPackage = newPackageNamed( "DownloadCompletionReport " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "DownloadCompletionAndUsageReport " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
@@ -74,7 +66,7 @@ public class DownloadCompletionReportExample extends SDKSample {
 
         packageId = eslClient.createPackage(superDuperPackage);
 
-        // Date and time range to get completion report.
+        // Date and time range to get completion/usage report.
         Calendar fromCalendar = new GregorianCalendar();
         fromCalendar.add(Calendar.DATE, -1);
         Date from = fromCalendar.getTime();
@@ -83,7 +75,16 @@ public class DownloadCompletionReportExample extends SDKSample {
         toCalendar.setTime(new Date(System.currentTimeMillis()));
         Date to = toCalendar.getTime();
 
+        // Download the completion report
         sdkCompletionReport = eslClient.getPackageService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
-        String csvCompletionReport = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
+        csvCompletionReport = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
+
+        // Download the usage report
+        sdkUsageReport = eslClient.getPackageService().downloadUsageReport(from, to);
+        csvUsageReport = eslClient.getPackageService().downloadUsageReportAsCSV(from, to);
+
+        // Get the number of packages in draft for sender
+        EnumMap<UsageReportCategory, Integer> categoryCounts = sdkUsageReport.getSenderUsageReports().get(0).getCountByUsageReportCategory();
+        int numOfDrafts = categoryCounts.get(UsageReportCategory.DRAFT);
     }
 }

@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -24,6 +23,7 @@ public class SignerOrderingExample extends SDKSample {
     public final String email2;
     public static final int SIGNING_ORDER_FOR_EMAIL2 = 2;
     private InputStream documentInputStream1;
+    public DocumentPackage initialOrder, afterReorder;
 
     public static void main( String... args ) {
         new SignerOrderingExample( Props.get() ).run();
@@ -65,6 +65,17 @@ public class SignerOrderingExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
+
+        initialOrder = eslClient.getPackage(packageId);
+
+        // Reorder signers
+        afterReorder = eslClient.getPackage(packageId);
+        afterReorder.getSigner(email1).setSigningOrder(2);
+        afterReorder.getSigner(email2).setSigningOrder(1);
+        eslClient.getPackageService().orderSigners(afterReorder);
+
+        afterReorder = eslClient.getPackage(packageId);
+
         eslClient.sendPackage( packageId );
     }
 }

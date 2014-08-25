@@ -26,7 +26,9 @@ public class DocumentBuilder {
     private boolean extract;
     private String id;
     private List<Field> injectedFields = new ArrayList<Field>();
+    private List<Field> qrCodes = new ArrayList<Field>();
     private String description;
+    private External external;
 
     public DocumentBuilder() {
         this.name = DEFAULT_NAME;
@@ -116,6 +118,11 @@ public class DocumentBuilder {
         return this;
     }
 
+    public DocumentBuilder withExternal( External external ){
+        this.external = external;
+        return this;
+    }
+
     private void validate() {
         if ( id == null && fileName == null && documentSource == null ) {
             throw new BuilderException( "Document fileName or Content must be set." );
@@ -136,13 +143,16 @@ public class DocumentBuilder {
         document.addSignatures(signatures);
         document.setIndex( index );
         document.setExtraction( extract );
+        document.setExternal(external);
         if (description != null ) {
             document.setDescription(description);
         }
         if ( id != null ) {
             document.setId( new DocumentId( id ) );
         }
-        document.addInjectedFields( injectedFields );
+        document.addInjectedFields(injectedFields);
+        document.addQRCodes(qrCodes);
+
         return document;
     }
 
@@ -182,6 +192,27 @@ public class DocumentBuilder {
 
     public DocumentBuilder withInjectedField( Field field ) {
         injectedFields.add( field );
+        return this;
+    }
+
+    /**
+     * Add QR code to the document.
+     *
+     * @param builder
+     * @return the document builder itself
+     */
+    public DocumentBuilder withQRCode( FieldBuilder builder) {
+        return withQRCode( builder.build());
+    }
+
+    /**
+     * Add QR code to the document.
+     *
+     * @param field the QR code field
+     * @return the document builder itself
+     */
+    public DocumentBuilder withQRCode(Field field) {
+        qrCodes.add(field);
         return this;
     }
 

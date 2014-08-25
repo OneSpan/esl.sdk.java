@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.builder.BuilderException;
+
 /**
  * Created by lena on 2014-05-30.
  *
@@ -41,7 +43,7 @@ public class SenderStatusConverter {
             case LOCKED:
                 return sdkSenderStatus.LOCKED;
             default:
-                return sdkSenderStatus;
+                throw new BuilderException("Unrecognized sender status type.");
         }
     }
 
@@ -58,7 +60,7 @@ public class SenderStatusConverter {
             case LOCKED:
                 return apiSenderStatus.LOCKED;
             default:
-                return apiSenderStatus;
+                throw new BuilderException("Unrecognized sender status type.");
         }
     }
 

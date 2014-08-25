@@ -61,7 +61,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .withDialogOnComplete()
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
-                                .withoutGlobalDownloadButton()
+//                                .withoutGlobalDownloadButton()
                                 .withoutGlobalConfirmButton()
                                 .withoutGlobalSaveAsLayoutButton()
                         )

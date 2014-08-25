@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.CeremonyLayoutSettings;
 
 /**
  * User: jessica
@@ -8,7 +9,6 @@ import com.silanis.esl.api.model.*;
  * Time: 9:18 AM
  *
  * Converter between SDK and API Ceremony Layout Settings.
- * For now, it is just a one way converter from SDK to API.
  *
  */
 public class CeremonyLayoutSettingsConverter {
@@ -26,7 +26,7 @@ public class CeremonyLayoutSettingsConverter {
     }
 
     /**
-     * Construct with API object involved in converstion.
+     * Construct with API object involved in conversion.
      * @param apiLayoutOptions
      */
     public CeremonyLayoutSettingsConverter(com.silanis.esl.api.model.LayoutOptions apiLayoutOptions) {
@@ -79,4 +79,43 @@ public class CeremonyLayoutSettingsConverter {
         return result;
     }
 
+    /**
+     * Convert from API to SDK.
+     *
+     * @return SDK ceremony layout settings.
+     */
+    public com.silanis.esl.sdk.CeremonyLayoutSettings toSDKCeremonyLayoutSettings() {
+        if (apiLayoutOptions == null) {
+            return sdkCeremonyLayoutSettings;
+        }
+
+        CeremonyLayoutSettings result = new CeremonyLayoutSettings();
+
+        result.setiFrame(apiLayoutOptions.getIframe());
+        if (apiLayoutOptions.getHeader() != null) {
+            result.setBreadCrumbs(apiLayoutOptions.getHeader().getBreadcrumbs());
+            result.setSessionBar(apiLayoutOptions.getHeader().getSessionBar());
+            result.setGlobalNavigation(apiLayoutOptions.getHeader().getGlobalNavigation());
+
+            if (apiLayoutOptions.getHeader().getGlobalActions() != null) {
+                result.setShowGlobalSaveAsLayoutButton(apiLayoutOptions.getHeader().getGlobalActions().getSaveAsLayout());
+                result.setShowGlobalConfirmButton(apiLayoutOptions.getHeader().getGlobalActions().getConfirm());
+                result.setShowGlobalDownloadButton(apiLayoutOptions.getHeader().getGlobalActions().getDownload());
+            }
+
+            if (apiLayoutOptions.getHeader().getTitleBar() != null) {
+                result.setProgressBar(apiLayoutOptions.getHeader().getTitleBar().getProgressBar());
+                result.setShowTitle(apiLayoutOptions.getHeader().getTitleBar().getTitle());
+            }
+
+            result.setNavigator(apiLayoutOptions.getNavigator());
+
+            if (apiLayoutOptions.getBrandingBar() != null && apiLayoutOptions.getBrandingBar().getLogo() != null) {
+                result.setLogoImageSource(apiLayoutOptions.getBrandingBar().getLogo().getSrc());
+                result.setLogoImageLink(apiLayoutOptions.getBrandingBar().getLogo().getLink());
+            }
+        }
+
+        return result;
+    }
 }

@@ -21,10 +21,16 @@ public class DocumentWorkflowExampleTest {
         DocumentWorkflowExample documentWorkflowExample = new DocumentWorkflowExample( Props.get() );
         documentWorkflowExample.run();
 
-        DocumentPackage documentPackage = documentWorkflowExample.getEslClient().getPackage(documentWorkflowExample.getPackageId());
+        DocumentPackage documentPackage = documentWorkflowExample.preOrderDocumentsPackage;
 
         // Verify if the document flow was setup correctly.
         assertThat( documentPackage.getDocument(DocumentWorkflowExample.FIRST_DOCUMENT_NAME).getIndex(), is( equalTo(1)));
         assertThat( documentPackage.getDocument(DocumentWorkflowExample.SECOND_DOCUMENT_NAME).getIndex(), is( equalTo(2)));
+
+        documentPackage = documentWorkflowExample.postOrderDocumentsPackage;
+
+        // Verify if the document flow was updated correctly.
+        assertThat( documentPackage.getDocument(DocumentWorkflowExample.FIRST_DOCUMENT_NAME).getIndex(), is( equalTo(2)));
+        assertThat( documentPackage.getDocument(DocumentWorkflowExample.SECOND_DOCUMENT_NAME).getIndex(), is( equalTo(1)));
     }
 }

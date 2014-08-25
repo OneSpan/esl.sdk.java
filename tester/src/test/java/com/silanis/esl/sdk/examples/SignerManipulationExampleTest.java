@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerManipulationExampleTest {
 
     @Test
-    public void verifyAddSigner() {
+    public void verifyResult() {
         SignerManipulationExample signerManipulationExample = new SignerManipulationExample(Props.get());
         signerManipulationExample.run();
         DocumentPackage documentPackage = signerManipulationExample.createdPackageWithAddedSigner;
@@ -24,30 +24,23 @@ public class SignerManipulationExampleTest {
         assertThat("Added signer first name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getFirstName(), is(equalTo("firstName3")));
         assertThat("Added signer last name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getLastName(), is(equalTo("lastName3")));
         assertThat("Added signer title was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getTitle(), is(equalTo("Title3")));
-    }
+        assertThat("Added signer was not locked correctly", documentPackage.getSigner(signerManipulationExample.email3).isLocked(), is(equalTo(true)));
 
-    @Test
-    public void verifyRemoveSigner() {
-        SignerManipulationExample signerManipulationExample = new SignerManipulationExample(Props.get());
-        signerManipulationExample.run();
-        DocumentPackage documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
+        documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(3));
 
         assertThat("Signer 1 was not removed", documentPackage.getSigners().containsKey(signerManipulationExample.email1), is(false));
-    }
 
-    @Test
-    public void verifyUpdatedSigner() {
-        SignerManipulationExample signerManipulationExample = new SignerManipulationExample(Props.get());
-        signerManipulationExample.run();
-        DocumentPackage documentPackage = signerManipulationExample.createdPackageWithUpdatedSigner;
+        documentPackage = signerManipulationExample.createdPackageWithUpdatedSigner;
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(3));
 
-        assertThat("Signer 2 email was not updated correctly", documentPackage.getSigners().containsKey("timbob@aol.com"), is(true));
-        assertThat("Signer 2 first name was not updated correctly", documentPackage.getSigner("timbob@aol.com").getFirstName(), is(equalTo("updateFirstName1")));
-        assertThat("Signer 2 last name was not updated correctly", documentPackage.getSigner("timbob@aol.com").getLastName(), is(equalTo("updateLastName1")));
-        assertThat("Signer 2 title was updated set correctly", documentPackage.getSigner("timbob@aol.com").getTitle(), is(equalTo("updateTitle1")));
+        assertThat("Signer 2 email was not updated correctly", signerManipulationExample.updatedSigner.getEmail(), is("timbob@aol.com"));
+        assertThat("Signer 2 first name was not updated correctly", signerManipulationExample.updatedSigner.getFirstName(), is(equalTo("updateFirstName1")));
+        assertThat("Signer 2 last name was not updated correctly", signerManipulationExample.updatedSigner.getLastName(), is(equalTo("updateLastName1")));
+        assertThat("Signer 2 title was updated set correctly", signerManipulationExample.updatedSigner.getTitle(), is(equalTo("updateTitle1")));
+
+        assertThat("Signer 3 was not unlocked properly", documentPackage.getSigner(signerManipulationExample.email3).isLocked(), is(equalTo(false)));
     }
 }

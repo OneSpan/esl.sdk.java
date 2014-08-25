@@ -186,6 +186,8 @@ public class SignerConverter {
             role.setEmailMessage(message);
         }
 
+        role.setLocked(sdkSigner.isLocked());
+
         for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirement().values()) {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }

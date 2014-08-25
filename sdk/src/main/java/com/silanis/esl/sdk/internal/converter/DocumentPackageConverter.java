@@ -1,10 +1,14 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.BaseMessage;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.model.RoleType;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.builder.*;
+import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -94,6 +98,7 @@ public class DocumentPackageConverter {
                     .addSigner( new SignerConverter(signer).toAPISigner() )
                     .setIndex( signer.getSigningOrder() )
                     .setReassign( signer.canChangeSigner() )
+                    .setLocked(signer.isLocked())
                     .setId( id );
 
             signerCount++;
@@ -187,7 +192,15 @@ public class DocumentPackageConverter {
             packageBuilder.withDocument( document );
         }
 
-        return packageBuilder.build();
+        DocumentPackage documentPackage = packageBuilder.build();
+
+        ArrayList<Message> messages = new ArrayList<Message>();
+        for (com.silanis.esl.api.model.Message apiMessage : apiPackage.getMessages()) {
+            messages.add(new MessageConverter(apiMessage).toSDKMessage());
+        }
+        documentPackage.setMessages(messages);
+
+        return documentPackage;
     }
 
 }

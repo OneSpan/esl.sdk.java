@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.SignatureId;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.internal.ConversionException;
 
@@ -63,6 +64,10 @@ public class SignatureConverter {
             }
         }
 
+        if(apiApproval.getId() != null){
+            signatureBuilder.withId(new SignatureId(apiApproval.getId()));
+        }
+
         signatureBuilder.withName( apiApproval.getName() );
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
@@ -111,6 +116,10 @@ public class SignatureConverter {
         }
 
         Approval result = new Approval();
+
+        if(sdkSignature.getId() != null){
+            result.setId(sdkSignature.getId().getId());
+        }
 
         result.addField(getAPIFieldFromSignature());
 

@@ -13,7 +13,7 @@ public enum DocumentType {
     public String normalizeName(String name) {
         String normalized = name.replace(' ', '_');
 
-        if (!normalized.endsWith(extension)) {
+        if (!normalized.endsWith("." + extension)) {
             if (normalized.endsWith(".")) {
                 normalized = normalized.substring(0, normalized.length() - 1);
             }

@@ -1,30 +1,110 @@
 package com.silanis.esl.sdk.service;
 
+import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
-import com.silanis.esl.sdk.AccountMember;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
+import com.silanis.esl.sdk.internal.converter.SenderConverter;
+import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * The AccountService provides methods to help create senders for an account
+ */
 public class AccountService {
 
-    private UrlTemplate template;
-    private RestClient client;
+    private AccountApiClient apiClient;
 
-    public AccountService( RestClient client, String baseUrl ) {
-        template = new UrlTemplate( baseUrl );
-        this.client = client;
+    public AccountService(AccountApiClient apiClient) {
+        this.apiClient = apiClient;
     }
 
-    public void inviteUser( AccountMember accountMember ) {
-        String path = template.urlFor( UrlTemplate.ACCOUNT_INVITE_MEMBER_PATH ).build();
-        Sender sender = new AccountMemberConverter( accountMember ).toAPISender();
-        try {
-            client.post( path, Serialization.toJson( sender ) );
-        } catch ( Exception e ) {
-            throw new EslException( "Unable to invite member to account.", e );
+    /**
+     * Invite a new member to the account
+     *
+     * @param accountMember The member to be invited
+     */
+    public com.silanis.esl.sdk.Sender inviteUser(AccountMember accountMember) {
+        Sender sender = new AccountMemberConverter(accountMember).toAPISender();
+        sender = apiClient.inviteUser(sender);
+        return new SenderConverter(sender).toSDKSender();
+    }
+
+    /**
+     * Send a reminder invite to a sender
+     *
+     * @param senderId The sender Id
+     */
+    public void sendInvite(String senderId) {
+        apiClient.sendInvite(senderId);
+    }
+
+    /**
+     * Get a list of senders from the account base on page request
+     *
+     * @param direction of retrieved list to be sorted in ascending or descending order by name.
+     * @param request   Identifying which page of results to return.
+     * @return A list mapping all the senders to their respective name
+     */
+    public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction, PageRequest request) {
+        Result<Sender> apiResponse = apiClient.getSenders(direction, request);
+        Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
+        for (Sender sender : apiResponse.getResults()) {
+            result.put(sender.getEmail(), new SenderConverter(sender).toSDKSender());
         }
+        return result;
+    }
+
+    /**
+     * Get the sender
+     *
+     * @param senderId The sender Id
+     * @return The sender corresponding to the senderId
+     */
+    public com.silanis.esl.sdk.Sender getSender(String senderId) {
+        Sender apiResponse = apiClient.getSender(senderId);
+        return new SenderConverter(apiResponse).toSDKSender();
+    }
+
+    /**
+     * Delete a sender from the account
+     *
+     * @param senderId The sender Id
+     */
+    public void deleteSender(String senderId) {
+        apiClient.deleteSender(senderId);
+    }
+
+
+    /**
+     * Update the information of a sender
+     *
+     * @param sender   The updated info of the sender
+     * @param senderId The sender Id
+     */
+    public void updateSender(SenderInfo sender, String senderId) {
+        Sender apiSender = new SenderConverter(sender).toAPISender();
+        apiSender.setId(senderId);
+        apiClient.updateSender(apiSender, senderId);
+    }
+
+    /**
+     * Get the contacts from account
+     *
+     * @return the contacts (key=email, value=Sender)
+     */
+    public Map<String, com.silanis.esl.sdk.Sender> getContacts() {
+        List<Sender> contacts = apiClient.getContacts();
+
+        Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
+        for (Sender apiSender : contacts) {
+            result.put(apiSender.getEmail(), new SenderConverter(apiSender).toSDKSender());
+        }
+
+        return result;
     }
 }

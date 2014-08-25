@@ -13,6 +13,8 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public static final String FIELD_DECLINEBUTTON = "declineButton";
     @JsonIgnore
+    public static final String FIELD_DISABLEDOWNLOADFORUNCOMPLETEDPACKAGE = "disableDownloadForUncompletedPackage";
+    @JsonIgnore
     public static final String FIELD_DISABLEFIRSTINPERSONAFFIDAVIT = "disableFirstInPersonAffidavit";
     @JsonIgnore
     public static final String FIELD_DISABLEINPERSONAFFIDAVIT = "disableInPersonAffidavit";
@@ -50,6 +52,7 @@ public class CeremonySettings extends ViewSettings
     
     // Fields
     protected Boolean _declineButton = false;
+    protected Boolean _disableDownloadForUncompletedPackage = false;
     protected Boolean _disableFirstInPersonAffidavit = false;
     protected Boolean _disableInPersonAffidavit = false;
     protected Boolean _disableSecondInPersonAffidavit = false;
@@ -88,6 +91,30 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public boolean evalDeclineButton(){
         return _declineButton == null ? false : _declineButton.booleanValue();
+    }
+    
+        
+    
+    public CeremonySettings setDisableDownloadForUncompletedPackage( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_DISABLEDOWNLOADFORUNCOMPLETEDPACKAGE,value);
+        // TODO With proper compare
+        // if ( this._disableDownloadForUncompletedPackage == value ) return this;
+        this._disableDownloadForUncompletedPackage = value;
+        setDirty(FIELD_DISABLEDOWNLOADFORUNCOMPLETEDPACKAGE);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetDisableDownloadForUncompletedPackage( Boolean value ){
+        if ( value != null ) { this.setDisableDownloadForUncompletedPackage( value ); }
+        return this;
+    }
+    public Boolean getDisableDownloadForUncompletedPackage(){
+        return _disableDownloadForUncompletedPackage;
+    }
+    @JsonIgnore
+    public boolean evalDisableDownloadForUncompletedPackage(){
+        return _disableDownloadForUncompletedPackage == null ? false : _disableDownloadForUncompletedPackage.booleanValue();
     }
     
         

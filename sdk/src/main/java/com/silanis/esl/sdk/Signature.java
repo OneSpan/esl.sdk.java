@@ -12,6 +12,8 @@ public class Signature implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String signerEmail;
+
+    private SignatureId signatureId;
     private Placeholder roleId;
     private int page;
     private double x;
@@ -144,4 +146,13 @@ public class Signature implements Serializable {
     }
 
     public boolean isPlaceholderSignature() { return roleId != null; }
+
+
+    public SignatureId getId() {
+        return signatureId;
+    }
+
+    public void setId(SignatureId signatureId) {
+        this.signatureId = signatureId;
+    }
 }

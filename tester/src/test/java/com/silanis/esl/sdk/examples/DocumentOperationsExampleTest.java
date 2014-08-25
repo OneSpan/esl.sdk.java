@@ -12,8 +12,9 @@ import static org.hamcrest.core.Is.is;
  * Created by chi-wing on 5/5/14.
  */
 public class DocumentOperationsExampleTest {
+
     @Test
-    public void verifyNewDocument() {
+    public void verifyResult() {
         DocumentOperationsExample documentOperationsExample = new DocumentOperationsExample(Props.get());
         documentOperationsExample.run();
 
@@ -25,30 +26,19 @@ public class DocumentOperationsExampleTest {
 
         Document document = documentPackage.getDocument(DocumentOperationsExample.ORIGINAL_DOCUMENT_NAME);
         assertThat("Document's description was not set correctly", document.getDescription(), equalTo(DocumentOperationsExample.ORIGINAL_DOCUMENT_DESCRIPTION));
-    }
 
-    @Test
-    public void verifyUpdatedDocument() {
-        DocumentOperationsExample documentOperationsExample = new DocumentOperationsExample(Props.get());
-        documentOperationsExample.run();
-
-        DocumentPackage documentPackage = documentOperationsExample.retrievedPackageWithUpdatedDocument;
+        documentPackage = documentOperationsExample.retrievedPackageWithUpdatedDocument;
+        document = documentOperationsExample.retrievedUpdatedDocument;
 
         // Verify if the document was updated correctly.
 
         assertThat("Original document still exists.", documentPackage.getDocument(DocumentOperationsExample.ORIGINAL_DOCUMENT_NAME), is(nullValue()));
-        assertThat("Document's name was not updated correctly.", documentPackage.getDocument(DocumentOperationsExample.UPDATED_DOCUMENT_NAME), is(notNullValue()));
+        assertThat("Document should have one signature.", documentPackage.getDocument(DocumentOperationsExample.UPDATED_DOCUMENT_NAME).getSignatures().size(), is(greaterThan(0)));
 
-        Document document = documentPackage.getDocument(DocumentOperationsExample.UPDATED_DOCUMENT_NAME);
+        assertThat("Document's name was not updated correctly.", document.getName(), equalTo(DocumentOperationsExample.UPDATED_DOCUMENT_NAME));
         assertThat("Document's description was not updated correctly", document.getDescription(), equalTo(DocumentOperationsExample.UPDATED_DOCUMENT_DESCRIPTION));
-    }
 
-    @Test
-    public void verifyDeletedDocument() {
-        DocumentOperationsExample documentOperationsExample = new DocumentOperationsExample(Props.get());
-        documentOperationsExample.run();
-
-        DocumentPackage documentPackage = documentOperationsExample.retrievedPackageWithDeletedDocument;
+        documentPackage = documentOperationsExample.retrievedPackageWithDeletedDocument;
 
         // Verify if the document was deleted correctly.
 

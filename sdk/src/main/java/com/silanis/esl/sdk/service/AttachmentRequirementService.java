@@ -1,12 +1,12 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.RequirementStatus;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
+import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 
 import java.util.UUID;
 
@@ -15,10 +15,12 @@ import java.util.UUID;
  */
 public class AttachmentRequirementService {
 
+    private AttachmentRequirementApiClient apiClient;
     private UrlTemplate template;
     private RestClient client;
 
-    public AttachmentRequirementService(RestClient restClient, String baseUrl) {
+    public AttachmentRequirementService(AttachmentRequirementApiClient apiClient, RestClient restClient, String baseUrl) {
+        this.apiClient = apiClient;
         this.client = restClient;
         template = new UrlTemplate(baseUrl);
     }
@@ -31,22 +33,11 @@ public class AttachmentRequirementService {
      * @param attachmentName
      */
     public void acceptAttachment(PackageId packageId, Signer signer, String attachmentName) {
-        String path = template.urlFor(UrlTemplate.SIGNER_PATH)
-                .replace("{packageId}", packageId.getId())
-                .replace("{roleId}", signer.getId())
-                .build();
-
         signer.getAttachmentRequirement().get(attachmentName).setSenderComment("");
         signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.COMPLETE);
 
-        Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
-
-        try {
-            String json = Serialization.toJson(apiPayload);
-            client.put(path, json);
-        } catch (Exception e) {
-            throw new EslException("Could not accept attachment for signer." + " Exception: " + e.getMessage());
-        }
+        Role apiRole = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
+        apiClient.acceptAttachment(packageId.getId(), signer.getId(), apiRole);
     }
 
     /**
@@ -58,22 +49,11 @@ public class AttachmentRequirementService {
      * @param senderComment  the sender's rejection comment
      */
     public void rejectAttachment(PackageId packageId, Signer signer, String attachmentName, String senderComment) {
-        String path = template.urlFor(UrlTemplate.SIGNER_PATH)
-                .replace("{packageId}", packageId.getId())
-                .replace("{roleId}", signer.getId())
-                .build();
-
         signer.getAttachmentRequirement().get(attachmentName).setSenderComment(senderComment);
         signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.REJECTED);
 
-        Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
-
-        try {
-            String json = Serialization.toJson(apiPayload);
-            client.put(path, json);
-        } catch (Exception e) {
-            throw new EslException("Could not reject attachment for signer." + " Exception: " + e.getMessage());
-        }
+        Role apiRole = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
+        apiClient.rejectAttachment(packageId.getId(),apiRole);
     }
 
     /**
@@ -91,6 +71,8 @@ public class AttachmentRequirementService {
 
         try {
             return client.getBytes(path);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not download the pdf attachment.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the pdf attachment." + " Exception: " + e.getMessage());
         }

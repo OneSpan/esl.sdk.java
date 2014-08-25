@@ -3,9 +3,7 @@ package com.silanis.esl.sdk.service;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.FieldSummary;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 
 import java.util.List;
 
@@ -40,6 +38,8 @@ public class FieldSummaryService {
 
 
             fieldSummary = Serialization.fromJsonToList(stringResponse, FieldSummary.class);
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Could not get the field summary.", e );
         } catch ( Exception e ) {
             throw new EslException( "Could not get the field summary.", e );
         }

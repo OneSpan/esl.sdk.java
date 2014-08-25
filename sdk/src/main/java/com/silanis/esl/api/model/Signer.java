@@ -38,6 +38,8 @@ public class Signer extends User
     @JsonIgnore
     public static final String FIELD_ID = "id";
     @JsonIgnore
+    public static final String FIELD_KNOWLEDGEBASEDAUTHENTICATION = "knowledgeBasedAuthentication";
+    @JsonIgnore
     public static final String FIELD_LANGUAGE = "language";
     @JsonIgnore
     public static final String FIELD_LASTNAME = "lastName";
@@ -49,6 +51,8 @@ public class Signer extends User
     public static final String FIELD_PROFESSIONALIDENTITYFIELDS = "professionalIdentityFields";
     @JsonIgnore
     public static final String FIELD_SIGNATURE = "signature";
+    @JsonIgnore
+    public static final String FIELD_SPECIALTYPES = "specialTypes";
     @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
@@ -63,6 +67,7 @@ public class Signer extends User
     protected Auth _auth;
     protected Delivery _delivery;
     protected Group _group = null;
+    protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
     
     // Accessors
         
@@ -239,6 +244,25 @@ public class Signer extends User
     
         
     
+    public Signer setKnowledgeBasedAuthentication( KnowledgeBasedAuthentication value ){
+        // TODO With proper compare
+        // if ( this._knowledgeBasedAuthentication == value ) return this;
+        this._knowledgeBasedAuthentication = value;
+        setDirty(FIELD_KNOWLEDGEBASEDAUTHENTICATION);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetKnowledgeBasedAuthentication( KnowledgeBasedAuthentication value ){
+        if ( value != null ) { this.setKnowledgeBasedAuthentication( value ); }
+        return this;
+    }
+    public KnowledgeBasedAuthentication getKnowledgeBasedAuthentication(){
+        return _knowledgeBasedAuthentication;
+    }
+    
+        
+    
     @Override
     public Signer setLanguage( String value ){
         super.setLanguage(value);
@@ -324,6 +348,26 @@ public class Signer extends User
     @JsonIgnore
     public Signer safeSetSignature( SignatureStyle value ){
         if ( value != null ) { this.setSignature( value ); }
+        return this;
+    }
+    
+        
+    
+    @Override
+    public Signer setSpecialTypes( List<String> value ){
+        super.setSpecialTypes(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetSpecialTypes( List<String> value ){
+        if ( value != null ) { this.setSpecialTypes( value ); }
+        return this;
+    }
+    // List adder
+    @Override
+    public Signer addSpecialType( String value ){
+        super.addSpecialType(value);
         return this;
     }
     

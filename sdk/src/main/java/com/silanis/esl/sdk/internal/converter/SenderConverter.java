@@ -106,6 +106,7 @@ public class SenderConverter {
         result.setType(new SenderTypeConverter(apiSender.getType()).toSDKSenderType());
         result.setTitle(apiSender.getTitle());
         result.setUpdated(apiSender.getUpdated());
+        result.setExternal(new ExternalConverter(apiSender.getExternal()).toSDKExternal());
 
         return result;
     }

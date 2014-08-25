@@ -56,7 +56,7 @@ public class CustomSenderInfoExample extends SDKSample {
                         .withLastName("lastName")
                         .withCompany("company")
                         .withTitle("title")
-                        .withLanguage("language")
+                        .withLanguage("fr")
                         .withPhoneNumber("phoneNumber")
                         .withStatus(SenderStatus.ACTIVE)
                         .build());

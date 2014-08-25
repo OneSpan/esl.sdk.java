@@ -29,6 +29,8 @@ public class Features extends Model
     @JsonIgnore
     public static final String FIELD_INBOXFILTERING = "inboxFiltering";
     @JsonIgnore
+    public static final String FIELD_KBA = "kBA";
+    @JsonIgnore
     public static final String FIELD_NOTARIZE = "notarize";
     @JsonIgnore
     public static final String FIELD_SHOWDOCUMENTSPREVIEW = "showDocumentsPreview";
@@ -48,6 +50,7 @@ public class Features extends Model
     protected Boolean _forceLogin = false;
     protected Boolean _groups = false;
     protected Boolean _inboxFiltering = false;
+    protected Boolean _kBA = false;
     protected Boolean _notarize = false;
     protected Boolean _showDocumentsPreview = false;
     protected Boolean _tamperSealEvidence = false;
@@ -267,6 +270,30 @@ public class Features extends Model
     @JsonIgnore
     public boolean evalInboxFiltering(){
         return _inboxFiltering == null ? false : _inboxFiltering.booleanValue();
+    }
+    
+        
+    
+    public Features setKBA( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_KBA,value);
+        // TODO With proper compare
+        // if ( this._kBA == value ) return this;
+        this._kBA = value;
+        setDirty(FIELD_KBA);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Features safeSetKBA( Boolean value ){
+        if ( value != null ) { this.setKBA( value ); }
+        return this;
+    }
+    public Boolean getKBA(){
+        return _kBA;
+    }
+    @JsonIgnore
+    public boolean evalKBA(){
+        return _kBA == null ? false : _kBA.booleanValue();
     }
     
         

@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -22,6 +21,8 @@ public class DocumentWorkflowExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream1;
     private InputStream documentInputStream2;
+    public DocumentPackage preOrderDocumentsPackage;
+    public DocumentPackage postOrderDocumentsPackage;
     public static final String FIRST_DOCUMENT_NAME = "First Document";
     public static final String SECOND_DOCUMENT_NAME = "Second Document";
 
@@ -64,7 +65,14 @@ public class DocumentWorkflowExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
+        preOrderDocumentsPackage = eslClient.getPackage(packageId);
 
-        eslClient.sendPackage( packageId );
+        postOrderDocumentsPackage = eslClient.getPackage(packageId);
+        postOrderDocumentsPackage.getDocument(FIRST_DOCUMENT_NAME).setIndex(2);
+        postOrderDocumentsPackage.getDocument(SECOND_DOCUMENT_NAME).setIndex(1);
+
+        eslClient.getPackageService().orderDocuments(postOrderDocumentsPackage);
+
+        eslClient.sendPackage(packageId);
     }
 }

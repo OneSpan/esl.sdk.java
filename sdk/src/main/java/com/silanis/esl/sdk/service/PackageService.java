@@ -13,15 +13,8 @@ import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.internal.DateHelper;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
-import com.silanis.esl.sdk.internal.converter.CompletionReportConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.internal.converter.SignerConverter;
-import org.joda.time.DateTime;
+import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.converter.*;
 
 import java.util.*;
 
@@ -53,10 +46,36 @@ public class PackageService {
 
         try {
             String response = client.post(path, packageJson);
-
             return Serialization.fromJson(response, PackageId.class);
+        }catch (RequestException e) {
+            throw new EslServerException("Could not create a new package", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package", e);
+        }
+    }
+
+
+    /**
+     * Creates a package and uploads the documents in one step
+     *
+     * @param aPackage
+     * @param documents
+     * @return
+     * @throws EslException
+     */
+    public PackageId createPackageOneStep(Package aPackage, Collection<com.silanis.esl.sdk.Document> documents) throws EslException{
+        String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
+                .build();
+        String packageJson = Serialization.toJson(aPackage);
+
+        try {
+            String response = client.postMultipartPackage(path, documents, packageJson);
+            return Serialization.fromJson(response, PackageId.class);
+
+        }catch (RequestException e) {
+            throw new EslServerException("Could not create a new package in one-step", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create a new package in one-step", e);
         }
     }
 
@@ -83,6 +102,8 @@ public class PackageService {
             String response = client.post(path, packageJson);
 
             newPackageId = Serialization.fromJson(response, PackageId.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a new package", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package", e);
         }
@@ -134,6 +155,8 @@ public class PackageService {
         String packageJson = Serialization.toJson( aPackage );
         try {
             client.post(path, packageJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
             throw new EslException("Could not update the package.", e);
         }
@@ -147,7 +170,11 @@ public class PackageService {
     public DocumentPackage getPackage(PackageId packageId) {
         Package aPackage = getApiPackage(packageId.getId());
 
-        return new DocumentPackageConverter(aPackage).toSDKPackage();
+        return packageConverter(aPackage).toSDKPackage();
+    }
+
+    private DocumentPackageConverter packageConverter(Package aPackage){
+        return new DocumentPackageConverter(aPackage);
     }
 
     /**
@@ -164,6 +191,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.get(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package.", e);
         } catch (Exception e) {
             throw new EslException("Could not get package.", e);
         }
@@ -196,6 +225,8 @@ public class PackageService {
 
         try {
             client.postMultipartFile(path, fileName, fileBytes, documentJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload document to package.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload document to package.", e);
         }
@@ -215,6 +246,8 @@ public class PackageService {
                 .build();
         try {
             client.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete document from package.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete document from package.", e);
         }
@@ -222,12 +255,41 @@ public class PackageService {
 
 
     /**
-     * Updates the document from the package
+     * Get the document's metadata from the package.
+     *
+     * @param documentPackage The DocumentPackage we want to get document from.
+     * @param documentId Id of document to get.
+     * @return the document's metadata
+     */
+    public com.silanis.esl.sdk.Document getDocumentMetadata(DocumentPackage documentPackage, String documentId) {
+        String path = template.urlFor(UrlTemplate.DOCUMENT_ID_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .replace("{documentId}", documentId)
+                .build();
+
+        try {
+            String response = client.get(path);
+            Document apilDocument = Serialization.fromJson(response, Document.class);
+
+            // Wipe out the members not related to the metadata
+            apilDocument.setApprovals(new ArrayList<Approval>());
+            apilDocument.setFields(new ArrayList<Field>());
+            apilDocument.setPages(new ArrayList<com.silanis.esl.api.model.Page>());
+
+            return new DocumentConverter(apilDocument, new DocumentPackageConverter(documentPackage).toAPIPackage()).toSDKDocument();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the document's metadata.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the document's metadata." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates the document's metadata from the package.
      *
      * @param documentPackage
      * @param document
      */
-
     public void updateDocumentMetadata(DocumentPackage documentPackage, com.silanis.esl.sdk.Document document) {
         String path = template.urlFor(UrlTemplate.DOCUMENT_ID_PATH)
                 .replace("{packageId}", documentPackage.getId().getId())
@@ -236,19 +298,93 @@ public class PackageService {
 
         Document internalDoc = new DocumentConverter(document).toAPIDocumentMetadata();
 
-        // Wipe out the members not related to the metadata
-        internalDoc.setApprovals(new ArrayList<Approval>());
-        internalDoc.setFields(new ArrayList<Field>());
-        internalDoc.setPages(new ArrayList<com.silanis.esl.api.model.Page>());
-
         try {
             String json = Serialization.toJson(internalDoc);
 
             client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the document's metadata.", e);
         } catch (Exception e) {
-            throw new EslException("Could not upload the document to package." + " Exception: " + e.getMessage());
+            throw new EslException("Could not update the document's metadata." + " Exception: " + e.getMessage());
         }
     }
+
+    /**
+     * Updates the documents signing order
+     *
+     * @param documentPackage
+     */
+    public void orderDocuments(DocumentPackage documentPackage){
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .build();
+
+        List<Document> documents = new ArrayList<Document>();
+        for( com.silanis.esl.sdk.Document document : documentPackage.getDocuments()){
+            documents.add(new DocumentConverter(document).toAPIDocumentMetadata());
+        }
+        try {
+            String json = Serialization.toJson(documents);
+
+            client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not order the documents.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not order the documents." + " Exception: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Upload documents with external content to the package.
+     *
+     * @param packageId
+     */
+    public void addDocumentWithExternalContent(String packageId, List<com.silanis.esl.sdk.Document> providerDocuments){
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", packageId)
+                .build();
+
+        List<Document> apiDocuments = new ArrayList<Document>();
+        for( com.silanis.esl.sdk.Document document : providerDocuments){
+            apiDocuments.add(new DocumentConverter(document).toAPIDocumentMetadata());
+        }
+        try {
+            String json = Serialization.toJson(apiDocuments);
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload the documents.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not upload the documents." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Gets the documents from the history list
+     *
+     * @return
+     */
+    public List<com.silanis.esl.sdk.Document> getDocuments(){
+        String path = template.urlFor(UrlTemplate.PROVIDER_DOCUMENTS).build();
+
+        try {
+            String stringResponse = client.get(path);
+            List<Document> apiResponse = JacksonUtil.deserialize(stringResponse, new TypeReference<List<Document>>() {
+            });
+            List<com.silanis.esl.sdk.Document> documents = new ArrayList<com.silanis.esl.sdk.Document>();
+            for (Document document : apiResponse) {
+                documents.add(new DocumentConverter(document, null).toSDKDocument());
+            }
+            return documents;
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Failed to retrieve documents from history List.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Failed to retrieve documents from history list.", e);
+        }
+    }
+
 
     /**
      * Sends the package.
@@ -263,6 +399,8 @@ public class PackageService {
         String json = "{\"status\":\"SENT\"}";
         try {
             client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not send the package.", e);
         } catch (Exception e) {
             throw new EslException("Could not send the package.", e);
         }
@@ -282,6 +420,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.get(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not retrieve list of roles for package with id " + packageId.getId(), e);
         } catch (Exception e) {
             throw new EslException("Could not retrieve list of roles for package with id " + packageId.getId(), e);
         }
@@ -305,7 +445,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.post(path, roleJson);
-
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add role.", e);
         } catch (Exception e) {
             throw new EslException("Could not add role.", e);
         }
@@ -330,6 +471,8 @@ public class PackageService {
         String stringResponse;
         try {
             stringResponse = client.put(path, roleJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update role", e);
         } catch (Exception e) {
             throw new EslException("Could not update role", e);
         }
@@ -350,6 +493,8 @@ public class PackageService {
                 .build();
         try {
             client.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete role", e);
         } catch (Exception e) {
             throw new EslException("Could not delete role", e);
         }
@@ -358,8 +503,8 @@ public class PackageService {
     /**
      * Downloads a document from the package and returns a byte[].
      *
-     * @param packageId
-     * @param document
+     * @param packageId Id of the DocumentPackage we want to download
+     * @param document Id of the Document we want to download
      * @return The document in bytes
      * @throws EslException
      */
@@ -374,15 +519,39 @@ public class PackageService {
                 .build();
         try {
             return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the pdf document.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the pdf document.", e);
         }
     }
 
     /**
+     * Downloads the original document (without fields) from the package and returns a byte[].
+     *
+     * @param packageId Id of the DocumentPackage we want to download
+     * @param documentId Id of the Document we want to download
+     * @return The original document in bytes
+     * @throws EslException
+     */
+    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) throws EslException {
+        String path = template.urlFor(UrlTemplate.ORIGINAL_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{documentId}", documentId)
+                .build();
+        try {
+            return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the original document.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the original document.", e);
+        }
+    }
+
+    /**
      * Downloads the documents (in a zip archive) from the package and returns a byte[].
      *
-     * @param packageId
+     * @param packageId Id of the DocumentPackage we want to download
      * @return The zipped documents in bytes
      * @throws EslException
      */
@@ -392,6 +561,8 @@ public class PackageService {
                 .build();
         try {
             return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the documents to a zip file.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the documents to a zip file.", e);
         }
@@ -410,6 +581,8 @@ public class PackageService {
                 .build();
         try {
             return client.getBytes(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not download the evidence summary.", e);
         } catch (Exception e) {
             throw new EslException("Could not download the evidence summary.", e);
         }
@@ -441,6 +614,8 @@ public class PackageService {
             JsonNode topNode = objectMapper.readTree(stringResponse);
             String statusString = topNode.get("status").textValue();
             return SigningStatus.statusForToken(statusString);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not retrieve signing status.", e);
         } catch (Exception e) {
             throw new EslException("Could not retrieve signing status.", e);
         }
@@ -465,6 +640,8 @@ public class PackageService {
             Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {
             });
             return convertToPage(results, request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package list.", e);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EslException("Could not get package list. Exception: " + e.getMessage());
@@ -494,6 +671,8 @@ public class PackageService {
 
         try {
             client.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Unable to delete package.", e);
         } catch (Exception e) {
             e.printStackTrace();
             throw new EslException("Unable to delete package. Exception: " + e.getMessage());
@@ -519,6 +698,8 @@ public class PackageService {
         try {
             String payload = JacksonUtil.serialize(jsonMap);
             client.post(path, payload);
+        } catch (RequestException e) {
+            throw new EslException("Could not send email notification to signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not send email notification to signer. Exception: " + e.getMessage());
         }
@@ -554,6 +735,8 @@ public class PackageService {
 
         try {
             client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not send email notification.", e);
         } catch (Exception e) {
             throw new EslException("Could not send email notification.  " + e.getMessage());
         }
@@ -571,11 +754,21 @@ public class PackageService {
             });
 
             return convertToPage(results, request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get template list.", e);
         } catch (Exception e) {
             throw new EslException("Could not get template list. Exception: " + e.getMessage());
         }
     }
 
+
+    /**
+     * Adds a signer to the specified package
+     *
+     * @param packageId The id of the package in which the signer will be added
+     * @param signer The signer to be added
+     * @return The role id of the signer
+     */
     public String addSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
@@ -589,11 +782,44 @@ public class PackageService {
             Role apiRole = Serialization.fromJson(response, Role.class);
             return apiRole.getId();
 
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not add signer." + " Exception: " + e.getMessage());
         }
     }
 
+    /**
+     * Get a signer from the specified package
+     *
+     * @param packageId The id of the package in which to get the signer
+     * @param signerId The id of signer to get
+     * @return The signer
+     */
+    public com.silanis.esl.sdk.Signer getSigner(PackageId packageId, String signerId) {
+        String path = template.urlFor(UrlTemplate.SIGNER_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signerId)
+                .build();
+
+        try {
+            String response = client.get(path);
+            Role apiRole = Serialization.fromJson(response, Role.class);
+            return new SignerConverter(apiRole).toSDKSigner();
+
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Removes a signer from a package
+     *
+     * @param packageId The id of the package containing the signer to be deleted
+     * @param signerId The role id of the signer to be deleted
+     */
     public void removeSigner(PackageId packageId, String signerId) {
         String path = template.urlFor(UrlTemplate.SIGNER_PATH)
                 .replace("{packageId}", packageId.getId())
@@ -602,11 +828,44 @@ public class PackageService {
         try {
             client.delete(path);
             return;
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete signer." + " Exception: " + e.getMessage());
         }
     }
 
+    /**
+     * Updates the signer order in a package.
+     *
+     * @param documentPackage The id of the package to update signer order
+     */
+    public void orderSigners(DocumentPackage documentPackage) {
+        String path = template.urlFor(UrlTemplate.ROLE_PATH)
+                .replace("{packageId}", documentPackage.getId().getId())
+                .build();
+
+        List<Role> roles = new ArrayList<Role>();
+        for (com.silanis.esl.sdk.Signer signer : documentPackage.getSigners().values()) {
+            roles.add(new SignerConverter(signer).toAPIRole(signer.getId()));
+        }
+
+        try {
+            String json = Serialization.toJson(roles);
+            client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not order signers.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not order signers." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates a signer's information from a package
+     *
+     * @param packageId The id of the package containing the signer to be updated
+     * @param signer The signer with the updated information
+     */
     public void updateSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer){
         Role apiPayload = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
 
@@ -618,24 +877,80 @@ public class PackageService {
         try {
             String json = Serialization.toJson(apiPayload);
             client.put(path, json);
+        } catch (RequestException e) {
+            throw new EslException("Could not update signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not update signer." + " Exception: " + e.getMessage());
         }
     }
 
+    /**
+     * Unlock a signer which has been locked out due to too many failed authentication attempts.
+     *
+     * @param signerId If not null, the id of the signer who's status we are to retrieve
+     */
+    public void unlockSigner(PackageId packageId,String signerId){
+        String path = template.urlFor(UrlTemplate.ROLE_UNLOCK_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signerId)
+                .build();
+        try{
+            client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslException("Could not unlock signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not unlock signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the completion report from a sender
+     *
+     * @param packageStatus Status of the packages
+     * @param senderId Id of the sender
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report
+     * @return The completion report
+     */
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String path = getCompletionReportUrl(packageStatus, senderId, from, to);
+        String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
 
         try {
             String json = client.get(path);
             CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
             return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
-        } catch (Exception e) {
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the completion report.", e);
+        }
+        catch (Exception e) {
             throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
         }
     }
 
-    private String getCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
+    /**
+     * Downloads the completion report from a sender in csv format.
+     *
+     * @param packageStatus Status of the packages
+     * @param senderId Id of the sender
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report in csv format
+     */
+    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
+        String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
+
+        try {
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the completion report in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the completion report in csv." + " Exception: " + e.getMessage());
+        }
+    }
+
+    private String buildCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
@@ -647,14 +962,56 @@ public class PackageService {
                 .build();
     }
 
-    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String path = getCompletionReportUrl(packageStatus, senderId, from, to);
+    /**
+     * Downloads the usage report.
+     *
+     * @param from Starting date
+     * @param to Ending date
+     * @return The usage report
+     */
+    public com.silanis.esl.sdk.UsageReport downloadUsageReport(Date from, Date to) {
+        String path = buildUsageReportUrl(from, to);
+
+        try {
+            String json = client.get(path);
+            com.silanis.esl.api.model.UsageReport apiUsageReport = Serialization.fromJson(json, com.silanis.esl.api.model.UsageReport.class);
+            return new UsageReportConverter(apiUsageReport).toSDKUsageReport();
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the usage report.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Could not download the usage report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the usage report in csv format.
+     * @param from Starting date
+     * @param to Ending date
+     * @return The usage report in csv format
+     */
+    public String downloadUsageReportAsCSV(Date from, Date to) {
+        String path = buildUsageReportUrl(from, to);
 
         try {
             return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the usage report in csv.", e);
         } catch (Exception e) {
-            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
+            throw new EslException("Could not download the usage report in csv." + " Exception: " + e.getMessage());
         }
+
+    }
+
+    private String buildUsageReportUrl(Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        return template.urlFor(UrlTemplate.USAGE_REPORT_PATH)
+                .replace("{from}", fromDate)
+                .replace("{to}", toDate)
+                .build();
     }
 
 }

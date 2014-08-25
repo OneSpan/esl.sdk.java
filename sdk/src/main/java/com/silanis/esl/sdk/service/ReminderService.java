@@ -6,9 +6,7 @@ import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.ReminderSchedule;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.ReminderScheduleConverter;
 
 public class ReminderService {
@@ -32,6 +30,8 @@ public class ReminderService {
             else {
                 return null;
             }
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Failed to retrieve reminder.", e );
         } catch ( Exception e ) {
             throw new EslException( "Failed to retrieve reminder.", e );
         }
@@ -44,6 +44,8 @@ public class ReminderService {
             String stringResponse = client.post( path, Serialization.toJson( apiReminderSchedule ) );
             PackageReminderSchedule apiResponse = Serialization.fromJson( stringResponse, PackageReminderSchedule.class );
             return new ReminderScheduleConverter( apiResponse ).toSDKReminderSchedule();
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to create a new reminder.", e );
         } catch ( Exception e ) {
             throw new EslException( "Unable to create a new reminder.", e );
         }
@@ -53,6 +55,8 @@ public class ReminderService {
         String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", packageId.getId() ).build();
         try {
             client.delete( path );
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to clear reminder schedule for package with ID: " + packageId.getId(), e );
         } catch ( Exception e ) {
             throw new EslException( "Unable to clear reminder schedule for package with ID: " + packageId.getId(), e );
         }

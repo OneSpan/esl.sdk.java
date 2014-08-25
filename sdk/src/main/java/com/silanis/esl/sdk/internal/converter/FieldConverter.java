@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.FieldType;
 import com.silanis.esl.sdk.FieldId;
+import com.silanis.esl.sdk.FieldStyle;
 
 /**
  * User: jessica
@@ -57,7 +58,13 @@ public class FieldConverter {
         }
 
         result.setValue(sdkField.getValue());
-        result.setType(FieldType.INPUT);
+
+        if (sdkField.getStyle() == FieldStyle.BOUND_QRCODE) {
+            result.setType(FieldType.IMAGE);
+        } else {
+            result.setType(FieldType.INPUT);
+        }
+
         result.setSubtype( new FieldStyleAndSubTypeConverter(sdkField.getStyle()).toAPIFieldSubtype() );
         result.setBinding( sdkField.getBinding());
 

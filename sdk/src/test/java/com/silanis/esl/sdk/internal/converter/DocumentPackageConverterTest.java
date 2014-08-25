@@ -1,10 +1,14 @@
 
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.Message;
 import com.silanis.esl.api.model.PackageStatus;
+import com.silanis.esl.api.model.User;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -89,7 +93,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiPackage1 = createTypicalAPIDocumentPackage();
         sdkDocumentPackage1 = new DocumentPackageConverter(apiPackage1).toSDKPackage();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiPackage1, is( notNullValue() ) );
+        assertThat("Converter returned a null sdk object for a non null api object", sdkDocumentPackage1, is( notNullValue() ) );
         assertThat("ID was not correctly set", apiPackage1.getId(), is( equalTo(sdkDocumentPackage1.getId().toString()) ));
         assertThat("Language was not correctly set", apiPackage1.getLanguage(), is( equalTo(sdkDocumentPackage1.getLanguage().getLanguage()) ));
         assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is( equalTo(sdkDocumentPackage1.getAutocomplete()) ));
@@ -97,7 +101,10 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Due date was not correctly set", apiPackage1.getDue(), is( equalTo(sdkDocumentPackage1.getExpiryDate()) ));
         assertThat("Message was not correctly set", apiPackage1.getEmailMessage(), is( equalTo(sdkDocumentPackage1.getPackageMessage()) ));
         assertThat("Name was not correctly set", apiPackage1.getName(), is( equalTo(sdkDocumentPackage1.getName()) ));
-        assertThat("Status was not correctly set", apiPackage1.getStatus(), is( equalTo(sdkDocumentPackage1.getStatus() ) ));
+        assertThat("Status was not correctly set", apiPackage1.getStatus(), is(equalTo(sdkDocumentPackage1.getStatus())));
+        assertThat("Message status was not correctly set", apiPackage1.getMessages().get(0).getStatus().toString(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getStatus().toString())));
+        assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getContent())));
+
     }
 
     @Override
@@ -125,9 +132,8 @@ public class DocumentPackageConverterTest implements ConverterTest {
     private com.silanis.esl.sdk.DocumentPackage createTypicalSDKDocumentPackage() {
         com.silanis.esl.sdk.DocumentPackage sdkDocumentPackage = PackageBuilder.newPackageNamed("SDK Package Name")
                 .withStatus(PackageStatus.DRAFT)
-                .describedAs( "typical description")
+                .describedAs("typical description")
                 .withEmailMessage("typical email message")
-                .withEmailMessage("Email message")
                 .withLanguage(Locale.CANADA)
                 .build();
         return sdkDocumentPackage;
@@ -149,6 +155,16 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiDocumentPackage.setDue(new Date());
         apiDocumentPackage.setName("API package name");
         apiDocumentPackage.setStatus(PackageStatus.DRAFT);
+
+        Message apiMessage = new Message();
+        apiMessage.setContent("opt-out reason");
+        apiMessage.setStatus(com.silanis.esl.api.model.MessageStatus.NEW);
+        User fromUser = new User();
+        fromUser.setFirstName("John");
+        fromUser.setLastName("Smith");
+        fromUser.setEmail("email@email.com");
+        apiMessage.setFrom(fromUser);
+        apiDocumentPackage.setMessages(new ArrayList<Message>(Arrays.asList(apiMessage)));
 
         return apiDocumentPackage;
     }

@@ -1,22 +1,20 @@
 package com.silanis.esl.sdk.internal;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class Support {
 
-    private static final Logger LOG = Logger.getLogger(Support.class.getName());
+    private static Logger LOG = Logger.getLogger(Support.class.getName());
 
     public void logRequest(String httpVerb, String path, String jsonPayload) {
-        LOG.log(Level.FINE, "{0} on {1}", new Object[] {httpVerb, path});
-        LOG.fine(jsonPayload);
+        LOG.log(Level.FINE, "{0} on {1}\n {2}", new Object[]{httpVerb, path, jsonPayload});
     }
     public void logRequest(String httpVerb, String path) {
-        LOG.log(Level.FINE, "{0} on {1}", new Object[] {httpVerb, path});
+        LOG.log(Level.FINE, "{0} on {1}", new Object[]{httpVerb, path});
     }
 
     public void logResponse(String response) {
-        LOG.fine(response);
+        LOG.fine("RESPONSE: \n" + response);
     }
 
     public void logError( com.silanis.esl.api.model.Error errorMessage){
