@@ -41,11 +41,11 @@ public class SenderManipulationExampleTest {
     }
 
     private boolean assertSenderWasDeleted(String senderEmail) {
-        int i = 1;
-        Map<String, Sender> senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i, 100));
+        int i = 0;
+        Map<String, Sender> senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 100));
         while (!senders.containsKey(senderEmail)) {
             if (senders.size() == 100) {
-                senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++, 100));
+                senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++ * 100, 100));
             } else {
                 return true;
             }

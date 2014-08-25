@@ -41,11 +41,11 @@ public class CustomSenderInfoExampleTest {
 
     // Get next page of senders until sender is found, or reach end of list
     private Map<String, Sender> assertSenderWasAdded(int numberOfResults, String senderEmail) {
-        int i = 1;
-        Map<String, Sender> senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i, numberOfResults));
+        int i = 0;
+        Map<String, Sender> senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, numberOfResults));
         while (!senders.containsKey(senderEmail)) {
             assertThat("Sender was not added correctly.", senders.size(), is(numberOfResults));
-            senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++, numberOfResults));
+            senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++ * numberOfResults, numberOfResults));
         }
         return senders;
     }
