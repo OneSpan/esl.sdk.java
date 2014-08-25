@@ -19,10 +19,12 @@ public class SenderManipulationExample extends SDKSample {
     public AccountMember accountMember2;
     public AccountMember accountMember3;
     public SenderInfo updatedSenderInfo;
+    Sender retrievedSender1, retrievedSender2, retrievedSender3;
+    Sender retrievedUpdatedSender3;
 
-    public Map<String, Sender> accountMembers;
-    public Map<String, Sender> accountMembersWithDeletedSender;
-    public Map<String, Sender> accountMembersWithUpdatedSender;
+    public static void main( String... args ) {
+        new SenderManipulationExample( Props.get() ).run();
+    }
 
     public SenderManipulationExample(Properties properties){
         this(properties.getProperty("api.key"),
@@ -69,15 +71,16 @@ public class SenderManipulationExample extends SDKSample {
                 .build();
 
         Sender createdSender1 = eslClient.getAccountService().inviteUser(accountMember1);
-        Sender retrievedSender1 = eslClient.getAccountService().getSender(createdSender1.getId());
         Sender createdSender2 = eslClient.getAccountService().inviteUser(accountMember2);
         Sender createdSender3 = eslClient.getAccountService().inviteUser(accountMember3);
 
+        retrievedSender1 = eslClient.getAccountService().getSender(createdSender1.getId());
+        retrievedSender2 = eslClient.getAccountService().getSender(createdSender2.getId());
+        retrievedSender3 = eslClient.getAccountService().getSender(createdSender3.getId());
+
         eslClient.getAccountService().sendInvite(createdSender2.getId());
-        accountMembers = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 1000));
 
         eslClient.getAccountService().deleteSender(createdSender2.getId());
-        accountMembersWithDeletedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 1000));
 
         updatedSenderInfo = SenderInfoBuilder.newSenderInfo(email3)
                 .withName( "updatedFirstName", "updatedLastName" )
@@ -85,7 +88,10 @@ public class SenderManipulationExample extends SDKSample {
                 .withCompany("updatedCompany")
                 .build();
 
-        eslClient.getAccountService().updateSender(updatedSenderInfo, accountMembersWithDeletedSender.get(email3).getId());
-        accountMembersWithUpdatedSender = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 1000));
+        eslClient.getAccountService().updateSender(updatedSenderInfo, createdSender3.getId());
+        retrievedUpdatedSender3 = eslClient.getAccountService().getSender(createdSender3.getId());
+
+        // Get senders in account
+        Map<String, Sender> senders = eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 100));
     }
 }
