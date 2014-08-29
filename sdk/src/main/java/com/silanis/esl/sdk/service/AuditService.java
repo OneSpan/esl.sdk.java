@@ -5,10 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.sdk.Audit;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.internal.EslServerException;
-import com.silanis.esl.sdk.internal.RequestException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,35 +16,28 @@ import java.util.List;
  */
 public class AuditService {
 
-    private final UrlTemplate template;
-    private final RestClient client;
+    private AuditApiClient apiClient;
 
-    public AuditService(RestClient client, String baseUrl) {
-        template = new UrlTemplate(baseUrl);
-        this.client = client;
+    public AuditService(AuditApiClient apiClient) {
+        this.apiClient = apiClient;
     }
 
     /**
      * Gets the audit trail for a package and returns a list of audits.
+     *
      * @param packageId
      * @return A list of audits
      * @throws com.silanis.esl.sdk.EslException
      */
     public List<Audit> getAudit(PackageId packageId) throws EslException {
-        String path = template.urlFor(UrlTemplate.AUDIT_PATH)
-                .replace("{packageId}", packageId.getId())
-                .build();
-        List<Audit> auditList;
+        String response = apiClient.getAudit(packageId.getId());
+        List<Audit> audits;
         try {
-
-            String stringResponse = client.get(path);
-            auditList = mapToAudit(stringResponse);
-        } catch (RequestException e){
-            throw new EslServerException( "Could not get audit.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not get audit.", e);
+            audits = mapToAudit(response);
+        } catch (IOException e) {
+            throw new EslException("Could not map audits", e);
         }
-        return auditList;
+        return audits;
     }
 
     private List<Audit> mapToAudit(String stringResponse) throws IOException {

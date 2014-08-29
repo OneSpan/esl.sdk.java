@@ -6,9 +6,7 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
-import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
-import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
-import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
+import com.silanis.esl.sdk.service.apiclient.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,11 +51,11 @@ public class EslClient {
         packageService = new PackageService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
-        auditService = new AuditService(client, this.baseURL);
-        eventNotificationService = new EventNotificationService( client, this.baseURL );
-        authenticationTokensService = new AuthenticationTokensService(client, this.baseURL);
+        auditService = new AuditService(new AuditApiClient(client, this.baseURL));
+        eventNotificationService = new EventNotificationService(new EventNotificationApiClient(client, this.baseURL));
+        authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, this.baseURL));
         groupService = new GroupService( client, this.baseURL );
-        customFieldService = new CustomFieldService( client, this.baseURL );
+        customFieldService = new CustomFieldService(new CustomFieldApiClient(client, this.baseURL));
         accountService = new AccountService( new AccountApiClient(client, this.baseURL));
         approvalService = new ApprovalService( new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService( client, this.baseURL );
