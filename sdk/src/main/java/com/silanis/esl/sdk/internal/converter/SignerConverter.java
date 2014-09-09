@@ -1,7 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.api.model.BaseMessage;
+import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.api.model.KnowledgeBasedAuthentication;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -57,6 +61,9 @@ public class SignerConverter {
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
+                    .setKnowledgeBasedAuthentication(
+                            new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication())
+                                    .toAPIKnowledgeBasedAuthentication())
                     .setDelivery( new Delivery().setEmail( sdkSigner.isDeliverSignedDocumentsByEmail() ) );
         } else {
             result.setGroup( new com.silanis.esl.api.model.Group().setId( sdkSigner.getGroupId().toString() ) );
@@ -80,12 +87,22 @@ public class SignerConverter {
                     .withLastName( apiSigner.getLastName() )
                     .withCompany( apiSigner.getCompany() )
                     .withTitle( apiSigner.getTitle() );
+            KnowledgeBasedAuthentication apiKBA =  apiSigner.getKnowledgeBasedAuthentication();
+            if(apiKBA != null && apiKBA.getSignerInformationForEquifaxCanada() != null) {
+                signerBuilder.withKBA(
+                        new SignerInformationForEquifaxCanadaConverter(apiKBA.getSignerInformationForEquifaxCanada())
+                                .toSDKSignerInformationForEquifaxCanada());
+            } else if (apiKBA != null && apiKBA.getSignerInformationForEquifaxUSA() != null) {
+                signerBuilder.withKBA(
+                        new SignerInformationForEquifaxUSAConverter(apiKBA.getSignerInformationForEquifaxUSA())
+                                .toSDKSignerInformationForEquifaxUSA());
+            }
 
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }
         } else {
-            signerBuilder = SignerBuilder.newSignerFromGroup( new GroupId( apiSigner.getGroup().getId() ) );
+            signerBuilder = SignerBuilder.newSignerFromGroup(new GroupId(apiSigner.getGroup().getId()));
         }
 
         signerBuilder.withCustomId( apiSigner.getId() )

@@ -25,6 +25,7 @@ public class Signer implements Serializable {
     private String id;
     private boolean locked;
     private Map<String, AttachmentRequirement> attachments;
+    private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -279,4 +280,11 @@ public class Signer implements Serializable {
         this.attachments.put(attachment.getName(), attachment);
     }
 
+    public KnowledgeBasedAuthentication getKnowledgeBasedAuthentication() {
+        return knowledgeBasedAuthentication;
+    }
+
+    public void setKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
+        this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
+    }
 }

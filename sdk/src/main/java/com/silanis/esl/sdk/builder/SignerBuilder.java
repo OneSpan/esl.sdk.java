@@ -30,6 +30,8 @@ final public class SignerBuilder {
     private String id = null;
     private boolean locked = false;
     private Map<String, AttachmentRequirement> attachments = new HashMap<String, AttachmentRequirement>();
+    private SignerInformationForEquifaxCanada signerInformationForEquifaxCanada;
+    private SignerInformationForEquifaxUSA signerInformationForEquifaxUSA;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -200,6 +202,9 @@ final public class SignerBuilder {
         result.setId(id);
         result.setLocked(locked);
         result.setAttachmentRequirement(attachments);
+        if(signerInformationForEquifaxCanada != null || signerInformationForEquifaxUSA != null) {
+            result.setKnowledgeBasedAuthentication(new KnowledgeBasedAuthentication(signerInformationForEquifaxCanada, signerInformationForEquifaxUSA));
+        }
 
         return result;
     }
@@ -374,6 +379,48 @@ final public class SignerBuilder {
      */
     private void addAttachment(AttachmentRequirement attachmentRequirement) {
         attachments.put(attachmentRequirement.getName(), attachmentRequirement);
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax Canada to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
+     *
+     * @param signerInformationBuilderForEquifaxCanada the signer builder for Equifax Canada
+     * @return the package builder itself
+     */
+    public SignerBuilder withKBA(SignerInformationBuilderForEquifaxCanada signerInformationBuilderForEquifaxCanada) {
+        return withKBA(signerInformationBuilderForEquifaxCanada.build());
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax Canada to the signer.</p>
+     *
+     * @param signerInformationForEquifaxCanada a signer information for Equifax Canada
+     * @return the signer builder itself
+     */
+    public SignerBuilder withKBA(SignerInformationForEquifaxCanada signerInformationForEquifaxCanada) {
+        this.signerInformationForEquifaxCanada = signerInformationForEquifaxCanada;
+        return this;
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax USA to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
+     *
+     * @param signerInformationBuilderForEquifaxUSA the signer builder for Equifax USA
+     * @return the package builder itself
+     */
+    public SignerBuilder withKBA(SignerInformationBuilderForEquifaxUSA signerInformationBuilderForEquifaxUSA) {
+        return withKBA(signerInformationBuilderForEquifaxUSA.build());
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax USA to the signer.</p>
+     *
+     * @param signerInformationForEquifaxUSA a signer information for Equifax USA
+     * @return the signer builder itself
+     */
+    public SignerBuilder withKBA(SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
+        this.signerInformationForEquifaxUSA = signerInformationForEquifaxUSA;
+        return this;
     }
 
     /**
