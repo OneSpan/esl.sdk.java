@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.KnowledgeBasedAuthentication;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
@@ -61,9 +60,7 @@ public class SignerConverter {
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
-                    .setKnowledgeBasedAuthentication(
-                            new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication())
-                                    .toAPIKnowledgeBasedAuthentication())
+                    .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
                     .setDelivery( new Delivery().setEmail( sdkSigner.isDeliverSignedDocumentsByEmail() ) );
         } else {
             result.setGroup( new com.silanis.esl.api.model.Group().setId( sdkSigner.getGroupId().toString() ) );
@@ -86,18 +83,8 @@ public class SignerConverter {
                     .withFirstName( apiSigner.getFirstName() )
                     .withLastName( apiSigner.getLastName() )
                     .withCompany( apiSigner.getCompany() )
-                    .withTitle( apiSigner.getTitle() );
-            KnowledgeBasedAuthentication apiKBA =  apiSigner.getKnowledgeBasedAuthentication();
-            if(apiKBA != null && apiKBA.getSignerInformationForEquifaxCanada() != null) {
-                signerBuilder.withKBA(
-                        new SignerInformationForEquifaxCanadaConverter(apiKBA.getSignerInformationForEquifaxCanada())
-                                .toSDKSignerInformationForEquifaxCanada());
-            } else if (apiKBA != null && apiKBA.getSignerInformationForEquifaxUSA() != null) {
-                signerBuilder.withKBA(
-                        new SignerInformationForEquifaxUSAConverter(apiKBA.getSignerInformationForEquifaxUSA())
-                                .toSDKSignerInformationForEquifaxUSA());
-            }
-
+                    .withTitle( apiSigner.getTitle() )
+                    .withKBA(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }
