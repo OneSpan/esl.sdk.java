@@ -4,25 +4,26 @@ package com.silanis.esl.sdk.internal.converter;
  * Created by schoi on 9/8/14.
  */
 public class KnowledgeBasedAuthenticationConverter {
-    private com.silanis.esl.sdk.KnowledgeBasedAuthentication sdkKBA = null;
-    private com.silanis.esl.api.model.KnowledgeBasedAuthentication apiKBA = null;
+
+    private com.silanis.esl.sdk.KnowledgeBasedAuthentication sdkKnowledgeBasedAuthentication = null;
+    private com.silanis.esl.api.model.KnowledgeBasedAuthentication apiKnowledgeBasedAuthentication = null;
 
     /**
      * Construct with API KnowledgeBasedAuthentication object involved in conversion.
      *
-     * @param apiKBA
+     * @param apiKnowledgeBasedAuthentication
      */
-    public KnowledgeBasedAuthenticationConverter(com.silanis.esl.api.model.KnowledgeBasedAuthentication apiKBA) {
-        this.apiKBA = apiKBA;
+    public KnowledgeBasedAuthenticationConverter(com.silanis.esl.api.model.KnowledgeBasedAuthentication apiKnowledgeBasedAuthentication) {
+        this.apiKnowledgeBasedAuthentication = apiKnowledgeBasedAuthentication;
     }
 
     /**
      * Construct with SDK KnowledgeBasedAuthentication object involved in conversion.
      *
-     * @param sdkKBA
+     * @param sdkKnowledgeBasedAuthentication
      */
-    public KnowledgeBasedAuthenticationConverter(com.silanis.esl.sdk.KnowledgeBasedAuthentication sdkKBA) {
-        this.sdkKBA = sdkKBA;
+    public KnowledgeBasedAuthenticationConverter(com.silanis.esl.sdk.KnowledgeBasedAuthentication sdkKnowledgeBasedAuthentication) {
+        this.sdkKnowledgeBasedAuthentication = sdkKnowledgeBasedAuthentication;
     }
 
     /**
@@ -32,16 +33,16 @@ public class KnowledgeBasedAuthenticationConverter {
      */
 
     public com.silanis.esl.api.model.KnowledgeBasedAuthentication toAPIKnowledgeBasedAuthentication() {
-        if (sdkKBA == null) {
-            return apiKBA;
+        if (sdkKnowledgeBasedAuthentication == null) {
+            return apiKnowledgeBasedAuthentication;
         }
         com.silanis.esl.api.model.KnowledgeBasedAuthentication result = new com.silanis.esl.api.model.KnowledgeBasedAuthentication();
 
-        com.silanis.esl.sdk.SignerInformationForEquifaxCanada canada = sdkKBA.getSignerInformationForEquifaxCanada();
-        com.silanis.esl.sdk.SignerInformationForEquifaxUSA usa = sdkKBA.getSignerInformationForEquifaxUSA();
+        com.silanis.esl.sdk.SignerInformationForEquifaxCanada canada = sdkKnowledgeBasedAuthentication.getSignerInformationForEquifaxCanada();
+        com.silanis.esl.sdk.SignerInformationForEquifaxUSA usa = sdkKnowledgeBasedAuthentication.getSignerInformationForEquifaxUSA();
 
 
-        result.setKnowledgeBasedAuthenticationStatus(sdkKBA.getKnowledgeBasedAuthenticationStatus())
+        result.setKnowledgeBasedAuthenticationStatus(sdkKnowledgeBasedAuthentication.getKnowledgeBasedAuthenticationStatus())
                 .setSignerInformationForEquifaxCanada(new SignerInformationForEquifaxCanadaConverter(canada).toAPISignerInformationForEquifaxCanada())
                 .setSignerInformationForEquifaxUSA(new SignerInformationForEquifaxUSAConverter(usa).toAPISignerInformationForEquifaxUSA());
 
@@ -55,16 +56,16 @@ public class KnowledgeBasedAuthenticationConverter {
      */
 
     public com.silanis.esl.sdk.KnowledgeBasedAuthentication toSDKKnowledgeBasedAuthentication() {
-        if (apiKBA == null) {
-            return sdkKBA;
+        if (apiKnowledgeBasedAuthentication == null) {
+            return sdkKnowledgeBasedAuthentication;
         }
         com.silanis.esl.sdk.KnowledgeBasedAuthentication result = new com.silanis.esl.sdk.KnowledgeBasedAuthentication();
 
-        com.silanis.esl.api.model.SignerInformationForEquifaxCanada canada = apiKBA.getSignerInformationForEquifaxCanada();
-        com.silanis.esl.api.model.SignerInformationForEquifaxUSA usa = apiKBA.getSignerInformationForEquifaxUSA();
+        com.silanis.esl.api.model.SignerInformationForEquifaxCanada canada = apiKnowledgeBasedAuthentication.getSignerInformationForEquifaxCanada();
+        com.silanis.esl.api.model.SignerInformationForEquifaxUSA usa = apiKnowledgeBasedAuthentication.getSignerInformationForEquifaxUSA();
 
 
-        result.setKnowledgeBasedAuthenticationStatus(apiKBA.getKnowledgeBasedAuthenticationStatus());
+        result.setKnowledgeBasedAuthenticationStatus(apiKnowledgeBasedAuthentication.getKnowledgeBasedAuthenticationStatus());
         result.setSignerInformationForEquifaxCanada(new SignerInformationForEquifaxCanadaConverter(canada).toSDKSignerInformationForEquifaxCanada());
         result.setSignerInformationForEquifaxUSA(new SignerInformationForEquifaxUSAConverter(usa).toSDKSignerInformationForEquifaxUSA());
 

@@ -82,7 +82,7 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email2)
                         .withFirstName(SIGNER2_FIRST_NAME)
                         .withLastName(SIGNER2_LAST_NAME)
-                        .withKBA(newSignerInformationForEquifaxUSA()
+                        .challengeWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
                                 .withFirstName(SIGNER2_FIRST_NAME)
                                 .withLastName(SIGNER2_LAST_NAME)
                                 .withAddress(SIGNER2_ADDRESS)

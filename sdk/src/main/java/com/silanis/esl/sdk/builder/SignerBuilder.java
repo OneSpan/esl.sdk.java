@@ -385,7 +385,7 @@ final public class SignerBuilder {
      * @param knowledgeBasedAuthentication kba
      * @return the signer builder itself
      */
-    public SignerBuilder withKBA(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
+    public SignerBuilder challengeWithKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
         this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
         return this;
     }
@@ -397,7 +397,7 @@ final public class SignerBuilder {
      * @return the signer builder itself
      */
     public SignerBuilder withKBA(SignerInformationForEquifaxCanadaBuilder signerInformationForEquifaxCanadaBuilder) {
-        return withKBA(signerInformationForEquifaxCanadaBuilder.build());
+        return challengeWithKnowledgeBasedAuthentication(signerInformationForEquifaxCanadaBuilder.build());
     }
 
     /**
@@ -406,7 +406,7 @@ final public class SignerBuilder {
      * @param signerInformationForEquifaxCanada a signer information for Equifax Canada
      * @return the signer builder itself
      */
-    public SignerBuilder withKBA(SignerInformationForEquifaxCanada signerInformationForEquifaxCanada) {
+    public SignerBuilder challengeWithKnowledgeBasedAuthentication(SignerInformationForEquifaxCanada signerInformationForEquifaxCanada) {
         if(this.knowledgeBasedAuthentication == null) {
             this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
         }
@@ -420,8 +420,8 @@ final public class SignerBuilder {
      * @param signerInformationForEquifaxUSABuilder the signer builder for Equifax USA
      * @return the signer builder itself
      */
-    public SignerBuilder withKBA(SignerInformationForEquifaxUSABuilder signerInformationForEquifaxUSABuilder) {
-        return withKBA(signerInformationForEquifaxUSABuilder.build());
+    public SignerBuilder challengeWithKnowledgeBasedAuthentication(SignerInformationForEquifaxUSABuilder signerInformationForEquifaxUSABuilder) {
+        return challengeWithKnowledgeBasedAuthentication(signerInformationForEquifaxUSABuilder.build());
     }
 
     /**
@@ -430,7 +430,7 @@ final public class SignerBuilder {
      * @param signerInformationForEquifaxUSA a signer information for Equifax USA
      * @return the signer builder itself
      */
-    public SignerBuilder withKBA(SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
+    public SignerBuilder challengeWithKnowledgeBasedAuthentication(SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
         if(this.knowledgeBasedAuthentication == null) {
             this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
         }

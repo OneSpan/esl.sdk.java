@@ -80,11 +80,11 @@ public class SignerConverter {
 
         if ( apiSigner.getGroup() == null ) {
             signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
-                    .withFirstName( apiSigner.getFirstName() )
-                    .withLastName( apiSigner.getLastName() )
-                    .withCompany( apiSigner.getCompany() )
-                    .withTitle( apiSigner.getTitle() )
-                    .withKBA(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
+                    .withFirstName(apiSigner.getFirstName())
+                    .withLastName(apiSigner.getLastName())
+                    .withCompany(apiSigner.getCompany())
+                    .withTitle(apiSigner.getTitle())
+                    .challengeWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }

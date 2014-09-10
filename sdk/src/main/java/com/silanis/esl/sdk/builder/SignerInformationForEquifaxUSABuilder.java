@@ -15,25 +15,9 @@ public class SignerInformationForEquifaxUSABuilder {
     private String city;
     private String zipCode;
     private String state;
-    private String ssn;
+    private String socialSecurityNumber;
     private Date dateOfBirth;
     private String homePhone;
-
-    private SignerInformationForEquifaxUSABuilder(){
-
-    }
-
-    private SignerInformationForEquifaxUSABuilder(String firstName, String lastName, String address, String city, String zipCode, String state, String ssn, Date dateOfBirth, String homePhone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.ssn = ssn;
-        this.dateOfBirth = dateOfBirth;
-        this.homePhone = homePhone;
-    }
 
     /**
      * <p>Creates a SignerInformationBuilderForEquifaxUSA object.</p>
@@ -42,17 +26,6 @@ public class SignerInformationForEquifaxUSABuilder {
      */
     public static SignerInformationForEquifaxUSABuilder newSignerInformationForEquifaxUSA() {
         return new SignerInformationForEquifaxUSABuilder();
-    }
-
-    /**
-     * Builds the actual signer object.
-     *
-     * @return the signer object
-     */
-    public SignerInformationForEquifaxUSA build() {
-        SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = new SignerInformationForEquifaxUSA(firstName, lastName, address, city, zipCode, state, ssn, dateOfBirth, homePhone);
-
-        return signerInformationForEquifaxUSA;
     }
 
     /**
@@ -124,11 +97,11 @@ public class SignerInformationForEquifaxUSABuilder {
     /**
      * <p>Sets the signer's SSN in KBA information.</p>
      *
-     * @param ssn the signer's SSN
+     * @param socialSecurityNumber the signer's SSN
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxUSABuilder withSocialSecurityNumber(String ssn) {
-        this.ssn = ssn;
+    public SignerInformationForEquifaxUSABuilder withSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
         return this;
     }
 
@@ -153,5 +126,27 @@ public class SignerInformationForEquifaxUSABuilder {
         this.homePhone = homePhone;
         return this;
     }
+
+    /**
+     * Builds the actual signer object.
+     *
+     * @return the signer object
+     */
+    public SignerInformationForEquifaxUSA build() {
+        SignerInformationForEquifaxUSA result = new SignerInformationForEquifaxUSA();
+
+        result.setFirstName(firstName);
+        result.setLastName(lastName);
+        result.setAddress(address);
+        result.setCity(city);
+        result.setZipCode(zipCode);
+        result.setState(state);
+        result.setSocialSecurityNumber(socialSecurityNumber);
+        result.setDateOfBirth(dateOfBirth);
+        result.setHomePhone(homePhone);
+
+        return result;
+    }
+
 
 }

@@ -20,23 +20,6 @@ public class SignerInformationForEquifaxCanadaBuilder {
     private String driversLicense;
     private String socialInsuranceNumber;
 
-    private SignerInformationForEquifaxCanadaBuilder(){
-
-    }
-
-    private SignerInformationForEquifaxCanadaBuilder(String firstName, String lastName, String address, String city, String zipCode, String state, String timeAtAddress, Date dateOfBirth, String driversLicense, String socialInsuranceNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.timeAtAddress = timeAtAddress;
-        this.dateOfBirth = dateOfBirth;
-        this.driversLicense = driversLicense;
-        this.socialInsuranceNumber = socialInsuranceNumber;
-    }
-
     /**
      * <p>Creates a SignerInformationBuilderForEquifaxCanada object.</p>
      *
@@ -44,17 +27,6 @@ public class SignerInformationForEquifaxCanadaBuilder {
      */
     public static SignerInformationForEquifaxCanadaBuilder newSignerInformationForEquifaxCanada() {
         return new SignerInformationForEquifaxCanadaBuilder();
-    }
-
-    /**
-     * Builds the actual signer object.
-     *
-     * @return the signer object
-     */
-    public SignerInformationForEquifaxCanada build() {
-        SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = new SignerInformationForEquifaxCanada(firstName, lastName, address, city, zipCode, state, timeAtAddress, dateOfBirth, driversLicense, socialInsuranceNumber);
-
-        return signerInformationForEquifaxCanada;
     }
 
     /**
@@ -166,4 +138,29 @@ public class SignerInformationForEquifaxCanadaBuilder {
         this.socialInsuranceNumber = socialInsuranceNumber;
         return this;
     }
+
+    /**
+     * Builds the actual signer object.
+     *
+     * @return the signer object
+     */
+    public SignerInformationForEquifaxCanada build() {
+        SignerInformationForEquifaxCanada result = new SignerInformationForEquifaxCanada();
+
+        result.setFirstName(firstName);
+        result.setLastName(lastName);
+        result.setAddress(address);
+        result.setCity(city);
+        result.setZipCode(zipCode);
+        result.setState(state);
+        result.setTimeAtAddress(timeAtAddress);
+        result.setDateOfBirth(dateOfBirth);
+        result.setDriverslicense(driversLicense);
+        result.setSocialInsuranceNumber(socialInsuranceNumber);
+
+        return result;
+
+    }
+
+
 }
