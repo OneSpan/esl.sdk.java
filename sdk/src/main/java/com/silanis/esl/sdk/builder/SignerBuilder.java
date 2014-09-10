@@ -384,11 +384,11 @@ final public class SignerBuilder {
     /**
      * <p>Adds a signer information for Equifax Canada to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
      *
-     * @param signerInformationBuilderForEquifaxCanada the signer builder for Equifax Canada
+     * @param signerInformationForEquifaxCanadaBuilder the signer builder for Equifax Canada
      * @return the package builder itself
      */
-    public SignerBuilder withKBA(SignerInformationBuilderForEquifaxCanada signerInformationBuilderForEquifaxCanada) {
-        return withKBA(signerInformationBuilderForEquifaxCanada.build());
+    public SignerBuilder withKBA(SignerInformationForEquifaxCanadaBuilder signerInformationForEquifaxCanadaBuilder) {
+        return withKBA(signerInformationForEquifaxCanadaBuilder.build());
     }
 
     /**
@@ -405,11 +405,11 @@ final public class SignerBuilder {
     /**
      * <p>Adds a signer information for Equifax USA to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
      *
-     * @param signerInformationBuilderForEquifaxUSA the signer builder for Equifax USA
+     * @param signerInformationForEquifaxUSABuilder the signer builder for Equifax USA
      * @return the package builder itself
      */
-    public SignerBuilder withKBA(SignerInformationBuilderForEquifaxUSA signerInformationBuilderForEquifaxUSA) {
-        return withKBA(signerInformationBuilderForEquifaxUSA.build());
+    public SignerBuilder withKBA(SignerInformationForEquifaxUSABuilder signerInformationForEquifaxUSABuilder) {
+        return withKBA(signerInformationForEquifaxUSABuilder.build());
     }
 
     /**

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by schoi on 9/8/14.
  */
-public class SignerInformationBuilderForEquifaxCanada {
+public class SignerInformationForEquifaxCanadaBuilder {
 
     private String firstName;
     private String lastName;
@@ -20,11 +20,11 @@ public class SignerInformationBuilderForEquifaxCanada {
     private String driversLicense;
     private String socialInsuranceNumber;
 
-    private SignerInformationBuilderForEquifaxCanada(){
+    private SignerInformationForEquifaxCanadaBuilder(){
 
     }
 
-    private SignerInformationBuilderForEquifaxCanada(String firstName, String lastName, String address, String city, String zipCode, String state, String timeAtAddress, Date dateOfBirth, String driversLicense, String socialInsuranceNumber) {
+    private SignerInformationForEquifaxCanadaBuilder(String firstName, String lastName, String address, String city, String zipCode, String state, String timeAtAddress, Date dateOfBirth, String driversLicense, String socialInsuranceNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -42,8 +42,8 @@ public class SignerInformationBuilderForEquifaxCanada {
      *
      * @return the signer information builder for Equifax Canada itself
      */
-    public static SignerInformationBuilderForEquifaxCanada newSignerInformationForEquifaxCanada() {
-        return new SignerInformationBuilderForEquifaxCanada();
+    public static SignerInformationForEquifaxCanadaBuilder newSignerInformationForEquifaxCanada() {
+        return new SignerInformationForEquifaxCanadaBuilder();
     }
 
     /**
@@ -63,7 +63,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param firstName the signer's first name
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withFirstName(String firstName) {
+    public SignerInformationForEquifaxCanadaBuilder withFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -74,7 +74,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param lastName the signer's last name
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withLastName(String lastName) {
+    public SignerInformationForEquifaxCanadaBuilder withLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -85,7 +85,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param address the signer's address
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withAddress(String address) {
+    public SignerInformationForEquifaxCanadaBuilder withAddress(String address) {
         this.address = address;
         return this;
     }
@@ -96,7 +96,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param city the signer's city
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withCity(String city) {
+    public SignerInformationForEquifaxCanadaBuilder withCity(String city) {
         this.city = city;
         return this;
     }
@@ -107,7 +107,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param zipCode the signer's zipCode
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withZipCode(String zipCode) {
+    public SignerInformationForEquifaxCanadaBuilder withZipCode(String zipCode) {
         this.zipCode = zipCode;
         return this;
     }
@@ -118,7 +118,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param state the signer's state
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withState(String state) {
+    public SignerInformationForEquifaxCanadaBuilder withState(String state) {
         this.state = state;
         return this;
     }
@@ -129,7 +129,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param timeAtAddress the signer's time at address
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withTimeAtAddress(String timeAtAddress) {
+    public SignerInformationForEquifaxCanadaBuilder withTimeAtAddress(String timeAtAddress) {
         this.timeAtAddress = timeAtAddress;
         return this;
     }
@@ -140,7 +140,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param dateOfBirth the signer's date of birth
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withDateOfBirth(Date dateOfBirth) {
+    public SignerInformationForEquifaxCanadaBuilder withDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         return this;
     }
@@ -151,7 +151,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param driversLicense the signer's driver's license
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withDriversLicense(String driversLicense) {
+    public SignerInformationForEquifaxCanadaBuilder withDriversLicense(String driversLicense) {
         this.driversLicense = driversLicense;
         return this;
     }
@@ -162,7 +162,7 @@ public class SignerInformationBuilderForEquifaxCanada {
      * @param socialInsuranceNumber the signer's SIN number
      * @return	the signer information builder object itself
      */
-    public SignerInformationBuilderForEquifaxCanada withSocialInsuranceNumber(String socialInsuranceNumber) {
+    public SignerInformationForEquifaxCanadaBuilder withSocialInsuranceNumber(String socialInsuranceNumber) {
         this.socialInsuranceNumber = socialInsuranceNumber;
         return this;
     }

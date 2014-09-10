@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.SignerInformationBuilderForEquifaxUSA;
+import com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder;
 
 /**
  * Created by schoi on 9/8/14.
@@ -64,9 +64,9 @@ public class SignerInformationForEquifaxUSAConverter {
             return sdkKBAUSA;
         }
 
-        SignerInformationBuilderForEquifaxUSA signerBuilder;
+        SignerInformationForEquifaxUSABuilder signerBuilder;
 
-        signerBuilder = SignerInformationBuilderForEquifaxUSA.newSignerInformationForEquifaxUSA()
+        signerBuilder = SignerInformationForEquifaxUSABuilder.newSignerInformationForEquifaxUSA()
                 .withFirstName(apiKBAUSA.getFirstName())
                 .withLastName(apiKBAUSA.getLastName())
                 .withAddress(apiKBAUSA.getStreetAddress())

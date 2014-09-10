@@ -15,7 +15,7 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static com.silanis.esl.sdk.builder.SignerInformationBuilderForEquifaxUSA.newSignerInformationForEquifaxUSA;
+import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder.newSignerInformationForEquifaxUSA;
 import static org.joda.time.DateMidnight.now;
 
 /**
@@ -29,6 +29,24 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
     private InputStream documentInputStream2;
     public final String group1 = "group1";
     public final String group2 = "group2";
+
+    public static final String CUSTOM1_ID = "Client1";
+    public static final String CUSTOM1_FIRST_NAME = "John";;
+    public static final String CUSTOM1_LAST_NAME = "Smith";
+    public static final String CUSTOM1_TITLE = "Managing Director";
+    public static final String CUSTOM1_COMPANY = "Acme Inc.";
+
+    public static final String CUSTOM2_FIRST_NAME = "Patty";
+    public static final String CUSTOM2_LAST_NAME = "Galant";
+    public static final String CUSTOM2_ADDRESS = "456666 asdfasdf";
+    public static final String CUSTOM2_CITY = "Montreal";
+    public static final String CUSTOM2_ZIP_CODE = "12311";
+    public static final String CUSTOM2_STATE = "CA";
+    public static final String CUSTOM2_SOCIAL_SECURITY_NUMBER = "123132123";
+    public static final Date   CUSTOM2_DATE_OF_BIRTH = new DateTime().minusYears(15).toDate();
+    public static final String CUSTOM2_HOME_PHONE = "123456789";
+    public static final String CUSTOM2_DOCUMENT_NAME = "First Document pdf";
+
 
     public static void main( String... args ) {
         new KBAForEquifaxUSACreationExample(Props.get()).run();
@@ -54,25 +72,25 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
-                        .withCustomId("Client1")
-                        .withFirstName("John")
-                        .withLastName("Smith")
-                        .withTitle("Managing Director")
-                        .withCompany("Acme Inc."))
+                        .withCustomId(CUSTOM1_ID)
+                        .withFirstName(CUSTOM1_FIRST_NAME)
+                        .withLastName(CUSTOM1_LAST_NAME)
+                        .withTitle(CUSTOM1_TITLE)
+                        .withCompany(CUSTOM1_COMPANY))
                 .withSigner(newSignerWithEmail(email2)
-                        .withFirstName("Patty")
-                        .withLastName("Galant")
+                        .withFirstName(CUSTOM2_FIRST_NAME)
+                        .withLastName(CUSTOM2_LAST_NAME)
                         .withKBA(newSignerInformationForEquifaxUSA()
-                                .withFirstName("Patty")
-                                .withLastName("Galant")
-                                .withAddress("456666 asdfasdf")
-                                .withCity("Montreal")
-                                .withZipCode("12311")
-                                .withState("CA")
-                                .withSocialSecurityNumber("123132123")
-                                .withDateOfBirth(new DateTime().minusYears(15).toDate())
-                                .withHomePhone("123456789")))
-                .withDocument(newDocumentWithName("First Document pdf")
+                                .withFirstName(CUSTOM2_FIRST_NAME)
+                                .withLastName(CUSTOM2_LAST_NAME)
+                                .withAddress(CUSTOM2_ADDRESS)
+                                .withCity(CUSTOM2_CITY)
+                                .withZipCode(CUSTOM2_ZIP_CODE)
+                                .withState(CUSTOM2_STATE)
+                                .withSocialSecurityNumber(CUSTOM2_SOCIAL_SECURITY_NUMBER)
+                                .withDateOfBirth(CUSTOM2_DATE_OF_BIRTH)
+                                .withHomePhone(CUSTOM2_HOME_PHONE)))
+                .withDocument(newDocumentWithName(CUSTOM2_DOCUMENT_NAME)
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)

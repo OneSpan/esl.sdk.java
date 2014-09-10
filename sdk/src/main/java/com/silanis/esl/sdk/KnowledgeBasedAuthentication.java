@@ -19,14 +19,6 @@ public class KnowledgeBasedAuthentication {
         this.signerInformationForEquifaxUSA = signerInformationForEquifaxUSA;
     }
 
-    public boolean isEquifaxCanada() {
-        return signerInformationForEquifaxCanada != null;
-    }
-
-    public boolean isEquifaxUSA() {
-        return signerInformationForEquifaxUSA != null;
-    }
-
     public KnowledgeBasedAuthenticationStatus getKnowledgeBasedAuthenticationStatus() {
         return knowledgeBasedAuthenticationStatus;
     }
