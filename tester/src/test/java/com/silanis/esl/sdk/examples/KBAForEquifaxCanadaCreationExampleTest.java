@@ -15,7 +15,6 @@ import static org.hamcrest.core.Is.is;
  * Created by schoi on 9/8/14.
  */
 public class KBAForEquifaxCanadaCreationExampleTest {
-    public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
 
     @Test
     public void verifyResult() {
@@ -25,15 +24,14 @@ public class KBAForEquifaxCanadaCreationExampleTest {
 
         DocumentPackage documentPackage = kbaForEquifaxCanadaCreationExample.getEslClient().getPackage(kbaForEquifaxCanadaCreationExample.getPackageId());
 
-        // Signer 1
-        for (Challenge challenge: documentPackage.getSigner(kbaForEquifaxCanadaCreationExample.email1).getChallengeQuestions()) {
+        Signer signer1 = documentPackage.getSigner(kbaForEquifaxCanadaCreationExample.EMAIL1);
+        for (Challenge challenge: signer1.getChallengeQuestions()) {
             assertThat(challenge.getQuestion().contentEquals(FIRST_QUESTION)
                     || challenge.getQuestion().contentEquals(SECOND_QUESTION), is(equalTo(true)));
 
         }
 
-        // Signer 2
-        Signer signer2 = documentPackage.getSigner(kbaForEquifaxCanadaCreationExample.email2);
+        Signer signer2 = documentPackage.getSigner(kbaForEquifaxCanadaCreationExample.EMAIL2);
         SignerInformationForEquifaxCanada signerKBA = signer2.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
         assertThat( "Signer 2 KBA first name was not set correctly.", signerKBA.getFirstName(), is( SIGNER2_FIRST_NAME ) );
         assertThat( "Signer 2 KBA last name was not set correctly.",signerKBA.getLastName(), is( SIGNER2_LAST_NAME ) );
