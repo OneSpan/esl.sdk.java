@@ -40,7 +40,6 @@ public class SignerInformationForEquifaxCanadaConverter {
         }
         com.silanis.esl.api.model.SignerInformationForEquifaxCanada result = new com.silanis.esl.api.model.SignerInformationForEquifaxCanada();
 
-//        if firstname not null then {
         result.setFirstName(sdkKBACanada.getFirstName())
                 .setLastName(sdkKBACanada.getLastName())
                 .setStreetAddress(sdkKBACanada.getAddress())
@@ -51,7 +50,6 @@ public class SignerInformationForEquifaxCanadaConverter {
                 .setDateOfBirth(sdkKBACanada.getDateOfBirth())
                 .setDriversLicenseIndicator(sdkKBACanada.getDriverslicense())
                 .setSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber());
-//        }
 
         return result;
     }
@@ -69,7 +67,6 @@ public class SignerInformationForEquifaxCanadaConverter {
 
         SignerInformationForEquifaxCanadaBuilder signerBuilder;
 
-//        if first name not null then {
         signerBuilder = SignerInformationForEquifaxCanadaBuilder.newSignerInformationForEquifaxCanada()
                 .withFirstName(apiKBACanada.getFirstName())
                 .withLastName(apiKBACanada.getLastName())
@@ -81,7 +78,6 @@ public class SignerInformationForEquifaxCanadaConverter {
                 .withDateOfBirth(apiKBACanada.getDateOfBirth())
                 .withDriversLicense(apiKBACanada.getDriversLicenseIndicator())
                 .withSocialInsuranceNumber(apiKBACanada.getSocialInsuranceNumber());
-//        }
 
         return signerBuilder.build();
 
