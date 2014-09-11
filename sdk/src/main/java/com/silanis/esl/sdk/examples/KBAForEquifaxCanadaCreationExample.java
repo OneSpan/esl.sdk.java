@@ -25,11 +25,8 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     private InputStream documentInputStream1;
     private InputStream documentInputStream2;
 
-    public final String EMAIL1;
-    public final String EMAIL2;
-
-    public static final String GROUP1 = "group1";
-    public static final String GROUP2 = "group2";
+    public final String SIGNER1_EMAIL;
+    public final String SIGNER2_EMAIL;
 
     public static final String FIRST_QUESTION = "What's your favorite sport? (answer: baseball)";
     public static final String FIRST_ANSWER = "baseball";
@@ -64,8 +61,8 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
 
     public KBAForEquifaxCanadaCreationExample(String apiKey, String apiUrl, String email1, String email2) {
         super( apiKey, apiUrl );
-        this.EMAIL1 = email1;
-        this.EMAIL2 = email2;
+        this.SIGNER1_EMAIL = email1;
+        this.SIGNER2_EMAIL = email2;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
@@ -73,14 +70,14 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed("KBAForEquifaxCanadaCreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a Q&A authentication example")
-                .withSigner(newSignerWithEmail(EMAIL1)
+                .withSigner(newSignerWithEmail(SIGNER1_EMAIL)
                         .withFirstName(SIGNER1_FIRST_NAME)
                         .withLastName(SIGNER1_LAST_NAME)
                         .challengedWithQuestions(firstQuestion(FIRST_QUESTION)
                                 .answer(FIRST_ANSWER)
                                 .secondQuestion(SECOND_QUESTION)
                                 .answer(SECOND_ANSWER)))
-                .withSigner(newSignerWithEmail(EMAIL2)
+                .withSigner(newSignerWithEmail(SIGNER2_EMAIL)
                         .withFirstName(SIGNER2_FIRST_NAME)
                         .withLastName(SIGNER2_LAST_NAME)
                         .challengeWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
@@ -96,7 +93,7 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
                                 .withSocialInsuranceNumber(SIGNER2_SOCIAL_INSURANCE_NUMBER)))
                         .withDocument(newDocumentWithName(SIGNER2_DOCUMENT_NAME)
                                 .fromStream(documentInputStream1, DocumentType.PDF)
-                                .withSignature(signatureFor(EMAIL1)
+                                .withSignature(signatureFor(SIGNER1_EMAIL)
                                         .onPage(0)
                                         .withField(FieldBuilder.checkBox()
                                                 .onPage(0)
@@ -105,28 +102,12 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
                                         .atPosition(100, 100)))
                         .withDocument(newDocumentWithName("Second Document PDF")
                                         .fromStream(documentInputStream2, DocumentType.PDF)
-                                        .withSignature(signatureFor(EMAIL2)
+                                        .withSignature(signatureFor(SIGNER2_EMAIL)
                                                         .onPage(0)
-                                                        .withField(FieldBuilder.radioButton(GROUP1)
-                                                                .onPage(0)
-                                                                .atPosition(400, 300)
-                                                                .withSize(20, 20)
-                                                                .withValue(false))
-                                                        .withField(FieldBuilder.radioButton(GROUP1)
-                                                                .onPage(0)
-                                                                .atPosition(400, 400)
-                                                                .withSize(20, 20)
-                                                                .withValue(true))
-                                                        .withField(FieldBuilder.radioButton(GROUP2)
-                                                                .onPage(0)
-                                                                .atPosition(400, 500)
-                                                                .withSize(20, 20)
-                                                                .withValue(true))
-                                                        .withField(FieldBuilder.radioButton(GROUP2)
-                                                                .onPage(0)
-                                                                .atPosition(400, 600)
-                                                                .withSize(20, 20)
-                                                                .withValue(false))
+                                                        .withField(FieldBuilder.textField()
+                                                                .onPage( 0 )
+                                                                .atPosition( 400, 100 )
+                                                                .withSize( 200, 50 ))
                                                         .atPosition(100, 200)
                                         )
                         )

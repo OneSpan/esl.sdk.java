@@ -23,14 +23,14 @@ public class KBAForEquifaxUSACreationExampleTest {
 
         DocumentPackage documentPackage = kbaForEquifaxUSACreationExample.getEslClient().getPackage(kbaForEquifaxUSACreationExample.getPackageId());
 
-        Signer signer1 = documentPackage.getSigner(kbaForEquifaxUSACreationExample.EMAIL1);
+        Signer signer1 = documentPackage.getSigner(kbaForEquifaxUSACreationExample.SIGNER1_EMAIL);
         for (Challenge challenge: signer1.getChallengeQuestions()) {
             assertThat(challenge.getQuestion().contentEquals(FIRST_QUESTION)
                     || challenge.getQuestion().contentEquals(SECOND_QUESTION), is(equalTo(true)));
 
         }
 
-        Signer signer2 = documentPackage.getSigner(kbaForEquifaxUSACreationExample.EMAIL2);
+        Signer signer2 = documentPackage.getSigner(kbaForEquifaxUSACreationExample.SIGNER2_EMAIL);
         SignerInformationForEquifaxUSA signerKBA = signer2.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
         assertThat( "Signer 2 KBA first name was not set correctly.", signerKBA.getFirstName(), is( SIGNER2_FIRST_NAME ) );
         assertThat( "Signer 2 KBA last name was not set correctly.",signerKBA.getLastName(), is( SIGNER2_LAST_NAME ) );
