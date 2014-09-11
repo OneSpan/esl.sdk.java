@@ -382,7 +382,7 @@ final public class SignerBuilder {
     /**
      * <p>Adds KBA to the signer.</p>
      *
-     * @param knowledgeBasedAuthentication kba
+     * @param knowledgeBasedAuthentication knowledge based authentication
      * @return the signer builder itself
      */
     public SignerBuilder challengeWithKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
@@ -396,7 +396,7 @@ final public class SignerBuilder {
      * @param signerInformationForEquifaxCanadaBuilder the signer builder for Equifax Canada
      * @return the signer builder itself
      */
-    public SignerBuilder withKBA(SignerInformationForEquifaxCanadaBuilder signerInformationForEquifaxCanadaBuilder) {
+    public SignerBuilder challengeWithKnowledgeBasedAuthentication(SignerInformationForEquifaxCanadaBuilder signerInformationForEquifaxCanadaBuilder) {
         return challengeWithKnowledgeBasedAuthentication(signerInformationForEquifaxCanadaBuilder.build());
     }
 

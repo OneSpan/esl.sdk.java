@@ -1,10 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.BaseMessage;
-import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -80,16 +77,16 @@ public class SignerConverter {
 
         if ( apiSigner.getGroup() == null ) {
             signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
-                    .withFirstName(apiSigner.getFirstName())
-                    .withLastName(apiSigner.getLastName())
-                    .withCompany(apiSigner.getCompany())
-                    .withTitle(apiSigner.getTitle())
+                    .withFirstName( apiSigner.getFirstName() )
+                    .withLastName( apiSigner.getLastName() )
+                    .withCompany( apiSigner.getCompany() )
+                    .withTitle( apiSigner.getTitle() )
                     .challengeWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }
         } else {
-            signerBuilder = SignerBuilder.newSignerFromGroup(new GroupId(apiSigner.getGroup().getId()));
+            signerBuilder = SignerBuilder.newSignerFromGroup( new GroupId( apiSigner.getGroup().getId() ) );
         }
 
         signerBuilder.withCustomId( apiSigner.getId() )

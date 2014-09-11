@@ -31,10 +31,10 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     public final String group1 = "group1";
     public final String group2 = "group2";
 
-    public static final String FIRST_QUESTION = "What's your favorite sport? (answer: golf)";
-    public static final String FIRST_ANSWER = "golf";
-    public static final String SECOND_QUESTION = "What music instrument do you play? (answer: drums)";
-    public static final String SECOND_ANSWER = "drums";
+    public static final String FIRST_QUESTION = "What's your favorite sport? (answer: baseball)";
+    public static final String FIRST_ANSWER = "baseball";
+    public static final String SECOND_QUESTION = "What music instrument do you play? (answer: guitar)";
+    public static final String SECOND_ANSWER = "guitar";
 
     public static final String SIGNER1_FIRST_NAME = "John";
     public static final String SIGNER1_LAST_NAME = "Smith";
@@ -82,7 +82,7 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email2)
                         .withFirstName(SIGNER2_FIRST_NAME)
                         .withLastName(SIGNER2_LAST_NAME)
-                        .withKBA(newSignerInformationForEquifaxCanada()
+                        .challengeWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
                                 .withFirstName(SIGNER2_FIRST_NAME)
                                 .withLastName(SIGNER2_LAST_NAME)
                                 .withAddress(SIGNER2_ADDRESS)
