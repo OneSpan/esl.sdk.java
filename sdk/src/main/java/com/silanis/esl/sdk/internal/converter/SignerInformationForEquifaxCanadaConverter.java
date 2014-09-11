@@ -42,13 +42,13 @@ public class SignerInformationForEquifaxCanadaConverter {
 
         result.setFirstName(sdkKBACanada.getFirstName())
                 .setLastName(sdkKBACanada.getLastName())
-                .setStreetAddress(sdkKBACanada.getAddress())
+                .setStreetAddress(sdkKBACanada.getStreetAddress())
                 .setCity(sdkKBACanada.getCity())
-                .setZip(sdkKBACanada.getZipCode())
+                .setZip(sdkKBACanada.getZip())
                 .setState(sdkKBACanada.getState())
                 .setTimeAtAddress(sdkKBACanada.getTimeAtAddress())
                 .setDateOfBirth(sdkKBACanada.getDateOfBirth())
-                .setDriversLicenseIndicator(sdkKBACanada.getDriverslicense())
+                .setDriversLicenseIndicator(sdkKBACanada.getDriversLicenseIndicator())
                 .setSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber());
 
         return result;

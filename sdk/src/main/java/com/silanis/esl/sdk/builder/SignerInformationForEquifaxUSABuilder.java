@@ -137,13 +137,13 @@ public class SignerInformationForEquifaxUSABuilder {
 
         result.setFirstName(firstName);
         result.setLastName(lastName);
-        result.setAddress(address);
+        result.setStreetAddress(address);
         result.setCity(city);
-        result.setZipCode(zipCode);
+        result.setZip(zipCode);
         result.setState(state);
         result.setSocialSecurityNumber(socialSecurityNumber);
         result.setDateOfBirth(dateOfBirth);
-        result.setHomePhone(homePhone);
+        result.setHomePhoneNumber(homePhone);
 
         return result;
     }

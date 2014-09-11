@@ -2,36 +2,34 @@ package com.silanis.esl.sdk;
 
 import java.util.Date;
 
-/**
- * Created by schoi on 9/8/14.
- */
 public class SignerInformationForEquifaxCanada{
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String streetAddress;
     private String city;
-    private String zipCode;
+    private String zip;
     private String state;
     private String timeAtAddress;
     private Date dateOfBirth;
-    private String driversLicense;
+    private String driversLicenseIndicator;
     private String socialInsuranceNumber;
+    private String homePhoneNumber;
 
     public SignerInformationForEquifaxCanada(){
 
     }
 
-    public SignerInformationForEquifaxCanada(String firstName, String lastName, String address, String city, String zipCode, String state, String timeAtAddress, Date dateOfBirth, String driversLicense, String socialInsuranceNumber) {
+    public SignerInformationForEquifaxCanada(String firstName, String lastName, String streetAddress, String city, String zip, String state, String timeAtAddress, Date dateOfBirth, String driversLicenseIndicator, String socialInsuranceNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.streetAddress = streetAddress;
         this.city = city;
-        this.zipCode = zipCode;
+        this.zip = zip;
         this.state = state;
         this.timeAtAddress = timeAtAddress;
         this.dateOfBirth = dateOfBirth;
-        this.driversLicense = driversLicense;
+        this.driversLicenseIndicator = driversLicenseIndicator;
         this.socialInsuranceNumber = socialInsuranceNumber;
     }
 
@@ -51,12 +49,12 @@ public class SignerInformationForEquifaxCanada{
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
     public String getCity() {
@@ -67,12 +65,12 @@ public class SignerInformationForEquifaxCanada{
         this.city = city;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZip() {
+        return zip;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getState() {
@@ -99,12 +97,12 @@ public class SignerInformationForEquifaxCanada{
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getDriverslicense() {
-        return driversLicense;
+    public String getDriversLicenseIndicator() {
+        return driversLicenseIndicator;
     }
 
-    public void setDriverslicense(String driversLicense) {
-        this.driversLicense = driversLicense;
+    public void setDriversLicenseIndicator(String driversLicense) {
+        this.driversLicenseIndicator = driversLicense;
     }
 
     public String getSocialInsuranceNumber() {
@@ -113,5 +111,13 @@ public class SignerInformationForEquifaxCanada{
 
     public void setSocialInsuranceNumber(String socialInsuranceNumber) {
         this.socialInsuranceNumber = socialInsuranceNumber;
+    }
+
+    public String getHomePhoneNumber() {
+        return homePhoneNumber;
+    }
+
+    public void setHomePhoneNumber(String homePhoneNumber) {
+        this.homePhoneNumber = homePhoneNumber;
     }
 }

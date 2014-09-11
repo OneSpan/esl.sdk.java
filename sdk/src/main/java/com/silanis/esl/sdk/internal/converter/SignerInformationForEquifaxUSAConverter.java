@@ -42,13 +42,13 @@ public class SignerInformationForEquifaxUSAConverter {
 
         result.setFirstName(sdkKBAUSA.getFirstName())
                 .setLastName(sdkKBAUSA.getLastName())
-                .setStreetAddress(sdkKBAUSA.getAddress())
+                .setStreetAddress(sdkKBAUSA.getStreetAddress())
                 .setCity(sdkKBAUSA.getCity())
-                .setZip(sdkKBAUSA.getZipCode())
+                .setZip(sdkKBAUSA.getZip())
                 .setState(sdkKBAUSA.getState())
                 .safeSetSocialSecurityNumber(sdkKBAUSA.getSocialSecurityNumber())
                 .setDateOfBirth(sdkKBAUSA.getDateOfBirth())
-                .setHomePhoneNumber(sdkKBAUSA.getHomePhone());
+                .setHomePhoneNumber(sdkKBAUSA.getHomePhoneNumber());
 
         return result;
     }

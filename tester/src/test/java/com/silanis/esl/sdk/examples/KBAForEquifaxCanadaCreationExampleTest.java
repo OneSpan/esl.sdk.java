@@ -35,12 +35,12 @@ public class KBAForEquifaxCanadaCreationExampleTest {
         SignerInformationForEquifaxCanada signerKBA = signer2.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
         assertThat( "Signer 2 KBA first name was not set correctly.", signerKBA.getFirstName(), is( SIGNER2_FIRST_NAME ) );
         assertThat( "Signer 2 KBA last name was not set correctly.",signerKBA.getLastName(), is( SIGNER2_LAST_NAME ) );
-        assertThat( "Signer 2 KBA address was not set correctly.",signerKBA.getAddress(), is( SIGNER2_ADDRESS ) );
+        assertThat( "Signer 2 KBA address was not set correctly.",signerKBA.getStreetAddress(), is( SIGNER2_ADDRESS ) );
         assertThat( "Signer 2 KBA city was not set correctly.",signerKBA.getCity(), is( SIGNER2_CITY ) );
-        assertThat( "Signer 2 KBA zip code was not set correctly.",signerKBA.getZipCode(), is( SIGNER2_ZIP_CODE ) );
+        assertThat( "Signer 2 KBA zip code was not set correctly.",signerKBA.getZip(), is( SIGNER2_ZIP_CODE ) );
         assertThat( "Signer 2 KBA state was not set correctly.",signerKBA.getState(), is( SIGNER2_STATE ) );
         assertThat( "Signer 2 KBA time at address was not set correctly.",signerKBA.getTimeAtAddress(), is( SIGNER2_TIME_AT_ADDRESS ) );
-        assertThat( "Signer 2 KBA driver's license was not set correctly.",signerKBA.getDriverslicense(), is( SIGNER2_DRIVERS_LICENSE ) );
+        assertThat( "Signer 2 KBA driver's license was not set correctly.",signerKBA.getDriversLicenseIndicator(), is( SIGNER2_DRIVERS_LICENSE ) );
         assertThat( "Signer 2 KBA SIN number was not set correctly.",signerKBA.getSocialInsuranceNumber(), is( SIGNER2_SOCIAL_INSURANCE_NUMBER ) );
 
     }

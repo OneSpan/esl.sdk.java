@@ -44,12 +44,12 @@ public class SignerInformationForEquifaxUSABuilderTest {
         assertThat("build returned a null object", result, is(notNullValue()));
         assertThat("First name was not set correctly", result.getFirstName(), is(equalTo(FIRST_NAME)));
         assertThat("Last name was not set correctly", result.getLastName(), is(equalTo(LAST_NAME)));
-        assertThat("Address was not set correctly", result.getAddress(), is(equalTo(ADDRESS)));
+        assertThat("Address was not set correctly", result.getStreetAddress(), is(equalTo(ADDRESS)));
         assertThat("City was not set correctly", result.getCity(), is(equalTo(CITY)));
-        assertThat("Zip code was not set correctly", result.getZipCode(), is(equalTo(ZIP_CODE)));
+        assertThat("Zip code was not set correctly", result.getZip(), is(equalTo(ZIP_CODE)));
         assertThat("State was not set correctly", result.getState(), is(equalTo(STATE)));
         assertThat("Social security number was not set correctly", result.getSocialSecurityNumber(), is(equalTo(SOCIAL_SECURITY_NUMBER)));
         assertThat("Date of birth was not set correctly", result.getDateOfBirth(), is(equalTo(DATE_OF_BIRTH)));
-        assertThat("Home phone was not set correctly", result.getHomePhone(), is(equalTo(HOME_PHONE)));
+        assertThat("Home phone was not set correctly", result.getHomePhoneNumber(), is(equalTo(HOME_PHONE)));
     }
 }

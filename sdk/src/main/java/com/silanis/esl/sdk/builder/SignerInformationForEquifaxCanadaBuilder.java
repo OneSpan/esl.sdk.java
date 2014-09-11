@@ -149,13 +149,13 @@ public class SignerInformationForEquifaxCanadaBuilder {
 
         result.setFirstName(firstName);
         result.setLastName(lastName);
-        result.setAddress(address);
+        result.setStreetAddress(address);
         result.setCity(city);
-        result.setZipCode(zipCode);
+        result.setZip(zipCode);
         result.setState(state);
         result.setTimeAtAddress(timeAtAddress);
         result.setDateOfBirth(dateOfBirth);
-        result.setDriverslicense(driversLicense);
+        result.setDriversLicenseIndicator(driversLicense);
         result.setSocialInsuranceNumber(socialInsuranceNumber);
 
         return result;

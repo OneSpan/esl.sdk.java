@@ -1,22 +1,12 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus;
-
-/**
- * Created by schoi on 9/8/14.
- */
 public class KnowledgeBasedAuthentication {
 
     private KnowledgeBasedAuthenticationStatus knowledgeBasedAuthenticationStatus = KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
-    private SignerInformationForEquifaxCanada signerInformationForEquifaxCanada;
-    private SignerInformationForEquifaxUSA signerInformationForEquifaxUSA;
+    private SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = null;
+    private SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = null;
 
     public KnowledgeBasedAuthentication(){
-    }
-
-    public KnowledgeBasedAuthentication(SignerInformationForEquifaxCanada signerInformationForEquifaxCanada, SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
-        this.signerInformationForEquifaxCanada = signerInformationForEquifaxCanada;
-        this.signerInformationForEquifaxUSA = signerInformationForEquifaxUSA;
     }
 
     public KnowledgeBasedAuthenticationStatus getKnowledgeBasedAuthenticationStatus() {
@@ -43,3 +33,4 @@ public class KnowledgeBasedAuthentication {
         this.signerInformationForEquifaxUSA = signerInformationForEquifaxUSA;
     }
 }
+

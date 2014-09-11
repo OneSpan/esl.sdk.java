@@ -2,35 +2,32 @@ package com.silanis.esl.sdk;
 
 import java.util.Date;
 
-/**
- * Created by schoi on 9/8/14.
- */
 public class SignerInformationForEquifaxUSA {
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String streetAddress;
     private String city;
-    private String zipCode;
+    private String zip;
     private String state;
     private String socialSecurityNumber;
     private Date dateOfBirth;
-    private String homePhone;
+    private String homePhoneNumber;
 
     public SignerInformationForEquifaxUSA(){
 
     }
 
-    public SignerInformationForEquifaxUSA(String firstName, String lastName, String address, String city, String zipCode, String state, String socialSecurityNumber, Date dateOfBirth, String homePhone) {
+    public SignerInformationForEquifaxUSA(String firstName, String lastName, String streetAddress, String city, String zip, String state, String socialSecurityNumber, Date dateOfBirth, String homePhoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.streetAddress = streetAddress;
         this.city = city;
-        this.zipCode = zipCode;
+        this.zip = zip;
         this.state = state;
         this.socialSecurityNumber = socialSecurityNumber;
         this.dateOfBirth = dateOfBirth;
-        this.homePhone = homePhone;
+        this.homePhoneNumber = homePhoneNumber;
     }
 
     public String getFirstName() {
@@ -49,12 +46,12 @@ public class SignerInformationForEquifaxUSA {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreetAddress() {
+        return streetAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
     }
 
     public String getCity() {
@@ -65,12 +62,12 @@ public class SignerInformationForEquifaxUSA {
         this.city = city;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZip() {
+        return zip;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getState() {
@@ -97,11 +94,11 @@ public class SignerInformationForEquifaxUSA {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getHomePhone() {
-        return homePhone;
+    public String getHomePhoneNumber() {
+        return homePhoneNumber;
     }
 
-    public void setHomePhone(String homePhone) {
-        this.homePhone = homePhone;
+    public void setHomePhoneNumber(String homePhoneNumber) {
+        this.homePhoneNumber = homePhoneNumber;
     }
 }

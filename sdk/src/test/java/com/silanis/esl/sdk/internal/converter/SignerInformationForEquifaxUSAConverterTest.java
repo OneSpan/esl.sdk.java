@@ -94,13 +94,13 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         assertThat("Converter returned a null api object for a non null sdk object", apiSignerInformationUSA, is(notNullValue()));
         assertThat("First name was not properly set or retrieved", apiSignerInformationUSA.getFirstName(), is(equalTo(sdkSignerInformationUSA.getFirstName())));
         assertThat("Last name was not properly set or retrieved", apiSignerInformationUSA.getLastName(), is(equalTo(sdkSignerInformationUSA.getLastName())));
-        assertThat("Address was not properly set or retrieved", apiSignerInformationUSA.getStreetAddress(), is(equalTo(sdkSignerInformationUSA.getAddress())));
+        assertThat("Address was not properly set or retrieved", apiSignerInformationUSA.getStreetAddress(), is(equalTo(sdkSignerInformationUSA.getStreetAddress())));
         assertThat("City was not properly set or retrieved", apiSignerInformationUSA.getCity(), is(equalTo(sdkSignerInformationUSA.getCity())));
-        assertThat("Zip Code was not properly set or retrieved", apiSignerInformationUSA.getZip(), is(equalTo(sdkSignerInformationUSA.getZipCode())));
+        assertThat("Zip Code was not properly set or retrieved", apiSignerInformationUSA.getZip(), is(equalTo(sdkSignerInformationUSA.getZip())));
         assertThat("State was not properly set or retrieved", apiSignerInformationUSA.getState(), is(equalTo(sdkSignerInformationUSA.getState())));
         assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getSocialSecurityNumber(), is(equalTo(sdkSignerInformationUSA.getSocialSecurityNumber())));
         assertThat("Date of birth was not properly set or retrieved", apiSignerInformationUSA.getDateOfBirth(), is(equalTo(sdkSignerInformationUSA.getDateOfBirth())));
-        assertThat("Driver's license was not properly set or retrieved", apiSignerInformationUSA.getHomePhoneNumber(), is(equalTo(sdkSignerInformationUSA.getHomePhone())));
+        assertThat("Driver's license was not properly set or retrieved", apiSignerInformationUSA.getHomePhoneNumber(), is(equalTo(sdkSignerInformationUSA.getHomePhoneNumber())));
     }
 
     @Test
@@ -111,13 +111,13 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         assertThat("Converter returned a null api object for a non null api object", sdkSignerInformationUSA, is(notNullValue()));
         assertThat("First name was not properly set or retrieved", sdkSignerInformationUSA.getFirstName(), is(equalTo(apiSignerInformationUSA.getFirstName())));
         assertThat("Last name was not properly set or retrieved", sdkSignerInformationUSA.getLastName(), is(equalTo(apiSignerInformationUSA.getLastName())));
-        assertThat("Address was not properly set or retrieved", sdkSignerInformationUSA.getAddress(), is(equalTo(apiSignerInformationUSA.getStreetAddress())));
+        assertThat("Address was not properly set or retrieved", sdkSignerInformationUSA.getStreetAddress(), is(equalTo(apiSignerInformationUSA.getStreetAddress())));
         assertThat("City was not properly set or retrieved", sdkSignerInformationUSA.getCity(), is(equalTo(apiSignerInformationUSA.getCity())));
-        assertThat("Zip Code was not properly set or retrieved", sdkSignerInformationUSA.getZipCode(), is(equalTo(apiSignerInformationUSA.getZip())));
+        assertThat("Zip Code was not properly set or retrieved", sdkSignerInformationUSA.getZip(), is(equalTo(apiSignerInformationUSA.getZip())));
         assertThat("State was not properly set or retrieved", sdkSignerInformationUSA.getState(), is(equalTo(apiSignerInformationUSA.getState())));
         assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getSocialSecurityNumber(), is(equalTo(apiSignerInformationUSA.getSocialSecurityNumber())));
         assertThat("Date of birth was not properly set or retrieved", sdkSignerInformationUSA.getDateOfBirth(), is(equalTo(apiSignerInformationUSA.getDateOfBirth())));
-        assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationUSA.getHomePhone(), is(equalTo(apiSignerInformationUSA.getHomePhoneNumber())));
+        assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationUSA.getHomePhoneNumber(), is(equalTo(apiSignerInformationUSA.getHomePhoneNumber())));
     }
 
     /**
@@ -130,13 +130,13 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         sdkSignerInformationUSA = new SignerInformationForEquifaxUSA();
         sdkSignerInformationUSA.setFirstName(FIRST_NAME_FOR_SDK);
         sdkSignerInformationUSA.setLastName(LAST_NAME_FOR_SDK);
-        sdkSignerInformationUSA.setAddress(ADDRESS_FOR_SDK);
+        sdkSignerInformationUSA.setStreetAddress(ADDRESS_FOR_SDK);
         sdkSignerInformationUSA.setCity(CITY_FOR_SDK);
-        sdkSignerInformationUSA.setZipCode(ZIP_CODE_FOR_SDK);
+        sdkSignerInformationUSA.setZip(ZIP_CODE_FOR_SDK);
         sdkSignerInformationUSA.setState(STATE_FOR_SDK);
         sdkSignerInformationUSA.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER_FOR_SDK);
         sdkSignerInformationUSA.setDateOfBirth(DATE_OF_BIRTH_FOR_SDK);
-        sdkSignerInformationUSA.setHomePhone(HOME_PHONE_FOR_SDK);
+        sdkSignerInformationUSA.setHomePhoneNumber(HOME_PHONE_FOR_SDK);
 
         return sdkSignerInformationUSA;
     }

@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus;
 import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
 import com.silanis.esl.sdk.SignerInformationForEquifaxUSA;
 import org.joda.time.DateTime;
@@ -93,17 +92,17 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         sdkKBA = new KnowledgeBasedAuthenticationConverter(apiKBA).toSDKKnowledgeBasedAuthentication();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiKBA, is(notNullValue()));
-        assertThat("KBA status was not properly set or retrieved", apiKBA.getKnowledgeBasedAuthenticationStatus(), is(equalTo(sdkKBA.getKnowledgeBasedAuthenticationStatus())));
+        assertThat("KBA status was not properly set or retrieved", apiKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(equalTo(sdkKBA.getKnowledgeBasedAuthenticationStatus().toString())));
 
         assertThat("Signer information (First Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getFirstName(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getFirstName())));
         assertThat("Signer information (Last Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getLastName(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getLastName())));
-        assertThat("Signer information (Address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getStreetAddress(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getAddress())));
+        assertThat("Signer information (Address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getStreetAddress(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getStreetAddress())));
         assertThat("Signer information (City) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getCity(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getCity())));
-        assertThat("Signer information (Zip Code) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getZip(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getZipCode())));
+        assertThat("Signer information (Zip Code) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getZip(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getZip())));
         assertThat("Signer information (State) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getState(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getState())));
         assertThat("Signer information (Time at address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getTimeAtAddress(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getTimeAtAddress())));
         assertThat("Signer information (Date of Birth) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDateOfBirth(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getDateOfBirth())));
-        assertThat("Signer information (Driver's license) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDriversLicenseIndicator(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getDriverslicense())));
+        assertThat("Signer information (Driver's license) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDriversLicenseIndicator(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getDriversLicenseIndicator())));
         assertThat("Signer information (SIN) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getSocialInsuranceNumber(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getSocialInsuranceNumber())));
 
         assertThat( "Signer information for Equifax USA was not null", apiKBA.getSignerInformationForEquifaxUSA(), is( nullValue() ));
@@ -115,19 +114,19 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         apiKBA = new KnowledgeBasedAuthenticationConverter(sdkKBA).toAPIKnowledgeBasedAuthentication();
 
         assertThat("Converter returned a null api object for a non null api object", sdkKBA, is(notNullValue()));
-        assertThat("KBA status was not properly set or retrieved", sdkKBA.getKnowledgeBasedAuthenticationStatus(), is(equalTo(apiKBA.getKnowledgeBasedAuthenticationStatus())));
+        assertThat("KBA status was not properly set or retrieved", sdkKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(equalTo(apiKBA.getKnowledgeBasedAuthenticationStatus().toString())));
 
         assertThat( "Signer information for Equifax Canada was not null", sdkKBA.getSignerInformationForEquifaxCanada(), is( nullValue() ));
 
         assertThat("Signer information (First Name) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getFirstName(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getFirstName())));
         assertThat("Signer information (Last Name) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getLastName(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getLastName())));
-        assertThat("Signer information (Address) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getAddress(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getStreetAddress())));
+        assertThat("Signer information (Address) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getStreetAddress(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getStreetAddress())));
         assertThat("Signer information (City) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getCity(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getCity())));
-        assertThat("Signer information (Zip Code) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getZipCode(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getZip())));
+        assertThat("Signer information (Zip Code) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getZip(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getZip())));
         assertThat("Signer information (State) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getState(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getState())));
         assertThat("Signer information (Time at address) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber())));
         assertThat("Signer information (Date of Birth) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getDateOfBirth(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getDateOfBirth())));
-        assertThat("Signer information (Driver's license) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getHomePhone(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber())));
+        assertThat("Signer information (Driver's license) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber())));
     }
 
     /**
@@ -138,19 +137,19 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
     private KnowledgeBasedAuthentication createTypicalSDKKnowledgeBasedAuthentication() {
 
         sdkKBA = new KnowledgeBasedAuthentication();
-        sdkKBA.setKnowledgeBasedAuthenticationStatus(KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED);
+        sdkKBA.setKnowledgeBasedAuthenticationStatus(com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED);
         sdkKBA.setSignerInformationForEquifaxCanada(null);
 
         SignerInformationForEquifaxUSA sdkSignerInfoUSA = new SignerInformationForEquifaxUSA();
         sdkSignerInfoUSA.setFirstName(FIRST_NAME_FOR_USA);
         sdkSignerInfoUSA.setLastName(LAST_NAME_FOR_USA);
-        sdkSignerInfoUSA.setAddress(ADDRESS_FOR_USA);
+        sdkSignerInfoUSA.setStreetAddress(ADDRESS_FOR_USA);
         sdkSignerInfoUSA.setCity(CITY_FOR_USA);
-        sdkSignerInfoUSA.setZipCode(ZIP_CODE_FOR_USA);
+        sdkSignerInfoUSA.setZip(ZIP_CODE_FOR_USA);
         sdkSignerInfoUSA.setState(STATE_FOR_USA);
         sdkSignerInfoUSA.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER_FOR_USA);
         sdkSignerInfoUSA.setDateOfBirth(DATE_OF_BIRTH_FOR_USA);
-        sdkSignerInfoUSA.setHomePhone(HOME_PHONE_FOR_USA);
+        sdkSignerInfoUSA.setHomePhoneNumber(HOME_PHONE_FOR_USA);
         sdkKBA.setSignerInformationForEquifaxUSA(sdkSignerInfoUSA);
 
         return sdkKBA;
@@ -164,7 +163,7 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
     private com.silanis.esl.api.model.KnowledgeBasedAuthentication createTypicalAPIKnowledgeBasedAuthentication() {
         apiKBA = new com.silanis.esl.api.model.KnowledgeBasedAuthentication();
 
-        apiKBA.setKnowledgeBasedAuthenticationStatus(KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED);
+        apiKBA.setKnowledgeBasedAuthenticationStatus(com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED);
         apiKBA.setSignerInformationForEquifaxUSA(null);
 
         com.silanis.esl.api.model.SignerInformationForEquifaxCanada apiSignerInfoCanada = new com.silanis.esl.api.model.SignerInformationForEquifaxCanada();

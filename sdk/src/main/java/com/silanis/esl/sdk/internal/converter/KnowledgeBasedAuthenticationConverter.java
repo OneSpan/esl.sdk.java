@@ -42,7 +42,7 @@ public class KnowledgeBasedAuthenticationConverter {
         com.silanis.esl.sdk.SignerInformationForEquifaxUSA usa = sdkKnowledgeBasedAuthentication.getSignerInformationForEquifaxUSA();
 
 
-        result.setKnowledgeBasedAuthenticationStatus(sdkKnowledgeBasedAuthentication.getKnowledgeBasedAuthenticationStatus())
+        result.setKnowledgeBasedAuthenticationStatus(new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthentication.getKnowledgeBasedAuthenticationStatus()).toAPIKnowledgeBasedAuthenticationStatus())
                 .setSignerInformationForEquifaxCanada(new SignerInformationForEquifaxCanadaConverter(canada).toAPISignerInformationForEquifaxCanada())
                 .setSignerInformationForEquifaxUSA(new SignerInformationForEquifaxUSAConverter(usa).toAPISignerInformationForEquifaxUSA());
 
@@ -65,7 +65,7 @@ public class KnowledgeBasedAuthenticationConverter {
         com.silanis.esl.api.model.SignerInformationForEquifaxUSA usa = apiKnowledgeBasedAuthentication.getSignerInformationForEquifaxUSA();
 
 
-        result.setKnowledgeBasedAuthenticationStatus(apiKnowledgeBasedAuthentication.getKnowledgeBasedAuthenticationStatus());
+        result.setKnowledgeBasedAuthenticationStatus(new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthentication.getKnowledgeBasedAuthenticationStatus()).toSDKKnowledgeBasedAuthenticationStatus());
         result.setSignerInformationForEquifaxCanada(new SignerInformationForEquifaxCanadaConverter(canada).toSDKSignerInformationForEquifaxCanada());
         result.setSignerInformationForEquifaxUSA(new SignerInformationForEquifaxUSAConverter(usa).toSDKSignerInformationForEquifaxUSA());
 
