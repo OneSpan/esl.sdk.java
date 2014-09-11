@@ -28,6 +28,9 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     public final String SIGNER1_EMAIL;
     public final String SIGNER2_EMAIL;
 
+    public static final String PACKAGE_NAME = "KBAForEquifaxCanadaCreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    public static final String PACKAGE_DESCRIPTION = "This is a KBA for EquifaxCanada creation example";
+
     public static final String FIRST_QUESTION = "What's your favorite sport? (answer: baseball)";
     public static final String FIRST_ANSWER = "baseball";
     public static final String SECOND_QUESTION = "What music instrument do you play? (answer: guitar)";
@@ -46,7 +49,8 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     public static final Date   SIGNER2_DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
     public static final String SIGNER2_DRIVERS_LICENSE = "1234567";
     public static final String SIGNER2_SOCIAL_INSURANCE_NUMBER = "123456798654321";
-    public static final String SIGNER2_DOCUMENT_NAME = "First Document pdf";
+    public static final String SIGNER2_FIRST_DOCUMENT_NAME = "First Document pdf";
+    public static final String SIGNER2_SECOND_DOCUMENT_NAME = "Second Document pdf";
 
     public static void main( String... args ) {
         new KBAForEquifaxCanadaCreationExample(Props.get()).run();
@@ -68,8 +72,8 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("KBAForEquifaxCanadaCreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
-                .describedAs("This is a Q&A authentication example")
+        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
+                .describedAs(PACKAGE_DESCRIPTION)
                 .withSigner(newSignerWithEmail(SIGNER1_EMAIL)
                         .withFirstName(SIGNER1_FIRST_NAME)
                         .withLastName(SIGNER1_LAST_NAME)
@@ -91,7 +95,7 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
                                 .withDateOfBirth(SIGNER2_DATE_OF_BIRTH)
                                 .withDriversLicense(SIGNER2_DRIVERS_LICENSE)
                                 .withSocialInsuranceNumber(SIGNER2_SOCIAL_INSURANCE_NUMBER)))
-                        .withDocument(newDocumentWithName(SIGNER2_DOCUMENT_NAME)
+                        .withDocument(newDocumentWithName(SIGNER2_FIRST_DOCUMENT_NAME)
                                 .fromStream(documentInputStream1, DocumentType.PDF)
                                 .withSignature(signatureFor(SIGNER1_EMAIL)
                                         .onPage(0)
@@ -100,7 +104,7 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
                                                 .atPosition(50, 50)
                                                 .withValue(FieldBuilder.RADIO_SELECTED))
                                         .atPosition(100, 100)))
-                        .withDocument(newDocumentWithName("Second Document PDF")
+                        .withDocument(newDocumentWithName(SIGNER2_SECOND_DOCUMENT_NAME)
                                         .fromStream(documentInputStream2, DocumentType.PDF)
                                         .withSignature(signatureFor(SIGNER2_EMAIL)
                                                         .onPage(0)

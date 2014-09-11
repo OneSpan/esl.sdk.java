@@ -28,6 +28,9 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
     public final String SIGNER1_EMAIL;
     public final String SIGNER2_EMAIL;
 
+    public static final String PACKAGE_NAME = "KBAForEquifaxUSACreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    public static final String PACKAGE_DESCRIPTION = "This is a KBA for EquifaxUSA creation example";
+
     public static final String FIRST_QUESTION = "What's your favorite sport? (answer: golf)";
     public static final String FIRST_ANSWER = "golf";
     public static final String SECOND_QUESTION = "What music instrument do you play? (answer: drums)";
@@ -45,8 +48,8 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
     public static final String SIGNER2_SOCIAL_SECURITY_NUMBER = "123132123";
     public static final Date   SIGNER2_DATE_OF_BIRTH = new DateTime().minusYears(15).toDate();
     public static final String SIGNER2_HOME_PHONE = "123456789";
-    public static final String SIGNER2_DOCUMENT_NAME = "First Document pdf";
-
+    public static final String SIGNER2_FIRST_DOCUMENT_NAME = "First Document pdf";
+    public static final String SIGNER2_SECOND_DOCUMENT_NAME = "Second Document pdf";
 
     public static void main( String... args ) {
         new KBAForEquifaxUSACreationExample(Props.get()).run();
@@ -68,8 +71,8 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("KBAForEquifaxUSACreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
-                .describedAs("This is a Q&A authentication example")
+        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
+                .describedAs(PACKAGE_DESCRIPTION)
                 .withSigner(newSignerWithEmail(SIGNER1_EMAIL)
                         .withFirstName(SIGNER1_FIRST_NAME)
                         .withLastName(SIGNER1_LAST_NAME)
@@ -90,7 +93,7 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
                                 .withSocialSecurityNumber(SIGNER2_SOCIAL_SECURITY_NUMBER)
                                 .withDateOfBirth(SIGNER2_DATE_OF_BIRTH)
                                 .withHomePhone(SIGNER2_HOME_PHONE)))
-                .withDocument(newDocumentWithName(SIGNER2_DOCUMENT_NAME)
+                .withDocument(newDocumentWithName(SIGNER2_FIRST_DOCUMENT_NAME)
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(SIGNER1_EMAIL)
                                 .onPage(0)
@@ -99,14 +102,14 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
                                         .atPosition(50, 50)
                                         .withValue(FieldBuilder.RADIO_SELECTED))
                                 .atPosition(100, 100)))
-                .withDocument(newDocumentWithName("Second Document PDF")
+                .withDocument(newDocumentWithName(SIGNER2_SECOND_DOCUMENT_NAME)
                                 .fromStream(documentInputStream2, DocumentType.PDF)
                                 .withSignature(signatureFor(SIGNER2_EMAIL)
                                                 .onPage(0)
                                                 .withField(FieldBuilder.textField()
-                                                        .onPage( 0 )
-                                                        .atPosition( 400, 100 )
-                                                        .withSize( 200, 50 ))
+                                                        .onPage(0)
+                                                        .atPosition(400, 100)
+                                                        .withSize(200, 50))
                                                 .atPosition(100, 200)
                                 )
                 )
