@@ -20,19 +20,6 @@ public class SignerInformationForEquifaxCanada{
 
     }
 
-    public SignerInformationForEquifaxCanada(String firstName, String lastName, String streetAddress, String city, String zip, String state, String timeAtAddress, Date dateOfBirth, String driversLicenseIndicator, String socialInsuranceNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.streetAddress = streetAddress;
-        this.city = city;
-        this.zip = zip;
-        this.state = state;
-        this.timeAtAddress = timeAtAddress;
-        this.dateOfBirth = dateOfBirth;
-        this.driversLicenseIndicator = driversLicenseIndicator;
-        this.socialInsuranceNumber = socialInsuranceNumber;
-    }
-
     public String getFirstName() {
         return firstName;
     }

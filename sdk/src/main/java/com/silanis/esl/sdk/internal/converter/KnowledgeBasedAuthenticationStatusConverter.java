@@ -46,7 +46,7 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             case PASSED:
                 return sdkKnowledgeBasedAuthenticationStatus.PASSED;
             default:
-                throw new BuilderException("Unrecognized message status type.");
+                throw new BuilderException("Unrecognized knowledgeBasedAuthentication status type.");
         }
     }
 
@@ -68,7 +68,7 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             case PASSED:
                 return apiKnowledgeBasedAuthenticationStatus.PASSED;
             default:
-                throw new BuilderException("Unrecognized message status type.");
+                throw new BuilderException("Unrecognized knowledgeBasedAuthentication status type.");
         }
     }
 }

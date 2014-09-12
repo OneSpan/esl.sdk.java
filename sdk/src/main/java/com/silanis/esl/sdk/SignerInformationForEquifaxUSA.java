@@ -18,18 +18,6 @@ public class SignerInformationForEquifaxUSA {
 
     }
 
-    public SignerInformationForEquifaxUSA(String firstName, String lastName, String streetAddress, String city, String zip, String state, String socialSecurityNumber, Date dateOfBirth, String homePhoneNumber) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.streetAddress = streetAddress;
-        this.city = city;
-        this.zip = zip;
-        this.state = state;
-        this.socialSecurityNumber = socialSecurityNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.homePhoneNumber = homePhoneNumber;
-    }
-
     public String getFirstName() {
         return firstName;
     }
