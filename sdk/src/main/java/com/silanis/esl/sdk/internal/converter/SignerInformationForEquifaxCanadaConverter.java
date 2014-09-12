@@ -44,12 +44,13 @@ public class SignerInformationForEquifaxCanadaConverter {
                 .setLastName(sdkKBACanada.getLastName())
                 .setStreetAddress(sdkKBACanada.getStreetAddress())
                 .setCity(sdkKBACanada.getCity())
-                .setZip(sdkKBACanada.getZip())
-                .setState(sdkKBACanada.getState())
+                .setPostalCode(sdkKBACanada.getPostalCode())
+                .setProvince(sdkKBACanada.getProvince())
                 .setTimeAtAddress(sdkKBACanada.getTimeAtAddress())
                 .setDateOfBirth(sdkKBACanada.getDateOfBirth())
                 .setDriversLicenseIndicator(sdkKBACanada.getDriversLicenseIndicator())
-                .setSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber());
+                .setSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber())
+                .setHomePhoneNumber(sdkKBACanada.getHomePhoneNumber());
 
         return result;
     }
@@ -72,12 +73,13 @@ public class SignerInformationForEquifaxCanadaConverter {
                 .withLastName(apiKBACanada.getLastName())
                 .withAddress(apiKBACanada.getStreetAddress())
                 .withCity(apiKBACanada.getCity())
-                .withZipCode(apiKBACanada.getZip())
-                .withState(apiKBACanada.getState())
+                .withPostalCode(apiKBACanada.getPostalCode())
+                .withProvince(apiKBACanada.getProvince())
                 .withTimeAtAddress(apiKBACanada.getTimeAtAddress())
                 .withDateOfBirth(apiKBACanada.getDateOfBirth())
                 .withDriversLicense(apiKBACanada.getDriversLicenseIndicator())
-                .withSocialInsuranceNumber(apiKBACanada.getSocialInsuranceNumber());
+                .withSocialInsuranceNumber(apiKBACanada.getSocialInsuranceNumber())
+                .withHomePhoneNumber(apiKBACanada.getHomePhoneNumber());
 
         return signerBuilder.build();
 

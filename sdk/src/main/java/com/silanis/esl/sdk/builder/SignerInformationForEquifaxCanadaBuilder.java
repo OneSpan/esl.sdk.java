@@ -13,12 +13,13 @@ public class SignerInformationForEquifaxCanadaBuilder {
     private String lastName;
     private String address;
     private String city;
-    private String zipCode;
-    private String state;
+    private String postalCode;
+    private String province;
     private String timeAtAddress;
     private Date   dateOfBirth;
     private String driversLicense;
     private String socialInsuranceNumber;
+    private String homePhoneNumber;
 
     /**
      * <p>Creates a SignerInformationBuilderForEquifaxCanada object.</p>
@@ -74,24 +75,24 @@ public class SignerInformationForEquifaxCanadaBuilder {
     }
 
     /**
-     * <p>Sets the signer's zipCode in KBA information.</p>
+     * <p>Sets the signer's postalCode in KBA information.</p>
      *
-     * @param zipCode the signer's zipCode
+     * @param postalCode the signer's postalCode
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public SignerInformationForEquifaxCanadaBuilder withPostalCode(String postalCode) {
+        this.postalCode = postalCode;
         return this;
     }
 
     /**
-     * <p>Sets the signer's state in KBA information.</p>
+     * <p>Sets the signer's province in KBA information.</p>
      *
-     * @param state the signer's state
+     * @param province the signer's province
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withState(String state) {
-        this.state = state;
+    public SignerInformationForEquifaxCanadaBuilder withProvince(String province) {
+        this.province = province;
         return this;
     }
 
@@ -140,6 +141,17 @@ public class SignerInformationForEquifaxCanadaBuilder {
     }
 
     /**
+     * <p>Sets the signer's home phone number in KBA information.</p>
+     *
+     * @param homePhoneNumber the signer's home phone number
+     * @return	the signer information builder object itself
+     */
+    public SignerInformationForEquifaxCanadaBuilder withHomePhoneNumber(String homePhoneNumber) {
+        this.homePhoneNumber = homePhoneNumber;
+        return this;
+    }
+
+    /**
      * Builds the actual signer object.
      *
      * @return the signer object
@@ -151,12 +163,13 @@ public class SignerInformationForEquifaxCanadaBuilder {
         result.setLastName(lastName);
         result.setStreetAddress(address);
         result.setCity(city);
-        result.setZip(zipCode);
-        result.setState(state);
+        result.setPostalCode(postalCode);
+        result.setProvince(province);
         result.setTimeAtAddress(timeAtAddress);
         result.setDateOfBirth(dateOfBirth);
         result.setDriversLicenseIndicator(driversLicense);
         result.setSocialInsuranceNumber(socialInsuranceNumber);
+        result.setHomePhoneNumber(homePhoneNumber);
 
         return result;
 

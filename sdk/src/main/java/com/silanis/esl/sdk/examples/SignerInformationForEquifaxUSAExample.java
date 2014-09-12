@@ -20,7 +20,7 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder.
 /**
  * Created by schoi on 9/8/14.
  */
-public class KBAForEquifaxUSACreationExample extends SDKSample {
+public class SignerInformationForEquifaxUSAExample extends SDKSample {
 
     private InputStream documentInputStream1;
     private InputStream documentInputStream2;
@@ -52,17 +52,17 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
     public static final String SIGNER2_SECOND_DOCUMENT_NAME = "Second Document pdf";
 
     public static void main( String... args ) {
-        new KBAForEquifaxUSACreationExample(Props.get()).run();
+        new SignerInformationForEquifaxUSAExample(Props.get()).run();
     }
 
-    public KBAForEquifaxUSACreationExample(Properties props) {
+    public SignerInformationForEquifaxUSAExample(Properties props) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
                 props.getProperty( "1.email" ),
                 props.getProperty( "2.email" ) );
     }
 
-    public KBAForEquifaxUSACreationExample(String apiKey, String apiUrl, String email1, String email2) {
+    public SignerInformationForEquifaxUSAExample(String apiKey, String apiUrl, String email1, String email2) {
         super( apiKey, apiUrl );
         this.SIGNER1_EMAIL = email1;
         this.SIGNER2_EMAIL = email2;
@@ -83,7 +83,7 @@ public class KBAForEquifaxUSACreationExample extends SDKSample {
                 .withSigner(newSignerWithEmail(SIGNER2_EMAIL)
                         .withFirstName(SIGNER2_FIRST_NAME)
                         .withLastName(SIGNER2_LAST_NAME)
-                        .challengeWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
+                        .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
                                 .withFirstName(SIGNER2_FIRST_NAME)
                                 .withLastName(SIGNER2_LAST_NAME)
                                 .withAddress(SIGNER2_ADDRESS)

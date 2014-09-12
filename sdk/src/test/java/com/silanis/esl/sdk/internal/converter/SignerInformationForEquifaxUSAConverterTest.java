@@ -4,12 +4,8 @@ import com.silanis.esl.sdk.SignerInformationForEquifaxUSA;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import java.util.Date;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 
 /**
  * Created by schoi on 9/10/14.
@@ -19,26 +15,6 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
     private com.silanis.esl.sdk.SignerInformationForEquifaxUSA sdkSignerInformationUSA = null;
     private com.silanis.esl.api.model.SignerInformationForEquifaxUSA apiSignerInformationUSA = null;
     private SignerInformationForEquifaxUSAConverter converter = null;
-
-    private final String FIRST_NAME_FOR_SDK = "Patty";
-    private final String LAST_NAME_FOR_SDK = "Galant";
-    private final String ADDRESS_FOR_SDK = "2356 rue av";
-    private final String CITY_FOR_SDK = "Montreal";
-    private final String ZIP_CODE_FOR_SDK = "h8h3a3";
-    private final String STATE_FOR_SDK = "QC";
-    private final String SOCIAL_SECURITY_NUMBER_FOR_SDK = "6872564982";
-    private final Date DATE_OF_BIRTH_FOR_SDK = new DateTime().minusYears(46).toDate();
-    private final String HOME_PHONE_FOR_SDK = "123456789";
-
-    private final String FIRST_NAME_FOR_API = "John";
-    private final String LAST_NAME_FOR_API = "Smith";
-    private final String ADDRESS_FOR_API = "123 rue av";
-    private final String CITY_FOR_API = "Montreal";
-    private final String ZIP_CODE_FOR_API = "h2h3h2";
-    private final String STATE_FOR_API = "QC";
-    private final String SOCIAL_SECURITY_NUMBER_FOR_API = "4657843264";
-    private final Date DATE_OF_BIRTH_FOR_API = new DateTime().minusYears(26).toDate();
-    private final String HOME_PHONE_FOR_API = "1234567";
 
     @Test
     public void convertNullSDKToAPI() {
@@ -128,15 +104,15 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
     private SignerInformationForEquifaxUSA createTypicalSDKSignerInformationForEquifaxUSA() {
 
         sdkSignerInformationUSA = new SignerInformationForEquifaxUSA();
-        sdkSignerInformationUSA.setFirstName(FIRST_NAME_FOR_SDK);
-        sdkSignerInformationUSA.setLastName(LAST_NAME_FOR_SDK);
-        sdkSignerInformationUSA.setStreetAddress(ADDRESS_FOR_SDK);
-        sdkSignerInformationUSA.setCity(CITY_FOR_SDK);
-        sdkSignerInformationUSA.setZip(ZIP_CODE_FOR_SDK);
-        sdkSignerInformationUSA.setState(STATE_FOR_SDK);
-        sdkSignerInformationUSA.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER_FOR_SDK);
-        sdkSignerInformationUSA.setDateOfBirth(DATE_OF_BIRTH_FOR_SDK);
-        sdkSignerInformationUSA.setHomePhoneNumber(HOME_PHONE_FOR_SDK);
+        sdkSignerInformationUSA.setFirstName("Patty");
+        sdkSignerInformationUSA.setLastName("Galant");
+        sdkSignerInformationUSA.setStreetAddress("2356 rue av");
+        sdkSignerInformationUSA.setCity("Montreal");
+        sdkSignerInformationUSA.setZip("h8h3a3");
+        sdkSignerInformationUSA.setState("QC");
+        sdkSignerInformationUSA.setSocialSecurityNumber("6872564982");
+        sdkSignerInformationUSA.setDateOfBirth(new DateTime().minusYears(46).toDate());
+        sdkSignerInformationUSA.setHomePhoneNumber("123456789");
 
         return sdkSignerInformationUSA;
     }
@@ -149,15 +125,15 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
     private com.silanis.esl.api.model.SignerInformationForEquifaxUSA createTypicalAPISignerInformationForEquifaxUSA() {
         apiSignerInformationUSA = new com.silanis.esl.api.model.SignerInformationForEquifaxUSA();
 
-        apiSignerInformationUSA.setFirstName(FIRST_NAME_FOR_API);
-        apiSignerInformationUSA.setLastName(LAST_NAME_FOR_API);
-        apiSignerInformationUSA.setStreetAddress(ADDRESS_FOR_API);
-        apiSignerInformationUSA.setCity(CITY_FOR_API);
-        apiSignerInformationUSA.setZip(ZIP_CODE_FOR_API);
-        apiSignerInformationUSA.setState(STATE_FOR_API);
-        apiSignerInformationUSA.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER_FOR_API);
-        apiSignerInformationUSA.setDateOfBirth(DATE_OF_BIRTH_FOR_API);
-        apiSignerInformationUSA.setHomePhoneNumber(HOME_PHONE_FOR_API);
+        apiSignerInformationUSA.setFirstName("John");
+        apiSignerInformationUSA.setLastName("Smith");
+        apiSignerInformationUSA.setStreetAddress("123 rue av");
+        apiSignerInformationUSA.setCity("Montreal");
+        apiSignerInformationUSA.setZip("h2h3h2");
+        apiSignerInformationUSA.setState("QC");
+        apiSignerInformationUSA.setSocialSecurityNumber("4657843264");
+        apiSignerInformationUSA.setDateOfBirth(new DateTime().minusYears(26).toDate());
+        apiSignerInformationUSA.setHomePhoneNumber("1234567");
 
         return apiSignerInformationUSA;
     }

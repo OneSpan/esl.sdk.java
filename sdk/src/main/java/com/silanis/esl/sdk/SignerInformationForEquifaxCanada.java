@@ -8,8 +8,8 @@ public class SignerInformationForEquifaxCanada{
     private String lastName;
     private String streetAddress;
     private String city;
-    private String zip;
-    private String state;
+    private String postalCode;
+    private String province;
     private String timeAtAddress;
     private Date dateOfBirth;
     private String driversLicenseIndicator;
@@ -52,20 +52,20 @@ public class SignerInformationForEquifaxCanada{
         this.city = city;
     }
 
-    public String getZip() {
-        return zip;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
-    public String getState() {
-        return state;
+    public String getProvince() {
+        return province;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
     public String getTimeAtAddress() {

@@ -20,7 +20,7 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxCanadaBuild
 /**
  * Created by schoi on 9/5/14.
  */
-public class KBAForEquifaxCanadaCreationExample extends SDKSample {
+public class SignerInformationForEquifaxCanadaExample extends SDKSample {
 
     private InputStream documentInputStream1;
     private InputStream documentInputStream2;
@@ -43,8 +43,8 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     public static final String SIGNER2_LAST_NAME = "Galant";
     public static final String SIGNER2_ADDRESS = "123 rue av";
     public static final String SIGNER2_CITY = "montreal";
-    public static final String SIGNER2_ZIP_CODE = "h2h3h2";
-    public static final String SIGNER2_STATE = "QU";
+    public static final String SIGNER2_POSTAL_CODE = "h2h3h2";
+    public static final String SIGNER2_PROVINCE = "QU";
     public static final String SIGNER2_TIME_AT_ADDRESS = "123";
     public static final Date   SIGNER2_DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
     public static final String SIGNER2_DRIVERS_LICENSE = "1234567";
@@ -53,17 +53,17 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
     public static final String SIGNER2_SECOND_DOCUMENT_NAME = "Second Document pdf";
 
     public static void main( String... args ) {
-        new KBAForEquifaxCanadaCreationExample(Props.get()).run();
+        new SignerInformationForEquifaxCanadaExample(Props.get()).run();
     }
 
-    public KBAForEquifaxCanadaCreationExample(Properties props) {
+    public SignerInformationForEquifaxCanadaExample(Properties props) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
                 props.getProperty( "1.email" ),
                 props.getProperty( "2.email" ) );
     }
 
-    public KBAForEquifaxCanadaCreationExample(String apiKey, String apiUrl, String email1, String email2) {
+    public SignerInformationForEquifaxCanadaExample(String apiKey, String apiUrl, String email1, String email2) {
         super( apiKey, apiUrl );
         this.SIGNER1_EMAIL = email1;
         this.SIGNER2_EMAIL = email2;
@@ -84,13 +84,13 @@ public class KBAForEquifaxCanadaCreationExample extends SDKSample {
                 .withSigner(newSignerWithEmail(SIGNER2_EMAIL)
                         .withFirstName(SIGNER2_FIRST_NAME)
                         .withLastName(SIGNER2_LAST_NAME)
-                        .challengeWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
+                        .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
                                 .withFirstName(SIGNER2_FIRST_NAME)
                                 .withLastName(SIGNER2_LAST_NAME)
                                 .withAddress(SIGNER2_ADDRESS)
                                 .withCity(SIGNER2_CITY)
-                                .withZipCode(SIGNER2_ZIP_CODE)
-                                .withState(SIGNER2_STATE)
+                                .withPostalCode(SIGNER2_POSTAL_CODE)
+                                .withProvince(SIGNER2_PROVINCE)
                                 .withTimeAtAddress(SIGNER2_TIME_AT_ADDRESS)
                                 .withDateOfBirth(SIGNER2_DATE_OF_BIRTH)
                                 .withDriversLicense(SIGNER2_DRIVERS_LICENSE)

@@ -81,7 +81,7 @@ public class SignerConverter {
                     .withLastName( apiSigner.getLastName() )
                     .withCompany( apiSigner.getCompany() )
                     .withTitle( apiSigner.getTitle() )
-                    .challengeWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
+                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }

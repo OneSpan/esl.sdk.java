@@ -27,18 +27,20 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
     private final String STATE_FOR_USA = "CA";
     private final Date DATE_OF_BIRTH_FOR_USA = new DateTime().minusYears(38).toDate();
     private final String SOCIAL_SECURITY_NUMBER_FOR_USA = "123132123";
-    private final String HOME_PHONE_FOR_USA = "3546895132";
+    private final String HOME_PHONE_NUMBER_FOR_USA = "3546895132";
 
     private final String FIRST_NAME_FOR_CANADA = "John";
     private final String LAST_NAME_FOR_CANADA = "Smith";
     private final String ADDRESS_FOR_CANADA = "123 rue av";
     private final String CITY_FOR_CANADA = "Montreal";
-    private final String ZIP_CODE_FOR_CANADA = "h2h3h2";
-    private final String STATE_FOR_CANADA = "QC";
+    private final String POSTAL_CODE_FOR_CANADA = "h2h3h2";
+    private final String PROVINCE_FOR_CANADA = "QC";
     private final String TIME_AT_ADDRESS_FOR_CANADA = "123";
     private final Date DATE_OF_BIRTH_FOR_CANADA = new DateTime().minusYears(56).toDate();
     private final String DRIVERS_LICENSE_FOR_CANADA = "1234567";
     private final String SOCIAL_INSURANCE_NUMBER_FOR_CANADA = "123456798654321";
+    private final String HOME_PHONE_NUMBER_FOR_CANADA = "9465321597";
+
 
     @Test
     public void convertNullSDKToAPI() {
@@ -98,12 +100,13 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Signer information (Last Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getLastName(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getLastName())));
         assertThat("Signer information (Address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getStreetAddress(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getStreetAddress())));
         assertThat("Signer information (City) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getCity(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getCity())));
-        assertThat("Signer information (Zip Code) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getZip(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getZip())));
-        assertThat("Signer information (State) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getState(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getState())));
+        assertThat("Signer information (Postal Code) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getPostalCode(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getPostalCode())));
+        assertThat("Signer information (Province) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getProvince(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getProvince())));
         assertThat("Signer information (Time at address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getTimeAtAddress(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getTimeAtAddress())));
         assertThat("Signer information (Date of Birth) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDateOfBirth(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getDateOfBirth())));
         assertThat("Signer information (Driver's license) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDriversLicenseIndicator(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getDriversLicenseIndicator())));
         assertThat("Signer information (SIN) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getSocialInsuranceNumber(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getSocialInsuranceNumber())));
+        assertThat("Signer information (Home Phone number) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getHomePhoneNumber(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getHomePhoneNumber())));
 
         assertThat( "Signer information for Equifax USA was not null", apiKBA.getSignerInformationForEquifaxUSA(), is( nullValue() ));
     }
@@ -124,9 +127,9 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Signer information (City) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getCity(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getCity())));
         assertThat("Signer information (Zip Code) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getZip(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getZip())));
         assertThat("Signer information (State) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getState(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getState())));
-        assertThat("Signer information (Time at address) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber())));
+        assertThat("Signer information (SSN) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber())));
         assertThat("Signer information (Date of Birth) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getDateOfBirth(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getDateOfBirth())));
-        assertThat("Signer information (Driver's license) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber())));
+        assertThat("Signer information (Home Phone number) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber(), is(equalTo(apiKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber())));
     }
 
     /**
@@ -149,7 +152,7 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         sdkSignerInfoUSA.setState(STATE_FOR_USA);
         sdkSignerInfoUSA.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER_FOR_USA);
         sdkSignerInfoUSA.setDateOfBirth(DATE_OF_BIRTH_FOR_USA);
-        sdkSignerInfoUSA.setHomePhoneNumber(HOME_PHONE_FOR_USA);
+        sdkSignerInfoUSA.setHomePhoneNumber(HOME_PHONE_NUMBER_FOR_USA);
         sdkKBA.setSignerInformationForEquifaxUSA(sdkSignerInfoUSA);
 
         return sdkKBA;
@@ -171,12 +174,13 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         apiSignerInfoCanada.setLastName(LAST_NAME_FOR_CANADA);
         apiSignerInfoCanada.setStreetAddress(ADDRESS_FOR_CANADA);
         apiSignerInfoCanada.setCity(CITY_FOR_CANADA);
-        apiSignerInfoCanada.setZip(ZIP_CODE_FOR_CANADA);
-        apiSignerInfoCanada.setState(STATE_FOR_CANADA);
+        apiSignerInfoCanada.setPostalCode(POSTAL_CODE_FOR_CANADA);
+        apiSignerInfoCanada.setProvince(PROVINCE_FOR_CANADA);
         apiSignerInfoCanada.setTimeAtAddress(TIME_AT_ADDRESS_FOR_CANADA);
         apiSignerInfoCanada.setDateOfBirth(DATE_OF_BIRTH_FOR_CANADA);
         apiSignerInfoCanada.setDriversLicenseIndicator(DRIVERS_LICENSE_FOR_CANADA);
         apiSignerInfoCanada.setSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER_FOR_CANADA);
+        apiSignerInfoCanada.setHomePhoneNumber(HOME_PHONE_NUMBER_FOR_CANADA);
         apiKBA.setSignerInformationForEquifaxCanada(apiSignerInfoCanada);
 
         return apiKBA;

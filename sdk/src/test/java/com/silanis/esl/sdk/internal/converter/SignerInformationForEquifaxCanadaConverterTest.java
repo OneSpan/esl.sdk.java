@@ -4,8 +4,6 @@ import com.silanis.esl.sdk.SignerInformationForEquifaxCanada;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
-import java.util.Date;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -17,28 +15,6 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
     private com.silanis.esl.sdk.SignerInformationForEquifaxCanada sdkSignerInformationCanada = null;
     private com.silanis.esl.api.model.SignerInformationForEquifaxCanada apiSignerInformationCanada = null;
     private SignerInformationForEquifaxCanadaConverter converter = null;
-
-    private final String FIRST_NAME_FOR_SDK = "Patty";
-    private final String LAST_NAME_FOR_SDK = "Galant";
-    private final String ADDRESS_FOR_SDK = "2356 rue av";
-    private final String CITY_FOR_SDK = "Montreal";
-    private final String ZIP_CODE_FOR_SDK = "h8h3a3";
-    private final String STATE_FOR_SDK = "QC";
-    private final String TIME_AT_ADDRESS_FOR_SDK = "634";
-    private final Date DATE_OF_BIRTH_FOR_SDK = new DateTime().minusYears(23).toDate();
-    private final String DRIVERS_LICENSE_FOR_SDK = "7642754";
-    private final String SOCIAL_INSURANCE_NUMBER_FOR_SDK = "734556798654321";
-
-    private final String FIRST_NAME_FOR_API = "John";
-    private final String LAST_NAME_FOR_API = "Smith";
-    private final String ADDRESS_FOR_API = "123 rue av";
-    private final String CITY_FOR_API = "Montreal";
-    private final String ZIP_CODE_FOR_API = "h2h3h2";
-    private final String STATE_FOR_API = "QC";
-    private final String TIME_AT_ADDRESS_FOR_API = "123";
-    private final Date DATE_OF_BIRTH_FOR_API = new DateTime().minusYears(56).toDate();
-    private final String DRIVERS_LICENSE_FOR_API = "1234567";
-    private final String SOCIAL_INSURANCE_NUMBER_FOR_API = "123456798654321";
 
     @Test
     public void convertNullSDKToAPI() {
@@ -96,12 +72,13 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
         assertThat("Last name was not properly set or retrieved", apiSignerInformationCanada.getLastName(), is(equalTo(sdkSignerInformationCanada.getLastName())));
         assertThat("Address was not properly set or retrieved", apiSignerInformationCanada.getStreetAddress(), is(equalTo(sdkSignerInformationCanada.getStreetAddress())));
         assertThat("City was not properly set or retrieved", apiSignerInformationCanada.getCity(), is(equalTo(sdkSignerInformationCanada.getCity())));
-        assertThat("Zip Code was not properly set or retrieved", apiSignerInformationCanada.getZip(), is(equalTo(sdkSignerInformationCanada.getZip())));
-        assertThat("State was not properly set or retrieved", apiSignerInformationCanada.getState(), is(equalTo(sdkSignerInformationCanada.getState())));
+        assertThat("Postal Code was not properly set or retrieved", apiSignerInformationCanada.getPostalCode(), is(equalTo(sdkSignerInformationCanada.getPostalCode())));
+        assertThat("Province was not properly set or retrieved", apiSignerInformationCanada.getProvince(), is(equalTo(sdkSignerInformationCanada.getProvince())));
         assertThat("Time at address was not properly set or retrieved", apiSignerInformationCanada.getTimeAtAddress(), is(equalTo(sdkSignerInformationCanada.getTimeAtAddress())));
         assertThat("Date of birth was not properly set or retrieved", apiSignerInformationCanada.getDateOfBirth(), is(equalTo(sdkSignerInformationCanada.getDateOfBirth())));
         assertThat("Driver's license was not properly set or retrieved", apiSignerInformationCanada.getDriversLicenseIndicator(), is(equalTo(sdkSignerInformationCanada.getDriversLicenseIndicator())));
         assertThat("SIN number was not properly set or retrieved", apiSignerInformationCanada.getSocialInsuranceNumber(), is(equalTo(sdkSignerInformationCanada.getSocialInsuranceNumber())));
+        assertThat("Home phone number was not properly set or retrieved", apiSignerInformationCanada.getHomePhoneNumber(), is(equalTo(sdkSignerInformationCanada.getHomePhoneNumber())));
     }
 
     @Test
@@ -114,12 +91,13 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
         assertThat("Last name was not properly set or retrieved", sdkSignerInformationCanada.getLastName(), is(equalTo(apiSignerInformationCanada.getLastName())));
         assertThat("Address was not properly set or retrieved", sdkSignerInformationCanada.getStreetAddress(), is(equalTo(apiSignerInformationCanada.getStreetAddress())));
         assertThat("City was not properly set or retrieved", sdkSignerInformationCanada.getCity(), is(equalTo(apiSignerInformationCanada.getCity())));
-        assertThat("Zip Code was not properly set or retrieved", sdkSignerInformationCanada.getZip(), is(equalTo(apiSignerInformationCanada.getZip())));
-        assertThat("State was not properly set or retrieved", sdkSignerInformationCanada.getState(), is(equalTo(apiSignerInformationCanada.getState())));
+        assertThat("Postal Code was not properly set or retrieved", sdkSignerInformationCanada.getPostalCode(), is(equalTo(apiSignerInformationCanada.getPostalCode())));
+        assertThat("Province was not properly set or retrieved", sdkSignerInformationCanada.getProvince(), is(equalTo(apiSignerInformationCanada.getProvince())));
         assertThat("Time at address was not properly set or retrieved", sdkSignerInformationCanada.getTimeAtAddress(), is(equalTo(apiSignerInformationCanada.getTimeAtAddress())));
         assertThat("Date of birth was not properly set or retrieved", sdkSignerInformationCanada.getDateOfBirth(), is(equalTo(apiSignerInformationCanada.getDateOfBirth())));
         assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationCanada.getDriversLicenseIndicator(), is(equalTo(apiSignerInformationCanada.getDriversLicenseIndicator())));
         assertThat("SIN number was not properly set or retrieved", sdkSignerInformationCanada.getSocialInsuranceNumber(), is(equalTo(apiSignerInformationCanada.getSocialInsuranceNumber())));
+        assertThat("Home phone number was not properly set or retrieved", sdkSignerInformationCanada.getHomePhoneNumber(), is(equalTo(apiSignerInformationCanada.getHomePhoneNumber())));
     }
 
     /**
@@ -130,16 +108,17 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
     private SignerInformationForEquifaxCanada createTypicalSDKSignerInformationForEquifaxCanada() {
 
         sdkSignerInformationCanada = new SignerInformationForEquifaxCanada();
-        sdkSignerInformationCanada.setFirstName(FIRST_NAME_FOR_SDK);
-        sdkSignerInformationCanada.setLastName(LAST_NAME_FOR_SDK);
-        sdkSignerInformationCanada.setStreetAddress(ADDRESS_FOR_SDK);
-        sdkSignerInformationCanada.setCity(CITY_FOR_SDK);
-        sdkSignerInformationCanada.setZip(ZIP_CODE_FOR_SDK);
-        sdkSignerInformationCanada.setState(STATE_FOR_SDK);
-        sdkSignerInformationCanada.setTimeAtAddress(TIME_AT_ADDRESS_FOR_SDK);
-        sdkSignerInformationCanada.setDateOfBirth(DATE_OF_BIRTH_FOR_SDK);
-        sdkSignerInformationCanada.setDriversLicenseIndicator(DRIVERS_LICENSE_FOR_SDK);
-        sdkSignerInformationCanada.setSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER_FOR_SDK);
+        sdkSignerInformationCanada.setFirstName("Patty");
+        sdkSignerInformationCanada.setLastName("Galant");
+        sdkSignerInformationCanada.setStreetAddress("2356 rue av");
+        sdkSignerInformationCanada.setCity("Montreal");
+        sdkSignerInformationCanada.setPostalCode("h8h3a3");
+        sdkSignerInformationCanada.setProvince("QC");
+        sdkSignerInformationCanada.setTimeAtAddress("634");
+        sdkSignerInformationCanada.setDateOfBirth(new DateTime().minusYears(23).toDate());
+        sdkSignerInformationCanada.setDriversLicenseIndicator("7642754");
+        sdkSignerInformationCanada.setSocialInsuranceNumber("734556798654321");
+        sdkSignerInformationCanada.setHomePhoneNumber("8746235974");
 
         return sdkSignerInformationCanada;
     }
@@ -152,16 +131,17 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
     private com.silanis.esl.api.model.SignerInformationForEquifaxCanada createTypicalAPISignerInformationForEquifaxCanada() {
         apiSignerInformationCanada = new com.silanis.esl.api.model.SignerInformationForEquifaxCanada();
 
-        apiSignerInformationCanada.setFirstName(FIRST_NAME_FOR_API);
-        apiSignerInformationCanada.setLastName(LAST_NAME_FOR_API);
-        apiSignerInformationCanada.setStreetAddress(ADDRESS_FOR_API);
-        apiSignerInformationCanada.setCity(CITY_FOR_API);
-        apiSignerInformationCanada.setZip(ZIP_CODE_FOR_API);
-        apiSignerInformationCanada.setState(STATE_FOR_API);
-        apiSignerInformationCanada.setTimeAtAddress(TIME_AT_ADDRESS_FOR_API);
-        apiSignerInformationCanada.setDateOfBirth(DATE_OF_BIRTH_FOR_API);
-        apiSignerInformationCanada.setDriversLicenseIndicator(DRIVERS_LICENSE_FOR_API);
-        apiSignerInformationCanada.setSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER_FOR_API);
+        apiSignerInformationCanada.setFirstName("John");
+        apiSignerInformationCanada.setLastName("Smith");
+        apiSignerInformationCanada.setStreetAddress("123 rue av");
+        apiSignerInformationCanada.setCity("Montreal");
+        apiSignerInformationCanada.setPostalCode("h2h3h2");
+        apiSignerInformationCanada.setProvince("QC");
+        apiSignerInformationCanada.setTimeAtAddress("123");
+        apiSignerInformationCanada.setDateOfBirth(new DateTime().minusYears(56).toDate());
+        apiSignerInformationCanada.setDriversLicenseIndicator("1234567");
+        apiSignerInformationCanada.setSocialInsuranceNumber("123456798654321");
+        apiSignerInformationCanada.setHomePhoneNumber("4653259854");
 
         return apiSignerInformationCanada;
     }
