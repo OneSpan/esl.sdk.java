@@ -31,7 +31,7 @@ public class SignerInformationForEquifaxCanadaBuilderTest {
     @Test
     public void buildWithSpecifiedValues() {
 
-        SignerInformationForEquifaxCanadaBuilder builder = SignerInformationForEquifaxCanadaBuilder.newSignerInformationForEquifaxCanada()
+        SignerInformationForEquifaxCanada result = SignerInformationForEquifaxCanadaBuilder.newSignerInformationForEquifaxCanada()
                 .withFirstName(FIRST_NAME)
                 .withLastName(LAST_NAME)
                 .withAddress(ADDRESS)
@@ -42,8 +42,8 @@ public class SignerInformationForEquifaxCanadaBuilderTest {
                 .withDateOfBirth(DATE_OF_BIRTH)
                 .withDriversLicense(DRIVERS_LICENSE)
                 .withSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER)
-                .withHomePhoneNumber(HOME_PHONE_NUMBER);
-        SignerInformationForEquifaxCanada result = builder.build();
+                .withHomePhoneNumber(HOME_PHONE_NUMBER)
+                .build();
 
         assertThat("build returned a null object", result, is(notNullValue()));
         assertThat("First name was not set correctly", result.getFirstName(), is(equalTo(FIRST_NAME)));
