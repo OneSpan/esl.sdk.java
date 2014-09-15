@@ -25,15 +25,15 @@ public class MixedSignerAuthenticationExample extends SDKSample {
     private InputStream documentInputStream;
     private DocumentPackage retrievedPackage;
 
+    private final String PACKAGE_NAME = "MixedSignerAuthenticationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    private final String PACKAGE_DESCRIPTION = "This is a mixed signer authentication example";
+    private final String DOCUMENT_NAME = "First Document pdf";
+
     public Signer signerWithAuthenticationEquifaxCanada;
     public Signer signerWithAuthenticationEquifaxUSA;
 
     public final String SIGNER1_EMAIL;
     public final String SIGNER2_EMAIL;
-
-    public static final String PACKAGE_NAME = "MixedSignerAuthenticationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String PACKAGE_DESCRIPTION = "This is a mixed signer authentication example";
-    public static final String DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
         new MixedSignerAuthenticationExample(Props.get()).run();

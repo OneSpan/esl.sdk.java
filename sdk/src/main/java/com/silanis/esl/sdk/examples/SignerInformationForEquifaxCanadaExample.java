@@ -23,10 +23,10 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
     private InputStream documentInputStream;
     private DocumentPackage retrievedPackage;
 
-    public final String EMAIL;
+    private final String PACKAGE_NAME = "SignerInformationForEquifaxCanadaExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    private final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxCanada example";
 
-    public static final String PACKAGE_NAME = "SignerInformationForEquifaxCanadaExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxCanada example";
+    public final String EMAIL;
 
     public static final String FIRST_NAME = "Patty";
     public static final String LAST_NAME = "Galant";
