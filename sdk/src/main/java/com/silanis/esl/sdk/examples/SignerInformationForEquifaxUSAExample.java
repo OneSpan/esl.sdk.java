@@ -32,11 +32,11 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
     public static final String LAST_NAME = "Smith";
     public static final String ADDRESS = "456666 asdfasdf";
     public static final String CITY = "Montreal";
-    public static final String ZIP_CODE = "12311";
+    public static final String ZIP = "12311";
     public static final String STATE = "CA";
     public static final String SOCIAL_SECURITY_NUMBER = "123132123";
     public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(15).toDate();
-    public static final String HOME_PHONE = "123456789";
+    public static final String HOME_PHONE_NUMBER = "123456789";
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
@@ -70,11 +70,11 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
                                 .withLastName(LAST_NAME)
                                 .withAddress(ADDRESS)
                                 .withCity(CITY)
-                                .withZipCode(ZIP_CODE)
+                                .withZip(ZIP)
                                 .withState(STATE)
                                 .withSocialSecurityNumber(SOCIAL_SECURITY_NUMBER)
                                 .withDateOfBirth(DATE_OF_BIRTH)
-                                .withHomePhone(HOME_PHONE)))
+                                .withHomePhoneNumber(HOME_PHONE_NUMBER)))
                 .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                         .fromStream(documentInputStream, DocumentType.PDF)
                         .withSignature(signatureFor(EMAIL).build()))

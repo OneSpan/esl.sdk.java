@@ -71,11 +71,11 @@ public class SignerInformationForEquifaxUSAConverter {
                 .withLastName(apiKBAUSA.getLastName())
                 .withAddress(apiKBAUSA.getStreetAddress())
                 .withCity(apiKBAUSA.getCity())
-                .withZipCode(apiKBAUSA.getZip())
+                .withZip(apiKBAUSA.getZip())
                 .withState(apiKBAUSA.getState())
                 .withSocialSecurityNumber(apiKBAUSA.getSocialSecurityNumber())
                 .withDateOfBirth(apiKBAUSA.getDateOfBirth())
-                .withHomePhone(apiKBAUSA.getHomePhoneNumber());
+                .withHomePhoneNumber(apiKBAUSA.getHomePhoneNumber());
 
         return signerBuilder.build();
 

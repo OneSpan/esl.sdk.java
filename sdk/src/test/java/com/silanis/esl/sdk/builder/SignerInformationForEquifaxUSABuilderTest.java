@@ -34,11 +34,11 @@ public class SignerInformationForEquifaxUSABuilderTest {
                 .withLastName(LAST_NAME)
                 .withAddress(ADDRESS)
                 .withCity(CITY)
-                .withZipCode(ZIP_CODE)
+                .withZip(ZIP_CODE)
                 .withState(STATE)
                 .withSocialSecurityNumber(SOCIAL_SECURITY_NUMBER)
                 .withDateOfBirth(DATE_OF_BIRTH)
-                .withHomePhone(HOME_PHONE)
+                .withHomePhoneNumber(HOME_PHONE)
                 .build();
 
         assertThat("build returned a null object", result, is(notNullValue()));

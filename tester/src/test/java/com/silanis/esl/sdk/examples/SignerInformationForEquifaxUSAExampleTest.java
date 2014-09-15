@@ -30,11 +30,11 @@ public class SignerInformationForEquifaxUSAExampleTest {
         assertThat( "last name in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getLastName(), is( LAST_NAME ) );
         assertThat( "address in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getStreetAddress(), is( ADDRESS ) );
         assertThat( "city in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getCity(), is( CITY ) );
-        assertThat( "zip code in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getZip(), is( ZIP_CODE ) );
+        assertThat( "zip code in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getZip(), is(ZIP) );
         assertThat( "state in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getState(), is( STATE ) );
         assertThat( "date of birth in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getDateOfBirth().toString(), is( equalTo(DATE_OF_BIRTH.toString()) ) );
         assertThat( "social security number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getSocialSecurityNumber(), is( SOCIAL_SECURITY_NUMBER ) );
-        assertThat( "home phone number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getHomePhoneNumber(), is( HOME_PHONE ) );
+        assertThat( "home phone number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getHomePhoneNumber(), is(HOME_PHONE_NUMBER) );
 
     }
 }

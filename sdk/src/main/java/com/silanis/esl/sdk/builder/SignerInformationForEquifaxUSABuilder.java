@@ -13,11 +13,11 @@ public class SignerInformationForEquifaxUSABuilder {
     private String lastName;
     private String address;
     private String city;
-    private String zipCode;
+    private String zip;
     private String state;
     private String socialSecurityNumber;
     private Date dateOfBirth;
-    private String homePhone;
+    private String homePhoneNumber;
 
     /**
      * <p>Creates a SignerInformationBuilderForEquifaxUSA object.</p>
@@ -73,13 +73,13 @@ public class SignerInformationForEquifaxUSABuilder {
     }
 
     /**
-     * <p>Sets the signer's zipCode in KBA information.</p>
+     * <p>Sets the signer's zip in KBA information.</p>
      *
-     * @param zipCode the signer's zipCode
+     * @param zip the signer's zip
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxUSABuilder withZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public SignerInformationForEquifaxUSABuilder withZip(String zip) {
+        this.zip = zip;
         return this;
     }
 
@@ -119,11 +119,11 @@ public class SignerInformationForEquifaxUSABuilder {
     /**
      * <p>Sets the signer's home phone in KBA information.</p>
      *
-     * @param homePhone the signer's home phone number
+     * @param homePhoneNumber the signer's home phone number
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxUSABuilder withHomePhone(String homePhone) {
-        this.homePhone = homePhone;
+    public SignerInformationForEquifaxUSABuilder withHomePhoneNumber(String homePhoneNumber) {
+        this.homePhoneNumber = homePhoneNumber;
         return this;
     }
 
@@ -139,11 +139,11 @@ public class SignerInformationForEquifaxUSABuilder {
         result.setLastName(lastName);
         result.setStreetAddress(address);
         result.setCity(city);
-        result.setZip(zipCode);
+        result.setZip(zip);
         result.setState(state);
         result.setSocialSecurityNumber(socialSecurityNumber);
         result.setDateOfBirth(dateOfBirth);
-        result.setHomePhoneNumber(homePhone);
+        result.setHomePhoneNumber(homePhoneNumber);
 
         return result;
     }
