@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.builder.FieldBuilder;
 import org.joda.time.DateTime;
 
 import java.io.InputStream;
@@ -13,7 +12,6 @@ import java.util.Properties;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
-import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQuestion;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxCanadaBuilder.newSignerInformationForEquifaxCanada;
 
@@ -22,35 +20,26 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxCanadaBuild
  */
 public class SignerInformationForEquifaxCanadaExample extends SDKSample {
 
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
+    private InputStream documentInputStream;
+    private DocumentPackage retrievedPackage;
 
-    public final String SIGNER1_EMAIL;
-    public final String SIGNER2_EMAIL;
+    public final String EMAIL;
 
-    public static final String PACKAGE_NAME = "KBAForEquifaxCanadaCreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String PACKAGE_DESCRIPTION = "This is a KBA for EquifaxCanada creation example";
+    public static final String PACKAGE_NAME = "SignerInformationForEquifaxCanadaExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    public static final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxCanada example";
 
-    public static final String FIRST_QUESTION = "What's your favorite sport? (answer: baseball)";
-    public static final String FIRST_ANSWER = "baseball";
-    public static final String SECOND_QUESTION = "What music instrument do you play? (answer: guitar)";
-    public static final String SECOND_ANSWER = "guitar";
-
-    public static final String SIGNER1_FIRST_NAME = "John";
-    public static final String SIGNER1_LAST_NAME = "Smith";
-
-    public static final String SIGNER2_FIRST_NAME = "Patty";
-    public static final String SIGNER2_LAST_NAME = "Galant";
-    public static final String SIGNER2_ADDRESS = "123 rue av";
-    public static final String SIGNER2_CITY = "montreal";
-    public static final String SIGNER2_POSTAL_CODE = "h2h3h2";
-    public static final String SIGNER2_PROVINCE = "QU";
-    public static final String SIGNER2_TIME_AT_ADDRESS = "123";
-    public static final Date   SIGNER2_DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
-    public static final String SIGNER2_DRIVERS_LICENSE = "1234567";
-    public static final String SIGNER2_SOCIAL_INSURANCE_NUMBER = "123456798654321";
-    public static final String SIGNER2_FIRST_DOCUMENT_NAME = "First Document pdf";
-    public static final String SIGNER2_SECOND_DOCUMENT_NAME = "Second Document pdf";
+    public static final String FIRST_NAME = "Patty";
+    public static final String LAST_NAME = "Galant";
+    public static final String ADDRESS = "123 rue av";
+    public static final String CITY = "montreal";
+    public static final String ZIP = "h2h3h2";
+    public static final String STATE = "QU";
+    public static final String TIME_AT_ADDRESS = "123";
+    public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
+    public static final String DRIVERS_LICENSE = "1234567";
+    public static final String SOCIAL_INSURANCE_NUMBER = "123456798654321";
+    public static final String HOME_PHONE_NUMBER = "6485923567";
+    public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
         new SignerInformationForEquifaxCanadaExample(Props.get()).run();
@@ -59,65 +48,43 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
     public SignerInformationForEquifaxCanadaExample(Properties props) {
         this( props.getProperty( "api.key" ),
                 props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
-                props.getProperty( "2.email" ) );
+                props.getProperty( "1.email" ));
     }
 
-    public SignerInformationForEquifaxCanadaExample(String apiKey, String apiUrl, String email1, String email2) {
+    public SignerInformationForEquifaxCanadaExample(String apiKey, String apiUrl, String email) {
         super( apiKey, apiUrl );
-        this.SIGNER1_EMAIL = email1;
-        this.SIGNER2_EMAIL = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        this.EMAIL = email;
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+    }
+
+    public DocumentPackage getRetrievedPackage() {
+        return retrievedPackage;
     }
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
                 .describedAs(PACKAGE_DESCRIPTION)
-                .withSigner(newSignerWithEmail(SIGNER1_EMAIL)
-                        .withFirstName(SIGNER1_FIRST_NAME)
-                        .withLastName(SIGNER1_LAST_NAME)
-                        .challengedWithQuestions(firstQuestion(FIRST_QUESTION)
-                                .answer(FIRST_ANSWER)
-                                .secondQuestion(SECOND_QUESTION)
-                                .answer(SECOND_ANSWER)))
-                .withSigner(newSignerWithEmail(SIGNER2_EMAIL)
-                        .withFirstName(SIGNER2_FIRST_NAME)
-                        .withLastName(SIGNER2_LAST_NAME)
+                .withSigner(newSignerWithEmail(EMAIL)
+                        .withFirstName(FIRST_NAME)
+                        .withLastName(LAST_NAME)
                         .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
-                                .withFirstName(SIGNER2_FIRST_NAME)
-                                .withLastName(SIGNER2_LAST_NAME)
-                                .withAddress(SIGNER2_ADDRESS)
-                                .withCity(SIGNER2_CITY)
-                                .withPostalCode(SIGNER2_POSTAL_CODE)
-                                .withProvince(SIGNER2_PROVINCE)
-                                .withTimeAtAddress(SIGNER2_TIME_AT_ADDRESS)
-                                .withDateOfBirth(SIGNER2_DATE_OF_BIRTH)
-                                .withDriversLicense(SIGNER2_DRIVERS_LICENSE)
-                                .withSocialInsuranceNumber(SIGNER2_SOCIAL_INSURANCE_NUMBER)))
-                        .withDocument(newDocumentWithName(SIGNER2_FIRST_DOCUMENT_NAME)
-                                .fromStream(documentInputStream1, DocumentType.PDF)
-                                .withSignature(signatureFor(SIGNER1_EMAIL)
-                                        .onPage(0)
-                                        .withField(FieldBuilder.checkBox()
-                                                .onPage(0)
-                                                .atPosition(50, 50)
-                                                .withValue(FieldBuilder.RADIO_SELECTED))
-                                        .atPosition(100, 100)))
-                        .withDocument(newDocumentWithName(SIGNER2_SECOND_DOCUMENT_NAME)
-                                        .fromStream(documentInputStream2, DocumentType.PDF)
-                                        .withSignature(signatureFor(SIGNER2_EMAIL)
-                                                        .onPage(0)
-                                                        .withField(FieldBuilder.textField()
-                                                                .onPage( 0 )
-                                                                .atPosition( 400, 100 )
-                                                                .withSize( 200, 50 ))
-                                                        .atPosition(100, 200)
-                                        )
-                        )
+                                .withFirstName(FIRST_NAME)
+                                .withLastName(LAST_NAME)
+                                .withAddress(ADDRESS)
+                                .withCity(CITY)
+                                .withZip(ZIP)
+                                .withState(STATE)
+                                .withTimeAtAddress(TIME_AT_ADDRESS)
+                                .withDateOfBirth(DATE_OF_BIRTH)
+                                .withDriversLicense(DRIVERS_LICENSE)
+                                .withSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER)
+                                .withHomePhoneNumber(HOME_PHONE_NUMBER)))
+                        .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
+                                .fromStream(documentInputStream, DocumentType.PDF)
+                                .withSignature(signatureFor(EMAIL).build()))
                         .build();
 
-        packageId = eslClient.createPackageOneStep( superDuperPackage );
-        eslClient.sendPackage( packageId );
+        packageId = eslClient.createAndSendPackage(superDuperPackage);
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

@@ -13,8 +13,8 @@ public class SignerInformationForEquifaxCanadaBuilder {
     private String lastName;
     private String address;
     private String city;
-    private String postalCode;
-    private String province;
+    private String zip;
+    private String state;
     private String timeAtAddress;
     private Date   dateOfBirth;
     private String driversLicense;
@@ -75,24 +75,24 @@ public class SignerInformationForEquifaxCanadaBuilder {
     }
 
     /**
-     * <p>Sets the signer's postalCode in KBA information.</p>
+     * <p>Sets the signer's zip in KBA information.</p>
      *
-     * @param postalCode the signer's postalCode
+     * @param zip the signer's zip
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public SignerInformationForEquifaxCanadaBuilder withZip(String zip) {
+        this.zip = zip;
         return this;
     }
 
     /**
-     * <p>Sets the signer's province in KBA information.</p>
+     * <p>Sets the signer's state in KBA information.</p>
      *
-     * @param province the signer's province
+     * @param state the signer's state
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withProvince(String province) {
-        this.province = province;
+    public SignerInformationForEquifaxCanadaBuilder withState(String state) {
+        this.state = state;
         return this;
     }
 
@@ -163,8 +163,8 @@ public class SignerInformationForEquifaxCanadaBuilder {
         result.setLastName(lastName);
         result.setStreetAddress(address);
         result.setCity(city);
-        result.setPostalCode(postalCode);
-        result.setProvince(province);
+        result.setZip(zip);
+        result.setState(state);
         result.setTimeAtAddress(timeAtAddress);
         result.setDateOfBirth(dateOfBirth);
         result.setDriversLicenseIndicator(driversLicense);

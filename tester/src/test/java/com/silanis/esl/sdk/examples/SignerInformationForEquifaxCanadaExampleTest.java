@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Challenge;
 import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.SignerInformationForEquifaxCanada;
 import org.junit.Test;
 
@@ -23,25 +21,19 @@ public class SignerInformationForEquifaxCanadaExampleTest {
         signerInformationForEquifaxCanadaExample.run();
 
         DocumentPackage documentPackage = signerInformationForEquifaxCanadaExample.getEslClient().getPackage(signerInformationForEquifaxCanadaExample.getPackageId());
+        SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = documentPackage.getSigner(signerInformationForEquifaxCanadaExample.EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
 
-        Signer signer1 = documentPackage.getSigner(signerInformationForEquifaxCanadaExample.SIGNER1_EMAIL);
-        for (Challenge challenge: signer1.getChallengeQuestions()) {
-            assertThat(challenge.getQuestion().contentEquals(FIRST_QUESTION)
-                    || challenge.getQuestion().contentEquals(SECOND_QUESTION), is(equalTo(true)));
-
-        }
-
-        Signer signer2 = documentPackage.getSigner(signerInformationForEquifaxCanadaExample.SIGNER2_EMAIL);
-        SignerInformationForEquifaxCanada signerKBA = signer2.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
-        assertThat( "Signer 2 KBA first name was not set correctly.", signerKBA.getFirstName(), is( SIGNER2_FIRST_NAME ) );
-        assertThat( "Signer 2 KBA last name was not set correctly.",signerKBA.getLastName(), is( SIGNER2_LAST_NAME ) );
-        assertThat( "Signer 2 KBA address was not set correctly.",signerKBA.getStreetAddress(), is( SIGNER2_ADDRESS ) );
-        assertThat( "Signer 2 KBA city was not set correctly.",signerKBA.getCity(), is( SIGNER2_CITY ) );
-        assertThat( "Signer 2 KBA postal code was not set correctly.",signerKBA.getPostalCode(), is( SIGNER2_POSTAL_CODE ) );
-        assertThat( "Signer 2 KBA province was not set correctly.",signerKBA.getProvince(), is( SIGNER2_PROVINCE ) );
-        assertThat( "Signer 2 KBA time at address was not set correctly.",signerKBA.getTimeAtAddress(), is( SIGNER2_TIME_AT_ADDRESS ) );
-        assertThat( "Signer 2 KBA driver's license was not set correctly.",signerKBA.getDriversLicenseIndicator(), is( SIGNER2_DRIVERS_LICENSE ) );
-        assertThat( "Signer 2 KBA SIN number was not set correctly.",signerKBA.getSocialInsuranceNumber(), is( SIGNER2_SOCIAL_INSURANCE_NUMBER ) );
+        assertThat( "first name in signerInformationForEquifaxCanada was not set correctly.", signerInformationForEquifaxCanada.getFirstName(), is( FIRST_NAME ) );
+        assertThat( "last name in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getLastName(), is( LAST_NAME ) );
+        assertThat( "address in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getStreetAddress(), is( ADDRESS ) );
+        assertThat( "city in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getCity(), is( CITY ) );
+        assertThat( "postal in signerInformationForEquifaxCanada code was not set correctly.",signerInformationForEquifaxCanada.getZip(), is( ZIP ) );
+        assertThat( "province in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getState(), is( STATE ) );
+        assertThat("date of birth in signerInformationForEquifaxCanada was not set correctly.", signerInformationForEquifaxCanada.getDateOfBirth().toString(), is(equalTo(DATE_OF_BIRTH.toString())));
+        assertThat( "time at address in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getTimeAtAddress(), is( TIME_AT_ADDRESS ) );
+        assertThat( "driver's license in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getDriversLicenseIndicator(), is( DRIVERS_LICENSE ) );
+        assertThat( "SIN number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getSocialInsuranceNumber(), is( SOCIAL_INSURANCE_NUMBER ) );
+        assertThat( "Home phone number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getHomePhoneNumber(), is( HOME_PHONE_NUMBER ) );
 
     }
 }

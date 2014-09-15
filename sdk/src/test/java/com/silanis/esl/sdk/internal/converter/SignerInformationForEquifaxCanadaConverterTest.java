@@ -72,8 +72,8 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
         assertThat("Last name was not properly set or retrieved", apiSignerInformationCanada.getLastName(), is(equalTo(sdkSignerInformationCanada.getLastName())));
         assertThat("Address was not properly set or retrieved", apiSignerInformationCanada.getStreetAddress(), is(equalTo(sdkSignerInformationCanada.getStreetAddress())));
         assertThat("City was not properly set or retrieved", apiSignerInformationCanada.getCity(), is(equalTo(sdkSignerInformationCanada.getCity())));
-        assertThat("Postal Code was not properly set or retrieved", apiSignerInformationCanada.getPostalCode(), is(equalTo(sdkSignerInformationCanada.getPostalCode())));
-        assertThat("Province was not properly set or retrieved", apiSignerInformationCanada.getProvince(), is(equalTo(sdkSignerInformationCanada.getProvince())));
+        assertThat("Zip Code was not properly set or retrieved", apiSignerInformationCanada.getZip(), is(equalTo(sdkSignerInformationCanada.getZip())));
+        assertThat("State was not properly set or retrieved", apiSignerInformationCanada.getState(), is(equalTo(sdkSignerInformationCanada.getState())));
         assertThat("Time at address was not properly set or retrieved", apiSignerInformationCanada.getTimeAtAddress(), is(equalTo(sdkSignerInformationCanada.getTimeAtAddress())));
         assertThat("Date of birth was not properly set or retrieved", apiSignerInformationCanada.getDateOfBirth(), is(equalTo(sdkSignerInformationCanada.getDateOfBirth())));
         assertThat("Driver's license was not properly set or retrieved", apiSignerInformationCanada.getDriversLicenseIndicator(), is(equalTo(sdkSignerInformationCanada.getDriversLicenseIndicator())));
@@ -91,8 +91,8 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
         assertThat("Last name was not properly set or retrieved", sdkSignerInformationCanada.getLastName(), is(equalTo(apiSignerInformationCanada.getLastName())));
         assertThat("Address was not properly set or retrieved", sdkSignerInformationCanada.getStreetAddress(), is(equalTo(apiSignerInformationCanada.getStreetAddress())));
         assertThat("City was not properly set or retrieved", sdkSignerInformationCanada.getCity(), is(equalTo(apiSignerInformationCanada.getCity())));
-        assertThat("Postal Code was not properly set or retrieved", sdkSignerInformationCanada.getPostalCode(), is(equalTo(apiSignerInformationCanada.getPostalCode())));
-        assertThat("Province was not properly set or retrieved", sdkSignerInformationCanada.getProvince(), is(equalTo(apiSignerInformationCanada.getProvince())));
+        assertThat("Zip Code was not properly set or retrieved", sdkSignerInformationCanada.getZip(), is(equalTo(apiSignerInformationCanada.getZip())));
+        assertThat("State was not properly set or retrieved", sdkSignerInformationCanada.getState(), is(equalTo(apiSignerInformationCanada.getState())));
         assertThat("Time at address was not properly set or retrieved", sdkSignerInformationCanada.getTimeAtAddress(), is(equalTo(apiSignerInformationCanada.getTimeAtAddress())));
         assertThat("Date of birth was not properly set or retrieved", sdkSignerInformationCanada.getDateOfBirth(), is(equalTo(apiSignerInformationCanada.getDateOfBirth())));
         assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationCanada.getDriversLicenseIndicator(), is(equalTo(apiSignerInformationCanada.getDriversLicenseIndicator())));
@@ -112,8 +112,8 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
         sdkSignerInformationCanada.setLastName("Galant");
         sdkSignerInformationCanada.setStreetAddress("2356 rue av");
         sdkSignerInformationCanada.setCity("Montreal");
-        sdkSignerInformationCanada.setPostalCode("h8h3a3");
-        sdkSignerInformationCanada.setProvince("QC");
+        sdkSignerInformationCanada.setZip("h8h3a3");
+        sdkSignerInformationCanada.setState("QC");
         sdkSignerInformationCanada.setTimeAtAddress("634");
         sdkSignerInformationCanada.setDateOfBirth(new DateTime().minusYears(23).toDate());
         sdkSignerInformationCanada.setDriversLicenseIndicator("7642754");
@@ -135,8 +135,8 @@ public class SignerInformationForEquifaxCanadaConverterTest implements Converter
         apiSignerInformationCanada.setLastName("Smith");
         apiSignerInformationCanada.setStreetAddress("123 rue av");
         apiSignerInformationCanada.setCity("Montreal");
-        apiSignerInformationCanada.setPostalCode("h2h3h2");
-        apiSignerInformationCanada.setProvince("QC");
+        apiSignerInformationCanada.setZip("h2h3h2");
+        apiSignerInformationCanada.setState("QC");
         apiSignerInformationCanada.setTimeAtAddress("123");
         apiSignerInformationCanada.setDateOfBirth(new DateTime().minusYears(56).toDate());
         apiSignerInformationCanada.setDriversLicenseIndicator("1234567");
