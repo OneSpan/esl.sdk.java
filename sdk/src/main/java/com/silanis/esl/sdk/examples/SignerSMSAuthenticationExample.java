@@ -57,7 +57,5 @@ public class SignerSMSAuthenticationExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-
-        eslClient.sendPackage( packageId );
     }
 }
