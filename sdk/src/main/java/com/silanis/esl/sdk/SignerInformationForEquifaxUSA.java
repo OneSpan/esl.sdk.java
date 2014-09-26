@@ -13,6 +13,8 @@ public class SignerInformationForEquifaxUSA {
     private String socialSecurityNumber;
     private Date dateOfBirth;
     private String homePhoneNumber;
+    private String driversLicenseNumber;
+    private Integer timeAtAddress;
 
     public SignerInformationForEquifaxUSA(){
 
@@ -88,5 +90,21 @@ public class SignerInformationForEquifaxUSA {
 
     public void setHomePhoneNumber(String homePhoneNumber) {
         this.homePhoneNumber = homePhoneNumber;
+    }
+
+    public String getDriversLicenseNumber() {
+        return driversLicenseNumber;
+    }
+
+    public void setDriversLicenseNumber(String driversLicenseNumber) {
+        this.driversLicenseNumber = driversLicenseNumber;
+    }
+
+    public Integer getTimeAtAddress() {
+        return timeAtAddress;
+    }
+
+    public void setTimeAtAddress(Integer timeAtAddress) {
+        this.timeAtAddress = timeAtAddress;
     }
 }

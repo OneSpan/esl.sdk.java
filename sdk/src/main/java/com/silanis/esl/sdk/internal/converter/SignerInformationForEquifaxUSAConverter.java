@@ -48,7 +48,9 @@ public class SignerInformationForEquifaxUSAConverter {
                 .setState(sdkKBAUSA.getState())
                 .safeSetSocialSecurityNumber(sdkKBAUSA.getSocialSecurityNumber())
                 .setDateOfBirth(sdkKBAUSA.getDateOfBirth())
-                .setHomePhoneNumber(sdkKBAUSA.getHomePhoneNumber());
+                .setHomePhoneNumber(sdkKBAUSA.getHomePhoneNumber())
+                .setDriversLicenseNumber(sdkKBAUSA.getDriversLicenseNumber())
+                .setTimeAtAddress(sdkKBAUSA.getTimeAtAddress());
 
         return result;
     }
@@ -69,13 +71,15 @@ public class SignerInformationForEquifaxUSAConverter {
         signerBuilder = SignerInformationForEquifaxUSABuilder.newSignerInformationForEquifaxUSA()
                 .withFirstName(apiKBAUSA.getFirstName())
                 .withLastName(apiKBAUSA.getLastName())
-                .withAddress(apiKBAUSA.getStreetAddress())
+                .withStreetAddress(apiKBAUSA.getStreetAddress())
                 .withCity(apiKBAUSA.getCity())
                 .withZip(apiKBAUSA.getZip())
                 .withState(apiKBAUSA.getState())
                 .withSocialSecurityNumber(apiKBAUSA.getSocialSecurityNumber())
                 .withDateOfBirth(apiKBAUSA.getDateOfBirth())
-                .withHomePhoneNumber(apiKBAUSA.getHomePhoneNumber());
+                .withHomePhoneNumber(apiKBAUSA.getHomePhoneNumber())
+                .withDriversLicenseNumber(apiKBAUSA.getDriversLicenseNumber())
+                .withTimeAtAddress(apiKBAUSA.getTimeAtAddress());
 
         return signerBuilder.build();
 

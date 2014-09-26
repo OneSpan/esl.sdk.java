@@ -37,6 +37,8 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
     public static final String SOCIAL_SECURITY_NUMBER = "123132123";
     public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(15).toDate();
     public static final String HOME_PHONE_NUMBER = "123456789";
+    public static final String DRIVERS_LICENSE_NUMBER = "465323785";
+    public static final Integer TIME_AT_ADDRESS = 32;
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
@@ -68,13 +70,15 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
                         .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
                                 .withFirstName(FIRST_NAME)
                                 .withLastName(LAST_NAME)
-                                .withAddress(ADDRESS)
+                                .withStreetAddress(ADDRESS)
                                 .withCity(CITY)
                                 .withZip(ZIP)
                                 .withState(STATE)
                                 .withSocialSecurityNumber(SOCIAL_SECURITY_NUMBER)
                                 .withDateOfBirth(DATE_OF_BIRTH)
-                                .withHomePhoneNumber(HOME_PHONE_NUMBER)))
+                                .withHomePhoneNumber(HOME_PHONE_NUMBER)
+                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
+                                .withTimeAtAddress(TIME_AT_ADDRESS)))
                 .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                         .fromStream(documentInputStream, DocumentType.PDF)
                         .withSignature(signatureFor(EMAIL).build()))

@@ -1,12 +1,11 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class SignerInformationForEquifaxUSA extends Model
@@ -18,6 +17,8 @@ public class SignerInformationForEquifaxUSA extends Model
     public static final String FIELD_CITY = "city";
     @JsonIgnore
     public static final String FIELD_DATEOFBIRTH = "dateOfBirth";
+    @JsonIgnore
+    public static final String FIELD_DRIVERSLICENSENUMBER = "driversLicenseNumber";
     @JsonIgnore
     public static final String FIELD_FIRSTNAME = "firstName";
     @JsonIgnore
@@ -31,6 +32,8 @@ public class SignerInformationForEquifaxUSA extends Model
     @JsonIgnore
     public static final String FIELD_STREETADDRESS = "streetAddress";
     @JsonIgnore
+    public static final String FIELD_TIMEATADDRESS = "timeAtAddress";
+    @JsonIgnore
     public static final String FIELD_ZIP = "zip";
     
     // Empty Constructor
@@ -39,12 +42,14 @@ public class SignerInformationForEquifaxUSA extends Model
     // Fields
     protected String _city = "";
     protected java.util.Date _dateOfBirth;
+    protected String _driversLicenseNumber = "";
     protected String _firstName = "";
     protected String _homePhoneNumber = "";
     protected String _lastName = "";
     protected String _socialSecurityNumber = "";
     protected String _state = "";
     protected String _streetAddress = "";
+    protected Integer _timeAtAddress = null;
     protected String _zip = "";
     
     // Accessors
@@ -90,8 +95,29 @@ public class SignerInformationForEquifaxUSA extends Model
     public java.util.Date getDateOfBirth(){
         return _dateOfBirth;
     }
-    
-        
+
+
+
+    public SignerInformationForEquifaxUSA setDriversLicenseNumber( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_DRIVERSLICENSENUMBER,value);
+        value = SchemaSanitizer.trim(value);
+        // TODO With proper compare
+        // if ( this._driversLicenseNumber == value ) return this;
+        this._driversLicenseNumber = value;
+        setDirty(FIELD_DRIVERSLICENSENUMBER);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public SignerInformationForEquifaxUSA safeSetDriversLicenseNumber( String value ){
+        if ( value != null ) { this.setDriversLicenseNumber( value ); }
+        return this;
+    }
+    public String getDriversLicenseNumber(){
+        return _driversLicenseNumber;
+    }
+
+
     
     public SignerInformationForEquifaxUSA setFirstName( String value ){
         SchemaSanitizer.throwOnNull(FIELD_FIRSTNAME,value);
@@ -216,7 +242,27 @@ public class SignerInformationForEquifaxUSA extends Model
     public String getStreetAddress(){
         return _streetAddress;
     }
-    
+
+
+
+    public SignerInformationForEquifaxUSA setTimeAtAddress( Integer value ){
+        SchemaSanitizer.throwOnNull(FIELD_TIMEATADDRESS,value);
+        // TODO With proper compare
+        // if ( this._timeAtAddress == value ) return this;
+        this._timeAtAddress = value;
+        setDirty(FIELD_TIMEATADDRESS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public SignerInformationForEquifaxUSA safeSetTimeAtAddress( Integer value ){
+        if ( value != null ) { this.setTimeAtAddress( value ); }
+        return this;
+    }
+    public Integer getTimeAtAddress(){
+        return _timeAtAddress;
+    }
+
         
     
     public SignerInformationForEquifaxUSA setZip( String value ){

@@ -44,11 +44,11 @@ public class SignerInformationForEquifaxCanadaConverter {
                 .setLastName(sdkKBACanada.getLastName())
                 .setStreetAddress(sdkKBACanada.getStreetAddress())
                 .setCity(sdkKBACanada.getCity())
-                .setZip(sdkKBACanada.getZip())
-                .setState(sdkKBACanada.getState())
+                .setPostalCode(sdkKBACanada.getPostalCode())
+                .setProvince(sdkKBACanada.getProvince())
                 .setTimeAtAddress(sdkKBACanada.getTimeAtAddress())
                 .setDateOfBirth(sdkKBACanada.getDateOfBirth())
-                .setDriversLicenseIndicator(sdkKBACanada.getDriversLicenseIndicator())
+                .setDriversLicenseNumber(sdkKBACanada.getDriversLicenseNumber())
                 .setSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber())
                 .setHomePhoneNumber(sdkKBACanada.getHomePhoneNumber());
 
@@ -71,13 +71,13 @@ public class SignerInformationForEquifaxCanadaConverter {
         signerBuilder = SignerInformationForEquifaxCanadaBuilder.newSignerInformationForEquifaxCanada()
                 .withFirstName(apiKBACanada.getFirstName())
                 .withLastName(apiKBACanada.getLastName())
-                .withAddress(apiKBACanada.getStreetAddress())
+                .withStreetAddress(apiKBACanada.getStreetAddress())
                 .withCity(apiKBACanada.getCity())
-                .withZip(apiKBACanada.getZip())
-                .withState(apiKBACanada.getState())
+                .withPostalCode(apiKBACanada.getPostalCode())
+                .withProvince(apiKBACanada.getProvince())
                 .withTimeAtAddress(apiKBACanada.getTimeAtAddress())
                 .withDateOfBirth(apiKBACanada.getDateOfBirth())
-                .withDriversLicense(apiKBACanada.getDriversLicenseIndicator())
+                .withDriversLicenseNumber(apiKBACanada.getDriversLicenseNumber())
                 .withSocialInsuranceNumber(apiKBACanada.getSocialInsuranceNumber())
                 .withHomePhoneNumber(apiKBACanada.getHomePhoneNumber());
 

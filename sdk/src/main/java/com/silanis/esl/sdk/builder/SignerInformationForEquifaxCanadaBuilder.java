@@ -11,13 +11,13 @@ public class SignerInformationForEquifaxCanadaBuilder {
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String streetAddress;
     private String city;
-    private String zip;
-    private String state;
-    private String timeAtAddress;
+    private String postalCode;
+    private String province;
+    private Integer timeAtAddress;
     private Date   dateOfBirth;
-    private String driversLicense;
+    private String driversLicenseNumber;
     private String socialInsuranceNumber;
     private String homePhoneNumber;
 
@@ -53,13 +53,13 @@ public class SignerInformationForEquifaxCanadaBuilder {
     }
 
     /**
-     * <p>Sets the signer's address in KBA information.</p>
+     * <p>Sets the signer's streetAddress in KBA information.</p>
      *
-     * @param address the signer's address
+     * @param streetAddress the signer's streetAddress
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withAddress(String address) {
-        this.address = address;
+    public SignerInformationForEquifaxCanadaBuilder withStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
         return this;
     }
 
@@ -75,34 +75,34 @@ public class SignerInformationForEquifaxCanadaBuilder {
     }
 
     /**
-     * <p>Sets the signer's zip in KBA information.</p>
+     * <p>Sets the signer's postalCode in KBA information.</p>
      *
-     * @param zip the signer's zip
+     * @param postalCode the signer's postalCode
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withZip(String zip) {
-        this.zip = zip;
+    public SignerInformationForEquifaxCanadaBuilder withPostalCode(String postalCode) {
+        this.postalCode = postalCode;
         return this;
     }
 
     /**
-     * <p>Sets the signer's state in KBA information.</p>
+     * <p>Sets the signer's province in KBA information.</p>
      *
-     * @param state the signer's state
+     * @param province the signer's province
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withState(String state) {
-        this.state = state;
+    public SignerInformationForEquifaxCanadaBuilder withProvince(String province) {
+        this.province = province;
         return this;
     }
 
     /**
-     * <p>Sets the signer's time at address in KBA information.</p>
+     * <p>Sets the signer's time at streetAddress in KBA information.</p>
      *
-     * @param timeAtAddress the signer's time at address
+     * @param timeAtAddress the signer's time at streetAddress
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withTimeAtAddress(String timeAtAddress) {
+    public SignerInformationForEquifaxCanadaBuilder withTimeAtAddress(Integer timeAtAddress) {
         this.timeAtAddress = timeAtAddress;
         return this;
     }
@@ -121,11 +121,11 @@ public class SignerInformationForEquifaxCanadaBuilder {
     /**
      * <p>Sets the signer's driver's license in KBA information.</p>
      *
-     * @param driversLicense the signer's driver's license
+     * @param driversLicenseNumber the signer's driver's license
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxCanadaBuilder withDriversLicense(String driversLicense) {
-        this.driversLicense = driversLicense;
+    public SignerInformationForEquifaxCanadaBuilder withDriversLicenseNumber(String driversLicenseNumber) {
+        this.driversLicenseNumber = driversLicenseNumber;
         return this;
     }
 
@@ -161,13 +161,13 @@ public class SignerInformationForEquifaxCanadaBuilder {
 
         result.setFirstName(firstName);
         result.setLastName(lastName);
-        result.setStreetAddress(address);
+        result.setStreetAddress(streetAddress);
         result.setCity(city);
-        result.setZip(zip);
-        result.setState(state);
+        result.setPostalCode(postalCode);
+        result.setProvince(province);
         result.setTimeAtAddress(timeAtAddress);
         result.setDateOfBirth(dateOfBirth);
-        result.setDriversLicenseIndicator(driversLicense);
+        result.setDriversLicenseNumber(driversLicenseNumber);
         result.setSocialInsuranceNumber(socialInsuranceNumber);
         result.setHomePhoneNumber(homePhoneNumber);
 

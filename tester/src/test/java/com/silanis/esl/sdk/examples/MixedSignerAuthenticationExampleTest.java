@@ -29,16 +29,16 @@ public class MixedSignerAuthenticationExampleTest {
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getStreetAddress() ) );
         assertThat( "city in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getCity(),
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getCity() ) );
-        assertThat( "postal in signerInformationForEquifaxCanada code was not set correctly.",signerInformationForEquifaxCanada.getZip(),
-                is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getZip() ) );
-        assertThat( "province in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getState(),
-                is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getState() ) );
+        assertThat( "postal code in signerInformationForEquifaxCanada code was not set correctly.",signerInformationForEquifaxCanada.getPostalCode(),
+                is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getPostalCode() ) );
+        assertThat( "province in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getProvince(),
+                is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getProvince() ) );
         assertThat( "date of birth in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getDateOfBirth().toString(),
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getDateOfBirth().toString() ) );
         assertThat( "time at address in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getTimeAtAddress(),
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getTimeAtAddress() ) );
-        assertThat( "driver's license in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getDriversLicenseIndicator(),
-                is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getDriversLicenseIndicator() ) );
+        assertThat( "driver's license in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getDriversLicenseNumber(),
+                is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getDriversLicenseNumber() ) );
         assertThat( "SIN number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getSocialInsuranceNumber(),
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getSocialInsuranceNumber() ) );
         assertThat( "Home phone number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getHomePhoneNumber(),
@@ -69,6 +69,10 @@ public class MixedSignerAuthenticationExampleTest {
                 is( example.signerWithAuthenticationEquifaxUSA.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA().getSocialSecurityNumber() ) );
         assertThat( "home phone number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getHomePhoneNumber(),
                 is( example.signerWithAuthenticationEquifaxUSA.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA().getHomePhoneNumber() ) );
+        assertThat( "driver's license in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getDriversLicenseNumber(),
+                is( example.signerWithAuthenticationEquifaxUSA.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA().getDriversLicenseNumber() ) );
+        assertThat( "time at address in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getTimeAtAddress(),
+                is( example.signerWithAuthenticationEquifaxUSA.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA().getTimeAtAddress() ) );
 
         for (Challenge challenge: documentPackage.getSigner(example.SIGNER2_EMAIL).getChallengeQuestions()) {
             assertThat(challenge.getQuestion().contentEquals(example.signerWithAuthenticationEquifaxUSA.getChallengeQuestions().get(0).getQuestion())

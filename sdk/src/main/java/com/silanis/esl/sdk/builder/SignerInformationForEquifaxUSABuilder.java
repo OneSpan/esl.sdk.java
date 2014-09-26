@@ -11,13 +11,15 @@ public class SignerInformationForEquifaxUSABuilder {
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String streetAddress;
     private String city;
     private String zip;
     private String state;
     private String socialSecurityNumber;
     private Date dateOfBirth;
     private String homePhoneNumber;
+    private String driversLicenseNumber;
+    private Integer timeAtAddress;
 
     /**
      * <p>Creates a SignerInformationBuilderForEquifaxUSA object.</p>
@@ -51,13 +53,13 @@ public class SignerInformationForEquifaxUSABuilder {
     }
 
     /**
-     * <p>Sets the signer's address in KBA information.</p>
+     * <p>Sets the signer's streetAddress in KBA information.</p>
      *
-     * @param address the signer's address
+     * @param streetAddress the signer's street address
      * @return	the signer information builder object itself
      */
-    public SignerInformationForEquifaxUSABuilder withAddress(String address) {
-        this.address = address;
+    public SignerInformationForEquifaxUSABuilder withStreetAddress(String streetAddress) {
+        this.streetAddress = streetAddress;
         return this;
     }
 
@@ -128,6 +130,28 @@ public class SignerInformationForEquifaxUSABuilder {
     }
 
     /**
+     * <p>Sets the signer's driversLicense number in KBA information.</p>
+     *
+     * @param driversLicenseNumber the signer's driversLicense number
+     * @return	the signer information builder object itself
+     */
+    public SignerInformationForEquifaxUSABuilder withDriversLicenseNumber(String driversLicenseNumber) {
+        this.driversLicenseNumber = driversLicenseNumber;
+        return this;
+    }
+
+    /**
+     * <p>Sets the signer's time at streetAddress in KBA information.</p>
+     *
+     * @param timeAtAddress the signer's time at streetAddress
+     * @return	the signer information builder object itself
+     */
+    public SignerInformationForEquifaxUSABuilder withTimeAtAddress(Integer timeAtAddress) {
+        this.timeAtAddress = timeAtAddress;
+        return this;
+    }
+
+    /**
      * Builds the actual signer object.
      *
      * @return the signer object
@@ -137,13 +161,15 @@ public class SignerInformationForEquifaxUSABuilder {
 
         result.setFirstName(firstName);
         result.setLastName(lastName);
-        result.setStreetAddress(address);
+        result.setStreetAddress(streetAddress);
         result.setCity(city);
         result.setZip(zip);
         result.setState(state);
         result.setSocialSecurityNumber(socialSecurityNumber);
         result.setDateOfBirth(dateOfBirth);
         result.setHomePhoneNumber(homePhoneNumber);
+        result.setDriversLicenseNumber(driversLicenseNumber);
+        result.setTimeAtAddress(timeAtAddress);
 
         return result;
     }

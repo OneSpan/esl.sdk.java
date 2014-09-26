@@ -1,8 +1,6 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -19,7 +17,7 @@ public class SignerInformationForEquifaxCanada extends Model
     @JsonIgnore
     public static final String FIELD_DATEOFBIRTH = "dateOfBirth";
     @JsonIgnore
-    public static final String FIELD_DRIVERSLICENSEINDICATOR = "driversLicenseIndicator";
+    public static final String FIELD_DRIVERSLICENSENUMBER = "driversLicenseNumber";
     @JsonIgnore
     public static final String FIELD_FIRSTNAME = "firstName";
     @JsonIgnore
@@ -29,13 +27,13 @@ public class SignerInformationForEquifaxCanada extends Model
     @JsonIgnore
     public static final String FIELD_SOCIALINSURANCENUMBER = "socialInsuranceNumber";
     @JsonIgnore
-    public static final String FIELD_STATE = "state";
+    public static final String FIELD_PROVINCE = "province";
     @JsonIgnore
     public static final String FIELD_STREETADDRESS = "streetAddress";
     @JsonIgnore
     public static final String FIELD_TIMEATADDRESS = "timeAtAddress";
     @JsonIgnore
-    public static final String FIELD_ZIP = "zip";
+    public static final String FIELD_POSTALCODE = "postalCode";
     
     // Empty Constructor
     public SignerInformationForEquifaxCanada ( ) {}
@@ -43,15 +41,15 @@ public class SignerInformationForEquifaxCanada extends Model
     // Fields
     protected String _city = "";
     protected java.util.Date _dateOfBirth;
-    protected String _driversLicenseIndicator = "";
+    protected String _driversLicenseNumber = "";
     protected String _firstName = "";
     protected String _homePhoneNumber = "";
     protected String _lastName = "";
     protected String _socialInsuranceNumber = "";
-    protected String _state = "";
+    protected String _province = "";
     protected String _streetAddress = "";
-    protected String _timeAtAddress = "";
-    protected String _zip = "";
+    protected Integer _timeAtAddress = null;
+    protected String _postalCode = "";
     
     // Accessors
         
@@ -99,23 +97,23 @@ public class SignerInformationForEquifaxCanada extends Model
     
         
     
-    public SignerInformationForEquifaxCanada setDriversLicenseIndicator( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_DRIVERSLICENSEINDICATOR,value);
+    public SignerInformationForEquifaxCanada setDriversLicenseNumber(String value){
+        SchemaSanitizer.throwOnNull(FIELD_DRIVERSLICENSENUMBER,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
-        // if ( this._driversLicenseIndicator == value ) return this;
-        this._driversLicenseIndicator = value;
-        setDirty(FIELD_DRIVERSLICENSEINDICATOR);
+        // if ( this._driversLicenseNumber == value ) return this;
+        this._driversLicenseNumber = value;
+        setDirty(FIELD_DRIVERSLICENSENUMBER);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerInformationForEquifaxCanada safeSetDriversLicenseIndicator( String value ){
-        if ( value != null ) { this.setDriversLicenseIndicator( value ); }
+    public SignerInformationForEquifaxCanada safeSetDriversLicenseNumber( String value ){
+        if ( value != null ) { this.setDriversLicenseNumber(value); }
         return this;
     }
-    public String getDriversLicenseIndicator(){
-        return _driversLicenseIndicator;
+    public String getDriversLicenseNumber(){
+        return _driversLicenseNumber;
     }
     
         
@@ -202,23 +200,23 @@ public class SignerInformationForEquifaxCanada extends Model
     
         
     
-    public SignerInformationForEquifaxCanada setState( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_STATE,value);
+    public SignerInformationForEquifaxCanada setProvince( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_PROVINCE,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
-        // if ( this._state == value ) return this;
-        this._state = value;
-        setDirty(FIELD_STATE);
+        // if ( this._province == value ) return this;
+        this._province = value;
+        setDirty(FIELD_PROVINCE);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerInformationForEquifaxCanada safeSetState( String value ){
-        if ( value != null ) { this.setState( value ); }
+    public SignerInformationForEquifaxCanada safeSetProvince( String value ){
+        if ( value != null ) { this.setProvince( value ); }
         return this;
     }
-    public String getState(){
-        return _state;
+    public String getProvince(){
+        return _province;
     }
     
         
@@ -244,9 +242,8 @@ public class SignerInformationForEquifaxCanada extends Model
     
         
     
-    public SignerInformationForEquifaxCanada setTimeAtAddress( String value ){
+    public SignerInformationForEquifaxCanada setTimeAtAddress( Integer value ){
         SchemaSanitizer.throwOnNull(FIELD_TIMEATADDRESS,value);
-        value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._timeAtAddress == value ) return this;
         this._timeAtAddress = value;
@@ -255,33 +252,33 @@ public class SignerInformationForEquifaxCanada extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerInformationForEquifaxCanada safeSetTimeAtAddress( String value ){
+    public SignerInformationForEquifaxCanada safeSetTimeAtAddress( Integer value ){
         if ( value != null ) { this.setTimeAtAddress( value ); }
         return this;
     }
-    public String getTimeAtAddress(){
+    public Integer getTimeAtAddress(){
         return _timeAtAddress;
     }
     
         
     
-    public SignerInformationForEquifaxCanada setZip( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_ZIP,value);
+    public SignerInformationForEquifaxCanada setPostalCode( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_POSTALCODE,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
-        // if ( this._zip == value ) return this;
-        this._zip = value;
-        setDirty(FIELD_ZIP);
+        // if ( this._postalCode == value ) return this;
+        this._postalCode = value;
+        setDirty(FIELD_POSTALCODE);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public SignerInformationForEquifaxCanada safeSetZip( String value ){
-        if ( value != null ) { this.setZip( value ); }
+    public SignerInformationForEquifaxCanada safeSetPostalCode( String value ){
+        if ( value != null ) { this.setPostalCode( value ); }
         return this;
     }
-    public String getZip(){
-        return _zip;
+    public String getPostalCode(){
+        return _postalCode;
     }
     
     

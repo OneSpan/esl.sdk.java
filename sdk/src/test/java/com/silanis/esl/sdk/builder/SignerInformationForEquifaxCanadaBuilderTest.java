@@ -18,13 +18,13 @@ public class SignerInformationForEquifaxCanadaBuilderTest {
 
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Galant";
-    private static final String ADDRESS = "123 rue av";
+    private static final String STREET_ADDRESS = "123 rue av";
     private static final String CITY = "Montreal";
-    private static final String ZIP = "h2p3h9";
-    private static final String STATE = "QU";
-    private static final String TIME_AT_ADDRESS = "123";
+    private static final String POSTAL_CODE = "h2p3h9";
+    private static final String PROVINCE = "QU";
+    private static final Integer TIME_AT_ADDRESS = 123;
     private static final Date DATE_OF_BIRTH = new DateTime().minusYears(36).toDate();
-    private static final String DRIVERS_LICENSE = "1238567";
+    private static final String DRIVERS_LICENSE_NUMBER = "1238567";
     private static final String SOCIAL_INSURANCE_NUMBER = "123456548654321";
     private static final String HOME_PHONE_NUMBER = "4682426597";
 
@@ -34,13 +34,13 @@ public class SignerInformationForEquifaxCanadaBuilderTest {
         SignerInformationForEquifaxCanada result = SignerInformationForEquifaxCanadaBuilder.newSignerInformationForEquifaxCanada()
                 .withFirstName(FIRST_NAME)
                 .withLastName(LAST_NAME)
-                .withAddress(ADDRESS)
+                .withStreetAddress(STREET_ADDRESS)
                 .withCity(CITY)
-                .withZip(ZIP)
-                .withState(STATE)
+                .withPostalCode(POSTAL_CODE)
+                .withProvince(PROVINCE)
                 .withTimeAtAddress(TIME_AT_ADDRESS)
                 .withDateOfBirth(DATE_OF_BIRTH)
-                .withDriversLicense(DRIVERS_LICENSE)
+                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
                 .withSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER)
                 .withHomePhoneNumber(HOME_PHONE_NUMBER)
                 .build();
@@ -48,13 +48,13 @@ public class SignerInformationForEquifaxCanadaBuilderTest {
         assertThat("build returned a null object", result, is(notNullValue()));
         assertThat("First name was not set correctly", result.getFirstName(), is(equalTo(FIRST_NAME)));
         assertThat("Last name was not set correctly", result.getLastName(), is(equalTo(LAST_NAME)));
-        assertThat("Address was not set correctly", result.getStreetAddress(), is(equalTo(ADDRESS)));
+        assertThat("Street address was not set correctly", result.getStreetAddress(), is(equalTo(STREET_ADDRESS)));
         assertThat("City was not set correctly", result.getCity(), is(equalTo(CITY)));
-        assertThat("Zip code was not set correctly", result.getZip(), is(equalTo(ZIP)));
-        assertThat("state was not set correctly", result.getState(), is(equalTo(STATE)));
+        assertThat("Postal code code was not set correctly", result.getPostalCode(), is(equalTo(POSTAL_CODE)));
+        assertThat("Province was not set correctly", result.getProvince(), is(equalTo(PROVINCE)));
         assertThat("Time at address was not set correctly", result.getTimeAtAddress(), is(equalTo(TIME_AT_ADDRESS)));
         assertThat("Date of birth was not set correctly", result.getDateOfBirth(), is(equalTo(DATE_OF_BIRTH)));
-        assertThat("Driver's license was not set correctly", result.getDriversLicenseIndicator(), is(equalTo(DRIVERS_LICENSE)));
+        assertThat("Driver's license was not set correctly", result.getDriversLicenseNumber(), is(equalTo(DRIVERS_LICENSE_NUMBER)));
         assertThat("Social insurance number was not set correctly", result.getSocialInsuranceNumber(), is(equalTo(SOCIAL_INSURANCE_NUMBER)));
         assertThat("Home phone number was not set correctly", result.getHomePhoneNumber(), is(equalTo(HOME_PHONE_NUMBER)));
     }

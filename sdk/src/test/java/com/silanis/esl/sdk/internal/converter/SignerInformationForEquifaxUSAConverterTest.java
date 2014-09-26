@@ -76,7 +76,9 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         assertThat("State was not properly set or retrieved", apiSignerInformationUSA.getState(), is(equalTo(sdkSignerInformationUSA.getState())));
         assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getSocialSecurityNumber(), is(equalTo(sdkSignerInformationUSA.getSocialSecurityNumber())));
         assertThat("Date of birth was not properly set or retrieved", apiSignerInformationUSA.getDateOfBirth(), is(equalTo(sdkSignerInformationUSA.getDateOfBirth())));
-        assertThat("Driver's license was not properly set or retrieved", apiSignerInformationUSA.getHomePhoneNumber(), is(equalTo(sdkSignerInformationUSA.getHomePhoneNumber())));
+        assertThat("Home phone number was not properly set or retrieved", apiSignerInformationUSA.getHomePhoneNumber(), is(equalTo(sdkSignerInformationUSA.getHomePhoneNumber())));
+        assertThat("Driver's license was not properly set or retrieved", apiSignerInformationUSA.getDriversLicenseNumber(), is(equalTo(sdkSignerInformationUSA.getDriversLicenseNumber())));
+        assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getTimeAtAddress(), is(equalTo(sdkSignerInformationUSA.getTimeAtAddress())));
     }
 
     @Test
@@ -93,7 +95,9 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         assertThat("State was not properly set or retrieved", sdkSignerInformationUSA.getState(), is(equalTo(apiSignerInformationUSA.getState())));
         assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getSocialSecurityNumber(), is(equalTo(apiSignerInformationUSA.getSocialSecurityNumber())));
         assertThat("Date of birth was not properly set or retrieved", sdkSignerInformationUSA.getDateOfBirth(), is(equalTo(apiSignerInformationUSA.getDateOfBirth())));
-        assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationUSA.getHomePhoneNumber(), is(equalTo(apiSignerInformationUSA.getHomePhoneNumber())));
+        assertThat("Home phone number was not properly set or retrieved", sdkSignerInformationUSA.getHomePhoneNumber(), is(equalTo(apiSignerInformationUSA.getHomePhoneNumber())));
+        assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationUSA.getDriversLicenseNumber(), is(equalTo(apiSignerInformationUSA.getDriversLicenseNumber())));
+        assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getTimeAtAddress(), is(equalTo(apiSignerInformationUSA.getTimeAtAddress())));
     }
 
     /**
@@ -113,6 +117,8 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         sdkSignerInformationUSA.setSocialSecurityNumber("6872564982");
         sdkSignerInformationUSA.setDateOfBirth(new DateTime().minusYears(46).toDate());
         sdkSignerInformationUSA.setHomePhoneNumber("123456789");
+        sdkSignerInformationUSA.setDriversLicenseNumber("98632346");
+        sdkSignerInformationUSA.setTimeAtAddress(62);
 
         return sdkSignerInformationUSA;
     }
@@ -134,6 +140,8 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         apiSignerInformationUSA.setSocialSecurityNumber("4657843264");
         apiSignerInformationUSA.setDateOfBirth(new DateTime().minusYears(26).toDate());
         apiSignerInformationUSA.setHomePhoneNumber("1234567");
+        apiSignerInformationUSA.setDriversLicenseNumber("89461212");
+        apiSignerInformationUSA.setTimeAtAddress(13);
 
         return apiSignerInformationUSA;
     }

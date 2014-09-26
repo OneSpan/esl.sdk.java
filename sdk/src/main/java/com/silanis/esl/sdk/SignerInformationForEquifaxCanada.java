@@ -8,11 +8,11 @@ public class SignerInformationForEquifaxCanada{
     private String lastName;
     private String streetAddress;
     private String city;
-    private String zip;
-    private String state;
-    private String timeAtAddress;
+    private String postalCode;
+    private String province;
+    private Integer timeAtAddress;
     private Date dateOfBirth;
-    private String driversLicenseIndicator;
+    private String driversLicenseNumber;
     private String socialInsuranceNumber;
     private String homePhoneNumber;
 
@@ -52,27 +52,27 @@ public class SignerInformationForEquifaxCanada{
         this.city = city;
     }
 
-    public String getZip() {
-        return zip;
+    public String getPostalCode() {
+        return postalCode;
     }
 
-    public void setZip(String zip) {
-        this.zip = zip;
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
-    public String getState() {
-        return state;
+    public String getProvince() {
+        return province;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
-    public String getTimeAtAddress() {
+    public Integer getTimeAtAddress() {
         return timeAtAddress;
     }
 
-    public void setTimeAtAddress(String timeAtAddress) {
+    public void setTimeAtAddress(Integer timeAtAddress) {
         this.timeAtAddress = timeAtAddress;
     }
 
@@ -84,12 +84,12 @@ public class SignerInformationForEquifaxCanada{
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getDriversLicenseIndicator() {
-        return driversLicenseIndicator;
+    public String getDriversLicenseNumber() {
+        return driversLicenseNumber;
     }
 
-    public void setDriversLicenseIndicator(String driversLicense) {
-        this.driversLicenseIndicator = driversLicense;
+    public void setDriversLicenseNumber(String driversLicense) {
+        this.driversLicenseNumber = driversLicense;
     }
 
     public String getSocialInsuranceNumber() {
