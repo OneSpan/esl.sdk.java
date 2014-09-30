@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -72,14 +71,34 @@ public class DocumentLayoutExampleTest {
                 if (field.getName().equals(example.FIELD_1_NAME)) {
                     assertThat("Field style was not set correctly", field.getStyle(), is(FieldStyle.BOUND_TITLE));
                     assertThat("Field page number was not set correctly", field.getPage(), is(0));
-                    assertThat("Field x coordinate was not set correctly", field.getX(), is(both(greaterThan(99.0)).and(lessThan(101.0))));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), is(both(greaterThan(199.0)).and(lessThan(201.0))));
+
+                    // *** IMPORTANT NOTES ****
+                    //
+                    // Do not use "both" if we still need to support JDK 1.6. It is a known bug:
+                    // https://code.google.com/p/hamcrest/issues/detail?id=82
+                    //
+                    // So instead of
+                    //
+                    // assertThat("Field x coordinate was not set correctly", field.getX(), is(both(greaterThan(99.0)).and(lessThan(101.0))));
+                    //
+                    // do:
+                    //
+                    // assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
+                    // assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
+
+                    assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
+
+                    assertThat("Field y coordinate was not set correctly", field.getY(), is(greaterThan(199.0)));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), is(lessThan(201.0)));
                 }
                 if (field.getName().equals(example.FIELD_2_NAME)) {
                     assertThat("Field style was not set correctly", field.getStyle(), is(FieldStyle.BOUND_COMPANY));
                     assertThat("Field page number was not set correctly", field.getPage(), is(0));
-                    assertThat("Field x coordinate was not set correctly", field.getX(), is(both(greaterThan(99.0)).and(lessThan(101.0))));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), is(both(greaterThan(299.0)).and(lessThan(301.0))));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), is(greaterThan(299.0)));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), is(lessThan(301.0)));
                 }
             }
         }
