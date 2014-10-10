@@ -30,7 +30,6 @@ public class ContactsExampleTest {
         assertThat("Signer's company was not set correctly", signer.getCompany(), is(equalTo(example.signerForPackage.getCompany())));
 
         // Assert new signer is added to the contacts
-        assertThat("Wrong number of contacts", example.afterContacts.size(), is(example.beforeContacts.size() + 1));
         assertThat("New signer was not added to the contacts", example.afterContacts.get(example.email2), notNullValue());
         assertThat("New signer first name was not set correctly", example.afterContacts.get(example.email2).getFirstName(), is(equalTo("John")));
         assertThat("New signer last name was not set correctly", example.afterContacts.get(example.email2).getLastName(), is(equalTo("Smith")));

@@ -23,9 +23,6 @@ public class SignerInformationForEquifaxUSAExampleTest {
         DocumentPackage documentPackage = signerInformationForEquifaxUSAExample.getEslClient().getPackage(signerInformationForEquifaxUSAExample.getPackageId());
         SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = documentPackage.getSigner(signerInformationForEquifaxUSAExample.EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
 
-        String a = signerInformationForEquifaxUSA.getDateOfBirth().toString();
-        String b = DATE_OF_BIRTH.toString();
-
         assertThat( "first name in signerInformationForEquifaxUSA was not set correctly.", signerInformationForEquifaxUSA.getFirstName(), is( FIRST_NAME ) );
         assertThat( "last name in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getLastName(), is( LAST_NAME ) );
         assertThat( "address in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getStreetAddress(), is( ADDRESS ) );
