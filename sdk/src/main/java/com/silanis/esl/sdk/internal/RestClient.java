@@ -25,6 +25,17 @@ import java.util.Collection;
 public class RestClient {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
+
+    public static final String ESL_API_VERSION = "10.6";
+    public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
+
+    public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
+    public static final String ESL_CONTENT_TYPE_APPLICATION_JSON = CONTENT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
+
+    public static final String HEADER_KEY_ACCEPT = "Accept";
+    public static final String ACCEPT_TYPE_APPLICATION_JSON = "application/json";
+    public static final String ESL_ACCEPT_TYPE_APPLICATION_JSON = ACCEPT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
+
     private final ResponseHandler<byte[]> bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
@@ -39,10 +50,11 @@ public class RestClient {
         support.logRequest("POST", path, jsonPayload);
 
         HttpPost post = new HttpPost( path );
+        post.addHeader(buildAcceptHeaderForEslApi());
         if ( jsonPayload != null ) {
             StringEntity body = new StringEntity(jsonPayload, Charset.forName(CHARSET_UTF_8));
 
-            body.setContentType("application/json");
+            body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
 
             post.setEntity(body);
         }
@@ -54,9 +66,10 @@ public class RestClient {
         support.logRequest("PUT", path, jsonPayload);
 
         HttpPut put = new HttpPut( path );
+        put.addHeader(buildAcceptHeaderForEslApi());
         StringEntity body = new StringEntity(jsonPayload, Charset.forName("UTF-8"));
 
-        body.setContentType("application/json");
+        body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
         put.setEntity(body);
 
         return execute(put, jsonHandler);
@@ -105,6 +118,7 @@ public class RestClient {
         addAuthorizationHeader(request);
 
         try {
+            support.log(request);
             HttpResponse response = client.execute(request);
 
             if (response.getStatusLine().getStatusCode() >= 400) {
@@ -128,16 +142,23 @@ public class RestClient {
     }
 
     public String get(String path) throws IOException, HttpException, URISyntaxException, RequestException {
-        return get(path, "application/json");
+        return get(path, ESL_ACCEPT_TYPE_APPLICATION_JSON);
     }
 
     public String get(String path, String acceptType) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
-        Header header = new BasicHeader("Accept", acceptType);
-        get.addHeader(header);
+        get.addHeader(buildAcceptHeader(acceptType));
 
         return execute(get, jsonHandler);
+    }
+
+    private Header buildAcceptHeaderForEslApi() {
+        return buildAcceptHeader(ESL_ACCEPT_TYPE_APPLICATION_JSON);
+    }
+
+    private Header buildAcceptHeader(String acceptType) {
+        return new BasicHeader(HEADER_KEY_ACCEPT, acceptType);
     }
 
     public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
@@ -150,6 +171,7 @@ public class RestClient {
     public String delete(String path) throws HttpException, IOException, URISyntaxException, RequestException {
         support.logRequest("DELETE", path);
         HttpDelete delete = new HttpDelete( path );
+        delete.addHeader(buildAcceptHeaderForEslApi());
 
         return execute(delete, jsonHandler);
     }
