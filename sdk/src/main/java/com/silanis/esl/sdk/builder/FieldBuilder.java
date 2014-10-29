@@ -142,6 +142,32 @@ public class FieldBuilder {
     }
 
     /**
+     * Creates a field builder having set the style to DROP_LIST. It defines
+     * a drop list field at the location defined that the signer may be
+     * required to select prior to signing the its associated signature
+     *
+     * @see FieldStyle
+     * @return a DROP_LIST styled field builder
+     */
+
+    public static FieldBuilder dropList() {
+        return new FieldBuilder().withStyle(FieldStyle.DROP_LIST);
+    }
+
+    /**
+     * Creates a field builder having set the style to TEXT_AREA. It defines
+     * a text area field at the location defined that the signer may be
+     * required to fill prior to signing the its associated signature
+     *
+     * @see FieldStyle
+     * @return a TEXT_AREA styled field builder
+     */
+
+    public static FieldBuilder textArea() {
+        return new FieldBuilder().withStyle(FieldStyle.TEXT_AREA);
+    }
+
+    /**
      * Every bound field (Date, Title, Name) is a label.
      * The user should not have to set a field style to label.
      *

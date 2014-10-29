@@ -105,6 +105,20 @@ public class FieldBuilderTest {
     }
 
     @Test
+    public void creatingTextAreaFieldSetsStyle(){
+        Field field = textArea().atPosition( 100, 100 ).build();
+
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.TEXT_AREA)));
+    }
+
+    @Test
+    public void creatingDropListFieldSetsStyle(){
+        Field field = dropList().atPosition( 100, 100 ).build();
+
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.DROP_LIST)));
+    }
+
+    @Test
     public void creatingQRCodeStyle() {
         Field field = qrCode().atPosition( 100, 100 ).build();
 

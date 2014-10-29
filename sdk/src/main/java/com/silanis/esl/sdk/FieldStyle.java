@@ -14,6 +14,8 @@ public enum FieldStyle {
     UNBOUND_CUSTOM_FIELD( null ),
     UNBOUND_CHECK_BOX( null ),
     UNBOUND_RADIO_BUTTON( null ),
+    DROP_LIST( null ),
+    TEXT_AREA( null ),
     LABEL( null );
 
     private final String binding;

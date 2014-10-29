@@ -66,6 +66,10 @@ public class FieldStyleAndSubTypeConverter {
                 return FieldSubtype.CHECKBOX;
             case UNBOUND_RADIO_BUTTON:
                 return FieldSubtype.RADIO;
+            case TEXT_AREA:
+                return FieldSubtype.TEXTAREA;
+            case DROP_LIST:
+                return FieldSubtype.LIST;
             case BOUND_QRCODE:
                 return FieldSubtype.QRCODE;
             default:
@@ -93,6 +97,10 @@ public class FieldStyleAndSubTypeConverter {
                     return FieldStyle.UNBOUND_CHECK_BOX;
                 case RADIO:
                     return FieldStyle.UNBOUND_RADIO_BUTTON;
+                case TEXTAREA:
+                    return FieldStyle.TEXT_AREA;
+                case LIST:
+                    return FieldStyle.DROP_LIST;
                 case QRCODE:
                     return FieldStyle.BOUND_QRCODE;
                 default: {
