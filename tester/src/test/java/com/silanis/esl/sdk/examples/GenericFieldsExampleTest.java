@@ -56,6 +56,19 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getFieldValidator().getOptions().get(0), is(equalTo(GenericFieldsExample.RADIO_2_GROUP)));
                     assertThat(field.getValue(), is(equalTo(FieldBuilder.RADIO_SELECTED)));
                 }
+                if (field.getId().toString().equals(GenericFieldsExample.DROP_LIST_ID)) {
+                    assertThat(field.getPage(), is(equalTo(GenericFieldsExample.DROP_LIST_PAGE)));
+                    assertThat(field.getStyle(), is(equalTo(FieldStyle.DROP_LIST)));
+                    assertThat(field.getFieldValidator().getOptions().get(0), is(equalTo(GenericFieldsExample.DROP_LIST_OPTION1)));
+                    assertThat(field.getFieldValidator().getOptions().get(1), is(equalTo(GenericFieldsExample.DROP_LIST_OPTION2)));
+                    assertThat(field.getFieldValidator().getOptions().get(2), is(equalTo(GenericFieldsExample.DROP_LIST_OPTION3)));
+                    assertThat(field.getValue(), is(equalTo(GenericFieldsExample.DROP_LIST_OPTION2)));
+                }
+                if (field.getId().toString().equals(GenericFieldsExample.TEXT_AREA_ID)) {
+                    assertThat(field.getPage(), is(equalTo(GenericFieldsExample.TEXT_AREA_PAGE)));
+                    assertThat(field.getStyle(), is(equalTo(FieldStyle.TEXT_AREA)));
+                    assertThat(field.getValue(), is(equalTo(GenericFieldsExample.TEXT_AREA_VALUE)));
+                }
             }
         }
 
