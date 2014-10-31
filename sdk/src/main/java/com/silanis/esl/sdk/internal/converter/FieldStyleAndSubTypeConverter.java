@@ -72,6 +72,8 @@ public class FieldStyleAndSubTypeConverter {
                 return FieldSubtype.LIST;
             case BOUND_QRCODE:
                 return FieldSubtype.QRCODE;
+            case SEAL:
+                return FieldSubtype.SEAL;
             default:
                 throw new ConversionException( com.silanis.esl.sdk.FieldStyle.class, com.silanis.esl.api.model.FieldSubtype.class, "Unable to decode the field subtype." );
         }
@@ -103,6 +105,8 @@ public class FieldStyleAndSubTypeConverter {
                     return FieldStyle.DROP_LIST;
                 case QRCODE:
                     return FieldStyle.BOUND_QRCODE;
+                case SEAL:
+                    return FieldStyle.SEAL;
                 default: {
                     throw new ConversionException( com.silanis.esl.api.model.FieldSubtype.class, com.silanis.esl.sdk.FieldStyle.class, "Unable to decode the field subtype." );
                 }
