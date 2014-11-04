@@ -3,8 +3,10 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Message;
 import com.silanis.esl.api.model.PackageStatus;
+import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.User;
 import com.silanis.esl.sdk.builder.PackageBuilder;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -104,7 +106,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Status was not correctly set", apiPackage1.getStatus(), is(equalTo(sdkDocumentPackage1.getStatus())));
         assertThat("Message status was not correctly set", apiPackage1.getMessages().get(0).getStatus().toString(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getStatus().toString())));
         assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getContent())));
-
+        assertThat("Sender email address was not correctly set", apiPackage1.getSender().getEmail(), is(Matchers.equalTo(sdkDocumentPackage1.getSenderInfo().getEmail())));
     }
 
     @Override
@@ -165,6 +167,10 @@ public class DocumentPackageConverterTest implements ConverterTest {
         fromUser.setEmail("email@email.com");
         apiMessage.setFrom(fromUser);
         apiDocumentPackage.setMessages(new ArrayList<Message>(Arrays.asList(apiMessage)));
+
+        Sender sender = new Sender();
+        sender.setEmail("sender@email.com");
+        apiDocumentPackage.setSender(sender);
 
         return apiDocumentPackage;
     }

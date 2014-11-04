@@ -137,12 +137,6 @@ public class PackageBuilder {
             documentPackage.setPackageMessage(packageMessage);
         }
 
-        // The sender should not be one of the signers.
-        if (documentPackage.getSenderInfo() != null && signers.get(documentPackage.getSenderInfo().getEmail()) != null) {
-             throw new EslException("Sender can not be a signer.");
-        }
-
-
         return documentPackage;
     }
 

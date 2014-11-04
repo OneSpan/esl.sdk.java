@@ -182,6 +182,8 @@ public class DocumentPackageConverter {
                     senderInfo.setLastName(signer.getLastName());
                     senderInfo.setTitle(signer.getTitle());
                     senderInfo.setCompany(signer.getCompany());
+                    senderInfo.setEmail(signer.getEmail());
+
                     packageBuilder.withSenderInfo(senderInfo);
                 }
             }
