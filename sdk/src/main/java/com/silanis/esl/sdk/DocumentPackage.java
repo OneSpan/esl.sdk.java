@@ -14,11 +14,11 @@ public class DocumentPackage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String name;
     private final Map<String, Signer> signers;
     private final Map<String, Signer> placeholders;
     private final Map<String, Document> documents;
     private final boolean autocomplete;
+    private String name;
     private String description;
     private Date expiryDate;
     private String packageMessage;
@@ -43,6 +43,10 @@ public class DocumentPackage implements Serializable {
         this.placeholders = placeholders;
         this.documents = documents;
         this.autocomplete = autocomplete;
+    }
+
+    public void setName( String name ) {
+        this.name = name;
     }
 
     /**

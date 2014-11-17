@@ -136,4 +136,32 @@ public class TemplateService {
 
         return templateId;
     }
+
+    /**
+     * Update a template.
+     *
+     * @param template the document package
+     */
+    public void updateTemplate(DocumentPackage template) {
+        if (template.getId() == null) {
+            throw new IllegalArgumentException("templateId cannot be null");
+        }
+
+        Package packageToUpdate = new DocumentPackageConverter(template).toAPIPackage();
+        packageToUpdate.setType(BasePackageType.TEMPLATE);
+
+        String path = urls.urlFor(UrlTemplate.PACKAGE_ID_PATH)
+                          .replace( "{packageId}", packageToUpdate.getId() )
+                          .build();
+
+        String packageJson = Serialization.toJson(packageToUpdate);
+
+        try {
+            client.post(path, packageJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update template", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update template", e);
+        }
+    }
 }
