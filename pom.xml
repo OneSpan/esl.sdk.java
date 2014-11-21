@@ -3,10 +3,13 @@
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
     <version>10.6.3-SNAPSHOT</version>
+
     <modules>
         <module>tester</module>
         <module>sdk</module>
+        <module>release</module>
     </modules>
+
     <name>java-sdk</name>
     <packaging>pom</packaging>
 
