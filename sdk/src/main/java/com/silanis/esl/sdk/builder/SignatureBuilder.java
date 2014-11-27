@@ -202,6 +202,39 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
+     * The signature style will be also set to SignatureStyle.MOBILE_CAPTURE
+     *
+     * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder mobileCaptureFor( String signerEmail ) {
+        return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.MOBILE_CAPTURE );
+    }
+
+    /**
+     * Creates a SignatureBuilder instance for the signer with the group id provided as parameter
+     * The signature style will be also set to SignatureStyle.MOBILE_CAPTURE
+     *
+     * @param groupId id of the group for which any of its members can sign.
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder mobileCaptureFor( GroupId groupId ) {
+        return new SignatureBuilder( groupId ).withStyle( SignatureStyle.MOBILE_CAPTURE );
+    }
+
+    /**
+     * Creates a SignatureBuilder instance for the signer with the placeholder's id provided as parameter
+     * The signature style will be also set to SignatureStyle.MOBILE_CAPTURE
+     *
+     * @param roleId the placeholder's id
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder mobileCaptureFor( Placeholder roleId ) {
+        return new SignatureBuilder( roleId ).withStyle( SignatureStyle.MOBILE_CAPTURE );
+    }
+
+    /**
      * <p>Set a custom ID for the signature. If none is provided, the system will assign one by default.
      * This package id needs to be unique per document.</p>
      *
