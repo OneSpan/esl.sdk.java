@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.BasePackageType;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.PackageBuilder;
@@ -86,6 +87,7 @@ public class TemplateService {
      * @return	the package ID
      */
     public PackageId createPackageFromTemplate(PackageId packageId, DocumentPackage documentPackage) {
+        setNewSignersIndexIfRoleWorkflowEnabled(packageId, documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
 
         String path = urls.urlFor(UrlTemplate.TEMPLATE_PATH)
@@ -104,6 +106,26 @@ public class TemplateService {
         }
 
         return new PackageId(createdPackage.getId());
+    }
+
+    private void setNewSignersIndexIfRoleWorkflowEnabled(PackageId packageId, DocumentPackage documentPackage) {
+        DocumentPackage template = new DocumentPackageConverter(packageService.getApiPackage(packageId.getId())).toSDKPackage();
+        if (checkSignerOrdering(template)) {
+            int firstSignerIndex = template.getSigners().size();
+            for(Signer signer : documentPackage.getSigners().values()){
+                signer.setSigningOrder(firstSignerIndex);
+                firstSignerIndex++;
+            }
+        }
+    }
+
+    private boolean checkSignerOrdering(DocumentPackage template) {
+        for(Signer signer : template.getSigners().values()) {
+            if (signer.getSigningOrder() > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
