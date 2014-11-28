@@ -1,12 +1,15 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>10.4.2.2</version>
+    <version>10.6.3-SNAPSHOT</version>
+
     <modules>
         <module>tester</module>
         <module>sdk</module>
+        <module>release</module>
     </modules>
+
     <name>java-sdk</name>
     <packaging>pom</packaging>
 
@@ -17,40 +20,18 @@
 
     <profiles>
         <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
             <id>java.pre.1.8</id>
-            <properties><maven.javadoc.plugin.extra.param></maven.javadoc.plugin.extra.param></properties>
+            <properties><maven.javadoc.plugin.extra.param /></properties>
             <activation>
-                <jdk>[1.3,1.8)</jdk>
+                <jdk>[1.3,1.9)</jdk>
             </activation>
         </profile>
 
         <profile>
-            <id>java.1.8</id>
-            <properties><maven.javadoc.plugin.extra.param>-Xdoclint:none</maven.javadoc.plugin.extra.param></properties>
+            <id>java.1.6</id>
+            <properties><maven.javadoc.plugin.extra.param /></properties>
             <activation>
-                <jdk>[1.8,1.9)</jdk>
+                <jdk>[1.6,1.7)</jdk>
             </activation>
         </profile>
 
@@ -63,6 +44,16 @@
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <allowTimestampedSnapshots>true</allowTimestampedSnapshots>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -181,6 +172,12 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -225,7 +222,8 @@
         <connection>scm:git:git@github.com:silanis/esl.model.git</connection>
         <developerConnection>scm:git:git@github.com:silanis/esl.sdk.java.git</developerConnection>
         <url>git@github.com:silanis/esl.sdk.java.git</url>
-    </scm>
+        <tag>version ${project.version}</tag>
+  </scm>
 
     <developers>
         <developer>
@@ -243,7 +241,7 @@
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <version>9</version>
     </parent>
 
 </project>

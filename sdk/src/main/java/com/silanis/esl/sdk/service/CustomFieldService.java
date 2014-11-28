@@ -2,15 +2,11 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.UserCustomField;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.CustomField;
 import com.silanis.esl.sdk.CustomFieldValue;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.CustomFieldConverter;
 import com.silanis.esl.sdk.internal.converter.CustomFieldValueConverter;
+import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +17,10 @@ import java.util.List;
  */
 public class CustomFieldService {
 
-    private UrlTemplate template;
-    private RestClient client;
+    private CustomFieldApiClient apiClient;
 
-    public CustomFieldService(RestClient client, String baseUrl) {
-        template = new UrlTemplate( baseUrl );
-        this.client = client;
+    public CustomFieldService(CustomFieldApiClient apiClient) {
+        this.apiClient = apiClient;
     }
 
     /**
@@ -35,30 +29,11 @@ public class CustomFieldService {
      *
      * @param customField
      * @return the custom field added created or updated
-     * @throws com.silanis.esl.sdk.EslException
      */
-    public CustomField createCustomField(CustomField customField ) throws EslException {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_PATH).build();
-        CustomField sdkResponse;
-        com.silanis.esl.api.model.CustomField apiResponse;
-        com.silanis.esl.api.model.CustomField apiRequest;
-
-        try {
-            apiRequest = new CustomFieldConverter(customField).toAPICustomField();
-            String stringResponse;
-            if ( doesCustomFieldExist( customField.getId() )){
-                stringResponse = client.put(path,Serialization.toJson( apiRequest ));
-            }else{
-                stringResponse = client.post(path,Serialization.toJson( apiRequest ));
-            }
-            apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
-            sdkResponse = new CustomFieldConverter(apiResponse).toSDKCustomField();
-            return sdkResponse;
-        } catch ( RequestException e ) {
-            throw new EslServerException( "Could not add/update the custom field to account.", e );
-        } catch ( Exception e ) {
-            throw new EslException( "Could not add/update the custom field to account.", e );
-        }
+    public CustomField createCustomField(CustomField customField) {
+        com.silanis.esl.api.model.CustomField apiRequest = new CustomFieldConverter(customField).toAPICustomField();
+        com.silanis.esl.api.model.CustomField apiResponse = apiClient.createCustomField(apiRequest);
+        return new CustomFieldConverter(apiResponse).toSDKCustomField();
     }
 
     /**
@@ -67,25 +42,8 @@ public class CustomFieldService {
      * @param id of custom field
      * @return true if existed otherwise false
      */
-    public boolean doesCustomFieldExist( String id ){
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_ID_PATH)
-                .replace("{customFieldId}", id)
-                .build();
-
-        try {
-            String stringResponse = client.get(path);
-            if (stringResponse==null || stringResponse.isEmpty()){
-                return false;
-            }
-            Serialization.fromJson(stringResponse, UserCustomField.class);
-            return true;
-        } catch ( RequestException e ) {
-            throw new EslServerException( "Could not get the custom field from account.", e );
-        } catch ( EslException e ) {
-            return false;
-        } catch ( Exception e ) {
-            throw new EslException( "Could not get the custom field from account.", e );
-        }
+    public boolean doesCustomFieldExist(String id) {
+        return apiClient.doesCustomFieldExist(id);
     }
 
     /**
@@ -95,19 +53,8 @@ public class CustomFieldService {
      * @return the custom field
      */
     public CustomField getCustomField(String id) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_ID_PATH)
-                .replace("{customFieldId}", id)
-                .build();
-
-        try {
-            String stringResponse = client.get(path);
-            com.silanis.esl.api.model.CustomField apiCustomField = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.CustomField.class);
-            return new CustomFieldConverter(apiCustomField).toSDKCustomField();
-        } catch ( RequestException e ) {
-            throw new EslServerException( "Could not get the custom field from account.", e );
-        } catch ( Exception e ) {
-            throw new EslException( "Could not get the custom field from account.", e );
-        }
+        com.silanis.esl.api.model.CustomField apiCustomField = apiClient.getCustomField(id);
+        return new CustomFieldConverter(apiCustomField).toSDKCustomField();
     }
 
     /**
@@ -124,31 +71,18 @@ public class CustomFieldService {
      * Get the list of account custom fields.
      *
      * @param direction of retrieved list to be sorted in ascending or descending order by id
-     * @param request identifying which page of results to return.
+     * @param request   identifying which page of results to return.
      * @return the list of custom fields
      */
     public List<CustomField> getCustomFields(Direction direction, PageRequest request) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_LIST_PATH)
-                .replace("{dir}", direction.getDirection())
-                .replace("{from}", Integer.toString(request.getFrom()))
-                .replace("{to}", Integer.toString(request.to()))
-                .build();
+        List<com.silanis.esl.api.model.CustomField> customFieldList = apiClient.getCustomFields(direction, request);
 
-        try {
-            String stringResponse = client.get(path);
-            List<com.silanis.esl.api.model.CustomField> customFieldList = Serialization.fromJsonToList(stringResponse, com.silanis.esl.api.model.CustomField.class);
-
-            List<CustomField> result = new ArrayList<CustomField>();
-            for (com.silanis.esl.api.model.CustomField apiCustomField : customFieldList) {
-                result.add(new CustomFieldConverter(apiCustomField).toSDKCustomField());
-            }
-
-            return result;
-        }catch ( RequestException e ) {
-            throw new EslServerException( "Could not get the list of custom fields from account.", e );
-        } catch ( Exception e ) {
-            throw new EslException( "Could not get the list of custom fields from account.", e );
+        List<CustomField> result = new ArrayList<CustomField>();
+        for (com.silanis.esl.api.model.CustomField apiCustomField : customFieldList) {
+            result.add(new CustomFieldConverter(apiCustomField).toSDKCustomField());
         }
+
+        return result;
     }
 
     /**
@@ -157,17 +91,7 @@ public class CustomFieldService {
      * @param id of custom field to delete.
      */
     public void deleteCustomField(String id) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CUSTOMFIELD_ID_PATH)
-                .replace("{customFieldId}", id)
-                .build();
-
-        try {
-            client.delete(path);
-        } catch ( RequestException e ) {
-            throw new EslServerException( "Could not delete the custom field from account.", e);
-        } catch ( Exception e ) {
-            throw new EslException("Could not delete the custom field from account.", e);
-        }
+        apiClient.deleteCustomField(id);
     }
 
     /**
@@ -176,27 +100,11 @@ public class CustomFieldService {
      *
      * @param customFieldValue
      * @return user custom field id
-     * @throws com.silanis.esl.sdk.EslException
      */
-    public CustomFieldValue submitCustomFieldValue( CustomFieldValue customFieldValue ) throws EslException {
-        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_PATH).build();
-        String response;
-
-        try {
-            String payload = Serialization.toJson(new CustomFieldValueConverter(customFieldValue).toAPIUserCustomField());
-            if ( doesCustomFieldValueExist( customFieldValue.getId() )){
-                response = client.put(path,payload);
-            }else{
-                response = client.post(path, payload);
-            }
-            UserCustomField result = Serialization.fromJson( response, UserCustomField.class );
-
-            return new CustomFieldValueConverter(customFieldValue).toSDKCustomFieldValue();
-        } catch ( RequestException e ) {
-            throw new EslServerException( "Could not add/update the custom field to account.", e );
-        } catch ( Exception e ) {
-            throw new EslException( "Could not add/update the custom field to account.", e );
-        }
+    public CustomFieldValue submitCustomFieldValue(CustomFieldValue customFieldValue) {
+        com.silanis.esl.api.model.UserCustomField userCustomField = new CustomFieldValueConverter(customFieldValue).toAPIUserCustomField();
+        UserCustomField result = apiClient.submitCustomFieldValue(userCustomField);
+        return new CustomFieldValueConverter(result).toSDKCustomFieldValue();
     }
 
     /**
@@ -205,25 +113,8 @@ public class CustomFieldService {
      * @param id of user custom field
      * @return true if existed otherwise false
      */
-    public boolean doesCustomFieldValueExist( String id ){
-        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_ID_PATH)
-                .replace("{customFieldId}", id)
-                .build();
-
-        try {
-            String stringResponse = client.get(path);
-            if (stringResponse==null || stringResponse.isEmpty()){
-                return false;
-            }
-            Serialization.fromJson(stringResponse, UserCustomField.class);
-            return true;
-        } catch ( RequestException e ) {
-            throw new EslServerException( "Could not get the custom field from user.", e );
-        } catch ( EslException e ) {
-            return false;
-        } catch ( Exception e ) {
-            throw new EslException( "Could not get the custom field from user.", e );
-        }
+    public boolean doesCustomFieldValueExist(String id) {
+        return apiClient.doesCustomFieldValueExist(id);
     }
 
 }

@@ -340,13 +340,17 @@ public class PackageService {
      *
      * @param packageId
      */
-    public void addDocumentWithExternalContent(String packageId, List<Document> providerDocuments){
+    public void addDocumentWithExternalContent(String packageId, List<com.silanis.esl.sdk.Document> providerDocuments){
         String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
                 .replace("{packageId}", packageId)
                 .build();
 
+        List<Document> apiDocuments = new ArrayList<Document>();
+        for( com.silanis.esl.sdk.Document document : providerDocuments){
+            apiDocuments.add(new DocumentConverter(document).toAPIDocumentMetadata());
+        }
         try {
-            String json = Serialization.toJson(providerDocuments);
+            String json = Serialization.toJson(apiDocuments);
             client.post(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not upload the documents.", e);
@@ -360,14 +364,18 @@ public class PackageService {
      *
      * @return
      */
-    public List<Document> getDocuments(){
+    public List<com.silanis.esl.sdk.Document> getDocuments(){
         String path = template.urlFor(UrlTemplate.PROVIDER_DOCUMENTS).build();
 
         try {
             String stringResponse = client.get(path);
             List<Document> apiResponse = JacksonUtil.deserialize(stringResponse, new TypeReference<List<Document>>() {
             });
-            return apiResponse;
+            List<com.silanis.esl.sdk.Document> documents = new ArrayList<com.silanis.esl.sdk.Document>();
+            for (Document document : apiResponse) {
+                documents.add(new DocumentConverter(document, null).toSDKDocument());
+            }
+            return documents;
         }
         catch (RequestException e) {
             throw new EslServerException("Failed to retrieve documents from history List.", e);
@@ -876,6 +884,24 @@ public class PackageService {
         }
     }
 
+    /**
+     * Unlock a signer which has been locked out due to too many failed authentication attempts.
+     *
+     * @param signerId If not null, the id of the signer who's status we are to retrieve
+     */
+    public void unlockSigner(PackageId packageId,String signerId){
+        String path = template.urlFor(UrlTemplate.ROLE_UNLOCK_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", signerId)
+                .build();
+        try{
+            client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslException("Could not unlock signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not unlock signer." + " Exception: " + e.getMessage());
+        }
+    }
 
     /**
      * Downloads the completion report from a sender

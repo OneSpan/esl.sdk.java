@@ -44,6 +44,8 @@ public class User extends Entity
     @JsonIgnore
     public static final String FIELD_SIGNATURE = "signature";
     @JsonIgnore
+    public static final String FIELD_SPECIALTYPES = "specialTypes";
+    @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
     public static final String FIELD_UPDATED = "updated";
@@ -65,6 +67,7 @@ public class User extends Entity
     protected String _phone = "";
     protected List<ProfessionalIdentityField> _professionalIdentityFields = new ArrayList<ProfessionalIdentityField>();
     protected SignatureStyle _signature = null;
+    protected List<String> _specialTypes = new ArrayList<String>();
     protected String _title = "";
     protected java.util.Date _updated;
     protected List<UserCustomField> _userCustomFields = new ArrayList<UserCustomField>();
@@ -345,6 +348,33 @@ public class User extends Entity
     }
     public SignatureStyle getSignature(){
         return _signature;
+    }
+    
+        
+    
+    public User setSpecialTypes( List<String> value ){
+        SchemaSanitizer.throwOnNull(FIELD_SPECIALTYPES,value);
+        // TODO With proper compare
+        // if ( this._specialTypes == value ) return this;
+        this._specialTypes = value;
+        setDirty(FIELD_SPECIALTYPES);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public User safeSetSpecialTypes( List<String> value ){
+        if ( value != null ) { this.setSpecialTypes( value ); }
+        return this;
+    }
+    public List<String> getSpecialTypes(){
+        return _specialTypes;
+    }
+    // List adder
+    public User addSpecialType( String value ){
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._specialTypes.add(value);
+        setDirty(FIELD_SPECIALTYPES);
+        return this;
     }
     
         

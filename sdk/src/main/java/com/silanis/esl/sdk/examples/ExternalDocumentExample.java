@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.Document;
-import com.silanis.esl.api.model.External;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
@@ -31,7 +29,7 @@ public class ExternalDocumentExample extends SDKSample {
     private InputStream documentInputStream1;
 
     public static void main(String... args) {
-        new BasicPackageCreationExample(Props.get()).run();
+        new ExternalDocumentExample(Props.get()).run();
     }
 
     public ExternalDocumentExample(Properties props) {
@@ -66,10 +64,13 @@ public class ExternalDocumentExample extends SDKSample {
 
         packageId = eslClient.createPackage(packageWithExternalContent);
 
-        List<Document> externalDocuments = new ArrayList<Document>();
+        List<com.silanis.esl.sdk.Document> externalDocuments = new ArrayList<com.silanis.esl.sdk.Document>();
 
-        Document ftpDocument = new Document().setExternal(new External().setProvider("vfs").setId("/test/completed/files/" + "test"))
-                .setName("FTP Document").setDescription("Test FTP document");
+        com.silanis.esl.sdk.External external = new com.silanis.esl.sdk.External("vfs", "/test/completed/files/" + "test", "");
+        com.silanis.esl.sdk.Document ftpDocument = new com.silanis.esl.sdk.Document();
+        ftpDocument.setName("FTP Document");
+        ftpDocument.setDescription("Test FTP document");
+        ftpDocument.setExternal(external);
 
         externalDocuments.add(ftpDocument);
 

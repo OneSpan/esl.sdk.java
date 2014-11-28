@@ -1,10 +1,12 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.BaseMessage;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.model.RoleType;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.Message;
-import com.silanis.esl.sdk.builder.*;
+import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -19,7 +21,7 @@ import java.util.Locale;
 public class DocumentPackageConverter {
 
     private com.silanis.esl.api.model.Package apiPackage;
-    private com.silanis.esl.sdk.DocumentPackage sdkPackage;
+    private DocumentPackage sdkPackage;
 
     /**
      * Construct with API object involved in conversion.
@@ -34,7 +36,7 @@ public class DocumentPackageConverter {
      *
      * @param sdkPackage
      */
-    public DocumentPackageConverter(com.silanis.esl.sdk.DocumentPackage sdkPackage) {
+    public DocumentPackageConverter(DocumentPackage sdkPackage) {
         this.sdkPackage = sdkPackage;
     }
 
@@ -53,6 +55,9 @@ public class DocumentPackageConverter {
                 .setDue(sdkPackage.getExpiryDate())
                 .setAutocomplete(sdkPackage.getAutocomplete());
 
+        if ( sdkPackage.getId() != null ) {
+            apiPackageToCreate.setId(sdkPackage.getId().toString());
+        }
 
         if ( sdkPackage.getDescription() != null && !sdkPackage.getDescription().isEmpty() ) {
             apiPackageToCreate.setDescription(sdkPackage.getDescription());
@@ -79,7 +84,7 @@ public class DocumentPackageConverter {
         }
 
         int signerCount = 1;
-        for ( com.silanis.esl.sdk.Signer signer : sdkPackage.getSigners().values() ) {
+        for ( Signer signer : sdkPackage.getSigners().values() ) {
             String id;
             if(signer.getId() != null ) {
                 id = signer.getId();
@@ -96,6 +101,7 @@ public class DocumentPackageConverter {
                     .addSigner( new SignerConverter(signer).toAPISigner() )
                     .setIndex( signer.getSigningOrder() )
                     .setReassign( signer.canChangeSigner() )
+                    .setLocked(signer.isLocked())
                     .setId( id );
 
             signerCount++;
@@ -104,14 +110,14 @@ public class DocumentPackageConverter {
                 role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );
             }
 
-            for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirement().values()) {
+            for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirement().values()) {
                 role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
             }
 
             apiPackageToCreate.addRole(role);
         }
 
-        for ( com.silanis.esl.sdk.Signer signer : sdkPackage.getPlaceholders().values() ) {
+        for ( Signer signer : sdkPackage.getPlaceholders().values() ) {
             Role role = new SignerConverter(signer).toAPIRole("role" + signerCount);
             signerCount++;
             apiPackageToCreate.addRole(role);
@@ -125,7 +131,7 @@ public class DocumentPackageConverter {
      *
      * @return
      */
-    public com.silanis.esl.sdk.DocumentPackage toSDKPackage() {
+    public DocumentPackage toSDKPackage() {
 
         if (apiPackage == null) {
             return sdkPackage;
@@ -159,7 +165,7 @@ public class DocumentPackageConverter {
         }
         packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 
-        for ( com.silanis.esl.api.model.Role role : apiPackage.getRoles() ) {
+        for ( Role role : apiPackage.getRoles() ) {
 
             if(role.getSigners().isEmpty()){
                 packageBuilder.withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(role.getId())));
@@ -172,13 +178,15 @@ public class DocumentPackageConverter {
                 // The custom sender information is stored in the role.signer object.
                 if (role.getType() == RoleType.SENDER) {
                     // Override sender info with the customized ones.
-                    com.silanis.esl.sdk.SenderInfo senderInfo = new com.silanis.esl.sdk.SenderInfo();
+                    SenderInfo senderInfo = new SenderInfo();
 
                     com.silanis.esl.api.model.Signer signer = role.getSigners().get(0);
                     senderInfo.setFirstName(signer.getFirstName());
                     senderInfo.setLastName(signer.getLastName());
                     senderInfo.setTitle(signer.getTitle());
                     senderInfo.setCompany(signer.getCompany());
+                    senderInfo.setEmail(signer.getEmail());
+
                     packageBuilder.withSenderInfo(senderInfo);
                 }
             }

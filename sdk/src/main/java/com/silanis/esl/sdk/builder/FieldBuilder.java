@@ -104,7 +104,7 @@ public class FieldBuilder {
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
      */
     public static FieldBuilder customField(String name) {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName( name );
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName(name);
     }
 
     /**
@@ -142,6 +142,32 @@ public class FieldBuilder {
     }
 
     /**
+     * Creates a field builder having set the style to DROP_LIST. It defines
+     * a drop list field at the location defined that the signer may be
+     * required to select prior to signing the its associated signature
+     *
+     * @see FieldStyle
+     * @return a DROP_LIST styled field builder
+     */
+
+    public static FieldBuilder dropList() {
+        return new FieldBuilder().withStyle(FieldStyle.DROP_LIST);
+    }
+
+    /**
+     * Creates a field builder having set the style to TEXT_AREA. It defines
+     * a text area field at the location defined that the signer may be
+     * required to fill prior to signing the its associated signature
+     *
+     * @see FieldStyle
+     * @return a TEXT_AREA styled field builder
+     */
+
+    public static FieldBuilder textArea() {
+        return new FieldBuilder().withStyle(FieldStyle.TEXT_AREA);
+    }
+
+    /**
      * Every bound field (Date, Title, Name) is a label.
      * The user should not have to set a field style to label.
      *
@@ -150,6 +176,19 @@ public class FieldBuilder {
      */
     public static FieldBuilder label() {
         return new FieldBuilder().withStyle(FieldStyle.LABEL);
+    }
+
+    /**
+     * Creates a field builder having set the style to BOUND_QRCODE.
+     * A QR code field will be displayed at the location defined with a
+     * default size of width=77 and height=77.
+     *
+     * @see FieldStyle
+     * @return a BOUND_QRCODE styled field builder
+     */
+    public static FieldBuilder qrCode() {
+        return new FieldBuilder().withStyle(FieldStyle.BOUND_QRCODE)
+                .withSize(77.0, 77.0);
     }
 
     /**

@@ -61,6 +61,17 @@ public class SignatureBuilderTest {
     }
 
     @Test
+    public void buildMobileCaptureForPlaceholder() {
+        Placeholder placeholder = new Placeholder("placeholderId");
+        Signature signature = mobileCaptureFor( placeholder ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.MOBILE_CAPTURE ) ) );
+    }
+
+    @Test
     public void buildCaptureForGroup() {
         GroupId groupId = new GroupId( "myGroupId" );
         Signature signature = captureFor( groupId ).build();
@@ -102,6 +113,17 @@ public class SignatureBuilderTest {
         assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
         assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
         assertThat( signature.getStyle(), is( equalTo( SignatureStyle.INITIALS ) ) );
+    }
+
+    @Test
+    public void buildMobileCaptureForGroup() {
+        GroupId groupId = new GroupId( "myGroupId" );
+        Signature signature = mobileCaptureFor( groupId ).build();
+
+        assertThat( signature, is( notNullValue() ) );
+        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
+        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
+        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.MOBILE_CAPTURE ) ) );
     }
 
     @Test
@@ -164,5 +186,12 @@ public class SignatureBuilderTest {
         Signature signature = captureFor("test@test.com").build();
 
         assertThat(signature.getStyle(), is(equalTo(SignatureStyle.HAND_DRAWN)));
+    }
+
+    @Test
+    public void creatingMobileCaptureForSignerSetsStyle() {
+        Signature signature = mobileCaptureFor("test@test.com").build();
+
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.MOBILE_CAPTURE)));
     }
 }

@@ -24,6 +24,7 @@ public class Document implements Serializable {
     private boolean extract;
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
+    private List<Field> qrCodes = new ArrayList<Field>();
     private String description;
     private External external;
 
@@ -167,6 +168,13 @@ public class Document implements Serializable {
 
     public List<Field> getInjectedFields() {
         return injectedFields;
+    }
+
+    public void addQRCodes(List<Field> fields) {
+        this.qrCodes.addAll(fields);
+    }
+    public List<Field> getQrCodes() {
+        return qrCodes;
     }
 
     public void setDescription( String description ) {

@@ -190,6 +190,8 @@ public class SignatureConverter {
                 return FieldSubtype.INITIALS;
             case ACCEPTANCE:
                 return FieldSubtype.FULLNAME;
+            case MOBILE_CAPTURE:
+                return FieldSubtype.MOBILE_CAPTURE;
             default:
                 throw new ConversionException( Signature.class, Approval.class, "Unable to decode signature type." );
         }

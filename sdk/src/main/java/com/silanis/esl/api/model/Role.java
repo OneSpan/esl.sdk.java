@@ -30,6 +30,8 @@ public class Role extends Entity
     @JsonIgnore
     public static final String FIELD_SIGNERS = "signers";
     @JsonIgnore
+    public static final String FIELD_SPECIALTYPES = "specialTypes";
+    @JsonIgnore
     public static final String FIELD_TYPE = "type";
     
     // Empty Constructor
@@ -42,6 +44,7 @@ public class Role extends Entity
     protected Boolean _locked = false;
     protected Boolean _reassign = false;
     protected List<Signer> _signers = new ArrayList<Signer>();
+    protected List<String> _specialTypes = new ArrayList<String>();
     protected RoleType _type = RoleType.SIGNER;
     
     // Accessors
@@ -223,6 +226,33 @@ public class Role extends Entity
         if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
         this._signers.add(value);
         setDirty(FIELD_SIGNERS);
+        return this;
+    }
+    
+        
+    
+    public Role setSpecialTypes( List<String> value ){
+        SchemaSanitizer.throwOnNull(FIELD_SPECIALTYPES,value);
+        // TODO With proper compare
+        // if ( this._specialTypes == value ) return this;
+        this._specialTypes = value;
+        setDirty(FIELD_SPECIALTYPES);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Role safeSetSpecialTypes( List<String> value ){
+        if ( value != null ) { this.setSpecialTypes( value ); }
+        return this;
+    }
+    public List<String> getSpecialTypes(){
+        return _specialTypes;
+    }
+    // List adder
+    public Role addSpecialType( String value ){
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._specialTypes.add(value);
+        setDirty(FIELD_SPECIALTYPES);
         return this;
     }
     

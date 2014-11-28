@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
+import com.silanis.esl.sdk.service.apiclient.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,7 @@ public class EslClient {
     private TemplateService templateService;
     private AttachmentRequirementService attachmentRequirementService;
     private LayoutService layoutService;
+    private QRCodeService qrCodeService;
 
     /**
      * The constructor of the EslClient class
@@ -49,17 +51,18 @@ public class EslClient {
         packageService = new PackageService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
-        auditService = new AuditService(client, this.baseURL);
-        eventNotificationService = new EventNotificationService( client, this.baseURL );
-        authenticationTokensService = new AuthenticationTokensService(client, this.baseURL);
+        auditService = new AuditService(new AuditApiClient(client, this.baseURL));
+        eventNotificationService = new EventNotificationService(new EventNotificationApiClient(client, this.baseURL));
+        authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, this.baseURL));
         groupService = new GroupService( client, this.baseURL );
-        customFieldService = new CustomFieldService( client, this.baseURL );
-        accountService = new AccountService( client, this.baseURL );
-        approvalService = new ApprovalService(client, this.baseURL);
+        customFieldService = new CustomFieldService(new CustomFieldApiClient(client, this.baseURL));
+        accountService = new AccountService( new AccountApiClient(client, this.baseURL));
+        approvalService = new ApprovalService( new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService( client, this.baseURL );
         templateService = new TemplateService(client, this.baseURL, packageService);
-        attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
+        attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL),client,this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
+        qrCodeService = new QRCodeService(client, this.baseURL);
     }
 
     /**
@@ -131,7 +134,7 @@ public class EslClient {
      * <p>This basically does the followings:</p>
      * <p> - converts the document package to JSON format</p>
      * <p> - makes an eSL REST call to actually create the package. Is is using as payload the above generated JSON content.
-     * 
+     *
      * @param documentPackage	the document package
      * @return	the package ID
      */
@@ -224,7 +227,7 @@ public class EslClient {
 
     /**
      * Creates a package based on an existent template
-     * 
+     *
      * @param documentPackage	the document package
      * @param packageId	the package ID used as template for the new package
      * @return	the package ID
@@ -239,7 +242,7 @@ public class EslClient {
      * <p> - activates the package</p>
      * <p> - send emails to signers and the package owner</p>
      * <p> - sends notifications (if any)</p>
-     * 
+     *
      * @param id	the package ID
      */
     public void sendPackage(PackageId id) {
@@ -278,7 +281,7 @@ public class EslClient {
      * <p>Creates a session token for the package and user provided as parameters.</p>
      * <p>The content of SessionToken that is returned by this method is needed to access</p>
      * <p>the signing ceremony on behalf of the signer for whom the session was generated</p>
-     * 
+     *
      * @param packageId	the package ID
      * @param signerId	the signer ID
      * @return	the session token
@@ -319,7 +322,7 @@ public class EslClient {
     }
 
     /**
-     * Downloads the evidence summary for a package 
+     * Downloads the evidence summary for a package
      * @param packageId	the package ID
      * @return	the content of the evidence summary
      */
@@ -376,4 +379,7 @@ public class EslClient {
         return layoutService;
     }
 
+    public QRCodeService getQrCodeService() {
+        return qrCodeService;
+    }
 }

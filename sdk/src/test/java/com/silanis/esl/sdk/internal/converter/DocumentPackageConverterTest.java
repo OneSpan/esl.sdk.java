@@ -3,7 +3,9 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Message;
 import com.silanis.esl.api.model.PackageStatus;
+import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.User;
+import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import org.junit.Test;
 
@@ -104,7 +106,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Status was not correctly set", apiPackage1.getStatus(), is(equalTo(sdkDocumentPackage1.getStatus())));
         assertThat("Message status was not correctly set", apiPackage1.getMessages().get(0).getStatus().toString(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getStatus().toString())));
         assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getContent())));
-
+        assertThat("Sender email address was not correctly set", apiPackage1.getSender().getEmail(), is(equalTo(sdkDocumentPackage1.getSenderInfo().getEmail())));
     }
 
     @Override
@@ -115,6 +117,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiPackage1 = new DocumentPackageConverter(sdkDocumentPackage1).toAPIPackage();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiPackage1, is( notNullValue() ) );
+        assertThat("ID was not correctly set", apiPackage1.getId(), is( equalTo(sdkDocumentPackage1.getId().toString()) ));
         assertThat("Language was not correctly set", apiPackage1.getLanguage(), is( equalTo(sdkDocumentPackage1.getLanguage().getLanguage() ) ));
         assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is( equalTo(sdkDocumentPackage1.getAutocomplete() ) ));
         assertThat("Description was not correctly set", apiPackage1.getDescription(), is( equalTo(sdkDocumentPackage1.getDescription() ) ));
@@ -131,6 +134,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
      */
     private com.silanis.esl.sdk.DocumentPackage createTypicalSDKDocumentPackage() {
         com.silanis.esl.sdk.DocumentPackage sdkDocumentPackage = PackageBuilder.newPackageNamed("SDK Package Name")
+                .withID(new PackageId("packageId"))
                 .withStatus(PackageStatus.DRAFT)
                 .describedAs("typical description")
                 .withEmailMessage("typical email message")
@@ -165,6 +169,10 @@ public class DocumentPackageConverterTest implements ConverterTest {
         fromUser.setEmail("email@email.com");
         apiMessage.setFrom(fromUser);
         apiDocumentPackage.setMessages(new ArrayList<Message>(Arrays.asList(apiMessage)));
+
+        Sender sender = new Sender();
+        sender.setEmail("sender@email.com");
+        apiDocumentPackage.setSender(sender);
 
         return apiDocumentPackage;
     }

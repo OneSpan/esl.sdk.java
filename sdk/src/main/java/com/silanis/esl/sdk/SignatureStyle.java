@@ -6,7 +6,8 @@ public enum SignatureStyle {
     ACCEPTANCE,
     HAND_DRAWN,
     FULL_NAME,
-    INITIALS;
+    INITIALS,
+    MOBILE_CAPTURE;
 
     public static SignatureStyle fromAPIFieldSubType( FieldSubtype subtype ) {
         switch( subtype ) {
@@ -16,6 +17,8 @@ public enum SignatureStyle {
                 return HAND_DRAWN;
             case FULLNAME:
                 return FULL_NAME;
+            case MOBILE_CAPTURE:
+                return MOBILE_CAPTURE;
             default:
                 return null;
         }

@@ -57,7 +57,7 @@ public class BasicPackageCreationExampleTest {
         assertThat( "Signer 2 last name was not set correctly.",signer.getLastName(), is( "Galant" ) );
 
         // Document 1
-        Document document = documentPackage.getDocument("First Document");
+        Document document = documentPackage.getDocument("First Document pdf");
 
         Iterator<Signature> signatures = document.getSignatures().iterator();
         Signature signature;
@@ -80,7 +80,7 @@ public class BasicPackageCreationExampleTest {
         }
 
         // Document 2
-        document = documentPackage.getDocument("Second Document");
+        document = documentPackage.getDocument("Second Document PDF");
         signatures = document.getSignatures().iterator();
 
         if (signatures.hasNext()) {

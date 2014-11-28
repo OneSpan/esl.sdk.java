@@ -103,4 +103,27 @@ public class FieldBuilderTest {
 
         assertThat( field.getStyle(), is( equalTo(FieldStyle.UNBOUND_RADIO_BUTTON)));
     }
+
+    @Test
+    public void creatingTextAreaFieldSetsStyle(){
+        Field field = textArea().atPosition( 100, 100 ).build();
+
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.TEXT_AREA)));
+    }
+
+    @Test
+    public void creatingDropListFieldSetsStyle(){
+        Field field = dropList().atPosition( 100, 100 ).build();
+
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.DROP_LIST)));
+    }
+
+    @Test
+    public void creatingQRCodeStyle() {
+        Field field = qrCode().atPosition( 100, 100 ).build();
+
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.BOUND_QRCODE)));
+        assertThat( field.getHeight(), is(77.0));
+        assertThat( field.getWidth(), is(77.0));
+    }
 }

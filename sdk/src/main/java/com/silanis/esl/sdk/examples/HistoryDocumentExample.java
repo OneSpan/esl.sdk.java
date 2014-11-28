@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.Document;
+import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
@@ -26,7 +26,7 @@ public class HistoryDocumentExample extends SDKSample {
     private InputStream documentInputStream2;
 
     public static void main(String... args) {
-        new BasicPackageCreationExample(Props.get()).run();
+        new HistoryDocumentExample(Props.get()).run();
     }
 
     public HistoryDocumentExample(Properties props) {
@@ -104,6 +104,5 @@ public class HistoryDocumentExample extends SDKSample {
         eslClient.getPackageService().addDocumentWithExternalContent(packageId.getId(), externalDocuments);
         eslClient.sendPackage(packageId);
     }
-
 
 }

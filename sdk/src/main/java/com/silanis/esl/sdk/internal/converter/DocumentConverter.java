@@ -3,6 +3,8 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.FieldStyle;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
@@ -61,7 +63,13 @@ public class DocumentConverter {
         }
 
         for ( com.silanis.esl.api.model.Field apiField : apiDocument.getFields() ) {
-            documentBuilder.withInjectedField( new FieldConverter(apiField).toSDKField() );
+            Field sdkField = new FieldConverter(apiField).toSDKField();
+
+            if (sdkField.getStyle() != FieldStyle.BOUND_QRCODE) {
+                documentBuilder.withInjectedField(sdkField);
+            } else {
+                documentBuilder.withQRCode(sdkField);
+            }
         }
 
         return documentBuilder.build();
@@ -81,10 +89,6 @@ public class DocumentConverter {
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
                 .setName(sdkDocument.getName());
-
-        if(sdkDocument.getExternal() != null){
-            resultAPIDocument.setExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal());
-        }
 
         if ( sdkDocument.getId() != null ) {
             resultAPIDocument.setId(sdkDocument.getId().getId());
@@ -112,6 +116,10 @@ public class DocumentConverter {
             resultAPIDocument.addField(ConversionService.convert(field));
         }
 
+        for (com.silanis.esl.sdk.Field field : sdkDocument.getQrCodes()) {
+            resultAPIDocument.addField(ConversionService.convert(field));
+        }
+
         return resultAPIDocument;
     }
 
@@ -124,7 +132,8 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document resultAPIDocument = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
-                .setName(sdkDocument.getName());
+                .setName(sdkDocument.getName())
+                .setExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal());
 
         if( sdkDocument.getId() != null){
             resultAPIDocument.setId( sdkDocument.getId().toString() );

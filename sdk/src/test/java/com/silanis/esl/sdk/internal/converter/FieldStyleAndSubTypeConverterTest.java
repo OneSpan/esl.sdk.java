@@ -111,10 +111,25 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
         assertThat("Radio button type was not correctly set", fieldStyle, is( equalTo(FieldStyle.UNBOUND_RADIO_BUTTON)));
 
+        fieldSubtype = FieldSubtype.TEXTAREA;
+        binding = null;
+        fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
+        assertThat("Text area type was not correctly set", fieldStyle, is( equalTo(FieldStyle.TEXT_AREA)));
+
+        fieldSubtype = FieldSubtype.LIST;
+        binding = null;
+        fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
+        assertThat("List type was not correctly set", fieldStyle, is( equalTo(FieldStyle.DROP_LIST)));
+
         fieldSubtype = FieldSubtype.QRCODE;
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("QR code type was not correctly set", fieldStyle, is( equalTo(FieldStyle.UNBOUND_QRCODE)));
+        assertThat("QR code type was not correctly set", fieldStyle, is( equalTo(FieldStyle.BOUND_QRCODE)));
+
+        fieldSubtype = FieldSubtype.SEAL;
+        binding = null;
+        fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
+        assertThat("Seal type was not correctly set", fieldStyle, is( equalTo(FieldStyle.SEAL)));
 
         // Where the conversion is based on binding.
         fieldSubtype = null;
@@ -161,9 +176,21 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.RADIO)));
 
-        fieldStyle = FieldStyle.UNBOUND_QRCODE;
+        fieldStyle = FieldStyle.DROP_LIST;
+        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
+        assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.LIST)));
+
+        fieldStyle = FieldStyle.TEXT_AREA;
+        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
+        assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.TEXTAREA)));
+
+        fieldStyle = FieldStyle.BOUND_QRCODE;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.QRCODE)));
+
+        fieldStyle = FieldStyle.SEAL;
+        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
+        assertThat(" was not correctly set", fieldSubtype, is( equalTo(FieldSubtype.SEAL)));
 
         fieldStyle = FieldStyle.BOUND_DATE;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();

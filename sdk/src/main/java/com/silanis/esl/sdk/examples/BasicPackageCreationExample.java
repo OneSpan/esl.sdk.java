@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.SessionToken;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
@@ -20,7 +18,6 @@ import static org.joda.time.DateMidnight.now;
  * Basic package with in-person mode set at the document package level. Expires in a month.
  */
 public class BasicPackageCreationExample extends SDKSample {
-
 
     public final String email1;
     public final String email2;
@@ -61,7 +58,7 @@ public class BasicPackageCreationExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email2)
                         .withFirstName("Patty")
                         .withLastName("Galant"))
-                .withDocument(newDocumentWithName("First Document")
+                .withDocument(newDocumentWithName("First Document pdf")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
@@ -70,7 +67,7 @@ public class BasicPackageCreationExample extends SDKSample {
                                         .atPosition(50, 50)
                                         .withValue(FieldBuilder.RADIO_SELECTED))
                                 .atPosition(100, 100)))
-                .withDocument(newDocumentWithName("Second Document")
+                .withDocument(newDocumentWithName("Second Document PDF")
                                 .fromStream(documentInputStream2, DocumentType.PDF)
                                 .withSignature(signatureFor(email2)
                                                 .onPage(0)

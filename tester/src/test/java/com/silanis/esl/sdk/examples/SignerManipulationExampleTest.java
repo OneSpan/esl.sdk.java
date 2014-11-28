@@ -24,6 +24,7 @@ public class SignerManipulationExampleTest {
         assertThat("Added signer first name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getFirstName(), is(equalTo("firstName3")));
         assertThat("Added signer last name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getLastName(), is(equalTo("lastName3")));
         assertThat("Added signer title was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getTitle(), is(equalTo("Title3")));
+        assertThat("Added signer was not locked correctly", documentPackage.getSigner(signerManipulationExample.email3).isLocked(), is(equalTo(true)));
 
         documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
 
@@ -39,5 +40,7 @@ public class SignerManipulationExampleTest {
         assertThat("Signer 2 first name was not updated correctly", signerManipulationExample.updatedSigner.getFirstName(), is(equalTo("updateFirstName1")));
         assertThat("Signer 2 last name was not updated correctly", signerManipulationExample.updatedSigner.getLastName(), is(equalTo("updateLastName1")));
         assertThat("Signer 2 title was updated set correctly", signerManipulationExample.updatedSigner.getTitle(), is(equalTo("updateTitle1")));
+
+        assertThat("Signer 3 was not unlocked properly", documentPackage.getSigner(signerManipulationExample.email3).isLocked(), is(equalTo(false)));
     }
 }

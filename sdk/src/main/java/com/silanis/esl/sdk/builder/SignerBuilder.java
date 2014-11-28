@@ -30,6 +30,7 @@ final public class SignerBuilder {
     private String id = null;
     private boolean locked = false;
     private Map<String, AttachmentRequirement> attachments = new HashMap<String, AttachmentRequirement>();
+    private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -200,6 +201,7 @@ final public class SignerBuilder {
         result.setId(id);
         result.setLocked(locked);
         result.setAttachmentRequirement(attachments);
+        result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
 
         return result;
     }
@@ -374,6 +376,66 @@ final public class SignerBuilder {
      */
     private void addAttachment(AttachmentRequirement attachmentRequirement) {
         attachments.put(attachmentRequirement.getName(), attachmentRequirement);
+    }
+
+
+    /**
+     * <p>Adds KBA to the signer.</p>
+     *
+     * @param knowledgeBasedAuthentication knowledge based authentication
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
+        this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
+        return this;
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax Canada to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
+     *
+     * @param signerInformationForEquifaxCanadaBuilder the signer builder for Equifax Canada
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForEquifaxCanadaBuilder signerInformationForEquifaxCanadaBuilder) {
+        return challengedWithKnowledgeBasedAuthentication(signerInformationForEquifaxCanadaBuilder.build());
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax Canada to the signer.</p>
+     *
+     * @param signerInformationForEquifaxCanada a signer information for Equifax Canada
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForEquifaxCanada signerInformationForEquifaxCanada) {
+        if(this.knowledgeBasedAuthentication == null) {
+            this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
+        }
+        this.knowledgeBasedAuthentication.setSignerInformationForEquifaxCanada(signerInformationForEquifaxCanada);
+        return this;
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax USA to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
+     *
+     * @param signerInformationForEquifaxUSABuilder the signer builder for Equifax USA
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForEquifaxUSABuilder signerInformationForEquifaxUSABuilder) {
+        return challengedWithKnowledgeBasedAuthentication(signerInformationForEquifaxUSABuilder.build());
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax USA to the signer.</p>
+     *
+     * @param signerInformationForEquifaxUSA a signer information for Equifax USA
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
+        if(this.knowledgeBasedAuthentication == null) {
+            this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
+        }
+        this.knowledgeBasedAuthentication.setSignerInformationForEquifaxUSA(signerInformationForEquifaxUSA);
+        return this;
     }
 
     /**

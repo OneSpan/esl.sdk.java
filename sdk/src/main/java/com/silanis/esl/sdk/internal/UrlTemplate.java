@@ -13,6 +13,7 @@ public class UrlTemplate {
     public static final String DOCUMENT_ID_PATH = "/packages/{packageId}/documents/{documentId}";
     public static final String ROLE_PATH = "/packages/{packageId}/roles";
     public static final String ROLE_ID_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String ROLE_UNLOCK_PATH = "/packages/{packageId}/roles/{roleId}/unlock";
     public static final String PDF_PATH = "/packages/{packageId}/documents/{documentId}/pdf";
     public static final String ORIGINAL_PATH = "/packages/{packageId}/documents/{documentId}/original";
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";
@@ -73,13 +74,14 @@ public class UrlTemplate {
     public static final String ACCOUNT_MEMBER_ID_PATH = "/account/senders/{senderUid}";
     public static final String ACCOUNT_MEMBER_INVITE_PATH = "/account/senders/{senderUid}/invite";
     public static final String ACCOUNT_MEMBER_LIST_PATH = "/account/senders?to={to}&from={from}&dir={dir}";
+    public static final String ACCOUNT_CONTACTS_PATH = "/users";
 
     // Approval Service
     public static final String APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/approvals";
     public static final String APPROVAL_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}";
     public static final String FIELD_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}/fields";
     public static final String FIELD_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}/fields/{fieldId}";
-    
+
     // Provider Document Resource
     public static final String PROVIDER_DOCUMENTS = "/documents";
 
@@ -97,6 +99,10 @@ public class UrlTemplate {
     public static final String LAYOUT_PATH = "/layouts";
     public static final String LAYOUT_LIST_PATH = "/layouts?to={to}&from={from}&dir={dir}";
     public static final String APPLY_LAYOUT_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutId={layoutId}";
+
+    // QR Code Service
+    public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";
+    public static final String QRCODE_ID_PATH = "/packages/{packageId}/documents/{documentId}/fields/{fieldId}";
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;

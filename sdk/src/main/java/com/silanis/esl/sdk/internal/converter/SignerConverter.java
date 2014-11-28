@@ -57,6 +57,7 @@ public class SignerConverter {
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
+                    .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
                     .setDelivery( new Delivery().setEmail( sdkSigner.isDeliverSignedDocumentsByEmail() ) );
         } else {
             result.setGroup( new com.silanis.esl.api.model.Group().setId( sdkSigner.getGroupId().toString() ) );
@@ -79,8 +80,8 @@ public class SignerConverter {
                     .withFirstName( apiSigner.getFirstName() )
                     .withLastName( apiSigner.getLastName() )
                     .withCompany( apiSigner.getCompany() )
-                    .withTitle( apiSigner.getTitle() );
-
+                    .withTitle( apiSigner.getTitle() )
+                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }
@@ -185,6 +186,8 @@ public class SignerConverter {
             message.setContent(sdkSigner.getMessage());
             role.setEmailMessage(message);
         }
+
+        role.setLocked(sdkSigner.isLocked());
 
         for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirement().values()) {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());

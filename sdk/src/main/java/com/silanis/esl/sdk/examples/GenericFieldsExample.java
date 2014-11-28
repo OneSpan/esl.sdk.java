@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.FieldId;
+import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -37,6 +38,14 @@ public class GenericFieldsExample extends SDKSample {
     public static final int RADIO_2_PAGE = 0;
     public static final boolean RADIO_2_VALUE = true;
     public static final String RADIO_2_GROUP = "group";
+    public static final String DROP_LIST_ID = "dropListId";
+    public static final int DROP_LIST_PAGE = 0;
+    public static final String DROP_LIST_OPTION1 = "one";
+    public static final String DROP_LIST_OPTION2 = "two";
+    public static final String DROP_LIST_OPTION3 = "three";
+    public static final String TEXT_AREA_ID = "textAreaId";
+    public static final int TEXT_AREA_PAGE = 0;
+    public static final String TEXT_AREA_VALUE = "textAreaValue";
 
     private int textfieldPositionX = 400;
     private int textfieldPositionY = 200;
@@ -56,6 +65,14 @@ public class GenericFieldsExample extends SDKSample {
     private double radio2Height = 20;
     private int radio2PositionX = 400;
     private int radio2PositionY = 450;
+    private double dropListWidth = 100;
+    private double dropListHeight = 200;
+    private int dropListPositionX = 100;
+    private int dropListPositionY = 100;
+    private double textAreaWidth = 400;
+    private double textAreaHeight = 600;
+    private int textAreaPositionX = 200;
+    private int textAreaPositionY = 200;
 
     public static void main( String... args ) {
         new GenericFieldsExample( Props.get() ).run();
@@ -110,7 +127,23 @@ public class GenericFieldsExample extends SDKSample {
                                         .withValue(RADIO_2_VALUE)
                                         .onPage(RADIO_2_PAGE)
                                         .withSize(radio2Width, radio2Height)
-                                        .atPosition(radio2PositionX, radio2PositionY))))
+                                        .atPosition(radio2PositionX, radio2PositionY))
+                                .withField(dropList()
+                                        .withId(new FieldId(DROP_LIST_ID))
+                                        .withValue(DROP_LIST_OPTION2)
+                                        .withValidation(FieldValidatorBuilder.basic()
+                                            .withOption(DROP_LIST_OPTION1)
+                                            .withOption(DROP_LIST_OPTION2)
+                                            .withOption(DROP_LIST_OPTION3))
+                                        .onPage(DROP_LIST_PAGE)
+                                        .withSize(dropListWidth, dropListHeight)
+                                        .atPosition(dropListPositionX, dropListPositionY))
+                                .withField(textArea()
+                                        .withId(new FieldId(TEXT_AREA_ID))
+                                        .withValue(TEXT_AREA_VALUE)
+                                        .onPage(TEXT_AREA_PAGE)
+                                        .withSize(textAreaWidth, textAreaHeight)
+                                        .atPosition(textAreaPositionX, textAreaPositionY))))
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
