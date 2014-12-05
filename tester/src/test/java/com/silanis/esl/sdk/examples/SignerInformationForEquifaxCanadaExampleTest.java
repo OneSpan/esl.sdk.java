@@ -31,7 +31,7 @@ public class SignerInformationForEquifaxCanadaExampleTest {
         assertThat( "province in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getProvince(), is(PROVINCE) );
         assertThat("date of birth in signerInformationForEquifaxCanada was not set correctly.", signerInformationForEquifaxCanada.getDateOfBirth().toString(), is(equalTo(DATE_OF_BIRTH.toString())));
         assertThat( "time at address in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getTimeAtAddress(), is( TIME_AT_ADDRESS ) );
-        assertThat( "driver's license in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getDriversLicenseNumber(), is(DRIVERS_LICENSE_NUMBER) );
+//        assertThat( "driver's license in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getDriversLicenseNumber(), is(DRIVERS_LICENSE_NUMBER) );
         assertThat( "SIN number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getSocialInsuranceNumber(), is( SOCIAL_INSURANCE_NUMBER ) );
         assertThat( "Home phone number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getHomePhoneNumber(), is( HOME_PHONE_NUMBER ) );
 
