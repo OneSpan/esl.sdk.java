@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.FieldSubtype;
-
 public enum SignatureStyle {
     ACCEPTANCE,
     HAND_DRAWN,
@@ -9,18 +7,20 @@ public enum SignatureStyle {
     INITIALS,
     MOBILE_CAPTURE;
 
-    public static SignatureStyle fromAPIFieldSubType( FieldSubtype subtype ) {
-        switch( subtype ) {
-            case INITIALS:
-                return INITIALS;
-            case CAPTURE:
-                return HAND_DRAWN;
-            case FULLNAME:
-                return FULL_NAME;
-            case MOBILE_CAPTURE:
-                return MOBILE_CAPTURE;
-            default:
-                return null;
+    public static SignatureStyle fromAPIFieldSubType( String subtype ) {
+        if (subtype == null) {
+            return null;
+        }
+        if(subtype.equals("INITIALS")) {
+            return INITIALS;
+        } else if (subtype.equals("CAPTURE")) {
+            return HAND_DRAWN;
+        } else if (subtype.equals("FULLNAME")) {
+            return FULL_NAME;
+        } else if (subtype.equals("MOBILE_CAPTURE")) {
+            return MOBILE_CAPTURE;
+        } else {
+            return null;
         }
     }
 }

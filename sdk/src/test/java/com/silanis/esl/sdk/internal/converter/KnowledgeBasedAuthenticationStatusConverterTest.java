@@ -13,7 +13,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class KnowledgeBasedAuthenticationStatusConverterTest implements ConverterTest {
 
-    private com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus apiKnowledgeBasedAuthenticationStatus;
+    private String apiKnowledgeBasedAuthenticationStatus;
     private com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus;
     private KnowledgeBasedAuthenticationStatusConverter converter;
 
@@ -57,9 +57,9 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
 
     @Test
     public void convertAPIToAPI() {
-        apiKnowledgeBasedAuthenticationStatus = createTypicalAPIKnowledgeBasedAuthenticationStatus();
+        apiKnowledgeBasedAuthenticationStatus = "PASSED";
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
-        com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus result = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        String result = converter.toAPIKnowledgeBasedAuthenticationStatus();
 
         assertThat("Converter returned a null api object for a non null api object", result, is(notNullValue()));
         assertThat("Converter didn't return the same non-null api object it was given", result, is(equalTo(apiKnowledgeBasedAuthenticationStatus)));
@@ -67,11 +67,11 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
 
     @Test
     public void convertAPIToSDK() {
-        apiKnowledgeBasedAuthenticationStatus = createTypicalAPIKnowledgeBasedAuthenticationStatus();
+        apiKnowledgeBasedAuthenticationStatus = "PASSED";
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
         sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
 
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.toString(), is(apiKnowledgeBasedAuthenticationStatus.toString()));
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.getValue(), is(apiKnowledgeBasedAuthenticationStatus));
     }
 
     @Test
@@ -80,14 +80,10 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
 
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus.toString(), is(sdkKnowledgeBasedAuthenticationStatus.toString()));
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is(sdkKnowledgeBasedAuthenticationStatus.getValue()));
     }
 
     private com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus createTypicalSDKKnowledgeBasedAuthenticationStatus() {
         return com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
-    }
-
-    private com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus createTypicalAPIKnowledgeBasedAuthenticationStatus() {
-        return com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus.PASSED;
     }
 }

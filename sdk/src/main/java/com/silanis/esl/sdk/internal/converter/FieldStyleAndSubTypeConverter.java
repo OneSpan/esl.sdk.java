@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.FieldSubtype;
 import com.silanis.esl.sdk.FieldStyle;
-import com.silanis.esl.sdk.internal.ConversionException;
 
 /**
  * User: jessica
@@ -13,13 +11,14 @@ import com.silanis.esl.sdk.internal.ConversionException;
  */
 
 public class FieldStyleAndSubTypeConverter {
+
     private static final String BINDING_DATE = "{approval.signed}";
     private static final String BINDING_TITLE = "{signer.title}";
     private static final String BINDING_NAME = "{signer.name}";
     private static final String BINDING_COMPANY = "{signer.company}";
 
     FieldStyle sdkFieldStyle = null;
-    FieldSubtype apiFieldSubType = null;
+    String apiFieldSubType = null;
     String apiFieldBinding = null;
 
     /**
@@ -37,7 +36,7 @@ public class FieldStyleAndSubTypeConverter {
      * @param apiFieldSubType
      * @param apiFieldBinding
      */
-    public FieldStyleAndSubTypeConverter(FieldSubtype apiFieldSubType, String apiFieldBinding) {
+    public FieldStyleAndSubTypeConverter(String apiFieldSubType, String apiFieldBinding) {
         this.apiFieldSubType = apiFieldSubType;
         this.apiFieldBinding = apiFieldBinding;
     }
@@ -47,36 +46,34 @@ public class FieldStyleAndSubTypeConverter {
      *
      * @return a FieldSubType object.
      */
-    public FieldSubtype toAPIFieldSubtype() {
+    public String toAPIFieldSubtype() {
         if (sdkFieldStyle == null) {
             return apiFieldSubType;
         }
-        switch (sdkFieldStyle) {
-            case UNBOUND_TEXT_FIELD:
-                return FieldSubtype.TEXTFIELD;
-            case UNBOUND_CUSTOM_FIELD:
-                return FieldSubtype.CUSTOMFIELD;
-            case BOUND_DATE:
-            case BOUND_NAME:
-            case BOUND_TITLE:
-            case BOUND_COMPANY:
-            case LABEL:
-                return FieldSubtype.LABEL;
-            case UNBOUND_CHECK_BOX:
-                return FieldSubtype.CHECKBOX;
-            case UNBOUND_RADIO_BUTTON:
-                return FieldSubtype.RADIO;
-            case TEXT_AREA:
-                return FieldSubtype.TEXTAREA;
-            case DROP_LIST:
-                return FieldSubtype.LIST;
-            case BOUND_QRCODE:
-                return FieldSubtype.QRCODE;
-            case SEAL:
-                return FieldSubtype.SEAL;
-            default:
-                throw new ConversionException( com.silanis.esl.sdk.FieldStyle.class, com.silanis.esl.api.model.FieldSubtype.class, "Unable to decode the field subtype." );
-        }
+        if(sdkFieldStyle.getValue().equals("TEXTFIELD"))
+            return "TEXTFIELD";
+        else if (sdkFieldStyle.getValue().equals("CUSTOMFIELD"))
+                return "CUSTOMFIELD";
+        else if (sdkFieldStyle.getValue().equals("BINDING_DATE") ||
+                sdkFieldStyle.getValue().equals("BINDING_NAME") ||
+                sdkFieldStyle.getValue().equals("BINDING_TITLE") ||
+                sdkFieldStyle.getValue().equals("BINDING_COMPANY") ||
+                sdkFieldStyle.getValue().equals("LABEL"))
+            return "LABEL";
+        else if (sdkFieldStyle.getValue().equals("CHECKBOX"))
+            return "CHECKBOX";
+        else if (sdkFieldStyle.getValue().equals("RADIO"))
+            return "RADIO";
+        else if (sdkFieldStyle.getValue().equals("TEXTAREA"))
+            return "TEXTAREA";
+        else if (sdkFieldStyle.getValue().equals("LIST"))
+            return "LIST";
+        else if (sdkFieldStyle.getValue().equals("QRCODE"))
+            return "QRCODE";
+        else if (sdkFieldStyle.getValue().equals("SEAL"))
+            return "SEAL";
+        else
+            return "";
     }
 
     /**
@@ -90,40 +87,36 @@ public class FieldStyleAndSubTypeConverter {
         }
 
         if ( apiFieldBinding == null ) {
-            switch ( apiFieldSubType ) {
-                case TEXTFIELD:
-                    return FieldStyle.UNBOUND_TEXT_FIELD;
-                case CUSTOMFIELD:
-                    return FieldStyle.UNBOUND_CUSTOM_FIELD;
-                case CHECKBOX:
-                    return FieldStyle.UNBOUND_CHECK_BOX;
-                case RADIO:
-                    return FieldStyle.UNBOUND_RADIO_BUTTON;
-                case TEXTAREA:
-                    return FieldStyle.TEXT_AREA;
-                case LIST:
-                    return FieldStyle.DROP_LIST;
-                case QRCODE:
-                    return FieldStyle.BOUND_QRCODE;
-                case SEAL:
-                    return FieldStyle.SEAL;
-                default: {
-                    throw new ConversionException( com.silanis.esl.api.model.FieldSubtype.class, com.silanis.esl.sdk.FieldStyle.class, "Unable to decode the field subtype." );
-                }
-            }
+            if (apiFieldSubType.equals("TEXTFIELD"))
+                return FieldStyle.TEXTFIELD;
+            else if (apiFieldSubType.equals("CUSTOMFIELD"))
+                return FieldStyle.CUSTOMFIELD;
+            else if (apiFieldSubType.equals("CHECKBOX"))
+                return FieldStyle.CHECKBOX;
+            else if (apiFieldSubType.equals("RADIO"))
+                return FieldStyle.RADIO;
+            else if (apiFieldSubType.equals("TEXTAREA"))
+                return FieldStyle.TEXTAREA;
+            else if (apiFieldSubType.equals("LIST"))
+                return FieldStyle.LIST;
+            else if (apiFieldSubType.equals("QRCODE"))
+                return FieldStyle.QRCODE;
+            else if (apiFieldSubType.equals("SEAL"))
+                return FieldStyle.SEAL;
+            else
+                return FieldStyle.UNRECOGNIZED(apiFieldSubType);
         } else {
             String binding = apiFieldBinding;
-            if ( binding.equals( BINDING_DATE ) ) {
-                return FieldStyle.BOUND_DATE;
-            } else if ( binding.equals( BINDING_TITLE ) ) {
-                return FieldStyle.BOUND_TITLE;
-            } else if ( binding.equals( BINDING_NAME ) ) {
-                return FieldStyle.BOUND_NAME;
-            } else if ( binding.equals( BINDING_COMPANY ) ) {
-                return FieldStyle.BOUND_COMPANY;
-            } else {
-                throw new ConversionException( com.silanis.esl.api.model.FieldSubtype.class, com.silanis.esl.sdk.FieldStyle.class, "Unable to decode the field subtype." );
-            }
+            if ( binding.equals( BINDING_DATE ) )
+                return FieldStyle.BINDING_DATE;
+            else if ( binding.equals( BINDING_TITLE ) )
+                return FieldStyle.BINDING_TITLE;
+            else if ( binding.equals( BINDING_NAME ) )
+                return FieldStyle.BINDING_NAME;
+            else if ( binding.equals( BINDING_COMPANY ) )
+                return FieldStyle.BINDING_COMPANY;
+            else
+                return FieldStyle.UNRECOGNIZED(apiFieldSubType);
         }
     }
 

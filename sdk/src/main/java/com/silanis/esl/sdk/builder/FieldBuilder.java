@@ -10,7 +10,7 @@ public class FieldBuilder {
 
     public static final int DEFAULT_WIDTH = 200;
     public static final int DEFAULT_HEIGHT = 50;
-    public static final FieldStyle DEFAULT_STYLE = FieldStyle.UNBOUND_TEXT_FIELD;
+    public static final FieldStyle DEFAULT_STYLE = FieldStyle.TEXTFIELD;
     public static final String SELECTED_VALUE = "X";
     public static final String CHECKBOX_CHECKED = SELECTED_VALUE;
     public static final String RADIO_SELECTED = SELECTED_VALUE;
@@ -37,62 +37,62 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to BOUND_DATE. A date string
+     * Creates a field builder having set the style to BINDING_DATE. A date string
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
      * @see FieldStyle
-     * @return a BOUND_DATE styled field builder
+     * @return a BINDING_DATE styled field builder
      */
     public static FieldBuilder signatureDate() {
-        return new FieldBuilder().withStyle(FieldStyle.BOUND_DATE);
+        return new FieldBuilder().withStyle(FieldStyle.BINDING_DATE);
     }
 
     /**
-     * Creates a filed builder having set the style to BOUND_NAME. The signer's name
+     * Creates a filed builder having set the style to BINDING_NAME. The signer's name
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
      * @see FieldStyle
-     * @return a BOUND_NAME styled field builder
+     * @return a BINDING_NAME styled field builder
      */
     public static FieldBuilder signerName() {
-        return new FieldBuilder().withStyle(FieldStyle.BOUND_NAME);
+        return new FieldBuilder().withStyle(FieldStyle.BINDING_NAME);
     }
 
     /**
-     * Creates a field builder having set the style to BOUND_TITLE. The signer's title string
+     * Creates a field builder having set the style to BINDING_TITLE. The signer's title string
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
      * @see FieldStyle
-     * @return	a BOUND_TITLE styled field builder
+     * @return	a BINDING_TITLE styled field builder
      */
     public static FieldBuilder signerTitle() {
-        return new FieldBuilder().withStyle(FieldStyle.BOUND_TITLE);
+        return new FieldBuilder().withStyle(FieldStyle.BINDING_TITLE);
     }
     /**
-     * Creates a field builder having set the style to BOUND_COMPANY. The signer's company string
+     * Creates a field builder having set the style to BINDING_COMPANY. The signer's company string
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
      * @see FieldStyle
-     * @return	a BOUND_COMPANY styled field builder
+     * @return	a BINDING_COMPANY styled field builder
      */
     public static FieldBuilder signerCompany() {
-        return new FieldBuilder().withStyle(FieldStyle.BOUND_COMPANY);
+        return new FieldBuilder().withStyle(FieldStyle.BINDING_COMPANY);
     }
 
     /**
-     * Creates a field builder having set the style to UNBOUND_TEXT_FIELD. It
+     * Creates a field builder having set the style to TEXTFIELD. It
      * defines a text field at the location defined that the signer may be
      * required to fill prior to signing the its associated signature.
      *
      * @see FieldStyle
-     * @return a UNBOUND_TEXT_FIELD styled field builder
+     * @return a TEXTFIELD styled field builder
      */
     public static FieldBuilder textField() {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_TEXT_FIELD );
+        return new FieldBuilder().withStyle(FieldStyle.TEXTFIELD );
     }
 
     /**
@@ -104,29 +104,29 @@ public class FieldBuilder {
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
      */
     public static FieldBuilder customField(String name) {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName(name);
+        return new FieldBuilder().withStyle(FieldStyle.CUSTOMFIELD ).withName(name);
     }
 
     /**
-     * Creates a field builder having set the style to UNBOUND_CHECK_BOX. It
+     * Creates a field builder having set the style to CHECKBOX. It
      * defines a checkbox field at the location defined that the signer may be
      * required to check prior to signing the its associated signature.
      *
      * @see FieldStyle
-     * @return	a UNBOUND_CHECK_BOX styled field builder
+     * @return	a CHECKBOX styled field builder
      */
     public static FieldBuilder checkBox() {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CHECK_BOX);
+        return new FieldBuilder().withStyle(FieldStyle.CHECKBOX);
     }
 
     /**
-     * Creates a field builder having set the style to UNBOUND_RADIO_BUTTON. It defines
+     * Creates a field builder having set the style to RADIO. It defines
      * a radio button field in a group specified by the user. Only one radio button from
      * a group can be selected at a time.
      *
      * @see FieldStyle
      * @param group the radio button group
-     * @return a UNBOUND_RADIO_BUTTON styled field builder
+     * @return a RADIO styled field builder
      */
 
     public static FieldBuilder radioButton(String group) {
@@ -136,35 +136,35 @@ public class FieldBuilder {
         }
 
         return new FieldBuilder()
-                .withStyle(FieldStyle.UNBOUND_RADIO_BUTTON)
+                .withStyle(FieldStyle.RADIO)
                 .withValidation(FieldValidatorBuilder.basic()
                         .withOption(group));
     }
 
     /**
-     * Creates a field builder having set the style to DROP_LIST. It defines
+     * Creates a field builder having set the style to LIST. It defines
      * a drop list field at the location defined that the signer may be
      * required to select prior to signing the its associated signature
      *
      * @see FieldStyle
-     * @return a DROP_LIST styled field builder
+     * @return a LIST styled field builder
      */
 
     public static FieldBuilder dropList() {
-        return new FieldBuilder().withStyle(FieldStyle.DROP_LIST);
+        return new FieldBuilder().withStyle(FieldStyle.LIST);
     }
 
     /**
-     * Creates a field builder having set the style to TEXT_AREA. It defines
+     * Creates a field builder having set the style to TEXTAREA. It defines
      * a text area field at the location defined that the signer may be
      * required to fill prior to signing the its associated signature
      *
      * @see FieldStyle
-     * @return a TEXT_AREA styled field builder
+     * @return a TEXTAREA styled field builder
      */
 
     public static FieldBuilder textArea() {
-        return new FieldBuilder().withStyle(FieldStyle.TEXT_AREA);
+        return new FieldBuilder().withStyle(FieldStyle.TEXTAREA);
     }
 
     /**
@@ -179,15 +179,15 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to BOUND_QRCODE.
+     * Creates a field builder having set the style to QRCODE.
      * A QR code field will be displayed at the location defined with a
      * default size of width=77 and height=77.
      *
      * @see FieldStyle
-     * @return a BOUND_QRCODE styled field builder
+     * @return a QRCODE styled field builder
      */
     public static FieldBuilder qrCode() {
-        return new FieldBuilder().withStyle(FieldStyle.BOUND_QRCODE)
+        return new FieldBuilder().withStyle(FieldStyle.QRCODE)
                 .withSize(77.0, 77.0);
     }
 
@@ -323,7 +323,7 @@ public class FieldBuilder {
      * @return the field builder itself
      */
     public FieldBuilder withValue(boolean value) {
-        if ( style == FieldStyle.UNBOUND_CHECK_BOX || style == FieldStyle.UNBOUND_RADIO_BUTTON) {
+        if ( style == FieldStyle.CHECKBOX || style == FieldStyle.RADIO) {
             this.value = value?SELECTED_VALUE:"";
         }
         return this;

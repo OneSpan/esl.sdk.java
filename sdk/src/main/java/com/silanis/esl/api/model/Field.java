@@ -1,10 +1,10 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Field extends Entity
       implements java.io.Serializable
@@ -52,7 +52,7 @@ public class Field extends Entity
     protected Double _height = 0.0;
     protected Double _left = 0.0;
     protected Integer _page = 0;
-    protected FieldSubtype _subtype = FieldSubtype.FULLNAME;
+    protected String _subtype = "FULLNAME";
     protected Double _top = 0.0;
     protected FieldType _type = FieldType.SIGNATURE;
     protected FieldValidation _validation = null;
@@ -225,7 +225,7 @@ public class Field extends Entity
     
         
     
-    public Field setSubtype( FieldSubtype value ){
+    public Field setSubtype( String value ){
         SchemaSanitizer.throwOnNull(FIELD_SUBTYPE,value);
         // TODO With proper compare
         // if ( this._subtype == value ) return this;
@@ -235,11 +235,11 @@ public class Field extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Field safeSetSubtype( FieldSubtype value ){
+    public Field safeSetSubtype( String value ){
         if ( value != null ) { this.setSubtype( value ); }
         return this;
     }
-    public FieldSubtype getSubtype(){
+    public String getSubtype(){
         return _subtype;
     }
     

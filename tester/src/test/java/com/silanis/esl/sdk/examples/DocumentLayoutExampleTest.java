@@ -69,7 +69,7 @@ public class DocumentLayoutExampleTest {
 
             for (Field field : signature.getFields()) {
                 if (field.getName().equals(example.FIELD_1_NAME)) {
-                    assertThat("Field style was not set correctly", field.getStyle(), is(FieldStyle.BOUND_TITLE));
+                    assertThat("Field style was not set correctly", field.getStyle(), is(FieldStyle.BINDING_TITLE));
                     assertThat("Field page number was not set correctly", field.getPage(), is(0));
 
                     // *** IMPORTANT NOTES ****
@@ -93,7 +93,7 @@ public class DocumentLayoutExampleTest {
                     assertThat("Field y coordinate was not set correctly", field.getY(), is(lessThan(201.0)));
                 }
                 if (field.getName().equals(example.FIELD_2_NAME)) {
-                    assertThat("Field style was not set correctly", field.getStyle(), is(FieldStyle.BOUND_COMPANY));
+                    assertThat("Field style was not set correctly", field.getStyle(), is(FieldStyle.BINDING_COMPANY));
                     assertThat("Field page number was not set correctly", field.getPage(), is(0));
                     assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
                     assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));

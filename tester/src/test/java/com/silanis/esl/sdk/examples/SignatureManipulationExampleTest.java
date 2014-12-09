@@ -48,7 +48,7 @@ public class SignatureManipulationExampleTest {
         assertThat("Signature 1 was not updated correctly", signatureMap.containsKey(signatureManipulationExample.email1), is(false));
         assertThat("Signature 2 was not updated correctly", signatureMap.containsKey(signatureManipulationExample.email2), is(true));
         assertThat("Signature 3 was not updated correctly", signatureMap.containsKey(signatureManipulationExample.email3), is(true));
-        assertThat("Signature 2 was not updated with the name field", Iterables.get(signatureMap.get(signatureManipulationExample.email2).getFields(), 0).getStyle(), is(FieldStyle.BOUND_NAME));
+        assertThat("Signature 2 was not updated with the name field", Iterables.get(signatureMap.get(signatureManipulationExample.email2).getFields(), 0).getStyle(), is(FieldStyle.BINDING_NAME));
     }
 
     private Map<String, Signature> convertListToMap(Collection<Signature> signatures){

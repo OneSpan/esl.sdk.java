@@ -59,7 +59,7 @@ public class FieldConverter {
 
         result.setValue(sdkField.getValue());
 
-        if (sdkField.getStyle() == FieldStyle.BOUND_QRCODE) {
+        if (sdkField.getStyle() == FieldStyle.QRCODE) {
             result.setType(FieldType.IMAGE);
         } else {
             result.setType(FieldType.INPUT);

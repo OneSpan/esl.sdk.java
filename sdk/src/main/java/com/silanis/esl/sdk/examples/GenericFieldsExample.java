@@ -38,11 +38,11 @@ public class GenericFieldsExample extends SDKSample {
     public static final int RADIO_2_PAGE = 0;
     public static final boolean RADIO_2_VALUE = true;
     public static final String RADIO_2_GROUP = "group";
-    public static final String DROP_LIST_ID = "dropListId";
-    public static final int DROP_LIST_PAGE = 0;
-    public static final String DROP_LIST_OPTION1 = "one";
-    public static final String DROP_LIST_OPTION2 = "two";
-    public static final String DROP_LIST_OPTION3 = "three";
+    public static final String LIST_ID = "dropListId";
+    public static final int LIST_PAGE = 0;
+    public static final String LIST_OPTION1 = "one";
+    public static final String LIST_OPTION2 = "two";
+    public static final String LIST_OPTION3 = "three";
     public static final String TEXT_AREA_ID = "textAreaId";
     public static final int TEXT_AREA_PAGE = 0;
     public static final String TEXT_AREA_VALUE = "textAreaValue";
@@ -129,13 +129,13 @@ public class GenericFieldsExample extends SDKSample {
                                         .withSize(radio2Width, radio2Height)
                                         .atPosition(radio2PositionX, radio2PositionY))
                                 .withField(dropList()
-                                        .withId(new FieldId(DROP_LIST_ID))
-                                        .withValue(DROP_LIST_OPTION2)
+                                        .withId(new FieldId(LIST_ID))
+                                        .withValue(LIST_OPTION2)
                                         .withValidation(FieldValidatorBuilder.basic()
-                                            .withOption(DROP_LIST_OPTION1)
-                                            .withOption(DROP_LIST_OPTION2)
-                                            .withOption(DROP_LIST_OPTION3))
-                                        .onPage(DROP_LIST_PAGE)
+                                            .withOption(LIST_OPTION1)
+                                            .withOption(LIST_OPTION2)
+                                            .withOption(LIST_OPTION3))
+                                        .onPage(LIST_PAGE)
                                         .withSize(dropListWidth, dropListHeight)
                                         .atPosition(dropListPositionX, dropListPositionY))
                                 .withField(textArea()

@@ -1,8 +1,7 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GroupMembership extends Model
@@ -23,7 +22,7 @@ public class GroupMembership extends Model
     // Fields
     protected String _groupId = "";
     protected String _groupName = "";
-    protected MemberType _memberType = MemberType.REGULAR;
+    protected String _memberType = "REGULAR";
     
     // Accessors
         
@@ -70,7 +69,7 @@ public class GroupMembership extends Model
     
         
     
-    public GroupMembership setMemberType( MemberType value ){
+    public GroupMembership setMemberType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_MEMBERTYPE,value);
         // TODO With proper compare
         // if ( this._memberType == value ) return this;
@@ -80,11 +79,11 @@ public class GroupMembership extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public GroupMembership safeSetMemberType( MemberType value ){
+    public GroupMembership safeSetMemberType( String value ){
         if ( value != null ) { this.setMemberType( value ); }
         return this;
     }
-    public MemberType getMemberType(){
+    public String getMemberType(){
         return _memberType;
     }
     
