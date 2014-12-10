@@ -251,7 +251,7 @@ public class SignerConverterTest implements ConverterTest {
         AttachmentRequirement attachmentRequirement = new AttachmentRequirement();
         attachmentRequirement.setName("Driver license");
         attachmentRequirement.setDescription("Please upload your scanned driver license.");
-        attachmentRequirement.setStatus(RequirementStatus.INCOMPLETE);
+        attachmentRequirement.setStatus("INCOMPLETE");
         attachmentRequirement.setRequired(true);
         attachmentRequirement.setComment("Attachment was not uploaded");
         apiRole.addAttachmentRequirement(attachmentRequirement);

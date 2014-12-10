@@ -54,7 +54,7 @@ public class Field extends Entity
     protected Integer _page = 0;
     protected String _subtype = "FULLNAME";
     protected Double _top = 0.0;
-    protected FieldType _type = FieldType.SIGNATURE;
+    protected String _type = "SIGNATURE";
     protected FieldValidation _validation = null;
     protected String _value = "";
     protected Double _width = 0.0;
@@ -264,7 +264,7 @@ public class Field extends Entity
     
         
     
-    public Field setType( FieldType value ){
+    public Field setType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TYPE,value);
         // TODO With proper compare
         // if ( this._type == value ) return this;
@@ -274,11 +274,11 @@ public class Field extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Field safeSetType( FieldType value ){
+    public Field safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
-    public FieldType getType(){
+    public String getType(){
         return _type;
     }
     

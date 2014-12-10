@@ -1,8 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.AuthScheme;
-import com.silanis.esl.sdk.AuthenticationMethod;
-
 /**
  * User: jessica
  * Date: 12/12/13
@@ -11,14 +8,14 @@ import com.silanis.esl.sdk.AuthenticationMethod;
 public class AuthenticationMethodConverter {
 
     private com.silanis.esl.sdk.AuthenticationMethod sdkAuthMethod = null;
-    private com.silanis.esl.api.model.AuthScheme apiAuthMethod = null;
+    private String apiAuthMethod = null;
 
     /**
      * Construct with API authentication method object involved in conversion.
      *
      * @param apiAuthMethod
      */
-    public AuthenticationMethodConverter(com.silanis.esl.api.model.AuthScheme apiAuthMethod) {
+    public AuthenticationMethodConverter(String apiAuthMethod) {
         this.apiAuthMethod = apiAuthMethod;
     }
 
@@ -35,22 +32,19 @@ public class AuthenticationMethodConverter {
      *
      * @return an API Authentication Method object.
      */
-    public com.silanis.esl.api.model.AuthScheme toAPIAuthMethod() {
+    public String toAPIAuthMethod() {
         if (sdkAuthMethod == null) {
             return apiAuthMethod;
         }
 
-        switch (sdkAuthMethod) {
-            case EMAIL:
-                return AuthScheme.NONE;
-            case CHALLENGE:
-                return AuthScheme.CHALLENGE;
-            case SMS:
-                return AuthScheme.SMS;
-        }
-
-        throw new IllegalStateException("Unknown authentication method");
-
+        if(sdkAuthMethod.getValue().equals("EMAIL"))
+            return "NONE";
+        else if (sdkAuthMethod.getValue().equals("CHALLENGE"))
+            return "CHALLENGE";
+        else if (sdkAuthMethod.getValue().equals("SMS"))
+            return "SMS";
+        else
+            return "";
     }
 
     /**
@@ -64,14 +58,14 @@ public class AuthenticationMethodConverter {
             return sdkAuthMethod;
         }
 
-        switch (apiAuthMethod) {
-            case CHALLENGE:
-                return AuthenticationMethod.CHALLENGE;
-            case SMS:
-                return AuthenticationMethod.SMS;
-            default:
-                return AuthenticationMethod.EMAIL;
-        }
+        if (apiAuthMethod.equals("CHALLENGE"))
+            return sdkAuthMethod.CHALLENGE;
+        else if (apiAuthMethod.equals("SMS"))
+            return sdkAuthMethod.SMS;
+        else if (apiAuthMethod.equals("NONE") || apiAuthMethod.equals("PROVIDER"))
+            return sdkAuthMethod.EMAIL;
+        else
+            return sdkAuthMethod.UNRECOGNIZED(apiAuthMethod);
     }
     
 }

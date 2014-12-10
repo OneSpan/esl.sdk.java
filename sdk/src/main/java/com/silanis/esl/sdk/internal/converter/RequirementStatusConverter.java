@@ -8,14 +8,14 @@ package com.silanis.esl.sdk.internal.converter;
 public class RequirementStatusConverter {
 
     private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus = null;
-    private com.silanis.esl.api.model.RequirementStatus apiRequirementStatus = null;
+    private String apiRequirementStatus = null;
 
     /**
      * Construct with API RequirementStatus object involved in conversion.
      *
      * @param apiRequirementStatus
      */
-    public RequirementStatusConverter(com.silanis.esl.api.model.RequirementStatus apiRequirementStatus) {
+    public RequirementStatusConverter(String apiRequirementStatus) {
         this.apiRequirementStatus = apiRequirementStatus;
     }
 
@@ -33,32 +33,28 @@ public class RequirementStatusConverter {
             return sdkRequirementStatus;
         }
 
-        switch (apiRequirementStatus) {
-            case INCOMPLETE:
-                return sdkRequirementStatus.INCOMPLETE;
-            case REJECTED:
-                return sdkRequirementStatus.REJECTED;
-            case COMPLETE:
-                return sdkRequirementStatus.COMPLETE;
-            default:
-                return sdkRequirementStatus;
-        }
+        if (apiRequirementStatus.equals("INCOMPLETE"))
+            return sdkRequirementStatus.INCOMPLETE;
+        else if (apiRequirementStatus.equals("REJECTED"))
+            return sdkRequirementStatus.REJECTED;
+        else if (apiRequirementStatus.equals("COMPLETE"))
+            return sdkRequirementStatus.COMPLETE;
+        else
+            return sdkRequirementStatus.UNRECOGNIZED(apiRequirementStatus);
     }
 
-    public com.silanis.esl.api.model.RequirementStatus toAPIRequirementStatus() {
+    public String toAPIRequirementStatus() {
         if (sdkRequirementStatus == null) {
             return apiRequirementStatus;
         }
 
-        switch (sdkRequirementStatus) {
-            case INCOMPLETE:
-                return apiRequirementStatus.INCOMPLETE;
-            case REJECTED:
-                return apiRequirementStatus.REJECTED;
-            case COMPLETE:
-                return apiRequirementStatus.COMPLETE;
-            default:
-                return apiRequirementStatus;
-        }
+        if(sdkRequirementStatus.getValue().equals("INCOMPLETE"))
+            return "INCOMPLETE";
+        else if (sdkRequirementStatus.getValue().equals("REJECTED"))
+            return "REJECTED";
+        else if (sdkRequirementStatus.getValue().equals("COMPLETE"))
+            return "COMPLETE";
+        else
+            return "";
     }
 }

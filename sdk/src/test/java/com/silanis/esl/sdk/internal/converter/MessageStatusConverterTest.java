@@ -13,8 +13,8 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class MessageStatusConverterTest implements ConverterTest {
 
-    private com.silanis.esl.api.model.MessageStatus apiMessageStatus1 = null;
-    private com.silanis.esl.api.model.MessageStatus apiMessageStatus2 = null;
+    private String apiMessageStatus1 = null;
+    private String apiMessageStatus2 = null;
     private com.silanis.esl.sdk.MessageStatus sdkMessageStatus1 = null;
     private com.silanis.esl.sdk.MessageStatus sdkMessageStatus2 = null;
     private MessageStatusConverter converter;
@@ -64,7 +64,7 @@ public class MessageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiMessageStatus1 = createTypicalAPIMessageStatus();
+        apiMessageStatus1 = "READ";
         apiMessageStatus2 = new MessageStatusConverter(apiMessageStatus1).toAPIMessageStatus();
 
         assertThat("Converter returned a null api object for a non null api object", apiMessageStatus2, is(notNullValue()));
@@ -74,7 +74,7 @@ public class MessageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiMessageStatus1 = createTypicalAPIMessageStatus();
+        apiMessageStatus1 = "READ";
         sdkMessageStatus1 = new MessageStatusConverter(apiMessageStatus1).toSDKMessageStatus();
 
         assertThat("Message status was not set correctly", sdkMessageStatus1.toString(), is(apiMessageStatus1.toString()));
@@ -91,9 +91,5 @@ public class MessageStatusConverterTest implements ConverterTest {
 
     private com.silanis.esl.sdk.MessageStatus createTypicalSDKMessageStatus() {
         return com.silanis.esl.sdk.MessageStatus.NEW;
-    }
-
-    private com.silanis.esl.api.model.MessageStatus createTypicalAPIMessageStatus() {
-        return com.silanis.esl.api.model.MessageStatus.READ;
     }
 }

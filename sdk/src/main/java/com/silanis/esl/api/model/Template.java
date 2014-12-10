@@ -352,13 +352,13 @@ public class Template extends BaseTemplate
         
     
     @Override
-    public Template setType( BasePackageType value ){
+    public Template setType( String value ){
         super.setType(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Template safeSetType( BasePackageType value ){
+    public Template safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
@@ -381,13 +381,13 @@ public class Template extends BaseTemplate
         
     
     @Override
-    public Template setVisibility( Visibility value ){
+    public Template setVisibility( String value ){
         super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Template safeSetVisibility( Visibility value ){
+    public Template safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }

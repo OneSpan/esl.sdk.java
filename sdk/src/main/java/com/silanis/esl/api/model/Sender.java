@@ -1,14 +1,16 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Sender extends User
       implements java.io.Serializable
@@ -72,8 +74,8 @@ public class Sender extends User
     protected java.util.Date _activated = null;
     protected java.util.Date _locked = null;
     protected List<GroupMembership> _memberships = new ArrayList<GroupMembership>();
-    protected SenderStatus _status = SenderStatus.INVITED;
-    protected SenderType _type = SenderType.REGULAR;
+    protected String _status = "INVITED";
+    protected String _type = "REGULAR";
     
     // Accessors
         
@@ -389,7 +391,7 @@ public class Sender extends User
     
         
     
-    public Sender setStatus( SenderStatus value ){
+    public Sender setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
         // if ( this._status == value ) return this;
@@ -399,11 +401,11 @@ public class Sender extends User
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Sender safeSetStatus( SenderStatus value ){
+    public Sender safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
-    public SenderStatus getStatus(){
+    public String getStatus(){
         return _status;
     }
     
@@ -423,7 +425,7 @@ public class Sender extends User
     
         
     
-    public Sender setType( SenderType value ){
+    public Sender setType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TYPE,value);
         // TODO With proper compare
         // if ( this._type == value ) return this;
@@ -433,11 +435,11 @@ public class Sender extends User
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Sender safeSetType( SenderType value ){
+    public Sender safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
-    public SenderType getType(){
+    public String getType(){
         return _type;
     }
     

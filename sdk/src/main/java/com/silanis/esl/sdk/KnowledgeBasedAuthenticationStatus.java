@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk;
 
 public class KnowledgeBasedAuthenticationStatus {
-    public static KnowledgeBasedAuthenticationStatus NOT_YET_ATTEMPTED = new KnowledgeBasedAuthenticationStatus("NOT_YET_ATTEMPTED", "");
-    public static KnowledgeBasedAuthenticationStatus PASSED = new KnowledgeBasedAuthenticationStatus("PASSED", "");
-    public static KnowledgeBasedAuthenticationStatus FAILED = new KnowledgeBasedAuthenticationStatus("FAILED", "");
+    public static KnowledgeBasedAuthenticationStatus NOT_YET_ATTEMPTED = new KnowledgeBasedAuthenticationStatus("NOT_YET_ATTEMPTED");
+    public static KnowledgeBasedAuthenticationStatus PASSED = new KnowledgeBasedAuthenticationStatus("PASSED");
+    public static KnowledgeBasedAuthenticationStatus FAILED = new KnowledgeBasedAuthenticationStatus("FAILED");
     public static KnowledgeBasedAuthenticationStatus UNRECOGNIZED(String unknownValue){
         return new KnowledgeBasedAuthenticationStatus("UNRECOGNIZED", unknownValue);
     }

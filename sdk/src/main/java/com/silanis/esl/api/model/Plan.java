@@ -1,10 +1,12 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Plan extends Entity
       implements java.io.Serializable
@@ -40,8 +42,8 @@ public class Plan extends Entity
     public Plan ( ) {}
     
     // Fields
-    protected Cycle _contract = null;
-    protected Cycle _cycle = Cycle.DAY;
+    protected String _contract = null;
+    protected String _cycle = "DAY";
     protected String _description = "";
     protected Map<String, Object> _features = null;
     protected CycleCount _freeCycles = null;
@@ -53,7 +55,7 @@ public class Plan extends Entity
     // Accessors
         
     
-    public Plan setContract( Cycle value ){
+    public Plan setContract( String value ){
         // TODO With proper compare
         // if ( this._contract == value ) return this;
         this._contract = value;
@@ -62,17 +64,17 @@ public class Plan extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Plan safeSetContract( Cycle value ){
+    public Plan safeSetContract( String value ){
         if ( value != null ) { this.setContract( value ); }
         return this;
     }
-    public Cycle getContract(){
+    public String getContract(){
         return _contract;
     }
     
         
     
-    public Plan setCycle( Cycle value ){
+    public Plan setCycle( String value ){
         SchemaSanitizer.throwOnNull(FIELD_CYCLE,value);
         // TODO With proper compare
         // if ( this._cycle == value ) return this;
@@ -82,11 +84,11 @@ public class Plan extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Plan safeSetCycle( Cycle value ){
+    public Plan safeSetCycle( String value ){
         if ( value != null ) { this.setCycle( value ); }
         return this;
     }
-    public Cycle getCycle(){
+    public String getCycle(){
         return _cycle;
     }
     

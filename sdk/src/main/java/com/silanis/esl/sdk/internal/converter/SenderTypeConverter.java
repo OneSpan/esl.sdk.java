@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
-
 /**
  * Created by lena on 2014-05-29.
  *
@@ -10,14 +8,14 @@ import com.silanis.esl.sdk.builder.BuilderException;
 public class SenderTypeConverter {
 
     private com.silanis.esl.sdk.SenderType sdkSenderType = null;
-    private com.silanis.esl.api.model.SenderType apiSenderType = null;
+    private String apiSenderType = null;
 
     /**
      * Construct with API SenderType object involved in conversion.
      *
      * @param apiSenderType
      */
-    public SenderTypeConverter(com.silanis.esl.api.model.SenderType apiSenderType) {
+    public SenderTypeConverter(String apiSenderType) {
         this.apiSenderType = apiSenderType;
     }
 
@@ -35,29 +33,25 @@ public class SenderTypeConverter {
             return sdkSenderType;
         }
 
-        switch (apiSenderType) {
-            case MANAGER:
-                return sdkSenderType.MANAGER;
-            case REGULAR:
-                return sdkSenderType.REGULAR;
-            default:
-                throw new BuilderException("Unrecognized sender type.");
-        }
+        if (apiSenderType.equals("MANAGER"))
+            return sdkSenderType.MANAGER;
+        else if (apiSenderType.equals("REGULAR"))
+            return sdkSenderType.REGULAR;
+        else
+            return sdkSenderType.UNRECOGNIZED(apiSenderType);
     }
 
-    public com.silanis.esl.api.model.SenderType toAPISenderType() {
+    public String toAPISenderType() {
         if (sdkSenderType == null) {
             return apiSenderType;
         }
 
-        switch (sdkSenderType) {
-            case MANAGER:
-                return apiSenderType.MANAGER;
-            case REGULAR:
-                return apiSenderType.REGULAR;
-            default:
-                throw new BuilderException("Unrecognized sender type.");
-        }
+        if(sdkSenderType.getValue().equals("MANAGER"))
+            return "MANAGER";
+        else if (sdkSenderType.getValue().equals("REGULAR"))
+            return "REGULAR";
+        else
+            return "";
     }
 
 }

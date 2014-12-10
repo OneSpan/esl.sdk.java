@@ -1,13 +1,13 @@
 package com.silanis.esl.sdk;
 
 public class PackageStatus {
-    public static PackageStatus DRAFT = new PackageStatus("DRAFT", "");
-    public static PackageStatus SENT = new PackageStatus("SENT", "");
-    public static PackageStatus COMPLETED = new PackageStatus("COMPLETED", "");
-    public static PackageStatus ARCHIVED = new PackageStatus("ARCHIVED", "");
-    public static PackageStatus DECLINED = new PackageStatus("DECLINED", "");
-    public static PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT", "");
-    public static PackageStatus EXPIRED = new PackageStatus("EXPIRED", "");
+    public static PackageStatus DRAFT = new PackageStatus("DRAFT");
+    public static PackageStatus SENT = new PackageStatus("SENT");
+    public static PackageStatus COMPLETED = new PackageStatus("COMPLETED");
+    public static PackageStatus ARCHIVED = new PackageStatus("ARCHIVED");
+    public static PackageStatus DECLINED = new PackageStatus("DECLINED");
+    public static PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT");
+    public static PackageStatus EXPIRED = new PackageStatus("EXPIRED");
     public static PackageStatus UNRECOGNIZED(String unknownValue){
         return new PackageStatus("UNRECOGNIZED", unknownValue);
     }

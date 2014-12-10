@@ -406,13 +406,13 @@ public class Package extends BasePackage
         
     
     @Override
-    public Package setType( BasePackageType value ){
+    public Package setType( String value ){
         super.setType(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Package safeSetType( BasePackageType value ){
+    public Package safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
@@ -435,13 +435,13 @@ public class Package extends BasePackage
         
     
     @Override
-    public Package setVisibility( Visibility value ){
+    public Package setVisibility( String value ){
         super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Package safeSetVisibility( Visibility value ){
+    public Package safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }

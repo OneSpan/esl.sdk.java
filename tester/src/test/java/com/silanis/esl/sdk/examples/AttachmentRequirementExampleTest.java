@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.RequirementStatus;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
 import com.silanis.esl.sdk.internal.EslServerException;

@@ -1,9 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
-import com.silanis.esl.api.model.AuthScheme;
-import com.silanis.esl.sdk.Authentication;
-import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.Challenge;
 
 import java.util.ArrayList;
@@ -79,7 +76,7 @@ public class AuthenticationConverter {
         {
             List<Challenge> sdkChallenges = new ArrayList<Challenge>();
             for (AuthChallenge apiChallenge: apiAuth.getChallenges()) {
-                if (apiAuth.getScheme() == AuthScheme.CHALLENGE) {
+                if (apiAuth.getScheme().equals("CHALLENGE")) {
                     sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
                 } else {
                     telephoneNumber = apiChallenge.getQuestion();
@@ -87,7 +84,7 @@ public class AuthenticationConverter {
                 }
             }
 
-            if (apiAuth.getScheme() == AuthScheme.CHALLENGE) {
+            if (apiAuth.getScheme().equals("CHALLENGE")) {
                 sdkAuthentication = new com.silanis.esl.sdk.Authentication(sdkChallenges);
             } else {
                 sdkAuthentication = new com.silanis.esl.sdk.Authentication(telephoneNumber);

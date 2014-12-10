@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Field;
-import com.silanis.esl.api.model.FieldType;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
@@ -73,7 +72,7 @@ public class SignatureConverter {
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
         for ( com.silanis.esl.api.model.Field apiField : apiApproval.getFields() ) {
-            if ( apiField.getType() == FieldType.SIGNATURE ) {
+            if ( apiField.getType().equals("SIGNATURE") ) {
                 apiSignatureField = apiField;
             } else {
                 signatureBuilder.withField( new FieldConverter(apiField).toSDKField() );
@@ -170,7 +169,7 @@ public class SignatureConverter {
             result.setExtractAnchor( new TextAnchorConverter(sdkSignature.getTextAnchor()).toAPIExtractAnchor() );
         }
 
-        result.setType( FieldType.SIGNATURE );
+        result.setType("SIGNATURE");
         result.setSubtype( getSignatureSubtype() );
 
         return result;

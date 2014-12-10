@@ -35,6 +35,7 @@ public class KnowledgeBasedAuthenticationStatusConverter {
         if (apiKnowledgeBasedAuthenticationStatus == null) {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
+
         if (apiKnowledgeBasedAuthenticationStatus.equals("NOT_YET_ATTEMPTED"))
             return sdkKnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
         else if (apiKnowledgeBasedAuthenticationStatus.equals("FAILED"))

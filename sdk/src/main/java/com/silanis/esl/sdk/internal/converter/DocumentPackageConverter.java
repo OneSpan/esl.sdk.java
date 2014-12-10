@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.api.model.RoleType;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
@@ -176,7 +175,7 @@ public class DocumentPackageConverter {
                 packageBuilder.withSigner( new SignerConverter(role).toSDKSigner() );
 
                 // The custom sender information is stored in the role.signer object.
-                if (role.getType() == RoleType.SENDER) {
+                if (role.getType().equals("SENDER")) {
                     // Override sender info with the customized ones.
                     SenderInfo senderInfo = new SenderInfo();
 

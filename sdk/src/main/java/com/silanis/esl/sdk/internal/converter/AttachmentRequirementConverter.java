@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.RequirementStatus;
-
 /**
  * Created by lena on 2014-05-09.
  * <p/>
@@ -56,7 +54,7 @@ public class AttachmentRequirementConverter {
         result.setRequired(sdkAttachmentRequirement.isRequired());
 
         if (sdkAttachmentRequirement.getStatus() == null) {
-            result.setStatus(RequirementStatus.INCOMPLETE);
+            result.setStatus("INCOMPLETE");
         } else {
             result.setStatus(new RequirementStatusConverter(sdkAttachmentRequirement.getStatus()).toAPIRequirementStatus());
         }

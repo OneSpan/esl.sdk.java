@@ -1,10 +1,10 @@
 package com.silanis.esl.sdk;
 
 public class FieldStyle {
-    public static FieldStyle BINDING_DATE = new FieldStyle("BINDING_DATE", "", "{approval.signed}");
-    public static FieldStyle BINDING_NAME = new FieldStyle("BINDING_NAME", "", "{signer.name}");
-    public static FieldStyle BINDING_TITLE = new FieldStyle("BINDING_TITLE", "", "{signer.title}");
-    public static FieldStyle BINDING_COMPANY = new FieldStyle("BINDING_COMPANY", "", "{signer.company}");
+    public static FieldStyle BINDING_DATE = new FieldStyle("BINDING_DATE", "{approval.signed}");
+    public static FieldStyle BINDING_NAME = new FieldStyle("BINDING_NAME", "{signer.name}");
+    public static FieldStyle BINDING_TITLE = new FieldStyle("BINDING_TITLE", "{signer.title}");
+    public static FieldStyle BINDING_COMPANY = new FieldStyle("BINDING_COMPANY", "{signer.company}");
     public static FieldStyle QRCODE = new FieldStyle("QRCODE");
     public static FieldStyle TEXTFIELD = new FieldStyle("TEXTFIELD");
     public static FieldStyle CUSTOMFIELD = new FieldStyle("CUSTOMFIELD");
@@ -15,7 +15,7 @@ public class FieldStyle {
     public static FieldStyle TEXTAREA = new FieldStyle("TEXTAREA");
     public static FieldStyle SEAL = new FieldStyle("SEAL");
     public static FieldStyle UNRECOGNIZED(String unknownValue){
-        return new FieldStyle("UNRECOGNIZED", unknownValue);
+        return new FieldStyle("UNRECOGNIZED", "", unknownValue);
     }
     private final String value;
     private final String unknownValue;
@@ -23,20 +23,20 @@ public class FieldStyle {
 
     private FieldStyle(String value) {
         this.value = value;
+        this.binding = null;
         this.unknownValue = "";
-        this.binding = null;
     }
 
-    private FieldStyle(String value, String unknownValue) {
+    private FieldStyle(String value, String binding) {
         this.value = value;
-        this.unknownValue = unknownValue;
-        this.binding = null;
-    }
-
-    private FieldStyle(String value, String unknownValue, String binding) {
-        this.value = value;
-        this.unknownValue = unknownValue;
         this.binding = binding;
+        this.unknownValue = "";
+    }
+
+    private FieldStyle(String value, String binding, String unknownValue) {
+        this.value = value;
+        this.binding = binding;
+        this.unknownValue = unknownValue;
     }
 
     public String getBinding() {

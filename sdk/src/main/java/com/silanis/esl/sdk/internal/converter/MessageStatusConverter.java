@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
-
 /**
  * Created by lena on 2014-07-03.
  * <p/>
@@ -9,7 +7,7 @@ import com.silanis.esl.sdk.builder.BuilderException;
  */
 public class MessageStatusConverter {
 
-    private com.silanis.esl.api.model.MessageStatus apiMessageStatus = null;
+    private String apiMessageStatus = null;
     private com.silanis.esl.sdk.MessageStatus sdkMessageStatus = null;
 
     /**
@@ -17,7 +15,7 @@ public class MessageStatusConverter {
      *
      * @param apiMessageStatus
      */
-    public MessageStatusConverter(com.silanis.esl.api.model.MessageStatus apiMessageStatus) {
+    public MessageStatusConverter(String apiMessageStatus) {
         this.apiMessageStatus = apiMessageStatus;
     }
 
@@ -40,16 +38,14 @@ public class MessageStatusConverter {
             return sdkMessageStatus;
         }
 
-        switch (apiMessageStatus) {
-            case NEW:
-                return sdkMessageStatus.NEW;
-            case READ:
-                return sdkMessageStatus.READ;
-            case TRASHED:
-                return sdkMessageStatus.TRASHED;
-            default:
-                throw new BuilderException("Unrecognized message status type.");
-        }
+        if (apiMessageStatus.equals("NEW"))
+            return sdkMessageStatus.NEW;
+        else if (apiMessageStatus.equals("READ"))
+            return sdkMessageStatus.READ;
+        else if (apiMessageStatus.equals("TRASHED"))
+            return sdkMessageStatus.TRASHED;
+        else
+            return sdkMessageStatus.UNRECOGNIZED(apiMessageStatus);
     }
 
     /**
@@ -57,20 +53,18 @@ public class MessageStatusConverter {
      *
      * @return the API MessageStatus
      */
-    public com.silanis.esl.api.model.MessageStatus toAPIMessageStatus() {
+    public String toAPIMessageStatus() {
         if (sdkMessageStatus == null) {
             return apiMessageStatus;
         }
 
-        switch (sdkMessageStatus) {
-            case NEW:
-                return apiMessageStatus.NEW;
-            case READ:
-                return apiMessageStatus.READ;
-            case TRASHED:
-                return apiMessageStatus.TRASHED;
-            default:
-                throw new BuilderException("Unrecognized message status type.");
-        }
+        if(sdkMessageStatus.getValue().equals("NEW"))
+            return "NEW";
+        else if (sdkMessageStatus.getValue().equals("READ"))
+            return "READ";
+        else if (sdkMessageStatus.getValue().equals("TRASHED"))
+            return "TRASHED";
+        else
+            return "";
     }
 }

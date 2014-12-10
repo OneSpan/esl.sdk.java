@@ -15,8 +15,8 @@ public class SenderStatusConverterTest implements ConverterTest {
 
     private com.silanis.esl.sdk.SenderStatus sdkSenderStatus1 = null;
     private com.silanis.esl.sdk.SenderStatus sdkSenderStatus2 = null;
-    private com.silanis.esl.api.model.SenderStatus apiSenderStatus1 = null;
-    private com.silanis.esl.api.model.SenderStatus apiSenderStatus2 = null;
+    private String apiSenderStatus1 = null;
+    private String apiSenderStatus2 = null;
     private SenderStatusConverter converter;
 
     @Override
@@ -64,7 +64,7 @@ public class SenderStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiSenderStatus1 = createTypicalAPISenderStatus();
+        apiSenderStatus1 = "LOCKED";
         apiSenderStatus2 = new SenderStatusConverter(apiSenderStatus1).toAPISenderStatus();
 
         assertThat("Converter returned a null api object for a non null api object", apiSenderStatus2, is(notNullValue()));
@@ -74,7 +74,7 @@ public class SenderStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiSenderStatus1 = createTypicalAPISenderStatus();
+        apiSenderStatus1 = "LOCKED";
         sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
 
         assertThat("Sender type was not set correctly", sdkSenderStatus1.toString(), is(apiSenderStatus1.toString()));
@@ -96,14 +96,5 @@ public class SenderStatusConverterTest implements ConverterTest {
      */
     private com.silanis.esl.sdk.SenderStatus createTypicalSDKSenderStatus() {
         return com.silanis.esl.sdk.SenderStatus.INVITED;
-    }
-
-    /**
-     * Returns a API SenderStatus enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.api.model.SenderStatus createTypicalAPISenderStatus() {
-        return com.silanis.esl.api.model.SenderStatus.LOCKED;
     }
 }

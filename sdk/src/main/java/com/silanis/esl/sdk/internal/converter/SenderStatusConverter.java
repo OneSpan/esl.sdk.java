@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
-
 /**
  * Created by lena on 2014-05-30.
  *
@@ -10,14 +8,14 @@ import com.silanis.esl.sdk.builder.BuilderException;
 public class SenderStatusConverter {
 
     private com.silanis.esl.sdk.SenderStatus sdkSenderStatus = null;
-    private com.silanis.esl.api.model.SenderStatus apiSenderStatus = null;
+    private String apiSenderStatus = null;
 
     /**
      * Construct with API SenderStatus object involved in conversion.
      *
      * @param apiSenderStatus
      */
-    public SenderStatusConverter(com.silanis.esl.api.model.SenderStatus apiSenderStatus) {
+    public SenderStatusConverter(String apiSenderStatus) {
         this.apiSenderStatus = apiSenderStatus;
     }
 
@@ -35,33 +33,29 @@ public class SenderStatusConverter {
             return sdkSenderStatus;
         }
 
-        switch (apiSenderStatus) {
-            case INVITED:
-                return sdkSenderStatus.INVITED;
-            case ACTIVE:
-                return sdkSenderStatus.ACTIVE;
-            case LOCKED:
-                return sdkSenderStatus.LOCKED;
-            default:
-                throw new BuilderException("Unrecognized sender status type.");
-        }
+        if (apiSenderStatus.equals("INVITED"))
+            return sdkSenderStatus.INVITED;
+        else if (apiSenderStatus.equals("ACTIVE"))
+            return sdkSenderStatus.ACTIVE;
+        else if (apiSenderStatus.equals("LOCKED"))
+            return sdkSenderStatus.LOCKED;
+        else
+            return sdkSenderStatus.UNRECOGNIZED(apiSenderStatus);
     }
 
-    public com.silanis.esl.api.model.SenderStatus toAPISenderStatus() {
+    public String toAPISenderStatus() {
         if (sdkSenderStatus == null) {
             return apiSenderStatus;
         }
 
-        switch (sdkSenderStatus) {
-            case INVITED:
-                return apiSenderStatus.INVITED;
-            case ACTIVE:
-                return apiSenderStatus.ACTIVE;
-            case LOCKED:
-                return apiSenderStatus.LOCKED;
-            default:
-                throw new BuilderException("Unrecognized sender status type.");
-        }
+        if(sdkSenderStatus.getValue().equals("INVITED"))
+            return "INVITED";
+        else if (sdkSenderStatus.getValue().equals("ACTIVE"))
+            return "ACTIVE";
+        else if (sdkSenderStatus.getValue().equals("LOCKED"))
+            return "LOCKED";
+        else
+            return "";
     }
 
 }

@@ -15,8 +15,8 @@ public class RequirementStatusConverterTest implements ConverterTest {
 
 private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus1 = null;
 private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus2 = null;
-private com.silanis.esl.api.model.RequirementStatus apiRequirementStatus1 = null;
-private com.silanis.esl.api.model.RequirementStatus apiRequirementStatus2 = null;
+private String apiRequirementStatus1 = null;
+private String apiRequirementStatus2 = null;
 private RequirementStatusConverter converter;
 
     @Override
@@ -64,7 +64,7 @@ private RequirementStatusConverter converter;
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiRequirementStatus1 = createTypicalAPIRequirementStatus();
+        apiRequirementStatus1 = "REJECTED";
         apiRequirementStatus2 = new RequirementStatusConverter(apiRequirementStatus1).toAPIRequirementStatus();
 
         assertThat("Converter returned a null api object for a non null api object", apiRequirementStatus2, is(notNullValue()));
@@ -74,7 +74,7 @@ private RequirementStatusConverter converter;
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiRequirementStatus1 = createTypicalAPIRequirementStatus();
+        apiRequirementStatus1 = "REJECTED";
         sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
 
         assertThat("Sender type was not set correctly", sdkRequirementStatus1.toString(), is(apiRequirementStatus1.toString()));
@@ -96,14 +96,5 @@ private RequirementStatusConverter converter;
      */
     private com.silanis.esl.sdk.RequirementStatus createTypicalSDKRequirementStatus() {
         return com.silanis.esl.sdk.RequirementStatus.INCOMPLETE;
-    }
-
-    /**
-     * Returns a API RequirementStatus enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.api.model.RequirementStatus createTypicalAPIRequirementStatus() {
-        return com.silanis.esl.api.model.RequirementStatus.REJECTED;
     }
 }

@@ -353,13 +353,13 @@ public class Layout extends BaseTemplate
         
     
     @Override
-    public Layout setType( BasePackageType value ){
+    public Layout setType( String value ){
         super.setType(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Layout safeSetType( BasePackageType value ){
+    public Layout safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
@@ -382,13 +382,13 @@ public class Layout extends BaseTemplate
         
     
     @Override
-    public Layout setVisibility( Visibility value ){
+    public Layout setVisibility( String value ){
         super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Layout safeSetVisibility( Visibility value ){
+    public Layout safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }

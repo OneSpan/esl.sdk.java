@@ -161,7 +161,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
 
         Message apiMessage = new Message();
         apiMessage.setContent("opt-out reason");
-        apiMessage.setStatus(com.silanis.esl.api.model.MessageStatus.NEW);
+        apiMessage.setStatus("NEW");
         User fromUser = new User();
         fromUser.setFirstName("John");
         fromUser.setLastName("Smith");

@@ -353,13 +353,13 @@ public class BaseTemplate extends BasePackage
         
     
     @Override
-    public BaseTemplate setType( BasePackageType value ){
+    public BaseTemplate setType( String value ){
         super.setType(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BaseTemplate safeSetType( BasePackageType value ){
+    public BaseTemplate safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
@@ -382,13 +382,13 @@ public class BaseTemplate extends BasePackage
         
     
     @Override
-    public BaseTemplate setVisibility( Visibility value ){
+    public BaseTemplate setVisibility( String value ){
         super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BaseTemplate safeSetVisibility( Visibility value ){
+    public BaseTemplate safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }

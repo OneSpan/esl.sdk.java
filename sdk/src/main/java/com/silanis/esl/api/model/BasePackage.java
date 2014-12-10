@@ -82,9 +82,9 @@ public class BasePackage extends Entity
     protected PackageSettings _settings = null;
     protected SignedDocumentDelivery _signedDocumentDelivery = null;
     protected String _status = "DRAFT";
-    protected BasePackageType _type = BasePackageType.PACKAGE;
+    protected String _type = "PACKAGE";
     protected java.util.Date _updated;
-    protected Visibility _visibility = Visibility.ACCOUNT;
+    protected String _visibility = "ACCOUNT";
     
     // Accessors
         
@@ -478,7 +478,7 @@ public class BasePackage extends Entity
     
         
     
-    public BasePackage setType( BasePackageType value ){
+    public BasePackage setType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TYPE,value);
         // TODO With proper compare
         // if ( this._type == value ) return this;
@@ -488,11 +488,11 @@ public class BasePackage extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BasePackage safeSetType( BasePackageType value ){
+    public BasePackage safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
-    public BasePackageType getType(){
+    public String getType(){
         return _type;
     }
     
@@ -520,7 +520,7 @@ public class BasePackage extends Entity
     
         
     
-    public BasePackage setVisibility( Visibility value ){
+    public BasePackage setVisibility( String value ){
         SchemaSanitizer.throwOnNull(FIELD_VISIBILITY,value);
         // TODO With proper compare
         // if ( this._visibility == value ) return this;
@@ -530,11 +530,11 @@ public class BasePackage extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BasePackage safeSetVisibility( Visibility value ){
+    public BasePackage safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
-    public Visibility getVisibility(){
+    public String getVisibility(){
         return _visibility;
     }
     
