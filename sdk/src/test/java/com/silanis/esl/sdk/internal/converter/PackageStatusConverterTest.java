@@ -15,8 +15,8 @@ public class PackageStatusConverterTest implements ConverterTest {
     
     private com.silanis.esl.sdk.PackageStatus sdkPackageStatus1 = null;
     private com.silanis.esl.sdk.PackageStatus sdkPackageStatus2 = null;
-    private com.silanis.esl.api.model.PackageStatus apiPackageStatus1 = null;
-    private com.silanis.esl.api.model.PackageStatus apiPackageStatus2 = null;
+    private String apiPackageStatus1 = null;
+    private String apiPackageStatus2 = null;
     private PackageStatusConverter converter;
 
     @Override
@@ -64,7 +64,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiPackageStatus1 = createTypicalAPIPackageStatus();
+        apiPackageStatus1 = "COMPLETED";
         apiPackageStatus2 = new PackageStatusConverter(apiPackageStatus1).toAPIPackageStatus();
 
         assertThat("Converter returned a null api object for a non null api object", apiPackageStatus2, is(notNullValue()));
@@ -74,7 +74,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiPackageStatus1 = createTypicalAPIPackageStatus();
+        apiPackageStatus1 = "COMPLETED";
         sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
 
         assertThat("Sender type was not set correctly", sdkPackageStatus1.toString(), is(apiPackageStatus1.toString()));
@@ -96,14 +96,5 @@ public class PackageStatusConverterTest implements ConverterTest {
      */
     private com.silanis.esl.sdk.PackageStatus createTypicalSDKPackageStatus() {
         return com.silanis.esl.sdk.PackageStatus.DRAFT;
-    }
-
-    /**
-     * Returns a API PackageStatus enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.api.model.PackageStatus createTypicalAPIPackageStatus() {
-        return com.silanis.esl.api.model.PackageStatus.COMPLETED;
     }
 }

@@ -1,9 +1,11 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Callback extends Model
       implements java.io.Serializable
@@ -19,13 +21,13 @@ public class Callback extends Model
     public Callback ( ) {}
     
     // Fields
-    protected List<CallbackEvent> _events = new ArrayList<CallbackEvent>();
+    protected List<String> _events = new ArrayList<String>();
     protected String _url = "";
     
     // Accessors
         
     
-    public Callback setEvents( List<CallbackEvent> value ){
+    public Callback setEvents( List<String> value ){
         SchemaSanitizer.throwOnNull(FIELD_EVENTS,value);
         // TODO With proper compare
         // if ( this._events == value ) return this;
@@ -35,15 +37,15 @@ public class Callback extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Callback safeSetEvents( List<CallbackEvent> value ){
+    public Callback safeSetEvents( List<String> value ){
         if ( value != null ) { this.setEvents( value ); }
         return this;
     }
-    public List<CallbackEvent> getEvents(){
+    public List<String> getEvents(){
         return _events;
     }
     // List adder
-    public Callback addEvent( CallbackEvent value ){
+    public Callback addEvent( String value ){
         if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
         this._events.add(value);
         setDirty(FIELD_EVENTS);

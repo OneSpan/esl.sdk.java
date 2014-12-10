@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
-
 /**
  * Created by lena on 2014-06-02.
  *
@@ -10,14 +8,14 @@ import com.silanis.esl.sdk.builder.BuilderException;
 public class PackageStatusConverter {
 
     private com.silanis.esl.sdk.PackageStatus sdkPackageStatus = null;
-    private com.silanis.esl.api.model.PackageStatus apiPackageStatus = null;
+    private String apiPackageStatus = null;
 
     /**
      * Construct with API PackageStatus object involved in conversion.
      *
      * @param apiPackageStatus
      */
-    public PackageStatusConverter(com.silanis.esl.api.model.PackageStatus apiPackageStatus) {
+    public PackageStatusConverter(String apiPackageStatus) {
         this.apiPackageStatus = apiPackageStatus;
     }
 
@@ -35,48 +33,44 @@ public class PackageStatusConverter {
             return sdkPackageStatus;
         }
 
-        switch (apiPackageStatus) {
-            case DRAFT:
-                return sdkPackageStatus.DRAFT;
-            case SENT:
-                return sdkPackageStatus.SENT;
-            case COMPLETED:
-                return sdkPackageStatus.COMPLETED;
-            case ARCHIVED:
-                return sdkPackageStatus.ARCHIVED;
-            case DECLINED:
-                return sdkPackageStatus.DECLINED;
-            case OPTED_OUT:
-                return sdkPackageStatus.OPTED_OUT;
-            case EXPIRED:
-                return sdkPackageStatus.EXPIRED;
-            default:
-                throw new BuilderException("Unrecognized package status type.");
-        }
+        if (apiPackageStatus.equals("DRAFT"))
+            return sdkPackageStatus.DRAFT;
+        else if (apiPackageStatus.equals("SENT"))
+            return sdkPackageStatus.SENT;
+        else if (apiPackageStatus.equals("COMPLETED"))
+            return sdkPackageStatus.COMPLETED;
+        else if (apiPackageStatus.equals("ARCHIVED"))
+            return sdkPackageStatus.ARCHIVED;
+        else if (apiPackageStatus.equals("DECLINED"))
+            return sdkPackageStatus.DECLINED;
+        else if (apiPackageStatus.equals("OPTED_OUT"))
+            return sdkPackageStatus.OPTED_OUT;
+        else if (apiPackageStatus.equals("EXPIRED"))
+            return sdkPackageStatus.EXPIRED;
+        else
+            return sdkPackageStatus.UNRECOGNIZED(apiPackageStatus);
     }
 
-    public com.silanis.esl.api.model.PackageStatus toAPIPackageStatus() {
+    public String toAPIPackageStatus() {
         if (sdkPackageStatus == null) {
             return apiPackageStatus;
         }
 
-        switch (sdkPackageStatus) {
-            case DRAFT:
-                return apiPackageStatus.DRAFT;
-            case SENT:
-                return apiPackageStatus.SENT;
-            case COMPLETED:
-                return apiPackageStatus.COMPLETED;
-            case ARCHIVED:
-                return apiPackageStatus.ARCHIVED;
-            case DECLINED:
-                return apiPackageStatus.DECLINED;
-            case OPTED_OUT:
-                return apiPackageStatus.OPTED_OUT;
-            case EXPIRED:
-                return apiPackageStatus.EXPIRED;
-            default:
-                throw new BuilderException("Unrecognized package status type.");
-        }
+        if(sdkPackageStatus.getValue().equals("DRAFT"))
+            return "DRAFT";
+        else if (sdkPackageStatus.getValue().equals("SENT"))
+            return "SENT";
+        else if (sdkPackageStatus.getValue().equals("COMPLETED"))
+            return "COMPLETED";
+        else if (sdkPackageStatus.getValue().equals("ARCHIVED"))
+            return "ARCHIVED";
+        else if (sdkPackageStatus.getValue().equals("DECLINED"))
+            return "DECLINED";
+        else if (sdkPackageStatus.getValue().equals("OPTED_OUT"))
+            return "OPTED_OUT";
+        else if (sdkPackageStatus.getValue().equals("EXPIRED"))
+            return "EXPIRED";
+        else
+            return "";
     }
 }

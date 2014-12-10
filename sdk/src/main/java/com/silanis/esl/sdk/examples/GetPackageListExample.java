@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
@@ -63,6 +62,6 @@ public class GetPackageListExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackages( PackageStatus.SENT, new PageRequest( 1 ) );
+        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackages( "SENT", new PageRequest( 1 ) );
     }
 }

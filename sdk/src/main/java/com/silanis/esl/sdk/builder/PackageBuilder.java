@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 
 import java.util.*;
@@ -19,7 +18,7 @@ public class PackageBuilder {
     private Date expiryDate;
     private String packageMessage = null;
     private PackageId id;
-    private PackageStatus status;
+    private String status;
     private DocumentPackageSettings settings;
     private Locale language;
     private SenderInfo senderInfo = null;
@@ -170,7 +169,7 @@ public class PackageBuilder {
      * @param status the package status
      * @return the package builder itself
      */
-    public PackageBuilder withStatus( PackageStatus status ) {
+    public PackageBuilder withStatus( String status ) {
         this.status = status;
         return this;
     }

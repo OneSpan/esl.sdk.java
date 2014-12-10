@@ -2,7 +2,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Message;
-import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.User;
 import com.silanis.esl.sdk.PackageId;
@@ -135,7 +134,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     private com.silanis.esl.sdk.DocumentPackage createTypicalSDKDocumentPackage() {
         com.silanis.esl.sdk.DocumentPackage sdkDocumentPackage = PackageBuilder.newPackageNamed("SDK Package Name")
                 .withID(new PackageId("packageId"))
-                .withStatus(PackageStatus.DRAFT)
+                .withStatus("DRAFT")
                 .describedAs("typical description")
                 .withEmailMessage("typical email message")
                 .withLanguage(Locale.CANADA)
@@ -158,7 +157,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiDocumentPackage.setDescription("API document package description");
         apiDocumentPackage.setDue(new Date());
         apiDocumentPackage.setName("API package name");
-        apiDocumentPackage.setStatus(PackageStatus.DRAFT);
+        apiDocumentPackage.setStatus("DRAFT");
 
         Message apiMessage = new Message();
         apiMessage.setContent("opt-out reason");

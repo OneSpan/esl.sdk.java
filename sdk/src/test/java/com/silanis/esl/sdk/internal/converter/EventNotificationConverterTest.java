@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.CallbackEvent;
 import com.silanis.esl.sdk.NotificationEvent;
 import org.junit.Test;
 
@@ -15,8 +14,8 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class EventNotificationConverterTest implements ConverterTest {
 
-    private com.silanis.esl.api.model.CallbackEvent apiCallbackEvent1 = null;
-    private com.silanis.esl.api.model.CallbackEvent apiCallbackEvent2 = null;
+    private String apiCallbackEvent1 = null;
+    private String apiCallbackEvent2 = null;
     private com.silanis.esl.sdk.NotificationEvent sdkNotificationEvent1 = null;
     private com.silanis.esl.sdk.NotificationEvent sdkNotificationEvent2 = null;
     private EventNotificationConverter converter;
@@ -66,7 +65,7 @@ public class EventNotificationConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiCallbackEvent1 = createTypicalAPICallbackEvent();
+        apiCallbackEvent1 = "PACKAGE_COMPLETE";
         apiCallbackEvent2 = new EventNotificationConverter(apiCallbackEvent1).toAPICallbackEvent();
 
         assertThat("Converter returned a null api object for a non null api object", apiCallbackEvent2, is(notNullValue()));
@@ -76,7 +75,7 @@ public class EventNotificationConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiCallbackEvent1 = createTypicalAPICallbackEvent();
+        apiCallbackEvent1 = "PACKAGE_COMPLETE";
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
 
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1.toString(), is(apiCallbackEvent1.toString()));
@@ -89,10 +88,6 @@ public class EventNotificationConverterTest implements ConverterTest {
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
 
         assertThat("Notification event enum was not converted correctly", apiCallbackEvent1.toString(), is(sdkNotificationEvent1.toString()));
-    }
-
-    private com.silanis.esl.api.model.CallbackEvent createTypicalAPICallbackEvent() {
-        return CallbackEvent.PACKAGE_COMPLETE;
     }
 
     private com.silanis.esl.sdk.NotificationEvent createTypicalSDKNotificationEvent() {

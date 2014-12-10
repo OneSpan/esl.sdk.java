@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.PackageStatus;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -23,7 +21,7 @@ public class DocumentPackage implements Serializable {
     private Date expiryDate;
     private String packageMessage;
     private PackageId id;
-    private PackageStatus status;
+    private String status;
     private DocumentPackageSettings settings;
     private Locale language;
     private DocumentPackageAttributes attributes;
@@ -183,11 +181,11 @@ public class DocumentPackage implements Serializable {
         return id;
     }
 
-    public void setStatus( PackageStatus status ) {
+    public void setStatus( String status ) {
         this.status = status;
     }
 
-    public PackageStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 

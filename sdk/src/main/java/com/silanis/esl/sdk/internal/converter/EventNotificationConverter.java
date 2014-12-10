@@ -1,16 +1,14 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.CallbackEvent;
 import com.silanis.esl.sdk.NotificationEvent;
-import com.silanis.esl.sdk.builder.BuilderException;
 
 /**
  * Created by lena on 2014-06-17.
  */
 public class EventNotificationConverter {
 
-    private com.silanis.esl.sdk.NotificationEvent sdkNotificationEvent = null;
-    private com.silanis.esl.api.model.CallbackEvent apiCallbackEvent = null;
+    private NotificationEvent sdkNotificationEvent = null;
+    private String apiCallbackEvent = null;
 
     /**
      * Construct with SDK notification event object involved in conversion.
@@ -26,7 +24,7 @@ public class EventNotificationConverter {
      *
      * @param apiCallbackEvent
      */
-    public EventNotificationConverter(com.silanis.esl.api.model.CallbackEvent apiCallbackEvent) {
+    public EventNotificationConverter(String apiCallbackEvent) {
         this.apiCallbackEvent = apiCallbackEvent;
     }
 
@@ -35,43 +33,39 @@ public class EventNotificationConverter {
      *
      * @return an API callback event.
      */
-    public com.silanis.esl.api.model.CallbackEvent toAPICallbackEvent() {
+    public String toAPICallbackEvent() {
         if (sdkNotificationEvent == null) {
             return apiCallbackEvent;
         }
 
-        switch (sdkNotificationEvent) {
-            case PACKAGE_ACTIVATE:
-                return CallbackEvent.PACKAGE_ACTIVATE;
-            case PACKAGE_COMPLETE:
-                return CallbackEvent.PACKAGE_COMPLETE;
-            case PACKAGE_EXPIRE:
-                return CallbackEvent.PACKAGE_EXPIRE;
-            case PACKAGE_OPT_OUT:
-                return CallbackEvent.PACKAGE_OPT_OUT;
-            case PACKAGE_DECLINE:
-                return CallbackEvent.PACKAGE_DECLINE;
-            case SIGNER_COMPLETE:
-                return CallbackEvent.SIGNER_COMPLETE;
-            case DOCUMENT_SIGNED:
-                return CallbackEvent.DOCUMENT_SIGNED;
-            case ROLE_REASSIGN:
-                return CallbackEvent.ROLE_REASSIGN;
-            case PACKAGE_CREATE:
-                return CallbackEvent.PACKAGE_CREATE;
-            case PACKAGE_DEACTIVATE:
-                return CallbackEvent.PACKAGE_DEACTIVATE;
-            case PACKAGE_READY_FOR_COMPLETION:
-                return CallbackEvent.PACKAGE_READY_FOR_COMPLETE;
-            case PACKAGE_TRASH:
-                return CallbackEvent.PACKAGE_TRASH;
-            case PACKAGE_RESTORE:
-                return CallbackEvent.PACKAGE_RESTORE;
-            case PACKAGE_DELETE:
-                return CallbackEvent.PACKAGE_DELETE;
-            default:
-                throw new BuilderException("Unrecognized event notification type.");
-        }
+        if(sdkNotificationEvent.getValue().equals("PACKAGE_ACTIVATE"))
+            return "PACKAGE_ACTIVATE";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_COMPLETE"))
+            return "PACKAGE_COMPLETE";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_OPT_OUT"))
+            return "PACKAGE_OPT_OUT";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_DECLINE"))
+            return "PACKAGE_DECLINE";
+        else if (sdkNotificationEvent.getValue().equals("SIGNER_COMPLETE"))
+            return "SIGNER_COMPLETE";
+        else if (sdkNotificationEvent.getValue().equals("DOCUMENT_SIGNED"))
+            return "DOCUMENT_SIGNED";
+        else if (sdkNotificationEvent.getValue().equals("ROLE_REASSIGN"))
+            return "ROLE_REASSIGN";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_CREATE"))
+            return "PACKAGE_CREATE";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_DEACTIVATE"))
+            return "PACKAGE_DEACTIVATE";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_READY_FOR_COMPLETE"))
+            return "PACKAGE_READY_FOR_COMPLETE";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_TRASH"))
+            return "PACKAGE_TRASH";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_RESTORE"))
+            return "PACKAGE_RESTORE";
+        else if (sdkNotificationEvent.getValue().equals("PACKAGE_DELETE"))
+            return "PACKAGE_DELETE";
+        else
+            return "";
     }
 
     /**
@@ -84,37 +78,35 @@ public class EventNotificationConverter {
             return sdkNotificationEvent;
         }
 
-        switch (apiCallbackEvent) {
-            case PACKAGE_ACTIVATE:
-                return NotificationEvent.PACKAGE_ACTIVATE;
-            case PACKAGE_COMPLETE:
-                return NotificationEvent.PACKAGE_COMPLETE;
-            case PACKAGE_EXPIRE:
-                return NotificationEvent.PACKAGE_EXPIRE;
-            case PACKAGE_OPT_OUT:
-                return NotificationEvent.PACKAGE_OPT_OUT;
-            case PACKAGE_DECLINE:
-                return NotificationEvent.PACKAGE_DECLINE;
-            case SIGNER_COMPLETE:
-                return NotificationEvent.SIGNER_COMPLETE;
-            case DOCUMENT_SIGNED:
-                return NotificationEvent.DOCUMENT_SIGNED;
-            case ROLE_REASSIGN:
-                return NotificationEvent.ROLE_REASSIGN;
-            case PACKAGE_CREATE:
-                return NotificationEvent.PACKAGE_CREATE;
-            case PACKAGE_DEACTIVATE:
-                return NotificationEvent.PACKAGE_DEACTIVATE;
-            case PACKAGE_READY_FOR_COMPLETE:
-                return NotificationEvent.PACKAGE_READY_FOR_COMPLETION;
-            case PACKAGE_TRASH:
-                return NotificationEvent.PACKAGE_TRASH;
-            case PACKAGE_RESTORE:
-                return NotificationEvent.PACKAGE_RESTORE;
-            case PACKAGE_DELETE:
-                return NotificationEvent.PACKAGE_DELETE;
-            default:
-                throw new BuilderException("Unrecognized event notification type.");
-        }
+        if (apiCallbackEvent.equals("PACKAGE_ACTIVATE"))
+            return NotificationEvent.PACKAGE_ACTIVATE;
+        else if (apiCallbackEvent.equals("PACKAGE_COMPLETE"))
+            return NotificationEvent.PACKAGE_COMPLETE;
+        else if (apiCallbackEvent.equals("PACKAGE_EXPIRE"))
+            return NotificationEvent.PACKAGE_EXPIRE;
+        else if (apiCallbackEvent.equals("PACKAGE_OPT_OUT"))
+            return NotificationEvent.PACKAGE_OPT_OUT;
+        else if (apiCallbackEvent.equals("PACKAGE_DECLINE"))
+            return NotificationEvent.PACKAGE_DECLINE;
+        else if (apiCallbackEvent.equals("SIGNER_COMPLETE"))
+            return NotificationEvent.SIGNER_COMPLETE;
+        else if (apiCallbackEvent.equals("DOCUMENT_SIGNED"))
+            return NotificationEvent.DOCUMENT_SIGNED;
+        else if (apiCallbackEvent.equals("ROLE_REASSIGN"))
+            return NotificationEvent.ROLE_REASSIGN;
+        else if (apiCallbackEvent.equals("PACKAGE_CREATE"))
+            return NotificationEvent.PACKAGE_CREATE;
+        else if (apiCallbackEvent.equals("PACKAGE_DEACTIVATE"))
+            return NotificationEvent.PACKAGE_DEACTIVATE;
+        else if (apiCallbackEvent.equals("PACKAGE_READY_FOR_COMPLETION"))
+            return NotificationEvent.PACKAGE_READY_FOR_COMPLETION;
+        else if (apiCallbackEvent.equals("PACKAGE_TRASH"))
+            return NotificationEvent.PACKAGE_TRASH;
+        else if (apiCallbackEvent.equals("PACKAGE_RESTORE"))
+            return NotificationEvent.PACKAGE_RESTORE;
+        else if (apiCallbackEvent.equals("PACKAGE_DELETE"))
+            return NotificationEvent.PACKAGE_DELETE;
+        else
+            return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);
     }
 }
