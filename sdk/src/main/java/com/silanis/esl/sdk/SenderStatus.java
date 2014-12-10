@@ -1,10 +1,18 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.util.JacksonUtil;
+
+import java.util.logging.Logger;
+
 public class SenderStatus {
+    private static final String CLASS = JacksonUtil.class.getName();
+    protected static Logger log = Logger.getLogger(CLASS);
+
     public static SenderStatus INVITED = new SenderStatus("INVITED");
     public static SenderStatus ACTIVE = new SenderStatus("ACTIVE");
     public static SenderStatus LOCKED = new SenderStatus("LOCKED");
     public static SenderStatus UNRECOGNIZED(String unknownValue){
+        log.warning("Unknown API Sender Status. The upgrade is required.");
         return new SenderStatus("UNRECOGNIZED", unknownValue);
     }
     private final String value;

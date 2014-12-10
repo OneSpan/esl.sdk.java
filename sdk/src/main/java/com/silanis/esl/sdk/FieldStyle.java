@@ -1,6 +1,13 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.util.JacksonUtil;
+
+import java.util.logging.Logger;
+
 public class FieldStyle {
+    private static final String CLASS = JacksonUtil.class.getName();
+    protected static Logger log = Logger.getLogger(CLASS);
+
     public static FieldStyle BINDING_DATE = new FieldStyle("BINDING_DATE", "{approval.signed}");
     public static FieldStyle BINDING_NAME = new FieldStyle("BINDING_NAME", "{signer.name}");
     public static FieldStyle BINDING_TITLE = new FieldStyle("BINDING_TITLE", "{signer.title}");
@@ -15,6 +22,7 @@ public class FieldStyle {
     public static FieldStyle TEXTAREA = new FieldStyle("TEXTAREA");
     public static FieldStyle SEAL = new FieldStyle("SEAL");
     public static FieldStyle UNRECOGNIZED(String unknownValue){
+        log.warning("Unknown API FieldSubtype. The upgrade is required.");
         return new FieldStyle("UNRECOGNIZED", "", unknownValue);
     }
     private final String value;

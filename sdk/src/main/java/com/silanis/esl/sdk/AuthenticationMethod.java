@@ -1,13 +1,20 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.util.JacksonUtil;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class AuthenticationMethod {
+    private static final String CLASS = JacksonUtil.class.getName();
+    protected static Logger log = Logger.getLogger(CLASS);
+
     public static AuthenticationMethod EMAIL = new AuthenticationMethod("EMAIL");
     public static AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE");
     public static AuthenticationMethod SMS = new AuthenticationMethod("SMS");
     public static AuthenticationMethod UNRECOGNIZED(String unknownValue){
+        log.warning("Unknown API AuthScheme. The upgrade is required.");
         return new AuthenticationMethod("UNRECOGNIZED", unknownValue);
     }
     private static List<AuthenticationMethod> values;

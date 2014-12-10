@@ -1,6 +1,13 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.util.JacksonUtil;
+
+import java.util.logging.Logger;
+
 public class PackageStatus {
+    private static final String CLASS = JacksonUtil.class.getName();
+    protected static Logger log = Logger.getLogger(CLASS);
+
     public static PackageStatus DRAFT = new PackageStatus("DRAFT");
     public static PackageStatus SENT = new PackageStatus("SENT");
     public static PackageStatus COMPLETED = new PackageStatus("COMPLETED");
@@ -9,6 +16,7 @@ public class PackageStatus {
     public static PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT");
     public static PackageStatus EXPIRED = new PackageStatus("EXPIRED");
     public static PackageStatus UNRECOGNIZED(String unknownValue){
+        log.warning("Unknown API Package Status. The upgrade is required.");
         return new PackageStatus("UNRECOGNIZED", unknownValue);
     }
     private final String value;

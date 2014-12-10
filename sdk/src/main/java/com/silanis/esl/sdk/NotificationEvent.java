@@ -1,6 +1,13 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.util.JacksonUtil;
+
+import java.util.logging.Logger;
+
 public class NotificationEvent {
+    private static final String CLASS = JacksonUtil.class.getName();
+    protected static Logger log = Logger.getLogger(CLASS);
+
     public static NotificationEvent PACKAGE_ACTIVATE = new NotificationEvent("PACKAGE_ACTIVATE");
     public static NotificationEvent PACKAGE_COMPLETE = new NotificationEvent("PACKAGE_COMPLETE");
     public static NotificationEvent PACKAGE_EXPIRE = new NotificationEvent("PACKAGE_EXPIRE");
@@ -16,6 +23,7 @@ public class NotificationEvent {
     public static NotificationEvent PACKAGE_RESTORE = new NotificationEvent("PACKAGE_RESTORE");
     public static NotificationEvent PACKAGE_DELETE = new NotificationEvent("PACKAGE_DELETE");
     public static NotificationEvent UNRECOGNIZED(String unknownValue){
+        log.warning("Unknown API Callback Event. The upgrade is required.");
         return new NotificationEvent("UNRECOGNIZED", unknownValue);
     }
     private final String value;
