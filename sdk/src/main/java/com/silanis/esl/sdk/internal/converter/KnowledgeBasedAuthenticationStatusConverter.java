@@ -62,6 +62,8 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             return "FAILED";
         else if (sdkKnowledgeBasedAuthenticationStatus.getValue().equals("PASSED"))
             return "PASSED";
+        else if (sdkKnowledgeBasedAuthenticationStatus.getValue().equals("UNRECOGNIZED"))
+            return sdkKnowledgeBasedAuthenticationStatus.getUnknownValue();
         else
             return "";
     }

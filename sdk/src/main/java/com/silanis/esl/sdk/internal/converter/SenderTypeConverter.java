@@ -50,6 +50,8 @@ public class SenderTypeConverter {
             return "MANAGER";
         else if (sdkSenderType.getValue().equals("REGULAR"))
             return "REGULAR";
+        else if (sdkSenderType.getValue().equals("UNRECOGNIZED"))
+            return sdkSenderType.getUnknownValue();
         else
             return "";
     }

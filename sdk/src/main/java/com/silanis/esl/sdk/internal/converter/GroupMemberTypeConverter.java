@@ -44,6 +44,8 @@ public class GroupMemberTypeConverter {
             return "MANAGER";
         else if (sdkMemberType.getValue().equals("REGULAR"))
             return "REGULAR";
+        else if (sdkMemberType.getValue().equals("UNRECOGNIZED"))
+            return sdkMemberType.getUnknownValue();
         else
             return "";
     }

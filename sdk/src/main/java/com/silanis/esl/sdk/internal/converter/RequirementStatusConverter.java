@@ -54,6 +54,8 @@ public class RequirementStatusConverter {
             return "REJECTED";
         else if (sdkRequirementStatus.getValue().equals("COMPLETE"))
             return "COMPLETE";
+        else if (sdkRequirementStatus.getValue().equals("UNRECOGNIZED"))
+            return sdkRequirementStatus.getUnknownValue();
         else
             return "";
     }

@@ -54,6 +54,8 @@ public class SenderStatusConverter {
             return "ACTIVE";
         else if (sdkSenderStatus.getValue().equals("LOCKED"))
             return "LOCKED";
+        else if (sdkSenderStatus.getValue().equals("UNRECOGNIZED"))
+            return sdkSenderStatus.getUnknownValue();
         else
             return "";
     }

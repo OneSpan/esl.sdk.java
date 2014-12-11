@@ -70,6 +70,8 @@ public class PackageStatusConverter {
             return "OPTED_OUT";
         else if (sdkPackageStatus.getValue().equals("EXPIRED"))
             return "EXPIRED";
+        else if (sdkPackageStatus.getValue().equals("UNRECOGNIZED"))
+            return sdkPackageStatus.getUnknownValue();
         else
             return "";
     }

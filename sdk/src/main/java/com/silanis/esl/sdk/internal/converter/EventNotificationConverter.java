@@ -64,6 +64,8 @@ public class EventNotificationConverter {
             return "PACKAGE_RESTORE";
         else if (sdkNotificationEvent.getValue().equals("PACKAGE_DELETE"))
             return "PACKAGE_DELETE";
+        else if (sdkNotificationEvent.getValue().equals("UNRECOGNIZED"))
+            return sdkNotificationEvent.getUnknownValue();
         else
             return "";
     }

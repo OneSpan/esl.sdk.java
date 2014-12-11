@@ -43,6 +43,8 @@ public class AuthenticationMethodConverter {
             return "CHALLENGE";
         else if (sdkAuthMethod.getValue().equals("SMS"))
             return "SMS";
+        else if (sdkAuthMethod.getValue().equals("UNRECOGNIZED"))
+            return sdkAuthMethod.getUnknownValue();
         else
             return "";
     }

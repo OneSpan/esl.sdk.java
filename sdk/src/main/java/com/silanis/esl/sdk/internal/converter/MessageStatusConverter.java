@@ -64,6 +64,8 @@ public class MessageStatusConverter {
             return "READ";
         else if (sdkMessageStatus.getValue().equals("TRASHED"))
             return "TRASHED";
+        else if (sdkMessageStatus.getValue().equals("UNRECOGNIZED"))
+            return sdkMessageStatus.getUnknownValue();
         else
             return "";
     }

@@ -72,6 +72,8 @@ public class FieldStyleAndSubTypeConverter {
             return "QRCODE";
         else if (sdkFieldStyle.getValue().equals("SEAL"))
             return "SEAL";
+        else if (sdkFieldStyle.getValue().equals("UNRECOGNIZED"))
+            return sdkFieldStyle.getUnknownValue();
         else
             return "";
     }
