@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.Sender;
+
 /**
  * User: jessica
  * Date: 03/12/13
@@ -25,39 +27,71 @@ public class SenderConverter {
     /**
      * Construct with SDK sender object involved in conversion.
      *
+     * @param sdkSender
+     */
+    public SenderConverter(com.silanis.esl.sdk.Sender sdkSender) {
+        this.sdkSender = sdkSender;
+    }
+
+    /**
+     * Construct with SDK senderInfo object involved in conversion.
+     *
      * @param sdkSenderInfo
      */
     public SenderConverter(com.silanis.esl.sdk.SenderInfo sdkSenderInfo) {
         this.sdkSenderInfo = sdkSenderInfo;
+        if(sdkSenderInfo != null) {
+            sdkSender = new Sender();
+            sdkSender.setEmail(sdkSenderInfo.getEmail());
+            sdkSender.setFirstName(sdkSenderInfo.getFirstName());
+            sdkSender.setLastName(sdkSenderInfo.getLastName());
+            sdkSender.setCompany(sdkSenderInfo.getCompany());
+            sdkSender.setTitle(sdkSenderInfo.getTitle());
+        }
     }
 
     /**
-     * Convert from SDK SenderInfo to API Sender.
+     * Convert from SDK Sender to API Sender.
      *
      * @return an API Sender object.
      */
     public com.silanis.esl.api.model.Sender toAPISender() {
 
-        if (sdkSenderInfo == null) {
+        if (sdkSender == null) {
             return apiSender;
         }
 
         com.silanis.esl.api.model.Sender result = new com.silanis.esl.api.model.Sender();
-        if (sdkSenderInfo.getEmail() != null ) {
-            result.setEmail( sdkSenderInfo.getEmail() );
-        }
-        if (sdkSenderInfo.getFirstName() != null ) {
-            result.setFirstName(sdkSenderInfo.getFirstName());
-        }
-        if (sdkSenderInfo.getLastName() != null ) {
-            result.setLastName( sdkSenderInfo.getLastName() );
-        }
-        if ( sdkSenderInfo.getCompany() != null ) {
-            result.setCompany( sdkSenderInfo.getCompany() );
-        }
-        if ( sdkSenderInfo.getTitle() != null ) {
-            result.setTitle( sdkSenderInfo.getTitle() );
-        }
+
+        if(sdkSender.getEmail() != null)
+            result.setEmail(sdkSender.getEmail());
+        if(sdkSender.getId() != null)
+            result.setId(sdkSender.getId());
+        if(sdkSender.getFirstName() != null)
+            result.setFirstName(sdkSender.getFirstName());
+        if(sdkSender.getLastName() != null)
+            result.setLastName(sdkSender.getLastName());
+        if(sdkSender.getCompany() != null)
+            result.setCompany(sdkSender.getCompany());
+        if(sdkSender.getCreated() != null)
+            result.setCreated(sdkSender.getCreated());
+        if(sdkSender.getLanguage() != null)
+            result.setLanguage(sdkSender.getLanguage());
+        if (sdkSender.getName() != null)
+            result.setName(sdkSender.getName());
+        if (sdkSender.getPhone() != null)
+            result.setPhone(sdkSender.getPhone());
+        if (sdkSender.getStatus() != null)
+            result.setStatus(new SenderStatusConverter(sdkSender.getStatus()).toAPISenderStatus());
+        if (sdkSender.getType() != null)
+            result.setType(new SenderTypeConverter(sdkSender.getType()).toAPISenderType());
+        if (sdkSender.getTitle() != null)
+            result.setTitle(sdkSender.getTitle());
+        if (sdkSender.getUpdated() != null)
+            result.setUpdated(sdkSender.getUpdated());
+        if (sdkSender.getExternal() != null)
+            result.setExternal(new ExternalConverter(sdkSender.getExternal()).toAPIExternal());
+
         return result;
     }
 
