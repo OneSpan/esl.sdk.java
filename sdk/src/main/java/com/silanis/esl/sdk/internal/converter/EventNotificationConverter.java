@@ -37,7 +37,7 @@ public class EventNotificationConverter {
         if (sdkNotificationEvent == null) {
             return apiCallbackEvent;
         }
-        return sdkNotificationEvent.toString();
+        return sdkNotificationEvent.getApiValue();
     }
 
     /**
@@ -49,7 +49,7 @@ public class EventNotificationConverter {
         if (apiCallbackEvent == null) {
             return sdkNotificationEvent;
         }
-        sdkNotificationEvent = NotificationEvent.values().get(apiCallbackEvent);
+        sdkNotificationEvent = NotificationEvent.valueOf(apiCallbackEvent);
         if (sdkNotificationEvent == null)
             return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);
         else

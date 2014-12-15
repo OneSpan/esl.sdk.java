@@ -1,42 +1,35 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class MessageStatus extends EslEnumeration {
 
-public class MessageStatus {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static MessageStatus NEW = new MessageStatus("NEW");
-    public static MessageStatus READ = new MessageStatus("READ");
-    public static MessageStatus TRASHED = new MessageStatus("TRASHED");
-    public static MessageStatus UNRECOGNIZED(String unknownValue){
-        log.warning("Unknown API Message Status. The upgrade is required.");
-        return new MessageStatus("UNRECOGNIZED", unknownValue);
-    }
-    private final String value;
-    private final String unknownValue;
-
-    private MessageStatus(String value) {
-        this.value = value;
-        this.unknownValue = "";
+    public static final MessageStatus NEW = new MessageStatus("NEW", "NEW");
+    public static final MessageStatus READ = new MessageStatus("READ", "READ");
+    public static final MessageStatus TRASHED = new MessageStatus("TRASHED", "TRASHED");
+    public static final MessageStatus UNRECOGNIZED(String unknownValue){
+        log.warning(String.format("Unknown API Message Status(%s). The upgrade is required.", unknownValue));
+        return new MessageStatus(unknownValue, unknownValue);
     }
 
-    private MessageStatus(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
+    private static Map<String, MessageStatus> apiValues;
+    static {
+        apiValues = new HashMap<String, MessageStatus>();
+        apiValues.put("NEW", NEW);
+        apiValues.put("READ", READ);
+        apiValues.put("TRASHED", TRASHED);
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    private MessageStatus(String apiValue, String sdkValue) {
+        super(apiValue, sdkValue);
     }
 
-    public String getValue() {
-        return value;
+    public static MessageStatus[] values() {
+        return apiValues.values().toArray(new MessageStatus[apiValues.size()]);
     }
 
-    public String toString() {
-        return getValue();
+    public static MessageStatus valueOf(String name) {
+        return apiValues.get(name);
     }
 }

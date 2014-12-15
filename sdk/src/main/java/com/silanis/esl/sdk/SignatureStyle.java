@@ -8,16 +8,13 @@ public enum SignatureStyle {
     MOBILE_CAPTURE;
 
     public static SignatureStyle fromAPIFieldSubType( String subtype ) {
-        if (subtype == null) {
-            return null;
-        }
-        if(subtype.equals("INITIALS")) {
+        if("INITIALS".equals(subtype)) {
             return INITIALS;
-        } else if (subtype.equals("CAPTURE")) {
+        } else if ("CAPTURE".equals(subtype)) {
             return HAND_DRAWN;
-        } else if (subtype.equals("FULLNAME")) {
+        } else if ("FULLNAME".equals(subtype)) {
             return FULL_NAME;
-        } else if (subtype.equals("MOBILE_CAPTURE")) {
+        } else if ("MOBILE_CAPTURE".equals(subtype)) {
             return MOBILE_CAPTURE;
         } else {
             return null;

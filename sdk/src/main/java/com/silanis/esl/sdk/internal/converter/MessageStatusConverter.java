@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.MessageStatus;
+
 /**
  * Created by lena on 2014-07-03.
  * <p/>
@@ -38,14 +40,11 @@ public class MessageStatusConverter {
             return sdkMessageStatus;
         }
 
-        if (apiMessageStatus.equals("NEW"))
-            return sdkMessageStatus.NEW;
-        else if (apiMessageStatus.equals("READ"))
-            return sdkMessageStatus.READ;
-        else if (apiMessageStatus.equals("TRASHED"))
-            return sdkMessageStatus.TRASHED;
+        sdkMessageStatus = MessageStatus.valueOf(apiMessageStatus);
+        if (sdkMessageStatus == null)
+            return MessageStatus.UNRECOGNIZED(apiMessageStatus);
         else
-            return sdkMessageStatus.UNRECOGNIZED(apiMessageStatus);
+            return sdkMessageStatus;
     }
 
     /**
@@ -58,15 +57,6 @@ public class MessageStatusConverter {
             return apiMessageStatus;
         }
 
-        if(sdkMessageStatus.getValue().equals("NEW"))
-            return "NEW";
-        else if (sdkMessageStatus.getValue().equals("READ"))
-            return "READ";
-        else if (sdkMessageStatus.getValue().equals("TRASHED"))
-            return "TRASHED";
-        else if (sdkMessageStatus.getValue().equals("UNRECOGNIZED"))
-            return sdkMessageStatus.getUnknownValue();
-        else
-            return "";
+        return sdkMessageStatus.getApiValue();
     }
 }

@@ -1,46 +1,44 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class PackageStatus extends EslEnumeration {
 
-public class PackageStatus {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static PackageStatus DRAFT = new PackageStatus("DRAFT");
-    public static PackageStatus SENT = new PackageStatus("SENT");
-    public static PackageStatus COMPLETED = new PackageStatus("COMPLETED");
-    public static PackageStatus ARCHIVED = new PackageStatus("ARCHIVED");
-    public static PackageStatus DECLINED = new PackageStatus("DECLINED");
-    public static PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT");
-    public static PackageStatus EXPIRED = new PackageStatus("EXPIRED");
-    public static PackageStatus UNRECOGNIZED(String unknownValue){
-        log.warning("Unknown API Package Status. The upgrade is required.");
-        return new PackageStatus("UNRECOGNIZED", unknownValue);
-    }
-    private final String value;
-    private final String unknownValue;
-
-    private PackageStatus(String value) {
-        this.value = value;
-        this.unknownValue = "";
+    public static final PackageStatus DRAFT = new PackageStatus("DRAFT", "DRAFT");
+    public static final PackageStatus SENT = new PackageStatus("SENT", "SENT");
+    public static final PackageStatus COMPLETED = new PackageStatus("COMPLETED", "COMPLETED");
+    public static final PackageStatus ARCHIVED = new PackageStatus("ARCHIVED", "ARCHIVED");
+    public static final PackageStatus DECLINED = new PackageStatus("DECLINED", "DECLINED");
+    public static final PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT", "OPTED_OUT");
+    public static final PackageStatus EXPIRED = new PackageStatus("EXPIRED", "EXPIRED");
+    public static final PackageStatus UNRECOGNIZED(String unknownValue){
+        log.warning(String.format("Unknown API Package Status(%s). The upgrade is required.", unknownValue));
+        return new PackageStatus(unknownValue, unknownValue);
     }
 
-    private PackageStatus(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
+    private static Map<String, PackageStatus> apiValues;
+    static {
+        apiValues = new HashMap<String, PackageStatus>();
+
+        apiValues.put("DRAFT", DRAFT);
+        apiValues.put("SENT", SENT);
+        apiValues.put("COMPLETED", COMPLETED);
+        apiValues.put("ARCHIVED", ARCHIVED);
+        apiValues.put("DECLINED", DECLINED);
+        apiValues.put("OPTED_OUT", OPTED_OUT);
+        apiValues.put("EXPIRED", EXPIRED);
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    private PackageStatus(String apiValue, String sdkValue) {
+        super(apiValue, sdkValue);
     }
 
-    public String getValue() {
-        return value;
+    public static PackageStatus[] values() {
+        return apiValues.values().toArray(new PackageStatus[apiValues.size()]);
     }
 
-    public String toString() {
-        return getValue();
+    public static PackageStatus valueOf(String name) {
+        return apiValues.get(name);
     }
 }

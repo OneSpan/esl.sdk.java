@@ -5,12 +5,12 @@ import java.util.Map;
 
 public class SenderStatus extends EslEnumeration {
 
-    public static final SenderStatus INVITED = new SenderStatus("INVITED");
-    public static final SenderStatus ACTIVE = new SenderStatus("ACTIVE");
-    public static final SenderStatus LOCKED = new SenderStatus("LOCKED");
+    public static final SenderStatus INVITED = new SenderStatus("INVITED", "INVITED");
+    public static final SenderStatus ACTIVE = new SenderStatus("ACTIVE", "ACTIVE");
+    public static final SenderStatus LOCKED = new SenderStatus("LOCKED", "LOCKED");
     public static final SenderStatus UNRECOGNIZED(String unknownValue){
-        log.warning("Unknown API Sender Status. The upgrade is required.");
-        return new SenderStatus(unknownValue);
+        log.warning(String.format("Unknown API Sender Status(%s). The upgrade is required.", unknownValue));
+        return new SenderStatus(unknownValue, unknownValue);
     }
 
     private static Map<String, SenderStatus> apiValues;
@@ -21,11 +21,15 @@ public class SenderStatus extends EslEnumeration {
         apiValues.put("LOCKED", LOCKED);
     }
 
-    private SenderStatus(String apiValue) {
-        super(apiValue);
+    private SenderStatus(String apiValue, String sdkValue) {
+        super(apiValue, sdkValue);
     }
 
-    public static Map<String, SenderStatus> values() {
-        return apiValues;
+    public static SenderStatus[] values() {
+        return apiValues.values().toArray(new SenderStatus[apiValues.size()]);
+    }
+
+    public static SenderStatus valueOf(String name) {
+        return apiValues.get(name);
     }
 }

@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,7 +48,7 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
 
     @Test
     public void convertSDKToSDK() {
-        sdkKnowledgeBasedAuthenticationStatus = createTypicalSDKKnowledgeBasedAuthenticationStatus();
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus result = converter.toSDKKnowledgeBasedAuthenticationStatus();
 
@@ -67,35 +68,47 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
 
     @Test
     public void convertAPIToSDK() {
+        apiKnowledgeBasedAuthenticationStatus = "NOT_YET_ATTEMPTED";
+        converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED));
+
         apiKnowledgeBasedAuthenticationStatus = "PASSED";
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
         sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.PASSED));
 
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.toString(), is(apiKnowledgeBasedAuthenticationStatus));
+        apiKnowledgeBasedAuthenticationStatus = "FAILED";
+        converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.FAILED));
 
         apiKnowledgeBasedAuthenticationStatus = "UNKNOWN";
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
         sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
-
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.toString(), is(apiKnowledgeBasedAuthenticationStatus));
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.toString(), is(KnowledgeBasedAuthenticationStatus.UNRECOGNIZED("UNKNOWN").toString()));
     }
 
     @Test
     public void convertSDKToAPI() {
-        sdkKnowledgeBasedAuthenticationStatus = createTypicalSDKKnowledgeBasedAuthenticationStatus();
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("NOT_YET_ATTEMPTED"));
 
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is(sdkKnowledgeBasedAuthenticationStatus.toString()));
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.PASSED;
+        converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
+        apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("PASSED"));
+
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.FAILED;
+        converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
+        apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("FAILED"));
 
         sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.UNRECOGNIZED("UNKNOWN");
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
-
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is(sdkKnowledgeBasedAuthenticationStatus.toString()));
-    }
-
-    private com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus createTypicalSDKKnowledgeBasedAuthenticationStatus() {
-        return com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("UNKNOWN"));
     }
 }

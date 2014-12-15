@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.SenderStatus;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -54,7 +55,7 @@ public class SenderStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertSDKToSDK() {
-        sdkSenderStatus1 = createTypicalSDKSenderStatus();
+        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.INVITED;
         sdkSenderStatus2 = new SenderStatusConverter(sdkSenderStatus1).toSDKSenderStatus();
 
         assertThat("Converter returned a null sdk object for a non null sdk object", sdkSenderStatus2, is(notNullValue()));
@@ -74,37 +75,40 @@ public class SenderStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
+        apiSenderStatus1 = "INVITED";
+        sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
+        assertThat("Sender status was not set correctly", sdkSenderStatus1, is(SenderStatus.INVITED));
+
+        apiSenderStatus1 = "ACTIVE";
+        sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
+        assertThat("Sender status was not set correctly", sdkSenderStatus1, is(SenderStatus.ACTIVE));
+
         apiSenderStatus1 = "LOCKED";
         sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
-
-        assertThat("Sender type was not set correctly", sdkSenderStatus1.toString(), is(apiSenderStatus1.toString()));
+        assertThat("Sender status was not set correctly", sdkSenderStatus1, is(SenderStatus.LOCKED));
 
         apiSenderStatus1 = "UNKNOWN";
         sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
-
-        assertThat("Sender type was not set correctly", sdkSenderStatus1.toString(), is(apiSenderStatus1.toString()));
+        assertThat("Sender status was not set correctly", sdkSenderStatus1.toString(), is(SenderStatus.UNRECOGNIZED("UNKNOWN").toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
-        sdkSenderStatus1 = createTypicalSDKSenderStatus();
+        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.INVITED;
         apiSenderStatus1 = new SenderStatusConverter(sdkSenderStatus1).toAPISenderStatus();
+        assertThat("Sender status was not set correctly", apiSenderStatus1, is("INVITED"));
 
-        assertThat("Sender type was not set correctly", apiSenderStatus1.toString(), is(sdkSenderStatus1.toString()));
-
-        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.INVITED.UNRECOGNIZED("UNKNOWN");
+        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.ACTIVE;
         apiSenderStatus1 = new SenderStatusConverter(sdkSenderStatus1).toAPISenderStatus();
+        assertThat("Sender status was not set correctly", apiSenderStatus1, is("ACTIVE"));
 
-        assertThat("Sender type was not set correctly", apiSenderStatus1.toString(), is(sdkSenderStatus1.toString()));
-    }
+        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.LOCKED;
+        apiSenderStatus1 = new SenderStatusConverter(sdkSenderStatus1).toAPISenderStatus();
+        assertThat("Sender status was not set correctly", apiSenderStatus1, is("LOCKED"));
 
-    /**
-     * Returns a SDK SenderStatus enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.sdk.SenderStatus createTypicalSDKSenderStatus() {
-        return com.silanis.esl.sdk.SenderStatus.INVITED;
+        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.UNRECOGNIZED("UNKNOWN");
+        apiSenderStatus1 = new SenderStatusConverter(sdkSenderStatus1).toAPISenderStatus();
+        assertThat("Sender status was not set correctly", apiSenderStatus1, is("UNKNOWN"));
     }
 }

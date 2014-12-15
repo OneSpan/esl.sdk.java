@@ -35,7 +35,7 @@ public class RequirementStatusConverter {
             return sdkRequirementStatus;
         }
 
-        sdkRequirementStatus = RequirementStatus.values().get(apiRequirementStatus);
+        sdkRequirementStatus = RequirementStatus.valueOf(apiRequirementStatus);
         if (sdkRequirementStatus == null)
             return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
         else
@@ -47,6 +47,6 @@ public class RequirementStatusConverter {
             return apiRequirementStatus;
         }
 
-        return sdkRequirementStatus.toString();
+        return sdkRequirementStatus.getApiValue();
     }
 }

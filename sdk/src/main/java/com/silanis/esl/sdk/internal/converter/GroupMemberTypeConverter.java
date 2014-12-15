@@ -42,7 +42,7 @@ public class GroupMemberTypeConverter {
             return apiMemberType;
         }
 
-        return sdkMemberType.toString();
+        return sdkMemberType.getApiValue();
     }
 
     /**
@@ -56,7 +56,7 @@ public class GroupMemberTypeConverter {
             return sdkMemberType;
         }
 
-        sdkMemberType = GroupMemberType.values().get(apiMemberType);
+        sdkMemberType = GroupMemberType.valueOf(apiMemberType);
         if (sdkMemberType == null)
             return GroupMemberType.UNRECOGNIZED(apiMemberType);
         else

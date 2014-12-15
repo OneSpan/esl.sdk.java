@@ -35,7 +35,7 @@ public class SenderTypeConverter {
             return sdkSenderType;
         }
 
-        sdkSenderType = SenderType.values().get(apiSenderType);
+        sdkSenderType = SenderType.valueOf(apiSenderType);
         if (sdkSenderType == null)
             return SenderType.UNRECOGNIZED(apiSenderType);
         else
@@ -47,7 +47,7 @@ public class SenderTypeConverter {
             return apiSenderType;
         }
 
-        return sdkSenderType.toString();
+        return sdkSenderType.getApiValue();
     }
 
 }

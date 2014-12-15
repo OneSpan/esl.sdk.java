@@ -175,7 +175,7 @@ public class DocumentPackageConverter {
                 packageBuilder.withSigner( new SignerConverter(role).toSDKSigner() );
 
                 // The custom sender information is stored in the role.signer object.
-                if (role.getType().equals("SENDER")) {
+                if ("SENDER".equals(role.getType())) {
                     // Override sender info with the customized ones.
                     SenderInfo senderInfo = new SenderInfo();
 

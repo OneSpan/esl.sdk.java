@@ -16,7 +16,7 @@ import static org.joda.time.DateMidnight.now;
  * User: jessica
  * Date: 12/12/13
  * Time: 4:41 PM
- * 
+ *
  * Test BasicPackageCreationExample.
  */
 public class BasicPackageCreationExampleTest {
@@ -73,7 +73,7 @@ public class BasicPackageCreationExampleTest {
             if (fields.hasNext())
             {
                 field = fields.next();
-                assertThat( "Field style for signature was not set correctly in First Document.", field.getStyle().toString(), is( FieldStyle.UNBOUND_CHECK_BOX.toString() ) );
+                assertThat( "Field style for signature was not set correctly in First Document.", field.getStyle(), is( FieldStyle.UNBOUND_CHECK_BOX ) );
                 assertThat( "Field Page number was not set correctly in First Document.", field.getPage(), is( 0 ) );
                 assertThat( "Field value of signature was not set correctly in First Document.", field.getValue(), is( FieldBuilder.RADIO_SELECTED ) );
             }
@@ -93,25 +93,25 @@ public class BasicPackageCreationExampleTest {
             if (fields.hasNext())
             {
                 field = fields.next();
-                assertThat( "First radio button style for signature was not set correctly in Second Document.", field.getStyle().toString(), is( FieldStyle.UNBOUND_RADIO_BUTTON.toString() ) );
+                assertThat( "First radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
                 assertThat( "First radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
                 assertThat( "First radio button value of signature was not set correctly in Second Document.", field.getValue(), is( "" ) );
                 assertThat( "First radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group1));
 
                 field = fields.next();
-                assertThat( "Second radio button style for signature was not set correctly in Second Document.", field.getStyle().toString(), is( FieldStyle.UNBOUND_RADIO_BUTTON.toString() ) );
+                assertThat( "Second radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
                 assertThat( "Second radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
                 assertThat( "Second radio button value of signature was not set correctly in Second Document.", field.getValue(), is(FieldBuilder.RADIO_SELECTED) );
                 assertThat( "Second radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group1));
 
                 field = fields.next();
-                assertThat( "Third radio button style for signature was not set correctly in Second Document.", field.getStyle().toString(), is( FieldStyle.UNBOUND_RADIO_BUTTON.toString() ) );
+                assertThat( "Third radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
                 assertThat( "Third radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
                 assertThat( "Third radio button value of signature was not set correctly in Second Document.", field.getValue(), is( FieldBuilder.RADIO_SELECTED ) );
                 assertThat( "Third radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group2));
 
                 field = fields.next();
-                assertThat( "Third radio button style for signature was not set correctly in Second Document.", field.getStyle().toString(), is( FieldStyle.UNBOUND_RADIO_BUTTON.toString() ) );
+                assertThat( "Third radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
                 assertThat( "Third radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
                 assertThat( "Third radio button value of signature was not set correctly in Second Document.", field.getValue(), is( "" ) );
                 assertThat( "Third radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group2));

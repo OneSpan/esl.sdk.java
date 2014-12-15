@@ -72,7 +72,7 @@ public class SignatureConverter {
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
         for ( com.silanis.esl.api.model.Field apiField : apiApproval.getFields() ) {
-            if ( apiField.getType().equals("SIGNATURE") ) {
+            if ( "SIGNATURE".equals(apiField.getType()) ) {
                 apiSignatureField = apiField;
             } else {
                 signatureBuilder.withField( new FieldConverter(apiField).toSDKField() );

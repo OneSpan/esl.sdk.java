@@ -50,7 +50,7 @@ public class FieldStyleAndSubTypeConverter {
         if (sdkFieldStyle == null) {
             return apiFieldSubType;
         }
-        return sdkFieldStyle.toString();
+        return sdkFieldStyle.getApiValue();
     }
 
     /**
@@ -64,7 +64,7 @@ public class FieldStyleAndSubTypeConverter {
         }
 
         if ( apiFieldBinding == null ) {
-            sdkFieldStyle = FieldStyle.values().get(apiFieldSubType);
+            sdkFieldStyle = FieldStyle.valueOf(apiFieldSubType);
             if (sdkFieldStyle == null)
                 return FieldStyle.UNRECOGNIZED(apiFieldSubType);
             else

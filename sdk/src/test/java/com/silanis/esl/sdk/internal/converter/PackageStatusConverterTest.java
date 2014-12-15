@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.PackageStatus;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +13,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
  * Created by lena on 2014-06-02.
  */
 public class PackageStatusConverterTest implements ConverterTest {
-    
+
     private com.silanis.esl.sdk.PackageStatus sdkPackageStatus1 = null;
     private com.silanis.esl.sdk.PackageStatus sdkPackageStatus2 = null;
     private String apiPackageStatus1 = null;
@@ -54,7 +55,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertSDKToSDK() {
-        sdkPackageStatus1 = createTypicalSDKPackageStatus();
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.DRAFT;
         sdkPackageStatus2 = new PackageStatusConverter(sdkPackageStatus1).toSDKPackageStatus();
 
         assertThat("Converter returned a null sdk object for a non null sdk object", sdkPackageStatus2, is(notNullValue()));
@@ -74,27 +75,72 @@ public class PackageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
+        apiPackageStatus1 = "DRAFT";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.DRAFT));
+
+        apiPackageStatus1 = "SENT";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.SENT));
+
         apiPackageStatus1 = "COMPLETED";
         sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.COMPLETED));
 
-        assertThat("Sender type was not set correctly", sdkPackageStatus1.toString(), is(apiPackageStatus1.toString()));
+        apiPackageStatus1 = "ARCHIVED";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.ARCHIVED));
+
+        apiPackageStatus1 = "DECLINED";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.DECLINED));
+
+        apiPackageStatus1 = "OPTED_OUT";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.OPTED_OUT));
+
+        apiPackageStatus1 = "EXPIRED";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1, is(PackageStatus.EXPIRED));
+
+        apiPackageStatus1 = "UNKNOWN";
+        sdkPackageStatus1 = new PackageStatusConverter(apiPackageStatus1).toSDKPackageStatus();
+        assertThat("Sender type was not set correctly", sdkPackageStatus1.toString(), is(PackageStatus.UNRECOGNIZED("UNKNOWN").toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
-        sdkPackageStatus1 = createTypicalSDKPackageStatus();
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.DRAFT;
         apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("DRAFT"));
 
-        assertThat("Sender type was not set correctly", apiPackageStatus1.toString(), is(sdkPackageStatus1.toString()));
-    }
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.SENT;
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("SENT"));
 
-    /**
-     * Returns a SDK PackageStatus enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.sdk.PackageStatus createTypicalSDKPackageStatus() {
-        return com.silanis.esl.sdk.PackageStatus.DRAFT;
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.COMPLETED;
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("COMPLETED"));
+
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.ARCHIVED;
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("ARCHIVED"));
+
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.DECLINED;
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("DECLINED"));
+
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.OPTED_OUT;
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("OPTED_OUT"));
+
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.EXPIRED;
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("EXPIRED"));
+
+        sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.UNRECOGNIZED("UNKNOWN");
+        apiPackageStatus1 = new PackageStatusConverter(sdkPackageStatus1).toAPIPackageStatus();
+        assertThat("Sender type was not set correctly", apiPackageStatus1, is("UNKNOWN"));
     }
 }

@@ -5,22 +5,22 @@ import java.util.Map;
 
 public class FieldStyle extends EslEnumeration {
 
-    public static final FieldStyle BOUND_DATE = new FieldStyle("LABEL", "{approval.signed}");
-    public static final FieldStyle BOUND_NAME = new FieldStyle("LABEL", "{signer.name}");
-    public static final FieldStyle BOUND_TITLE = new FieldStyle("LABEL", "{signer.title}");
-    public static final FieldStyle BOUND_COMPANY = new FieldStyle("LABEL", "{signer.company}");
-    public static final FieldStyle BOUND_QRCODE = new FieldStyle("QRCODE");
-    public static final FieldStyle UNBOUND_TEXT_FIELD = new FieldStyle("TEXTFIELD");
-    public static final FieldStyle UNBOUND_CUSTOM_FIELD = new FieldStyle("CUSTOMFIELD");
-    public static final FieldStyle UNBOUND_CHECK_BOX = new FieldStyle("CHECKBOX");
-    public static final FieldStyle UNBOUND_RADIO_BUTTON = new FieldStyle("RADIO");
-    public static final FieldStyle LABEL = new FieldStyle("LABEL");
-    public static final FieldStyle DROP_LIST = new FieldStyle("LIST");
-    public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA");
-    public static final FieldStyle SEAL = new FieldStyle("SEAL");
+    public static final FieldStyle BOUND_DATE = new FieldStyle("LABEL", "BOUND_DATE", "{approval.signed}");
+    public static final FieldStyle BOUND_NAME = new FieldStyle("LABEL", "BOUND_NAME", "{signer.name}");
+    public static final FieldStyle BOUND_TITLE = new FieldStyle("LABEL", "BOUND_TITLE", "{signer.title}");
+    public static final FieldStyle BOUND_COMPANY = new FieldStyle("LABEL", "BOUND_COMPANY", "{signer.company}");
+    public static final FieldStyle BOUND_QRCODE = new FieldStyle("QRCODE", "BOUND_QRCODE");
+    public static final FieldStyle UNBOUND_TEXT_FIELD = new FieldStyle("TEXTFIELD", "UNBOUND_TEXT_FIELD");
+    public static final FieldStyle UNBOUND_CUSTOM_FIELD = new FieldStyle("CUSTOMFIELD", "UNBOUND_CUSTOM_FIELD");
+    public static final FieldStyle UNBOUND_CHECK_BOX = new FieldStyle("CHECKBOX", "UNBOUND_CHECK_BOX");
+    public static final FieldStyle UNBOUND_RADIO_BUTTON = new FieldStyle("RADIO", "UNBOUND_RADIO_BUTTON");
+    public static final FieldStyle LABEL = new FieldStyle("LABEL", "LABEL");
+    public static final FieldStyle DROP_LIST = new FieldStyle("LIST", "DROP_LIST");
+    public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA", "TEXT_AREA");
+    public static final FieldStyle SEAL = new FieldStyle("SEAL", "SEAL");
     public static final FieldStyle UNRECOGNIZED(String unknownValue){
-        log.warning("Unknown API FieldSubtype. The upgrade is required.");
-        return new FieldStyle(unknownValue, "");
+        log.warning(String.format("Unknown API FieldSubtype(%s). The upgrade is required.", unknownValue));
+        return new FieldStyle(unknownValue, unknownValue);
     }
 
     private static Map<String, FieldStyle> apiValues;
@@ -39,13 +39,12 @@ public class FieldStyle extends EslEnumeration {
 
     private final String binding;
 
-    private FieldStyle(String apiValue) {
-        super(apiValue);
-        this.binding = null;
+    private FieldStyle(String apiValue, String sdkValue) {
+        this(apiValue, sdkValue, null);
     }
 
-    private FieldStyle(String apiValue, String binding) {
-        super(apiValue);
+    private FieldStyle(String apiValue, String sdkValue, String binding) {
+        super(apiValue, sdkValue);
         this.binding = binding;
     }
 
@@ -53,8 +52,12 @@ public class FieldStyle extends EslEnumeration {
         return binding;
     }
 
-    public static Map<String, FieldStyle> values() {
-        return apiValues;
+    public static FieldStyle[] values() {
+        return apiValues.values().toArray(new FieldStyle[apiValues.size()]);
+    }
+
+    public static FieldStyle valueOf(String name) {
+        return apiValues.get(name);
     }
 
 }

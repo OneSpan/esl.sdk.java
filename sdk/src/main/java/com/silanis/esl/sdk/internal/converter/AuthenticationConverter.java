@@ -80,7 +80,7 @@ public class AuthenticationConverter {
         if (!apiAuth.getChallenges().isEmpty()) {
             List<Challenge> sdkChallenges = new ArrayList<Challenge>();
             for (AuthChallenge apiChallenge: apiAuth.getChallenges()) {
-                if (apiAuth.getScheme().equals("CHALLENGE")) {
+                if ("CHALLENGE".equals(apiAuth.getScheme())) {
                     sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
                 } else {
                     telephoneNumber = apiChallenge.getQuestion();
@@ -88,9 +88,9 @@ public class AuthenticationConverter {
                 }
             }
 
-            if (apiAuth.getScheme().equals("CHALLENGE")) {
+            if ("CHALLENGE".equals(apiAuth.getScheme())) {
                 sdkAuth = new com.silanis.esl.sdk.Authentication(sdkChallenges);
-            } else if (apiAuth.getScheme().equals("SMS")) {
+            } else if ("SMS".equals(apiAuth.getScheme())) {
                 sdkAuth = new com.silanis.esl.sdk.Authentication(telephoneNumber);
             }
         }

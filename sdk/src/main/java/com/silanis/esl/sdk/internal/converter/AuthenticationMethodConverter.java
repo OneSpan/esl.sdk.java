@@ -39,7 +39,7 @@ public class AuthenticationMethodConverter {
             return apiAuthMethod;
         }
 
-        return sdkAuthMethod.toString();
+        return sdkAuthMethod.getApiValue();
     }
 
     /**
@@ -53,7 +53,7 @@ public class AuthenticationMethodConverter {
             return sdkAuthMethod;
         }
 
-        sdkAuthMethod = AuthenticationMethod.values().get(apiAuthMethod);
+        sdkAuthMethod = AuthenticationMethod.valueOf(apiAuthMethod);
         if (sdkAuthMethod == null)
             return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
         else

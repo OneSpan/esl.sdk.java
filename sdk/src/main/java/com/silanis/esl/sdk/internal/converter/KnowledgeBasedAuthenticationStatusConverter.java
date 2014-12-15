@@ -38,7 +38,7 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
 
-        sdkKnowledgeBasedAuthenticationStatus = KnowledgeBasedAuthenticationStatus.values().get(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = KnowledgeBasedAuthenticationStatus.valueOf(apiKnowledgeBasedAuthenticationStatus);
         if (sdkKnowledgeBasedAuthenticationStatus == null)
             return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
         else
@@ -54,6 +54,6 @@ public class KnowledgeBasedAuthenticationStatusConverter {
         if (sdkKnowledgeBasedAuthenticationStatus == null) {
             return apiKnowledgeBasedAuthenticationStatus;
         }
-        return sdkKnowledgeBasedAuthenticationStatus.toString();
+        return sdkKnowledgeBasedAuthenticationStatus.getApiValue();
     }
 }

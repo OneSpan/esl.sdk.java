@@ -35,7 +35,7 @@ public class SenderStatusConverter {
             return sdkSenderStatus;
         }
 
-        sdkSenderStatus = SenderStatus.values().get(apiSenderStatus);
+        sdkSenderStatus = SenderStatus.valueOf(apiSenderStatus);
         if (sdkSenderStatus == null)
             return SenderStatus.UNRECOGNIZED(apiSenderStatus);
         else
@@ -47,7 +47,7 @@ public class SenderStatusConverter {
             return apiSenderStatus;
         }
 
-        return sdkSenderStatus.toString();
+        return sdkSenderStatus.getApiValue();
     }
 
 }

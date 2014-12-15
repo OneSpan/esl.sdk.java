@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.PackageStatus;
+
 /**
  * Created by lena on 2014-06-02.
  *
@@ -33,22 +35,11 @@ public class PackageStatusConverter {
             return sdkPackageStatus;
         }
 
-        if (apiPackageStatus.equals("DRAFT"))
-            return sdkPackageStatus.DRAFT;
-        else if (apiPackageStatus.equals("SENT"))
-            return sdkPackageStatus.SENT;
-        else if (apiPackageStatus.equals("COMPLETED"))
-            return sdkPackageStatus.COMPLETED;
-        else if (apiPackageStatus.equals("ARCHIVED"))
-            return sdkPackageStatus.ARCHIVED;
-        else if (apiPackageStatus.equals("DECLINED"))
-            return sdkPackageStatus.DECLINED;
-        else if (apiPackageStatus.equals("OPTED_OUT"))
-            return sdkPackageStatus.OPTED_OUT;
-        else if (apiPackageStatus.equals("EXPIRED"))
-            return sdkPackageStatus.EXPIRED;
+        sdkPackageStatus = PackageStatus.valueOf(apiPackageStatus);
+        if (sdkPackageStatus == null)
+            return PackageStatus.UNRECOGNIZED(apiPackageStatus);
         else
-            return sdkPackageStatus.UNRECOGNIZED(apiPackageStatus);
+            return sdkPackageStatus;
     }
 
     public String toAPIPackageStatus() {
@@ -56,23 +47,6 @@ public class PackageStatusConverter {
             return apiPackageStatus;
         }
 
-        if(sdkPackageStatus.getValue().equals("DRAFT"))
-            return "DRAFT";
-        else if (sdkPackageStatus.getValue().equals("SENT"))
-            return "SENT";
-        else if (sdkPackageStatus.getValue().equals("COMPLETED"))
-            return "COMPLETED";
-        else if (sdkPackageStatus.getValue().equals("ARCHIVED"))
-            return "ARCHIVED";
-        else if (sdkPackageStatus.getValue().equals("DECLINED"))
-            return "DECLINED";
-        else if (sdkPackageStatus.getValue().equals("OPTED_OUT"))
-            return "OPTED_OUT";
-        else if (sdkPackageStatus.getValue().equals("EXPIRED"))
-            return "EXPIRED";
-        else if (sdkPackageStatus.getValue().equals("UNRECOGNIZED"))
-            return sdkPackageStatus.getUnknownValue();
-        else
-            return "";
+        return sdkPackageStatus.getApiValue();
     }
 }

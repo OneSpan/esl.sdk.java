@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.RequirementStatus;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,11 +14,11 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class RequirementStatusConverterTest implements ConverterTest {
 
-private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus1 = null;
-private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus2 = null;
-private String apiRequirementStatus1 = null;
-private String apiRequirementStatus2 = null;
-private RequirementStatusConverter converter;
+    private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus1 = null;
+    private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus2 = null;
+    private String apiRequirementStatus1 = null;
+    private String apiRequirementStatus2 = null;
+    private RequirementStatusConverter converter;
 
     @Override
     @Test
@@ -54,7 +55,7 @@ private RequirementStatusConverter converter;
     @Override
     @Test
     public void convertSDKToSDK() {
-        sdkRequirementStatus1 = createTypicalSDKRequirementStatus();
+        sdkRequirementStatus1 = com.silanis.esl.sdk.RequirementStatus.INCOMPLETE;
         sdkRequirementStatus2 = new RequirementStatusConverter(sdkRequirementStatus1).toSDKRequirementStatus();
 
         assertThat("Converter returned a null sdk object for a non null sdk object", sdkRequirementStatus2, is(notNullValue()));
@@ -74,37 +75,40 @@ private RequirementStatusConverter converter;
     @Override
     @Test
     public void convertAPIToSDK() {
+        apiRequirementStatus1 = "INCOMPLETE";
+        sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
+        assertThat("Sender type was not set correctly", sdkRequirementStatus1, is(RequirementStatus.INCOMPLETE));
+
         apiRequirementStatus1 = "REJECTED";
         sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
+        assertThat("Sender type was not set correctly", sdkRequirementStatus1, is(RequirementStatus.REJECTED));
 
-        assertThat("Sender type was not set correctly", sdkRequirementStatus1.toString(), is(apiRequirementStatus1.toString()));
+        apiRequirementStatus1 = "COMPLETE";
+        sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
+        assertThat("Sender type was not set correctly", sdkRequirementStatus1, is(RequirementStatus.COMPLETE));
 
         apiRequirementStatus1 = "UNKNOWN";
         sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
-
-        assertThat("Sender type was not set correctly", sdkRequirementStatus1.toString(), is(apiRequirementStatus1.toString()));
+        assertThat("Sender type was not set correctly", sdkRequirementStatus1.toString(), is(RequirementStatus.UNRECOGNIZED("UNKNOWN").toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
-        sdkRequirementStatus1 = createTypicalSDKRequirementStatus();
+        sdkRequirementStatus1 = com.silanis.esl.sdk.RequirementStatus.INCOMPLETE;
         apiRequirementStatus1 = new RequirementStatusConverter(sdkRequirementStatus1).toAPIRequirementStatus();
+        assertThat("Sender type was not set correctly", apiRequirementStatus1, is("INCOMPLETE"));
 
-        assertThat("Sender type was not set correctly", apiRequirementStatus1.toString(), is(sdkRequirementStatus1.toString()));
+        sdkRequirementStatus1 = com.silanis.esl.sdk.RequirementStatus.REJECTED;
+        apiRequirementStatus1 = new RequirementStatusConverter(sdkRequirementStatus1).toAPIRequirementStatus();
+        assertThat("Sender type was not set correctly", apiRequirementStatus1, is("REJECTED"));
+
+        sdkRequirementStatus1 = com.silanis.esl.sdk.RequirementStatus.COMPLETE;
+        apiRequirementStatus1 = new RequirementStatusConverter(sdkRequirementStatus1).toAPIRequirementStatus();
+        assertThat("Sender type was not set correctly", apiRequirementStatus1, is("COMPLETE"));
 
         sdkRequirementStatus1 = com.silanis.esl.sdk.RequirementStatus.UNRECOGNIZED("UNKNOWN");
         apiRequirementStatus1 = new RequirementStatusConverter(sdkRequirementStatus1).toAPIRequirementStatus();
-
-        assertThat("Sender type was not set correctly", apiRequirementStatus1.toString(), is(sdkRequirementStatus1.toString()));
-    }
-
-    /**
-     * Returns a SDK RequirementStatus enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.sdk.RequirementStatus createTypicalSDKRequirementStatus() {
-        return com.silanis.esl.sdk.RequirementStatus.INCOMPLETE;
+        assertThat("Sender type was not set correctly", apiRequirementStatus1, is("UNKNOWN"));
     }
 }
