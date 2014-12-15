@@ -15,9 +15,9 @@ import static org.hamcrest.core.Is.is;
 public class AuthenticationTest {
     @Test
     public void constructorWithMethod() {
-        for ( AuthenticationMethod authenticationMethod : AuthenticationMethod.getValues() ) {
+        for ( AuthenticationMethod authenticationMethod : AuthenticationMethod.values().values() ) {
             Authentication authentication = new Authentication( authenticationMethod );
-            assertThat( "method is not set correctly for " + authenticationMethod.getValue(), authentication.getMethod(), is( equalTo( authenticationMethod ) ) );
+            assertThat( "method is not set correctly for " + authenticationMethod.toString(), authentication.getMethod(), is( equalTo( authenticationMethod ) ) );
         }
     }
 

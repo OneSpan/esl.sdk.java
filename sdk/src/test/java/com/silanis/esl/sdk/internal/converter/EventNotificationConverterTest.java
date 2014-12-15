@@ -79,6 +79,11 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
 
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1.toString(), is(apiCallbackEvent1.toString()));
+
+        apiCallbackEvent1 = "UNKNOWN";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1.toString(), is(apiCallbackEvent1.toString()));
     }
 
     @Override
@@ -88,6 +93,12 @@ public class EventNotificationConverterTest implements ConverterTest {
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
 
         assertThat("Notification event enum was not converted correctly", apiCallbackEvent1.toString(), is(sdkNotificationEvent1.toString()));
+
+        sdkNotificationEvent1 = NotificationEvent.UNRECOGNIZED("UNKNOWN");
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1.toString(), is(sdkNotificationEvent1.toString()));
+
     }
 
     private com.silanis.esl.sdk.NotificationEvent createTypicalSDKNotificationEvent() {

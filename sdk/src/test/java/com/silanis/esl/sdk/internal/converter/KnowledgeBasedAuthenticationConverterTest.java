@@ -96,7 +96,7 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         sdkKBA = new KnowledgeBasedAuthenticationConverter(apiKBA).toSDKKnowledgeBasedAuthentication();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiKBA, is(notNullValue()));
-        assertThat("KBA status was not properly set or retrieved", apiKBA.getKnowledgeBasedAuthenticationStatus(), is(equalTo(sdkKBA.getKnowledgeBasedAuthenticationStatus().getValue())));
+        assertThat("KBA status was not properly set or retrieved", apiKBA.getKnowledgeBasedAuthenticationStatus(), is(equalTo(sdkKBA.getKnowledgeBasedAuthenticationStatus().toString())));
 
         assertThat("Signer information (First Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getFirstName(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getFirstName())));
         assertThat("Signer information (Last Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getLastName(), is(equalTo(sdkKBA.getSignerInformationForEquifaxCanada().getLastName())));
@@ -119,7 +119,7 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         apiKBA = new KnowledgeBasedAuthenticationConverter(sdkKBA).toAPIKnowledgeBasedAuthentication();
 
         assertThat("Converter returned a null api object for a non null api object", sdkKBA, is(notNullValue()));
-        assertThat("KBA status was not properly set or retrieved", sdkKBA.getKnowledgeBasedAuthenticationStatus().getValue(), is(equalTo(apiKBA.getKnowledgeBasedAuthenticationStatus())));
+        assertThat("KBA status was not properly set or retrieved", sdkKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(equalTo(apiKBA.getKnowledgeBasedAuthenticationStatus())));
 
         assertThat( "Signer information for Equifax Canada was not null", sdkKBA.getSignerInformationForEquifaxCanada(), is( nullValue() ));
 

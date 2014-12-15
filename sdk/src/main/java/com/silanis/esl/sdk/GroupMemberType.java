@@ -1,41 +1,29 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class GroupMemberType extends EslEnumeration {
 
-public class GroupMemberType {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static GroupMemberType REGULAR = new GroupMemberType("REGULAR");
-    public static GroupMemberType MANAGER = new GroupMemberType("MANAGER");
-    public static GroupMemberType UNRECOGNIZED(String unknownValue){
+    public static final GroupMemberType REGULAR = new GroupMemberType("REGULAR");
+    public static final GroupMemberType MANAGER = new GroupMemberType("MANAGER");
+    public static final GroupMemberType UNRECOGNIZED(String unknownValue){
         log.warning("Unknown API Member Type. The upgrade is required.");
-        return new GroupMemberType("UNRECOGNIZED", unknownValue);
-    }
-    private final String value;
-    private final String unknownValue;
-
-    private GroupMemberType(String value) {
-        this.value = value;
-        this.unknownValue = "";
+        return new GroupMemberType(unknownValue);
     }
 
-    private GroupMemberType(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
+    private static Map<String, GroupMemberType> apiValues;
+    static {
+        apiValues = new HashMap<String, GroupMemberType>();
+        apiValues.put("REGULAR", REGULAR);
+        apiValues.put("MANAGER", MANAGER);
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    private GroupMemberType(String apiValue) {
+        super(apiValue);
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return getValue();
+    public static Map<String, GroupMemberType> values() {
+        return apiValues;
     }
 }

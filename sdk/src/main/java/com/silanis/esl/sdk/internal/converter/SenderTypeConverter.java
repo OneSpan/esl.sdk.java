@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.SenderType;
+
 /**
  * Created by lena on 2014-05-29.
  *
@@ -33,12 +35,11 @@ public class SenderTypeConverter {
             return sdkSenderType;
         }
 
-        if (apiSenderType.equals("MANAGER"))
-            return sdkSenderType.MANAGER;
-        else if (apiSenderType.equals("REGULAR"))
-            return sdkSenderType.REGULAR;
+        sdkSenderType = SenderType.values().get(apiSenderType);
+        if (sdkSenderType == null)
+            return SenderType.UNRECOGNIZED(apiSenderType);
         else
-            return sdkSenderType.UNRECOGNIZED(apiSenderType);
+            return sdkSenderType;
     }
 
     public String toAPISenderType() {
@@ -46,14 +47,7 @@ public class SenderTypeConverter {
             return apiSenderType;
         }
 
-        if(sdkSenderType.getValue().equals("MANAGER"))
-            return "MANAGER";
-        else if (sdkSenderType.getValue().equals("REGULAR"))
-            return "REGULAR";
-        else if (sdkSenderType.getValue().equals("UNRECOGNIZED"))
-            return sdkSenderType.getUnknownValue();
-        else
-            return "";
+        return sdkSenderType.toString();
     }
 
 }

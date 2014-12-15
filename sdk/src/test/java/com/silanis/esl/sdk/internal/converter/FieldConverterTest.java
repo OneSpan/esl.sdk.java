@@ -132,7 +132,7 @@ public class FieldConverterTest implements ConverterTest{
                 .atPosition(x, y)
                 .onPage(page)
                 .withSize(width, height)
-                .withStyle(FieldStyle.BINDING_DATE)
+                .withStyle(FieldStyle.BOUND_DATE)
                 .withName("Field name")
                 .withPositionAnchor(TextAnchorBuilder.newTextAnchor("Anchor Text")
                         .atPosition(TextAnchorPosition.BOTTOMLEFT)

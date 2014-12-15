@@ -77,7 +77,7 @@ public class AuthenticationConverterTest implements ConverterTest{
         AuthenticationConverter converter = new AuthenticationConverter( authentication );
         com.silanis.esl.api.model.Auth result = converter.toAPIAuthentication();
         assertThat( "Converter returned a null api object for a non null sdk object", result, is( notNullValue() ) );
-        assertThat( "scheme was not set correctly", result.getScheme(), is( equalTo(authentication.getMethod().getValue())));
+        assertThat( "scheme was not set correctly", result.getScheme(), is( equalTo(authentication.getMethod().toString())));
         assertThat("Challenge question was not set correctly", result.getChallenges().get(0).getQuestion(), is(equalTo(authentication.getChallenges().get(0).getQuestion())));
     }
 

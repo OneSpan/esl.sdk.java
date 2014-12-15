@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.RequirementStatus;
+
 /**
  * Created by lena on 2014-06-02.
  *
@@ -33,14 +35,11 @@ public class RequirementStatusConverter {
             return sdkRequirementStatus;
         }
 
-        if (apiRequirementStatus.equals("INCOMPLETE"))
-            return sdkRequirementStatus.INCOMPLETE;
-        else if (apiRequirementStatus.equals("REJECTED"))
-            return sdkRequirementStatus.REJECTED;
-        else if (apiRequirementStatus.equals("COMPLETE"))
-            return sdkRequirementStatus.COMPLETE;
+        sdkRequirementStatus = RequirementStatus.values().get(apiRequirementStatus);
+        if (sdkRequirementStatus == null)
+            return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
         else
-            return sdkRequirementStatus.UNRECOGNIZED(apiRequirementStatus);
+            return sdkRequirementStatus;
     }
 
     public String toAPIRequirementStatus() {
@@ -48,15 +47,6 @@ public class RequirementStatusConverter {
             return apiRequirementStatus;
         }
 
-        if(sdkRequirementStatus.getValue().equals("INCOMPLETE"))
-            return "INCOMPLETE";
-        else if (sdkRequirementStatus.getValue().equals("REJECTED"))
-            return "REJECTED";
-        else if (sdkRequirementStatus.getValue().equals("COMPLETE"))
-            return "COMPLETE";
-        else if (sdkRequirementStatus.getValue().equals("UNRECOGNIZED"))
-            return sdkRequirementStatus.getUnknownValue();
-        else
-            return "";
+        return sdkRequirementStatus.toString();
     }
 }

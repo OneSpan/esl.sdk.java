@@ -1,65 +1,60 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class FieldStyle extends EslEnumeration {
 
-public class FieldStyle {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static FieldStyle BINDING_DATE = new FieldStyle("BINDING_DATE", "{approval.signed}");
-    public static FieldStyle BINDING_NAME = new FieldStyle("BINDING_NAME", "{signer.name}");
-    public static FieldStyle BINDING_TITLE = new FieldStyle("BINDING_TITLE", "{signer.title}");
-    public static FieldStyle BINDING_COMPANY = new FieldStyle("BINDING_COMPANY", "{signer.company}");
-    public static FieldStyle QRCODE = new FieldStyle("QRCODE");
-    public static FieldStyle TEXTFIELD = new FieldStyle("TEXTFIELD");
-    public static FieldStyle CUSTOMFIELD = new FieldStyle("CUSTOMFIELD");
-    public static FieldStyle CHECKBOX = new FieldStyle("CHECKBOX");
-    public static FieldStyle RADIO = new FieldStyle("RADIO");
-    public static FieldStyle LABEL = new FieldStyle("LABEL");
-    public static FieldStyle LIST = new FieldStyle("LIST");
-    public static FieldStyle TEXTAREA = new FieldStyle("TEXTAREA");
-    public static FieldStyle SEAL = new FieldStyle("SEAL");
-    public static FieldStyle UNRECOGNIZED(String unknownValue){
+    public static final FieldStyle BOUND_DATE = new FieldStyle("LABEL", "{approval.signed}");
+    public static final FieldStyle BOUND_NAME = new FieldStyle("LABEL", "{signer.name}");
+    public static final FieldStyle BOUND_TITLE = new FieldStyle("LABEL", "{signer.title}");
+    public static final FieldStyle BOUND_COMPANY = new FieldStyle("LABEL", "{signer.company}");
+    public static final FieldStyle BOUND_QRCODE = new FieldStyle("QRCODE");
+    public static final FieldStyle UNBOUND_TEXT_FIELD = new FieldStyle("TEXTFIELD");
+    public static final FieldStyle UNBOUND_CUSTOM_FIELD = new FieldStyle("CUSTOMFIELD");
+    public static final FieldStyle UNBOUND_CHECK_BOX = new FieldStyle("CHECKBOX");
+    public static final FieldStyle UNBOUND_RADIO_BUTTON = new FieldStyle("RADIO");
+    public static final FieldStyle LABEL = new FieldStyle("LABEL");
+    public static final FieldStyle DROP_LIST = new FieldStyle("LIST");
+    public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA");
+    public static final FieldStyle SEAL = new FieldStyle("SEAL");
+    public static final FieldStyle UNRECOGNIZED(String unknownValue){
         log.warning("Unknown API FieldSubtype. The upgrade is required.");
-        return new FieldStyle("UNRECOGNIZED", "", unknownValue);
+        return new FieldStyle(unknownValue, "");
     }
-    private final String value;
-    private final String unknownValue;
+
+    private static Map<String, FieldStyle> apiValues;
+    static {
+        apiValues = new HashMap<String, FieldStyle>();
+        apiValues.put("QRCODE", BOUND_QRCODE);
+        apiValues.put("TEXTFIELD", UNBOUND_TEXT_FIELD);
+        apiValues.put("CUSTOMFIELD", UNBOUND_CUSTOM_FIELD);
+        apiValues.put("CHECKBOX", UNBOUND_CHECK_BOX);
+        apiValues.put("RADIO", UNBOUND_RADIO_BUTTON);
+        apiValues.put("LABEL", LABEL);
+        apiValues.put("LIST", DROP_LIST);
+        apiValues.put("TEXTAREA", TEXT_AREA);
+        apiValues.put("SEAL", SEAL);
+    }
+
     private final String binding;
 
-    private FieldStyle(String value) {
-        this.value = value;
+    private FieldStyle(String apiValue) {
+        super(apiValue);
         this.binding = null;
-        this.unknownValue = "";
     }
 
-    private FieldStyle(String value, String binding) {
-        this.value = value;
+    private FieldStyle(String apiValue, String binding) {
+        super(apiValue);
         this.binding = binding;
-        this.unknownValue = "";
-    }
-
-    private FieldStyle(String value, String binding, String unknownValue) {
-        this.value = value;
-        this.binding = binding;
-        this.unknownValue = unknownValue;
     }
 
     public String getBinding() {
         return binding;
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    public static Map<String, FieldStyle> values() {
+        return apiValues;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return value;
-    }
 }

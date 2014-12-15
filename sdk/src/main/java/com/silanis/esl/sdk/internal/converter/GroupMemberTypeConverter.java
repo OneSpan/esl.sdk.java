@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.GroupMemberType;
+
 /**
  * User: jessica
  * Date: 02/12/13
@@ -40,14 +42,7 @@ public class GroupMemberTypeConverter {
             return apiMemberType;
         }
 
-        if(sdkMemberType.getValue().equals("MANAGER"))
-            return "MANAGER";
-        else if (sdkMemberType.getValue().equals("REGULAR"))
-            return "REGULAR";
-        else if (sdkMemberType.getValue().equals("UNRECOGNIZED"))
-            return sdkMemberType.getUnknownValue();
-        else
-            return "";
+        return sdkMemberType.toString();
     }
 
     /**
@@ -61,11 +56,10 @@ public class GroupMemberTypeConverter {
             return sdkMemberType;
         }
 
-        if (apiMemberType.equals("MANAGER"))
-            return sdkMemberType.MANAGER;
-        else if (apiMemberType.equals("REGULAR"))
-            return sdkMemberType.REGULAR;
+        sdkMemberType = GroupMemberType.values().get(apiMemberType);
+        if (sdkMemberType == null)
+            return GroupMemberType.UNRECOGNIZED(apiMemberType);
         else
-            return sdkMemberType.UNRECOGNIZED(apiMemberType);
+            return sdkMemberType;
     }
 }

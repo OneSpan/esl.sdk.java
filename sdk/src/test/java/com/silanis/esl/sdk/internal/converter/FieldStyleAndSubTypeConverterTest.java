@@ -60,7 +60,7 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
     @Override
     @Test
     public void convertSDKToSDK() {
-        sdkFieldStyle1  = FieldStyle.CUSTOMFIELD;
+        sdkFieldStyle1  = FieldStyle.UNBOUND_CUSTOM_FIELD;
         sdkFieldStyle2  = new FieldStyleAndSubTypeConverter(sdkFieldStyle1).toSDKFieldStyle();
         assertThat( "Converter returned a null sdk object for a non null sdk object", sdkFieldStyle2, is( notNullValue() ) );
         assertThat( "Converter didn't return the same non-null sdk object it was given", sdkFieldStyle2, is( equalTo( sdkFieldStyle1 ) ) );
@@ -93,73 +93,78 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldSubtype = "CUSTOMFIELD";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat(" Custom Field type was not correctly set", fieldStyle, is( equalTo(FieldStyle.CUSTOMFIELD)));
+        assertThat(" Custom Field type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.UNBOUND_CUSTOM_FIELD.toString())));
 
         fieldSubtype = "TEXTFIELD";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Text field type  was not correctly set", fieldStyle, is( equalTo(FieldStyle.TEXTFIELD)));
+        assertThat("Text field type  was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.UNBOUND_TEXT_FIELD.toString())));
 
         fieldSubtype = "CHECKBOX";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Checkbox type was not correctly set", fieldStyle, is( equalTo(FieldStyle.CHECKBOX)));
+        assertThat("Checkbox type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.UNBOUND_CHECK_BOX.toString())));
 
         fieldSubtype = "RADIO";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Radio button type was not correctly set", fieldStyle, is( equalTo(FieldStyle.RADIO)));
+        assertThat("Radio button type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.UNBOUND_RADIO_BUTTON.toString())));
 
         fieldSubtype = "TEXTAREA";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Text area type was not correctly set", fieldStyle, is( equalTo(FieldStyle.TEXTAREA)));
+        assertThat("Text area type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.TEXT_AREA.toString())));
 
         fieldSubtype = "LIST";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("List type was not correctly set", fieldStyle, is( equalTo(FieldStyle.LIST)));
+        assertThat("List type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.DROP_LIST.toString())));
 
         fieldSubtype = "QRCODE";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("QR code type was not correctly set", fieldStyle, is( equalTo(FieldStyle.QRCODE)));
+        assertThat("QR code type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.BOUND_QRCODE.toString())));
 
         fieldSubtype = "SEAL";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Seal type was not correctly set", fieldStyle, is( equalTo(FieldStyle.SEAL)));
+        assertThat("Seal type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.SEAL.toString())));
+
+        fieldSubtype = "UNKNOWN";
+        binding = null;
+        fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
+        assertThat("Unknown type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.UNRECOGNIZED("UNKNOWN").toString())));
 
         // Where the conversion is based on binding.
         fieldSubtype = null;
         binding = BINDING_DATE;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Date type was not correctly set", fieldStyle, is( equalTo(FieldStyle.BINDING_DATE)));
+        assertThat("Date type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.BOUND_DATE.toString())));
 
         fieldSubtype = null;
         binding = BINDING_TITLE;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Title type was not correctly set", fieldStyle, is( equalTo(FieldStyle.BINDING_TITLE)));
+        assertThat("Title type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.BOUND_TITLE.toString())));
 
         fieldSubtype = null;
         binding = BINDING_NAME;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat("Name type was not correctly set", fieldStyle, is( equalTo(FieldStyle.BINDING_NAME)));
+        assertThat("Name type was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.BOUND_NAME.toString())));
 
         fieldSubtype = null;
         binding = BINDING_COMPANY;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
-        assertThat(" was not correctly set", fieldStyle, is( equalTo(FieldStyle.BINDING_COMPANY)));
+        assertThat(" was not correctly set", fieldStyle.toString(), is( equalTo(FieldStyle.BOUND_COMPANY.toString())));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
-        FieldStyle fieldStyle = FieldStyle.CUSTOMFIELD;
+        FieldStyle fieldStyle = FieldStyle.UNBOUND_CUSTOM_FIELD;
         String fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("CUSTOMFIELD")));
 
-        fieldStyle = FieldStyle.TEXTFIELD;
+        fieldStyle = FieldStyle.UNBOUND_TEXT_FIELD;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("TEXTFIELD")));
 
@@ -167,23 +172,23 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("LABEL")));
 
-        fieldStyle = FieldStyle.CHECKBOX;
+        fieldStyle = FieldStyle.UNBOUND_CHECK_BOX;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("CHECKBOX")));
 
-        fieldStyle = FieldStyle.RADIO;
+        fieldStyle = FieldStyle.UNBOUND_RADIO_BUTTON;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("RADIO")));
 
-        fieldStyle = FieldStyle.LIST;
+        fieldStyle = FieldStyle.DROP_LIST;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("LIST")));
 
-        fieldStyle = FieldStyle.TEXTAREA;
+        fieldStyle = FieldStyle.TEXT_AREA;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("TEXTAREA")));
 
-        fieldStyle = FieldStyle.QRCODE;
+        fieldStyle = FieldStyle.BOUND_QRCODE;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("QRCODE")));
 
@@ -206,6 +211,10 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldStyle = FieldStyle.LABEL;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("LABEL")));
+
+        fieldStyle = FieldStyle.UNRECOGNIZED("UNKNOWN");
+        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
+        assertThat(" was not correctly set", fieldSubtype, is( equalTo("UNKNOWN")));
     }
 
 }

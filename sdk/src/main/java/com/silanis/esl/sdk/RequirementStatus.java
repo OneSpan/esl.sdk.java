@@ -1,42 +1,31 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class RequirementStatus extends EslEnumeration {
 
-public class RequirementStatus {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static RequirementStatus INCOMPLETE = new RequirementStatus("INCOMPLETE");
-    public static RequirementStatus REJECTED = new RequirementStatus("REJECTED");
-    public static RequirementStatus COMPLETE = new RequirementStatus("COMPLETE");
-    public static RequirementStatus UNRECOGNIZED(String unknownValue){
+    public static final RequirementStatus INCOMPLETE = new RequirementStatus("INCOMPLETE");
+    public static final RequirementStatus REJECTED = new RequirementStatus("REJECTED");
+    public static final RequirementStatus COMPLETE = new RequirementStatus("COMPLETE");
+    public static final RequirementStatus UNRECOGNIZED(String unknownValue){
         log.warning("Unknown API Requirement Status. The upgrade is required.");
-        return new RequirementStatus("UNRECOGNIZED", unknownValue);
-    }
-    private final String value;
-    private final String unknownValue;
-
-    private RequirementStatus(String value) {
-        this.value = value;
-        this.unknownValue = "";
+        return new RequirementStatus(unknownValue);
     }
 
-    private RequirementStatus(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
+    private static Map<String, RequirementStatus> apiValues;
+    static {
+        apiValues = new HashMap<String, RequirementStatus>();
+        apiValues.put("INCOMPLETE", INCOMPLETE);
+        apiValues.put("REJECTED", REJECTED);
+        apiValues.put("COMPLETE", COMPLETE);
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    private RequirementStatus(String apiValue) {
+        super(apiValue);
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return getValue();
+    public static Map<String, RequirementStatus> values() {
+        return apiValues;
     }
 }

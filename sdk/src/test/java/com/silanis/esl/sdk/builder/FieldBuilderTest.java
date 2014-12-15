@@ -21,7 +21,7 @@ public class FieldBuilderTest {
         int page = 3;
         double width = 4;
         double height = 5;
-        FieldStyle style = FieldStyle.BINDING_DATE;
+        FieldStyle style = FieldStyle.BOUND_DATE;
 
         FieldBuilder builder = newField()
                 .atPosition( x, y )
@@ -52,77 +52,77 @@ public class FieldBuilderTest {
     public void creatingNewSignatureDateFieldSetsStyle() {
         Field field = signatureDate().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.BINDING_DATE ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_DATE ) ) );
     }
 
     @Test
     public void creatingNewSignerNameFieldSetsStyle() {
         Field field = signerName().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.BINDING_NAME ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_NAME ) ) );
     }
 
     @Test
     public void creatingNewSignerTitleFieldSetsStyle() {
         Field field = signerTitle().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.BINDING_TITLE ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_TITLE ) ) );
     }
 
     @Test
     public void creatingNewSignerCompanyFieldSetsStyle() {
         Field field = signerCompany().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.BINDING_COMPANY ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_COMPANY ) ) );
     }
 
     @Test
     public void creatingTextFieldSetsStyle() {
         Field field = textField().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.TEXTFIELD ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_TEXT_FIELD ) ) );
     }
 
     @Test
     public void creatingCustomFieldSetsStyle() {
         Field field = customField("myCustomField").atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.CUSTOMFIELD ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_CUSTOM_FIELD ) ) );
     }
 
     @Test
     public void creatingCheckBoxFieldSetsStyle() {
         Field field = checkBox().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo( FieldStyle.CHECKBOX ) ) );
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.UNBOUND_CHECK_BOX ) ) );
     }
 
     @Test
     public void creatingRadioButtonFieldSetsStyle(){
         Field field = radioButton("group").atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo(FieldStyle.RADIO)));
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.UNBOUND_RADIO_BUTTON)));
     }
 
     @Test
     public void creatingTextAreaFieldSetsStyle(){
         Field field = textArea().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo(FieldStyle.TEXTAREA)));
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.TEXT_AREA)));
     }
 
     @Test
     public void creatingDropListFieldSetsStyle(){
         Field field = dropList().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo(FieldStyle.LIST)));
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.DROP_LIST)));
     }
 
     @Test
     public void creatingQRCodeStyle() {
         Field field = qrCode().atPosition( 100, 100 ).build();
 
-        assertThat( field.getStyle(), is( equalTo(FieldStyle.QRCODE)));
+        assertThat( field.getStyle(), is( equalTo(FieldStyle.BOUND_QRCODE)));
         assertThat( field.getHeight(), is(77.0));
         assertThat( field.getWidth(), is(77.0));
     }

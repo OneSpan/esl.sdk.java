@@ -78,12 +78,22 @@ public class SenderTypeConverterTest implements ConverterTest {
         sdkSenderType1 = new SenderTypeConverter(apiSenderType1).toSDKSenderType();
 
         assertThat("Sender type was not set correctly", sdkSenderType1.toString(), is(apiSenderType1.toString()));
+
+        apiSenderType1 = "UNKNOWN";
+        sdkSenderType1 = new SenderTypeConverter(apiSenderType1).toSDKSenderType();
+
+        assertThat("Sender type was not set correctly", sdkSenderType1.toString(), is(apiSenderType1.toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
         sdkSenderType1 = createTypicalSDKSenderType();
+        apiSenderType1 = new SenderTypeConverter(sdkSenderType1).toAPISenderType();
+
+        assertThat("Sender type was not set correctly", apiSenderType1.toString(), is(sdkSenderType1.toString()));
+
+        sdkSenderType1 = com.silanis.esl.sdk.SenderType.UNRECOGNIZED("UNKNOWN");
         apiSenderType1 = new SenderTypeConverter(sdkSenderType1).toAPISenderType();
 
         assertThat("Sender type was not set correctly", apiSenderType1.toString(), is(sdkSenderType1.toString()));

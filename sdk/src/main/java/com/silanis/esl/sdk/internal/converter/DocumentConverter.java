@@ -65,7 +65,7 @@ public class DocumentConverter {
         for ( com.silanis.esl.api.model.Field apiField : apiDocument.getFields() ) {
             Field sdkField = new FieldConverter(apiField).toSDKField();
 
-            if (sdkField.getStyle() != FieldStyle.QRCODE) {
+            if (sdkField.getStyle() != FieldStyle.BOUND_QRCODE) {
                 documentBuilder.withInjectedField(sdkField);
             } else {
                 documentBuilder.withQRCode(sdkField);

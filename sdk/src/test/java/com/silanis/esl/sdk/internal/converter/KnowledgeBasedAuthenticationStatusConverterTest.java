@@ -71,7 +71,13 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
         sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
 
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.getValue(), is(apiKnowledgeBasedAuthenticationStatus));
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.toString(), is(apiKnowledgeBasedAuthenticationStatus));
+
+        apiKnowledgeBasedAuthenticationStatus = "UNKNOWN";
+        converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus.toString(), is(apiKnowledgeBasedAuthenticationStatus));
     }
 
     @Test
@@ -80,7 +86,13 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
 
-        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is(sdkKnowledgeBasedAuthenticationStatus.getValue()));
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is(sdkKnowledgeBasedAuthenticationStatus.toString()));
+
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.UNRECOGNIZED("UNKNOWN");
+        converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
+        apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is(sdkKnowledgeBasedAuthenticationStatus.toString()));
     }
 
     private com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus createTypicalSDKKnowledgeBasedAuthenticationStatus() {

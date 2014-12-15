@@ -1,55 +1,33 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
+public class AuthenticationMethod extends EslEnumeration {
 
-public class AuthenticationMethod {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static AuthenticationMethod EMAIL = new AuthenticationMethod("EMAIL");
-    public static AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE");
-    public static AuthenticationMethod SMS = new AuthenticationMethod("SMS");
-    public static AuthenticationMethod UNRECOGNIZED(String unknownValue){
+    public static final AuthenticationMethod EMAIL = new AuthenticationMethod("NONE");
+    public static final AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE");
+    public static final AuthenticationMethod SMS = new AuthenticationMethod("SMS");
+    public static final AuthenticationMethod KBA = new AuthenticationMethod("KBA");
+    public static final AuthenticationMethod UNRECOGNIZED(String unknownValue){
         log.warning("Unknown API AuthScheme. The upgrade is required.");
-        return new AuthenticationMethod("UNRECOGNIZED", unknownValue);
+        return new AuthenticationMethod(unknownValue);
     }
-    private static List<AuthenticationMethod> values;
+
+    private static Map<String, AuthenticationMethod> apiValues;
     static {
-        values = new ArrayList<AuthenticationMethod>();
-        values.add(EMAIL);
-        values.add(CHALLENGE);
-        values.add(SMS);
+        apiValues = new HashMap<String, AuthenticationMethod>();
+        apiValues.put("NONE", EMAIL);
+        apiValues.put("CHALLENGE", CHALLENGE);
+        apiValues.put("SMS", SMS);
+        apiValues.put("KBA", KBA);
     }
-    private final String value;
-    private final String unknownValue;
-
-    private AuthenticationMethod(String value) {
-        this.value = value;
-        this.unknownValue = "";
+    
+    private AuthenticationMethod(String apiValue) {
+        super(apiValue);
     }
 
-    private AuthenticationMethod(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
-    }
-
-    public String getUnknownValue() {
-        return unknownValue;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return getValue();
-    }
-
-    public static List<AuthenticationMethod> getValues() {
-        return values;
+    public static Map<String, AuthenticationMethod> values() {
+        return apiValues;
     }
 }

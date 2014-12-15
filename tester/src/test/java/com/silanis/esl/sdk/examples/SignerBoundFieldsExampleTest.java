@@ -28,19 +28,19 @@ public class SignerBoundFieldsExampleTest {
             for (Field field: signature.getFields()) {
                 if ((int)(field.getX() + 0.1) == SignerBoundFieldsExample.SIGNATURE_DATE_POSITION_X && (int)(field.getY() + 0.1) == SignerBoundFieldsExample.SIGNATURE_DATE_POSITION_Y) {
                     assertThat(field.getPage(), is(equalTo(SignerBoundFieldsExample.SIGNATURE_DATE_PAGE)));
-                    assertThat(field.getStyle(), is(equalTo(FieldStyle.BINDING_DATE)));
+                    assertThat(field.getStyle().toString(), is(equalTo(FieldStyle.BOUND_DATE.toString())));
                 }
                 if ((int)(field.getX() + 0.1) == SignerBoundFieldsExample.SIGNER_COMPANY_POSITION_X && (int)(field.getY() + 0.1) == SignerBoundFieldsExample.SIGNER_COMPANY_POSITION_Y) {
                     assertThat(field.getPage(), is(equalTo(SignerBoundFieldsExample.SIGNER_COMPANY_PAGE)));
-                    assertThat(field.getStyle(), is(equalTo(FieldStyle.BINDING_COMPANY)));
+                    assertThat(field.getStyle().toString(), is(equalTo(FieldStyle.BOUND_COMPANY.toString())));
                 }
                 if ((int)(field.getX() + 0.1) == SignerBoundFieldsExample.SIGNER_NAME_POSITION_X && (int)(field.getY() + 0.1) == SignerBoundFieldsExample.SIGNER_NAME_POSITION_Y) {
                     assertThat(field.getPage(), is(equalTo(SignerBoundFieldsExample.SIGNER_NAME_PAGE)));
-                    assertThat(field.getStyle(), is(equalTo(FieldStyle.BINDING_NAME)));
+                    assertThat(field.getStyle().toString(), is(equalTo(FieldStyle.BOUND_NAME.toString())));
                 }
                 if ((int)(field.getX() + 0.1) == SignerBoundFieldsExample.SIGNER_TITLE_POSITION_X && (int)(field.getY() + 0.1) == SignerBoundFieldsExample.SIGNER_TITLE_POSITION_Y) {
                     assertThat(field.getPage(), is(equalTo(SignerBoundFieldsExample.SIGNER_TITLE_PAGE)));
-                    assertThat(field.getStyle(), is(equalTo(FieldStyle.BINDING_TITLE)));
+                    assertThat(field.getStyle().toString(), is(equalTo(FieldStyle.BOUND_TITLE.toString())));
                 }
             }
 

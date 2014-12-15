@@ -1,42 +1,31 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class SenderStatus extends EslEnumeration {
 
-public class SenderStatus {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static SenderStatus INVITED = new SenderStatus("INVITED");
-    public static SenderStatus ACTIVE = new SenderStatus("ACTIVE");
-    public static SenderStatus LOCKED = new SenderStatus("LOCKED");
-    public static SenderStatus UNRECOGNIZED(String unknownValue){
+    public static final SenderStatus INVITED = new SenderStatus("INVITED");
+    public static final SenderStatus ACTIVE = new SenderStatus("ACTIVE");
+    public static final SenderStatus LOCKED = new SenderStatus("LOCKED");
+    public static final SenderStatus UNRECOGNIZED(String unknownValue){
         log.warning("Unknown API Sender Status. The upgrade is required.");
-        return new SenderStatus("UNRECOGNIZED", unknownValue);
-    }
-    private final String value;
-    private final String unknownValue;
-
-    private SenderStatus(String value) {
-        this.value = value;
-        this.unknownValue = "";
+        return new SenderStatus(unknownValue);
     }
 
-    private SenderStatus(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
+    private static Map<String, SenderStatus> apiValues;
+    static {
+        apiValues = new HashMap<String, SenderStatus>();
+        apiValues.put("INVITED", INVITED);
+        apiValues.put("ACTIVE", ACTIVE);
+        apiValues.put("LOCKED", LOCKED);
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    private SenderStatus(String apiValue) {
+        super(apiValue);
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return getValue();
+    public static Map<String, SenderStatus> values() {
+        return apiValues;
     }
 }

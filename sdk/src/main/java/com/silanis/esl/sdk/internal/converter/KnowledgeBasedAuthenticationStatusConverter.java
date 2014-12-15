@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus;
+
 /**
  * Created by schoi on 9/11/14.
  */
@@ -36,14 +38,11 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
 
-        if (apiKnowledgeBasedAuthenticationStatus.equals("NOT_YET_ATTEMPTED"))
-            return sdkKnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
-        else if (apiKnowledgeBasedAuthenticationStatus.equals("FAILED"))
-            return sdkKnowledgeBasedAuthenticationStatus.FAILED;
-        else if (apiKnowledgeBasedAuthenticationStatus.equals("PASSED"))
-            return sdkKnowledgeBasedAuthenticationStatus.PASSED;
+        sdkKnowledgeBasedAuthenticationStatus = KnowledgeBasedAuthenticationStatus.values().get(apiKnowledgeBasedAuthenticationStatus);
+        if (sdkKnowledgeBasedAuthenticationStatus == null)
+            return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
         else
-            return sdkKnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
+            return sdkKnowledgeBasedAuthenticationStatus;
     }
 
     /**
@@ -55,16 +54,6 @@ public class KnowledgeBasedAuthenticationStatusConverter {
         if (sdkKnowledgeBasedAuthenticationStatus == null) {
             return apiKnowledgeBasedAuthenticationStatus;
         }
-
-        if(sdkKnowledgeBasedAuthenticationStatus.getValue().equals("NOT_YET_ATTEMPTED"))
-            return "NOT_YET_ATTEMPTED";
-        else if (sdkKnowledgeBasedAuthenticationStatus.getValue().equals("FAILED"))
-            return "FAILED";
-        else if (sdkKnowledgeBasedAuthenticationStatus.getValue().equals("PASSED"))
-            return "PASSED";
-        else if (sdkKnowledgeBasedAuthenticationStatus.getValue().equals("UNRECOGNIZED"))
-            return sdkKnowledgeBasedAuthenticationStatus.getUnknownValue();
-        else
-            return "";
+        return sdkKnowledgeBasedAuthenticationStatus.toString();
     }
 }

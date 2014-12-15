@@ -83,12 +83,17 @@ public class GroupMemberTypeConverterTest implements ConverterTest{
         apiGroupMemberType1 = "MANAGER";
         sdkGroupMemberType1 = new GroupMemberTypeConverter(apiGroupMemberType1).toSDKGroupMemberType();
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.getValue()) ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.toString()) ) );
 
         apiGroupMemberType1 = "REGULAR";
         sdkGroupMemberType1 = new GroupMemberTypeConverter(apiGroupMemberType1).toSDKGroupMemberType();
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.getValue()) ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.toString()) ) );
+
+        apiGroupMemberType1 = "UNKNOWN";
+        sdkGroupMemberType1 = new GroupMemberTypeConverter(apiGroupMemberType1).toSDKGroupMemberType();
+        assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.toString()) ) );
 
     }
 
@@ -99,12 +104,17 @@ public class GroupMemberTypeConverterTest implements ConverterTest{
         sdkGroupMemberType1 = GroupMemberType.MANAGER;
         apiGroupMemberType1 = new GroupMemberTypeConverter(sdkGroupMemberType1).toAPIGroupMemberType();
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.getValue()) ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.toString()) ) );
 
         sdkGroupMemberType1 = GroupMemberType.REGULAR;
         apiGroupMemberType1 = new GroupMemberTypeConverter(sdkGroupMemberType1).toAPIGroupMemberType();
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.getValue()) ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.toString()) ) );
+
+        sdkGroupMemberType1 = GroupMemberType.UNRECOGNIZED("UNKNOWN");
+        apiGroupMemberType1 = new GroupMemberTypeConverter(sdkGroupMemberType1).toAPIGroupMemberType();
+        assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo(sdkGroupMemberType1.toString()) ) );
     }
 
     /**

@@ -78,12 +78,22 @@ public class SenderStatusConverterTest implements ConverterTest {
         sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
 
         assertThat("Sender type was not set correctly", sdkSenderStatus1.toString(), is(apiSenderStatus1.toString()));
+
+        apiSenderStatus1 = "UNKNOWN";
+        sdkSenderStatus1 = new SenderStatusConverter(apiSenderStatus1).toSDKSenderStatus();
+
+        assertThat("Sender type was not set correctly", sdkSenderStatus1.toString(), is(apiSenderStatus1.toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
         sdkSenderStatus1 = createTypicalSDKSenderStatus();
+        apiSenderStatus1 = new SenderStatusConverter(sdkSenderStatus1).toAPISenderStatus();
+
+        assertThat("Sender type was not set correctly", apiSenderStatus1.toString(), is(sdkSenderStatus1.toString()));
+
+        sdkSenderStatus1 = com.silanis.esl.sdk.SenderStatus.INVITED.UNRECOGNIZED("UNKNOWN");
         apiSenderStatus1 = new SenderStatusConverter(sdkSenderStatus1).toAPISenderStatus();
 
         assertThat("Sender type was not set correctly", apiSenderStatus1.toString(), is(sdkSenderStatus1.toString()));

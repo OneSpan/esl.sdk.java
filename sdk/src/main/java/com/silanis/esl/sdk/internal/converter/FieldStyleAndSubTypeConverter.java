@@ -50,32 +50,7 @@ public class FieldStyleAndSubTypeConverter {
         if (sdkFieldStyle == null) {
             return apiFieldSubType;
         }
-        if(sdkFieldStyle.getValue().equals("TEXTFIELD"))
-            return "TEXTFIELD";
-        else if (sdkFieldStyle.getValue().equals("CUSTOMFIELD"))
-                return "CUSTOMFIELD";
-        else if (sdkFieldStyle.getValue().equals("BINDING_DATE") ||
-                sdkFieldStyle.getValue().equals("BINDING_NAME") ||
-                sdkFieldStyle.getValue().equals("BINDING_TITLE") ||
-                sdkFieldStyle.getValue().equals("BINDING_COMPANY") ||
-                sdkFieldStyle.getValue().equals("LABEL"))
-            return "LABEL";
-        else if (sdkFieldStyle.getValue().equals("CHECKBOX"))
-            return "CHECKBOX";
-        else if (sdkFieldStyle.getValue().equals("RADIO"))
-            return "RADIO";
-        else if (sdkFieldStyle.getValue().equals("TEXTAREA"))
-            return "TEXTAREA";
-        else if (sdkFieldStyle.getValue().equals("LIST"))
-            return "LIST";
-        else if (sdkFieldStyle.getValue().equals("QRCODE"))
-            return "QRCODE";
-        else if (sdkFieldStyle.getValue().equals("SEAL"))
-            return "SEAL";
-        else if (sdkFieldStyle.getValue().equals("UNRECOGNIZED"))
-            return sdkFieldStyle.getUnknownValue();
-        else
-            return "";
+        return sdkFieldStyle.toString();
     }
 
     /**
@@ -89,34 +64,22 @@ public class FieldStyleAndSubTypeConverter {
         }
 
         if ( apiFieldBinding == null ) {
-            if (apiFieldSubType.equals("TEXTFIELD"))
-                return FieldStyle.TEXTFIELD;
-            else if (apiFieldSubType.equals("CUSTOMFIELD"))
-                return FieldStyle.CUSTOMFIELD;
-            else if (apiFieldSubType.equals("CHECKBOX"))
-                return FieldStyle.CHECKBOX;
-            else if (apiFieldSubType.equals("RADIO"))
-                return FieldStyle.RADIO;
-            else if (apiFieldSubType.equals("TEXTAREA"))
-                return FieldStyle.TEXTAREA;
-            else if (apiFieldSubType.equals("LIST"))
-                return FieldStyle.LIST;
-            else if (apiFieldSubType.equals("QRCODE"))
-                return FieldStyle.QRCODE;
-            else if (apiFieldSubType.equals("SEAL"))
-                return FieldStyle.SEAL;
-            else
+            sdkFieldStyle = FieldStyle.values().get(apiFieldSubType);
+            if (sdkFieldStyle == null)
                 return FieldStyle.UNRECOGNIZED(apiFieldSubType);
+            else
+                return sdkFieldStyle;
+
         } else {
             String binding = apiFieldBinding;
             if ( binding.equals( BINDING_DATE ) )
-                return FieldStyle.BINDING_DATE;
+                return FieldStyle.BOUND_DATE;
             else if ( binding.equals( BINDING_TITLE ) )
-                return FieldStyle.BINDING_TITLE;
+                return FieldStyle.BOUND_TITLE;
             else if ( binding.equals( BINDING_NAME ) )
-                return FieldStyle.BINDING_NAME;
+                return FieldStyle.BOUND_NAME;
             else if ( binding.equals( BINDING_COMPANY ) )
-                return FieldStyle.BINDING_COMPANY;
+                return FieldStyle.BOUND_COMPANY;
             else
                 return FieldStyle.UNRECOGNIZED(apiFieldSubType);
         }

@@ -78,12 +78,22 @@ private RequirementStatusConverter converter;
         sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
 
         assertThat("Sender type was not set correctly", sdkRequirementStatus1.toString(), is(apiRequirementStatus1.toString()));
+
+        apiRequirementStatus1 = "UNKNOWN";
+        sdkRequirementStatus1 = new RequirementStatusConverter(apiRequirementStatus1).toSDKRequirementStatus();
+
+        assertThat("Sender type was not set correctly", sdkRequirementStatus1.toString(), is(apiRequirementStatus1.toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
         sdkRequirementStatus1 = createTypicalSDKRequirementStatus();
+        apiRequirementStatus1 = new RequirementStatusConverter(sdkRequirementStatus1).toAPIRequirementStatus();
+
+        assertThat("Sender type was not set correctly", apiRequirementStatus1.toString(), is(sdkRequirementStatus1.toString()));
+
+        sdkRequirementStatus1 = com.silanis.esl.sdk.RequirementStatus.UNRECOGNIZED("UNKNOWN");
         apiRequirementStatus1 = new RequirementStatusConverter(sdkRequirementStatus1).toAPIRequirementStatus();
 
         assertThat("Sender type was not set correctly", apiRequirementStatus1.toString(), is(sdkRequirementStatus1.toString()));

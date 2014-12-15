@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.AuthenticationMethod;
+
 /**
  * User: jessica
  * Date: 12/12/13
@@ -37,16 +39,7 @@ public class AuthenticationMethodConverter {
             return apiAuthMethod;
         }
 
-        if(sdkAuthMethod.getValue().equals("EMAIL"))
-            return "NONE";
-        else if (sdkAuthMethod.getValue().equals("CHALLENGE"))
-            return "CHALLENGE";
-        else if (sdkAuthMethod.getValue().equals("SMS"))
-            return "SMS";
-        else if (sdkAuthMethod.getValue().equals("UNRECOGNIZED"))
-            return sdkAuthMethod.getUnknownValue();
-        else
-            return "";
+        return sdkAuthMethod.toString();
     }
 
     /**
@@ -60,14 +53,11 @@ public class AuthenticationMethodConverter {
             return sdkAuthMethod;
         }
 
-        if (apiAuthMethod.equals("CHALLENGE"))
-            return sdkAuthMethod.CHALLENGE;
-        else if (apiAuthMethod.equals("SMS"))
-            return sdkAuthMethod.SMS;
-        else if (apiAuthMethod.equals("NONE") || apiAuthMethod.equals("PROVIDER"))
-            return sdkAuthMethod.EMAIL;
+        sdkAuthMethod = AuthenticationMethod.values().get(apiAuthMethod);
+        if (sdkAuthMethod == null)
+            return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
         else
-            return sdkAuthMethod.UNRECOGNIZED(apiAuthMethod);
+            return sdkAuthMethod;
     }
     
 }

@@ -85,7 +85,7 @@ public class GroupMemberConverterTest implements ConverterTest{
         sdkGroupMember1 = new GroupMemberConverter(apiGroupMember1).toSDKGroupMember();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMember1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType(), is( equalTo(sdkGroupMember1.getGroupMemberType().getValue()))  );
+        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType(), is( equalTo(sdkGroupMember1.getGroupMemberType().toString()))  );
         assertThat("First name was not correctly set", apiGroupMember1.getFirstName(), is( equalTo(sdkGroupMember1.getFirstName()) ) );
         assertThat("Last name was not correctly set", apiGroupMember1.getLastName(), is( equalTo(sdkGroupMember1.getLastName()) ) );
         assertThat("Email was not correctly set", apiGroupMember1.getEmail(), is( equalTo(sdkGroupMember1.getEmail()) ) );
@@ -99,7 +99,7 @@ public class GroupMemberConverterTest implements ConverterTest{
         apiGroupMember1 = new GroupMemberConverter(sdkGroupMember1).toAPIGroupMember();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMember1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType(), is( equalTo(sdkGroupMember1.getGroupMemberType().getValue()))  );
+        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType(), is( equalTo(sdkGroupMember1.getGroupMemberType().toString()))  );
         assertThat("First name was not correctly set", apiGroupMember1.getFirstName(), is( equalTo(sdkGroupMember1.getFirstName()) ) );
         assertThat("Last name was not correctly set", apiGroupMember1.getLastName(), is( equalTo(sdkGroupMember1.getLastName()) ) );
         assertThat("Email was not correctly set", apiGroupMember1.getEmail(), is( equalTo(sdkGroupMember1.getEmail()) ) );

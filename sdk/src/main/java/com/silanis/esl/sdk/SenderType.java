@@ -1,41 +1,29 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.util.JacksonUtil;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.logging.Logger;
+public class SenderType extends EslEnumeration {
 
-public class SenderType {
-    private static final String CLASS = JacksonUtil.class.getName();
-    protected static Logger log = Logger.getLogger(CLASS);
-
-    public static SenderType REGULAR = new SenderType("REGULAR");
-    public static SenderType MANAGER = new SenderType("MANAGER");
-    public static SenderType UNRECOGNIZED(String unknownValue){
+    public static final SenderType REGULAR = new SenderType("REGULAR");
+    public static final SenderType MANAGER = new SenderType("MANAGER");
+    public static final SenderType UNRECOGNIZED(String unknownValue){
         log.warning("Unknown API Sender Type. The upgrade is required.");
-        return new SenderType("UNRECOGNIZED", unknownValue);
-    }
-    private final String value;
-    private final String unknownValue;
-
-    private SenderType(String value) {
-        this.value = value;
-        this.unknownValue = "";
+        return new SenderType(unknownValue);
     }
 
-    private SenderType(String value, String unknownValue) {
-        this.value = value;
-        this.unknownValue = unknownValue;
+    private static Map<String, SenderType> apiValues;
+    static {
+        apiValues = new HashMap<String, SenderType>();
+        apiValues.put("REGULAR", REGULAR);
+        apiValues.put("MANAGER", MANAGER);
     }
 
-    public String getUnknownValue() {
-        return unknownValue;
+    private SenderType(String apiValue) {
+        super(apiValue);
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public String toString() {
-        return getValue();
+    public static Map<String, SenderType> values() {
+        return apiValues;
     }
 }

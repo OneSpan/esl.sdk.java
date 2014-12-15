@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.SenderStatus;
+
 /**
  * Created by lena on 2014-05-30.
  *
@@ -33,14 +35,11 @@ public class SenderStatusConverter {
             return sdkSenderStatus;
         }
 
-        if (apiSenderStatus.equals("INVITED"))
-            return sdkSenderStatus.INVITED;
-        else if (apiSenderStatus.equals("ACTIVE"))
-            return sdkSenderStatus.ACTIVE;
-        else if (apiSenderStatus.equals("LOCKED"))
-            return sdkSenderStatus.LOCKED;
+        sdkSenderStatus = SenderStatus.values().get(apiSenderStatus);
+        if (sdkSenderStatus == null)
+            return SenderStatus.UNRECOGNIZED(apiSenderStatus);
         else
-            return sdkSenderStatus.UNRECOGNIZED(apiSenderStatus);
+            return sdkSenderStatus;
     }
 
     public String toAPISenderStatus() {
@@ -48,16 +47,7 @@ public class SenderStatusConverter {
             return apiSenderStatus;
         }
 
-        if(sdkSenderStatus.getValue().equals("INVITED"))
-            return "INVITED";
-        else if (sdkSenderStatus.getValue().equals("ACTIVE"))
-            return "ACTIVE";
-        else if (sdkSenderStatus.getValue().equals("LOCKED"))
-            return "LOCKED";
-        else if (sdkSenderStatus.getValue().equals("UNRECOGNIZED"))
-            return sdkSenderStatus.getUnknownValue();
-        else
-            return "";
+        return sdkSenderStatus.toString();
     }
 
 }

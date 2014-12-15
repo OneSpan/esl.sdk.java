@@ -31,7 +31,7 @@ public class UnknownEnumValuesConverterTest {
         DocumentPackage deserializedDocumentPackage = new DocumentPackageConverter(deserializedPackage).toSDKPackage();
         List<Field> fields = (List<Field>)(deserializedDocumentPackage.getDocument(documentName).getSignatures().iterator().next().getFields());
 
-        assertThat(fields.get(1).getStyle().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(fields.get(1).getStyle().toString(), is(UNKNOWN_VALUE));
 
         String packageJson = getPackageJsonFromDocumentPackage(deserializedDocumentPackage);
         assertTrue(packageJson.contains(UNKNOWN_VALUE));
@@ -40,7 +40,7 @@ public class UnknownEnumValuesConverterTest {
         DocumentPackage reDeserializedDocumentPackage = new DocumentPackageConverter(reDeserializedPackage).toSDKPackage();
         fields = (List<Field>)(reDeserializedDocumentPackage.getDocument(documentName).getSignatures().iterator().next().getFields());
 
-        assertThat(fields.get(1).getStyle().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(fields.get(1).getStyle().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class UnknownEnumValuesConverterTest {
         EventNotificationConfig deserializedEventNotificationConfig = new EventNotificationConfigConverter(deserializedCallback).toSDKEventNotificationConfig();
         Collection<NotificationEvent> deserializedEvents = deserializedEventNotificationConfig.getEvents();
 
-        assertThat(deserializedEvents.iterator().next().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedEvents.iterator().next().toString(), is(UNKNOWN_VALUE));
 
         Callback serializedCallback = new EventNotificationConfigConverter(deserializedEventNotificationConfig).toAPICallback();
 
@@ -64,7 +64,7 @@ public class UnknownEnumValuesConverterTest {
         EventNotificationConfig reDeserializedEventNotificationConfig = new EventNotificationConfigConverter(reDeserializedCallback).toSDKEventNotificationConfig();
         Collection<NotificationEvent> reDeserializedEvents = reDeserializedEventNotificationConfig.getEvents();
 
-        assertThat(reDeserializedEvents.iterator().next().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedEvents.iterator().next().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -78,7 +78,7 @@ public class UnknownEnumValuesConverterTest {
 
         DocumentPackage deserializedDocumentPackage = new DocumentPackageConverter(deserializedPackage).toSDKPackage();
         KnowledgeBasedAuthentication deserializedKBA = deserializedDocumentPackage.getSigners().get(signerEmail).getKnowledgeBasedAuthentication();
-        assertThat(deserializedKBA.getKnowledgeBasedAuthenticationStatus().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(UNKNOWN_VALUE));
 
         String packageJson = getPackageJsonFromDocumentPackage(deserializedDocumentPackage);
         assertTrue(packageJson.contains(UNKNOWN_VALUE));
@@ -86,7 +86,7 @@ public class UnknownEnumValuesConverterTest {
         Package reDeserializedPackage = Serialization.fromJson(packageJson, Package.class);
         DocumentPackage reDeserializedDocumentPackage = new DocumentPackageConverter(reDeserializedPackage).toSDKPackage();
         KnowledgeBasedAuthentication reDeserializedKBA = reDeserializedDocumentPackage.getSigners().get(signerEmail).getKnowledgeBasedAuthentication();
-        assertThat(reDeserializedKBA.getKnowledgeBasedAuthenticationStatus().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class UnknownEnumValuesConverterTest {
         assertThat(deserializedGroup.getMembers().get(0).getMemberType(), is(UNKNOWN_VALUE));
 
         com.silanis.esl.sdk.Group deserializedSdkGroup = new GroupConverter(deserializedGroup).toSDKGroup();
-        assertThat(deserializedSdkGroup.getMembers().get(0).getGroupMemberType().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedSdkGroup.getMembers().get(0).getGroupMemberType().toString(), is(UNKNOWN_VALUE));
 
         com.silanis.esl.api.model.Group serializedGroup = new GroupConverter(deserializedGroup).toAPIGroup();
         String groupJson = Serialization.toJson(serializedGroup);
@@ -106,7 +106,7 @@ public class UnknownEnumValuesConverterTest {
 
         com.silanis.esl.api.model.Group reDeserializedGroup = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
         com.silanis.esl.sdk.Group reDeserializedSdkGroup = new GroupConverter(reDeserializedGroup).toSDKGroup();
-        assertThat(reDeserializedSdkGroup.getMembers().get(0).getGroupMemberType().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedSdkGroup.getMembers().get(0).getGroupMemberType().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -120,7 +120,7 @@ public class UnknownEnumValuesConverterTest {
 
         DocumentPackage deserializedDocumentPackage = new DocumentPackageConverter(deserializedPackage).toSDKPackage();
 
-        assertThat(deserializedDocumentPackage.getSigner(signerEmail).getAuthentication().getMethod().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedDocumentPackage.getSigner(signerEmail).getAuthentication().getMethod().toString(), is(UNKNOWN_VALUE));
 
         String packageJson = getPackageJsonFromDocumentPackage(deserializedDocumentPackage);
         assertTrue(packageJson.contains(UNKNOWN_VALUE));
@@ -128,7 +128,7 @@ public class UnknownEnumValuesConverterTest {
         Package reDeserializedPackage = Serialization.fromJson(packageJson, Package.class);
         DocumentPackage reDeserializedDocumentPackage = new DocumentPackageConverter(reDeserializedPackage).toSDKPackage();
 
-        assertThat(reDeserializedDocumentPackage.getSigner(signerEmail).getAuthentication().getMethod().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedDocumentPackage.getSigner(signerEmail).getAuthentication().getMethod().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -143,7 +143,7 @@ public class UnknownEnumValuesConverterTest {
 
         DocumentPackage deserializedDocumentPackage = new DocumentPackageConverter(deserializedPackage).toSDKPackage();
 
-        assertThat(deserializedDocumentPackage.getSigner(signerEmail).getAttachmentRequirement().get(attachmentRequirement).getStatus().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedDocumentPackage.getSigner(signerEmail).getAttachmentRequirement().get(attachmentRequirement).getStatus().toString(), is(UNKNOWN_VALUE));
 
         String packageJson = getPackageJsonFromDocumentPackage(deserializedDocumentPackage);
         assertTrue(packageJson.contains(UNKNOWN_VALUE));
@@ -151,7 +151,7 @@ public class UnknownEnumValuesConverterTest {
         Package reDeserializedPackage = Serialization.fromJson(packageJson, Package.class);
         DocumentPackage reDeserializedDocumentPackage = new DocumentPackageConverter(reDeserializedPackage).toSDKPackage();
 
-        assertThat(reDeserializedDocumentPackage.getSigner(signerEmail).getAttachmentRequirement().get(attachmentRequirement).getStatus().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedDocumentPackage.getSigner(signerEmail).getAttachmentRequirement().get(attachmentRequirement).getStatus().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -163,7 +163,7 @@ public class UnknownEnumValuesConverterTest {
 
         com.silanis.esl.sdk.Sender deserializedSdkSender = new SenderConverter(deserializedSender).toSDKSender();
 
-        assertThat(deserializedSdkSender.getStatus().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedSdkSender.getStatus().toString(), is(UNKNOWN_VALUE));
 
         com.silanis.esl.api.model.Sender serializedSender = new SenderConverter(deserializedSdkSender).toAPISender();
         String senderJson = Serialization.toJson(serializedSender);
@@ -172,7 +172,7 @@ public class UnknownEnumValuesConverterTest {
 
         com.silanis.esl.api.model.Sender reDeserializedSender = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Sender.class );
         com.silanis.esl.sdk.Sender reDeserializedSdkSender = new SenderConverter(reDeserializedSender).toSDKSender();
-        assertThat(reDeserializedSdkSender.getStatus().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedSdkSender.getStatus().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class UnknownEnumValuesConverterTest {
 
         com.silanis.esl.sdk.Sender deserializedSdkSender = new SenderConverter(deserializedSender).toSDKSender();
 
-        assertThat(deserializedSdkSender.getType().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(deserializedSdkSender.getType().toString(), is(UNKNOWN_VALUE));
 
         com.silanis.esl.api.model.Sender serializedSender = new SenderConverter(deserializedSdkSender).toAPISender();
         String senderJson = Serialization.toJson(serializedSender);
@@ -193,7 +193,7 @@ public class UnknownEnumValuesConverterTest {
 
         com.silanis.esl.api.model.Sender reDeserializedSender = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Sender.class );
         com.silanis.esl.sdk.Sender reDeserializedSdkSender = new SenderConverter(reDeserializedSender).toSDKSender();
-        assertThat(reDeserializedSdkSender.getType().getUnknownValue(), is(UNKNOWN_VALUE));
+        assertThat(reDeserializedSdkSender.getType().toString(), is(UNKNOWN_VALUE));
     }
 
     @Test
