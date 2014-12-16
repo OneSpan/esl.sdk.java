@@ -31,6 +31,8 @@ public class SignerConverterTest implements ConverterTest {
     private com.silanis.esl.api.model.Role apiRole = null;
     private SignerConverter converter = null;
 
+    private static final String SIGNER_STATUS_NONE = "NONE";
+
     @Override
     @Test
     public void convertNullSDKToAPI() {
@@ -103,6 +105,8 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(equalTo(sdkSigner1.canChangeSigner())));
         assertThat("Email was not correctly set", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
 
+        assertThat("Signer status was not correctly set", sdkSigner1.getStatus(), is(SIGNER_STATUS_NONE));
+
         String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
         assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getName())));
         assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getDescription())));
@@ -144,6 +148,9 @@ public class SignerConverterTest implements ConverterTest {
                 is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiRole.getSigners().get(0).getTitle(),
                 is(equalTo(sdkSigner1.getTitle())));
+
+        assertThat("Signer Status was not correctly set", apiRole.getSigners().get(0).getStatus().name(),
+                is(equalTo(sdkSigner1.getStatus())));
 
         assertThat("ID was not set correctly", apiRole.getId().toString(), is(equalTo(sdkSigner1.getId())));
         assertThat("Name was not set correctly", apiRole.getName().toString(), is(equalTo(sdkSigner1.getId())));
@@ -195,7 +202,7 @@ public class SignerConverterTest implements ConverterTest {
      */
     private com.silanis.esl.sdk.Signer createTypicalSDKSigner() {
 
-        return SignerBuilder.newSignerWithEmail("abc@test.com")
+        com.silanis.esl.sdk.Signer sdkSigner = SignerBuilder.newSignerWithEmail("abc@test.com")
                 .canChangeSigner()
                 .deliverSignedDocumentsByEmail()
                 .lock()
@@ -207,10 +214,13 @@ public class SignerConverterTest implements ConverterTest {
                 .withEmailMessage("Email message.")
                 .withTitle("Miss")
                 .withAttachmentRequirement(AttachmentRequirementBuilder.newAttachmentRequirementWithName("driver license")
-                    .withDescription("Please upload your scanned driver license.")
-                    .isRequiredAttachment()
-                    .build())
+                        .withDescription("Please upload your scanned driver license.")
+                        .isRequiredAttachment()
+                        .build())
                 .build();
+
+        sdkSigner.setStatus(SIGNER_STATUS_NONE);
+        return sdkSigner;
     }
 
     /**
@@ -221,19 +231,7 @@ public class SignerConverterTest implements ConverterTest {
     private com.silanis.esl.api.model.Role createTypicalAPIRole() {
         com.silanis.esl.api.model.Role apiRole = new com.silanis.esl.api.model.Role();
 
-        com.silanis.esl.api.model.Signer apiSigner = new com.silanis.esl.api.model.Signer();
-        apiSigner.setEmail("test@abc.com");
-        apiSigner.setFirstName("Signer first name");
-        apiSigner.setLastName("Signer last name");
-        apiSigner.setCompany("ABC Inc.");
-        apiSigner.setTitle("Doctor");
-
-        Delivery delivery = new Delivery();
-        delivery.setDownload(true);
-        delivery.setEmail(true);
-
-        apiSigner.setDelivery(delivery);
-        apiSigner.setId("1");
+        Signer apiSigner = createSigner();
 
         List<Signer> signers = new ArrayList<Signer>();
         signers.add(apiSigner);
@@ -258,4 +256,26 @@ public class SignerConverterTest implements ConverterTest {
 
         return apiRole;
     }
+
+    private Signer createSigner() {
+        Signer apiSigner = new Signer();
+        apiSigner.setEmail("test@abc.com");
+        apiSigner.setFirstName("Signer first name");
+        apiSigner.setLastName("Signer last name");
+        apiSigner.setCompany("ABC Inc.");
+        apiSigner.setTitle("Doctor");
+
+        Delivery delivery = new Delivery();
+        delivery.setDownload(true);
+        delivery.setEmail(true);
+
+        apiSigner.setDelivery(delivery);
+        apiSigner.setId("1");
+
+        apiSigner.setStatus(SignerStatus.NONE);
+
+        return apiSigner;
+    }
+
+
 }
