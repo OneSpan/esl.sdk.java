@@ -18,7 +18,7 @@ public class PackageBuilder {
     private Date expiryDate;
     private String packageMessage = null;
     private PackageId id;
-    private String status;
+    private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
     private SenderInfo senderInfo = null;
@@ -169,7 +169,7 @@ public class PackageBuilder {
      * @param status the package status
      * @return the package builder itself
      */
-    public PackageBuilder withStatus( String status ) {
+    public PackageBuilder withStatus( PackageStatus status ) {
         this.status = status;
         return this;
     }

@@ -9,7 +9,7 @@ import com.silanis.esl.sdk.RequirementStatus;
  */
 public class RequirementStatusConverter {
 
-    private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus = null;
+    private RequirementStatus sdkRequirementStatus = null;
     private String apiRequirementStatus = null;
 
     /**
@@ -26,20 +26,22 @@ public class RequirementStatusConverter {
      *
      * @param sdkRequirementStatus
      */
-    public RequirementStatusConverter(com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus) {
+    public RequirementStatusConverter(RequirementStatus sdkRequirementStatus) {
         this.sdkRequirementStatus = sdkRequirementStatus;
     }
 
-    public com.silanis.esl.sdk.RequirementStatus toSDKRequirementStatus() {
+    public RequirementStatus toSDKRequirementStatus() {
         if (apiRequirementStatus == null) {
             return sdkRequirementStatus;
         }
 
-        sdkRequirementStatus = RequirementStatus.valueOf(apiRequirementStatus);
-        if (sdkRequirementStatus == null)
-            return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
-        else
-            return sdkRequirementStatus;
+        RequirementStatus[] values = RequirementStatus.values();
+        for (RequirementStatus value : values) {
+            if(apiRequirementStatus.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
     }
 
     public String toAPIRequirementStatus() {

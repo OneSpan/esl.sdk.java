@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.sdk.internal.converter.EslEnumeration;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,17 +10,24 @@ public class KnowledgeBasedAuthenticationStatus extends EslEnumeration {
     public static final KnowledgeBasedAuthenticationStatus NOT_YET_ATTEMPTED = new KnowledgeBasedAuthenticationStatus("NOT_YET_ATTEMPTED", "NOT_YET_ATTEMPTED");
     public static final KnowledgeBasedAuthenticationStatus PASSED = new KnowledgeBasedAuthenticationStatus("PASSED", "PASSED");
     public static final KnowledgeBasedAuthenticationStatus FAILED = new KnowledgeBasedAuthenticationStatus("FAILED", "FAILED");
+
+    /**
+     * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
+     * by new versions of e-SignLive. If you need access to those new values, you should upgrade your SDK version.
+     * @deprecated Please upgrade your SDK version to support new types in this enumeration.
+     */
+    @Deprecated
     public static final KnowledgeBasedAuthenticationStatus UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API KnowledgeBasedAuthentication Status(%s). The upgrade is required.", unknownValue));
         return new KnowledgeBasedAuthenticationStatus(unknownValue, unknownValue);
     }
 
-    private static Map<String, KnowledgeBasedAuthenticationStatus> apiValues;
+    private static Map<String, KnowledgeBasedAuthenticationStatus> sdkValues;
     static {
-        apiValues = new HashMap<String, KnowledgeBasedAuthenticationStatus>();
-        apiValues.put("NOT_YET_ATTEMPTED", NOT_YET_ATTEMPTED);
-        apiValues.put("PASSED", PASSED);
-        apiValues.put("FAILED", FAILED);
+        sdkValues = new HashMap<String, KnowledgeBasedAuthenticationStatus>();
+        sdkValues.put(NOT_YET_ATTEMPTED.name(), NOT_YET_ATTEMPTED);
+        sdkValues.put(PASSED.name(), PASSED);
+        sdkValues.put(FAILED.name(), FAILED);
     }
 
     private KnowledgeBasedAuthenticationStatus(String apiValue, String sdkValue) {
@@ -26,10 +35,15 @@ public class KnowledgeBasedAuthenticationStatus extends EslEnumeration {
     }
 
     public static KnowledgeBasedAuthenticationStatus[] values() {
-        return apiValues.values().toArray(new KnowledgeBasedAuthenticationStatus[apiValues.size()]);
+        return sdkValues.values().toArray(new KnowledgeBasedAuthenticationStatus[sdkValues.size()]);
     }
 
     public static KnowledgeBasedAuthenticationStatus valueOf(String name) {
-        return apiValues.get(name);
+        KnowledgeBasedAuthenticationStatus result = sdkValues.get(name);
+        if (result != null)
+            return result;
+        if (name == null)
+            throw new NullPointerException("Name is null");
+        throw new IllegalArgumentException("No enum const KnowledgeBasedAuthenticationStatus." + name);
     }
 }

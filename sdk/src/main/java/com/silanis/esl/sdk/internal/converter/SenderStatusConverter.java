@@ -9,7 +9,7 @@ import com.silanis.esl.sdk.SenderStatus;
  */
 public class SenderStatusConverter {
 
-    private com.silanis.esl.sdk.SenderStatus sdkSenderStatus = null;
+    private SenderStatus sdkSenderStatus = null;
     private String apiSenderStatus = null;
 
     /**
@@ -26,20 +26,22 @@ public class SenderStatusConverter {
      *
      * @param sdkSenderStatus
      */
-    public SenderStatusConverter(com.silanis.esl.sdk.SenderStatus sdkSenderStatus) {
+    public SenderStatusConverter(SenderStatus sdkSenderStatus) {
         this.sdkSenderStatus = sdkSenderStatus;
     }
 
-    public com.silanis.esl.sdk.SenderStatus toSDKSenderStatus() {
+    public SenderStatus toSDKSenderStatus() {
         if (apiSenderStatus == null) {
             return sdkSenderStatus;
         }
 
-        sdkSenderStatus = SenderStatus.valueOf(apiSenderStatus);
-        if (sdkSenderStatus == null)
-            return SenderStatus.UNRECOGNIZED(apiSenderStatus);
-        else
-            return sdkSenderStatus;
+        SenderStatus[] values = SenderStatus.values();
+        for (SenderStatus value : values) {
+            if(apiSenderStatus.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return SenderStatus.UNRECOGNIZED(apiSenderStatus);
     }
 
     public String toAPISenderStatus() {

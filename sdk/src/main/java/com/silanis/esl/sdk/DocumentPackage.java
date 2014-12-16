@@ -21,7 +21,7 @@ public class DocumentPackage implements Serializable {
     private Date expiryDate;
     private String packageMessage;
     private PackageId id;
-    private String status;
+    private PackageStatus status;
     private DocumentPackageSettings settings;
     private Locale language;
     private DocumentPackageAttributes attributes;
@@ -181,11 +181,11 @@ public class DocumentPackage implements Serializable {
         return id;
     }
 
-    public void setStatus( String status ) {
+    public void setStatus( PackageStatus status ) {
         this.status = status;
     }
 
-    public String getStatus() {
+    public PackageStatus getStatus() {
         return status;
     }
 

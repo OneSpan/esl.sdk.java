@@ -11,7 +11,7 @@ import com.silanis.esl.sdk.GroupMemberType;
  */
 public class GroupMemberTypeConverter {
 
-    private com.silanis.esl.sdk.GroupMemberType sdkMemberType = null;
+    private GroupMemberType sdkMemberType = null;
     private String apiMemberType = null;
 
     /**
@@ -28,7 +28,7 @@ public class GroupMemberTypeConverter {
      *
      * @param sdkMemberType
      */
-    public GroupMemberTypeConverter(com.silanis.esl.sdk.GroupMemberType sdkMemberType) {
+    public GroupMemberTypeConverter(GroupMemberType sdkMemberType) {
         this.sdkMemberType = sdkMemberType;
     }
 
@@ -50,16 +50,18 @@ public class GroupMemberTypeConverter {
      *
      * @return an SDK MemberType object.
      */
-    public com.silanis.esl.sdk.GroupMemberType toSDKGroupMemberType() {
+    public GroupMemberType toSDKGroupMemberType() {
 
         if (apiMemberType == null) {
             return sdkMemberType;
         }
 
-        sdkMemberType = GroupMemberType.valueOf(apiMemberType);
-        if (sdkMemberType == null)
-            return GroupMemberType.UNRECOGNIZED(apiMemberType);
-        else
-            return sdkMemberType;
+        GroupMemberType[] values = GroupMemberType.values();
+        for (GroupMemberType value : values) {
+            if(apiMemberType.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return GroupMemberType.UNRECOGNIZED(apiMemberType);
     }
 }

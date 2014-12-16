@@ -141,7 +141,7 @@ public class DocumentPackageConverter {
         packageBuilder.withID(new PackageId(apiPackage.getId()));
         packageBuilder.autocomplete(apiPackage.evalAutocomplete());
         packageBuilder.expiresAt( apiPackage.getDue());
-        packageBuilder.withStatus( apiPackage.getStatus());
+        packageBuilder.withStatus( new PackageStatusConverter(apiPackage.getStatus()).toSDKPackageStatus() );
 
         if (apiPackage.getDescription() != null) {
             packageBuilder.describedAs(apiPackage.getDescription());

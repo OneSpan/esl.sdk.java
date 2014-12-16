@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.sdk.internal.converter.EslEnumeration;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,17 +10,24 @@ public class SenderStatus extends EslEnumeration {
     public static final SenderStatus INVITED = new SenderStatus("INVITED", "INVITED");
     public static final SenderStatus ACTIVE = new SenderStatus("ACTIVE", "ACTIVE");
     public static final SenderStatus LOCKED = new SenderStatus("LOCKED", "LOCKED");
+
+    /**
+     * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
+     * by new versions of e-SignLive. If you need access to those new values, you should upgrade your SDK version.
+     * @deprecated Please upgrade your SDK version to support new types in this enumeration.
+     */
+    @Deprecated
     public static final SenderStatus UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Sender Status(%s). The upgrade is required.", unknownValue));
         return new SenderStatus(unknownValue, unknownValue);
     }
 
-    private static Map<String, SenderStatus> apiValues;
+    private static Map<String, SenderStatus> sdkValues;
     static {
-        apiValues = new HashMap<String, SenderStatus>();
-        apiValues.put("INVITED", INVITED);
-        apiValues.put("ACTIVE", ACTIVE);
-        apiValues.put("LOCKED", LOCKED);
+        sdkValues = new HashMap<String, SenderStatus>();
+        sdkValues.put(INVITED.name(), INVITED);
+        sdkValues.put(ACTIVE.name(), ACTIVE);
+        sdkValues.put(LOCKED.name(), LOCKED);
     }
 
     private SenderStatus(String apiValue, String sdkValue) {
@@ -26,10 +35,15 @@ public class SenderStatus extends EslEnumeration {
     }
 
     public static SenderStatus[] values() {
-        return apiValues.values().toArray(new SenderStatus[apiValues.size()]);
+        return sdkValues.values().toArray(new SenderStatus[sdkValues.size()]);
     }
 
     public static SenderStatus valueOf(String name) {
-        return apiValues.get(name);
+        SenderStatus result = sdkValues.get(name);
+        if (result != null)
+            return result;
+        if (name == null)
+            throw new NullPointerException("Name is null");
+        throw new IllegalArgumentException("No enum const SenderStatus." + name);
     }
 }

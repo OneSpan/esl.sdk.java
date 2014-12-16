@@ -1,4 +1,4 @@
-package com.silanis.esl.sdk;
+package com.silanis.esl.sdk.internal.converter;
 
 import java.util.logging.Logger;
 
@@ -24,7 +24,7 @@ public abstract class EslEnumeration {
         return toString();
     }
 
-    public String getApiValue() {
+    protected String getApiValue() {
         return apiValue;
     }
 

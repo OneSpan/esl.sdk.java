@@ -15,7 +15,7 @@ public class EventNotificationConverter {
      *
      * @param sdkNotificationEvent
      */
-    public EventNotificationConverter(com.silanis.esl.sdk.NotificationEvent sdkNotificationEvent) {
+    public EventNotificationConverter(NotificationEvent sdkNotificationEvent) {
         this.sdkNotificationEvent = sdkNotificationEvent;
     }
 
@@ -45,14 +45,17 @@ public class EventNotificationConverter {
      *
      * @return an SDK notification event.
      */
-    public com.silanis.esl.sdk.NotificationEvent toSDKNotificationEvent() {
+    public NotificationEvent toSDKNotificationEvent() {
         if (apiCallbackEvent == null) {
             return sdkNotificationEvent;
         }
-        sdkNotificationEvent = NotificationEvent.valueOf(apiCallbackEvent);
-        if (sdkNotificationEvent == null)
-            return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);
-        else
-            return sdkNotificationEvent;
+
+        NotificationEvent[] values = NotificationEvent.values();
+        for (NotificationEvent value : values) {
+            if(apiCallbackEvent.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);
     }
 }

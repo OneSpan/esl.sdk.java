@@ -8,7 +8,7 @@ import com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus;
 public class KnowledgeBasedAuthenticationStatusConverter {
 
     private String apiKnowledgeBasedAuthenticationStatus = null;
-    private com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus = null;
+    private KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus = null;
 
     /**
      * Construct with API KnowledgeBasedAuthenticationStatus object involved in conversion.
@@ -24,7 +24,7 @@ public class KnowledgeBasedAuthenticationStatusConverter {
      *
      * @param sdkKnowledgeBasedAuthenticationStatus
      */
-    public KnowledgeBasedAuthenticationStatusConverter(com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus) {
+    public KnowledgeBasedAuthenticationStatusConverter(KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus) {
         this.sdkKnowledgeBasedAuthenticationStatus = sdkKnowledgeBasedAuthenticationStatus;
     }
 
@@ -33,16 +33,18 @@ public class KnowledgeBasedAuthenticationStatusConverter {
      *
      * @return the SDK KnowledgeBasedAuthenticationStatus
      */
-    public com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus toSDKKnowledgeBasedAuthenticationStatus() {
+    public KnowledgeBasedAuthenticationStatus toSDKKnowledgeBasedAuthenticationStatus() {
         if (apiKnowledgeBasedAuthenticationStatus == null) {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
 
-        sdkKnowledgeBasedAuthenticationStatus = KnowledgeBasedAuthenticationStatus.valueOf(apiKnowledgeBasedAuthenticationStatus);
-        if (sdkKnowledgeBasedAuthenticationStatus == null)
-            return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
-        else
-            return sdkKnowledgeBasedAuthenticationStatus;
+        KnowledgeBasedAuthenticationStatus[] values = KnowledgeBasedAuthenticationStatus.values();
+        for (KnowledgeBasedAuthenticationStatus value : values) {
+            if(apiKnowledgeBasedAuthenticationStatus.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
     }
 
     /**

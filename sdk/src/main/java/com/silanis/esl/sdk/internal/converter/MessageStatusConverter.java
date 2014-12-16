@@ -10,7 +10,7 @@ import com.silanis.esl.sdk.MessageStatus;
 public class MessageStatusConverter {
 
     private String apiMessageStatus = null;
-    private com.silanis.esl.sdk.MessageStatus sdkMessageStatus = null;
+    private MessageStatus sdkMessageStatus = null;
 
     /**
      * Construct with API MessageStatus object involved in conversion.
@@ -26,7 +26,7 @@ public class MessageStatusConverter {
      *
      * @param sdkMessageStatus
      */
-    public MessageStatusConverter(com.silanis.esl.sdk.MessageStatus sdkMessageStatus) {
+    public MessageStatusConverter(MessageStatus sdkMessageStatus) {
         this.sdkMessageStatus = sdkMessageStatus;
     }
 
@@ -35,16 +35,18 @@ public class MessageStatusConverter {
      *
      * @return the SDK MessageStatus
      */
-    public com.silanis.esl.sdk.MessageStatus toSDKMessageStatus() {
+    public MessageStatus toSDKMessageStatus() {
         if (apiMessageStatus == null) {
             return sdkMessageStatus;
         }
 
-        sdkMessageStatus = MessageStatus.valueOf(apiMessageStatus);
-        if (sdkMessageStatus == null)
-            return MessageStatus.UNRECOGNIZED(apiMessageStatus);
-        else
-            return sdkMessageStatus;
+        MessageStatus[] values = MessageStatus.values();
+        for (MessageStatus value : values) {
+            if(apiMessageStatus.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return MessageStatus.UNRECOGNIZED(apiMessageStatus);
     }
 
     /**

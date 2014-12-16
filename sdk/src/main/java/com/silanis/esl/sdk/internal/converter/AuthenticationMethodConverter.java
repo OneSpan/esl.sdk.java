@@ -9,7 +9,7 @@ import com.silanis.esl.sdk.AuthenticationMethod;
  */
 public class AuthenticationMethodConverter {
 
-    private com.silanis.esl.sdk.AuthenticationMethod sdkAuthMethod = null;
+    private AuthenticationMethod sdkAuthMethod = null;
     private String apiAuthMethod = null;
 
     /**
@@ -25,7 +25,7 @@ public class AuthenticationMethodConverter {
      * Construct with SDK authentication method object involved in conversion.
      * @param sdkAuthMethod
      */
-    public AuthenticationMethodConverter(com.silanis.esl.sdk.AuthenticationMethod sdkAuthMethod) {
+    public AuthenticationMethodConverter(AuthenticationMethod sdkAuthMethod) {
         this.sdkAuthMethod = sdkAuthMethod;
     }
 
@@ -47,17 +47,18 @@ public class AuthenticationMethodConverter {
      *
      * @return an SDK Authentication Method object.
      */
-    public com.silanis.esl.sdk.AuthenticationMethod toSDKAuthMethod() {
+    public AuthenticationMethod toSDKAuthMethod() {
 
         if (apiAuthMethod == null) {
             return sdkAuthMethod;
         }
-
-        sdkAuthMethod = AuthenticationMethod.valueOf(apiAuthMethod);
-        if (sdkAuthMethod == null)
-            return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
-        else
-            return sdkAuthMethod;
+        AuthenticationMethod[] values = AuthenticationMethod.values();
+        for (AuthenticationMethod value : values) {
+            if(apiAuthMethod.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
     }
-    
+
 }

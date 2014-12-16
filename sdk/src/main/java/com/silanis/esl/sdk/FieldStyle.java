@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.sdk.internal.converter.EslEnumeration;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,23 +20,30 @@ public class FieldStyle extends EslEnumeration {
     public static final FieldStyle DROP_LIST = new FieldStyle("LIST", "DROP_LIST");
     public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA", "TEXT_AREA");
     public static final FieldStyle SEAL = new FieldStyle("SEAL", "SEAL");
+
+    /**
+     * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
+     * by new versions of e-SignLive. If you need access to those new values, you should upgrade your SDK version.
+     * @deprecated Please upgrade your SDK version to support new types in this enumeration.
+     */
+    @Deprecated
     public static final FieldStyle UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API FieldSubtype(%s). The upgrade is required.", unknownValue));
         return new FieldStyle(unknownValue, unknownValue);
     }
 
-    private static Map<String, FieldStyle> apiValues;
+    private static Map<String, FieldStyle> sdkValues;
     static {
-        apiValues = new HashMap<String, FieldStyle>();
-        apiValues.put("QRCODE", BOUND_QRCODE);
-        apiValues.put("TEXTFIELD", UNBOUND_TEXT_FIELD);
-        apiValues.put("CUSTOMFIELD", UNBOUND_CUSTOM_FIELD);
-        apiValues.put("CHECKBOX", UNBOUND_CHECK_BOX);
-        apiValues.put("RADIO", UNBOUND_RADIO_BUTTON);
-        apiValues.put("LABEL", LABEL);
-        apiValues.put("LIST", DROP_LIST);
-        apiValues.put("TEXTAREA", TEXT_AREA);
-        apiValues.put("SEAL", SEAL);
+        sdkValues = new HashMap<String, FieldStyle>();
+        sdkValues.put(BOUND_QRCODE.name(), BOUND_QRCODE);
+        sdkValues.put(UNBOUND_TEXT_FIELD.name(), UNBOUND_TEXT_FIELD);
+        sdkValues.put(UNBOUND_CUSTOM_FIELD.name(), UNBOUND_CUSTOM_FIELD);
+        sdkValues.put(UNBOUND_CHECK_BOX.name(), UNBOUND_CHECK_BOX);
+        sdkValues.put(UNBOUND_RADIO_BUTTON.name(), UNBOUND_RADIO_BUTTON);
+        sdkValues.put(LABEL.name(), LABEL);
+        sdkValues.put(DROP_LIST.name(), DROP_LIST);
+        sdkValues.put(TEXT_AREA.name(), TEXT_AREA);
+        sdkValues.put(SEAL.name(), SEAL);
     }
 
     private final String binding;
@@ -53,11 +62,16 @@ public class FieldStyle extends EslEnumeration {
     }
 
     public static FieldStyle[] values() {
-        return apiValues.values().toArray(new FieldStyle[apiValues.size()]);
+        return sdkValues.values().toArray(new FieldStyle[sdkValues.size()]);
     }
 
     public static FieldStyle valueOf(String name) {
-        return apiValues.get(name);
+        FieldStyle result = sdkValues.get(name);
+        if (result != null)
+            return result;
+        if (name == null)
+            throw new NullPointerException("Name is null");
+        throw new IllegalArgumentException("No enum const FieldStyle." + name);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.sdk.internal.converter.EslEnumeration;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,28 +21,35 @@ public class NotificationEvent extends EslEnumeration {
     public static final NotificationEvent PACKAGE_TRASH = new NotificationEvent("PACKAGE_TRASH", "PACKAGE_TRASH");
     public static final NotificationEvent PACKAGE_RESTORE = new NotificationEvent("PACKAGE_RESTORE", "PACKAGE_RESTORE");
     public static final NotificationEvent PACKAGE_DELETE = new NotificationEvent("PACKAGE_DELETE", "PACKAGE_DELETE");
+
+    /**
+     * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
+     * by new versions of e-SignLive. If you need access to those new values, you should upgrade your SDK version.
+     * @deprecated Please upgrade your SDK version to support new types in this enumeration.
+     */
+    @Deprecated
     public static final NotificationEvent UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Callback Event(%s). The upgrade is required.", unknownValue));
         return new NotificationEvent(unknownValue, unknownValue);
     }
 
-    private static Map<String, NotificationEvent> apiValues;
+    private static Map<String, NotificationEvent> sdkValues;
     static {
-        apiValues = new HashMap<String, NotificationEvent>();
-        apiValues.put("PACKAGE_ACTIVATE", PACKAGE_ACTIVATE);
-        apiValues.put("PACKAGE_COMPLETE", PACKAGE_COMPLETE);
-        apiValues.put("PACKAGE_EXPIRE", PACKAGE_EXPIRE);
-        apiValues.put("PACKAGE_OPT_OUT", PACKAGE_OPT_OUT);
-        apiValues.put("PACKAGE_DECLINE", PACKAGE_DECLINE);
-        apiValues.put("SIGNER_COMPLETE", SIGNER_COMPLETE);
-        apiValues.put("DOCUMENT_SIGNED", DOCUMENT_SIGNED);
-        apiValues.put("ROLE_REASSIGN", ROLE_REASSIGN);
-        apiValues.put("PACKAGE_CREATE", PACKAGE_CREATE);
-        apiValues.put("PACKAGE_DEACTIVATE", PACKAGE_DEACTIVATE);
-        apiValues.put("PACKAGE_READY_FOR_COMPLETE", PACKAGE_READY_FOR_COMPLETION);
-        apiValues.put("PACKAGE_TRASH", PACKAGE_TRASH);
-        apiValues.put("PACKAGE_RESTORE", PACKAGE_RESTORE);
-        apiValues.put("PACKAGE_DELETE", PACKAGE_DELETE);
+        sdkValues = new HashMap<String, NotificationEvent>();
+        sdkValues.put(PACKAGE_ACTIVATE.name(), PACKAGE_ACTIVATE);
+        sdkValues.put(PACKAGE_COMPLETE.name(), PACKAGE_COMPLETE);
+        sdkValues.put(PACKAGE_EXPIRE.name(), PACKAGE_EXPIRE);
+        sdkValues.put(PACKAGE_OPT_OUT.name(), PACKAGE_OPT_OUT);
+        sdkValues.put(PACKAGE_DECLINE.name(), PACKAGE_DECLINE);
+        sdkValues.put(SIGNER_COMPLETE.name(), SIGNER_COMPLETE);
+        sdkValues.put(DOCUMENT_SIGNED.name(), DOCUMENT_SIGNED);
+        sdkValues.put(ROLE_REASSIGN.name(), ROLE_REASSIGN);
+        sdkValues.put(PACKAGE_CREATE.name(), PACKAGE_CREATE);
+        sdkValues.put(PACKAGE_DEACTIVATE.name(), PACKAGE_DEACTIVATE);
+        sdkValues.put(PACKAGE_READY_FOR_COMPLETION.name(), PACKAGE_READY_FOR_COMPLETION);
+        sdkValues.put(PACKAGE_TRASH.name(), PACKAGE_TRASH);
+        sdkValues.put(PACKAGE_RESTORE.name(), PACKAGE_RESTORE);
+        sdkValues.put(PACKAGE_DELETE.name(), PACKAGE_DELETE);
     }
 
     private NotificationEvent(String apiValue, String sdkValue) {
@@ -48,10 +57,15 @@ public class NotificationEvent extends EslEnumeration {
     }
 
     public static NotificationEvent[] values() {
-        return apiValues.values().toArray(new NotificationEvent[apiValues.size()]);
+        return sdkValues.values().toArray(new NotificationEvent[sdkValues.size()]);
     }
 
     public static NotificationEvent valueOf(String name) {
-        return apiValues.get(name);
+        NotificationEvent result = sdkValues.get(name);
+        if (result != null)
+            return result;
+        if (name == null)
+            throw new NullPointerException("Name is null");
+        throw new IllegalArgumentException("No enum const NotificationEvent." + name);
     }
 }

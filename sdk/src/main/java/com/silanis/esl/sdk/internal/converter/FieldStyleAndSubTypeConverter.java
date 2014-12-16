@@ -64,11 +64,13 @@ public class FieldStyleAndSubTypeConverter {
         }
 
         if ( apiFieldBinding == null ) {
-            sdkFieldStyle = FieldStyle.valueOf(apiFieldSubType);
-            if (sdkFieldStyle == null)
-                return FieldStyle.UNRECOGNIZED(apiFieldSubType);
-            else
-                return sdkFieldStyle;
+            FieldStyle[] values = FieldStyle.values();
+            for (FieldStyle value : values) {
+                if(apiFieldSubType.equals(value.getApiValue())){
+                    return value;
+                }
+            }
+            return FieldStyle.UNRECOGNIZED(apiFieldSubType);
 
         } else {
             String binding = apiFieldBinding;

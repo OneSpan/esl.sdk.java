@@ -9,7 +9,7 @@ import com.silanis.esl.sdk.PackageStatus;
  */
 public class PackageStatusConverter {
 
-    private com.silanis.esl.sdk.PackageStatus sdkPackageStatus = null;
+    private PackageStatus sdkPackageStatus = null;
     private String apiPackageStatus = null;
 
     /**
@@ -26,20 +26,22 @@ public class PackageStatusConverter {
      *
      * @param sdkPackageStatus
      */
-    public PackageStatusConverter(com.silanis.esl.sdk.PackageStatus sdkPackageStatus) {
+    public PackageStatusConverter(PackageStatus sdkPackageStatus) {
         this.sdkPackageStatus = sdkPackageStatus;
     }
 
-    public com.silanis.esl.sdk.PackageStatus toSDKPackageStatus() {
+    public PackageStatus toSDKPackageStatus() {
         if (apiPackageStatus == null) {
             return sdkPackageStatus;
         }
 
-        sdkPackageStatus = PackageStatus.valueOf(apiPackageStatus);
-        if (sdkPackageStatus == null)
-            return PackageStatus.UNRECOGNIZED(apiPackageStatus);
-        else
-            return sdkPackageStatus;
+        PackageStatus[] values = PackageStatus.values();
+        for (PackageStatus value : values) {
+            if(apiPackageStatus.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return PackageStatus.UNRECOGNIZED(apiPackageStatus);
     }
 
     public String toAPIPackageStatus() {

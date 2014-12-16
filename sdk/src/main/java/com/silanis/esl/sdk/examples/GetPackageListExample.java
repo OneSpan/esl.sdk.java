@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
+import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -62,6 +63,6 @@ public class GetPackageListExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackages( "SENT", new PageRequest( 1 ) );
+        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackages( new PackageStatusConverter(PackageStatus.SENT).toAPIPackageStatus(), new PageRequest( 1 ) );
     }
 }

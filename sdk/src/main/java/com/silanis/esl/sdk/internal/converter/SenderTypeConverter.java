@@ -9,7 +9,7 @@ import com.silanis.esl.sdk.SenderType;
  */
 public class SenderTypeConverter {
 
-    private com.silanis.esl.sdk.SenderType sdkSenderType = null;
+    private SenderType sdkSenderType = null;
     private String apiSenderType = null;
 
     /**
@@ -26,20 +26,22 @@ public class SenderTypeConverter {
      *
      * @param sdkSenderType
      */
-    public SenderTypeConverter(com.silanis.esl.sdk.SenderType sdkSenderType) {
+    public SenderTypeConverter(SenderType sdkSenderType) {
         this.sdkSenderType = sdkSenderType;
     }
 
-    public com.silanis.esl.sdk.SenderType toSDKSenderType() {
+    public SenderType toSDKSenderType() {
         if (apiSenderType == null) {
             return sdkSenderType;
         }
 
-        sdkSenderType = SenderType.valueOf(apiSenderType);
-        if (sdkSenderType == null)
-            return SenderType.UNRECOGNIZED(apiSenderType);
-        else
-            return sdkSenderType;
+        SenderType[] values = SenderType.values();
+        for (SenderType value : values) {
+            if(apiSenderType.equals(value.getApiValue())){
+                return value;
+            }
+        }
+        return SenderType.UNRECOGNIZED(apiSenderType);
     }
 
     public String toAPISenderType() {
