@@ -2,25 +2,39 @@ package com.silanis.esl.sdk.internal;
 
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.Streams;
-import org.apache.http.Header;
-import org.apache.http.HttpException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHeader;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Collection;
+import org.apache.http.Consts;
+import org.apache.http.Header;
+import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 
 public class RestClient {
 
@@ -42,8 +56,15 @@ public class RestClient {
     private final String apiToken;
     private final Support support = new Support();
 
+    private ProxyConfiguration proxyConfiguration;
+
     public RestClient(String apiToken) {
         this.apiToken = apiToken;
+    }
+
+    public RestClient(String apiToken, ProxyConfiguration proxyConfiguration) {
+        this.apiToken = apiToken;
+        this.proxyConfiguration = proxyConfiguration;
     }
 
     public String post(String path, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
@@ -78,15 +99,13 @@ public class RestClient {
     public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
-        MultipartEntity multipart = new MultipartEntity();
-        String contentType = MimeTypeUtils.getContentTypeByFileName(fileName);
-
-        multipart.addPart("payload", new StringBody(jsonPayload));
-        multipart.addPart("file", new ByteArrayBody(fileBytes, contentType, fileName));
+        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
+        multipartEntityBuilder.addPart("file", buildPartForFile(fileBytes, fileName));
 
         HttpPost post = new HttpPost( path );
 
-        post.setEntity(multipart);
+        post.setEntity(multipartEntityBuilder.build());
 
         execute(post, jsonHandler);
     }
@@ -94,18 +113,34 @@ public class RestClient {
     public String postMultipartPackage(String path, Collection<Document> documents, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
-        MultipartEntity multipart = new MultipartEntity();
-        multipart.addPart("payload", new StringBody(jsonPayload));
+        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
 
         for(com.silanis.esl.sdk.Document document : documents) {
-            String contentType = MimeTypeUtils.getContentTypeByFileName(document.getFileName());
-            multipart.addPart("file", new ByteArrayBody(document.getContent(), contentType, document.getName()));
+            multipartEntityBuilder.addPart("file", buildPartForFile(document));
         }
 
         HttpPost post = new HttpPost(path);
 
-        post.setEntity(multipart);
+        post.setEntity(multipartEntityBuilder.build());
         return execute(post, jsonHandler);
+    }
+
+    private StringBody buildPartForPayload(String jsonPayload) {
+        return new StringBody(jsonPayload, ContentType.create("text/plain", Consts.ASCII));
+    }
+
+    private ContentBody buildPartForFile(byte[] content, String fileName) {
+        return buildPartForFile(content, fileName, fileName);
+    }
+
+    private ByteArrayBody buildPartForFile(Document document) {
+        return buildPartForFile(document.getContent(), document.getFileName(), document.getName());
+    }
+
+    private ByteArrayBody buildPartForFile(byte[] content, String fileName, String name) {
+        String contentType = MimeTypeUtils.getContentTypeByFileName(fileName);
+        return new ByteArrayBody(content, ContentType.create(contentType), name);
     }
 
     protected void addAuthorizationHeader(HttpUriRequest request) {
@@ -113,13 +148,15 @@ public class RestClient {
     }
 
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
-        HttpClient client = new DefaultHttpClient();
+
+        CloseableHttpClient client = buildHttpClient();
 
         addAuthorizationHeader(request);
 
         try {
             support.log(request);
-            HttpResponse response = client.execute(request);
+            CloseableHttpResponse response = client.execute(request);
+            //HttpResponse response = client.execute(request);
 
             if (response.getStatusLine().getStatusCode() >= 400) {
                 String errorDetails = Streams.toString(response.getEntity().getContent());
@@ -137,8 +174,35 @@ public class RestClient {
             }
         }
         finally {
-            client.getConnectionManager().shutdown();
+            client.close();
         }
+    }
+
+    private CloseableHttpClient buildHttpClient() {
+        if(proxyConfiguration != null){
+            final HttpClientBuilder httpClientBuilder = HttpClients.custom();
+            if(proxyConfiguration.hasCredentials()){
+                httpClientBuilder.setDefaultCredentialsProvider(buildCredentialsConfiguration(proxyConfiguration));
+            }
+            httpClientBuilder.setDefaultRequestConfig(buildProxyConfiguration(proxyConfiguration));
+            return httpClientBuilder.build();
+        }
+        else{
+            return HttpClients.createDefault();
+        }
+    }
+
+    private RequestConfig buildProxyConfiguration(ProxyConfiguration proxyConfiguration) {
+        return RequestConfig.custom()
+                .setProxy(new HttpHost(proxyConfiguration.getHost(), proxyConfiguration.getPort(), proxyConfiguration.getScheme()))
+                .build();
+    }
+
+    private CredentialsProvider buildCredentialsConfiguration(ProxyConfiguration proxyConfiguration) {
+        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(new AuthScope(proxyConfiguration.getHost(), proxyConfiguration.getPort()),
+                new UsernamePasswordCredentials(proxyConfiguration.getUserName(), proxyConfiguration.getPassword()));
+        return credentialsProvider;
     }
 
     public String get(String path) throws IOException, HttpException, URISyntaxException, RequestException {
