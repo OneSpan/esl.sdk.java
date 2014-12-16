@@ -2,10 +2,7 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
 import com.silanis.esl.api.model.AuthScheme;
-import com.silanis.esl.sdk.Authentication;
-import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.Challenge;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +49,7 @@ public class AuthenticationConverter {
         com.silanis.esl.api.model.Auth auth = new com.silanis.esl.api.model.Auth().setScheme(new AuthenticationMethodConverter(sdkAuth.getMethod()).toAPIAuthMethod());
 
         for (com.silanis.esl.sdk.Challenge challenge : sdkAuth.getChallenges()) {
-            auth.addChallenge(new AuthChallenge().setQuestion(challenge.getQuestion()).setAnswer(challenge.getAnswer()));
+            auth.addChallenge(new AuthChallenge().setQuestion(challenge.getQuestion()).setAnswer(challenge.getAnswer()).setMaskInput(challenge.getMaskOption() == Challenge.MaskOptions.MaskInput));
         }
 
         if (sdkAuth.getPhoneNumber() != null) {

@@ -505,6 +505,44 @@ final public class SignerBuilder {
             return this;
         }
 
+        /**
+         * Add answer to the first and second question with mask input option. Must be invoked in order
+         * in order to provide the first question's answer and the second
+         * question's answer.
+         *
+         * <p>
+         * It should not be invoked more than twice.
+         *
+         * @see #firstQuestion(String)
+         * @see #secondQuestion(String)
+         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @param maskOption enable/disable masking of challenge
+         * @return This
+         */
+        @Deprecated
+        public ChallengeBuilder answer(String answer, Challenge.MaskOptions maskOption) {
+            challenges.add(new Challenge(question, answer, maskOption));
+            return this;
+        }
+
+        /**
+         * Add answer to the first and second question with mask input. Must be invoked in order
+         * in order to provide the first question's answer and the second
+         * question's answer.
+         *
+         * <p>
+         * It should not be invoked more than twice.
+         *
+         * @see #firstQuestion(String)
+         * @see #secondQuestion(String)
+         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @return This
+         */
+        public ChallengeBuilder answerWithMaskInput(String answer) {
+            challenges.add(new Challenge(question, answer, Challenge.MaskOptions.MaskInput));
+            return this;
+        }
+
         @Override
         public Authentication build() {
             if (questionProvided() && challenges.isEmpty()) {
