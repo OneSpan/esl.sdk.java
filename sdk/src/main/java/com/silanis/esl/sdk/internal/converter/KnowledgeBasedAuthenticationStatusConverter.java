@@ -38,10 +38,10 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
 
-        KnowledgeBasedAuthenticationStatus[] values = KnowledgeBasedAuthenticationStatus.values();
-        for (KnowledgeBasedAuthenticationStatus value : values) {
-            if(apiKnowledgeBasedAuthenticationStatus.equals(value.getApiValue())){
-                return value;
+        KnowledgeBasedAuthenticationStatus[] knowledgeBasedAuthenticationStatuses = KnowledgeBasedAuthenticationStatus.values();
+        for (KnowledgeBasedAuthenticationStatus knowledgeBasedAuthenticationStatus : knowledgeBasedAuthenticationStatuses) {
+            if(apiKnowledgeBasedAuthenticationStatus.equals(knowledgeBasedAuthenticationStatus.getApiValue())){
+                return knowledgeBasedAuthenticationStatus;
             }
         }
         return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);

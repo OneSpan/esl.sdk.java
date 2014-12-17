@@ -52,10 +52,10 @@ public class AuthenticationMethodConverter {
         if (apiAuthMethod == null) {
             return sdkAuthMethod;
         }
-        AuthenticationMethod[] values = AuthenticationMethod.values();
-        for (AuthenticationMethod value : values) {
-            if(apiAuthMethod.equals(value.getApiValue())){
-                return value;
+        AuthenticationMethod[] authenticationMethods = AuthenticationMethod.values();
+        for (AuthenticationMethod authenticationMethod : authenticationMethods) {
+            if(apiAuthMethod.equals(authenticationMethod.getApiValue())){
+                return authenticationMethod;
             }
         }
         return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);

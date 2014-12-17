@@ -35,10 +35,10 @@ public class PackageStatusConverter {
             return sdkPackageStatus;
         }
 
-        PackageStatus[] values = PackageStatus.values();
-        for (PackageStatus value : values) {
-            if(apiPackageStatus.equals(value.getApiValue())){
-                return value;
+        PackageStatus[] packageStatuses = PackageStatus.values();
+        for (PackageStatus packageStatus : packageStatuses) {
+            if(apiPackageStatus.equals(packageStatus.getApiValue())){
+                return packageStatus;
             }
         }
         return PackageStatus.UNRECOGNIZED(apiPackageStatus);

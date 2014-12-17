@@ -56,10 +56,10 @@ public class GroupMemberTypeConverter {
             return sdkMemberType;
         }
 
-        GroupMemberType[] values = GroupMemberType.values();
-        for (GroupMemberType value : values) {
-            if(apiMemberType.equals(value.getApiValue())){
-                return value;
+        GroupMemberType[] groupMemberTypes = GroupMemberType.values();
+        for (GroupMemberType groupMemberType : groupMemberTypes) {
+            if(apiMemberType.equals(groupMemberType.getApiValue())){
+                return groupMemberType;
             }
         }
         return GroupMemberType.UNRECOGNIZED(apiMemberType);

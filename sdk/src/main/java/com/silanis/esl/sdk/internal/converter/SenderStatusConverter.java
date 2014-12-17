@@ -35,10 +35,10 @@ public class SenderStatusConverter {
             return sdkSenderStatus;
         }
 
-        SenderStatus[] values = SenderStatus.values();
-        for (SenderStatus value : values) {
-            if(apiSenderStatus.equals(value.getApiValue())){
-                return value;
+        SenderStatus[] senderStatuses = SenderStatus.values();
+        for (SenderStatus senderStatus : senderStatuses) {
+            if(apiSenderStatus.equals(senderStatus.getApiValue())){
+                return senderStatus;
             }
         }
         return SenderStatus.UNRECOGNIZED(apiSenderStatus);

@@ -35,10 +35,10 @@ public class RequirementStatusConverter {
             return sdkRequirementStatus;
         }
 
-        RequirementStatus[] values = RequirementStatus.values();
-        for (RequirementStatus value : values) {
-            if(apiRequirementStatus.equals(value.getApiValue())){
-                return value;
+        RequirementStatus[] requirementStatuses = RequirementStatus.values();
+        for (RequirementStatus requirementStatus : requirementStatuses) {
+            if(apiRequirementStatus.equals(requirementStatus.getApiValue())){
+                return requirementStatus;
             }
         }
         return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);

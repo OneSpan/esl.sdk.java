@@ -40,10 +40,10 @@ public class MessageStatusConverter {
             return sdkMessageStatus;
         }
 
-        MessageStatus[] values = MessageStatus.values();
-        for (MessageStatus value : values) {
-            if(apiMessageStatus.equals(value.getApiValue())){
-                return value;
+        MessageStatus[] messageStatuses = MessageStatus.values();
+        for (MessageStatus messageStatus : messageStatuses) {
+            if(apiMessageStatus.equals(messageStatus.getApiValue())){
+                return messageStatus;
             }
         }
         return MessageStatus.UNRECOGNIZED(apiMessageStatus);

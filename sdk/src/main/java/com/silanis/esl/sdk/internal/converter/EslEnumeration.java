@@ -17,11 +17,11 @@ public abstract class EslEnumeration {
     }
 
     public String toString() {
-        return sdkValue;
+        return name();
     }
 
     public String name() {
-        return toString();
+        return sdkValue;
     }
 
     protected String getApiValue() {

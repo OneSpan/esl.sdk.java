@@ -50,10 +50,10 @@ public class EventNotificationConverter {
             return sdkNotificationEvent;
         }
 
-        NotificationEvent[] values = NotificationEvent.values();
-        for (NotificationEvent value : values) {
-            if(apiCallbackEvent.equals(value.getApiValue())){
-                return value;
+        NotificationEvent[] notificationEvents = NotificationEvent.values();
+        for (NotificationEvent notificationEvent : notificationEvents) {
+            if(apiCallbackEvent.equals(notificationEvent.getApiValue())){
+                return notificationEvent;
             }
         }
         return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);

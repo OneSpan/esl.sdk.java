@@ -35,10 +35,10 @@ public class SenderTypeConverter {
             return sdkSenderType;
         }
 
-        SenderType[] values = SenderType.values();
-        for (SenderType value : values) {
-            if(apiSenderType.equals(value.getApiValue())){
-                return value;
+        SenderType[] senderTypes = SenderType.values();
+        for (SenderType senderType : senderTypes) {
+            if(apiSenderType.equals(senderType.getApiValue())){
+                return senderType;
             }
         }
         return SenderType.UNRECOGNIZED(apiSenderType);

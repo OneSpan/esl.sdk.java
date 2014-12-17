@@ -3,9 +3,7 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.SignatureId;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 
 /**
@@ -72,7 +70,7 @@ public class SignatureConverter {
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
         for ( com.silanis.esl.api.model.Field apiField : apiApproval.getFields() ) {
-            if ( "SIGNATURE".equals(apiField.getType()) ) {
+            if (apiField.getType().equals(FieldType.SIGNATURE.getApiValue()) ) {
                 apiSignatureField = apiField;
             } else {
                 signatureBuilder.withField( new FieldConverter(apiField).toSDKField() );
@@ -169,7 +167,7 @@ public class SignatureConverter {
             result.setExtractAnchor( new TextAnchorConverter(sdkSignature.getTextAnchor()).toAPIExtractAnchor() );
         }
 
-        result.setType("SIGNATURE");
+        result.setType(FieldType.SIGNATURE.getApiValue());
         result.setSubtype( getSignatureSubtype() );
 
         return result;
@@ -181,20 +179,10 @@ public class SignatureConverter {
      * @return a field sub type.
      */
     private String getSignatureSubtype() {
-        switch (sdkSignature.getStyle()) {
-            case FULL_NAME:
-                return "FULLNAME";
-            case HAND_DRAWN:
-                return "CAPTURE";
-            case INITIALS:
-                return "INITIALS";
-            case ACCEPTANCE:
-                return "FULLNAME";
-            case MOBILE_CAPTURE:
-                return "MOBILE_CAPTURE";
-            default:
-                return "";
+        if (sdkSignature == null) {
+            return null;
         }
+        return sdkSignature.getStyle().getApiValue();
     }
     
 }

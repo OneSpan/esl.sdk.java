@@ -630,7 +630,7 @@ public class PackageService {
      */
     public Page<DocumentPackage> getPackages(String status, PageRequest request) {
         String path = template.urlFor(UrlTemplate.PACKAGE_LIST_PATH)
-                .replace("{status}", status.toString())
+                .replace("{status}", status)
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
                 .build();

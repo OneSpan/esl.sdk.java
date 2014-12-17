@@ -32,10 +32,10 @@ public class BasePackageTypeConverter {
             return sdkBasePackageType;
         }
 
-        BasePackageType[] values = BasePackageType.values();
-        for (BasePackageType value : values) {
-            if(apiBasePackageType.equals(value.getApiValue())){
-                return value;
+        BasePackageType[] basePackageTypes = BasePackageType.values();
+        for (BasePackageType basePackageType : basePackageTypes) {
+            if(apiBasePackageType.equals(basePackageType.getApiValue())){
+                return basePackageType;
             }
         }
         return BasePackageType.UNRECOGNIZED(apiBasePackageType);
