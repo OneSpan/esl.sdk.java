@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Approval;
+import com.silanis.esl.api.model.External;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.Field;
@@ -96,6 +97,11 @@ public class DocumentConverter {
 
         if ( sdkDocument.getDescription() != null ) {
             resultAPIDocument.setDescription(sdkDocument.getDescription());
+        }
+
+        if( sdkDocument.getExternal() != null){
+            External external =  new ExternalConverter(sdkDocument.getExternal()).toAPIExternal();
+            resultAPIDocument.setExternal(external);
         }
 
         for ( Signature signature : sdkDocument.getSignatures() ) {
