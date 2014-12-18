@@ -54,7 +54,7 @@ public class SignerQnAChallengeExample extends SDKSample {
                         .challengedWithQuestions(firstQuestion(FIRST_QUESTION)
                                 .answer(FIRST_ANSWER)
                                 .secondQuestion(SECOND_QUESTION)
-                                .answer(SECOND_ANSWER)))
+                                .answerWithMaskInput(SECOND_ANSWER)))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature(signatureFor(email1)

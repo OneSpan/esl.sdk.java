@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.Challenge;
+
 /**
  * User: jessica
  * Date: 22/11/13
@@ -46,6 +48,7 @@ public class ChallengeConverter {
 
         apiChallenge.setQuestion(sdkChallenge.getQuestion());
         apiChallenge.setAnswer(sdkChallenge.getAnswer());
+        apiChallenge.setMaskInput(sdkChallenge.getMaskOption() == Challenge.MaskOptions.MaskInput);
 
         return apiChallenge;
     }
@@ -59,7 +62,7 @@ public class ChallengeConverter {
         if (apiChallenge == null) {
             return sdkChallenge;
         }
-        com.silanis.esl.sdk.Challenge sdkChallenge = new com.silanis.esl.sdk.Challenge(apiChallenge.getQuestion(), apiChallenge.getAnswer());
+        com.silanis.esl.sdk.Challenge sdkChallenge = new com.silanis.esl.sdk.Challenge(apiChallenge.getQuestion(), apiChallenge.getAnswer(), apiChallenge.getMaskInput()? Challenge.MaskOptions.MaskInput : Challenge.MaskOptions.None);
         return sdkChallenge;
     }
 
