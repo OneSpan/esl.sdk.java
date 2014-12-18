@@ -15,6 +15,9 @@ public class ProxyConfigurationBuilder {
     private String userName;
     private String password;
 
+    private final String regexIP = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
+    private final String regexHostName = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$";
+
     private ProxyConfigurationBuilder() {}
 
     public static ProxyConfigurationBuilder newProxyConfiguration() {
@@ -69,11 +72,15 @@ public class ProxyConfigurationBuilder {
     }
 
     private void validate() {
-        if (httpHost!= null && !httpHost.matches("\\b(http?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
-            throw new BuilderException( "The proxy should be a correct http URL." );
+        if (httpHost!= null
+                && !httpHost.matches(regexIP)
+                && !httpHost.matches(regexHostName)) {
+            throw new BuilderException( "The proxy should be a correct Host name or IP address." );
         }
-        if (httpsHost!= null && !httpsHost.matches("\\b(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")) {
-            throw new BuilderException( "The proxy should be a correct https URL." );
+        if (httpsHost!= null
+                && !httpsHost.matches(regexIP)
+                && !httpsHost.matches(regexHostName)) {
+            throw new BuilderException( "The proxy should be a correct Host name or IP address." );
         }
         if ( (httpHost != null && httpPort != 0) && ( httpsHost != null || httpsPort != 0 )
                 || ( (httpsHost != null && httpsPort != 0) && ( httpHost != null || httpPort != 0 ) ) ) {

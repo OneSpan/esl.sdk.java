@@ -9,7 +9,14 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.Collection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
@@ -24,6 +31,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -55,15 +63,29 @@ public class RestClient {
 
     private final String apiToken;
     private final Support support = new Support();
+    private final boolean allowAllSSLCertificates;
 
     private ProxyConfiguration proxyConfiguration;
 
     public RestClient(String apiToken) {
         this.apiToken = apiToken;
+        this.allowAllSSLCertificates = false;
+    }
+
+    public RestClient(String apiToken, boolean allowAllSSLCertificates) {
+        this.apiToken = apiToken;
+        this.allowAllSSLCertificates = allowAllSSLCertificates;
     }
 
     public RestClient(String apiToken, ProxyConfiguration proxyConfiguration) {
         this.apiToken = apiToken;
+        this.proxyConfiguration = proxyConfiguration;
+        this.allowAllSSLCertificates = false;
+    }
+
+    public RestClient(String apiToken, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
+        this.apiToken = apiToken;
+        this.allowAllSSLCertificates = allowAllSSLCertificates;
         this.proxyConfiguration = proxyConfiguration;
     }
 
@@ -149,14 +171,21 @@ public class RestClient {
 
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
 
-        CloseableHttpClient client = buildHttpClient();
-
-        addAuthorizationHeader(request);
+        CloseableHttpClient client = null;
+        try {
+            client = buildHttpClient();
+        } catch (HttpException e) {
+            throw new RequestException(request.getRequestLine().getMethod(),
+                                       request.getRequestLine().getUri(),
+                                       500,
+                                       "No SSL Socket Factory",
+                                       "Could not build request because of SSL socket Factory");
+        }
 
         try {
+            addAuthorizationHeader(request);
             support.log(request);
             CloseableHttpResponse response = client.execute(request);
-            //HttpResponse response = client.execute(request);
 
             if (response.getStatusLine().getStatusCode() >= 400) {
                 String errorDetails = Streams.toString(response.getEntity().getContent());
@@ -169,18 +198,20 @@ public class RestClient {
                 return null;
             } else {
                 InputStream bodyContent = response.getEntity().getContent();
-
                 return handler.extract(bodyContent);
             }
-        }
-        finally {
+        } finally {
             client.close();
         }
     }
 
-    private CloseableHttpClient buildHttpClient() {
+    private CloseableHttpClient buildHttpClient() throws HttpException {
+        final HttpClientBuilder httpClientBuilder = HttpClients.custom();
+        if(allowAllSSLCertificates){
+            httpClientBuilder.setSSLSocketFactory(buildSSLSocketFactory());
+        }
+
         if(proxyConfiguration != null){
-            final HttpClientBuilder httpClientBuilder = HttpClients.custom();
             if(proxyConfiguration.hasCredentials()){
                 httpClientBuilder.setDefaultCredentialsProvider(buildCredentialsConfiguration(proxyConfiguration));
             }
@@ -188,7 +219,36 @@ public class RestClient {
             return httpClientBuilder.build();
         }
         else{
-            return HttpClients.createDefault();
+            return httpClientBuilder.build();
+        }
+    }
+
+    private SSLConnectionSocketFactory buildSSLSocketFactory() throws HttpException {
+
+        //Disabling all checks that SSL certificate is valid. We are actually calling e-SignLive anyways.
+        //Our client library should implicitly trust our e-SignLive server. This also allows testing against
+        //server with Self-signed certificates.
+        try {
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null,
+                    new TrustManager[]{new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return null;
+                        }
+
+                        public void checkClientTrusted(
+                                X509Certificate[] certs, String authType) {
+                        }
+
+                        public void checkServerTrusted(
+                                X509Certificate[] certs, String authType) {
+                        }
+                    }}, new SecureRandom());
+            return new SSLConnectionSocketFactory(sslContext,SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        } catch (KeyManagementException e) {
+            throw new HttpException("Problem configuring SSL Socket factory", e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new HttpException("Problem configuring SSL Socket factory", e);
         }
     }
 
