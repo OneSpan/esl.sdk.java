@@ -3,7 +3,6 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.api.model.SignerStatus;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
@@ -71,10 +70,6 @@ public class SignerConverter {
             result.setId( sdkSigner.getId() );
         }
 
-        if( sdkSigner.getStatus() != null ) {
-            result.setStatus( SignerStatus.valueOf(sdkSigner.getStatus()) );
-        }
-
         result.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication());
 
         return result;
@@ -121,9 +116,7 @@ public class SignerConverter {
             signerBuilder.withAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toSDKAttachmentRequirement());
         }
 
-        Signer sdkSigner = signerBuilder.build();
-        sdkSigner.setStatus(apiSigner.getStatus().name());
-        return sdkSigner;
+        return signerBuilder.build();
     }
 
     private Signer newSignerPlaceholderFromAPIRole(){
