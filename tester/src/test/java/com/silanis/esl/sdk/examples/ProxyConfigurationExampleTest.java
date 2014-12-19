@@ -1,17 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
-import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpObject;
-import io.netty.handler.codec.http.HttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 import java.security.cert.X509Certificate;
 import java.util.HashSet;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.net.ssl.SSLEngine;
@@ -30,14 +23,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
-import org.littleshoot.proxy.ActivityTracker;
-import org.littleshoot.proxy.ChainedProxy;
-import org.littleshoot.proxy.ChainedProxyManager;
-import org.littleshoot.proxy.FlowContext;
-import org.littleshoot.proxy.FullFlowContext;
-import org.littleshoot.proxy.HttpFilters;
-import org.littleshoot.proxy.HttpFiltersAdapter;
-import org.littleshoot.proxy.HttpFiltersSourceAdapter;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.MitmManager;
 import org.littleshoot.proxy.ProxyAuthenticator;
@@ -56,7 +41,7 @@ public class ProxyConfigurationExampleTest {
 
     private final int httpProxyPort = 8001;
     private final int httpProxyWithCredentialsPort = 8002;
-    private final int httpsProxyPort = 8003;
+    private final int httpsProxyPort = 80;
     private final int httpsProxyWithCredentialsPort = 8004;
 
     protected AtomicInteger bytesReceivedFromClient;
@@ -104,15 +89,14 @@ public class ProxyConfigurationExampleTest {
 //        assertThat(documentPackage2, is(notNullValue()));
 //        httpProxyHasCredentialsServer.stop();
 
-        httpsProxyServer = httpsProxy(httpsProxyPort);
+        //httpsProxyServer = httpsProxy(httpsProxyPort);
         example.executeHttpsProxy();
         documentPackage3 = example.eslClientWithHttpsProxy.getPackage(example.packageId);
         assertThat(documentPackage3, is(notNullValue()));
-        httpsProxyServer.stop();
+        //httpsProxyServer.stop();
 //
 //        documentPackage4 = example.eslClientWithHttpsProxyHasCredentials.getPackage(example.packageId4);
 //        assertThat(documentPackage4, is(notNullValue()));
-
 
     }
 
@@ -145,6 +129,7 @@ public class ProxyConfigurationExampleTest {
         final HttpProxyServer httpProxyServer = DefaultHttpProxyServer.bootstrap().
 //                withManInTheMiddle(certificateMng).
 //                withSslEngineSource(certificateMng.selfSignedSslEngineSource).
+                withManInTheMiddle(new SelfSignedMitmManager()).
                 withPort(port).
                 start();
         return httpProxyServer;
@@ -178,7 +163,7 @@ public class ProxyConfigurationExampleTest {
         try {
             HttpHost target = new HttpHost("esl.silanis.com", 80, "https");
 
-            HttpHost proxy = new HttpHost("localhost", httpsProxyPort, "https");
+            HttpHost proxy = new HttpHost("10.0.4.40", httpsProxyPort, "https");
 
             RequestConfig config = RequestConfig.custom()
                     .setProxy(proxy)
@@ -189,146 +174,146 @@ public class ProxyConfigurationExampleTest {
 
             //proxyServer = DefaultHttpProxyServer.bootstrap().withPort(8000).start();
 
-            proxyServer = DefaultHttpProxyServer.bootstrap().plusActivityTracker(
-                    new ActivityTracker() {
-                        @Override
-                        public void bytesReceivedFromClient(
-                                FlowContext flowContext,
-                                int numberOfBytes) {
-                            bytesReceivedFromClient.addAndGet(numberOfBytes);
-                        }
-
-                        @Override
-                        public void requestReceivedFromClient(
-                                FlowContext flowContext,
-                                HttpRequest httpRequest) {
-                            requestsReceivedFromClient.incrementAndGet();
-                        }
-
-                        @Override
-                        public void bytesSentToServer(FullFlowContext flowContext,
-                                                      int numberOfBytes) {
-                            bytesSentToServer.addAndGet(numberOfBytes);
-                        }
-
-                        @Override
-                        public void requestSentToServer(
-                                FullFlowContext flowContext,
-                                HttpRequest httpRequest) {
-                            requestsSentToServer.incrementAndGet();
-                        }
-
-                        @Override
-                        public void bytesReceivedFromServer(
-                                FullFlowContext flowContext,
-                                int numberOfBytes) {
-                            bytesReceivedFromServer.addAndGet(numberOfBytes);
-                        }
-
-                        @Override
-                        public void responseReceivedFromServer(
-                                FullFlowContext flowContext,
-                                io.netty.handler.codec.http.HttpResponse httpResponse) {
-                            responsesReceivedFromServer.incrementAndGet();
-                        }
-
-                        @Override
-                        public void bytesSentToClient(FlowContext flowContext,
-                                                      int numberOfBytes) {
-                            bytesSentToClient.addAndGet(numberOfBytes);
-                        }
-
-                        @Override
-                        public void responseSentToClient(
-                                FlowContext flowContext,
-                                io.netty.handler.codec.http.HttpResponse httpResponse) {
-                            responsesSentToClient.incrementAndGet();
-                        }
-
-                        @Override
-                        public void clientConnected(InetSocketAddress clientAddress) {
-                            clientConnects.incrementAndGet();
-                        }
-
-                        @Override
-                        public void clientSSLHandshakeSucceeded(
-                                InetSocketAddress clientAddress,
-                                SSLSession sslSession) {
-                            clientSSLHandshakeSuccesses.incrementAndGet();
-                        }
-
-                        @Override
-                        public void clientDisconnected(
-                                InetSocketAddress clientAddress,
-                                SSLSession sslSession) {
-                            clientDisconnects.incrementAndGet();
-                        }
-                    }).
-                    withChainProxyManager(new ChainedProxyManager() {
-                        @Override
-                        public void lookupChainedProxies(HttpRequest httpRequest,
-                                                         Queue<ChainedProxy> chainedProxies) {
-                        }
-                    }).
-                    withManInTheMiddle(new SelfSignedMitmManager()).
-                    withFiltersSource(new HttpFiltersSourceAdapter() {
-                        @Override
-                        public HttpFilters filterRequest(HttpRequest originalRequest) {
-                            return new HttpFiltersAdapter(originalRequest) {
-//                                @Override
-                                public HttpResponse clientToProxyRequest(
-                                        HttpObject httpObject) {
-                                    if (httpObject instanceof HttpRequest) {
-                                        requestPreMethodsSeen
-                                                .add(((HttpRequest) httpObject)
-                                                        .getMethod());
-                                    }
-                                    return null;
-                                }
-
-//                                @Override
-                                public HttpResponse proxyToServerRequest(
-                                        HttpObject httpObject) {
-                                    if (httpObject instanceof HttpRequest) {
-                                        requestPostMethodsSeen
-                                                .add(((HttpRequest) httpObject)
-                                                        .getMethod());
-                                    }
-                                    return null;
-                                }
-
-//                                @Override
-                                public HttpObject serverToProxyResponse(
-                                        HttpObject httpObject) {
-                                    if (httpObject instanceof HttpResponse) {
-                                        responsePreOriginalRequestMethodsSeen
-                                                .add(originalRequest.getMethod());
-                                    } else if (httpObject instanceof HttpContent) {
-                                        responsePreBody.append(((HttpContent) httpObject)
-                                                .content().toString(
-                                                        Charset.forName("UTF-8")));
-                                    }
-                                    return httpObject;
-                                }
-
-//                                @Override
-                                public HttpObject proxyToClientResponse(
-                                        HttpObject httpObject) {
-                                    if (httpObject instanceof HttpResponse) {
-                                        responsePostOriginalRequestMethodsSeen
-                                                .add(originalRequest.getMethod());
-                                    } else if (httpObject instanceof HttpContent) {
-                                        responsePostBody.append(((HttpContent) httpObject)
-                                                .content().toString(
-                                                        Charset.forName("UTF-8")));
-                                    }
-                                    return httpObject;
-                                }
-                            };
-                        }
-                    }).
-                    withPort(httpsProxyPort).
-                    start();
+//            proxyServer = DefaultHttpProxyServer.bootstrap().plusActivityTracker(
+//                    new ActivityTracker() {
+//                        @Override
+//                        public void bytesReceivedFromClient(
+//                                FlowContext flowContext,
+//                                int numberOfBytes) {
+//                            bytesReceivedFromClient.addAndGet(numberOfBytes);
+//                        }
+//
+//                        @Override
+//                        public void requestReceivedFromClient(
+//                                FlowContext flowContext,
+//                                HttpRequest httpRequest) {
+//                            requestsReceivedFromClient.incrementAndGet();
+//                        }
+//
+//                        @Override
+//                        public void bytesSentToServer(FullFlowContext flowContext,
+//                                                      int numberOfBytes) {
+//                            bytesSentToServer.addAndGet(numberOfBytes);
+//                        }
+//
+//                        @Override
+//                        public void requestSentToServer(
+//                                FullFlowContext flowContext,
+//                                HttpRequest httpRequest) {
+//                            requestsSentToServer.incrementAndGet();
+//                        }
+//
+//                        @Override
+//                        public void bytesReceivedFromServer(
+//                                FullFlowContext flowContext,
+//                                int numberOfBytes) {
+//                            bytesReceivedFromServer.addAndGet(numberOfBytes);
+//                        }
+//
+//                        @Override
+//                        public void responseReceivedFromServer(
+//                                FullFlowContext flowContext,
+//                                io.netty.handler.codec.http.HttpResponse httpResponse) {
+//                            responsesReceivedFromServer.incrementAndGet();
+//                        }
+//
+//                        @Override
+//                        public void bytesSentToClient(FlowContext flowContext,
+//                                                      int numberOfBytes) {
+//                            bytesSentToClient.addAndGet(numberOfBytes);
+//                        }
+//
+//                        @Override
+//                        public void responseSentToClient(
+//                                FlowContext flowContext,
+//                                io.netty.handler.codec.http.HttpResponse httpResponse) {
+//                            responsesSentToClient.incrementAndGet();
+//                        }
+//
+//                        @Override
+//                        public void clientConnected(InetSocketAddress clientAddress) {
+//                            clientConnects.incrementAndGet();
+//                        }
+//
+//                        @Override
+//                        public void clientSSLHandshakeSucceeded(
+//                                InetSocketAddress clientAddress,
+//                                SSLSession sslSession) {
+//                            clientSSLHandshakeSuccesses.incrementAndGet();
+//                        }
+//
+//                        @Override
+//                        public void clientDisconnected(
+//                                InetSocketAddress clientAddress,
+//                                SSLSession sslSession) {
+//                            clientDisconnects.incrementAndGet();
+//                        }
+//                    }).
+//                    withChainProxyManager(new ChainedProxyManager() {
+//                        @Override
+//                        public void lookupChainedProxies(HttpRequest httpRequest,
+//                                                         Queue<ChainedProxy> chainedProxies) {
+//                        }
+//                    }).
+//                    withManInTheMiddle(new SelfSignedMitmManager()).
+//                    withFiltersSource(new HttpFiltersSourceAdapter() {
+//                        @Override
+//                        public HttpFilters filterRequest(HttpRequest originalRequest) {
+//                            return new HttpFiltersAdapter(originalRequest) {
+////                                @Override
+//                                public HttpResponse clientToProxyRequest(
+//                                        HttpObject httpObject) {
+//                                    if (httpObject instanceof HttpRequest) {
+//                                        requestPreMethodsSeen
+//                                                .add(((HttpRequest) httpObject)
+//                                                        .getMethod());
+//                                    }
+//                                    return null;
+//                                }
+//
+////                                @Override
+//                                public HttpResponse proxyToServerRequest(
+//                                        HttpObject httpObject) {
+//                                    if (httpObject instanceof HttpRequest) {
+//                                        requestPostMethodsSeen
+//                                                .add(((HttpRequest) httpObject)
+//                                                        .getMethod());
+//                                    }
+//                                    return null;
+//                                }
+//
+////                                @Override
+//                                public HttpObject serverToProxyResponse(
+//                                        HttpObject httpObject) {
+//                                    if (httpObject instanceof HttpResponse) {
+//                                        responsePreOriginalRequestMethodsSeen
+//                                                .add(originalRequest.getMethod());
+//                                    } else if (httpObject instanceof HttpContent) {
+//                                        responsePreBody.append(((HttpContent) httpObject)
+//                                                .content().toString(
+//                                                        Charset.forName("UTF-8")));
+//                                    }
+//                                    return httpObject;
+//                                }
+//
+////                                @Override
+//                                public HttpObject proxyToClientResponse(
+//                                        HttpObject httpObject) {
+//                                    if (httpObject instanceof HttpResponse) {
+//                                        responsePostOriginalRequestMethodsSeen
+//                                                .add(originalRequest.getMethod());
+//                                    } else if (httpObject instanceof HttpContent) {
+//                                        responsePostBody.append(((HttpContent) httpObject)
+//                                                .content().toString(
+//                                                        Charset.forName("UTF-8")));
+//                                    }
+//                                    return httpObject;
+//                                }
+//                            };
+//                        }
+//                    }).
+//                    withPort(httpsProxyPort).
+//                    start();
 
             System.out.println("Executing request " + request.getRequestLine() + " to " + target + " via " + proxy);
 
@@ -343,7 +328,7 @@ public class ProxyConfigurationExampleTest {
             }
             finally {
                 response.close();
-                proxyServer.stop();
+//                proxyServer.stop();
             }
         }
         finally {

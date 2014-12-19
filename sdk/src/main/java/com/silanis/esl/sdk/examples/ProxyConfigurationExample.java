@@ -34,8 +34,8 @@ public class ProxyConfigurationExample {
     private final String httpProxyPassword = "httpPwd";
 
     protected EslClient eslClientWithHttpsProxy;
-    private final String httpsProxyURL = "localhost";
-    private final int httpsProxyPort = 8003;
+    private final String httpsProxyURL = "10.0.4.40";
+    private final int httpsProxyPort = 80;
 
     protected EslClient eslClientWithHttpsProxyHasCredentials;
     private final String httpsProxyWithCredentialsURL = "localhost";
