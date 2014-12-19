@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.External;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -126,6 +127,38 @@ public class DocumentConverterTest {
                 .build();
 
         assertThat("SDK document id is not null", sdkDocument1.getDescription(), is(nullValue()));
+    }
+
+    @Test
+    public void convertSDKtoAPIWithExternal(){
+        String expectedProvider = "dummyprovider";
+        String expectedExternalId = "dummyid";
+        String expectedProviderName = "dummyProviderName";
+        sdkDocument1 = createDocumentWithExternal(expectedProvider, expectedExternalId, expectedProviderName);
+        com.silanis.esl.api.model.Package apiPackage = new com.silanis.esl.api.model.Package();
+
+        apiDocument1 = new DocumentConverter(sdkDocument1).toAPIDocument(apiPackage);
+
+        assertThat("API document External is null", apiDocument1.getExternal(), is(notNullValue()));
+        assertThat("API document External provider name is not set", apiDocument1.getExternal().getProviderName(), is(equalTo(expectedProviderName)));
+        assertThat("API document External id is not set", apiDocument1.getExternal().getId(), is(equalTo(expectedExternalId)));
+        assertThat("API document External provider is not set", apiDocument1.getExternal().getProvider(), is(equalTo(expectedProvider)));
+
+    }
+
+    private com.silanis.esl.sdk.Document createDocumentWithExternal(String expectedProvider, String expectedExternalId, String expectedProviderName) {
+        com.silanis.esl.sdk.Document sdkDocument;
+        documentInputStream = this.getClass().getClassLoader()
+                                  .getResourceAsStream("document.pdf");
+
+        sdkDocument = newDocumentWithName("sdkDocument")
+                .fromStream(documentInputStream, DocumentType.PDF)
+                .withId("sdkDocumentId")
+                .withDescription("sdkDocument Description")
+                .build();
+
+        sdkDocument.setExternal(new External(expectedProvider, expectedExternalId, expectedProviderName));
+        return sdkDocument;
     }
 
     private com.silanis.esl.sdk.Document createTypicalSDKDocument() {

@@ -343,12 +343,12 @@ public class EslClient {
         return packageService.getSigningStatus(packageId, signerId, documentId);
     }
 
-    public void uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
-        packageService.uploadDocument(documentPackage.getId(), fileName, fileContent, document, documentPackage);
+    public Document uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
+        return packageService.uploadDocument(documentPackage.getId(), fileName, fileContent, document, documentPackage);
     }
 
-    public void uploadDocument( Document document, DocumentPackage documentPackage ) {
-        uploadDocument(document.getFileName(), document.getContent(), document, documentPackage);
+    public Document uploadDocument( Document document, DocumentPackage documentPackage ) {
+        return uploadDocument(document.getFileName(), document.getContent(), document, documentPackage);
     }
 
     public GroupService getGroupService() {
