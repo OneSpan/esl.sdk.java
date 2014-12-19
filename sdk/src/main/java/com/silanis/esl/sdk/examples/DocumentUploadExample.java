@@ -30,6 +30,8 @@ public class DocumentUploadExample extends SDKSample{
     private String email1;
     private InputStream documentInputStream1;
     public static final String UPLOADED_DOCUMENT_NAME = "First Document";
+    public Document document;
+    public Document uploadedDocument;
 
     public static void main( String... args ) {
         new DocumentUploadExample(Props.get()).run();
@@ -67,7 +69,7 @@ public class DocumentUploadExample extends SDKSample{
         superDuperPackage.setId(packageId);
 
         // 2. Construct a document
-        Document document = newDocumentWithName(UPLOADED_DOCUMENT_NAME)
+        document = newDocumentWithName(UPLOADED_DOCUMENT_NAME)
                 .fromStream(documentInputStream1, DocumentType.PDF)
                 .withSignature(signatureFor(email1)
                         .onPage(0)
@@ -79,7 +81,7 @@ public class DocumentUploadExample extends SDKSample{
                 .build();
 
         // 3. Attach the document to the created package by uploading the document.
-        eslClient.uploadDocument(document.getFileName(), document.getContent(), document, superDuperPackage);
+        uploadedDocument = eslClient.uploadDocument(document.getFileName(), document.getContent(), document, superDuperPackage);
 
         eslClient.sendPackage(superDuperPackage.getId());
 
