@@ -82,9 +82,5 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
         // Download the usage report
         sdkUsageReport = eslClient.getPackageService().downloadUsageReport(from, to);
         csvUsageReport = eslClient.getPackageService().downloadUsageReportAsCSV(from, to);
-
-        // Get the number of packages in draft for sender
-        EnumMap<UsageReportCategory, Integer> categoryCounts = sdkUsageReport.getSenderUsageReports().get(0).getCountByUsageReportCategory();
-        int numOfDrafts = categoryCounts.get(UsageReportCategory.DRAFT);
     }
 }
