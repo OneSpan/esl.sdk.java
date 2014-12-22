@@ -1,14 +1,9 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
-<<<<<<< HEAD
-import com.silanis.esl.api.model.AuthScheme;
-import com.silanis.esl.sdk.Challenge;
-=======
 import com.silanis.esl.sdk.Challenge;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
->>>>>>> origin/10.8
 import java.util.ArrayList;
 import java.util.List;
 
