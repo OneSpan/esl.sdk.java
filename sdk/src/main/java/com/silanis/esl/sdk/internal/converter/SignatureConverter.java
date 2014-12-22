@@ -1,12 +1,10 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.Signature;
-import com.silanis.esl.sdk.SignatureId;
+import com.silanis.esl.api.model.Approval;
+import com.silanis.esl.api.model.Field;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
-import com.silanis.esl.sdk.internal.ConversionException;
 
 /**
  * User: jessica
@@ -72,7 +70,7 @@ public class SignatureConverter {
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
         for ( com.silanis.esl.api.model.Field apiField : apiApproval.getFields() ) {
-            if ( apiField.getType() == FieldType.SIGNATURE ) {
+            if (apiField.getType().equals(FieldType.SIGNATURE.getApiValue()) ) {
                 apiSignatureField = apiField;
             } else {
                 signatureBuilder.withField( new FieldConverter(apiField).toSDKField() );
@@ -169,7 +167,7 @@ public class SignatureConverter {
             result.setExtractAnchor( new TextAnchorConverter(sdkSignature.getTextAnchor()).toAPIExtractAnchor() );
         }
 
-        result.setType( FieldType.SIGNATURE );
+        result.setType(FieldType.SIGNATURE.getApiValue());
         result.setSubtype( getSignatureSubtype() );
 
         return result;
@@ -180,21 +178,11 @@ public class SignatureConverter {
      *
      * @return a field sub type.
      */
-    private FieldSubtype getSignatureSubtype() {
-        switch (sdkSignature.getStyle()) {
-            case FULL_NAME:
-                return FieldSubtype.FULLNAME;
-            case HAND_DRAWN:
-                return FieldSubtype.CAPTURE;
-            case INITIALS:
-                return FieldSubtype.INITIALS;
-            case ACCEPTANCE:
-                return FieldSubtype.FULLNAME;
-            case MOBILE_CAPTURE:
-                return FieldSubtype.MOBILE_CAPTURE;
-            default:
-                throw new ConversionException( Signature.class, Approval.class, "Unable to decode signature type." );
+    private String getSignatureSubtype() {
+        if (sdkSignature == null) {
+            return null;
         }
+        return sdkSignature.getStyle().getApiValue();
     }
     
 }

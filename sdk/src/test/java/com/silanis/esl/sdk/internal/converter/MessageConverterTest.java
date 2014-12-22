@@ -140,7 +140,7 @@ public class MessageConverterTest implements ConverterTest {
     private com.silanis.esl.api.model.Message createTypicalAPIMessage() {
         com.silanis.esl.api.model.Message apiMessage = new com.silanis.esl.api.model.Message();
         apiMessage.setContent("Opt-out reason");
-        apiMessage.setStatus(com.silanis.esl.api.model.MessageStatus.READ);
+        apiMessage.setStatus("READ");
         apiMessage.setCreated(new Date());
 
         User fromUser = new User();

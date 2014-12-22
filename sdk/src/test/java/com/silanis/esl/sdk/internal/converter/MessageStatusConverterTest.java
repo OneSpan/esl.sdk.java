@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.MessageStatus;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,8 +14,8 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class MessageStatusConverterTest implements ConverterTest {
 
-    private com.silanis.esl.api.model.MessageStatus apiMessageStatus1 = null;
-    private com.silanis.esl.api.model.MessageStatus apiMessageStatus2 = null;
+    private String apiMessageStatus1 = null;
+    private String apiMessageStatus2 = null;
     private com.silanis.esl.sdk.MessageStatus sdkMessageStatus1 = null;
     private com.silanis.esl.sdk.MessageStatus sdkMessageStatus2 = null;
     private MessageStatusConverter converter;
@@ -54,7 +55,7 @@ public class MessageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertSDKToSDK() {
-        sdkMessageStatus1 = createTypicalSDKMessageStatus();
+        sdkMessageStatus1 = com.silanis.esl.sdk.MessageStatus.NEW;
         sdkMessageStatus2 = new MessageStatusConverter(sdkMessageStatus1).toSDKMessageStatus();
 
         assertThat("Converter returned a null sdk object for a non null sdk object", sdkMessageStatus2, is(notNullValue()));
@@ -64,7 +65,7 @@ public class MessageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiMessageStatus1 = createTypicalAPIMessageStatus();
+        apiMessageStatus1 = "READ";
         apiMessageStatus2 = new MessageStatusConverter(apiMessageStatus1).toAPIMessageStatus();
 
         assertThat("Converter returned a null api object for a non null api object", apiMessageStatus2, is(notNullValue()));
@@ -74,26 +75,40 @@ public class MessageStatusConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiMessageStatus1 = createTypicalAPIMessageStatus();
+        apiMessageStatus1 = "NEW";
         sdkMessageStatus1 = new MessageStatusConverter(apiMessageStatus1).toSDKMessageStatus();
+        assertThat("Message status was not set correctly", sdkMessageStatus1, is(MessageStatus.NEW));
 
-        assertThat("Message status was not set correctly", sdkMessageStatus1.toString(), is(apiMessageStatus1.toString()));
+        apiMessageStatus1 = "READ";
+        sdkMessageStatus1 = new MessageStatusConverter(apiMessageStatus1).toSDKMessageStatus();
+        assertThat("Message status was not set correctly", sdkMessageStatus1, is(MessageStatus.READ));
+
+        apiMessageStatus1 = "TRASHED";
+        sdkMessageStatus1 = new MessageStatusConverter(apiMessageStatus1).toSDKMessageStatus();
+        assertThat("Message status was not set correctly", sdkMessageStatus1, is(MessageStatus.TRASHED));
+
+        apiMessageStatus1 = "UNKNOWN";
+        sdkMessageStatus1 = new MessageStatusConverter(apiMessageStatus1).toSDKMessageStatus();
+        assertThat("Message status was not set correctly", sdkMessageStatus1.toString(), is(MessageStatus.UNRECOGNIZED("UNKNOWN").toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
-        sdkMessageStatus1 = createTypicalSDKMessageStatus();
+        sdkMessageStatus1 = com.silanis.esl.sdk.MessageStatus.NEW;
         apiMessageStatus1 = new MessageStatusConverter(sdkMessageStatus1).toAPIMessageStatus();
+        assertThat("Message status was not set correctly", apiMessageStatus1, is("NEW"));
 
-        assertThat("Message status was not set correctly", apiMessageStatus1.toString(), is(sdkMessageStatus1.toString()));
-    }
+        sdkMessageStatus1 = com.silanis.esl.sdk.MessageStatus.READ;
+        apiMessageStatus1 = new MessageStatusConverter(sdkMessageStatus1).toAPIMessageStatus();
+        assertThat("Message status was not set correctly", apiMessageStatus1, is("READ"));
 
-    private com.silanis.esl.sdk.MessageStatus createTypicalSDKMessageStatus() {
-        return com.silanis.esl.sdk.MessageStatus.NEW;
-    }
+        sdkMessageStatus1 = com.silanis.esl.sdk.MessageStatus.TRASHED;
+        apiMessageStatus1 = new MessageStatusConverter(sdkMessageStatus1).toAPIMessageStatus();
+        assertThat("Message status was not set correctly", apiMessageStatus1, is("TRASHED"));
 
-    private com.silanis.esl.api.model.MessageStatus createTypicalAPIMessageStatus() {
-        return com.silanis.esl.api.model.MessageStatus.READ;
+        sdkMessageStatus1 = com.silanis.esl.sdk.MessageStatus.UNRECOGNIZED("UNKNOWN");
+        apiMessageStatus1 = new MessageStatusConverter(sdkMessageStatus1).toAPIMessageStatus();
+        assertThat("Message status was not set correctly", apiMessageStatus1, is("UNKNOWN"));
     }
 }

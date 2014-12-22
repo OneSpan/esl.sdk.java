@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Callback;
-import com.silanis.esl.api.model.CallbackEvent;
 import com.silanis.esl.sdk.EventNotificationConfig;
 import com.silanis.esl.sdk.NotificationEvent;
 import com.silanis.esl.sdk.builder.EventNotificationConfigBuilder;
@@ -86,10 +85,10 @@ public class EventNotificationConfigConverterTest implements ConverterTest {
         assertThat("EventNotificationConfig's url was not set correctly", sdkEventNotificationConfig1.getUrl(), is(apiCallback1.getUrl()));
         assertThat("EventNotificationConfig should have 3 events", sdkEventNotificationConfig1.getEvents().size(), is(3));
 
-        for (CallbackEvent apiEvent : apiCallback1.getEvents()) {
+        for (String apiEvent : apiCallback1.getEvents()) {
             boolean found = false;
             for (NotificationEvent sdkEvent : sdkEventNotificationConfig1.getEvents()) {
-                if (apiEvent.toString().equals(sdkEvent.toString())) {
+                if (apiEvent.equals(sdkEvent.toString())) {
                     found = true;
                     break;
                 }
@@ -110,8 +109,8 @@ public class EventNotificationConfigConverterTest implements ConverterTest {
 
         for (NotificationEvent sdkEvent : sdkEventNotificationConfig1.getEvents()) {
             boolean found = false;
-            for (CallbackEvent apiEvent : apiCallback1.getEvents()) {
-                if (apiEvent.toString().equals(sdkEvent.toString())) {
+            for (String apiEvent : apiCallback1.getEvents()) {
+                if (apiEvent.equals(sdkEvent.toString())) {
                     found = true;
                     break;
                 }
@@ -123,9 +122,9 @@ public class EventNotificationConfigConverterTest implements ConverterTest {
     private com.silanis.esl.api.model.Callback createTypicalAPICallback() {
         Callback callback = new Callback();
         callback.setUrl("callback url");
-        callback.addEvent(CallbackEvent.DOCUMENT_SIGNED);
-        callback.addEvent(CallbackEvent.PACKAGE_CREATE);
-        callback.addEvent(CallbackEvent.PACKAGE_TRASH);
+        callback.addEvent("DOCUMENT_SIGNED");
+        callback.addEvent("PACKAGE_CREATE");
+        callback.addEvent("PACKAGE_TRASH");
 
         return callback;
     }

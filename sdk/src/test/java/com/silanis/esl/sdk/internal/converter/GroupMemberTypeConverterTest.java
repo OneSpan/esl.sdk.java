@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.MemberType;
 import com.silanis.esl.sdk.GroupMemberType;
 import org.junit.Test;
 
@@ -14,15 +13,15 @@ import static org.hamcrest.core.IsEqual.equalTo;
  * User: jessica
  * Date: 02/12/13
  * Time: 2:14 PM
- * 
+ *
  * Test GroupMemberTypeConverter.
  */
 public class GroupMemberTypeConverterTest implements ConverterTest{
 
     private com.silanis.esl.sdk.GroupMemberType sdkGroupMemberType1 = null;
     private com.silanis.esl.sdk.GroupMemberType sdkGroupMemberType2 = null;
-    private com.silanis.esl.api.model.MemberType apiGroupMemberType1 = null;
-    private com.silanis.esl.api.model.MemberType apiGroupMemberType2 = null;
+    private String apiGroupMemberType1 = null;
+    private String apiGroupMemberType2 = null;
     private GroupMemberTypeConverter converter = null;
 
     @Override
@@ -61,7 +60,7 @@ public class GroupMemberTypeConverterTest implements ConverterTest{
     @Test
     public void convertSDKToSDK() {
 
-        sdkGroupMemberType1 = createTypicalSDKGroupMemberType();
+        sdkGroupMemberType1 = GroupMemberType.MANAGER;
         sdkGroupMemberType2 = new GroupMemberTypeConverter(sdkGroupMemberType1).toSDKGroupMemberType();
         assertThat( "Converter returned a null sdk object for a non null sdk object", sdkGroupMemberType2, is( notNullValue() ) );
         assertThat( "Converter didn't return the same non-null sdk object it was given", sdkGroupMemberType2, is( equalTo( sdkGroupMemberType1 ) ) );
@@ -71,7 +70,7 @@ public class GroupMemberTypeConverterTest implements ConverterTest{
     @Test
     public void convertAPIToAPI() {
 
-        apiGroupMemberType1 = createTypicalAPIGroupMemberType();
+        apiGroupMemberType1 = "MANAGER";
         apiGroupMemberType2 = new GroupMemberTypeConverter(apiGroupMemberType1).toAPIGroupMemberType();
 
         assertThat( "Converter returned a null api object for a non null api object", apiGroupMemberType2, is( notNullValue() ) );
@@ -81,15 +80,17 @@ public class GroupMemberTypeConverterTest implements ConverterTest{
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiGroupMemberType1 = MemberType.MANAGER;
+        apiGroupMemberType1 = "MANAGER";
         sdkGroupMemberType1 = new GroupMemberTypeConverter(apiGroupMemberType1).toSDKGroupMemberType();
-        assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1.name(), is( equalTo(sdkGroupMemberType1.name()) ) );
+        assertThat("Member type was not correctly set", sdkGroupMemberType1, is( equalTo(GroupMemberType.MANAGER) ) );
 
-        apiGroupMemberType1 = MemberType.REGULAR;
+        apiGroupMemberType1 = "REGULAR";
         sdkGroupMemberType1 = new GroupMemberTypeConverter(apiGroupMemberType1).toSDKGroupMemberType();
-        assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1.name(), is( equalTo(sdkGroupMemberType1.name()) ) );
+        assertThat("Member type was not correctly set", sdkGroupMemberType1, is( equalTo(GroupMemberType.REGULAR) ) );
+
+        apiGroupMemberType1 = "UNKNOWN";
+        sdkGroupMemberType1 = new GroupMemberTypeConverter(apiGroupMemberType1).toSDKGroupMemberType();
+        assertThat("Member type was not correctly set", sdkGroupMemberType1.toString(), is( equalTo(GroupMemberType.UNRECOGNIZED("UNKNOWN").toString()) ) );
 
     }
 
@@ -99,33 +100,14 @@ public class GroupMemberTypeConverterTest implements ConverterTest{
 
         sdkGroupMemberType1 = GroupMemberType.MANAGER;
         apiGroupMemberType1 = new GroupMemberTypeConverter(sdkGroupMemberType1).toAPIGroupMemberType();
-        assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1.name(), is( equalTo(sdkGroupMemberType1.name()) ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo("MANAGER") ) );
 
         sdkGroupMemberType1 = GroupMemberType.REGULAR;
         apiGroupMemberType1 = new GroupMemberTypeConverter(sdkGroupMemberType1).toAPIGroupMemberType();
-        assertThat("Converter returned a null api object for a non null sdk object", apiGroupMemberType1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMemberType1.name(), is( equalTo(sdkGroupMemberType1.name()) ) );
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo("REGULAR") ) );
+
+        sdkGroupMemberType1 = GroupMemberType.UNRECOGNIZED("UNKNOWN");
+        apiGroupMemberType1 = new GroupMemberTypeConverter(sdkGroupMemberType1).toAPIGroupMemberType();
+        assertThat("Member type was not correctly set", apiGroupMemberType1, is( equalTo("UNKNOWN") ) );
     }
-
-    /**
-     * Create an SDK GroupMemberType.
-     *
-     * @return SDK GroupMemberType.
-     */
-    private com.silanis.esl.sdk.GroupMemberType createTypicalSDKGroupMemberType() {
-
-        com.silanis.esl.sdk.GroupMemberType sdkGroupMemberType = GroupMemberType.MANAGER;
-        return sdkGroupMemberType;
-    }
-
-    /**
-     * Create an API GroupMemberType.
-     *
-     * @return API GroupMemberType.
-     */
-    private com.silanis.esl.api.model.MemberType createTypicalAPIGroupMemberType() {
-        com.silanis.esl.api.model.MemberType apiGroupMemberType = MemberType.MANAGER;
-        return apiGroupMemberType;
-    }    
 }

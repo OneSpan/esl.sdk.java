@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.PackageStatus;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

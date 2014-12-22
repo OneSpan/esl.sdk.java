@@ -1,14 +1,10 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.BasePackageType;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.Signer;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.converter.BasePackageTypeConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 
 /**
@@ -35,7 +31,7 @@ public class TemplateService {
      */
     public PackageId createTemplateFromPackage(PackageId originalPackageId, DocumentPackage delta) {
         Package deltaPackage = new DocumentPackageConverter(delta).toAPIPackage();
-        deltaPackage.setType(BasePackageType.TEMPLATE);
+        deltaPackage.setType(new BasePackageTypeConverter(BasePackageType.TEMPLATE).toAPIBasePackageType());
 
         String path = urls.urlFor(UrlTemplate.TEMPLATE_PATH)
                 .replace("{packageId}", originalPackageId.getId())
@@ -136,7 +132,7 @@ public class TemplateService {
      */
     public PackageId createTemplate(DocumentPackage template) {
         Package packageToCreate = new DocumentPackageConverter(template).toAPIPackage();
-        packageToCreate.setType(BasePackageType.TEMPLATE);
+        packageToCreate.setType(new BasePackageTypeConverter(BasePackageType.TEMPLATE).toAPIBasePackageType());
         String path = urls.urlFor(UrlTemplate.PACKAGE_PATH).build();
         String packageJson = Serialization.toJson(packageToCreate);
 
@@ -170,7 +166,7 @@ public class TemplateService {
         }
 
         Package packageToUpdate = new DocumentPackageConverter(template).toAPIPackage();
-        packageToUpdate.setType(BasePackageType.TEMPLATE);
+        packageToUpdate.setType(new BasePackageTypeConverter(BasePackageType.TEMPLATE).toAPIBasePackageType());
 
         String path = urls.urlFor(UrlTemplate.PACKAGE_ID_PATH)
                           .replace( "{packageId}", packageToUpdate.getId() )

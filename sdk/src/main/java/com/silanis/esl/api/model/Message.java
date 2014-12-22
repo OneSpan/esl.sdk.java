@@ -1,13 +1,15 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Message extends BaseMessage
       implements java.io.Serializable
@@ -34,7 +36,7 @@ public class Message extends BaseMessage
     protected java.util.Date _created;
     protected List<Document> _documents = new ArrayList<Document>();
     protected User _from;
-    protected MessageStatus _status = MessageStatus.NEW;
+    protected String _status = "NEW";
     protected List<User> _to = new ArrayList<User>();
     
     // Accessors
@@ -123,7 +125,7 @@ public class Message extends BaseMessage
     
         
     
-    public Message setStatus( MessageStatus value ){
+    public Message setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
         // if ( this._status == value ) return this;
@@ -133,11 +135,11 @@ public class Message extends BaseMessage
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Message safeSetStatus( MessageStatus value ){
+    public Message safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
-    public MessageStatus getStatus(){
+    public String getStatus(){
         return _status;
     }
     

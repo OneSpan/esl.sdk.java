@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.MemberType;
 import com.silanis.esl.sdk.GroupMemberType;
 import org.junit.Test;
 
@@ -86,7 +85,7 @@ public class GroupMemberConverterTest implements ConverterTest{
         sdkGroupMember1 = new GroupMemberConverter(apiGroupMember1).toSDKGroupMember();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMember1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType().name(), is( equalTo(sdkGroupMember1.getGroupMemberType().name()))  );
+        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType(), is( equalTo(sdkGroupMember1.getGroupMemberType().name()))  );
         assertThat("First name was not correctly set", apiGroupMember1.getFirstName(), is( equalTo(sdkGroupMember1.getFirstName()) ) );
         assertThat("Last name was not correctly set", apiGroupMember1.getLastName(), is( equalTo(sdkGroupMember1.getLastName()) ) );
         assertThat("Email was not correctly set", apiGroupMember1.getEmail(), is( equalTo(sdkGroupMember1.getEmail()) ) );
@@ -100,7 +99,7 @@ public class GroupMemberConverterTest implements ConverterTest{
         apiGroupMember1 = new GroupMemberConverter(sdkGroupMember1).toAPIGroupMember();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiGroupMember1, is( notNullValue() ) );
-        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType().name(), is( equalTo(sdkGroupMember1.getGroupMemberType().name()))  );
+        assertThat("Member type was not correctly set", apiGroupMember1.getMemberType(), is( equalTo(sdkGroupMember1.getGroupMemberType().name()))  );
         assertThat("First name was not correctly set", apiGroupMember1.getFirstName(), is( equalTo(sdkGroupMember1.getFirstName()) ) );
         assertThat("Last name was not correctly set", apiGroupMember1.getLastName(), is( equalTo(sdkGroupMember1.getLastName()) ) );
         assertThat("Email was not correctly set", apiGroupMember1.getEmail(), is( equalTo(sdkGroupMember1.getEmail()) ) );
@@ -131,7 +130,7 @@ public class GroupMemberConverterTest implements ConverterTest{
         apiGroupMember.setEmail("test@hotmail.com");
         apiGroupMember.setFirstName("First name");
         apiGroupMember.setLastName("Last name");
-        apiGroupMember.setMemberType(MemberType.MANAGER);
+        apiGroupMember.setMemberType("MANAGER");
 
         return apiGroupMember;
     }    

@@ -1,14 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Sender;
-import com.silanis.esl.api.model.SenderStatus;
 import com.silanis.esl.sdk.AccountMember;
 import org.junit.Test;
-import org.omg.PortableInterceptor.ACTIVE;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
@@ -77,7 +74,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         assertThat( "first name was not correctly set", result.getFirstName(), is( equalTo( member.getFirstName() ) ) );
         assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( member.getLastName() ) ) );
         assertThat( "title was not correctly set", result.getTitle(), is( equalTo( member.getTitle() ) ) );
-        assertThat( "status was not correctly set", result.getStatus(), is( equalTo( com.silanis.esl.api.model.SenderStatus.ACTIVE)));
+        assertThat( "status was not correctly set", result.getStatus(), is( equalTo("ACTIVE")));
     }
 
     private AccountMember createTypicalSDKAccountMember() {
@@ -102,7 +99,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         result.setFirstName( "first" );
         result.setLastName( "last" );
         result.setTitle( "title" );
-        result.setStatus(com.silanis.esl.api.model.SenderStatus.ACTIVE);
+        result.setStatus("ACTIVE");
         return result;
     }
 }

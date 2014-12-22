@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.FieldSubtype;
-import com.silanis.esl.api.model.FieldType;
 import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.FieldStyle;
 import com.silanis.esl.sdk.TextAnchorPosition;
@@ -168,9 +166,9 @@ public class FieldConverterTest implements ConverterTest{
         apiField.setId("3");
         apiField.setName("Field name");
         apiField.setPage(1);
-        apiField.setSubtype(FieldSubtype.TEXTFIELD);
+        apiField.setSubtype("TEXTFIELD");
         apiField.setTop(101.0);
-        apiField.setType(FieldType.INPUT);
+        apiField.setType("INPUT");
         apiField.setValue("field value");
         apiField.setWidth(102.0);
 

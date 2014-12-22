@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.PackageStatus;
 import org.junit.Test;
 
 import java.util.Date;
@@ -125,7 +124,7 @@ public class CompletionReportConverterTest implements ConverterTest {
         com.silanis.esl.api.model.PackageCompletionReport packageCompletionReport = new com.silanis.esl.api.model.PackageCompletionReport();
         packageCompletionReport.setId("packageId");
         packageCompletionReport.setName("PackageName");
-        packageCompletionReport.setStatus(PackageStatus.SENT);
+        packageCompletionReport.setStatus("SENT");
         packageCompletionReport.addSigner(signersCompletionReport);
         packageCompletionReport.addDocument(documentCompletionReport);
 

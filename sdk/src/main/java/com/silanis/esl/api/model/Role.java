@@ -1,10 +1,12 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Role extends Entity
       implements java.io.Serializable
@@ -45,7 +47,7 @@ public class Role extends Entity
     protected Boolean _reassign = false;
     protected List<Signer> _signers = new ArrayList<Signer>();
     protected List<String> _specialTypes = new ArrayList<String>();
-    protected RoleType _type = RoleType.SIGNER;
+    protected String _type = "SIGNER";
     
     // Accessors
         
@@ -258,7 +260,7 @@ public class Role extends Entity
     
         
     
-    public Role setType( RoleType value ){
+    public Role setType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TYPE,value);
         // TODO With proper compare
         // if ( this._type == value ) return this;
@@ -268,11 +270,11 @@ public class Role extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Role safeSetType( RoleType value ){
+    public Role safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
-    public RoleType getType(){
+    public String getType(){
         return _type;
     }
     

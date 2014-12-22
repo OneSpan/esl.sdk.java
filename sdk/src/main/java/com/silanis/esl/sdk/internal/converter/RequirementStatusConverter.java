@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.RequirementStatus;
+
 /**
  * Created by lena on 2014-06-02.
  *
@@ -7,15 +9,15 @@ package com.silanis.esl.sdk.internal.converter;
  */
 public class RequirementStatusConverter {
 
-    private com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus = null;
-    private com.silanis.esl.api.model.RequirementStatus apiRequirementStatus = null;
+    private RequirementStatus sdkRequirementStatus = null;
+    private String apiRequirementStatus = null;
 
     /**
      * Construct with API RequirementStatus object involved in conversion.
      *
      * @param apiRequirementStatus
      */
-    public RequirementStatusConverter(com.silanis.esl.api.model.RequirementStatus apiRequirementStatus) {
+    public RequirementStatusConverter(String apiRequirementStatus) {
         this.apiRequirementStatus = apiRequirementStatus;
     }
 
@@ -24,41 +26,29 @@ public class RequirementStatusConverter {
      *
      * @param sdkRequirementStatus
      */
-    public RequirementStatusConverter(com.silanis.esl.sdk.RequirementStatus sdkRequirementStatus) {
+    public RequirementStatusConverter(RequirementStatus sdkRequirementStatus) {
         this.sdkRequirementStatus = sdkRequirementStatus;
     }
 
-    public com.silanis.esl.sdk.RequirementStatus toSDKRequirementStatus() {
+    public RequirementStatus toSDKRequirementStatus() {
         if (apiRequirementStatus == null) {
             return sdkRequirementStatus;
         }
 
-        switch (apiRequirementStatus) {
-            case INCOMPLETE:
-                return sdkRequirementStatus.INCOMPLETE;
-            case REJECTED:
-                return sdkRequirementStatus.REJECTED;
-            case COMPLETE:
-                return sdkRequirementStatus.COMPLETE;
-            default:
-                return sdkRequirementStatus;
+        RequirementStatus[] requirementStatuses = RequirementStatus.values();
+        for (RequirementStatus requirementStatus : requirementStatuses) {
+            if(apiRequirementStatus.equals(requirementStatus.getApiValue())){
+                return requirementStatus;
+            }
         }
+        return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
     }
 
-    public com.silanis.esl.api.model.RequirementStatus toAPIRequirementStatus() {
+    public String toAPIRequirementStatus() {
         if (sdkRequirementStatus == null) {
             return apiRequirementStatus;
         }
 
-        switch (sdkRequirementStatus) {
-            case INCOMPLETE:
-                return apiRequirementStatus.INCOMPLETE;
-            case REJECTED:
-                return apiRequirementStatus.REJECTED;
-            case COMPLETE:
-                return apiRequirementStatus.COMPLETE;
-            default:
-                return apiRequirementStatus;
-        }
+        return sdkRequirementStatus.getApiValue();
     }
 }

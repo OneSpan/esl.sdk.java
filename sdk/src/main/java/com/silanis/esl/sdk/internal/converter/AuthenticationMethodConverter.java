@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.AuthScheme;
 import com.silanis.esl.sdk.AuthenticationMethod;
 
 /**
@@ -10,15 +9,15 @@ import com.silanis.esl.sdk.AuthenticationMethod;
  */
 public class AuthenticationMethodConverter {
 
-    private com.silanis.esl.sdk.AuthenticationMethod sdkAuthMethod = null;
-    private com.silanis.esl.api.model.AuthScheme apiAuthMethod = null;
+    private AuthenticationMethod sdkAuthMethod = null;
+    private String apiAuthMethod = null;
 
     /**
      * Construct with API authentication method object involved in conversion.
      *
      * @param apiAuthMethod
      */
-    public AuthenticationMethodConverter(com.silanis.esl.api.model.AuthScheme apiAuthMethod) {
+    public AuthenticationMethodConverter(String apiAuthMethod) {
         this.apiAuthMethod = apiAuthMethod;
     }
 
@@ -26,7 +25,7 @@ public class AuthenticationMethodConverter {
      * Construct with SDK authentication method object involved in conversion.
      * @param sdkAuthMethod
      */
-    public AuthenticationMethodConverter(com.silanis.esl.sdk.AuthenticationMethod sdkAuthMethod) {
+    public AuthenticationMethodConverter(AuthenticationMethod sdkAuthMethod) {
         this.sdkAuthMethod = sdkAuthMethod;
     }
 
@@ -35,22 +34,12 @@ public class AuthenticationMethodConverter {
      *
      * @return an API Authentication Method object.
      */
-    public com.silanis.esl.api.model.AuthScheme toAPIAuthMethod() {
+    public String toAPIAuthMethod() {
         if (sdkAuthMethod == null) {
             return apiAuthMethod;
         }
 
-        switch (sdkAuthMethod) {
-            case EMAIL:
-                return AuthScheme.NONE;
-            case CHALLENGE:
-                return AuthScheme.CHALLENGE;
-            case SMS:
-                return AuthScheme.SMS;
-        }
-
-        throw new IllegalStateException("Unknown authentication method");
-
+        return sdkAuthMethod.getApiValue();
     }
 
     /**
@@ -58,20 +47,18 @@ public class AuthenticationMethodConverter {
      *
      * @return an SDK Authentication Method object.
      */
-    public com.silanis.esl.sdk.AuthenticationMethod toSDKAuthMethod() {
+    public AuthenticationMethod toSDKAuthMethod() {
 
         if (apiAuthMethod == null) {
             return sdkAuthMethod;
         }
-
-        switch (apiAuthMethod) {
-            case CHALLENGE:
-                return AuthenticationMethod.CHALLENGE;
-            case SMS:
-                return AuthenticationMethod.SMS;
-            default:
-                return AuthenticationMethod.EMAIL;
+        AuthenticationMethod[] authenticationMethods = AuthenticationMethod.values();
+        for (AuthenticationMethod authenticationMethod : authenticationMethods) {
+            if(apiAuthMethod.equals(authenticationMethod.getApiValue())){
+                return authenticationMethod;
+            }
         }
+        return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
     }
-    
+
 }

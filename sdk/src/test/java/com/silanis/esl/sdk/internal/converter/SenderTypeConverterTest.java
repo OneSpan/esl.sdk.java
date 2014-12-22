@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.SenderType;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,8 +16,8 @@ public class SenderTypeConverterTest implements ConverterTest {
 
     private com.silanis.esl.sdk.SenderType sdkSenderType1 = null;
     private com.silanis.esl.sdk.SenderType sdkSenderType2 = null;
-    private com.silanis.esl.api.model.SenderType apiSenderType1 = null;
-    private com.silanis.esl.api.model.SenderType apiSenderType2 = null;
+    private String apiSenderType1 = null;
+    private String apiSenderType2 = null;
     private SenderTypeConverter converter;
 
     @Override
@@ -54,7 +55,7 @@ public class SenderTypeConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertSDKToSDK() {
-        sdkSenderType1 = createTypicalSDKSenderType();
+        sdkSenderType1 = com.silanis.esl.sdk.SenderType.MANAGER;
         sdkSenderType2 = new SenderTypeConverter(sdkSenderType1).toSDKSenderType();
 
         assertThat("Converter returned a null sdk object for a non null sdk object", sdkSenderType2, is(notNullValue()));
@@ -64,7 +65,7 @@ public class SenderTypeConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiSenderType1 = createTypicalAPISenderType();
+        apiSenderType1 = "REGULAR";
         apiSenderType2 = new SenderTypeConverter(apiSenderType1).toAPISenderType();
 
         assertThat("Converter returned a null api object for a non null api object", apiSenderType2, is(notNullValue()));
@@ -74,36 +75,32 @@ public class SenderTypeConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiSenderType1 = createTypicalAPISenderType();
+        apiSenderType1 = "REGULAR";
         sdkSenderType1 = new SenderTypeConverter(apiSenderType1).toSDKSenderType();
+        assertThat("Sender type was not set correctly", sdkSenderType1, is(SenderType.REGULAR));
 
-        assertThat("Sender type was not set correctly", sdkSenderType1.toString(), is(apiSenderType1.toString()));
+        apiSenderType1 = "MANAGER";
+        sdkSenderType1 = new SenderTypeConverter(apiSenderType1).toSDKSenderType();
+        assertThat("Sender type was not set correctly", sdkSenderType1, is(SenderType.MANAGER));
+
+        apiSenderType1 = "UNKNOWN";
+        sdkSenderType1 = new SenderTypeConverter(apiSenderType1).toSDKSenderType();
+        assertThat("Sender type was not set correctly", sdkSenderType1.toString(), is(SenderType.UNRECOGNIZED("UNKNOWN").toString()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
-        sdkSenderType1 = createTypicalSDKSenderType();
+        sdkSenderType1 = com.silanis.esl.sdk.SenderType.REGULAR;
         apiSenderType1 = new SenderTypeConverter(sdkSenderType1).toAPISenderType();
+        assertThat("Sender type was not set correctly", apiSenderType1, is("REGULAR"));
 
-        assertThat("Sender type was not set correctly", apiSenderType1.toString(), is(sdkSenderType1.toString()));
-    }
+        sdkSenderType1 = com.silanis.esl.sdk.SenderType.MANAGER;
+        apiSenderType1 = new SenderTypeConverter(sdkSenderType1).toAPISenderType();
+        assertThat("Sender type was not set correctly", apiSenderType1, is("MANAGER"));
 
-    /**
-     * Returns a SDK SenderType enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.sdk.SenderType createTypicalSDKSenderType() {
-        return com.silanis.esl.sdk.SenderType.MANAGER;
-    }
-
-    /**
-     * Returns a API SenderType enum.
-     *
-     * @return
-     */
-    private com.silanis.esl.api.model.SenderType createTypicalAPISenderType() {
-        return com.silanis.esl.api.model.SenderType.REGULAR;
+        sdkSenderType1 = com.silanis.esl.sdk.SenderType.UNRECOGNIZED("UNKNOWN");
+        apiSenderType1 = new SenderTypeConverter(sdkSenderType1).toAPISenderType();
+        assertThat("Sender type was not set correctly", apiSenderType1, is("UNKNOWN"));
     }
 }

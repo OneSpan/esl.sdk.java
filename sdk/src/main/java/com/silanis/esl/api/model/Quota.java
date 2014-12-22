@@ -1,8 +1,7 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Quota extends Model
@@ -23,15 +22,15 @@ public class Quota extends Model
     public Quota ( ) {}
     
     // Fields
-    protected Cycle _cycle = null;
+    protected String _cycle = null;
     protected Integer _limit = 0;
-    protected Scope _scope = Scope.SENDER;
-    protected Target _target = Target.SIGNER;
+    protected String _scope = "SENDER";
+    protected String _target = "SIGNER";
     
     // Accessors
         
     
-    public Quota setCycle( Cycle value ){
+    public Quota setCycle( String value ){
         // TODO With proper compare
         // if ( this._cycle == value ) return this;
         this._cycle = value;
@@ -40,11 +39,11 @@ public class Quota extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Quota safeSetCycle( Cycle value ){
+    public Quota safeSetCycle( String value ){
         if ( value != null ) { this.setCycle( value ); }
         return this;
     }
-    public Cycle getCycle(){
+    public String getCycle(){
         return _cycle;
     }
     
@@ -70,7 +69,7 @@ public class Quota extends Model
     
         
     
-    public Quota setScope( Scope value ){
+    public Quota setScope( String value ){
         // TODO With proper compare
         // if ( this._scope == value ) return this;
         this._scope = value;
@@ -79,17 +78,17 @@ public class Quota extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Quota safeSetScope( Scope value ){
+    public Quota safeSetScope( String value ){
         if ( value != null ) { this.setScope( value ); }
         return this;
     }
-    public Scope getScope(){
+    public String getScope(){
         return _scope;
     }
     
         
     
-    public Quota setTarget( Target value ){
+    public Quota setTarget( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TARGET,value);
         // TODO With proper compare
         // if ( this._target == value ) return this;
@@ -99,11 +98,11 @@ public class Quota extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Quota safeSetTarget( Target value ){
+    public Quota safeSetTarget( String value ){
         if ( value != null ) { this.setTarget( value ); }
         return this;
     }
-    public Target getTarget(){
+    public String getTarget(){
         return _target;
     }
     

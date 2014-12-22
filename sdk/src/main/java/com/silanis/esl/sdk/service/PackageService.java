@@ -630,9 +630,9 @@ public class PackageService {
      * @param request Identifying which page of results to return
      * @return List of DocumentPackages that populate the specified page
      */
-    public Page<DocumentPackage> getPackages(com.silanis.esl.api.model.PackageStatus status, PageRequest request) {
+    public Page<DocumentPackage> getPackages(String status, PageRequest request) {
         String path = template.urlFor(UrlTemplate.PACKAGE_LIST_PATH)
-                .replace("{status}", status.toString())
+                .replace("{status}", status)
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
                 .build();

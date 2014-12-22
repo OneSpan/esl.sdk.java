@@ -1,14 +1,16 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class BasePackage extends Entity
       implements java.io.Serializable
@@ -79,10 +81,10 @@ public class BasePackage extends Entity
     protected Sender _sender;
     protected PackageSettings _settings = null;
     protected SignedDocumentDelivery _signedDocumentDelivery = null;
-    protected PackageStatus _status = PackageStatus.DRAFT;
-    protected BasePackageType _type = BasePackageType.PACKAGE;
+    protected String _status = "DRAFT";
+    protected String _type = "PACKAGE";
     protected java.util.Date _updated;
-    protected Visibility _visibility = Visibility.ACCOUNT;
+    protected String _visibility = "ACCOUNT";
     
     // Accessors
         
@@ -456,7 +458,7 @@ public class BasePackage extends Entity
     
         
     
-    public BasePackage setStatus( PackageStatus value ){
+    public BasePackage setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
         // if ( this._status == value ) return this;
@@ -466,17 +468,17 @@ public class BasePackage extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BasePackage safeSetStatus( PackageStatus value ){
+    public BasePackage safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
-    public PackageStatus getStatus(){
+    public String getStatus(){
         return _status;
     }
     
         
     
-    public BasePackage setType( BasePackageType value ){
+    public BasePackage setType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TYPE,value);
         // TODO With proper compare
         // if ( this._type == value ) return this;
@@ -486,11 +488,11 @@ public class BasePackage extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BasePackage safeSetType( BasePackageType value ){
+    public BasePackage safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
-    public BasePackageType getType(){
+    public String getType(){
         return _type;
     }
     
@@ -518,7 +520,7 @@ public class BasePackage extends Entity
     
         
     
-    public BasePackage setVisibility( Visibility value ){
+    public BasePackage setVisibility( String value ){
         SchemaSanitizer.throwOnNull(FIELD_VISIBILITY,value);
         // TODO With proper compare
         // if ( this._visibility == value ) return this;
@@ -528,11 +530,11 @@ public class BasePackage extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public BasePackage safeSetVisibility( Visibility value ){
+    public BasePackage safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
-    public Visibility getVisibility(){
+    public String getVisibility(){
         return _visibility;
     }
     

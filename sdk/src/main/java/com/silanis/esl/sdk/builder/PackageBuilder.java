@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.PackageStatus;
 import com.silanis.esl.sdk.*;
 
 import java.util.*;

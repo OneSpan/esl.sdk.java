@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.MemberType;
 import com.silanis.esl.sdk.GroupMemberType;
-import com.silanis.esl.sdk.builder.BuilderException;
 
 /**
  * User: jessica
@@ -13,15 +11,15 @@ import com.silanis.esl.sdk.builder.BuilderException;
  */
 public class GroupMemberTypeConverter {
 
-    private com.silanis.esl.sdk.GroupMemberType sdkMemberType = null;
-    private com.silanis.esl.api.model.MemberType apiMemberType = null;
+    private GroupMemberType sdkMemberType = null;
+    private String apiMemberType = null;
 
     /**
      * Construct with API memberType object involved in conversion.
      *
      * @param apiMemberType
      */
-    public GroupMemberTypeConverter(com.silanis.esl.api.model.MemberType apiMemberType) {
+    public GroupMemberTypeConverter(String apiMemberType) {
         this.apiMemberType = apiMemberType;
     }
 
@@ -30,7 +28,7 @@ public class GroupMemberTypeConverter {
      *
      * @param sdkMemberType
      */
-    public GroupMemberTypeConverter(com.silanis.esl.sdk.GroupMemberType sdkMemberType) {
+    public GroupMemberTypeConverter(GroupMemberType sdkMemberType) {
         this.sdkMemberType = sdkMemberType;
     }
 
@@ -39,18 +37,12 @@ public class GroupMemberTypeConverter {
      *
      * @return an API MemberType object.
      */
-    public com.silanis.esl.api.model.MemberType toAPIGroupMemberType() {
+    public String toAPIGroupMemberType() {
         if (sdkMemberType == null) {
             return apiMemberType;
         }
-        switch (sdkMemberType) {
-            case MANAGER:
-                return MemberType.MANAGER;
-            case REGULAR:
-                return MemberType.REGULAR;
-            default:
-                throw new BuilderException("Unrecognized group member type.");
-        }
+
+        return sdkMemberType.getApiValue();
     }
 
     /**
@@ -58,20 +50,18 @@ public class GroupMemberTypeConverter {
      *
      * @return an SDK MemberType object.
      */
-    public com.silanis.esl.sdk.GroupMemberType toSDKGroupMemberType() {
+    public GroupMemberType toSDKGroupMemberType() {
 
         if (apiMemberType == null) {
             return sdkMemberType;
         }
 
-        switch (apiMemberType) {
-            case MANAGER:
-                return GroupMemberType.MANAGER;
-            case REGULAR:
-                return GroupMemberType.REGULAR;
-            default:
-                throw new BuilderException("Unrecognized group member type.");
+        GroupMemberType[] groupMemberTypes = GroupMemberType.values();
+        for (GroupMemberType groupMemberType : groupMemberTypes) {
+            if(apiMemberType.equals(groupMemberType.getApiValue())){
+                return groupMemberType;
+            }
         }
-
+        return GroupMemberType.UNRECOGNIZED(apiMemberType);
     }
 }

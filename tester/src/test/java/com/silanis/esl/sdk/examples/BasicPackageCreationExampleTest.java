@@ -16,7 +16,7 @@ import static org.joda.time.DateMidnight.now;
  * User: jessica
  * Date: 12/12/13
  * Time: 4:41 PM
- * 
+ *
  * Test BasicPackageCreationExample.
  */
 public class BasicPackageCreationExampleTest {

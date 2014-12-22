@@ -1,14 +1,12 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.silanis.esl.api.util.SchemaSanitizer;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Template extends BaseTemplate
       implements java.io.Serializable
@@ -340,13 +338,13 @@ public class Template extends BaseTemplate
         
     
     @Override
-    public Template setStatus( PackageStatus value ){
+    public Template setStatus( String value ){
         super.setStatus(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Template safeSetStatus( PackageStatus value ){
+    public Template safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
@@ -354,13 +352,13 @@ public class Template extends BaseTemplate
         
     
     @Override
-    public Template setType( BasePackageType value ){
+    public Template setType( String value ){
         super.setType(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Template safeSetType( BasePackageType value ){
+    public Template safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
@@ -383,13 +381,13 @@ public class Template extends BaseTemplate
         
     
     @Override
-    public Template setVisibility( Visibility value ){
+    public Template setVisibility( String value ){
         super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Template safeSetVisibility( Visibility value ){
+    public Template safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
