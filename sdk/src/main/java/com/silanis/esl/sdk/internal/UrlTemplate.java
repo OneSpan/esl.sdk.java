@@ -90,6 +90,7 @@ public class UrlTemplate {
 
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
+    public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
     public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
 
     // AttachmentRequirement Service

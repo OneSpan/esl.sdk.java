@@ -81,6 +81,23 @@ public class AuthenticationService {
         }
     }
 
+    public String buildRedirectToPackageViewForSender(String senderAuthenticationToken, String packageId) {
+        try {
+            final String redirectPath = redirectUrlTemplate.urlFor(UrlTemplate.PACKAGE_VIEW_REDIRECT_PATH)
+                                                           .replace("{packageId}", packageId)
+                                                           .build();
+            final String encodedRedirectPath = URLEncoder.encode(redirectPath, RestClient.CHARSET_UTF_8);
+            String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
+                                                   .replace("{senderAuthenticationToken}", senderAuthenticationToken)
+                                                   .replace("{redirectUrl}", encodedRedirectPath)
+
+                                                   .build();
+            return path;
+        } catch (Exception e) {
+            throw new EslException("Could not create a redirect to package view for a sender.", e);
+        }
+    }
+
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {
         String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN).replace("{signerAuthenticationToken}", signerAuthenticationToken).build();
         try {
