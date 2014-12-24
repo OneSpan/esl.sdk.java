@@ -287,4 +287,5 @@ public class Signer implements Serializable {
     public void setKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
         this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
     }
+
 }

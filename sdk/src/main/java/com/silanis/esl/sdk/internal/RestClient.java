@@ -118,7 +118,7 @@ public class RestClient {
         return execute(put, jsonHandler);
     }
 
-    public void postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
+    public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
         final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
@@ -129,7 +129,7 @@ public class RestClient {
 
         post.setEntity(multipartEntityBuilder.build());
 
-        execute(post, jsonHandler);
+        return execute(post, jsonHandler);
     }
 
     public String postMultipartPackage(String path, Collection<Document> documents, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {

@@ -209,22 +209,24 @@ public class PackageService {
      * @param document  The document with approvals and fields
      * @throws EslException
      */
-    public void uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document, DocumentPackage documentPackage) throws EslException {
+    public com.silanis.esl.sdk.Document uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document, DocumentPackage documentPackage) throws EslException {
         Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
         Document apiDocument = new DocumentConverter(document).toAPIDocument(apiPackage);
 
-        uploadApiDocument(packageId.getId(), fileName, fileBytes, apiDocument);
+        return uploadApiDocument(packageId.getId(), fileName, fileBytes, apiDocument);
     }
 
-    public void uploadApiDocument( String packageId, String fileName, byte[] fileBytes, Document document ) {
+    public com.silanis.esl.sdk.Document uploadApiDocument( String packageId, String fileName, byte[] fileBytes, Document document ) {
         String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
-                .replace("{packageId}", packageId)
-                .build();
+                              .replace("{packageId}", packageId)
+                              .build();
 
         String documentJson = Serialization.toJson(document);
 
         try {
-            client.postMultipartFile(path, fileName, fileBytes, documentJson);
+            String response = client.postMultipartFile(path, fileName, fileBytes, documentJson);
+            com.silanis.esl.api.model.Document uploadedDocument = Serialization.fromJson(response, com.silanis.esl.api.model.Document.class);
+            return new DocumentConverter(uploadedDocument, getApiPackage(packageId)).toSDKDocument();
         } catch (RequestException e) {
             throw new EslServerException("Could not upload document to package.", e);
         } catch (Exception e) {

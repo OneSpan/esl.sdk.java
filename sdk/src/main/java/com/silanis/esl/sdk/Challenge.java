@@ -4,10 +4,16 @@ import static java.lang.String.format;
 
 public class Challenge {
 
+    public enum MaskOptions{
+        MaskInput, None
+    }
+
     private final String question;
     private final String answer;
 
-    public Challenge(String question, String answer) {
+    private MaskOptions maskOption;
+
+    public Challenge(String question, String answer, MaskOptions maskOption) {
         if (question == null || question.trim().isEmpty()) {
             throw new IllegalArgumentException("question parameter cannot be null or empty");
         }
@@ -18,6 +24,11 @@ public class Challenge {
 
         this.question = question;
         this.answer = answer;
+        this.maskOption = maskOption;
+    }
+
+    public Challenge (String question, String answer){
+        this(question, answer, MaskOptions.None);
     }
 
     @Override
@@ -54,5 +65,9 @@ public class Challenge {
 
     public String getAnswer() {
         return answer;
+    }
+
+    public MaskOptions getMaskOption() {
+        return maskOption;
     }
 }

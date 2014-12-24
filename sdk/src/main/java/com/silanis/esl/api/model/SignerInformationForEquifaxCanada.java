@@ -94,11 +94,10 @@ public class SignerInformationForEquifaxCanada extends Model
     public java.util.Date getDateOfBirth(){
         return _dateOfBirth;
     }
-    
-        
-    
-    public SignerInformationForEquifaxCanada setDriversLicenseNumber(String value){
-        SchemaSanitizer.throwOnNull(FIELD_DRIVERSLICENSENUMBER,value);
+
+
+
+    public SignerInformationForEquifaxCanada setDriversLicenseNumber( String value ){
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._driversLicenseNumber == value ) return this;

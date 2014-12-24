@@ -99,7 +99,6 @@ public class SignerInformationForEquifaxUSA extends Model
 
 
     public SignerInformationForEquifaxUSA setDriversLicenseNumber( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_DRIVERSLICENSENUMBER,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._driversLicenseNumber == value ) return this;

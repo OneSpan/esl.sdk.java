@@ -1,7 +1,10 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.api.model.BaseMessage;
+import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;

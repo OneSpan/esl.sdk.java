@@ -207,9 +207,9 @@ public class SignerConverterTest implements ConverterTest {
                 .withEmailMessage("Email message.")
                 .withTitle("Miss")
                 .withAttachmentRequirement(AttachmentRequirementBuilder.newAttachmentRequirementWithName("driver license")
-                    .withDescription("Please upload your scanned driver license.")
-                    .isRequiredAttachment()
-                    .build())
+                        .withDescription("Please upload your scanned driver license.")
+                        .isRequiredAttachment()
+                        .build())
                 .build();
     }
 
@@ -258,4 +258,6 @@ public class SignerConverterTest implements ConverterTest {
 
         return apiRole;
     }
+
+
 }

@@ -1,14 +1,12 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Signer extends User
       implements java.io.Serializable
@@ -59,7 +57,7 @@ public class Signer extends User
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
-    
+
     // Empty Constructor
     public Signer ( ) {}
     
@@ -419,6 +417,5 @@ public class Signer extends User
         super.addUserCustomField(value);
         return this;
     }
-    
-    
+
 }
