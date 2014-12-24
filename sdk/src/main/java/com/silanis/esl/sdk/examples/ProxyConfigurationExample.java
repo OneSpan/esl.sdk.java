@@ -34,8 +34,8 @@ public class ProxyConfigurationExample {
     private final String httpProxyPassword = "httpPwd";
 
     protected EslClient eslClientWithHttpsProxy;
-    private final String httpsProxyURL = "10.0.4.40";
-    private final int httpsProxyPort = 80;
+    private final String httpsProxyURL = "localhost";
+    private final int httpsProxyPort = 8003;
 
     protected EslClient eslClientWithHttpsProxyHasCredentials;
     private final String httpsProxyWithCredentialsURL = "localhost";
@@ -48,16 +48,11 @@ public class ProxyConfigurationExample {
     public final String email1;
     private InputStream documentInputStream1, documentInputStream2, documentInputStream3, documentInputStream4;
 
-    public static void main(String... args) {
-
-        //new ProxyConfigurationExample(Props.get()).execute();
-    }
-
     public ProxyConfigurationExample(Properties props) {
         this(props.getProperty("api.key"),
-             props.getProperty("api.url"),
-             props.getProperty("allow.all.sslcertificates", "false"),
-             props.getProperty("1.email"));
+                props.getProperty("api.url"),
+                props.getProperty("allow.all.sslcertificates", "false"),
+                props.getProperty("1.email"));
     }
 
     public ProxyConfigurationExample(String apiKey, String apiUrl, String allowAllSSLCertificates, String email1) {
@@ -84,7 +79,7 @@ public class ProxyConfigurationExample {
                 .withCredentials(httpsProxyUserName, httpsProxyPassword)
                 .build();
 
-        this.email1 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
+        this.email1 = UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com";
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
@@ -96,7 +91,7 @@ public class ProxyConfigurationExample {
         eslClientWithHttpsProxyHasCredentials = new EslClient(apiKey, apiUrl, Boolean.parseBoolean(allowAllSSLCertificates), httpsProxyWithCredentialsConfiguration);
     }
 
-    private DocumentPackage createTestPackage(InputStream documentStream){
+    private DocumentPackage createTestPackage(InputStream documentStream) {
         DocumentPackage packageTest = newPackageNamed("ProxyExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())

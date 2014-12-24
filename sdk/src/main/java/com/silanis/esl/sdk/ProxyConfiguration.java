@@ -14,21 +14,6 @@ public class ProxyConfiguration {
     private Scheme scheme;
     private boolean credentials;
 
-/*    public ProxyConfiguration(
-            String httpHost,
-            int httpPort,
-            String httpsHost,
-            int httpsPort,
-            String userName,
-            String password) {
-        this.httpHost = httpHost;
-        this.httpPort = httpPort;
-        this.httpsHost = httpsHost;
-        this.httpsPort = httpsPort;
-        this.userName = userName;
-        this.password = password;
-    }*/
-
     public ProxyConfiguration(){
         httpHost = null;
         httpPort = 0;

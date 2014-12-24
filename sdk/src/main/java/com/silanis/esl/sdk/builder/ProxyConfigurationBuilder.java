@@ -15,36 +15,34 @@ public class ProxyConfigurationBuilder {
     private String userName;
     private String password;
 
-    private final String regexIP = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
-    private final String regexHostName = "^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$";
-
-    private ProxyConfigurationBuilder() {}
+    private ProxyConfigurationBuilder() {
+    }
 
     public static ProxyConfigurationBuilder newProxyConfiguration() {
         return new ProxyConfigurationBuilder();
     }
 
-    public ProxyConfigurationBuilder withHttpHost( String httpHost ) {
+    public ProxyConfigurationBuilder withHttpHost(String httpHost) {
         this.httpHost = httpHost;
         return this;
     }
 
-    public ProxyConfigurationBuilder withHttpPort( int httpPort ) {
+    public ProxyConfigurationBuilder withHttpPort(int httpPort) {
         this.httpPort = httpPort;
         return this;
     }
 
-    public ProxyConfigurationBuilder withHttpsHost( String httpsHost ) {
+    public ProxyConfigurationBuilder withHttpsHost(String httpsHost) {
         this.httpsHost = httpsHost;
         return this;
     }
 
-    public ProxyConfigurationBuilder withHttpsPort( int httpsPort ) {
+    public ProxyConfigurationBuilder withHttpsPort(int httpsPort) {
         this.httpsPort = httpsPort;
         return this;
     }
 
-    public ProxyConfigurationBuilder withCredentials( String userName, String password ) {
+    public ProxyConfigurationBuilder withCredentials(String userName, String password) {
         this.userName = userName;
         this.password = password;
         return this;
@@ -53,17 +51,16 @@ public class ProxyConfigurationBuilder {
     public ProxyConfiguration build() {
         validate();
         ProxyConfiguration result = new ProxyConfiguration();
-        if ( httpHost != null && httpPort != 0) {
+        if (isHttpProxy()) {
             result.setHttpHost(httpHost);
             result.setHttpPort(httpPort);
             result.setHttpScheme();
-        }
-        else if (httpsHost != null && httpsPort != 0) {
+        } else if (isHttpsProxy()) {
             result.setHttpsHost(httpsHost);
             result.setHttpsPort(httpsPort);
             result.setHttpsScheme();
         }
-        if (userName != null && password != null) {
+        if (isCredentialsNotNull()) {
             result.setUserName(userName);
             result.setPassword(password);
             result.setCredentials(true);
@@ -72,26 +69,28 @@ public class ProxyConfigurationBuilder {
     }
 
     private void validate() {
-        if (httpHost!= null
-                && !httpHost.matches(regexIP)
-                && !httpHost.matches(regexHostName)) {
-            throw new BuilderException( "The proxy should be a correct Host name or IP address." );
+        if ((isHttpProxy()) && (httpsHost != null || httpsPort != 0)
+                || ((isHttpsProxy()) && (httpHost != null || httpPort != 0))) {
+            throw new BuilderException("Cannot set up both the http and https proxy, Use either http or https.");
         }
-        if (httpsHost!= null
-                && !httpsHost.matches(regexIP)
-                && !httpsHost.matches(regexHostName)) {
-            throw new BuilderException( "The proxy should be a correct Host name or IP address." );
-        }
-        if ( (httpHost != null && httpPort != 0) && ( httpsHost != null || httpsPort != 0 )
-                || ( (httpsHost != null && httpsPort != 0) && ( httpHost != null || httpPort != 0 ) ) ) {
-            throw new BuilderException( "Only can set 1 sort of proxy." );
-        }
-        if ( (httpHost != null && httpPort == 0)
+        if ((httpHost != null && httpPort == 0)
                 || (httpHost == null && httpPort != 0)
                 || (httpsHost != null && httpsPort == 0)
                 || (httpsHost == null && httpsPort != 0)) {
-            throw new BuilderException( "At lease 1 sort of proxy need to set." );
+            throw new BuilderException("Neither http nor https proxy is setup.");
         }
+    }
+
+    private boolean isCredentialsNotNull() {
+        return userName != null && password != null;
+    }
+
+    private boolean isHttpsProxy() {
+        return httpsHost != null && httpsPort != 0;
+    }
+
+    private boolean isHttpProxy() {
+        return httpHost != null && httpPort != 0;
     }
 
 }

@@ -68,19 +68,15 @@ public class RestClient {
     private ProxyConfiguration proxyConfiguration;
 
     public RestClient(String apiToken) {
-        this.apiToken = apiToken;
-        this.allowAllSSLCertificates = false;
+        this(apiToken, false);
     }
 
     public RestClient(String apiToken, boolean allowAllSSLCertificates) {
-        this.apiToken = apiToken;
-        this.allowAllSSLCertificates = allowAllSSLCertificates;
+        this(apiToken, allowAllSSLCertificates, null);
     }
 
     public RestClient(String apiToken, ProxyConfiguration proxyConfiguration) {
-        this.apiToken = apiToken;
-        this.proxyConfiguration = proxyConfiguration;
-        this.allowAllSSLCertificates = false;
+        this(apiToken, false, proxyConfiguration);
     }
 
     public RestClient(String apiToken, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
@@ -92,9 +88,9 @@ public class RestClient {
     public String post(String path, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
-        HttpPost post = new HttpPost( path );
+        HttpPost post = new HttpPost(path);
         post.addHeader(buildAcceptHeaderForEslApi());
-        if ( jsonPayload != null ) {
+        if (jsonPayload != null) {
             StringEntity body = new StringEntity(jsonPayload, Charset.forName(CHARSET_UTF_8));
 
             body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
@@ -108,7 +104,7 @@ public class RestClient {
     public String put(String path, String jsonPayload) throws IOException, RequestException {
         support.logRequest("PUT", path, jsonPayload);
 
-        HttpPut put = new HttpPut( path );
+        HttpPut put = new HttpPut(path);
         put.addHeader(buildAcceptHeaderForEslApi());
         StringEntity body = new StringEntity(jsonPayload, Charset.forName("UTF-8"));
 
@@ -125,7 +121,7 @@ public class RestClient {
         multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
         multipartEntityBuilder.addPart("file", buildPartForFile(fileBytes, fileName));
 
-        HttpPost post = new HttpPost( path );
+        HttpPost post = new HttpPost(path);
 
         post.setEntity(multipartEntityBuilder.build());
 
@@ -138,7 +134,7 @@ public class RestClient {
         final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
 
-        for(com.silanis.esl.sdk.Document document : documents) {
+        for (com.silanis.esl.sdk.Document document : documents) {
             multipartEntityBuilder.addPart("file", buildPartForFile(document));
         }
 
@@ -176,10 +172,10 @@ public class RestClient {
             client = buildHttpClient();
         } catch (HttpException e) {
             throw new RequestException(request.getRequestLine().getMethod(),
-                                       request.getRequestLine().getUri(),
-                                       500,
-                                       "No SSL Socket Factory",
-                                       "Could not build request because of SSL socket Factory");
+                    request.getRequestLine().getUri(),
+                    500,
+                    "No SSL Socket Factory",
+                    "Could not build request because of SSL socket Factory");
         }
 
         try {
@@ -194,31 +190,32 @@ public class RestClient {
                         response.getStatusLine().getStatusCode(),
                         response.getStatusLine().getReasonPhrase(),
                         errorDetails);
-            } else if (response.getStatusLine().getStatusCode() == 204 ) {
+            } else if (response.getStatusLine().getStatusCode() == 204) {
                 return null;
             } else {
                 InputStream bodyContent = response.getEntity().getContent();
                 return handler.extract(bodyContent);
             }
         } finally {
-            client.close();
+            if (null != client) {
+                client.close();
+            }
         }
     }
 
     private CloseableHttpClient buildHttpClient() throws HttpException {
         final HttpClientBuilder httpClientBuilder = HttpClients.custom();
-        if(allowAllSSLCertificates){
+        if (allowAllSSLCertificates) {
             httpClientBuilder.setSSLSocketFactory(buildSSLSocketFactory());
         }
 
-        if(proxyConfiguration != null){
-            if(proxyConfiguration.hasCredentials()){
+        if (proxyConfiguration != null) {
+            if (proxyConfiguration.hasCredentials()) {
                 httpClientBuilder.setDefaultCredentialsProvider(buildCredentialsConfiguration(proxyConfiguration));
             }
             httpClientBuilder.setDefaultRequestConfig(buildProxyConfiguration(proxyConfiguration));
             return httpClientBuilder.build();
-        }
-        else{
+        } else {
             return httpClientBuilder.build();
         }
     }
@@ -244,7 +241,7 @@ public class RestClient {
                                 X509Certificate[] certs, String authType) {
                         }
                     }}, new SecureRandom());
-            return new SSLConnectionSocketFactory(sslContext,SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            return new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
         } catch (KeyManagementException e) {
             throw new HttpException("Problem configuring SSL Socket factory", e);
         } catch (NoSuchAlgorithmException e) {
@@ -271,7 +268,7 @@ public class RestClient {
 
     public String get(String path, String acceptType) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
-        HttpGet get = new HttpGet( path );
+        HttpGet get = new HttpGet(path);
         get.addHeader(buildAcceptHeader(acceptType));
 
         return execute(get, jsonHandler);
@@ -287,14 +284,14 @@ public class RestClient {
 
     public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
-        HttpGet get = new HttpGet( path );
+        HttpGet get = new HttpGet(path);
 
         return execute(get, bytesHandler);
     }
 
     public String delete(String path) throws HttpException, IOException, URISyntaxException, RequestException {
         support.logRequest("DELETE", path);
-        HttpDelete delete = new HttpDelete( path );
+        HttpDelete delete = new HttpDelete(path);
         delete.addHeader(buildAcceptHeaderForEslApi());
 
         return execute(delete, jsonHandler);
@@ -307,7 +304,7 @@ public class RestClient {
     private class BytesHandler implements ResponseHandler<byte[]> {
 
         public byte[] extract(InputStream input) {
-            return Streams.toByteArray( input );
+            return Streams.toByteArray(input);
         }
     }
 

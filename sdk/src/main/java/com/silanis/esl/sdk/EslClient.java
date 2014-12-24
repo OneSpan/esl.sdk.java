@@ -64,7 +64,6 @@ public class EslClient {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         this.baseURL = baseURL;
-
         RestClient client = new RestClient(apiKey);
         init(client);
     }
@@ -73,7 +72,6 @@ public class EslClient {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         this.baseURL = baseURL;
-
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates);
         init(client);
     }
@@ -81,7 +79,6 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL, ProxyConfiguration proxyConfiguration) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        //Asserts.notNullOrEmpty( proxy, "proxy");  How to pass in the parameters for EslClient? Object or Strings?
         this.baseURL = baseURL;
         RestClient client = new RestClient(apiKey, proxyConfiguration);
         init(client);
@@ -90,7 +87,6 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        //Asserts.notNullOrEmpty( proxy, "proxy");  How to pass in the parameters for EslClient? Object or Strings?
         this.baseURL = baseURL;
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration);
         init(client);
