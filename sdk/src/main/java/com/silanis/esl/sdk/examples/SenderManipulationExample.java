@@ -29,17 +29,14 @@ public class SenderManipulationExample extends SDKSample {
 
     public SenderManipulationExample(Properties properties){
         this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"),
-                properties.getProperty("2.email"),
-                properties.getProperty("3.email"));
+                properties.getProperty("api.url"));
     }
 
-    public SenderManipulationExample(String apiKey, String apiUrl, String email1, String email2, String email3) {
+    public SenderManipulationExample(String apiKey, String apiUrl) {
         super(apiKey, apiUrl);
-        this.email1 = email1;
+        this.email1 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
         this.email2 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
-        this.email3 = email3;
+        this.email3 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
     }
 
     @Override

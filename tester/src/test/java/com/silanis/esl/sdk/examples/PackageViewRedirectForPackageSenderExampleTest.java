@@ -16,6 +16,6 @@ public class PackageViewRedirectForPackageSenderExampleTest {
         PackageViewRedirectForPackageSenderExample example = new PackageViewRedirectForPackageSenderExample( Props.get() );
         example.run();
 
-        assertThat(example.getGeneratedLinkToPackageViewForSender(), is(notNullValue()));
+        assertThat(example.generatedLinkToPackageViewForSender, is(notNullValue()));
     }
 }

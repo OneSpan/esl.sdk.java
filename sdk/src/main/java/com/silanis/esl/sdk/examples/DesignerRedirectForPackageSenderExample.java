@@ -37,7 +37,7 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
               props.getProperty( "webpage.url" ),
-              props.getProperty( "1.email" ));
+              props.getProperty( "sender.email" ));
     }
 
     public DesignerRedirectForPackageSenderExample( String apiKey, String apiUrl, String webpageUrl, String packageSender ) {

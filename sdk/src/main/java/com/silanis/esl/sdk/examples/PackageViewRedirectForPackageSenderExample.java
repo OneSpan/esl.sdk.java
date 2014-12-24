@@ -26,71 +26,57 @@ public class PackageViewRedirectForPackageSenderExample extends SDKSample {
     public static void main( String... args ) {
         new PackageViewRedirectForPackageSenderExample( Props.get() ).run();
     }
+    public String generatedLinkToPackageViewForSender;
 
     private AuthenticationClient authenticationClient;
-    private String packageSender;
+    private String senderEmail;
     private InputStream documentInputStream;
-    private String generatedLinkToPackageViewForSender;
 
     public PackageViewRedirectForPackageSenderExample( Properties props ) {
         this( props.getProperty( "api.key" ),
               props.getProperty( "api.url" ),
               props.getProperty( "webpage.url" ),
-              props.getProperty( "1.email" ));
+              props.getProperty( "sender.email" ));
     }
 
-    public PackageViewRedirectForPackageSenderExample( String apiKey, String apiUrl, String webpageUrl, String packageSender ) {
+    public PackageViewRedirectForPackageSenderExample( String apiKey, String apiUrl, String webpageUrl, String senderEmail ) {
         super( apiKey, apiUrl );
         authenticationClient = new AuthenticationClient(webpageUrl);
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.packageSender = packageSender;
+        this.senderEmail = senderEmail;
     }
 
     @Override
     void execute() {
 
         eslClient.getAccountService().inviteUser(
-                AccountMemberBuilder.newAccountMember(packageSender)
+                AccountMemberBuilder.newAccountMember(senderEmail)
                                     .withFirstName("firstName")
                                     .withLastName("lastName")
                                     .withCompany("company")
                                     .withTitle("title")
-                                    .withLanguage("language")
                                     .withPhoneNumber("phoneNumber")
                                     .build() );
 
-        createPackageWithCustomSender();
-
-        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
-
-
-        generatedLinkToPackageViewForSender = authenticationClient.buildRedirectToPackageViewForSender(senderAuthenticationToken, packageId.getId());
-
-
-        logger.info(generatedLinkToPackageViewForSender);
-    }
-
-    private void createPackageWithCustomSender() {
         DocumentPackage superDuperPackage = newPackageNamed( "PackageViewRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .withSenderInfo(SenderInfoBuilder.newSenderInfo(packageSender)
+                .withSenderInfo(SenderInfoBuilder.newSenderInfo(senderEmail)
                                                  .withName("firstName", "lastName")
                                                  .withTitle("title")
                                                  .withCompany("company"))
                 .withDocument(newDocumentWithName("First Document")
                                       .fromStream(documentInputStream, DocumentType.PDF)
-                                      .withSignature(signatureFor(packageSender)
+                                      .withSignature(signatureFor(senderEmail)
                                                              .onPage(0)
                                                              .atPosition(100, 100))
                 )
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
+
+        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
+
+        generatedLinkToPackageViewForSender = authenticationClient.buildRedirectToPackageViewForSender(senderAuthenticationToken, packageId.getId());
+
+        logger.info(generatedLinkToPackageViewForSender);
     }
-
-    public String getGeneratedLinkToPackageViewForSender() {
-        return generatedLinkToPackageViewForSender;
-    }
-
-
-
 }
