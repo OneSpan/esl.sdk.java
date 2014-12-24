@@ -1,13 +1,31 @@
 package com.silanis.esl.sdk;
-
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.service.*;
-import com.silanis.esl.sdk.service.apiclient.*;
-
+import com.silanis.esl.sdk.service.AccountService;
+import com.silanis.esl.sdk.service.ApprovalService;
+import com.silanis.esl.sdk.service.AttachmentRequirementService;
+import com.silanis.esl.sdk.service.AuditService;
+import com.silanis.esl.sdk.service.AuthenticationTokensService;
+import com.silanis.esl.sdk.service.CustomFieldService;
+import com.silanis.esl.sdk.service.EventNotificationService;
+import com.silanis.esl.sdk.service.FieldSummaryService;
+import com.silanis.esl.sdk.service.GroupService;
+import com.silanis.esl.sdk.service.LayoutService;
+import com.silanis.esl.sdk.service.PackageService;
+import com.silanis.esl.sdk.service.QRCodeService;
+import com.silanis.esl.sdk.service.ReminderService;
+import com.silanis.esl.sdk.service.SessionService;
+import com.silanis.esl.sdk.service.TemplateService;
+import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
+import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
+import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
+import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
+import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
+import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
+import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
 import java.util.Collection;
 import java.util.List;
 
@@ -46,8 +64,35 @@ public class EslClient {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         this.baseURL = baseURL;
-
         RestClient client = new RestClient(apiKey);
+        init(client);
+    }
+
+    public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates) {
+        Asserts.notNullOrEmpty( apiKey, "apiKey" );
+        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        this.baseURL = baseURL;
+        RestClient client = new RestClient(apiKey, allowAllSSLCertificates);
+        init(client);
+    }
+
+    public EslClient(String apiKey, String baseURL, ProxyConfiguration proxyConfiguration) {
+        Asserts.notNullOrEmpty( apiKey, "apiKey" );
+        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        this.baseURL = baseURL;
+        RestClient client = new RestClient(apiKey, proxyConfiguration);
+        init(client);
+    }
+
+    public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
+        Asserts.notNullOrEmpty( apiKey, "apiKey" );
+        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        this.baseURL = baseURL;
+        RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration);
+        init(client);
+    }
+
+    private void init(RestClient client){
         packageService = new PackageService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
