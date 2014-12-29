@@ -685,7 +685,7 @@ public class PackageService {
      * @return List of DocumentPackages that populate the specified page
      */
     public Page<DocumentPackage> getPackagesUpdatedWithinDateRange(String status, PageRequest request, String startDate, String endDate) {
-        String path = template.urlFor(UrlTemplate.PACKAGE_LIST_DATE_RANGE_PATH)
+        String path = template.urlFor(UrlTemplate.PACKAGE_LIST_STATUS_DATE_RANGE_PATH)
                 .replace("{status}", status)
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
