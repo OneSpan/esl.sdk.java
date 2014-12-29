@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.methods.HttpUriRequest;
 
 /**
@@ -11,6 +12,11 @@ public class SignerRestClient extends RestClient {
 
     public SignerRestClient(String sessionId) {
         super("");
+        this.sessionId = sessionId;
+    }
+    
+    public SignerRestClient(String sessionId, HttpHost proxy) {
+        super("", proxy);
         this.sessionId = sessionId;
     }
 

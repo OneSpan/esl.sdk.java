@@ -1,13 +1,23 @@
 package com.silanis.esl.sdk.internal;
 
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.io.Streams;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.util.Collection;
+
 import org.apache.http.Header;
 import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
@@ -15,12 +25,9 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.util.Collection;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.io.Streams;
 
 public class RestClient {
 
@@ -41,9 +48,15 @@ public class RestClient {
 
     private final String apiToken;
     private final Support support = new Support();
+    private HttpHost proxy;
 
     public RestClient(String apiToken) {
         this.apiToken = apiToken;
+    }
+    
+    public RestClient(String apiToken, HttpHost proxy) {
+        this.apiToken = apiToken;
+        this.proxy = proxy;
     }
 
     public String post(String path, String jsonPayload) throws IOException, HttpException, URISyntaxException, RequestException {
@@ -111,9 +124,13 @@ public class RestClient {
     protected void addAuthorizationHeader(HttpUriRequest request) {
         request.setHeader("Authorization", "Basic " + apiToken);
     }
-
+    
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
         HttpClient client = new DefaultHttpClient();
+        if(proxy != null){
+        	//We configure a proxy if one is defined.
+        	client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,proxy);
+        }
 
         addAuthorizationHeader(request);
 
