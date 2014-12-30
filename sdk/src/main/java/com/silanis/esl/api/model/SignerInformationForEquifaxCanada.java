@@ -77,7 +77,6 @@ public class SignerInformationForEquifaxCanada extends Model
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public SignerInformationForEquifaxCanada setDateOfBirth( java.util.Date value ){
-        SchemaSanitizer.throwOnNull(FIELD_DATEOFBIRTH,value);
         // TODO With proper compare
         // if ( this._dateOfBirth == value ) return this;
         this._dateOfBirth = value;
