@@ -241,7 +241,6 @@ public class SignerInformationForEquifaxCanada extends Model
         
     
     public SignerInformationForEquifaxCanada setTimeAtAddress( Integer value ){
-        SchemaSanitizer.throwOnNull(FIELD_TIMEATADDRESS,value);
         // TODO With proper compare
         // if ( this._timeAtAddress == value ) return this;
         this._timeAtAddress = value;
