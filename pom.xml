@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>10.7.2-SNAPSHOT</version>
+    <version>10.7.1.1-SNAPSHOT</version>
 
     <modules>
         <module>tester</module>

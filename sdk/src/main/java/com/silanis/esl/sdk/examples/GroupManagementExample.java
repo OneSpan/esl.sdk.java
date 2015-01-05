@@ -37,13 +37,11 @@ public class GroupManagementExample extends SDKSample {
 
     public GroupManagementExample( Properties props ) {
         this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ));
+                props.getProperty( "api.url" ));
     }
 
-    public GroupManagementExample( String apiKey, String apiUrl, String email1 ) {
+    public GroupManagementExample( String apiKey, String apiUrl ) {
         super( apiKey, apiUrl );
-        this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
@@ -84,6 +82,7 @@ public class GroupManagementExample extends SDKSample {
 
     public void execute() {
 
+        email1 = getRandomEmail();
         email2 = getRandomEmail();
         email3 = getRandomEmail();
         email4 = getRandomEmail();
