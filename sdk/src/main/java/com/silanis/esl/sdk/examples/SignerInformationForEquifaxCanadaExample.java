@@ -30,15 +30,15 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
 
     public static final String FIRST_NAME = "Patty";
     public static final String LAST_NAME = "Galant";
-    public static final String ADDRESS = "123 rue av";
+    public static final String ADDRESS = "1234 Decarie";
     public static final String CITY = "Montreal";
-    public static final String POSTAL_CODE = "h2h3h2";
+    public static final String POSTAL_CODE = "A2A5D4";
     public static final String PROVINCE = "QC";
     public static final Integer TIME_AT_ADDRESS = 123;
-    public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
-    public static final String DRIVERS_LICENSE_NUMBER = "1234567";
-    public static final String SOCIAL_INSURANCE_NUMBER = "123-456-789";
-    public static final String HOME_PHONE_NUMBER = "6485923567";
+    public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(35).toDate();
+    public static final String DRIVERS_LICENSE_NUMBER = "C54625641298452";
+    public static final String SOCIAL_INSURANCE_NUMBER = "247018476";
+    public static final String HOME_PHONE_NUMBER = "5145786234";
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
@@ -74,10 +74,9 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
                                 .withCity(CITY)
                                 .withPostalCode(POSTAL_CODE)
                                 .withProvince(PROVINCE)
-                                .withTimeAtAddress(TIME_AT_ADDRESS)
                                 .withDateOfBirth(DATE_OF_BIRTH)
                                 .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
-                                .withSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER)
+//                                .withSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER)
                                 .withHomePhoneNumber(HOME_PHONE_NUMBER)))
                         .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                                 .fromStream(documentInputStream, DocumentType.PDF)
