@@ -30,15 +30,14 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
 
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Smith";
-    public static final String ADDRESS = "456666 asdfasdf";
-    public static final String CITY = "Newyork";
-    public static final String ZIP = "12311";
-    public static final String STATE = "NY";
-    public static final String SOCIAL_SECURITY_NUMBER = "123-32-1223";
-    public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(15).toDate();
-    public static final String HOME_PHONE_NUMBER = "1234567890";
-    public static final String DRIVERS_LICENSE_NUMBER = "465323785";
-    public static final Integer TIME_AT_ADDRESS = 123;
+    public static final String ADDRESS = "PO BOX 451";
+    public static final String CITY = "CALERA";
+    public static final String ZIP = "35040";
+    public static final String STATE = "AL";
+    public static final String SOCIAL_SECURITY_NUMBER = "666110007";
+    public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(42).toDate();
+    public static final String HOME_PHONE_NUMBER = "2055551212";
+    public static final String DRIVERS_LICENSE_NUMBER = "251689216";
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
@@ -77,8 +76,7 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
                                 .withSocialSecurityNumber(SOCIAL_SECURITY_NUMBER)
                                 .withDateOfBirth(DATE_OF_BIRTH)
                                 .withHomePhoneNumber(HOME_PHONE_NUMBER)
-                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
-                                .withTimeAtAddress(TIME_AT_ADDRESS)))
+                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)))
                 .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                         .fromStream(documentInputStream, DocumentType.PDF)
                         .withSignature(signatureFor(EMAIL).build()))

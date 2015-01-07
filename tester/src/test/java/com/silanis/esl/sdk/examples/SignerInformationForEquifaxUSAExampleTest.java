@@ -7,6 +7,7 @@ import org.junit.Test;
 import static com.silanis.esl.sdk.examples.SignerInformationForEquifaxUSAExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -33,7 +34,6 @@ public class SignerInformationForEquifaxUSAExampleTest {
         assertThat( "social security number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getSocialSecurityNumber(), is( SOCIAL_SECURITY_NUMBER ) );
         assertThat( "home phone number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getHomePhoneNumber(), is(HOME_PHONE_NUMBER) );
         assertThat( "driver's license in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getDriversLicenseNumber(), is(DRIVERS_LICENSE_NUMBER) );
-        assertThat( "time at address in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getTimeAtAddress(), is(TIME_AT_ADDRESS) );
-
+        assertThat( "time at address in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getTimeAtAddress(), nullValue() );
     }
 }
