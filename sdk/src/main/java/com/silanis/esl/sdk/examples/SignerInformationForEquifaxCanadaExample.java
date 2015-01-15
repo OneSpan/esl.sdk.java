@@ -37,7 +37,7 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
     public static final Integer TIME_AT_ADDRESS = 123;
     public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
     public static final String DRIVERS_LICENSE_NUMBER = "1234567";
-    public static final String SOCIAL_INSURANCE_NUMBER = "123456798654321";
+    public static final String SOCIAL_INSURANCE_NUMBER = "123456789";
     public static final String HOME_PHONE_NUMBER = "6485923567";
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
@@ -76,7 +76,7 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
                                 .withProvince(PROVINCE)
                                 .withTimeAtAddress(TIME_AT_ADDRESS)
                                 .withDateOfBirth(DATE_OF_BIRTH)
-//                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
+                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
                                 .withSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER)
                                 .withHomePhoneNumber(HOME_PHONE_NUMBER)))
                         .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
