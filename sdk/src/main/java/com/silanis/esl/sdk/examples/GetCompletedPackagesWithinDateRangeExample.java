@@ -20,11 +20,10 @@ public class GetCompletedPackagesWithinDateRangeExample extends SDKSample {
 
     public GetCompletedPackagesWithinDateRangeExample( Properties properties ) {
         this( properties.getProperty( "api.key" ),
-              properties.getProperty( "api.url" ),
-              properties.getProperty( "1.email" ) );
+              properties.getProperty( "api.url" ) );
     }
 
-    public GetCompletedPackagesWithinDateRangeExample( String apiKey, String apiUrl, String email1 ) {
+    public GetCompletedPackagesWithinDateRangeExample( String apiKey, String apiUrl ) {
         super( apiKey, apiUrl );
     }
 
