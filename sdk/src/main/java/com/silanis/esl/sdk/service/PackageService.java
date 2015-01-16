@@ -3,20 +3,45 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.CompletionReport;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentId;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.internal.*;
-import com.silanis.esl.sdk.internal.converter.*;
-
-import java.util.*;
+import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.RoleList;
+import com.silanis.esl.sdk.SignerId;
+import com.silanis.esl.sdk.SigningStatus;
+import com.silanis.esl.sdk.internal.DateHelper;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RequestException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.CompletionReportConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.internal.converter.SignerConverter;
+import com.silanis.esl.sdk.internal.converter.UsageReportConverter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -635,6 +660,37 @@ public class PackageService {
                 .replace("{status}", status)
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
+                .build();
+
+        try {
+            String response = client.get(path);
+            Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {
+            });
+            return convertToPage(results, request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package list.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Could not get package list. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Returns a Page of DocumentPackages, that last updated in time range, which represents a paginated query response.  Important once you have many DocumentPackages.
+     *
+     * @param status  Returned DocumentPackages must have their status set to this value to be included in the result set
+     * @param request Identifying which page of results to return
+     * @param startDate Date range starting from this date included
+     * @param endDate Date range ending of this date included
+     * @return List of DocumentPackages that populate the specified page
+     */
+    public Page<DocumentPackage> getUpdatedPackagesWithinDateRange(String status, PageRequest request, String startDate, String endDate) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_LIST_STATUS_DATE_RANGE_PATH)
+                .replace("{status}", status)
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace("{to}", Integer.toString(request.to()))
+                .replace("{lastUpdatedStartDate}", startDate)
+                .replace("{lastUpdatedEndDate}", endDate)
                 .build();
 
         try {
