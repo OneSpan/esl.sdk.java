@@ -73,6 +73,7 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
                                 .withStreetAddress(ADDRESS)
                                 .withCity(CITY)
                                 .withPostalCode(POSTAL_CODE)
+                                .withTimeAtAddress(TIME_AT_ADDRESS)
                                 .withProvince(PROVINCE)
                                 .withDateOfBirth(DATE_OF_BIRTH)
                                 .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
