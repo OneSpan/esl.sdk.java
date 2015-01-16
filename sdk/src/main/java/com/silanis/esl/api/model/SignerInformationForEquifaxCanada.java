@@ -77,7 +77,6 @@ public class SignerInformationForEquifaxCanada extends Model
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public SignerInformationForEquifaxCanada setDateOfBirth( java.util.Date value ){
-        SchemaSanitizer.throwOnNull(FIELD_DATEOFBIRTH,value);
         // TODO With proper compare
         // if ( this._dateOfBirth == value ) return this;
         this._dateOfBirth = value;
@@ -242,7 +241,6 @@ public class SignerInformationForEquifaxCanada extends Model
         
     
     public SignerInformationForEquifaxCanada setTimeAtAddress( Integer value ){
-        SchemaSanitizer.throwOnNull(FIELD_TIMEATADDRESS,value);
         // TODO With proper compare
         // if ( this._timeAtAddress == value ) return this;
         this._timeAtAddress = value;

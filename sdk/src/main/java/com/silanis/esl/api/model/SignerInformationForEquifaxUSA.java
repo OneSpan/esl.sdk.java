@@ -78,7 +78,6 @@ public class SignerInformationForEquifaxUSA extends Model
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public SignerInformationForEquifaxUSA setDateOfBirth( java.util.Date value ){
-        SchemaSanitizer.throwOnNull(FIELD_DATEOFBIRTH,value);
         // TODO With proper compare
         // if ( this._dateOfBirth == value ) return this;
         this._dateOfBirth = value;
@@ -140,7 +139,6 @@ public class SignerInformationForEquifaxUSA extends Model
         
     
     public SignerInformationForEquifaxUSA setHomePhoneNumber( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_HOMEPHONENUMBER,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._homePhoneNumber == value ) return this;
@@ -245,7 +243,6 @@ public class SignerInformationForEquifaxUSA extends Model
 
 
     public SignerInformationForEquifaxUSA setTimeAtAddress( Integer value ){
-        SchemaSanitizer.throwOnNull(FIELD_TIMEATADDRESS,value);
         // TODO With proper compare
         // if ( this._timeAtAddress == value ) return this;
         this._timeAtAddress = value;

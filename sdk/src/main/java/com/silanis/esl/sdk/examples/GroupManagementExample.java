@@ -42,6 +42,7 @@ public class GroupManagementExample extends SDKSample {
 
     public GroupManagementExample( String apiKey, String apiUrl) {
         super( apiKey, apiUrl );
+        this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
