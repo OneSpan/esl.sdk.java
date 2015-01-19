@@ -179,7 +179,7 @@ public class PackageService {
 
         String packageJson = Serialization.toJson( aPackage );
         try {
-            client.post(path, packageJson);
+            client.put(path, packageJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
@@ -328,7 +328,7 @@ public class PackageService {
         try {
             String json = Serialization.toJson(internalDoc);
 
-            client.post(path, json);
+            client.put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the document's metadata.", e);
         } catch (Exception e) {
