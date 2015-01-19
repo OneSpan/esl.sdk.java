@@ -1,9 +1,11 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CeremonySettings extends ViewSettings
       implements java.io.Serializable
@@ -63,7 +65,7 @@ public class CeremonySettings extends ViewSettings
     protected Boolean _hideLanguageDropdown = false;
     protected Boolean _hidePackageOwnerInPerson = false;
     protected Boolean _hideWatermark = false;
-    protected Boolean _inPerson = false;
+    protected Boolean _inPerson = true;
     protected Integer _maxAuthFailsAllowed = null;
     protected Boolean _optOutButton = false;
     protected List<String> _optOutReasons = new ArrayList<String>();
