@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DocumentPackageSettings {
 
-    private Boolean enableInPerson = null;
+    private Boolean enableInPerson = true;
     private Boolean enableOptOut = null;
     private Boolean enableDecline = null;
     private Boolean hideWatermark = null;
