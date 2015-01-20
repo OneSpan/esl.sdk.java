@@ -1008,16 +1008,72 @@ public class PackageService {
         }
     }
 
+    /**
+     * Downloads the completion report from all senders
+     *
+     * @param packageStatus Status of the packages
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report
+     * @return The completion report
+     */
+    public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
+        String path = buildCompletionReportUrl(packageStatus, from, to);
+
+        try {
+            String json = client.get(path);
+            CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
+            return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the completion report.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the completion report from all senders in csv format.
+     *
+     * @param packageStatus Status of the packages
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report in csv format
+     */
+    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
+        String path = buildCompletionReportUrl(packageStatus, from, to);
+
+        try {
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the completion report in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the completion report in csv." + " Exception: " + e.getMessage());
+        }
+    }
+
     private String buildCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
+        return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_SENDER_PATH)
                 .replace("{from}", fromDate)
                 .replace("{to}", toDate)
                 .replace("{status}", packageStatus.toString())
                 .replace("{senderId}", senderId)
                 .build();
+    }
+
+    private String buildCompletionReportUrl(PackageStatus packageStatus, Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
+                       .replace("{from}", fromDate)
+                       .replace("{to}", toDate)
+                       .replace("{status}", packageStatus.toString())
+                       .build();
     }
 
     /**
