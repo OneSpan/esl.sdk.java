@@ -82,6 +82,6 @@ public class CustomSenderInfoExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-//        eslClient.sendPackage( packageId );
+        eslClient.sendPackage( packageId );
     }
 }

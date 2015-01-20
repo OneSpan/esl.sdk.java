@@ -1057,7 +1057,7 @@ public class PackageService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_SENDER_PATH)
+        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
                 .replace("{from}", fromDate)
                 .replace("{to}", toDate)
                 .replace("{status}", packageStatus.toString())
@@ -1069,7 +1069,7 @@ public class PackageService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
+        return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_ALL_SENDERS_PATH)
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate)
                        .replace("{status}", packageStatus.toString())
