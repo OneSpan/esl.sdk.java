@@ -18,7 +18,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class MixingSignatureAndAcceptanceOnOnedocumentExampleTest {
 
-    @Test
+    @Test (expected = com.silanis.esl.sdk.EslException.class)
     public void verifyResult() {
         MixingSignatureAndAcceptanceOnOnedocumentExample example = new MixingSignatureAndAcceptanceOnOnedocumentExample( Props.get() );
         example.run();
