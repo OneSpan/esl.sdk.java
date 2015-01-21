@@ -28,7 +28,7 @@ public class BasicPackageCreationExampleTest {
         BasicPackageCreationExample basicPackageCreationExample = new BasicPackageCreationExample( Props.get() );
         basicPackageCreationExample.run();
 
-        DocumentPackage documentPackage = basicPackageCreationExample.getEslClient().getPackage(basicPackageCreationExample.getPackageId());
+        DocumentPackage documentPackage = basicPackageCreationExample.getRetrievedPackage();
 
         // Verify if the package is created correctly.
 

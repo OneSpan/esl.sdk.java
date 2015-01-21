@@ -19,6 +19,6 @@ public class DeletePackageExampleTest {
     public void verifyResult() {
         DeletePackageExample deletePackageExample = new DeletePackageExample(Props.get());
         deletePackageExample.run();
-        assertThat("Package should have been deleted.", deletePackageExample.getEslClient().getPackage(deletePackageExample.getPackageId()), is(nullValue()));
+        assertThat("Package should have been deleted.", deletePackageExample.getRetrievedPackage(), is(nullValue()));
     }
 }

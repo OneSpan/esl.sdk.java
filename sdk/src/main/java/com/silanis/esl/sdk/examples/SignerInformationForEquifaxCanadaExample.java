@@ -21,7 +21,6 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxCanadaBuild
 public class SignerInformationForEquifaxCanadaExample extends SDKSample {
 
     private InputStream documentInputStream;
-    private DocumentPackage retrievedPackage;
 
     private final String PACKAGE_NAME = "SignerInformationForEquifaxCanadaExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxCanada example";
@@ -55,10 +54,6 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
         super( apiKey, apiUrl );
         this.EMAIL = email;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-    }
-
-    public DocumentPackage getRetrievedPackage() {
-        return retrievedPackage;
     }
 
     public void execute() {

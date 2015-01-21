@@ -21,7 +21,6 @@ public class AttachmentRequirementExample extends SDKSample {
     private String email2;
     public Signer signer1;
     private String attachment1Id;
-    private DocumentPackage retrievedPackage;
 
     public static final String NAME1 = "Driver's license";
     public static final String DESCRIPTION1 = "Please upload a scanned copy of your driver's license.";
@@ -55,10 +54,6 @@ public class AttachmentRequirementExample extends SDKSample {
 
     public String getEmail2() {
         return email2;
-    }
-
-    public DocumentPackage getRetrievedPackage() {
-        return retrievedPackage;
     }
 
     @Override

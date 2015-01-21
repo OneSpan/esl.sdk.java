@@ -50,5 +50,6 @@ public class ChangeSignerExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage(packageId);
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

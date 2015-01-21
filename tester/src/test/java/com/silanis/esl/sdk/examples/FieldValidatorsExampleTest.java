@@ -1,13 +1,12 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
 /**
  * User: jessica
@@ -22,7 +21,7 @@ public class FieldValidatorsExampleTest {
         FieldValidatorsExample fieldValidatorsExample = new FieldValidatorsExample(Props.get());
         fieldValidatorsExample.run();
 
-        DocumentPackage documentPackage = fieldValidatorsExample.getEslClient().getPackage(fieldValidatorsExample.getPackageId());
+        DocumentPackage documentPackage = fieldValidatorsExample.getRetrievedPackage();
 
         Document document = documentPackage.getDocument(FieldValidatorsExample.DOCUMENT_NAME);
 

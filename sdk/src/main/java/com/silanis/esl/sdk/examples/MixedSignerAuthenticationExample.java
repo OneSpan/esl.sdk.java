@@ -23,7 +23,6 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder.
 public class MixedSignerAuthenticationExample extends SDKSample {
 
     private InputStream documentInputStream;
-    private DocumentPackage retrievedPackage;
 
     private final String PACKAGE_NAME = "MixedSignerAuthenticationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private final String PACKAGE_DESCRIPTION = "This is a mixed signer authentication example";
@@ -51,10 +50,6 @@ public class MixedSignerAuthenticationExample extends SDKSample {
         this.SIGNER1_EMAIL = email1;
         this.SIGNER2_EMAIL = email2;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-    }
-
-    public DocumentPackage getRetrievedPackage() {
-        return retrievedPackage;
     }
 
     public void execute() {

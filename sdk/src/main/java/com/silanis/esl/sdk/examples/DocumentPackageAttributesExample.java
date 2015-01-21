@@ -81,6 +81,7 @@ public class DocumentPackageAttributesExample extends SDKSample{
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
 
         SessionToken sessionToken = eslClient.getSessionService().createSessionToken( packageId.toString(), "Client1" );
     }

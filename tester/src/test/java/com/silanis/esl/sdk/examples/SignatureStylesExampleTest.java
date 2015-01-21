@@ -22,7 +22,7 @@ public class SignatureStylesExampleTest {
     public void verifyResult() {
         SignatureStylesExample signatureStylesExample = new SignatureStylesExample( Props.get() );
         signatureStylesExample.run();
-        DocumentPackage documentPackage = signatureStylesExample.getEslClient().getPackage(signatureStylesExample.getPackageId());
+        DocumentPackage documentPackage = signatureStylesExample.getRetrievedPackage();
 
         for (Signature signature: documentPackage.getDocument(SignatureStylesExample.DOCUMENT_NAME).getSignatures()) {
 

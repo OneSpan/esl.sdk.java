@@ -132,6 +132,7 @@ public class CustomFieldExample extends SDKSample {
 
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
+        retrievedPackage = eslClient.getPackage( packageId );
 
         // Get the entire list of custom field from account
         retrieveCustomFieldList1 = eslClient.getCustomFieldService().getCustomFields(Direction.ASCENDING);

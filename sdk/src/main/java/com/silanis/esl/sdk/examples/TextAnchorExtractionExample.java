@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.TextAnchorPosition;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 import com.silanis.esl.sdk.builder.TextAnchorBuilder;
@@ -21,15 +20,10 @@ public class TextAnchorExtractionExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream1;
-    private DocumentPackage retrievedPackage;
 
     public static final String DOCUMENT_NAME = "Document With Anchors";
     public static final int FIELD_WIDTH = 150;
     public static final int FIELD_HEIGHT = 40;
-
-    public DocumentPackage getRetrievedPackage() {
-        return retrievedPackage;
-    }
 
     public static void main( String... args ) {
         new TextAnchorExtractionExample( Props.get() ).run();

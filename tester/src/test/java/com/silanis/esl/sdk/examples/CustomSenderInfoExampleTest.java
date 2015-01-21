@@ -26,7 +26,7 @@ public class CustomSenderInfoExampleTest {
         customSenderInfoExample = new CustomSenderInfoExample( Props.get() );
         customSenderInfoExample.run();
 
-        DocumentPackage documentPackage = customSenderInfoExample.getEslClient().getPackage(customSenderInfoExample.getPackageId());
+        DocumentPackage documentPackage = customSenderInfoExample.getRetrievedPackage();
 
         SenderInfo senderInfo = documentPackage.getSenderInfo();
         assertThat("Sender first name not set correctly. ", senderInfo.getFirstName(), is(equalTo(CustomSenderInfoExample.SENDER_FIRST_NAME)));

@@ -20,7 +20,7 @@ public class SignerQnAChallengeExampleTest {
     public void verifyResult() {
         SignerQnAChallengeExample signerQnAChallengeExample = new SignerQnAChallengeExample(Props.get());
         signerQnAChallengeExample.run();
-        DocumentPackage documentPackage = signerQnAChallengeExample.getEslClient().getPackage(signerQnAChallengeExample.getPackageId());
+        DocumentPackage documentPackage = signerQnAChallengeExample.getRetrievedPackage();
 
         // Note that for security reasons, the backend doesn't return challenge answers, so we don't verify the answers here.
         for (Challenge challenge: documentPackage.getSigner(signerQnAChallengeExample.email1).getChallengeQuestions()) {

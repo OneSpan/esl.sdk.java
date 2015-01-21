@@ -7,7 +7,6 @@ import org.junit.Test;
 import static com.silanis.esl.sdk.examples.SignerInformationForEquifaxUSAExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -21,7 +20,7 @@ public class SignerInformationForEquifaxUSAExampleTest {
         SignerInformationForEquifaxUSAExample signerInformationForEquifaxUSAExample = new SignerInformationForEquifaxUSAExample( Props.get() );
         signerInformationForEquifaxUSAExample.run();
 
-        DocumentPackage documentPackage = signerInformationForEquifaxUSAExample.getEslClient().getPackage(signerInformationForEquifaxUSAExample.getPackageId());
+        DocumentPackage documentPackage = signerInformationForEquifaxUSAExample.getRetrievedPackage();
         SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = documentPackage.getSigner(signerInformationForEquifaxUSAExample.EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
 
         assertThat( "first name in signerInformationForEquifaxUSA was not set correctly.", signerInformationForEquifaxUSA.getFirstName(), is( FIRST_NAME ) );

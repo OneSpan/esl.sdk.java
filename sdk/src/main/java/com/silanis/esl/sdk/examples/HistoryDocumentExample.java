@@ -102,6 +102,7 @@ public class HistoryDocumentExample extends SDKSample {
 
         eslClient.getPackageService().addDocumentWithExternalContent(packageId.getId(), externalDocuments);
         eslClient.sendPackage(packageId);
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 
 }

@@ -13,7 +13,6 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.acceptanceFor;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static org.joda.time.DateMidnight.now;
 
 public class ConsentExample extends SDKSample {
 
@@ -62,7 +61,6 @@ public class ConsentExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
-
-        DocumentPackage documentPackage = eslClient.getPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

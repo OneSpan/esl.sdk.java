@@ -63,7 +63,7 @@ public class SignerQnAChallengeExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-
         eslClient.sendPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

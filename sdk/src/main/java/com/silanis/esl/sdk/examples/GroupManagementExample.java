@@ -173,9 +173,4 @@ public class GroupManagementExample extends SDKSample {
 
         DocumentPackage result = eslClient.getPackage( packageId );
     }
-
-    private String getRandomEmail() {
-        return UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
-    }
-
 }

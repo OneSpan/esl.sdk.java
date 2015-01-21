@@ -24,7 +24,7 @@ public class DocumentPackageSettingsExampleTest {
         DocumentPackageSettingsExample documentPackageSettingsExample = new DocumentPackageSettingsExample(Props.get());
         documentPackageSettingsExample.run();
 
-        DocumentPackage documentPackage = documentPackageSettingsExample.getEslClient().getPackage(documentPackageSettingsExample.getPackageId());
+        DocumentPackage documentPackage = documentPackageSettingsExample.getRetrievedPackage();
 
         DocumentPackageSettings documentPackageSettings = documentPackage.getSettings();
         assertThat("In Person flag not set correctly. ", documentPackageSettings.getEnableInPerson(), is(true));

@@ -20,7 +20,7 @@ public class SignerInformationForEquifaxCanadaExampleTest {
         SignerInformationForEquifaxCanadaExample signerInformationForEquifaxCanadaExample = new SignerInformationForEquifaxCanadaExample( Props.get() );
         signerInformationForEquifaxCanadaExample.run();
 
-        DocumentPackage documentPackage = signerInformationForEquifaxCanadaExample.getEslClient().getPackage(signerInformationForEquifaxCanadaExample.getPackageId());
+        DocumentPackage documentPackage = signerInformationForEquifaxCanadaExample.getRetrievedPackage();
         SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = documentPackage.getSigner(signerInformationForEquifaxCanadaExample.EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
 
         assertThat( "first name in signerInformationForEquifaxCanada was not set correctly.", signerInformationForEquifaxCanada.getFirstName(), is( FIRST_NAME ) );

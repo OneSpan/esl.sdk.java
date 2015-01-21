@@ -109,7 +109,7 @@ public class FieldValidatorsExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-
         eslClient.sendPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

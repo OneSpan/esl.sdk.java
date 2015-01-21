@@ -24,7 +24,7 @@ public class ConsentExampleTest {
         ConsentExample consentExample = new ConsentExample( Props.get() );
         consentExample.run();
 
-        DocumentPackage documentPackage = consentExample.getEslClient().getPackage(consentExample.getPackageId());
+        DocumentPackage documentPackage = consentExample.getRetrievedPackage();
 
         Collection<Signature> signatures = documentPackage.getDocument("First Document").getSignatures();
 

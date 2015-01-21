@@ -98,6 +98,7 @@ public class BasicPackageCreationExample extends SDKSample {
 
         packageId = eslClient.createPackageOneStep( superDuperPackage );
         eslClient.sendPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
 
         SessionToken sessionToken = eslClient.getSessionService().createSessionToken( packageId.toString(), "Client1" );
     }

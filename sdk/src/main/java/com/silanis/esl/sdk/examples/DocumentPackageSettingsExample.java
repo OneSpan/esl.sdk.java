@@ -78,5 +78,6 @@ public class DocumentPackageSettingsExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

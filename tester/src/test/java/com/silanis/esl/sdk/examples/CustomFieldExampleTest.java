@@ -1,12 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.CustomField;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.Signature;
 import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import static com.silanis.esl.sdk.builder.TranslationBuilder.newTranslation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
@@ -25,7 +27,7 @@ public class CustomFieldExampleTest {
         CustomFieldExample example = new CustomFieldExample( Props.get() );
         example.run();
 
-        DocumentPackage documentPackage = example.getEslClient().getPackage(example.getPackageId());
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
         assertThat("First custom field not set correctly.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.getCustomFieldId1()), is(true));
         assertThat("First custom value not set correctly.", example.getEslClient().getCustomFieldService().doesCustomFieldValueExist(example.getCustomFieldId1()), is(true));

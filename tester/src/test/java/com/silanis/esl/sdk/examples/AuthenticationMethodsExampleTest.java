@@ -23,7 +23,7 @@ public class AuthenticationMethodsExampleTest {
         AuthenticationMethodsExample authenticationMethodsExample = new AuthenticationMethodsExample( Props.get() );
         authenticationMethodsExample.run();
 
-        DocumentPackage documentPackage = authenticationMethodsExample.getEslClient().getPackage(authenticationMethodsExample.getPackageId());
+        DocumentPackage documentPackage = authenticationMethodsExample.getRetrievedPackage();
 
         assertThat( "Signer 1 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email1).getAuthentication().getMethod(), Is.is( AuthenticationMethod.EMAIL ) );
         assertThat( "Signer 2 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email2).getAuthentication().getMethod(), Is.is( AuthenticationMethod.CHALLENGE ) );

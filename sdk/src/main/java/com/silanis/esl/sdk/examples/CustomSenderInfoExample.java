@@ -5,11 +5,11 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.SenderStatus;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -40,7 +40,7 @@ public class CustomSenderInfoExample extends SDKSample {
 
     public CustomSenderInfoExample( String apiKey, String apiUrl, String signerEmail ) {
         super( apiKey, apiUrl );
-        this.senderEmail = UUID.randomUUID().toString().replace( "-", "" ) + "@e-signlive.com";
+        this.senderEmail = getRandomEmail();
         this.signerEmail = signerEmail;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
@@ -83,5 +83,6 @@ public class CustomSenderInfoExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }
