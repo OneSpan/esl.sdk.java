@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageStatus;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -54,7 +53,7 @@ public class ChangePackageStatusExample extends SDKSample {
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
         sentPackage = eslClient.getPackage( packageId );
-        eslClient.changePackageStatusToDraft(packageId, PackageStatus.DRAFT);
+        eslClient.changePackageStatusToDraft(packageId);
         retrievedPackage = eslClient.getPackage( packageId );
     }
 }

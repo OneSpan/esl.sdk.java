@@ -219,9 +219,8 @@ public class EslClient {
      * <p>Change the package's status from SENT to DRAFT.</p>
      *
      * @param packageId
-     * @param packageStatus	the document package status
      */
-    public void changePackageStatusToDraft(PackageId packageId, PackageStatus packageStatus) {
+    public void changePackageStatusToDraft(PackageId packageId) {
         packageService.changePackageStatusToDraft(packageId);
     }
 
