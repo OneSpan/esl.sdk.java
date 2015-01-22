@@ -44,12 +44,11 @@ public class PackageBuilder {
     }
 
     /**
-     * <p>Set a custom ID for the package. If none is provided, the system will assign one by default.
-     * This package id needs to be unique per account.</p>
-     *
-     * @param id the package ID @size(min="1", max="64")
-     * @return a package builder
+     * @param id
+     * @return the package builder itself
+     * @deprecated Please do not use withID() from now on. Will get deleted in a future release
      */
+    @Deprecated
     public PackageBuilder withID( PackageId id ) {
         this.id = id;
         return this;
