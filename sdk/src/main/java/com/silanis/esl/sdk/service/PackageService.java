@@ -29,11 +29,8 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import com.silanis.esl.sdk.internal.converter.CompletionReportConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.internal.converter.SignerConverter;
-import com.silanis.esl.sdk.internal.converter.UsageReportConverter;
+import com.silanis.esl.sdk.internal.converter.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -189,6 +186,26 @@ public class PackageService {
         List<Role> roleList = aPackage.getRoles();
         for (Role role : roleList) {
             updateRole(packageId, role);
+        }
+    }
+
+    /**
+     * Change the package's status to DRAFT.
+     *
+     * @param packageId
+     * @throws EslException
+     */
+    public void changePackageStatusToDraft(PackageId packageId) throws EslException {
+        String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
+                              .replace( "{packageId}", packageId.getId() )
+                              .build();
+
+        try {
+            client.put(path, "{\"status\":\"DRAFT\"}");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not change the package status to DRAFT.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not change the package status to DRAFT.", e);
         }
     }
 

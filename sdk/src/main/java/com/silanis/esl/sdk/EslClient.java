@@ -201,6 +201,31 @@ public class EslClient {
     }
 
     /**
+     * <p>Update the package, when the package status is only Draft</p>
+     *
+     * @param packageId
+     * @param documentPackage	the document package
+     */
+    public void updatePackage(PackageId packageId, DocumentPackage documentPackage) {
+
+        if(!isSdkVersionSet(documentPackage)){
+            setSdkVersion(documentPackage);
+        }
+        validateSignatures(documentPackage);
+        packageService.updatePackage(packageId, documentPackage);
+    }
+
+    /**
+     * <p>Change the package's status from SENT to DRAFT.</p>
+     *
+     * @param packageId
+     * @param packageStatus	the document package status
+     */
+    public void changePackageStatusToDraft(PackageId packageId, PackageStatus packageStatus) {
+        packageService.changePackageStatusToDraft(packageId);
+    }
+
+    /**
      * Creates the package in one step
      *
      * WARNING: DOES NOT WORK WHEN SENDER HAS A SIGNATURE
