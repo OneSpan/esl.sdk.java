@@ -29,9 +29,12 @@ public class UrlTemplate {
     public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
+    public static final String FAST_TRACK_PATH = "/fastTrack";
+
     // Signer Service
     public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";
     public static final String SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String SIGNER_URL_PATH = "/packages/{packageId}/roles/{roleId}/signingUrl";
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";

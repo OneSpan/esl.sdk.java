@@ -3,14 +3,8 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.esl.api.model.Approval;
-import com.silanis.esl.api.model.CompletionReport;
-import com.silanis.esl.api.model.Document;
-import com.silanis.esl.api.model.Field;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.Result;
-import com.silanis.esl.api.model.Role;
-import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.DocumentId;
 import com.silanis.esl.sdk.DocumentPackage;
@@ -30,6 +24,7 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,10 +43,12 @@ public class PackageService {
 
     private UrlTemplate template;
     private RestClient client;
+    private AuthenticationTokensService authenticationTokensService;
 
     public PackageService(RestClient client, String baseUrl) {
         this.client = client;
         template = new UrlTemplate(baseUrl);
+        authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, baseUrl));
     }
 
     /**
@@ -1148,4 +1145,62 @@ public class PackageService {
                 .build();
     }
 
+    /**
+     * Get a signing url
+     *
+     * @param packageId The id of the package in which to get the signing url
+     * @param signerId The id of signer to get the signing url
+     * @return The signing url
+     */
+    public String getSigningUrl(PackageId packageId, String signerId) {
+        Package aPackage = getApiPackage(packageId.getId());
+
+        return getSigningUrl(packageId, getRole(aPackage, signerId));
+    }
+
+    private Role getRole(Package apiPackage, String sigenrId) {
+        for(Role role : apiPackage.getRoles()) {
+            for(Signer signer : role.getSigners()) {
+                if(signer.getId().equals(sigenrId)) {
+                    return role;
+                }
+            }
+        }
+        return new Role();
+    }
+
+    private String getSigningUrl(PackageId packageId, Role role) {
+
+        String path = template.urlFor(UrlTemplate.SIGNER_URL_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{roleId}", role.getId())
+                              .build();
+
+        try {
+            String response = client.get(path);
+            SigningUrl signingUrl = Serialization.fromJson(response, SigningUrl.class);
+            return signingUrl.getUrl();
+        } catch (RequestException e) {
+            throw new EslException("Could not get a signing url.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get a signing url." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Create Fast Track Package.
+     * @return The signing url
+     */
+    public void startFastTrack(PackageId packageId, String signerId) {
+        String token = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
+        String path = template.urlFor(UrlTemplate.FAST_TRACK_PATH).build();
+
+        try{
+            client.post(path, token);
+        } catch (RequestException e) {
+            throw new EslException("Could not start fast track.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not start fast track." + " Exception: " + e.getMessage());
+        }
+    }
 }
