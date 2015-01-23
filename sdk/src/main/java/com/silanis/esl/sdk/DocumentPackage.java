@@ -19,6 +19,7 @@ public class DocumentPackage implements Serializable {
     private String name;
     private String description;
     private Date expiryDate;
+    private Date updatedDate;
     private String packageMessage;
     private PackageId id;
     private PackageStatus status;
@@ -158,6 +159,14 @@ public class DocumentPackage implements Serializable {
 
     public Date getExpiryDate() {
         return expiryDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
     }
 
     /**

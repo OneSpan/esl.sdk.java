@@ -4,15 +4,24 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
-import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
 import org.joda.time.DateTime;
 
+import java.util.Date;
 import java.util.Properties;
 
 /**
  * Created by mina on 29/12/14.
  */
 public class GetCompletedPackagesWithinDateRangeExample extends SDKSample {
+
+    public static final Date START_DATE = new DateTime().toDate();
+    public static final Date END_DATE = new DateTime().toDate();
+
+    public Page<DocumentPackage> draftPackages;
+    public Page<DocumentPackage> sentPackages;
+    public Page<DocumentPackage> declinedPackages;
+    public Page<DocumentPackage> archivedPackages;
+    public Page<DocumentPackage> completedPackages;
 
     public static void main( String... args ) {
         new GetCompletedPackagesWithinDateRangeExample( Props.get() ).run();
@@ -29,19 +38,22 @@ public class GetCompletedPackagesWithinDateRangeExample extends SDKSample {
 
     @Override
     public void execute() {
-        // get the packages completed today
-        String startDateRange = new DateTime().toString();
-        String endDateRange = new DateTime().toString();
 
-        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.DRAFT, getNumberOfPackageByPackageStatus(PackageStatus.DRAFT, startDateRange, endDateRange));
-        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.SENT, getNumberOfPackageByPackageStatus(PackageStatus.SENT, startDateRange, endDateRange));
-        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.DECLINED, getNumberOfPackageByPackageStatus(PackageStatus.DECLINED, startDateRange, endDateRange));
-        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.ARCHIVED, getNumberOfPackageByPackageStatus(PackageStatus.ARCHIVED, startDateRange, endDateRange));
-        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.COMPLETED, getNumberOfPackageByPackageStatus(PackageStatus.COMPLETED, startDateRange, endDateRange));
+        draftPackages = getPackagesByPackageStatus(PackageStatus.DRAFT, START_DATE, END_DATE);
+        sentPackages = getPackagesByPackageStatus(PackageStatus.SENT, START_DATE, END_DATE);
+        declinedPackages = getPackagesByPackageStatus(PackageStatus.DECLINED, START_DATE, END_DATE);
+        archivedPackages = getPackagesByPackageStatus(PackageStatus.ARCHIVED, START_DATE, END_DATE);
+        completedPackages = getPackagesByPackageStatus(PackageStatus.COMPLETED, START_DATE, END_DATE);
+
+        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.DRAFT, draftPackages.getNumberOfElements());
+        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.SENT, sentPackages.getNumberOfElements());
+        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.DECLINED, declinedPackages.getNumberOfElements());
+        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.ARCHIVED, archivedPackages.getNumberOfElements());
+        System.out.format("PackageStatus : %s, The number of pakcages : %d%n", PackageStatus.COMPLETED, completedPackages.getNumberOfElements());
     }
 
-    private int getNumberOfPackageByPackageStatus(PackageStatus packageStatus, String startDateRange, String endDateRange) {
-        Page<DocumentPackage> resultPage = eslClient.getPackageService().getUpdatedPackagesWithinDateRange(new PackageStatusConverter(packageStatus).toAPIPackageStatus(), new PageRequest(1), startDateRange, endDateRange);
-        return resultPage.getNumberOfElements();
+    private Page<DocumentPackage> getPackagesByPackageStatus(PackageStatus packageStatus, Date startDate, Date endDate) {
+        Page<DocumentPackage> resultPage = eslClient.getPackageService().getUpdatedPackagesWithinDateRange(packageStatus, new PageRequest(1), startDate, endDate);
+        return resultPage;
     }
 }

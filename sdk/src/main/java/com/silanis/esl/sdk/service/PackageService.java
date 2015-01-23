@@ -697,17 +697,20 @@ public class PackageService {
      *
      * @param status  Returned DocumentPackages must have their status set to this value to be included in the result set
      * @param request Identifying which page of results to return
-     * @param startDate Date range starting from this date included
-     * @param endDate Date range ending of this date included
+     * @param from Date range starting from this date included
+     * @param to Date range ending of this date included
      * @return List of DocumentPackages that populate the specified page
      */
-    public Page<DocumentPackage> getUpdatedPackagesWithinDateRange(String status, PageRequest request, String startDate, String endDate) {
+    public Page<DocumentPackage> getUpdatedPackagesWithinDateRange(PackageStatus status, PageRequest request, Date from, Date to) {
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+
         String path = template.urlFor(UrlTemplate.PACKAGE_LIST_STATUS_DATE_RANGE_PATH)
-                .replace("{status}", status)
+                .replace("{status}", new PackageStatusConverter(status).toAPIPackageStatus())
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
-                .replace("{lastUpdatedStartDate}", startDate)
-                .replace("{lastUpdatedEndDate}", endDate)
+                .replace("{lastUpdatedStartDate}", fromDate)
+                .replace("{lastUpdatedEndDate}", toDate)
                 .build();
 
         try {
@@ -1077,7 +1080,7 @@ public class PackageService {
         return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
                 .replace("{from}", fromDate)
                 .replace("{to}", toDate)
-                .replace("{status}", packageStatus.toString())
+                .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
                 .replace("{senderId}", senderId)
                 .build();
     }
@@ -1089,7 +1092,7 @@ public class PackageService {
         return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_ALL_SENDERS_PATH)
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate)
-                       .replace("{status}", packageStatus.toString())
+                       .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
                        .build();
     }
 

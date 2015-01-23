@@ -203,6 +203,9 @@ public class DocumentPackageConverter {
             messages.add(new MessageConverter(apiMessage).toSDKMessage());
         }
         documentPackage.setMessages(messages);
+        if (apiPackage.getUpdated() != null) {
+            documentPackage.setUpdatedDate(apiPackage.getUpdated());
+        }
 
         return documentPackage;
     }
