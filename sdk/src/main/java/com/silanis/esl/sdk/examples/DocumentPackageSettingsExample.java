@@ -18,9 +18,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentPackageSettingsExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
-    public static final String OPT_OUT_REASON_1 = "Reason One";
-    public static final String OPT_OUT_REASON_2 = "Reason Two";
-    public static final String OPT_OUT_REASON_3 = "Reason Three";
+    public static final String DECLINE_REASON_1 = "Decline reason One";
+    public static final String DECLINE_REASON_2 = "Decline reason Two";
+    public static final String DECLINE_REASON_3 = "Decline reason Three";
+    public static final String OPT_OUT_REASON_1 = "Opt out reason One";
+    public static final String OPT_OUT_REASON_2 = "Opt out reason Two";
+    public static final String OPT_OUT_REASON_3 = "Opt out reason Three";
     public static final String HAND_OVER_LINK_HREF = "http://www.google.ca";
     public static final String HAND_OVER_LINK_TEXT = "click here";
     public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
@@ -50,7 +53,10 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .hideOwnerInPersonDropDown()
                         .disableFirstAffidavit()
                         .disableSecondAffidavit()
-                        .withoutDecline()
+                        .withDecline()
+                        .withDeclineReason(DECLINE_REASON_1)
+                        .withDeclineReason(DECLINE_REASON_2)
+                        .withDeclineReason(DECLINE_REASON_3)
                         .withOptOut()
                         .withOptOutReason(OPT_OUT_REASON_1)
                         .withOptOutReason(OPT_OUT_REASON_2)

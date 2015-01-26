@@ -30,6 +30,11 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("In Person flag not set correctly. ", documentPackageSettings.getEnableInPerson(), is(true));
         assertThat("Optout flag not set correctly. ", documentPackageSettings.getEnableOptOut(), is(true));
 
+        List<String> declineReasons = documentPackageSettings.getDeclineReasons();
+        assertThat("Decline reason is not set properly:", declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_1) ||
+                declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_2) ||
+                declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_3));
+
         List<String> optOutReasons = documentPackageSettings.getOptOutReasons();
 
         assertThat("Opt out reason is not set properly:", optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_1) ||

@@ -64,8 +64,8 @@ public class StartFastTrackExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
-        eslClient.getPackageService().startFastTrack(packageId, signerId);
-        retrievedPackage = eslClient.getPackage(packageId);
+/*        eslClient.getPackageService().startFastTrack(packageId, signerId);
+        retrievedPackage = eslClient.getPackage(packageId);*/
 
     }
 

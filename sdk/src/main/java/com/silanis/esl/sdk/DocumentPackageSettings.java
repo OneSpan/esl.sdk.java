@@ -10,6 +10,7 @@ public class DocumentPackageSettings {
     private Boolean enableDecline = null;
     private Boolean hideWatermark = null;
     private Boolean hideCaptureText = null;
+    private List<String> declineReasons = new ArrayList<String>();
     private List<String> optOutReasons = new ArrayList<String>();
     private Integer maxAuthAttempts = null;
     private Boolean showDocumentToolbarDownloadButton = true;
@@ -67,6 +68,10 @@ public class DocumentPackageSettings {
 
     public void setHideCaptureText( Boolean hideCaptureText ) {
         this.hideCaptureText = hideCaptureText;
+    }
+
+    public List<String> getDeclineReasons() {
+        return declineReasons;
     }
 
     public List<String> getOptOutReasons() {
