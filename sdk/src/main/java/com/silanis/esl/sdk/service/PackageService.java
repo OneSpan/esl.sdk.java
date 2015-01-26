@@ -1191,9 +1191,18 @@ public class PackageService {
      * Create Fast Track Package.
      * @return The signing url
      */
-    public void startFastTrack(PackageId packageId, String signerId) {
+    public void startFastTrack(PackageId packageId, String signerId, List<com.silanis.esl.sdk.Signer> signers) {
         String token = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
-        String path = template.urlFor(UrlTemplate.FAST_TRACK_PATH).build();
+        String path = template.urlFor(UrlTemplate.START_FAST_TRACK_PATH)
+                              .replace("{token}", token)
+                              .build();
+
+        List<Role> roles = new ArrayList<Role>();
+        for(com.silanis.esl.sdk.Signer signer : signers){
+
+        }
+
+        String roleJson = JacksonUtil.serializeDirty(roles);
 
         try{
             client.post(path, token);

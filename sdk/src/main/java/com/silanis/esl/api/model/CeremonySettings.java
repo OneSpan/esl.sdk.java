@@ -15,6 +15,8 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public static final String FIELD_DECLINEBUTTON = "declineButton";
     @JsonIgnore
+    public static final String FIELD_DECLINEREASONS = "declineReasons";
+    @JsonIgnore
     public static final String FIELD_DISABLEDOWNLOADFORUNCOMPLETEDPACKAGE = "disableDownloadForUncompletedPackage";
     @JsonIgnore
     public static final String FIELD_DISABLEFIRSTINPERSONAFFIDAVIT = "disableFirstInPersonAffidavit";
