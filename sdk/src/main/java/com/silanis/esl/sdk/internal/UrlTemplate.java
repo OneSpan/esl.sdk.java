@@ -29,6 +29,7 @@ public class UrlTemplate {
     public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
+    public static final String FAST_TRACK_URL_PATH = "/fastTrack/{packageId}/url?signing={signing}";
     public static final String START_FAST_TRACK_PATH = "/fastTrack?token={token}";
 
     // Signer Service

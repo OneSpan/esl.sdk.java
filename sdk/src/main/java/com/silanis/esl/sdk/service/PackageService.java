@@ -4,36 +4,21 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.CompletionReport;
+import com.silanis.esl.api.model.Document;
+import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.DocumentId;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.PackageStatus;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.PageRequest;
-import com.silanis.esl.sdk.RoleList;
-import com.silanis.esl.sdk.SignerId;
-import com.silanis.esl.sdk.SigningStatus;
-import com.silanis.esl.sdk.internal.DateHelper;
-import com.silanis.esl.sdk.internal.EslServerException;
-import com.silanis.esl.sdk.internal.RequestException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
+import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
 import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
+import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -1191,25 +1176,62 @@ public class PackageService {
      * Create Fast Track Package.
      * @return The signing url
      */
-    public void startFastTrack(PackageId packageId, String signerId, List<com.silanis.esl.sdk.Signer> signers) {
-        String token = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
+    public String startFastTrack(PackageId packageId, List<FastTrackSigner> signers) {
+        String token = getFastTrackToken(packageId, true);
         String path = template.urlFor(UrlTemplate.START_FAST_TRACK_PATH)
                               .replace("{token}", token)
                               .build();
 
-        List<Role> roles = new ArrayList<Role>();
-        for(com.silanis.esl.sdk.Signer signer : signers){
-
+        List<FastTrackRole> roles = new ArrayList<FastTrackRole>();
+        for(FastTrackSigner signer : signers) {
+            FastTrackRole role = FastTrackRoleBuilder.newRoleWithId(signer.getId())
+                    .withName(signer.getId())
+                    .withSigner(signer)
+                    .build();
+            roles.add(role);
         }
 
-        String roleJson = JacksonUtil.serializeDirty(roles);
-
+        String json = Serialization.toJson(roles);
         try{
-            client.post(path, token);
+            String response = client.post(path, json);
+            SigningUrl signingUrl = Serialization.fromJson(response, SigningUrl.class);
+            return signingUrl.getUrl();
         } catch (RequestException e) {
             throw new EslException("Could not start fast track.", e);
         } catch (Exception e) {
             throw new EslException("Could not start fast track." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get a fastTrack token
+     *
+     * @param packageId The id of the package in which to get the FastTrack Token
+     * @param signing whether signing or not
+     * @return The signing url
+     */
+    private String getFastTrackToken(PackageId packageId, Boolean signing) {
+        String fastTrackUrl = getFastTrackUrl(packageId, signing);
+        String finalUrl = RedirectResolver.resolveUrlAfterRedirect(fastTrackUrl);
+
+        String[] split = StringUtils.split(finalUrl, '=');
+        return split[split.length - 1];
+    }
+
+    private String getFastTrackUrl(PackageId packageId, Boolean signing) {
+        String path = template.urlFor(UrlTemplate.FAST_TRACK_URL_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{signing}", signing.toString())
+                              .build();
+
+        try {
+            String json = client.get(path);
+            SigningUrl signingUrl = Serialization.fromJson(json, SigningUrl.class);
+            return signingUrl.getUrl();
+        } catch (RequestException e) {
+            throw new EslException("Could not get a fastTrack url.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get a fastTrack url." + " Exception: " + e.getMessage());
         }
     }
 }

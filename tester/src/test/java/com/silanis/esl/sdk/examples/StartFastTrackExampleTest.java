@@ -1,11 +1,11 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by schoi on 1/23/15.
@@ -16,10 +16,6 @@ public class StartFastTrackExampleTest {
         StartFastTrackExample example = new StartFastTrackExample(Props.get());
         example.run();
 
-        DocumentPackage retrievedPackage = example.getRetrievedPackage();
-
-        Document document = retrievedPackage.getDocument(example.DOCUMENT_NAME);
-
-        assertThat("Document name is incorrectly returned.", document.getName().toString(), is(example.DOCUMENT_NAME));
+        assertThat(example.signingUrl, is(not(isEmptyOrNullString())));
     }
 }
