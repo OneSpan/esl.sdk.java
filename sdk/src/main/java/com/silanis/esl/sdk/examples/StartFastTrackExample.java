@@ -68,9 +68,12 @@ public class StartFastTrackExample extends SDKSample {
                 .withDocument(DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
                                              .withId(DOCUMENT_ID)
                                              .fromStream(documentInputStream1, DocumentType.PDF)
-                                             .withSignature(SignatureBuilder.signatureFor(new Placeholder(PLACEHOLDER_ID))
+                                             .withSignature(SignatureBuilder.signatureFor(email1)
                                                                             .onPage(0)
                                                                             .atPosition(100,100))
+                                             .withSignature(SignatureBuilder.signatureFor(new Placeholder(PLACEHOLDER_ID))
+                                                                            .onPage(0)
+                                                                            .atPosition(400,100))
                                              .build())
                 .build();
 
