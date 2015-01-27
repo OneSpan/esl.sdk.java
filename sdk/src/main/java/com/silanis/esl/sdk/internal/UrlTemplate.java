@@ -36,6 +36,7 @@ public class UrlTemplate {
     public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";
     public static final String SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
     public static final String SIGNER_URL_PATH = "/packages/{packageId}/roles/{roleId}/signingUrl";
+    public static final String SEND_SMS_TO_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}/sms_notification";
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";

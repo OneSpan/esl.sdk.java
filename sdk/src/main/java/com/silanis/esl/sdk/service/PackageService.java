@@ -1174,6 +1174,8 @@ public class PackageService {
 
     /**
      * Create Fast Track Package.
+     * @param packageId The id of the package to start FastTrack
+     * @param signers The signers to get the signing url
      * @return The signing url
      */
     public String startFastTrack(PackageId packageId, List<FastTrackSigner> signers) {
@@ -1208,7 +1210,7 @@ public class PackageService {
      *
      * @param packageId The id of the package in which to get the FastTrack Token
      * @param signing whether signing or not
-     * @return The signing url
+     * @return The fastTrack token
      */
     private String getFastTrackToken(PackageId packageId, Boolean signing) {
         String fastTrackUrl = getFastTrackUrl(packageId, signing);
@@ -1232,6 +1234,32 @@ public class PackageService {
             throw new EslException("Could not get a fastTrack url.", e);
         } catch (Exception e) {
             throw new EslException("Could not get a fastTrack url." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Send SMS to the signer.
+     * @param packageId The id of the package to start FastTrack
+     * @param signer The signers to get the signing url
+     * @return The signing url
+     */
+    public void sendSmsToSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
+        Role role = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
+        sendSmsToSigner(packageId, role);
+    }
+
+    private void sendSmsToSigner(PackageId packageId, Role role) {
+        String path = template.urlFor(UrlTemplate.SEND_SMS_TO_SIGNER_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{roleId}", role.getId())
+                              .build();
+
+        try{
+            client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslException("Could not send SMS to the signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not send SMS to the signer." + " Exception: " + e.getMessage());
         }
     }
 }
