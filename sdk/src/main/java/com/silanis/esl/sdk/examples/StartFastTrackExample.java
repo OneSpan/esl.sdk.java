@@ -83,7 +83,6 @@ public class StartFastTrackExample extends SDKSample {
                 .build();
 
         signingUrl = eslClient.getPackageService().startFastTrack(templateId, Collections.singletonList(signer));
-//        retrievedPackage = eslClient.getPackage(templateId);
     }
 
 }
