@@ -95,6 +95,22 @@ public class CustomFieldService {
     }
 
     /**
+     * Get all custom fields for the user.
+     *
+     * @return user custom field list
+     */
+    public List<CustomFieldValue> getCustomFieldValues() {
+        List<UserCustomField> userCustomFields = apiClient.getUserCustomFields();
+
+        List<CustomFieldValue> customFieldValues = new ArrayList<CustomFieldValue>();
+        for (UserCustomField userCustomField : userCustomFields) {
+            customFieldValues.add(new CustomFieldValueConverter(userCustomField).toSDKCustomFieldValue());
+        }
+
+        return customFieldValues;
+    }
+
+    /**
      * Create an user custom field.
      * If the custom field already existed then update it.
      *
@@ -105,6 +121,15 @@ public class CustomFieldService {
         com.silanis.esl.api.model.UserCustomField userCustomField = new CustomFieldValueConverter(customFieldValue).toAPIUserCustomField();
         UserCustomField result = apiClient.submitCustomFieldValue(userCustomField);
         return new CustomFieldValueConverter(result).toSDKCustomFieldValue();
+    }
+
+    /**
+     * Delete an user custom field.
+     *
+     * @param id of user custom field to delete.
+     */
+    public void deleteCustomFieldValue(String id) {
+        apiClient.deleteUserCustomField(id);
     }
 
     /**

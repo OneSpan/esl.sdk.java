@@ -102,6 +102,20 @@ public class CustomFieldApiClient {
         }
     }
 
+    public List<UserCustomField> getUserCustomFields() throws EslException {
+        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_PATH).build();
+        String response;
+
+        try {
+            response = restClient.get(path);
+            return Serialization.fromJsonToList(response, UserCustomField.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the custom fields for the user.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the custom fields for the user.", e);
+        }
+    }
+
     public UserCustomField submitCustomFieldValue(com.silanis.esl.api.model.UserCustomField userCustomField) throws EslException {
         String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_PATH).build();
         String response;
@@ -119,6 +133,19 @@ public class CustomFieldApiClient {
             throw new EslServerException("Could not add/update the custom field to account.", e);
         } catch (Exception e) {
             throw new EslException("Could not add/update the custom field to account.", e);
+        }
+    }
+
+    public void deleteUserCustomField(String id) throws EslException {
+        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_ID_PATH)
+                              .replace("{customFieldId}", id)
+                              .build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the custom field from user.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the custom field from user.", e);
         }
     }
 

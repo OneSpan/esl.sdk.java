@@ -28,15 +28,18 @@ public class CustomFieldExample extends SDKSample {
     public static final String FRENCH_LANGUAGE = "fr";
     public static final String FRENCH_NAME = "Numero du Joueur";
     public static final String FRENCH_DESCRIPTION = "Le numero dans le dos de votre chandail d'equipe";
-    public static final String FIELD_VALUE = "99";
+    public static final String FIELD_VALUE1 = "11";
+    public static final String FIELD_VALUE2 = "22";
 
     public static final String DEFAULT_VALUE2 = "Red";
     public static final String ENGLISH_NAME2 = "Jersey Color";
     public static final String ENGLISH_DESCRIPTION2 = "The color of your team jersey";
 
-    private String customFieldId1, customFieldId2;
-    private CustomField retrieveCustomField;
-    private List<CustomField> retrieveCustomFieldList1, retrieveCustomFieldList2;
+    public static String customFieldId1, customFieldId2;
+    public static CustomField retrieveCustomField;
+    public static List<CustomField> retrieveCustomFieldList1, retrieveCustomFieldList2;
+
+    public static List<CustomFieldValue> retrieveCustomFieldValueList1, retrieveCustomFieldValueList2;
 
     public static void main(String... args) {
         new CustomFieldExample(Props.get()).run();
@@ -52,26 +55,6 @@ public class CustomFieldExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-with-fields.pdf");
-    }
-
-    public String getCustomFieldId1() {
-        return customFieldId1;
-    }
-
-    public String getCustomFieldId2() {
-        return customFieldId2;
-    }
-
-    public CustomField getRetrieveCustomField() {
-        return retrieveCustomField;
-    }
-
-    public List<CustomField> getRetrieveCustomFieldList1() {
-        return retrieveCustomFieldList1;
-    }
-
-    public List<CustomField> getRetrieveCustomFieldList2() {
-        return retrieveCustomFieldList2;
     }
 
     @Override
@@ -92,7 +75,7 @@ public class CustomFieldExample extends SDKSample {
 
         CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
                 .submitCustomFieldValue(CustomFieldValueBuilder.customFieldValueWithId(customField.getId())
-                                .withValue(FIELD_VALUE)
+                                .withValue(FIELD_VALUE1)
                                 .build()
                 );
 
@@ -106,6 +89,12 @@ public class CustomFieldExample extends SDKSample {
                                         .withDescription(ENGLISH_DESCRIPTION2))
                                 .build()
                 );
+
+        CustomFieldValue customFieldValue2 = eslClient.getCustomFieldService()
+                .submitCustomFieldValue(CustomFieldValueBuilder.customFieldValueWithId(customField2.getId())
+                                .withValue(FIELD_VALUE2)
+                                .build()
+                 );
 
         // Create and send package with two custom fields
         DocumentPackage superDuperPackage = newPackageNamed("Sample Insurance policy")
@@ -124,7 +113,7 @@ public class CustomFieldExample extends SDKSample {
                                 .withSignature(signatureFor(email1)
                                         .onPage(0)
                                         .atPosition(100, 400)
-                                        .withField(FieldBuilder.customField(customField2.getId())
+                                        .withField(FieldBuilder.customField(customFieldValue2.getId())
                                                 .onPage(0)
                                                 .atPosition(400, 400)))
                 )
@@ -145,6 +134,14 @@ public class CustomFieldExample extends SDKSample {
 
         // Delete the second custom field from account
         eslClient.getCustomFieldService().deleteCustomField(customFieldId2);
-    }
 
+        // Get the entire list of user custom field from the user
+        retrieveCustomFieldValueList1 = eslClient.getCustomFieldService().getCustomFieldValues();
+
+        // Delete the second custom field from the user
+        eslClient.getCustomFieldService().deleteCustomFieldValue(retrieveCustomFieldValueList1.get(1).getId());
+
+        // Get the entire list of user custom field from the user
+        retrieveCustomFieldValueList2 = eslClient.getCustomFieldService().getCustomFieldValues();
+    }
 }
