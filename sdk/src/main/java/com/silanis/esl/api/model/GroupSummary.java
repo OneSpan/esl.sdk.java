@@ -1,15 +1,15 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GroupSummary extends Entity
-      implements java.io.Serializable
+        implements java.io.Serializable
 {
-    
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_DATA = "data";
@@ -19,16 +19,16 @@ public class GroupSummary extends Entity
     public static final String FIELD_ID = "id";
     @JsonIgnore
     public static final String FIELD_NAME = "name";
-    
+
     // Empty Constructor
     public GroupSummary ( ) {}
-    
+
     // Fields
     protected String _email = null;
-    
+
     // Accessors
-        
-    
+
+
     @Override
     public GroupSummary setData( Map<String, Object> value ){
         super.setData(value);
@@ -40,9 +40,9 @@ public class GroupSummary extends Entity
         if ( value != null ) { this.setData( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public GroupSummary setEmail( String value ){
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
@@ -60,9 +60,9 @@ public class GroupSummary extends Entity
     public String getEmail(){
         return _email;
     }
-    
-        
-    
+
+
+
     @Override
     public GroupSummary setId( String value ){
         super.setId(value);
@@ -74,9 +74,9 @@ public class GroupSummary extends Entity
         if ( value != null ) { this.setId( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public GroupSummary setName( String value ){
         // TODO: Figure how to do refinements of validation rules
@@ -89,6 +89,6 @@ public class GroupSummary extends Entity
         if ( value != null ) { this.setName( value ); }
         return this;
     }
-    
-    
+
+
 }
