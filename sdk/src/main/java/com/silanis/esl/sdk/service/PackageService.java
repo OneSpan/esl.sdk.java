@@ -1262,4 +1262,50 @@ public class PackageService {
             throw new EslException("Could not send SMS to the signer." + " Exception: " + e.getMessage());
         }
     }
+
+    /**
+     * Get Journal Entries.
+     * @param userId The ID of the user whose e-journal entries are being retrieved.
+     * @return all of the user's notary e-journal entries.
+     */
+    public List<com.silanis.esl.sdk.NotaryJournalEntry> getJournalEntries(String userId) {
+        List<com.silanis.esl.sdk.NotaryJournalEntry> result = new ArrayList<com.silanis.esl.sdk.NotaryJournalEntry>();
+        String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_PATH)
+                              .replace("{userId}", userId)
+                              .build();
+
+        try{
+            String stringResponse = client.get(path);
+            Result<com.silanis.esl.api.model.NotaryJournalEntry> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.NotaryJournalEntry>>() {
+            } );
+            for(com.silanis.esl.api.model.NotaryJournalEntry apiNotaryJournalEntry : apiResponse.getResults()) {
+                result.add(new NotaryJournalEntryConverter(apiNotaryJournalEntry).toSDKNotaryJournalEntry());
+            }
+            return result;
+
+        } catch (RequestException e) {
+            throw new EslException("Could not get Journal Entries.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get Journal Entries." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get Journal Entries in csv format.
+     * @param userId The ID of the user whose e-journal entries are being retrieved.
+     * @return all of the user's notary e-journal entries in csv format.
+     */
+    public String getJournalEntriesAsCSV(String userId) {
+        String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_PATH)
+                              .replace("{userId}", userId)
+                              .build();
+
+        try{
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not get Journal Entries in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get Journal Entries in csv." + " Exception: " + e.getMessage());
+        }
+    }
 }

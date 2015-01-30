@@ -96,6 +96,10 @@ public class UrlTemplate {
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
 
+    // NotaryJournal Service
+    public static final String NOTARY_JOURNAL_PATH = "/user/{userId}/journal";
+    public static final String NOTARY_JOURNAL_LIST_PATH = "/user/{userId}/journal?to={to}&from={from}&dir={dir}";
+
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
     public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
