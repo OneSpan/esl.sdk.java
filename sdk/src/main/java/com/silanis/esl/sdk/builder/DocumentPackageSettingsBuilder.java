@@ -221,6 +221,19 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Enables the stamping documents with the date, time, and signer's name at each location they were signed.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withCaptureText() {
+        hideCaptureText = false;
+        return this;
+    }
+
+    /**
      * Disables the stamping documents with the date, time, and signer's name at each location they were signed.
      * <p>
      * DEFAULT: DISABLED
