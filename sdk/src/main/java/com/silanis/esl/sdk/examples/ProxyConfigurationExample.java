@@ -46,7 +46,7 @@ public class ProxyConfigurationExample extends SDKSample{
 
     private boolean allowAllSSLCertificates = false;
 
-    public final String email1;
+    private String email1;
     private InputStream documentInputStream1, documentInputStream2;
     public DocumentPackage documentPackage1, documentPackage2;
 
