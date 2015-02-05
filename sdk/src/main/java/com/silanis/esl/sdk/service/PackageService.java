@@ -1296,7 +1296,7 @@ public class PackageService {
      * @return all of the user's notary e-journal entries in csv format.
      */
     public String getJournalEntriesAsCSV(String userId) {
-        String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_PATH)
+        String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_CSV_PATH)
                               .replace("{userId}", userId)
                               .build();
 

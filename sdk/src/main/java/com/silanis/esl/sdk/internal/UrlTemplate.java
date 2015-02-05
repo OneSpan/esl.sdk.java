@@ -98,6 +98,7 @@ public class UrlTemplate {
 
     // NotaryJournal Service
     public static final String NOTARY_JOURNAL_PATH = "/user/{userId}/journal";
+    public static final String NOTARY_JOURNAL_CSV_PATH = "/user/{userId}/journal/download";
     public static final String NOTARY_JOURNAL_LIST_PATH = "/user/{userId}/journal?to={to}&from={from}&dir={dir}";
 
     // Webpage redirect urls
