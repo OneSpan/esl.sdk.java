@@ -30,7 +30,6 @@ public class CustomFieldExampleTest {
         DocumentPackage documentPackage = example.getRetrievedPackage();
 
         assertThat("First custom field not set correctly.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.customFieldId1), is(true));
-        assertThat("First custom value not set correctly.", example.getEslClient().getCustomFieldService().doesCustomFieldValueExist(example.customFieldId1), is(true));
         assertThat("Second custom field should have been deleted.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.customFieldId2), is(false));
 
         Collection<Signature> signatures = documentPackage.getDocument("First Document").getSignatures();
