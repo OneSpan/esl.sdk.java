@@ -29,8 +29,8 @@ public class AuthenticationClient {
         return authenticationService.buildRedirectToDesignerForSender(senderAuthenticationToken, packageId);
     }
 
-    public String buildRedirectToPackageViewForSender(String senderAuthenticationToken, String packageId) {
-        return authenticationService.buildRedirectToPackageViewForSender(senderAuthenticationToken, packageId);
+    public String buildRedirectToPackageViewForSender(String userAuthenticationToken, String packageId) {
+        return authenticationService.buildRedirectToPackageViewForSender(userAuthenticationToken, packageId);
     }
 
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {

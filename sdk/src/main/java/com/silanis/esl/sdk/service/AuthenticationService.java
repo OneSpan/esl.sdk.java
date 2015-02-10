@@ -81,14 +81,14 @@ public class AuthenticationService {
         }
     }
 
-    public String buildRedirectToPackageViewForSender(String senderAuthenticationToken, String packageId) {
+    public String buildRedirectToPackageViewForSender(String userAuthenticationToken, String packageId) {
         try {
             final String redirectPath = redirectUrlTemplate.urlFor(UrlTemplate.PACKAGE_VIEW_REDIRECT_PATH)
                                                            .replace("{packageId}", packageId)
                                                            .build();
             final String encodedRedirectPath = URLEncoder.encode(redirectPath, RestClient.CHARSET_UTF_8);
-            String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SENDER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
-                                                   .replace("{senderAuthenticationToken}", senderAuthenticationToken)
+            String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_USER_AUTHENTICATION_TOKEN_WITH_REDIRECT)
+                                                   .replace("{authenticationToken}", userAuthenticationToken)
                                                    .replace("{redirectUrl}", encodedRedirectPath)
 
                                                    .build();
