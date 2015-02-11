@@ -49,7 +49,7 @@ public class SignerInformationForEquifaxCanadaConverter {
                 .setTimeAtAddress(sdkKBACanada.getTimeAtAddress())
                 .setDateOfBirth(sdkKBACanada.getDateOfBirth())
                 .setDriversLicenseNumber(sdkKBACanada.getDriversLicenseNumber())
-                .setSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber())
+                .safeSetSocialInsuranceNumber(sdkKBACanada.getSocialInsuranceNumber())
                 .setHomePhoneNumber(sdkKBACanada.getHomePhoneNumber());
 
         return result;
