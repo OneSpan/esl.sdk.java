@@ -6,7 +6,6 @@ import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 
 /**
  * Created by chi-wing on 6/6/14.
@@ -34,9 +33,9 @@ public class SenderManipulationExample extends SDKSample {
 
     public SenderManipulationExample(String apiKey, String apiUrl) {
         super(apiKey, apiUrl);
-        this.email1 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
-        this.email2 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
-        this.email3 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
+        this.email1 = getRandomEmail();
+        this.email2 = getRandomEmail();
+        this.email3 = getRandomEmail();
     }
 
     @Override

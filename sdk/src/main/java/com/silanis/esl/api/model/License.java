@@ -1,13 +1,15 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class License extends Model
       implements java.io.Serializable
@@ -32,7 +34,7 @@ public class License extends Model
     protected java.util.Date _created;
     protected java.util.Date _paidUntil = null;
     protected Plan _plan;
-    protected LicenseStatus _status = LicenseStatus.ACTIVE;
+    protected String _status = "ACTIVE";
     protected List<Transaction> _transactions = new ArrayList<Transaction>();
     
     // Accessors
@@ -101,7 +103,7 @@ public class License extends Model
     
         
     
-    public License setStatus( LicenseStatus value ){
+    public License setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
         // if ( this._status == value ) return this;
@@ -111,11 +113,11 @@ public class License extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public License safeSetStatus( LicenseStatus value ){
+    public License safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
-    public LicenseStatus getStatus(){
+    public String getStatus(){
         return _status;
     }
     

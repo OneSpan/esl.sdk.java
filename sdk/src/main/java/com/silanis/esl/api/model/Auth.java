@@ -1,9 +1,11 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Auth extends Model
       implements java.io.Serializable
@@ -20,7 +22,7 @@ public class Auth extends Model
     
     // Fields
     protected List<AuthChallenge> _challenges = new ArrayList<AuthChallenge>();
-    protected AuthScheme _scheme = AuthScheme.NONE;
+    protected String _scheme = "NONE";
     
     // Accessors
         
@@ -52,7 +54,7 @@ public class Auth extends Model
     
         
     
-    public Auth setScheme( AuthScheme value ){
+    public Auth setScheme( String value ){
         SchemaSanitizer.throwOnNull(FIELD_SCHEME,value);
         // TODO With proper compare
         // if ( this._scheme == value ) return this;
@@ -62,11 +64,11 @@ public class Auth extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Auth safeSetScheme( AuthScheme value ){
+    public Auth safeSetScheme( String value ){
         if ( value != null ) { this.setScheme( value ); }
         return this;
     }
-    public AuthScheme getScheme(){
+    public String getScheme(){
         return _scheme;
     }
     

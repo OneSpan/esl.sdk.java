@@ -61,7 +61,6 @@ public class HistoryDocumentExample extends SDKSample {
                         .withLastName("Galant"))
                 .withDocument(newDocumentWithName(externalDocumentName)
                                 .fromStream(documentInputStream2, DocumentType.PDF)
-                                .withExternal(new com.silanis.esl.sdk.External("vfs", "test" ,"/test/completed/files/"))
                                 .withSignature(signatureFor(email2)
                                                 .onPage(0)
                                                 .atPosition(100, 200)
@@ -103,6 +102,7 @@ public class HistoryDocumentExample extends SDKSample {
 
         eslClient.getPackageService().addDocumentWithExternalContent(packageId.getId(), externalDocuments);
         eslClient.sendPackage(packageId);
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 
 }

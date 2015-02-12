@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
@@ -62,5 +61,6 @@ public class DeletePackageExample extends SDKSample {
         packageId = eslClient.createPackage( superDuperPackage );
         DocumentPackage unsentPackage = eslClient.getPackage( packageId );
         eslClient.getPackageService().deletePackage( packageId );
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

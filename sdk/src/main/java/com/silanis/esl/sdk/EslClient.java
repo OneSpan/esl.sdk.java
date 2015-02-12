@@ -188,7 +188,7 @@ public class EslClient {
         if(!isSdkVersionSet(documentPackage)){
             setSdkVersion(documentPackage);
         }
-
+        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
         DocumentPackage retrievedPackage = getPackage(id);
@@ -198,6 +198,30 @@ public class EslClient {
         }
 
         return id;
+    }
+
+    /**
+     * <p>Update the package, when the package status is only Draft</p>
+     *
+     * @param packageId
+     * @param documentPackage	the document package
+     */
+    public void updatePackage(PackageId packageId, DocumentPackage documentPackage) {
+
+        if(!isSdkVersionSet(documentPackage)){
+            setSdkVersion(documentPackage);
+        }
+        validateSignatures(documentPackage);
+        packageService.updatePackage(packageId, documentPackage);
+    }
+
+    /**
+     * <p>Change the package's status from SENT to DRAFT.</p>
+     *
+     * @param packageId
+     */
+    public void changePackageStatusToDraft(PackageId packageId) {
+        packageService.changePackageStatusToDraft(packageId);
     }
 
     /**
@@ -214,7 +238,7 @@ public class EslClient {
         if(!isSdkVersionSet(documentPackage)){
             setSdkVersion(documentPackage);
         }
-
+        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         for ( Document document : documentPackage.getDocuments() ) {
             com.silanis.esl.api.model.Document apiDocument = new DocumentConverter(document).toAPIDocument(packageToCreate);
@@ -225,6 +249,43 @@ public class EslClient {
 
     }
 
+    /**
+     * Validate Signatures in a documentPackage
+     *
+     * @param documentPackage
+     */
+    private void validateSignatures(DocumentPackage documentPackage) {
+        for(Document document : documentPackage.getDocuments()) {
+            validateMixingSignatureAndAcceptance(document);
+        }
+    }
+
+    /**
+     * Validate Mixing Signature And Acceptance in one document
+     *
+     * @param document
+     */
+    private void validateMixingSignatureAndAcceptance(Document document) {
+        if(checkAcceptanceSignatureStyle(document)) {
+            for(Signature signature : document.getSignatures()) {
+                if (signature.getStyle() != SignatureStyle.ACCEPTANCE )
+                    throw new EslException("It is not allowed to use acceptance signature styles and other signature styles together in one document.");
+            }
+        }
+    }
+
+    /**
+     * Check whether there are Acceptance Signature Style in a document or not
+     *
+     * @param document
+     */
+    private boolean checkAcceptanceSignatureStyle(Document document) {
+        for (Signature signature : document.getSignatures()) {
+            if (signature.getStyle() == SignatureStyle.ACCEPTANCE)
+                return true;
+        }
+        return false;
+    }
 
     /**
      * Sets the document package to the sdk current version
@@ -278,6 +339,7 @@ public class EslClient {
      * @return	the package ID
      */
     public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
+        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         return packageService.createPackageFromTemplate(packageId, packageToCreate);
     }

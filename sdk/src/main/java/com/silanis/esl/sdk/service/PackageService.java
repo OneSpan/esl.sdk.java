@@ -13,8 +13,11 @@ import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -26,10 +29,12 @@ public class PackageService {
 
     private UrlTemplate template;
     private RestClient client;
+    private AuthenticationTokensService authenticationTokensService;
 
     public PackageService(RestClient client, String baseUrl) {
         this.client = client;
         template = new UrlTemplate(baseUrl);
+        authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, baseUrl));
     }
 
     /**
@@ -154,7 +159,7 @@ public class PackageService {
 
         String packageJson = Serialization.toJson( aPackage );
         try {
-            client.post(path, packageJson);
+            client.put(path, packageJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
@@ -164,6 +169,26 @@ public class PackageService {
         List<Role> roleList = aPackage.getRoles();
         for (Role role : roleList) {
             updateRole(packageId, role);
+        }
+    }
+
+    /**
+     * Change the package's status to DRAFT.
+     *
+     * @param packageId
+     * @throws EslException
+     */
+    public void changePackageStatusToDraft(PackageId packageId) throws EslException {
+        String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
+                              .replace( "{packageId}", packageId.getId() )
+                              .build();
+
+        try {
+            client.put(path, "{\"status\":\"DRAFT\"}");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not change the package status to DRAFT.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not change the package status to DRAFT.", e);
         }
     }
 
@@ -303,7 +328,7 @@ public class PackageService {
         try {
             String json = Serialization.toJson(internalDoc);
 
-            client.post(path, json);
+            client.put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the document's metadata.", e);
         } catch (Exception e) {
@@ -630,11 +655,45 @@ public class PackageService {
      * @param request Identifying which page of results to return
      * @return List of DocumentPackages that populate the specified page
      */
-    public Page<DocumentPackage> getPackages(com.silanis.esl.api.model.PackageStatus status, PageRequest request) {
+    public Page<DocumentPackage> getPackages(String status, PageRequest request) {
         String path = template.urlFor(UrlTemplate.PACKAGE_LIST_PATH)
-                .replace("{status}", status.toString())
+                .replace("{status}", status)
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
+                .build();
+
+        try {
+            String response = client.get(path);
+            Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {
+            });
+            return convertToPage(results, request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package list.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Could not get package list. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Returns a Page of DocumentPackages, that last updated in time range, which represents a paginated query response.  Important once you have many DocumentPackages.
+     *
+     * @param status  Returned DocumentPackages must have their status set to this value to be included in the result set
+     * @param request Identifying which page of results to return
+     * @param from Date range starting from this date included
+     * @param to Date range ending of this date included
+     * @return List of DocumentPackages that populate the specified page
+     */
+    public Page<DocumentPackage> getUpdatedPackagesWithinDateRange(PackageStatus status, PageRequest request, Date from, Date to) {
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+
+        String path = template.urlFor(UrlTemplate.PACKAGE_LIST_STATUS_DATE_RANGE_PATH)
+                .replace("{status}", new PackageStatusConverter(status).toAPIPackageStatus())
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace("{to}", Integer.toString(request.to()))
+                .replace("{lastUpdatedStartDate}", fromDate)
+                .replace("{lastUpdatedEndDate}", toDate)
                 .build();
 
         try {
@@ -952,6 +1011,51 @@ public class PackageService {
         }
     }
 
+    /**
+     * Downloads the completion report from all senders
+     *
+     * @param packageStatus Status of the packages
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report
+     * @return The completion report
+     */
+    public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
+        String path = buildCompletionReportUrl(packageStatus, from, to);
+
+        try {
+            String json = client.get(path);
+            CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
+            return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the completion report.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the completion report from all senders in csv format.
+     *
+     * @param packageStatus Status of the packages
+     * @param from Starting date
+     * @param to Ending date
+     * @return The completion report in csv format
+     */
+    public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
+        String path = buildCompletionReportUrl(packageStatus, from, to);
+
+        try {
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the completion report in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the completion report in csv." + " Exception: " + e.getMessage());
+        }
+    }
+
     private String buildCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
@@ -959,9 +1063,20 @@ public class PackageService {
         return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
                 .replace("{from}", fromDate)
                 .replace("{to}", toDate)
-                .replace("{status}", packageStatus.toString())
+                .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
                 .replace("{senderId}", senderId)
                 .build();
+    }
+
+    private String buildCompletionReportUrl(PackageStatus packageStatus, Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_ALL_SENDERS_PATH)
+                       .replace("{from}", fromDate)
+                       .replace("{to}", toDate)
+                       .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
+                       .build();
     }
 
     /**
@@ -1016,4 +1131,182 @@ public class PackageService {
                 .build();
     }
 
+    /**
+     * Get a signing url
+     *
+     * @param packageId The id of the package in which to get the signing url
+     * @param signerId The id of signer to get the signing url
+     * @return The signing url
+     */
+    public String getSigningUrl(PackageId packageId, String signerId) {
+        Package aPackage = getApiPackage(packageId.getId());
+
+        return getSigningUrl(packageId, getRole(aPackage, signerId));
+    }
+
+    private Role getRole(Package apiPackage, String sigenrId) {
+        for(Role role : apiPackage.getRoles()) {
+            for(Signer signer : role.getSigners()) {
+                if(signer.getId().equals(sigenrId)) {
+                    return role;
+                }
+            }
+        }
+        return new Role();
+    }
+
+    private String getSigningUrl(PackageId packageId, Role role) {
+
+        String path = template.urlFor(UrlTemplate.SIGNER_URL_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{roleId}", role.getId())
+                              .build();
+
+        try {
+            String response = client.get(path);
+            SigningUrl signingUrl = Serialization.fromJson(response, SigningUrl.class);
+            return signingUrl.getUrl();
+        } catch (RequestException e) {
+            throw new EslException("Could not get a signing url.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get a signing url." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Create Fast Track Package.
+     * @param packageId The id of the package to start FastTrack
+     * @param signers The signers to get the signing url
+     * @return The signing url
+     */
+    public String startFastTrack(PackageId packageId, List<FastTrackSigner> signers) {
+        String token = getFastTrackToken(packageId, true);
+        String path = template.urlFor(UrlTemplate.START_FAST_TRACK_PATH)
+                              .replace("{token}", token)
+                              .build();
+
+        List<FastTrackRole> roles = new ArrayList<FastTrackRole>();
+        for(FastTrackSigner signer : signers) {
+            FastTrackRole role = FastTrackRoleBuilder.newRoleWithId(signer.getId())
+                    .withName(signer.getId())
+                    .withSigner(signer)
+                    .build();
+            roles.add(role);
+        }
+
+        String json = Serialization.toJson(roles);
+        try{
+            String response = client.post(path, json);
+            SigningUrl signingUrl = Serialization.fromJson(response, SigningUrl.class);
+            return signingUrl.getUrl();
+        } catch (RequestException e) {
+            throw new EslException("Could not start fast track.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not start fast track." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get a fastTrack token
+     *
+     * @param packageId The id of the package in which to get the FastTrack Token
+     * @param signing whether signing or not
+     * @return The fastTrack token
+     */
+    private String getFastTrackToken(PackageId packageId, Boolean signing) {
+        String fastTrackUrl = getFastTrackUrl(packageId, signing);
+        String finalUrl = RedirectResolver.resolveUrlAfterRedirect(fastTrackUrl);
+
+        String[] split = StringUtils.split(finalUrl, '=');
+        return split[split.length - 1];
+    }
+
+    private String getFastTrackUrl(PackageId packageId, Boolean signing) {
+        String path = template.urlFor(UrlTemplate.FAST_TRACK_URL_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{signing}", signing.toString())
+                              .build();
+
+        try {
+            String json = client.get(path);
+            SigningUrl signingUrl = Serialization.fromJson(json, SigningUrl.class);
+            return signingUrl.getUrl();
+        } catch (RequestException e) {
+            throw new EslException("Could not get a fastTrack url.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get a fastTrack url." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Send SMS to the signer.
+     * @param packageId The id of the package to start FastTrack
+     * @param signer The signers to get the signing url
+     * @return The signing url
+     */
+    public void sendSmsToSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
+        Role role = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
+        sendSmsToSigner(packageId, role);
+    }
+
+    private void sendSmsToSigner(PackageId packageId, Role role) {
+        String path = template.urlFor(UrlTemplate.SEND_SMS_TO_SIGNER_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{roleId}", role.getId())
+                              .build();
+
+        try{
+            client.post(path, null);
+        } catch (RequestException e) {
+            throw new EslException("Could not send SMS to the signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not send SMS to the signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get Journal Entries.
+     * @param userId The ID of the user whose e-journal entries are being retrieved.
+     * @return all of the user's notary e-journal entries.
+     */
+    public List<com.silanis.esl.sdk.NotaryJournalEntry> getJournalEntries(String userId) {
+        List<com.silanis.esl.sdk.NotaryJournalEntry> result = new ArrayList<com.silanis.esl.sdk.NotaryJournalEntry>();
+        String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_PATH)
+                              .replace("{userId}", userId)
+                              .build();
+
+        try{
+            String stringResponse = client.get(path);
+            Result<com.silanis.esl.api.model.NotaryJournalEntry> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.NotaryJournalEntry>>() {
+            } );
+            for(com.silanis.esl.api.model.NotaryJournalEntry apiNotaryJournalEntry : apiResponse.getResults()) {
+                result.add(new NotaryJournalEntryConverter(apiNotaryJournalEntry).toSDKNotaryJournalEntry());
+            }
+            return result;
+
+        } catch (RequestException e) {
+            throw new EslException("Could not get Journal Entries.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get Journal Entries." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get Journal Entries in csv format.
+     * @param userId The ID of the user whose e-journal entries are being retrieved.
+     * @return all of the user's notary e-journal entries in csv format.
+     */
+    public String getJournalEntriesAsCSV(String userId) {
+        String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_CSV_PATH)
+                              .replace("{userId}", userId)
+                              .build();
+
+        try{
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not get Journal Entries in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get Journal Entries in csv." + " Exception: " + e.getMessage());
+        }
+    }
 }

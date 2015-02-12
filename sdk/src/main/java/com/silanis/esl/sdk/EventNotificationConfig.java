@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class EventNotificationConfig {
@@ -10,7 +10,7 @@ public class EventNotificationConfig {
 
     public EventNotificationConfig(String url) {
         this.url = url;
-        events = new HashSet<NotificationEvent>();
+        events = new LinkedHashSet<NotificationEvent>();
     }
 
     public String getUrl() {

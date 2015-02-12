@@ -19,7 +19,7 @@ public class SignerSpecificEmailMessageExampleTest {
     public void verifyResult() {
         SignerSpecificEmailMessageExample signerSpecificEmailMessageExample = new SignerSpecificEmailMessageExample(Props.get());
         signerSpecificEmailMessageExample.run();
-        DocumentPackage documentPackage = signerSpecificEmailMessageExample.getEslClient().getPackage(signerSpecificEmailMessageExample.getPackageId());
+        DocumentPackage documentPackage = signerSpecificEmailMessageExample.getRetrievedPackage();
 
         assertThat(documentPackage.getSigner(signerSpecificEmailMessageExample.email1).getMessage(), is(equalTo(SignerSpecificEmailMessageExample.EMAIL_MESSAGE)));
     }

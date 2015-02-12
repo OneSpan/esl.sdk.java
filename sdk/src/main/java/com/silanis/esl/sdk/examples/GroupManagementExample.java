@@ -40,8 +40,9 @@ public class GroupManagementExample extends SDKSample {
                 props.getProperty( "api.url" ));
     }
 
-    public GroupManagementExample( String apiKey, String apiUrl ) {
+    public GroupManagementExample( String apiKey, String apiUrl) {
         super( apiKey, apiUrl );
+        this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
@@ -172,9 +173,4 @@ public class GroupManagementExample extends SDKSample {
 
         DocumentPackage result = eslClient.getPackage( packageId );
     }
-
-    private String getRandomEmail() {
-        return UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
-    }
-
 }

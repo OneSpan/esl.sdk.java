@@ -1,10 +1,10 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AttachmentRequirement extends Entity
       implements java.io.Serializable
@@ -33,7 +33,7 @@ public class AttachmentRequirement extends Entity
     protected String _comment = "";
     protected String _description = "";
     protected Boolean _required = true;
-    protected RequirementStatus _status = RequirementStatus.INCOMPLETE;
+    protected String _status = "INCOMPLETE";
     
     // Accessors
         
@@ -146,7 +146,7 @@ public class AttachmentRequirement extends Entity
     
         
     
-    public AttachmentRequirement setStatus( RequirementStatus value ){
+    public AttachmentRequirement setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
         // if ( this._status == value ) return this;
@@ -156,11 +156,11 @@ public class AttachmentRequirement extends Entity
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public AttachmentRequirement safeSetStatus( RequirementStatus value ){
+    public AttachmentRequirement safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
-    public RequirementStatus getStatus(){
+    public String getStatus(){
         return _status;
     }
     

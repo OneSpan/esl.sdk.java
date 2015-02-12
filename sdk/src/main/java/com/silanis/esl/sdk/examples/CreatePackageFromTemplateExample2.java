@@ -19,7 +19,6 @@ public class CreatePackageFromTemplateExample2 extends SDKSample {
 
     private String email1;
     private String email2;
-    private PackageId retrievedPackageId;
     private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
@@ -102,10 +101,8 @@ public class CreatePackageFromTemplateExample2 extends SDKSample {
                         .build())
                 .build();
 
-        retrievedPackageId = eslClient.getTemplateService().createPackageFromTemplate(template.getId(), newPackage);
+        packageId = eslClient.getTemplateService().createPackageFromTemplate(template.getId(), newPackage);
+        retrievedPackage = eslClient.getPackage( packageId );
     }
 
-    public PackageId getRetrievedPackageId() {
-        return retrievedPackageId;
-    }
 }

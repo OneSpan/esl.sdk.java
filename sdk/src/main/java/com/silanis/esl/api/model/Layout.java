@@ -1,14 +1,12 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.silanis.esl.api.util.SchemaSanitizer;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Layout extends BaseTemplate
       implements java.io.Serializable
@@ -341,13 +339,13 @@ public class Layout extends BaseTemplate
         
     
     @Override
-    public Layout setStatus( PackageStatus value ){
+    public Layout setStatus( String value ){
         super.setStatus(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Layout safeSetStatus( PackageStatus value ){
+    public Layout safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
@@ -355,13 +353,13 @@ public class Layout extends BaseTemplate
         
     
     @Override
-    public Layout setType( BasePackageType value ){
+    public Layout setType( String value ){
         super.setType(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Layout safeSetType( BasePackageType value ){
+    public Layout safeSetType( String value ){
         if ( value != null ) { this.setType( value ); }
         return this;
     }
@@ -384,13 +382,13 @@ public class Layout extends BaseTemplate
         
     
     @Override
-    public Layout setVisibility( Visibility value ){
+    public Layout setVisibility( String value ){
         super.setVisibility(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Layout safeSetVisibility( Visibility value ){
+    public Layout safeSetVisibility( String value ){
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }

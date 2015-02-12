@@ -1,23 +1,31 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CeremonySettings extends ViewSettings
-      implements java.io.Serializable
+        implements java.io.Serializable
 {
-    
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_DECLINEBUTTON = "declineButton";
+    @JsonIgnore
+    public static final String FIELD_DECLINEREASONS = "declineReasons";
+    @JsonIgnore
+    public static final String FIELD_DISABLEDECLINEOTHER = "disableDeclineOther";
     @JsonIgnore
     public static final String FIELD_DISABLEDOWNLOADFORUNCOMPLETEDPACKAGE = "disableDownloadForUncompletedPackage";
     @JsonIgnore
     public static final String FIELD_DISABLEFIRSTINPERSONAFFIDAVIT = "disableFirstInPersonAffidavit";
     @JsonIgnore
     public static final String FIELD_DISABLEINPERSONAFFIDAVIT = "disableInPersonAffidavit";
+    @JsonIgnore
+    public static final String FIELD_DISABLEOPTOUTOTHER = "disableOptOutOther";
     @JsonIgnore
     public static final String FIELD_DISABLESECONDINPERSONAFFIDAVIT = "disableSecondInPersonAffidavit";
     @JsonIgnore
@@ -46,15 +54,18 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_OPTOUTREASONS = "optOutReasons";
     @JsonIgnore
     public static final String FIELD_STYLE = "style";
-    
+
     // Empty Constructor
     public CeremonySettings ( ) {}
-    
+
     // Fields
     protected Boolean _declineButton = false;
+    protected List<String> _declineReasons = new ArrayList<String>();
+    protected Boolean _disableDeclineOther = false;
     protected Boolean _disableDownloadForUncompletedPackage = false;
     protected Boolean _disableFirstInPersonAffidavit = false;
     protected Boolean _disableInPersonAffidavit = false;
+    protected Boolean _disableOptOutOther = false;
     protected Boolean _disableSecondInPersonAffidavit = false;
     protected DocumentToolbarOptions _documentToolbarOptions = null;
     protected CeremonyEvents _events = null;
@@ -67,10 +78,10 @@ public class CeremonySettings extends ViewSettings
     protected Integer _maxAuthFailsAllowed = null;
     protected Boolean _optOutButton = false;
     protected List<String> _optOutReasons = new ArrayList<String>();
-    
+
     // Accessors
-        
-    
+
+
     public CeremonySettings setDeclineButton( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_DECLINEBUTTON,value);
         // TODO With proper compare
@@ -92,9 +103,60 @@ public class CeremonySettings extends ViewSettings
     public boolean evalDeclineButton(){
         return _declineButton == null ? false : _declineButton.booleanValue();
     }
-    
-        
-    
+
+
+
+    public CeremonySettings setDeclineReasons( List<String> value ){
+        SchemaSanitizer.throwOnNull(FIELD_DECLINEREASONS,value);
+        // TODO With proper compare
+        // if ( this._declineReasons == value ) return this;
+        this._declineReasons = value;
+        setDirty(FIELD_DECLINEREASONS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetDeclineReasons( List<String> value ){
+        if ( value != null ) { this.setDeclineReasons( value ); }
+        return this;
+    }
+    public List<String> getDeclineReasons(){
+        return _declineReasons;
+    }
+    // List adder
+    public CeremonySettings addDeclineReason( String value ){
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._declineReasons.add(value);
+        setDirty(FIELD_DECLINEREASONS);
+        return this;
+    }
+
+
+
+    public CeremonySettings setDisableDeclineOther( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_DISABLEDECLINEOTHER,value);
+        // TODO With proper compare
+        // if ( this._disableDeclineOther == value ) return this;
+        this._disableDeclineOther = value;
+        setDirty(FIELD_DISABLEDECLINEOTHER);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetDisableDeclineOther( Boolean value ){
+        if ( value != null ) { this.setDisableDeclineOther( value ); }
+        return this;
+    }
+    public Boolean getDisableDeclineOther(){
+        return _disableDeclineOther;
+    }
+    @JsonIgnore
+    public boolean evalDisableDeclineOther(){
+        return _disableDeclineOther == null ? false : _disableDeclineOther.booleanValue();
+    }
+
+
+
     public CeremonySettings setDisableDownloadForUncompletedPackage( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_DISABLEDOWNLOADFORUNCOMPLETEDPACKAGE,value);
         // TODO With proper compare

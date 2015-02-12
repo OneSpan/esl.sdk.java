@@ -20,8 +20,10 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
     private String senderUID;
     private InputStream documentInputStream1;
 
+    public com.silanis.esl.sdk.CompletionReport sdkCompletionReportForSender;
     public com.silanis.esl.sdk.CompletionReport sdkCompletionReport;
     public com.silanis.esl.sdk.UsageReport sdkUsageReport;
+    public String csvCompletionReportForSender;
     public String csvCompletionReport;
     public String csvUsageReport;
 
@@ -75,9 +77,33 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
         toCalendar.setTime(new Date(System.currentTimeMillis()));
         Date to = toCalendar.getTime();
 
-        // Download the completion report
-        sdkCompletionReport = eslClient.getPackageService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
-        csvCompletionReport = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
+        // Download the completion report for a sender
+        sdkCompletionReportForSender = eslClient.getPackageService().downloadCompletionReport(PackageStatus.DRAFT, senderUID, from, to);
+        csvCompletionReportForSender = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
+
+        // Display package id and name of packages in DRAFT from sender
+        for(SenderCompletionReport senderCompletionReport : sdkCompletionReportForSender.getSenders()) {
+            System.out.print("Sender: " + senderCompletionReport.getSender().getEmail());
+            System.out.println(" has " + senderCompletionReport.getPackages().size() + " packages in DRAFT");
+            for (PackageCompletionReport packageCompletionReport : senderCompletionReport.getPackages()) {
+                System.out.println(packageCompletionReport.getId() + " , " + packageCompletionReport.getName() + " , Sender : " + getEslClient().getPackage(new PackageId(packageCompletionReport.getId())).getSenderInfo().getEmail());
+            }
+        }
+
+        // Download the completion report for all senders
+        sdkCompletionReport = eslClient.getPackageService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, from, to);
+        csvCompletionReport = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, from, to);
+
+        // Display package id and name of packages in DRAFT from sender
+        System.out.println();
+        for(SenderCompletionReport senderCompletionReport : sdkCompletionReport.getSenders()) {
+            System.out.print("Sender: " + senderCompletionReport.getSender().getEmail());
+            System.out.println(" has " + senderCompletionReport.getPackages().size() + " packages in DRAFT");
+
+            for (PackageCompletionReport packageCompletionReport : senderCompletionReport.getPackages()) {
+                System.out.println(packageCompletionReport.getId() + " , " + packageCompletionReport.getName() + " , Sender : " + getEslClient().getPackage(new PackageId(packageCompletionReport.getId())).getSenderInfo().getEmail());
+            }
+        }
 
         // Download the usage report
         sdkUsageReport = eslClient.getPackageService().downloadUsageReport(from, to);

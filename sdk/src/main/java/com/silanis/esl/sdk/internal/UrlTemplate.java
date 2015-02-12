@@ -8,6 +8,7 @@ public class UrlTemplate {
     // Package Service
     public static final String PACKAGE_PATH = "/packages";
     public static final String PACKAGE_LIST_PATH = "/packages?query={status}&from={from}&to={to}";
+    public static final String PACKAGE_LIST_STATUS_DATE_RANGE_PATH = "/packages?query={status}&from={from}&to={to}&lastUpdatedStartDate={lastUpdatedStartDate}&lastUpdatedEndDate={lastUpdatedEndDate}";
     public static final String PACKAGE_ID_PATH = "/packages/{packageId}";
     public static final String DOCUMENT_PATH = "/packages/{packageId}/documents";
     public static final String DOCUMENT_ID_PATH = "/packages/{packageId}/documents/{documentId}";
@@ -19,6 +20,7 @@ public class UrlTemplate {
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";
     public static final String EVIDENCE_SUMMARY_PATH = "/packages/{packageId}/evidence/summary";
     public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
+    public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";
     public static final String USAGE_REPORT_PATH = "/reports/usage?from={from}&to={to}";
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
     public static final String CUSTOM_NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
@@ -27,9 +29,14 @@ public class UrlTemplate {
     public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
+    public static final String FAST_TRACK_URL_PATH = "/fastTrack/{packageId}/url?signing={signing}";
+    public static final String START_FAST_TRACK_PATH = "/fastTrack?token={token}";
+
     // Signer Service
     public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";
     public static final String SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String SIGNER_URL_PATH = "/packages/{packageId}/roles/{roleId}/signingUrl";
+    public static final String SEND_SMS_TO_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}/sms_notification";
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";
@@ -65,6 +72,7 @@ public class UrlTemplate {
 
     // Groups Service
     public static final String GROUPS_PATH = "/groups";
+    public static final String GROUPS_SUMMARY_PATH = "/groups/summary";
     public static final String GROUPS_ID_PATH = "/groups/{groupId}";
     public static final String GROUPS_MEMBER_PATH = "/groups/{groupId}/members";
     public static final String GROUPS_INVITE_PATH = "/groups/{groupId}/invite";
@@ -88,8 +96,14 @@ public class UrlTemplate {
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
 
+    // NotaryJournal Service
+    public static final String NOTARY_JOURNAL_PATH = "/user/{userId}/journal";
+    public static final String NOTARY_JOURNAL_CSV_PATH = "/user/{userId}/journal/download";
+    public static final String NOTARY_JOURNAL_LIST_PATH = "/user/{userId}/journal?to={to}&from={from}&dir={dir}";
+
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
+    public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
     public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
 
     // AttachmentRequirement Service

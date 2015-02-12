@@ -17,7 +17,7 @@ public class MobileCaptureSignatureStyleExampleTest {
     public void verifyResult() {
         MobileCaptureSignatureStyleExample signatureStylesExample = new MobileCaptureSignatureStyleExample(Props.get());
         signatureStylesExample.run();
-        DocumentPackage documentPackage = signatureStylesExample.getEslClient().getPackage(signatureStylesExample.getPackageId());
+        DocumentPackage documentPackage = signatureStylesExample.getRetrievedPackage();
 
         for (Signature signature : documentPackage.getDocument(MobileCaptureSignatureStyleExample.DOCUMENT_NAME).getSignatures()) {
             if ((int) (signature.getX() + 0.1) == MobileCaptureSignatureStyleExample.MOBILE_CAPTURE_SIGNATURE_POSITION_X && (int) (signature.getY() + 0.1) == MobileCaptureSignatureStyleExample.MOBILE_CAPTURE_SIGNATURE_POSITION_Y) {

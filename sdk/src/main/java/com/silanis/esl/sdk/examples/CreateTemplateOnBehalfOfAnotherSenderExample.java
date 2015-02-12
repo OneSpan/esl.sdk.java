@@ -1,13 +1,15 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.SenderStatus;
 import com.silanis.esl.sdk.builder.*;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.UUID;
 
 public class CreateTemplateOnBehalfOfAnotherSenderExample extends SDKSample {
 
@@ -37,7 +39,7 @@ public class CreateTemplateOnBehalfOfAnotherSenderExample extends SDKSample {
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        this.senderEmail = UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com";
+        this.senderEmail = getRandomEmail();
     }
 
     @Override

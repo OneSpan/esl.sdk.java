@@ -1,21 +1,21 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
+import com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus;
 
 /**
  * Created by schoi on 9/11/14.
  */
 public class KnowledgeBasedAuthenticationStatusConverter {
 
-    private com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus apiKnowledgeBasedAuthenticationStatus = null;
-    private com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus = null;
+    private String apiKnowledgeBasedAuthenticationStatus = null;
+    private KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus = null;
 
     /**
      * Construct with API KnowledgeBasedAuthenticationStatus object involved in conversion.
      *
      * @param apiKnowledgeBasedAuthenticationStatus
      */
-    public KnowledgeBasedAuthenticationStatusConverter(com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus apiKnowledgeBasedAuthenticationStatus) {
+    public KnowledgeBasedAuthenticationStatusConverter(String apiKnowledgeBasedAuthenticationStatus) {
         this.apiKnowledgeBasedAuthenticationStatus = apiKnowledgeBasedAuthenticationStatus;
     }
 
@@ -24,7 +24,7 @@ public class KnowledgeBasedAuthenticationStatusConverter {
      *
      * @param sdkKnowledgeBasedAuthenticationStatus
      */
-    public KnowledgeBasedAuthenticationStatusConverter(com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus) {
+    public KnowledgeBasedAuthenticationStatusConverter(KnowledgeBasedAuthenticationStatus sdkKnowledgeBasedAuthenticationStatus) {
         this.sdkKnowledgeBasedAuthenticationStatus = sdkKnowledgeBasedAuthenticationStatus;
     }
 
@@ -33,21 +33,18 @@ public class KnowledgeBasedAuthenticationStatusConverter {
      *
      * @return the SDK KnowledgeBasedAuthenticationStatus
      */
-    public com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus toSDKKnowledgeBasedAuthenticationStatus() {
+    public KnowledgeBasedAuthenticationStatus toSDKKnowledgeBasedAuthenticationStatus() {
         if (apiKnowledgeBasedAuthenticationStatus == null) {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
 
-        switch (apiKnowledgeBasedAuthenticationStatus) {
-            case NOT_YET_ATTEMPTED:
-                return sdkKnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
-            case FAILED:
-                return sdkKnowledgeBasedAuthenticationStatus.FAILED;
-            case PASSED:
-                return sdkKnowledgeBasedAuthenticationStatus.PASSED;
-            default:
-                throw new BuilderException("Unrecognized knowledgeBasedAuthentication status type.");
+        KnowledgeBasedAuthenticationStatus[] knowledgeBasedAuthenticationStatuses = KnowledgeBasedAuthenticationStatus.values();
+        for (KnowledgeBasedAuthenticationStatus knowledgeBasedAuthenticationStatus : knowledgeBasedAuthenticationStatuses) {
+            if(apiKnowledgeBasedAuthenticationStatus.equals(knowledgeBasedAuthenticationStatus.getApiValue())){
+                return knowledgeBasedAuthenticationStatus;
+            }
         }
+        return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
     }
 
     /**
@@ -55,20 +52,10 @@ public class KnowledgeBasedAuthenticationStatusConverter {
      *
      * @return the API KnowledgeBasedAuthenticationStatus
      */
-    public com.silanis.esl.api.model.KnowledgeBasedAuthenticationStatus toAPIKnowledgeBasedAuthenticationStatus() {
+    public String toAPIKnowledgeBasedAuthenticationStatus() {
         if (sdkKnowledgeBasedAuthenticationStatus == null) {
             return apiKnowledgeBasedAuthenticationStatus;
         }
-
-        switch (sdkKnowledgeBasedAuthenticationStatus) {
-            case NOT_YET_ATTEMPTED:
-                return apiKnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
-            case FAILED:
-                return apiKnowledgeBasedAuthenticationStatus.FAILED;
-            case PASSED:
-                return apiKnowledgeBasedAuthenticationStatus.PASSED;
-            default:
-                throw new BuilderException("Unrecognized knowledgeBasedAuthentication status type.");
-        }
+        return sdkKnowledgeBasedAuthenticationStatus.getApiValue();
     }
 }

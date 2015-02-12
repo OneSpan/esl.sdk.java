@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.FieldType;
 import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.FieldStyle;
 
@@ -60,9 +59,9 @@ public class FieldConverter {
         result.setValue(sdkField.getValue());
 
         if (sdkField.getStyle() == FieldStyle.BOUND_QRCODE) {
-            result.setType(FieldType.IMAGE);
+            result.setType("IMAGE");
         } else {
-            result.setType(FieldType.INPUT);
+            result.setType("INPUT");
         }
 
         result.setSubtype( new FieldStyleAndSubTypeConverter(sdkField.getStyle()).toAPIFieldSubtype() );

@@ -21,7 +21,7 @@ public class SignerBoundFieldsExampleTest {
     public void verifyResult() {
         SignerBoundFieldsExample signerBoundFieldsExample = new SignerBoundFieldsExample( Props.get() );
         signerBoundFieldsExample.run();
-        DocumentPackage documentPackage = signerBoundFieldsExample.getEslClient().getPackage(signerBoundFieldsExample.getPackageId());
+        DocumentPackage documentPackage = signerBoundFieldsExample.getRetrievedPackage();
 
         for (Signature signature: documentPackage.getDocument(SignerBoundFieldsExample.DOCUMENT_NAME).getSignatures()) {
 
@@ -46,5 +46,5 @@ public class SignerBoundFieldsExampleTest {
 
         }
     }
-    
+
 }

@@ -1,8 +1,7 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CycleCount extends Model
@@ -20,7 +19,7 @@ public class CycleCount extends Model
     
     // Fields
     protected Integer _count = 0;
-    protected Cycle _cycle = Cycle.DAY;
+    protected String _cycle = "DAY";
     
     // Accessors
         
@@ -45,7 +44,7 @@ public class CycleCount extends Model
     
         
     
-    public CycleCount setCycle( Cycle value ){
+    public CycleCount setCycle( String value ){
         SchemaSanitizer.throwOnNull(FIELD_CYCLE,value);
         // TODO With proper compare
         // if ( this._cycle == value ) return this;
@@ -55,11 +54,11 @@ public class CycleCount extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public CycleCount safeSetCycle( Cycle value ){
+    public CycleCount safeSetCycle( String value ){
         if ( value != null ) { this.setCycle( value ); }
         return this;
     }
-    public Cycle getCycle(){
+    public String getCycle(){
         return _cycle;
     }
     

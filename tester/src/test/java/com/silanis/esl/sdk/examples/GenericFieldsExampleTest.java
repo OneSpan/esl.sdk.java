@@ -26,7 +26,7 @@ public class GenericFieldsExampleTest {
         GenericFieldsExample genericFieldsExample = new GenericFieldsExample(Props.get());
         genericFieldsExample.run();
 
-        DocumentPackage documentPackage = genericFieldsExample.getEslClient().getPackage(genericFieldsExample.getPackageId());
+        DocumentPackage documentPackage = genericFieldsExample.getRetrievedPackage();
 
         for (Signature signature : documentPackage.getDocument(GenericFieldsExample.DOCUMENT_NAME).getSignatures()) {
             for (Field field : signature.getFields()) {

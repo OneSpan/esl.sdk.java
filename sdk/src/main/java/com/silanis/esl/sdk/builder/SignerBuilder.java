@@ -444,8 +444,22 @@ final public class SignerBuilder {
      * @author admin
      */
     public static class AuthenticationBuilder {
+        private final AuthenticationMethod method;
+
+        private AuthenticationBuilder() {
+            this.method = AuthenticationMethod.EMAIL;
+        }
+
+        private AuthenticationBuilder(AuthenticationMethod method) {
+            this.method = method;
+        }
+
+        public static AuthenticationBuilder newAuthenticationWithMethod(AuthenticationMethod method) {
+            return new AuthenticationBuilder(method);
+        }
+
         public Authentication build() {
-            return new Authentication(AuthenticationMethod.EMAIL);
+            return new Authentication(method);
         }
     }
 

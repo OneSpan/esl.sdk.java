@@ -31,7 +31,7 @@ public class ExternalDocumentExampleTest {
 
         ExternalDocumentExample externalDocumentExampleTest = new ExternalDocumentExample(Props.get());
         externalDocumentExampleTest.run();
-        DocumentPackage documentPackage = externalDocumentExampleTest.getEslClient().getPackage(externalDocumentExampleTest.getPackageId());
+        DocumentPackage documentPackage = externalDocumentExampleTest.getRetrievedPackage();
 
         stopFTPProvider();
 

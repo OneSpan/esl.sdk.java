@@ -93,6 +93,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is( equalTo(sdkPackageSettings1.getEnableInPerson()) ) );
         assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is( equalTo(sdkPackageSettings1.getEnableDecline()) ) );
         assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(equalTo(sdkPackageSettings1.getEnableOptOut())));
+        assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(0))));
+        assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(1))));
+        assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(2))));
         assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(0))));
         assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(1))));
         assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(2))));
@@ -124,6 +127,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is( equalTo(sdkPackageSettings1.getEnableInPerson()) ) );
         assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is( equalTo(sdkPackageSettings1.getEnableDecline()) ) );
         assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(equalTo(sdkPackageSettings1.getEnableOptOut())));
+        assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(0))));
+        assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(1))));
+        assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(2))));
         assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(0))));
         assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(1))));
         assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(2))));
@@ -158,6 +164,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .disableSecondAffidavit()
                 .hideOwnerInPersonDropDown()
                 .withoutLanguageDropDown()
+                .withDeclineReason("Decline reason One")
+                .withDeclineReason( "Decline reason Two" )
+                .withDeclineReason( "Decline reason Three" )
                 .withOptOutReason("Reason One")
                 .withOptOutReason( "Reason Two" )
                 .withOptOutReason( "Reason Three" )
@@ -184,6 +193,12 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setInPerson(false);
         apiCeremonySettings.setDeclineButton(true);
         apiCeremonySettings.setOptOutButton(true);
+
+        List<String> declineReasons = new ArrayList<String>();
+        declineReasons.add("Decline reason one");
+        declineReasons.add("Decline reason two");
+        declineReasons.add("Decline reason three");
+        apiCeremonySettings.setDeclineReasons(declineReasons);
 
         List<String> optOutReasons = new ArrayList<String>();
         optOutReasons.add("Opt out reason one");

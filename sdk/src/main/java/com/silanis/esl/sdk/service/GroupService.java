@@ -10,6 +10,7 @@ import com.silanis.esl.sdk.GroupMember;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.GroupConverter;
 import com.silanis.esl.sdk.internal.converter.GroupMemberConverter;
+import com.silanis.esl.sdk.internal.converter.GroupSummaryConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,5 +210,28 @@ public class GroupService {
         }
 
         return result;
+    }
+
+    /**
+     * Retrieve summaries for all groups for the current account.
+     *
+     * @return summaries for all groups for the current account.
+     */
+    public List<com.silanis.esl.sdk.GroupSummary> getGroupSummaries() {
+        List<com.silanis.esl.sdk.GroupSummary> result = new ArrayList<com.silanis.esl.sdk.GroupSummary>();
+        String path = template.urlFor( UrlTemplate.GROUPS_SUMMARY_PATH ).build();
+        try {
+            String stringResponse = client.get( path );
+            Result<com.silanis.esl.api.model.GroupSummary> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.GroupSummary>>() {
+            } );
+            for(com.silanis.esl.api.model.GroupSummary apiGroupSummary : apiResponse.getResults()) {
+                result.add(new GroupSummaryConverter(apiGroupSummary).toSDKGroupSummary());
+            }
+            return result;
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Failed to retrieve Group Summary list.", e );
+        } catch ( Exception e ) {
+            throw new EslException( "Failed to retrieve Group Summary list.", e );
+        }
     }
 }

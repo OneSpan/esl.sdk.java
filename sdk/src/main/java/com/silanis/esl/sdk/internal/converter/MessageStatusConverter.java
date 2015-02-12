@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
+import com.silanis.esl.sdk.MessageStatus;
 
 /**
  * Created by lena on 2014-07-03.
@@ -9,15 +9,15 @@ import com.silanis.esl.sdk.builder.BuilderException;
  */
 public class MessageStatusConverter {
 
-    private com.silanis.esl.api.model.MessageStatus apiMessageStatus = null;
-    private com.silanis.esl.sdk.MessageStatus sdkMessageStatus = null;
+    private String apiMessageStatus = null;
+    private MessageStatus sdkMessageStatus = null;
 
     /**
      * Construct with API MessageStatus object involved in conversion.
      *
      * @param apiMessageStatus
      */
-    public MessageStatusConverter(com.silanis.esl.api.model.MessageStatus apiMessageStatus) {
+    public MessageStatusConverter(String apiMessageStatus) {
         this.apiMessageStatus = apiMessageStatus;
     }
 
@@ -26,7 +26,7 @@ public class MessageStatusConverter {
      *
      * @param sdkMessageStatus
      */
-    public MessageStatusConverter(com.silanis.esl.sdk.MessageStatus sdkMessageStatus) {
+    public MessageStatusConverter(MessageStatus sdkMessageStatus) {
         this.sdkMessageStatus = sdkMessageStatus;
     }
 
@@ -35,21 +35,18 @@ public class MessageStatusConverter {
      *
      * @return the SDK MessageStatus
      */
-    public com.silanis.esl.sdk.MessageStatus toSDKMessageStatus() {
+    public MessageStatus toSDKMessageStatus() {
         if (apiMessageStatus == null) {
             return sdkMessageStatus;
         }
 
-        switch (apiMessageStatus) {
-            case NEW:
-                return sdkMessageStatus.NEW;
-            case READ:
-                return sdkMessageStatus.READ;
-            case TRASHED:
-                return sdkMessageStatus.TRASHED;
-            default:
-                throw new BuilderException("Unrecognized message status type.");
+        MessageStatus[] messageStatuses = MessageStatus.values();
+        for (MessageStatus messageStatus : messageStatuses) {
+            if(apiMessageStatus.equals(messageStatus.getApiValue())){
+                return messageStatus;
+            }
         }
+        return MessageStatus.UNRECOGNIZED(apiMessageStatus);
     }
 
     /**
@@ -57,20 +54,11 @@ public class MessageStatusConverter {
      *
      * @return the API MessageStatus
      */
-    public com.silanis.esl.api.model.MessageStatus toAPIMessageStatus() {
+    public String toAPIMessageStatus() {
         if (sdkMessageStatus == null) {
             return apiMessageStatus;
         }
 
-        switch (sdkMessageStatus) {
-            case NEW:
-                return apiMessageStatus.NEW;
-            case READ:
-                return apiMessageStatus.READ;
-            case TRASHED:
-                return apiMessageStatus.TRASHED;
-            default:
-                throw new BuilderException("Unrecognized message status type.");
-        }
+        return sdkMessageStatus.getApiValue();
     }
 }

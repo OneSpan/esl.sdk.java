@@ -3,7 +3,7 @@
     <parent>
         <artifactId>esl-java-sdk</artifactId>
         <groupId>com.silanis.esl</groupId>
-        <version>10.7.4-SNAPSHOT</version>
+        <version>10.8-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

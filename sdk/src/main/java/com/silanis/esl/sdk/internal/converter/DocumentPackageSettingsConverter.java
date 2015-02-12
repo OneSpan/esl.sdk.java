@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.DocumentPackageSettings;
-import com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder;
 
 /**
  * User: jessica
@@ -50,6 +49,7 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetDeclineButton( sdkPackageSettings.getEnableDecline() );
         ceremonySettings.safeSetHideWatermark( sdkPackageSettings.getHideWatermark() );
         ceremonySettings.safeSetHideCaptureText( sdkPackageSettings.getHideCaptureText() );
+        ceremonySettings.safeSetDeclineReasons( sdkPackageSettings.getDeclineReasons() );
         ceremonySettings.safeSetOptOutReasons( sdkPackageSettings.getOptOutReasons() );
         ceremonySettings.safeSetMaxAuthFailsAllowed( sdkPackageSettings.getMaxAuthAttempts() );
         if (sdkPackageSettings.getEnableFirstAffidavit() != null ) {
@@ -119,6 +119,7 @@ public class DocumentPackageSettingsConverter {
         result.setEnableDecline(apiPackageSettings.getCeremony().evalDeclineButton());
         result.setHideWatermark(apiPackageSettings.getCeremony().evalHideWatermark());
         result.setHideCaptureText(apiPackageSettings.getCeremony().getHideCaptureText());
+        result.getDeclineReasons().addAll(apiPackageSettings.getCeremony().getDeclineReasons());
         result.getOptOutReasons().addAll(apiPackageSettings.getCeremony().getOptOutReasons());
 
         if (apiPackageSettings.getCeremony().getHideLanguageDropdown() != null ) {

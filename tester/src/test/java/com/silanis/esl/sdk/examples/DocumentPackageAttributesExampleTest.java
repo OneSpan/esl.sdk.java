@@ -21,7 +21,7 @@ public class DocumentPackageAttributesExampleTest {
         DocumentPackageAttributesExample documentPackageAttributesExample = new DocumentPackageAttributesExample( Props.get() );
         documentPackageAttributesExample.run();
 
-        DocumentPackage documentPackage = documentPackageAttributesExample.getEslClient().getPackage(documentPackageAttributesExample.getPackageId());
+        DocumentPackage documentPackage = documentPackageAttributesExample.getRetrievedPackage();
         DocumentPackageAttributes documentPackageAttributes = documentPackage.getAttributes();
         Map<String, Object> attributeMap = documentPackageAttributes.getContents();
         assertThat("Attribute key 1 is not setup correctly.", attributeMap.containsKey(DocumentPackageAttributesExample.ATTRIBUTE_KEY_1));

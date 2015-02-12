@@ -1,8 +1,9 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
-import com.silanis.esl.api.model.AuthScheme;
 import com.silanis.esl.sdk.Challenge;
+import com.silanis.esl.sdk.builder.SignerBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,13 +71,16 @@ public class AuthenticationConverter {
         }
         String telephoneNumber = null;
 
-        com.silanis.esl.sdk.Authentication sdkAuthentication = null;
+        sdkAuth = SignerBuilder.AuthenticationBuilder
+                .newAuthenticationWithMethod(
+                        new AuthenticationMethodConverter(apiAuth.getScheme())
+                                .toSDKAuthMethod())
+                .build();
 
-        if (!apiAuth.getChallenges().isEmpty())
-        {
+        if (!apiAuth.getChallenges().isEmpty()) {
             List<Challenge> sdkChallenges = new ArrayList<Challenge>();
             for (AuthChallenge apiChallenge: apiAuth.getChallenges()) {
-                if (apiAuth.getScheme() == AuthScheme.CHALLENGE) {
+                if ("CHALLENGE".equals(apiAuth.getScheme())) {
                     sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
                 } else {
                     telephoneNumber = apiChallenge.getQuestion();
@@ -84,14 +88,13 @@ public class AuthenticationConverter {
                 }
             }
 
-            if (apiAuth.getScheme() == AuthScheme.CHALLENGE) {
-                sdkAuthentication = new com.silanis.esl.sdk.Authentication(sdkChallenges);
-            } else {
-                sdkAuthentication = new com.silanis.esl.sdk.Authentication(telephoneNumber);
+            if ("CHALLENGE".equals(apiAuth.getScheme())) {
+                sdkAuth = new com.silanis.esl.sdk.Authentication(sdkChallenges);
+            } else if ("SMS".equals(apiAuth.getScheme())) {
+                sdkAuth = new com.silanis.esl.sdk.Authentication(telephoneNumber);
             }
         }
 
-        return sdkAuthentication;
-
+        return sdkAuth;
     }
 }

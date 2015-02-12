@@ -1,8 +1,7 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class KnowledgeBasedAuthentication extends Model
@@ -21,14 +20,14 @@ public class KnowledgeBasedAuthentication extends Model
     public KnowledgeBasedAuthentication ( ) {}
     
     // Fields
-    protected KnowledgeBasedAuthenticationStatus _knowledgeBasedAuthenticationStatus = KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED;
+    protected String _knowledgeBasedAuthenticationStatus = "NOT_YET_ATTEMPTED";
     protected SignerInformationForEquifaxCanada _signerInformationForEquifaxCanada = null;
     protected SignerInformationForEquifaxUSA _signerInformationForEquifaxUSA = null;
     
     // Accessors
         
     
-    public KnowledgeBasedAuthentication setKnowledgeBasedAuthenticationStatus( KnowledgeBasedAuthenticationStatus value ){
+    public KnowledgeBasedAuthentication setKnowledgeBasedAuthenticationStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_KNOWLEDGEBASEDAUTHENTICATIONSTATUS,value);
         // TODO With proper compare
         // if ( this._knowledgeBasedAuthenticationStatus == value ) return this;
@@ -38,11 +37,11 @@ public class KnowledgeBasedAuthentication extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public KnowledgeBasedAuthentication safeSetKnowledgeBasedAuthenticationStatus( KnowledgeBasedAuthenticationStatus value ){
+    public KnowledgeBasedAuthentication safeSetKnowledgeBasedAuthenticationStatus( String value ){
         if ( value != null ) { this.setKnowledgeBasedAuthenticationStatus( value ); }
         return this;
     }
-    public KnowledgeBasedAuthenticationStatus getKnowledgeBasedAuthenticationStatus(){
+    public String getKnowledgeBasedAuthenticationStatus(){
         return _knowledgeBasedAuthenticationStatus;
     }
     

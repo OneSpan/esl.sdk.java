@@ -24,7 +24,7 @@ public class HistoryDocumentExampleTest {
         HistoryDocumentExample historyDocumentExample = new HistoryDocumentExample(Props.get());
         historyDocumentExample.run();
 
-        DocumentPackage documentPackage = historyDocumentExample.getEslClient().getPackage(historyDocumentExample.getPackageId());
+        DocumentPackage documentPackage = historyDocumentExample.getRetrievedPackage();
 
         // History document
         Document historyDocument = documentPackage.getDocument(historyDocumentExample.externalDocumentName);

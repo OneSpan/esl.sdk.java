@@ -1,14 +1,16 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import com.silanis.esl.api.util.JsonDateDeserializer;
-import com.silanis.esl.api.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class PackageCompletionReport extends Model
       implements java.io.Serializable
@@ -44,7 +46,7 @@ public class PackageCompletionReport extends Model
     protected String _id = "";
     protected String _name = "";
     protected List<SignersCompletionReport> _signers = new ArrayList<SignersCompletionReport>();
-    protected PackageStatus _status = PackageStatus.DRAFT;
+    protected String _status = "DRAFT";
     protected Boolean _trashed = false;
     protected java.util.Date _updated;
     
@@ -189,7 +191,7 @@ public class PackageCompletionReport extends Model
     
         
     
-    public PackageCompletionReport setStatus( PackageStatus value ){
+    public PackageCompletionReport setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
         // if ( this._status == value ) return this;
@@ -199,11 +201,11 @@ public class PackageCompletionReport extends Model
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public PackageCompletionReport safeSetStatus( PackageStatus value ){
+    public PackageCompletionReport safeSetStatus( String value ){
         if ( value != null ) { this.setStatus( value ); }
         return this;
     }
-    public PackageStatus getStatus(){
+    public String getStatus(){
         return _status;
     }
     

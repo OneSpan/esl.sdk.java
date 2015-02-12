@@ -24,11 +24,16 @@ public class DocumentPackageSettingsExampleTest {
         DocumentPackageSettingsExample documentPackageSettingsExample = new DocumentPackageSettingsExample(Props.get());
         documentPackageSettingsExample.run();
 
-        DocumentPackage documentPackage = documentPackageSettingsExample.getEslClient().getPackage(documentPackageSettingsExample.getPackageId());
+        DocumentPackage documentPackage = documentPackageSettingsExample.getRetrievedPackage();
 
         DocumentPackageSettings documentPackageSettings = documentPackage.getSettings();
         assertThat("In Person flag not set correctly. ", documentPackageSettings.getEnableInPerson(), is(true));
         assertThat("Optout flag not set correctly. ", documentPackageSettings.getEnableOptOut(), is(true));
+
+        List<String> declineReasons = documentPackageSettings.getDeclineReasons();
+        assertThat("Decline reason is not set properly:", declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_1) ||
+                declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_2) ||
+                declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_3));
 
         List<String> optOutReasons = documentPackageSettings.getOptOutReasons();
 

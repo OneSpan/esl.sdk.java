@@ -21,7 +21,7 @@ public class PackageLanguageConfigurationExampleTest {
         PackageLanguageConfigurationExample packageLanguageConfigurationExample = new PackageLanguageConfigurationExample(Props.get());
         packageLanguageConfigurationExample.run();
 
-        DocumentPackage documentPackage = packageLanguageConfigurationExample.getEslClient().getPackage(packageLanguageConfigurationExample.getPackageId());
+        DocumentPackage documentPackage = packageLanguageConfigurationExample.getRetrievedPackage();
 
         assertThat(documentPackage.getLanguage(), is(equalTo(PackageLanguageConfigurationExample.LANGUAGE)));
 

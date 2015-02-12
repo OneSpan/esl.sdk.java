@@ -21,7 +21,6 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder.
 public class SignerInformationForEquifaxUSAExample extends SDKSample {
 
     private InputStream documentInputStream;
-    private DocumentPackage retrievedPackage;
 
     private final String PACKAGE_NAME = "SignerInformationForEquifaxUSAExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxUSA example";
@@ -34,6 +33,7 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
     public static final String CITY = "CALERA";
     public static final String ZIP = "35040";
     public static final String STATE = "AL";
+    public static final Integer TIME_AT_ADDRESS = 1;
     public static final String SOCIAL_SECURITY_NUMBER = "666110007";
     public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(42).toDate();
     public static final String HOME_PHONE_NUMBER = "2055551212";
@@ -56,10 +56,6 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
-    public DocumentPackage getRetrievedPackage() {
-        return retrievedPackage;
-    }
-
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
                 .describedAs(PACKAGE_DESCRIPTION)
@@ -76,7 +72,8 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
                                 .withSocialSecurityNumber(SOCIAL_SECURITY_NUMBER)
                                 .withDateOfBirth(DATE_OF_BIRTH)
                                 .withHomePhoneNumber(HOME_PHONE_NUMBER)
-                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)))
+                                .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
+                                .withTimeAtAddress(TIME_AT_ADDRESS)))
                 .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                         .fromStream(documentInputStream, DocumentType.PDF)
                         .withSignature(signatureFor(EMAIL).build()))

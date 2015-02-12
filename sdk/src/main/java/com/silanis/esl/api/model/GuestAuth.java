@@ -1,9 +1,10 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class GuestAuth extends Auth
       implements java.io.Serializable
@@ -94,13 +95,13 @@ public class GuestAuth extends Auth
         
     
     @Override
-    public GuestAuth setScheme( AuthScheme value ){
+    public GuestAuth setScheme( String value ){
         super.setScheme(value);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public GuestAuth safeSetScheme( AuthScheme value ){
+    public GuestAuth safeSetScheme( String value ){
         if ( value != null ) { this.setScheme( value ); }
         return this;
     }

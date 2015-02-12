@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
+import com.silanis.esl.sdk.SenderStatus;
 
 /**
  * Created by lena on 2014-05-30.
@@ -9,15 +9,15 @@ import com.silanis.esl.sdk.builder.BuilderException;
  */
 public class SenderStatusConverter {
 
-    private com.silanis.esl.sdk.SenderStatus sdkSenderStatus = null;
-    private com.silanis.esl.api.model.SenderStatus apiSenderStatus = null;
+    private SenderStatus sdkSenderStatus = null;
+    private String apiSenderStatus = null;
 
     /**
      * Construct with API SenderStatus object involved in conversion.
      *
      * @param apiSenderStatus
      */
-    public SenderStatusConverter(com.silanis.esl.api.model.SenderStatus apiSenderStatus) {
+    public SenderStatusConverter(String apiSenderStatus) {
         this.apiSenderStatus = apiSenderStatus;
     }
 
@@ -26,42 +26,30 @@ public class SenderStatusConverter {
      *
      * @param sdkSenderStatus
      */
-    public SenderStatusConverter(com.silanis.esl.sdk.SenderStatus sdkSenderStatus) {
+    public SenderStatusConverter(SenderStatus sdkSenderStatus) {
         this.sdkSenderStatus = sdkSenderStatus;
     }
 
-    public com.silanis.esl.sdk.SenderStatus toSDKSenderStatus() {
+    public SenderStatus toSDKSenderStatus() {
         if (apiSenderStatus == null) {
             return sdkSenderStatus;
         }
 
-        switch (apiSenderStatus) {
-            case INVITED:
-                return sdkSenderStatus.INVITED;
-            case ACTIVE:
-                return sdkSenderStatus.ACTIVE;
-            case LOCKED:
-                return sdkSenderStatus.LOCKED;
-            default:
-                throw new BuilderException("Unrecognized sender status type.");
+        SenderStatus[] senderStatuses = SenderStatus.values();
+        for (SenderStatus senderStatus : senderStatuses) {
+            if(apiSenderStatus.equals(senderStatus.getApiValue())){
+                return senderStatus;
+            }
         }
+        return SenderStatus.UNRECOGNIZED(apiSenderStatus);
     }
 
-    public com.silanis.esl.api.model.SenderStatus toAPISenderStatus() {
+    public String toAPISenderStatus() {
         if (sdkSenderStatus == null) {
             return apiSenderStatus;
         }
 
-        switch (sdkSenderStatus) {
-            case INVITED:
-                return apiSenderStatus.INVITED;
-            case ACTIVE:
-                return apiSenderStatus.ACTIVE;
-            case LOCKED:
-                return apiSenderStatus.LOCKED;
-            default:
-                throw new BuilderException("Unrecognized sender status type.");
-        }
+        return sdkSenderStatus.getApiValue();
     }
 
 }

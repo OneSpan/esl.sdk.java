@@ -20,7 +20,7 @@ public class ChangeSignerExampleTest {
         ChangeSignerExample changeSignerExample = new ChangeSignerExample( Props.get() );
         changeSignerExample.run();
 
-        DocumentPackage documentPackage = changeSignerExample.getEslClient().getPackage(changeSignerExample.getPackageId());
+        DocumentPackage documentPackage = changeSignerExample.getRetrievedPackage();
         assertThat( "Signer 1 can change signer flag was not set correctly.", documentPackage.getSigner(changeSignerExample.email1).canChangeSigner(), is( true ) );
 
     }

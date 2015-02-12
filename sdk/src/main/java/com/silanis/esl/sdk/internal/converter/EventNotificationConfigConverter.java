@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.Callback;
-import com.silanis.esl.api.model.CallbackEvent;
 import com.silanis.esl.sdk.EventNotificationConfig;
 import com.silanis.esl.sdk.NotificationEvent;
 
@@ -61,7 +60,7 @@ public class EventNotificationConfigConverter {
         }
 
         EventNotificationConfig eventNotificationConfig = new EventNotificationConfig(apiCallback.getUrl());
-        for (CallbackEvent callbackEvent : apiCallback.getEvents()) {
+        for (String callbackEvent : apiCallback.getEvents()) {
             eventNotificationConfig.addEvent(new EventNotificationConverter(callbackEvent).toSDKNotificationEvent());
         }
 

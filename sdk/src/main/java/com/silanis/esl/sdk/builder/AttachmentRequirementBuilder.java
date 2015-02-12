@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.RequirementStatus;
 import com.silanis.esl.sdk.AttachmentRequirement;
 import com.silanis.esl.sdk.internal.Asserts;
 

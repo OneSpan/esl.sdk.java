@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.RequirementStatus;
-
 /**
  * Created by lena on 2014-05-09.
  * <p/>
@@ -42,21 +40,18 @@ public class AttachmentRequirementConverter {
 
         com.silanis.esl.api.model.AttachmentRequirement result = new com.silanis.esl.api.model.AttachmentRequirement();
 
-        if(sdkAttachmentRequirement.getId() == null || sdkAttachmentRequirement.getId().isEmpty()){
-            result.setId(sdkAttachmentRequirement.getName());
-            result.setName(sdkAttachmentRequirement.getName());
-        }
-        else{
+
+        if(sdkAttachmentRequirement.getId() != null && !sdkAttachmentRequirement.getId().isEmpty()){
             result.setId(sdkAttachmentRequirement.getId());
-            result.setName(sdkAttachmentRequirement.getName());
         }
+        result.setName(sdkAttachmentRequirement.getName());
         result.setComment(sdkAttachmentRequirement.getSenderComment());
         result.setData(sdkAttachmentRequirement.getData());
         result.setDescription(sdkAttachmentRequirement.getDescription());
         result.setRequired(sdkAttachmentRequirement.isRequired());
 
         if (sdkAttachmentRequirement.getStatus() == null) {
-            result.setStatus(RequirementStatus.INCOMPLETE);
+            result.setStatus("INCOMPLETE");
         } else {
             result.setStatus(new RequirementStatusConverter(sdkAttachmentRequirement.getStatus()).toAPIRequirementStatus());
         }

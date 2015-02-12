@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.PackageId;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,9 +16,7 @@ public class CreatePackageFromTemplateExampleTest {
         CreatePackageFromTemplateExample2 example = new CreatePackageFromTemplateExample2(Props.get());
         example.run();
 
-        PackageId retrievedPackageId = example.getRetrievedPackageId();
-
-        DocumentPackage retrievedPackage = example.eslClient.getPackageService().getPackage(retrievedPackageId);
+        DocumentPackage retrievedPackage = example.getRetrievedPackage();
         Document document = retrievedPackage.getDocument(example.DOCUMENT_NAME);
 
         assertThat("Document name is incorrectly returned.", document.getName().toString(), is(example.DOCUMENT_NAME));

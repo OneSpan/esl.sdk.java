@@ -23,7 +23,7 @@ public class DocumentExtractionExampleTest {
         DocumentExtractionExample documentExtractionExample = new DocumentExtractionExample( Props.get() );
         documentExtractionExample.run();
 
-        DocumentPackage documentPackage = documentExtractionExample.getEslClient().getPackage(documentExtractionExample.getPackageId());
+        DocumentPackage documentPackage = documentExtractionExample.getRetrievedPackage();
 
         // Verify if the required information is correctly extracted.
         Document document = documentPackage.getDocument(DocumentExtractionExample.DOCUMENT_NAME);

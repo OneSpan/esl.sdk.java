@@ -16,11 +16,12 @@ import java.util.List;
  *     Customizing the Signing Ceremony    [e-Sign Enterprise Documentation Project] </a>
  */
 public class DocumentPackageSettingsBuilder {
-    private Boolean enableInPerson = null;
+    private Boolean enableInPerson = true;
     private Boolean enableOptOut = null;
     private Boolean enableDecline = null;
     private Boolean hideWatermark = null;
     private Boolean hideCaptureText = null;
+    private List<String> declineReasons = new ArrayList<String>();
     private List<String> optOutReasons = new ArrayList<String>();
     private Integer maxAuthAttempts = null;
     private Boolean showDocumentToolbarDownloadButton = true;
@@ -220,6 +221,19 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Enables the stamping documents with the date, time, and signer's name at each location they were signed.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withCaptureText() {
+        hideCaptureText = false;
+        return this;
+    }
+
+    /**
      * Disables the stamping documents with the date, time, and signer's name at each location they were signed.
      * <p>
      * DEFAULT: DISABLED
@@ -325,6 +339,7 @@ public class DocumentPackageSettingsBuilder {
         result.setEnableDecline( enableDecline );
         result.setHideWatermark( hideWatermark );
         result.setHideCaptureText( hideCaptureText );
+        result.getDeclineReasons().addAll( declineReasons );
         result.getOptOutReasons().addAll( optOutReasons );
         result.setMaxAuthAttempts( maxAuthAttempts );
         result.setShowDocumentToolbarDownloadButton( showDocumentToolbarDownloadButton );
@@ -341,6 +356,22 @@ public class DocumentPackageSettingsBuilder {
 
         return result;
     }
+
+    /**
+     * Set a reason text that will be displayed to the signer when they click on
+     * the decline button, if this button is enabled. There can be multiple
+     * reasons and this method can be invoked multiple times to add different
+     * reasons.
+     * <p>
+     *
+     * @param reason @size(max="255")
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withDeclineReason( String reason ) {
+        declineReasons.add( reason );
+        return this;
+    }
+
 
     /**
      * Set a reason text that will be displayed to the signer when they click on

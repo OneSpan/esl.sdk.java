@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -39,7 +38,7 @@ public class ContactsExample extends SDKSample {
     public ContactsExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
-        this.email2 = UUID.randomUUID().toString().replace("-","") + "@e-signlive.com";
+        this.email2 = getRandomEmail();
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 

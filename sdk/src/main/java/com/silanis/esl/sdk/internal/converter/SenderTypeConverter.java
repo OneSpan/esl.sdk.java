@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.sdk.builder.BuilderException;
+import com.silanis.esl.sdk.SenderType;
 
 /**
  * Created by lena on 2014-05-29.
@@ -9,15 +9,15 @@ import com.silanis.esl.sdk.builder.BuilderException;
  */
 public class SenderTypeConverter {
 
-    private com.silanis.esl.sdk.SenderType sdkSenderType = null;
-    private com.silanis.esl.api.model.SenderType apiSenderType = null;
+    private SenderType sdkSenderType = null;
+    private String apiSenderType = null;
 
     /**
      * Construct with API SenderType object involved in conversion.
      *
      * @param apiSenderType
      */
-    public SenderTypeConverter(com.silanis.esl.api.model.SenderType apiSenderType) {
+    public SenderTypeConverter(String apiSenderType) {
         this.apiSenderType = apiSenderType;
     }
 
@@ -26,38 +26,30 @@ public class SenderTypeConverter {
      *
      * @param sdkSenderType
      */
-    public SenderTypeConverter(com.silanis.esl.sdk.SenderType sdkSenderType) {
+    public SenderTypeConverter(SenderType sdkSenderType) {
         this.sdkSenderType = sdkSenderType;
     }
 
-    public com.silanis.esl.sdk.SenderType toSDKSenderType() {
+    public SenderType toSDKSenderType() {
         if (apiSenderType == null) {
             return sdkSenderType;
         }
 
-        switch (apiSenderType) {
-            case MANAGER:
-                return sdkSenderType.MANAGER;
-            case REGULAR:
-                return sdkSenderType.REGULAR;
-            default:
-                throw new BuilderException("Unrecognized sender type.");
+        SenderType[] senderTypes = SenderType.values();
+        for (SenderType senderType : senderTypes) {
+            if(apiSenderType.equals(senderType.getApiValue())){
+                return senderType;
+            }
         }
+        return SenderType.UNRECOGNIZED(apiSenderType);
     }
 
-    public com.silanis.esl.api.model.SenderType toAPISenderType() {
+    public String toAPISenderType() {
         if (sdkSenderType == null) {
             return apiSenderType;
         }
 
-        switch (sdkSenderType) {
-            case MANAGER:
-                return apiSenderType.MANAGER;
-            case REGULAR:
-                return apiSenderType.REGULAR;
-            default:
-                throw new BuilderException("Unrecognized sender type.");
-        }
+        return sdkSenderType.getApiValue();
     }
 
 }

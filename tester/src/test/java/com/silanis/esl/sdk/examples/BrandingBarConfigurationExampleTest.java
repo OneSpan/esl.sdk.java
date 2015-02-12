@@ -23,7 +23,7 @@ public class BrandingBarConfigurationExampleTest {
         BrandingBarConfigurationExample brandingBarConfigurationExample = new BrandingBarConfigurationExample( Props.get() );
         brandingBarConfigurationExample.run();
 
-        DocumentPackage documentPackage = brandingBarConfigurationExample.getEslClient().getPackage(brandingBarConfigurationExample.getPackageId());
+        DocumentPackage documentPackage = brandingBarConfigurationExample.getRetrievedPackage();
     
         assertThat( "Opt out button was not set correctly.", documentPackage.getSettings().getEnableOptOut(), is( false ) );
         assertThat( "Tool bar download button was not set correctly.", documentPackage.getSettings().getShowDocumentToolbarDownloadButton(), is( false ) );

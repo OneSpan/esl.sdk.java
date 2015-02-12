@@ -17,7 +17,7 @@ public class MixedSignerAuthenticationExampleTest {
         MixedSignerAuthenticationExample example = new MixedSignerAuthenticationExample(Props.get());
         example.run();
 
-        DocumentPackage documentPackage = example.getEslClient().getPackage(example.getPackageId());
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
         SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = documentPackage.getSigner(example.SIGNER1_EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
 
