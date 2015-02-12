@@ -16,7 +16,7 @@ public class ProxyConfigurationExampleTest {
         ProxyConfigurationExample example = new ProxyConfigurationExample( Props.get() );
         example.run();
 
-        assertThat(example.documentPackage1, is(notNullValue()));
-        assertThat(example.documentPackage2, is(notNullValue()));
+        assertThat(example.retrievedPackage1, is(notNullValue()));
+        assertThat(example.retrievedPackage2, is(notNullValue()));
     }
 }
