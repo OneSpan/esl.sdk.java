@@ -28,6 +28,5 @@ public class RedirectResolver {
         } catch (IOException e) {
             return url;
         }
-
     }
 }
