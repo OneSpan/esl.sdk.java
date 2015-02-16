@@ -3,7 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.AuthenticationClient;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.internal.Support;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,8 +32,8 @@ public class SigningRedirectForSignerExample extends SDKSample {
     private AuthenticationClient authenticationClient;
     private String signerEmail;
     private InputStream documentInputStream;
-    private final Support support = new Support();
-    private String generatedLinkToSigningForSigner;
+
+    public String generatedLinkToSigningForSigner;
 
     public SigningRedirectForSignerExample(Properties props) {
         this( props.getProperty( "api.key" ),
@@ -73,15 +73,9 @@ public class SigningRedirectForSignerExample extends SDKSample {
 
         final String signerAuthenticationToken = eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(packageId.getId(), signerId);
 
-
         generatedLinkToSigningForSigner = authenticationClient.buildRedirectToSigningForSigner(signerAuthenticationToken, packageId.getId());
-
 
         //This is an example url that can be used in an iFrame or to open a browser window with a signing session (created from the signer authentication token) and a redirect to the signing page.
         logger.info(generatedLinkToSigningForSigner);
-    }
-
-    public String getGeneratedLinkToSigningForSigner() {
-        return generatedLinkToSigningForSigner;
     }
 }

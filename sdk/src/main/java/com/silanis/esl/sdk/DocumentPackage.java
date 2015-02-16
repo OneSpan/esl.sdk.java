@@ -91,7 +91,6 @@ public class DocumentPackage implements Serializable {
         }
     }
 
-    @Deprecated
     public Map<String, Signer> getSigners() {
         return signers;
     }
