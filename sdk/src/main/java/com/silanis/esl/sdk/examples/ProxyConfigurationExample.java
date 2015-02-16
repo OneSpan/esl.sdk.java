@@ -1,136 +1,123 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.EslClient;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.ProxyConfiguration;
-import com.silanis.esl.sdk.builder.ProxyConfigurationBuilder;
+import com.silanis.esl.sdk.*;
+import org.littleshoot.proxy.HttpProxyServer;
+import org.littleshoot.proxy.ProxyAuthenticator;
+
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
+import static com.silanis.esl.sdk.builder.ProxyConfigurationBuilder.newProxyConfiguration;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
+import static org.littleshoot.proxy.impl.DefaultHttpProxyServer.bootstrap;
 
 /**
  * Created by whou on 08/12/14.
  */
-public class ProxyConfigurationExample {
+public class ProxyConfigurationExample extends SDKSample{
 
-    protected EslClient eslClientWithHttpProxy;
     private final String httpProxyURL = "localhost";
     private final int httpProxyPort = 8001;
 
-    protected EslClient eslClientWithHttpProxyHasCredentials;
     private final String httpProxyWithCredentialsURL = "localhost";
     private final int httpProxyWithCredentialsPort = 8002;
     private final String httpProxyUserName = "httpUser";
     private final String httpProxyPassword = "httpPwd";
 
-    protected EslClient eslClientWithHttpsProxy;
-    private final String httpsProxyURL = "localhost";
-    private final int httpsProxyPort = 8003;
+    private boolean allowAllSSLCertificates = false;
 
-    protected EslClient eslClientWithHttpsProxyHasCredentials;
-    private final String httpsProxyWithCredentialsURL = "localhost";
-    private final int httpsProxyWithCredentialsPort = 8004;
-    private final String httpsProxyUserName = "httpsUser";
-    private final String httpsProxyPassword = "httpsPwd";
+    private EslClient eslClientWithHttpProxy, eslClientWithHttpProxyHasCredentials;
+    private InputStream documentInputStream1, documentInputStream2;
+    private ProxyConfiguration httpProxyConfiguration, httpProxyWithCredentialsConfiguration;
+    public DocumentPackage retrievedPackage1, retrievedPackage2;
 
-    protected PackageId packageId;
-
-    public final String email1;
-    private InputStream documentInputStream1, documentInputStream2, documentInputStream3, documentInputStream4;
+    private String email1;
 
     public ProxyConfigurationExample(Properties props) {
         this(props.getProperty("api.key"),
-                props.getProperty("api.url"),
-                props.getProperty("allow.all.sslcertificates", "false"),
-                props.getProperty("1.email"));
+                props.getProperty("api.url"));
     }
 
-    public ProxyConfigurationExample(String apiKey, String apiUrl, String allowAllSSLCertificates, String email1) {
-
-        ProxyConfiguration httpProxyConfiguration = ProxyConfigurationBuilder.newProxyConfiguration()
-                .withHttpHost(httpProxyURL)
-                .withHttpPort(httpProxyPort)
-                .build();
-
-        ProxyConfiguration httpProxyWithCredentialsConfiguration = ProxyConfigurationBuilder.newProxyConfiguration()
-                .withHttpHost(httpProxyWithCredentialsURL)
-                .withHttpPort(httpProxyWithCredentialsPort)
-                .withCredentials(httpProxyUserName, httpProxyPassword)
-                .build();
-
-        ProxyConfiguration httpsProxyConfiguration = ProxyConfigurationBuilder.newProxyConfiguration()
-                .withHttpsHost(httpsProxyURL)
-                .withHttpsPort(httpsProxyPort)
-                .build();
-
-        ProxyConfiguration httpsProxyWithCredentialsConfiguration = ProxyConfigurationBuilder.newProxyConfiguration()
-                .withHttpsHost(httpsProxyWithCredentialsURL)
-                .withHttpsPort(httpsProxyWithCredentialsPort)
-                .withCredentials(httpsProxyUserName, httpsProxyPassword)
-                .build();
-
-        this.email1 = UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com";
+    public ProxyConfigurationExample( String apiKey, String apiUrl) {
+        super( apiKey, apiUrl );
+        email1 = getRandomEmail();
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream4 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
 
-        eslClientWithHttpProxy = new EslClient(apiKey, apiUrl, Boolean.parseBoolean(allowAllSSLCertificates), httpProxyConfiguration);
-        eslClientWithHttpProxyHasCredentials = new EslClient(apiKey, apiUrl, Boolean.parseBoolean(allowAllSSLCertificates), httpProxyWithCredentialsConfiguration);
-        eslClientWithHttpsProxy = new EslClient(apiKey, apiUrl, Boolean.parseBoolean(allowAllSSLCertificates), httpsProxyConfiguration);
-        eslClientWithHttpsProxyHasCredentials = new EslClient(apiKey, apiUrl, Boolean.parseBoolean(allowAllSSLCertificates), httpsProxyWithCredentialsConfiguration);
+        httpProxyConfiguration = newProxyConfiguration()
+                                    .withHttpHost(httpProxyURL)
+                                    .withHttpPort(httpProxyPort)
+                                    .build();
+
+        httpProxyWithCredentialsConfiguration = newProxyConfiguration()
+                                    .withHttpHost(httpProxyWithCredentialsURL)
+                                    .withHttpPort(httpProxyWithCredentialsPort)
+                                    .withCredentials(httpProxyUserName, httpProxyPassword)
+                                    .build();
+
+        eslClientWithHttpProxy = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyConfiguration);
+        eslClientWithHttpProxyHasCredentials = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyWithCredentialsConfiguration);
     }
 
-    private DocumentPackage createTestPackage(InputStream documentStream) {
-        DocumentPackage packageTest = newPackageNamed("ProxyExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+    public void execute() {
+        HttpProxyServer httpProxyServer = bootstrap().withPort(httpProxyPort).start();
+
+        DocumentPackage package1 = newPackageNamed("ProxyConfigurationExample1 " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
-                        .withFirstName("John")
-                        .withLastName("Smith"))
+                                    .withFirstName("John")
+                                    .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document pdf")
-                        .fromStream(documentStream, DocumentType.PDF)
-                        .withSignature(signatureFor(email1)
-                                .onPage(0)
-                                .atPosition(100, 100)))
+                                      .fromStream(documentInputStream1, DocumentType.PDF)
+                                      .withSignature(signatureFor(email1)
+                                                             .onPage(0)
+                                                             .atPosition(100, 100)))
                 .build();
 
-        return packageTest;
+        PackageId packageId1 = eslClientWithHttpProxy.createAndSendPackage(package1);
+
+        retrievedPackage1 = eslClientWithHttpProxy.getPackage(packageId1);
+        httpProxyServer.stop();
+
+        HttpProxyServer httpProxyWithCredentialsServer = startHttpProxyWithCredentials(httpProxyWithCredentialsPort, "httpUser", "httpPwd");
+
+        DocumentPackage package2 = newPackageNamed("ProxyConfigurationExample2 " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+                .describedAs("This is a package created using the e-SignLive SDK")
+                .expiresAt(now().plusMonths(1).toDate())
+                .withEmailMessage("This message should be delivered to all signers")
+                .withSigner(newSignerWithEmail(email1)
+                                    .withFirstName("John")
+                                    .withLastName("Smith"))
+                .withDocument(newDocumentWithName("First Document pdf")
+                                      .fromStream(documentInputStream2, DocumentType.PDF)
+                                      .withSignature(signatureFor(email1)
+                                                             .onPage(0)
+                                                             .atPosition(100, 100)))
+                .build();
+
+        PackageId packageId2 = eslClientWithHttpProxyHasCredentials.createAndSendPackage(package2);
+
+        retrievedPackage2 = eslClientWithHttpProxyHasCredentials.getPackage(packageId2);
+        httpProxyWithCredentialsServer.stop();
     }
 
-    public void executeHttpProxy() {
-        DocumentPackage packageTest = createTestPackage(documentInputStream1);
-        packageId = eslClientWithHttpProxy.createPackage(packageTest);
-        eslClientWithHttpProxy.sendPackage(packageId);
+    private HttpProxyServer startHttpProxyWithCredentials(int port, final String acceptedUsername, final String acceptedPassword) {
+        final HttpProxyServer httpProxyServer = bootstrap().
+                withPort(port).withProxyAuthenticator(new ProxyAuthenticator() {
+                  @Override
+                  public boolean authenticate(String s1, String s2) {
+                      return acceptedUsername.equals(s1) && acceptedPassword.equals(s2);
+                  }
+              }).
+              start();
+        return httpProxyServer;
     }
-
-    public void executeHttpProxyWithCredentials() {
-        DocumentPackage packageTest = createTestPackage(documentInputStream2);
-        packageId = eslClientWithHttpProxyHasCredentials.createPackage(packageTest);
-        eslClientWithHttpProxyHasCredentials.sendPackage(packageId);
-    }
-
-    public void executeHttpsProxy() {
-        DocumentPackage packageTest = createTestPackage(documentInputStream3);
-        packageId = eslClientWithHttpsProxy.createPackage(packageTest);
-        eslClientWithHttpsProxy.sendPackage(packageId);
-    }
-
-    public void executeHttpsProxyWithCredentials() {
-        DocumentPackage packageTest = createTestPackage(documentInputStream4);
-        packageId = eslClientWithHttpsProxyHasCredentials.createPackage(packageTest);
-        eslClientWithHttpsProxyHasCredentials.sendPackage(packageId);
-    }
-
 }

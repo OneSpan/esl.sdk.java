@@ -179,6 +179,7 @@ public class SignerInformationForEquifaxCanada extends Model
         
     
     public SignerInformationForEquifaxCanada setSocialInsuranceNumber( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_SOCIALINSURANCENUMBER,value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
         // if ( this._socialInsuranceNumber == value ) return this;

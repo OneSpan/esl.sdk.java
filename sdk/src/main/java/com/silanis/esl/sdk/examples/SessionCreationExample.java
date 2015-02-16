@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SessionToken;
 
 import java.io.InputStream;
@@ -23,6 +22,10 @@ public class SessionCreationExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream1;
+    private String webpageUrl;
+    private String signerId = "myCustomSignerId";
+
+    public SessionToken signerSessionToken;
 
     public static void main( String... args ) {
         new SessionCreationExample( Props.get() ).run();
@@ -31,19 +34,19 @@ public class SessionCreationExample extends SDKSample {
     public SessionCreationExample( Properties properties ) {
         this( properties.getProperty( "api.key" ),
                 properties.getProperty( "api.url" ),
+                properties.getProperty( "webpage.url" ),
                 properties.getProperty( "1.email" ) );
     }
 
-    public SessionCreationExample( String apiKey, String apiUrl, String email1 ) {
+    public SessionCreationExample( String apiKey, String apiUrl, String webpageUrl, String email1 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        this.webpageUrl = webpageUrl;
     }
 
     @Override
     public void execute() {
-        String signerId = "myCustomSignerId";
-
         DocumentPackage superDuperPackage = newPackageNamed( "SessionCreationExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName( "John" )
@@ -58,6 +61,7 @@ public class SessionCreationExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
-        SessionToken signerSessionToken = eslClient.createSessionToken( packageId, signerId );
+        signerSessionToken = eslClient.createSessionToken( packageId, signerId );
+        System.out.format("%s/access?sessionToken=%s%n", webpageUrl, signerSessionToken.getSessionToken());
     }
 }

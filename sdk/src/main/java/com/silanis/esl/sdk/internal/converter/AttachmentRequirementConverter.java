@@ -40,14 +40,11 @@ public class AttachmentRequirementConverter {
 
         com.silanis.esl.api.model.AttachmentRequirement result = new com.silanis.esl.api.model.AttachmentRequirement();
 
-        if(sdkAttachmentRequirement.getId() == null || sdkAttachmentRequirement.getId().isEmpty()){
-            result.setId(sdkAttachmentRequirement.getName());
-            result.setName(sdkAttachmentRequirement.getName());
-        }
-        else{
+
+        if(sdkAttachmentRequirement.getId() != null && !sdkAttachmentRequirement.getId().isEmpty()){
             result.setId(sdkAttachmentRequirement.getId());
-            result.setName(sdkAttachmentRequirement.getName());
         }
+        result.setName(sdkAttachmentRequirement.getName());
         result.setComment(sdkAttachmentRequirement.getSenderComment());
         result.setData(sdkAttachmentRequirement.getData());
         result.setDescription(sdkAttachmentRequirement.getDescription());

@@ -73,9 +73,9 @@ public class PackageViewRedirectForPackageSenderExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
+        final String userAuthenticationToken = eslClient.getAuthenticationTokensService().createUserAuthenticationToken();
 
-        generatedLinkToPackageViewForSender = authenticationClient.buildRedirectToPackageViewForSender(senderAuthenticationToken, packageId.getId());
+        generatedLinkToPackageViewForSender = authenticationClient.buildRedirectToPackageViewForSender(userAuthenticationToken, packageId.getId());
 
         logger.info(generatedLinkToPackageViewForSender);
     }
