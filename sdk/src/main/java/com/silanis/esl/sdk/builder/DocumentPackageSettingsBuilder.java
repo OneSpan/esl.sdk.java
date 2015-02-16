@@ -16,7 +16,7 @@ import java.util.List;
  *     Customizing the Signing Ceremony    [e-Sign Enterprise Documentation Project] </a>
  */
 public class DocumentPackageSettingsBuilder {
-    private Boolean enableInPerson = true;
+    private Boolean enableInPerson = null;
     private Boolean enableOptOut = null;
     private Boolean enableDecline = null;
     private Boolean hideWatermark = null;
