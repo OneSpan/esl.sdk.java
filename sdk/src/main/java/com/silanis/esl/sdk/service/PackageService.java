@@ -544,7 +544,7 @@ public class PackageService {
                 .replace("{documentId}", documentId)
                 .build();
         try {
-            return client.getBytes(path);
+            return client.getBytesAsOctetStream(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not download the pdf document.", e);
         } catch (Exception e) {
@@ -566,7 +566,7 @@ public class PackageService {
                 .replace("{documentId}", documentId)
                 .build();
         try {
-            return client.getBytes(path);
+            return client.getBytesAsOctetStream(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not download the original document.", e);
         } catch (Exception e) {

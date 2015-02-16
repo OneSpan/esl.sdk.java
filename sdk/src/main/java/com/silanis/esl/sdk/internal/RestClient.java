@@ -289,6 +289,14 @@ public class RestClient {
         return execute(get, bytesHandler);
     }
 
+    public byte[] getBytesAsOctetStream(String path) throws IOException, HttpException, URISyntaxException, RequestException {
+        support.logRequest("GET", path);
+        HttpGet get = new HttpGet(path);
+        get.addHeader(buildAcceptHeader("application/octet-stream"));
+
+        return execute(get, bytesHandler);
+    }
+
     public String delete(String path) throws HttpException, IOException, URISyntaxException, RequestException {
         support.logRequest("DELETE", path);
         HttpDelete delete = new HttpDelete(path);
