@@ -1,13 +1,10 @@
 package com.silanis.esl.sdk.internal;
 
-import io.netty.handler.codec.http.HttpMethod;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import static org.apache.commons.lang3.StringUtils.*;
@@ -37,7 +34,7 @@ public class HttpRequestUtil {
             final URL redirectURL = new URL(location);
 
             HttpURLConnection redirectRequest = (HttpURLConnection)  redirectURL.openConnection();
-            setConnectionConfiguration(redirectRequest, HttpMethod.GET, AuthRequestParameters.empty());
+            setAuthentication(redirectRequest, AuthRequestParameters.empty());
 
             redirectRequest.setRequestProperty("Cookie", buildSessionTokenCookieValue(cookieSessionToken) + ";" + buildTempTokenCookieValue(cookieTempTokenValue));
 
@@ -75,17 +72,6 @@ public class HttpRequestUtil {
     }
     private static String buildTempTokenCookieValue(String sessionTokenValue) {
         return TEMP_SESSION_TOKEN_COOKIE_VALUE_KEY + "=" + sessionTokenValue;
-    }
-
-    private static void setConnectionConfiguration(HttpURLConnection request, HttpMethod method,
-                                            AuthRequestParameters authRequestParameters) throws ProtocolException {
-        request.setRequestMethod(method.name());
-        request.setDoInput(true);
-
-        request.addRequestProperty("Accept", "application/json, text/javascript, */*");
-        request.setRequestProperty("Content-type", "application/json");
-
-        setAuthentication(request, authRequestParameters);
     }
 
     private static String extractSessionCookieValue(HttpURLConnection request) {
