@@ -28,7 +28,7 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
 
     private AuthenticationClient authenticationClient;
     private InputStream documentInputStream;
-    private String generatedLinkToDesignerForApiKey;
+    public String generatedLinkToDesignerForApiKey;
 
     public DesignerRedirectForApiKeyExample(Properties props) {
         this( props.getProperty( "api.key" ),
@@ -63,7 +63,4 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
         logger.info(generatedLinkToDesignerForApiKey);
     }
 
-    public String getGeneratedLinkToDesignerForApiKey() {
-        return generatedLinkToDesignerForApiKey;
-    }
 }
