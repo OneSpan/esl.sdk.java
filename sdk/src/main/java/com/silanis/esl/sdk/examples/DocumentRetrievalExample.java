@@ -31,7 +31,7 @@ public class DocumentRetrievalExample extends SDKSample {
     public DocumentRetrievalExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("Signature électronique  OACIQ - Une première firme accréditée par l’OACIQ.pdf");
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
     public byte[] getPdfDocumentBytes() {
