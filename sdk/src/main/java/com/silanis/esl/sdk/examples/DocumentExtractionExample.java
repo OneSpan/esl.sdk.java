@@ -16,6 +16,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentExtractionExample extends SDKSample {
 
     private String email1;
+    private String email2;
+    private String email3;
     private InputStream documentInputStream;
     public static final String DOCUMENT_NAME = "First Document";
 
@@ -26,22 +28,31 @@ public class DocumentExtractionExample extends SDKSample {
     public DocumentExtractionExample( Properties properties ) {
         this(properties.getProperty( "api.key" ),
                 properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
+                properties.getProperty( "1.email" ),
+                properties.getProperty( "2.email" ),
+                properties.getProperty( "3.email" ) );
     }
 
-    public DocumentExtractionExample( String apiKey, String apiUrl, String email1 ) {
+    public DocumentExtractionExample( String apiKey, String apiUrl, String email1, String email2, String email3 ) {
         super( apiKey, apiUrl );
         this.email1 = email1;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
+        this.email2 = email2;
+        this.email3 = email3;
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "extract_document.pdf" );
     }
 
     @Override
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
                 .withSigner( newSignerWithEmail( email1 )
-                        .withRoleId("Signer1")
-                        .withFirstName( "John" )
-                        .withLastName( "Smith" ) )
+                        .withFirstName( "John1" )
+                        .withLastName( "Smith1" ) )
+                .withSigner( newSignerWithEmail( email2 )
+                        .withFirstName( "John2" )
+                        .withLastName( "Smith2" ) )
+                .withSigner( newSignerWithEmail( email3 )
+                        .withFirstName( "John3" )
+                        .withLastName( "Smith3" ) )
                 .withDocument( newDocumentWithName(DOCUMENT_NAME)
                         .fromStream( documentInputStream, DocumentType.PDF )
                         .enableExtraction() )
