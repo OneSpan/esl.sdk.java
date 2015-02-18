@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class KnowledgeBasedAuthenticationStatus extends EslEnumeration {
 
-    public static final KnowledgeBasedAuthenticationStatus NOT_YET_ATTEMPTED = new KnowledgeBasedAuthenticationStatus("NOT_YET_ATTEMPTED", "NOT_YET_ATTEMPTED");
-    public static final KnowledgeBasedAuthenticationStatus PASSED = new KnowledgeBasedAuthenticationStatus("PASSED", "PASSED");
-    public static final KnowledgeBasedAuthenticationStatus FAILED = new KnowledgeBasedAuthenticationStatus("FAILED", "FAILED");
+    public static final KnowledgeBasedAuthenticationStatus NOT_YET_ATTEMPTED = new KnowledgeBasedAuthenticationStatus("NOT_YET_ATTEMPTED", "NOT_YET_ATTEMPTED", 0);
+    public static final KnowledgeBasedAuthenticationStatus PASSED = new KnowledgeBasedAuthenticationStatus("PASSED", "PASSED", 1);
+    public static final KnowledgeBasedAuthenticationStatus FAILED = new KnowledgeBasedAuthenticationStatus("FAILED", "FAILED", 2);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -19,7 +19,7 @@ public class KnowledgeBasedAuthenticationStatus extends EslEnumeration {
     @Deprecated
     public static final KnowledgeBasedAuthenticationStatus UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API KnowledgeBasedAuthentication Status(%s). The upgrade is required.", unknownValue));
-        return new KnowledgeBasedAuthenticationStatus(unknownValue, unknownValue);
+        return new KnowledgeBasedAuthenticationStatus(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, KnowledgeBasedAuthenticationStatus> sdkValues;
@@ -30,8 +30,8 @@ public class KnowledgeBasedAuthenticationStatus extends EslEnumeration {
         sdkValues.put(FAILED.name(), FAILED);
     }
 
-    private KnowledgeBasedAuthenticationStatus(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private KnowledgeBasedAuthenticationStatus(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static KnowledgeBasedAuthenticationStatus[] values() {

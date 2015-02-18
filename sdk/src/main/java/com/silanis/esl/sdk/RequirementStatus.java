@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class RequirementStatus extends EslEnumeration {
 
-    public static final RequirementStatus INCOMPLETE = new RequirementStatus("INCOMPLETE", "INCOMPLETE");
-    public static final RequirementStatus REJECTED = new RequirementStatus("REJECTED", "REJECTED");
-    public static final RequirementStatus COMPLETE = new RequirementStatus("COMPLETE", "COMPLETE");
+    public static final RequirementStatus INCOMPLETE = new RequirementStatus("INCOMPLETE", "INCOMPLETE", 0);
+    public static final RequirementStatus REJECTED = new RequirementStatus("REJECTED", "REJECTED", 1);
+    public static final RequirementStatus COMPLETE = new RequirementStatus("COMPLETE", "COMPLETE", 2);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -19,7 +19,7 @@ public class RequirementStatus extends EslEnumeration {
     @Deprecated
     public static final RequirementStatus UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Requirement Status(%s). The upgrade is required.", unknownValue));
-        return new RequirementStatus(unknownValue, unknownValue);
+        return new RequirementStatus(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, RequirementStatus> sdkValues;
@@ -30,8 +30,8 @@ public class RequirementStatus extends EslEnumeration {
         sdkValues.put(COMPLETE.name(), COMPLETE);
     }
 
-    private RequirementStatus(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private RequirementStatus(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static RequirementStatus[] values() {

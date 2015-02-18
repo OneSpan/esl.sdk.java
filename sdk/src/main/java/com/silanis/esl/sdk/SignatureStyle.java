@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class SignatureStyle extends EslEnumeration {
 
-    public static final SignatureStyle ACCEPTANCE = new SignatureStyle("FULLNAME", "ACCEPTANCE");
-    public static final SignatureStyle HAND_DRAWN = new SignatureStyle("CAPTURE", "HAND_DRAWN");
-    public static final SignatureStyle FULL_NAME = new SignatureStyle("FULLNAME", "FULL_NAME");
-    public static final SignatureStyle INITIALS = new SignatureStyle("INITIALS", "INITIALS");
-    public static final SignatureStyle MOBILE_CAPTURE = new SignatureStyle("MOBILE_CAPTURE", "MOBILE_CAPTURE");
+    public static final SignatureStyle ACCEPTANCE = new SignatureStyle("FULLNAME", "ACCEPTANCE", 0);
+    public static final SignatureStyle HAND_DRAWN = new SignatureStyle("CAPTURE", "HAND_DRAWN", 1);
+    public static final SignatureStyle FULL_NAME = new SignatureStyle("FULLNAME", "FULL_NAME", 2);
+    public static final SignatureStyle INITIALS = new SignatureStyle("INITIALS", "INITIALS", 3);
+    public static final SignatureStyle MOBILE_CAPTURE = new SignatureStyle("MOBILE_CAPTURE", "MOBILE_CAPTURE", 4);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -21,7 +21,7 @@ public class SignatureStyle extends EslEnumeration {
     @Deprecated
     public static final SignatureStyle UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API FieldSubtype(%s). The upgrade is required.", unknownValue));
-        return new SignatureStyle(unknownValue, unknownValue);
+        return new SignatureStyle(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, SignatureStyle> sdkValues;
@@ -34,8 +34,8 @@ public class SignatureStyle extends EslEnumeration {
         sdkValues.put(MOBILE_CAPTURE.name(), MOBILE_CAPTURE);
     }
 
-    private SignatureStyle(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private SignatureStyle(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static SignatureStyle fromAPIFieldSubType( String subtype ) {
