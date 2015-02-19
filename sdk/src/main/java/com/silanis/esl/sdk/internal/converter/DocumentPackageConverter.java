@@ -82,6 +82,10 @@ public class DocumentPackageConverter {
             apiPackageToCreate.setSender(new SenderConverter(sdkPackage.getSenderInfo()).toAPISender());
         }
 
+        if ( sdkPackage.getVisibility() != null ) {
+            apiPackageToCreate.setVisibility(sdkPackage.getVisibility());
+        }
+
         int signerCount = 1;
         for ( Signer signer : sdkPackage.getSigners().values() ) {
             String id;
@@ -161,6 +165,10 @@ public class DocumentPackageConverter {
 
         if (apiPackage.getSender() != null) {
             packageBuilder.withSenderInfo(new SenderConverter(apiPackage.getSender()).toSDKSenderInfo());
+        }
+
+        if (apiPackage.getVisibility() != null && "SENDER".equalsIgnoreCase(apiPackage.getVisibility())) {
+            packageBuilder.withPrivateVisibility();
         }
         packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 

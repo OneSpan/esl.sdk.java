@@ -28,6 +28,7 @@ public class DocumentPackage implements Serializable {
     private DocumentPackageAttributes attributes;
     private SenderInfo senderInfo;
     private List<Message> messages;
+    private String visibility;
 
     /**
      * @param name         the name of the package
@@ -241,5 +242,13 @@ public class DocumentPackage implements Serializable {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }

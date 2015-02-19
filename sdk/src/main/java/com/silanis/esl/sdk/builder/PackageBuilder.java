@@ -9,6 +9,8 @@ import java.util.*;
  */
 public class PackageBuilder {
 
+    private static final String TEMPLATE_SENDER_VISIBILITY = "SENDER";
+
     private final String packageName;
     private final Map<String, Signer> signers = new HashMap<String, Signer>();
     private final Map<String, Signer> placeholders = new HashMap<String, Signer>();
@@ -23,6 +25,7 @@ public class PackageBuilder {
     private Locale language;
     private SenderInfo senderInfo = null;
     private DocumentPackageAttributes attributes;
+    private String visibility;
 
     /**
      * The constructor of the PackageBuilder class.
@@ -105,6 +108,12 @@ public class PackageBuilder {
         return this;
     }
 
+
+    public PackageBuilder withPrivateVisibility() {
+        this.visibility = TEMPLATE_SENDER_VISIBILITY;
+        return this;
+    }
+
     /**
      * Builds the actual document package.
      *
@@ -133,6 +142,10 @@ public class PackageBuilder {
 
         if ( packageMessage != null ) {
             documentPackage.setPackageMessage(packageMessage);
+        }
+
+        if ( visibility != null ) {
+            documentPackage.setVisibility(visibility);
         }
 
         return documentPackage;
