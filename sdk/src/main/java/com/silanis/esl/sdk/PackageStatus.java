@@ -7,13 +7,13 @@ import java.util.Map;
 
 public class PackageStatus extends EslEnumeration {
 
-    public static final PackageStatus DRAFT = new PackageStatus("DRAFT", "DRAFT");
-    public static final PackageStatus SENT = new PackageStatus("SENT", "SENT");
-    public static final PackageStatus COMPLETED = new PackageStatus("COMPLETED", "COMPLETED");
-    public static final PackageStatus ARCHIVED = new PackageStatus("ARCHIVED", "ARCHIVED");
-    public static final PackageStatus DECLINED = new PackageStatus("DECLINED", "DECLINED");
-    public static final PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT", "OPTED_OUT");
-    public static final PackageStatus EXPIRED = new PackageStatus("EXPIRED", "EXPIRED");
+    public static final PackageStatus DRAFT = new PackageStatus("DRAFT", "DRAFT", 0);
+    public static final PackageStatus SENT = new PackageStatus("SENT", "SENT", 1);
+    public static final PackageStatus COMPLETED = new PackageStatus("COMPLETED", "COMPLETED", 2);
+    public static final PackageStatus ARCHIVED = new PackageStatus("ARCHIVED", "ARCHIVED", 3);
+    public static final PackageStatus DECLINED = new PackageStatus("DECLINED", "DECLINED", 4);
+    public static final PackageStatus OPTED_OUT = new PackageStatus("OPTED_OUT", "OPTED_OUT", 5);
+    public static final PackageStatus EXPIRED = new PackageStatus("EXPIRED", "EXPIRED", 6);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -23,7 +23,7 @@ public class PackageStatus extends EslEnumeration {
     @Deprecated
     public static final PackageStatus UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Package Status(%s). The upgrade is required.", unknownValue));
-        return new PackageStatus(unknownValue, unknownValue);
+        return new PackageStatus(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, PackageStatus> sdkValues;
@@ -38,8 +38,8 @@ public class PackageStatus extends EslEnumeration {
         sdkValues.put(EXPIRED.name(), EXPIRED);
     }
 
-    private PackageStatus(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private PackageStatus(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static PackageStatus[] values() {

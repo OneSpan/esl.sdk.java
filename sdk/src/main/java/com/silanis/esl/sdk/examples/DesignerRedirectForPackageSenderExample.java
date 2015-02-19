@@ -23,6 +23,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 public class DesignerRedirectForPackageSenderExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(DesignerRedirectForPackageSenderExample.class.getName());
+    public static final String PACKAGE_NAME = "DesignerRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() );
 
     public static void main( String... args ) {
         new DesignerRedirectForPackageSenderExample( Props.get() ).run();
@@ -31,7 +32,8 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
     private AuthenticationClient authenticationClient;
     private String packageSender;
     private InputStream documentInputStream;
-    private String generatedLinkToDesignerForSender;
+
+    public String generatedLinkToDesignerForSender;
 
     public DesignerRedirectForPackageSenderExample( Properties props ) {
         this( props.getProperty( "api.key" ),
@@ -65,24 +67,11 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
                         .withPhoneNumber("phoneNumber")
                         .build() );
 
-        createPackageWithCustomSender();
-
-        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
-
-
-        generatedLinkToDesignerForSender = authenticationClient.buildRedirectToDesignerForSender(senderAuthenticationToken, packageId.getId());
-
-
-        //This is an example url that can be used in an iFrame or to open a browser window with a session (created from the sender authentication token) and a redirect to the designer page.
-        logger.info(generatedLinkToDesignerForSender);
-    }
-
-    private void createPackageWithCustomSender() {
-        DocumentPackage superDuperPackage = newPackageNamed( "DesignerRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
                 .withSenderInfo(SenderInfoBuilder.newSenderInfo(packageSender)
-                                        .withName("firstName", "lastName")
-                                        .withTitle("title")
-                                        .withCompany("company"))
+                                                 .withName("firstName", "lastName")
+                                                 .withTitle("title")
+                                                 .withCompany("company"))
                 .withDocument(newDocumentWithName("First Document")
                                       .fromStream(documentInputStream, DocumentType.PDF)
                                       .withSignature(signatureFor(packageSender)
@@ -92,9 +81,11 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-    }
 
-    public String getGeneratedLinkToDesignerForSender() {
-        return generatedLinkToDesignerForSender;
+        final String senderAuthenticationToken = eslClient.getAuthenticationTokensService().createSenderAuthenticationToken(packageId.getId());
+        generatedLinkToDesignerForSender = authenticationClient.buildRedirectToDesignerForSender(senderAuthenticationToken, packageId.getId());
+
+        //This is an example url that can be used in an iFrame or to open a browser window with a session (created from the sender authentication token) and a redirect to the designer page.
+        logger.info(generatedLinkToDesignerForSender);
     }
 }

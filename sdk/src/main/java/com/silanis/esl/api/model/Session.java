@@ -31,7 +31,7 @@ public class Session extends Model
     // Fields
     protected Account _account = null;
     protected Features _features = null;
-    protected Boolean _inPerson = true;
+    protected Boolean _inPerson = null;
     protected List<String> _packages = new ArrayList<String>();
     protected SupportConfiguration _support = null;
     protected User _user;

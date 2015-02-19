@@ -141,7 +141,7 @@ public class RestClient {
     }
 
     private StringBody buildPartForPayload(String jsonPayload) {
-        return new StringBody(jsonPayload, ContentType.create("text/plain", Consts.ASCII));
+        return new StringBody(jsonPayload, ContentType.create("text/plain", Consts.UTF_8));
     }
 
     private ContentBody buildPartForFile(byte[] content, String fileName) {

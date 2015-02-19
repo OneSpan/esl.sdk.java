@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class GroupMemberType extends EslEnumeration {
 
-    public static final GroupMemberType REGULAR = new GroupMemberType("REGULAR", "REGULAR");
-    public static final GroupMemberType MANAGER = new GroupMemberType("MANAGER", "MANAGER");
+    public static final GroupMemberType REGULAR = new GroupMemberType("REGULAR", "REGULAR", 0);
+    public static final GroupMemberType MANAGER = new GroupMemberType("MANAGER", "MANAGER", 1);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -18,7 +18,7 @@ public class GroupMemberType extends EslEnumeration {
     @Deprecated
     public static final GroupMemberType UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Member Type(%s). The upgrade is required.", unknownValue));
-        return new GroupMemberType(unknownValue, unknownValue);
+        return new GroupMemberType(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, GroupMemberType> sdkValues;
@@ -28,8 +28,8 @@ public class GroupMemberType extends EslEnumeration {
         sdkValues.put(MANAGER.name(), MANAGER);
     }
 
-    private GroupMemberType(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private GroupMemberType(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static GroupMemberType[] values() {

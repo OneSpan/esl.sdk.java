@@ -9,9 +9,9 @@ import java.util.Map;
  * Created by schoi on 12/16/14.
  */
 public class BasePackageType extends EslEnumeration {
-    public static final BasePackageType PACKAGE = new BasePackageType("PACKAGE", "PACKAGE");
-    public static final BasePackageType TEMPLATE = new BasePackageType("TEMPLATE", "TEMPLATE");
-    public static final BasePackageType LAYOUT = new BasePackageType("LAYOUT", "LAYOUT");
+    public static final BasePackageType PACKAGE = new BasePackageType("PACKAGE", "PACKAGE", 0);
+    public static final BasePackageType TEMPLATE = new BasePackageType("TEMPLATE", "TEMPLATE", 1);
+    public static final BasePackageType LAYOUT = new BasePackageType("LAYOUT", "LAYOUT", 2);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -21,7 +21,7 @@ public class BasePackageType extends EslEnumeration {
     @Deprecated
     public static final BasePackageType UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API BasePackageType(%s). The upgrade is required.", unknownValue));
-        return new BasePackageType(unknownValue, unknownValue);
+        return new BasePackageType(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, BasePackageType> sdkValues;
@@ -32,8 +32,8 @@ public class BasePackageType extends EslEnumeration {
         sdkValues.put(LAYOUT.name(), LAYOUT);
     }
 
-    private BasePackageType(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private BasePackageType(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static BasePackageType[] values() {

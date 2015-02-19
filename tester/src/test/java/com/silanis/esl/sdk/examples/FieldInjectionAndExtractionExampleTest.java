@@ -1,8 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * User: jessica
@@ -14,12 +16,10 @@ import org.junit.Test;
 public class FieldInjectionAndExtractionExampleTest {
     @Test
     public void verifyResult() {
-        FieldInjectionAndExtractionExample fieldInjectionAndExtractionExample = new FieldInjectionAndExtractionExample(Props.get());
-        fieldInjectionAndExtractionExample.run();
+        FieldInjectionAndExtractionExample example = new FieldInjectionAndExtractionExample(Props.get());
+        example.run();
 
-        DocumentPackage documentPackage = fieldInjectionAndExtractionExample.getRetrievedPackage();
-
-        // Verify if the fields were injected correctly into the document.
-        Document document = documentPackage.getDocument(DocumentExtractionExample.DOCUMENT_NAME);
+        // InjectedField list is not returned by the esl-backend.
+        assertThat("Package id was not set correctly", example.getPackageId(), is(notNullValue()));
     }
 }

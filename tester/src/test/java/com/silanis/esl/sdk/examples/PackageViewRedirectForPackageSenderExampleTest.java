@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.sdk.internal.HttpRequestUtil;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -17,5 +17,8 @@ public class PackageViewRedirectForPackageSenderExampleTest {
         example.run();
 
         assertThat(example.generatedLinkToPackageViewForSender, is(notNullValue()));
+
+        String stringResponse = HttpRequestUtil.getUrlContent(example.generatedLinkToPackageViewForSender);
+        assertThat(stringResponse, containsString(example.PACKAGE_NAME));
     }
 }

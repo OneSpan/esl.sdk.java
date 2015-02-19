@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public class FieldType extends EslEnumeration {
 
-    public static final FieldType SIGNATURE = new FieldType("SIGNATURE", "SIGNATURE");
-    public static final FieldType INPUT = new FieldType("INPUT", "INPUT");
-    public static final FieldType IMAGE = new FieldType("IMAGE", "IMAGE");
+    public static final FieldType SIGNATURE = new FieldType("SIGNATURE", "SIGNATURE", 0);
+    public static final FieldType INPUT = new FieldType("INPUT", "INPUT", 1);
+    public static final FieldType IMAGE = new FieldType("IMAGE", "IMAGE", 2);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -22,7 +22,7 @@ public class FieldType extends EslEnumeration {
     @Deprecated
     public static final FieldType UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Field Type(%s). The upgrade is required.", unknownValue));
-        return new FieldType(unknownValue, unknownValue);
+        return new FieldType(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, FieldType> sdkValues;
@@ -33,8 +33,8 @@ public class FieldType extends EslEnumeration {
         sdkValues.put(IMAGE.name(), IMAGE);
     }
 
-    private FieldType(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private FieldType(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static FieldType[] values() {
