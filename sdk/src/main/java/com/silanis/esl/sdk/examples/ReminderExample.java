@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.ReminderSchedule;
 import com.silanis.esl.sdk.builder.ReminderScheduleBuilder;
 
@@ -17,10 +16,11 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class ReminderExample extends SDKSample {
-    private PackageId packageId;
-    private ReminderSchedule reminderSchedule;
     private String email1;
     private InputStream documentInputStream1;
+
+    public ReminderSchedule reminderScheduleToCreate, reminderScheduleToUpdate;
+    public ReminderSchedule createdReminderSchedule, updatedReminderSchedule, removedReminderSchedule;
 
     public static void main( String... args ) {
         new ReminderExample( Props.get() ).run();
@@ -28,8 +28,8 @@ public class ReminderExample extends SDKSample {
 
     public ReminderExample( Properties props ) {
         this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ) );
+              props.getProperty( "api.url" ),
+              props.getProperty( "1.email" ) );
     }
 
     public ReminderExample( String apiKey, String apiUrl, String email1 ) {
@@ -39,38 +39,39 @@ public class ReminderExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Remind Package " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "ReminderExample Package " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSigner( newSignerWithEmail( email1 )
-                        .withFirstName( "Patty" )
-                        .withLastName( "Galant" ) )
+                                     .withFirstName( "Patty" )
+                                     .withLastName( "Galant" ) )
                 .withDocument( newDocumentWithName( "First Document" )
-                        .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature( signatureFor( email1 )
-                                .onPage( 0 )
-                                .atPosition( 100, 100 ) ) )
+                                       .fromStream( documentInputStream1, DocumentType.PDF )
+                                       .withSignature( signatureFor( email1 )
+                                                               .onPage( 0 )
+                                                               .atPosition( 100, 100 ) ) )
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        reminderSchedule = ReminderScheduleBuilder.forPackageWithId( packageId )
-                .withDaysUntilFirstReminder( 2 )
-                .withDaysBetweenReminders( 1 )
-                .withNumberOfRepetitions( 5 )
-                .build();
+        reminderScheduleToCreate = ReminderScheduleBuilder.forPackageWithId( packageId )
+                                                          .withDaysUntilFirstReminder( 2 )
+                                                          .withDaysBetweenReminders( 1 )
+                                                          .withNumberOfRepetitions( 5 )
+                                                          .build();
 
-        eslClient.getReminderService().createReminderScheduleForPackage( reminderSchedule );
-
-        ReminderSchedule reminderSchedule = eslClient.getReminderService().getReminderScheduleForPackage( packageId );
-
+        eslClient.getReminderService().createReminderScheduleForPackage( reminderScheduleToCreate );
         eslClient.sendPackage( packageId );
-    }
+        createdReminderSchedule = eslClient.getReminderService().getReminderScheduleForPackage(packageId);
 
-    public PackageId getPackageId() {
-        return packageId;
-    }
+        reminderScheduleToUpdate = ReminderScheduleBuilder.forPackageWithId( packageId )
+                                                          .withDaysUntilFirstReminder( 3 )
+                                                          .withDaysBetweenReminders( 2 )
+                                                          .withNumberOfRepetitions( 10 )
+                                                          .build();
 
-    public ReminderSchedule getReminderSchedule() {
-        return reminderSchedule;
-    }
+        eslClient.getReminderService().updateReminderScheduleForPackage( reminderScheduleToUpdate );
+        updatedReminderSchedule = eslClient.getReminderService().getReminderScheduleForPackage(packageId);
 
+        eslClient.getReminderService().clearReminderScheduleForPackage( packageId );
+        removedReminderSchedule = eslClient.getReminderService().getReminderScheduleForPackage(packageId);
+    }
 }

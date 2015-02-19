@@ -1,25 +1,29 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.ReminderSchedule;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 
 public class ReminderExampleTest {
-        @Test
-        public void verifyResult() {
-            ReminderExample reminderExample = new ReminderExample( Props.get() );
-            reminderExample.run();
+    @Test
+    public void verifyResult() {
+        ReminderExample example = new ReminderExample( Props.get() );
+        example.run();
 
         // Verify that a reminder schedule has been created for this package -- we need the packageId for that
-        ReminderSchedule reminderSchedule = reminderExample.getEslClient().getReminderService().getReminderScheduleForPackage( reminderExample.getPackageId() );
-        assertThat( reminderSchedule, is( notNullValue() ) );
-        assertThat( reminderSchedule.getPackageId(), is( equalTo( reminderExample.getPackageId() ) ) );
-        assertThat( reminderSchedule.getDaysUntilFirstReminder(), is( equalTo( reminderExample.getReminderSchedule().getDaysUntilFirstReminder() ) ) );
-        assertThat( reminderSchedule.getDaysBetweenReminders(), is( equalTo( reminderExample.getReminderSchedule().getDaysBetweenReminders() ) ) );
-        assertThat( reminderSchedule.getNumberOfRepetitions(), is( equalTo( reminderExample.getReminderSchedule().getNumberOfRepetitions() ) ) );
+        assertThat( example.createdReminderSchedule, is( notNullValue() ) );
+        assertThat( example.createdReminderSchedule.getDaysUntilFirstReminder(), is(example.reminderScheduleToCreate.getDaysUntilFirstReminder()) );
+        assertThat( example.createdReminderSchedule.getDaysBetweenReminders(), is(example.reminderScheduleToCreate.getDaysBetweenReminders()) );
+        assertThat( example.createdReminderSchedule.getNumberOfRepetitions(), is(example.reminderScheduleToCreate.getNumberOfRepetitions()) );
+
+        assertThat( example.updatedReminderSchedule, is( notNullValue() ) );
+        assertThat( example.updatedReminderSchedule.getDaysUntilFirstReminder(), is(example.updatedReminderSchedule.getDaysUntilFirstReminder()) );
+        assertThat( example.updatedReminderSchedule.getDaysBetweenReminders(), is(example.updatedReminderSchedule.getDaysBetweenReminders()) );
+        assertThat( example.updatedReminderSchedule.getNumberOfRepetitions(), is(example.updatedReminderSchedule.getNumberOfRepetitions()) );
+
+        assertThat( example.removedReminderSchedule, is( nullValue() ) );
     }
 }
