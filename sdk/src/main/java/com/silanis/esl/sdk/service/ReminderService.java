@@ -37,7 +37,15 @@ public class ReminderService {
         }
     }
 
+    /**
+     * @deprecated  This method was replaced by {@link #createReminderScheduleForPackage(ReminderSchedule)}
+     */
+    @Deprecated
     public ReminderSchedule setReminderScheduleForPackage( ReminderSchedule reminderSchedule ) {
+        return createReminderScheduleForPackage(reminderSchedule);
+    }
+
+    public ReminderSchedule createReminderScheduleForPackage( ReminderSchedule reminderSchedule ) {
         String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", reminderSchedule.getPackageId().getId() ).build();
         PackageReminderSchedule apiReminderSchedule = new ReminderScheduleConverter( reminderSchedule ).toAPIPackageReminderSchedule();
         try {
@@ -48,6 +56,20 @@ public class ReminderService {
             throw new EslServerException( "Unable to create a new reminder.", e );
         } catch ( Exception e ) {
             throw new EslException( "Unable to create a new reminder.", e );
+        }
+    }
+
+    public ReminderSchedule updateReminderScheduleForPackage( ReminderSchedule reminderSchedule ) {
+        String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", reminderSchedule.getPackageId().getId() ).build();
+        PackageReminderSchedule apiReminderSchedule = new ReminderScheduleConverter( reminderSchedule ).toAPIPackageReminderSchedule();
+        try {
+            String stringResponse = client.put( path, Serialization.toJson( apiReminderSchedule ) );
+            PackageReminderSchedule apiResponse = Serialization.fromJson( stringResponse, PackageReminderSchedule.class );
+            return new ReminderScheduleConverter( apiResponse ).toSDKReminderSchedule();
+        } catch ( RequestException e ) {
+            throw new EslServerException( "Unable to update the reminder.", e );
+        } catch ( Exception e ) {
+            throw new EslException( "Unable to update the reminder.", e );
         }
     }
 

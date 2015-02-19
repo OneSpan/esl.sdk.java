@@ -58,7 +58,7 @@ public class ReminderExample extends SDKSample {
                 .withNumberOfRepetitions( 5 )
                 .build();
 
-        eslClient.getReminderService().setReminderScheduleForPackage( reminderSchedule );
+        eslClient.getReminderService().createReminderScheduleForPackage( reminderSchedule );
 
         ReminderSchedule reminderSchedule = eslClient.getReminderService().getReminderScheduleForPackage( packageId );
 
