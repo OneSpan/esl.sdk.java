@@ -17,6 +17,7 @@ public class PackageBuilder {
     private String description = null;
     private Date expiryDate;
     private String packageMessage = null;
+    private Boolean notarized;
     private PackageId id;
     private PackageStatus status;
     private DocumentPackageSettings settings;
@@ -106,6 +107,10 @@ public class PackageBuilder {
         return this;
     }
 
+    public PackageBuilder withNotarized( Boolean notarized ) {
+        this.notarized = notarized;
+        return this;
+    }
 
     public PackageBuilder withVisibility( Visibility visibility) {
         this.visibility = visibility;
@@ -140,6 +145,10 @@ public class PackageBuilder {
 
         if ( packageMessage != null ) {
             documentPackage.setPackageMessage(packageMessage);
+        }
+
+        if ( notarized != null ) {
+            documentPackage.setNotarized(notarized);
         }
 
         if ( visibility != null ) {
