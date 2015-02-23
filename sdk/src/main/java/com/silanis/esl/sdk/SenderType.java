@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class SenderType extends EslEnumeration {
 
-    public static final SenderType REGULAR = new SenderType("REGULAR", "REGULAR");
-    public static final SenderType MANAGER = new SenderType("MANAGER", "MANAGER");
+    public static final SenderType REGULAR = new SenderType("REGULAR", "REGULAR", 0);
+    public static final SenderType MANAGER = new SenderType("MANAGER", "MANAGER", 1);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -18,7 +18,7 @@ public class SenderType extends EslEnumeration {
     @Deprecated
     public static final SenderType UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Sender Type(%s). The upgrade is required.", unknownValue));
-        return new SenderType(unknownValue, unknownValue);
+        return new SenderType(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, SenderType> sdkValues;
@@ -28,8 +28,8 @@ public class SenderType extends EslEnumeration {
         sdkValues.put(MANAGER.name(), MANAGER);
     }
 
-    private SenderType(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private SenderType(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static SenderType[] values() {

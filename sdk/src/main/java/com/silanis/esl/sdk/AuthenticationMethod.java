@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class AuthenticationMethod extends EslEnumeration {
 
-    public static final AuthenticationMethod EMAIL = new AuthenticationMethod("NONE", "EMAIL");
-    public static final AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE", "CHALLENGE");
-    public static final AuthenticationMethod SMS = new AuthenticationMethod("SMS", "SMS");
-    public static final AuthenticationMethod KBA = new AuthenticationMethod("KBA", "KBA");
+    public static final AuthenticationMethod EMAIL = new AuthenticationMethod("NONE", "EMAIL", 0);
+    public static final AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE", "CHALLENGE", 1);
+    public static final AuthenticationMethod SMS = new AuthenticationMethod("SMS", "SMS", 2);
+    public static final AuthenticationMethod KBA = new AuthenticationMethod("KBA", "KBA", 3);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -20,7 +20,7 @@ public class AuthenticationMethod extends EslEnumeration {
     @Deprecated
     public static final AuthenticationMethod UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API AuthScheme(%s). The upgrade is required.", unknownValue));
-        return new AuthenticationMethod(unknownValue, unknownValue);
+        return new AuthenticationMethod(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, AuthenticationMethod> sdkValues;
@@ -32,8 +32,8 @@ public class AuthenticationMethod extends EslEnumeration {
         sdkValues.put(KBA.name(), KBA);
     }
     
-    private AuthenticationMethod(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private AuthenticationMethod(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static AuthenticationMethod[] values() {

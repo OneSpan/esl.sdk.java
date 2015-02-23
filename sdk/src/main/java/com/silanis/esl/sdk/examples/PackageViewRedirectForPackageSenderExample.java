@@ -22,6 +22,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 public class PackageViewRedirectForPackageSenderExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(PackageViewRedirectForPackageSenderExample.class.getName());
+    public static final String PACKAGE_NAME = "PackageViewRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() );
 
     public static void main( String... args ) {
         new PackageViewRedirectForPackageSenderExample( Props.get() ).run();
@@ -58,7 +59,7 @@ public class PackageViewRedirectForPackageSenderExample extends SDKSample {
                                     .withPhoneNumber("phoneNumber")
                                     .build() );
 
-        DocumentPackage superDuperPackage = newPackageNamed( "PackageViewRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
                 .withSenderInfo(SenderInfoBuilder.newSenderInfo(senderEmail)
                                                  .withName("firstName", "lastName")
                                                  .withTitle("title")

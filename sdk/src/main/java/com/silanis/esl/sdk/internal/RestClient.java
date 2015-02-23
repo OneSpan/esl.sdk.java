@@ -154,7 +154,7 @@ public class RestClient {
     }
 
     private StringBody buildPartForPayload(String jsonPayload) {
-        return new StringBody(jsonPayload, ContentType.create("text/plain", Consts.ASCII));
+        return new StringBody(jsonPayload, ContentType.create("text/plain", Consts.UTF_8));
     }
 
     private ContentBody buildPartForFile(byte[] content, String fileName) {
@@ -294,6 +294,14 @@ public class RestClient {
     public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet(path);
+
+        return execute(get, bytesHandler);
+    }
+
+    public byte[] getBytesAsOctetStream(String path) throws IOException, HttpException, URISyntaxException, RequestException {
+        support.logRequest("GET", path);
+        HttpGet get = new HttpGet(path);
+        get.addHeader(buildAcceptHeader("application/octet-stream"));
 
         return execute(get, bytesHandler);
     }

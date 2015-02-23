@@ -23,6 +23,7 @@ public class PackageBuilder {
     private Locale language;
     private SenderInfo senderInfo = null;
     private DocumentPackageAttributes attributes;
+    private Visibility visibility;
 
     /**
      * The constructor of the PackageBuilder class.
@@ -105,6 +106,12 @@ public class PackageBuilder {
         return this;
     }
 
+
+    public PackageBuilder withVisibility( Visibility visibility) {
+        this.visibility = visibility;
+        return this;
+    }
+
     /**
      * Builds the actual document package.
      *
@@ -133,6 +140,10 @@ public class PackageBuilder {
 
         if ( packageMessage != null ) {
             documentPackage.setPackageMessage(packageMessage);
+        }
+
+        if ( visibility != null ) {
+            documentPackage.setVisibility(visibility);
         }
 
         return documentPackage;

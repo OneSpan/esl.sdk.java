@@ -10,10 +10,12 @@ public abstract class EslEnumeration {
 
     private final String sdkValue;
     private final String apiValue;
+    private final int index;
 
-    protected EslEnumeration(String apiValue, String sdkValue) {
+    protected EslEnumeration(String apiValue, String sdkValue, int index) {
         this.apiValue = apiValue;
         this.sdkValue = sdkValue;
+        this.index = index;
     }
 
     public String toString() {
@@ -26,6 +28,10 @@ public abstract class EslEnumeration {
 
     protected String getApiValue() {
         return apiValue;
+    }
+
+    public int ordinal() {
+        return index;
     }
 
 }

@@ -28,6 +28,7 @@ public class DocumentPackage implements Serializable {
     private DocumentPackageAttributes attributes;
     private SenderInfo senderInfo;
     private List<Message> messages;
+    private Visibility visibility;
 
     /**
      * @param name         the name of the package
@@ -91,7 +92,6 @@ public class DocumentPackage implements Serializable {
         }
     }
 
-    @Deprecated
     public Map<String, Signer> getSigners() {
         return signers;
     }
@@ -241,5 +241,13 @@ public class DocumentPackage implements Serializable {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
     }
 }

@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class MessageStatus extends EslEnumeration {
 
-    public static final MessageStatus NEW = new MessageStatus("NEW", "NEW");
-    public static final MessageStatus READ = new MessageStatus("READ", "READ");
-    public static final MessageStatus TRASHED = new MessageStatus("TRASHED", "TRASHED");
+    public static final MessageStatus NEW = new MessageStatus("NEW", "NEW", 0);
+    public static final MessageStatus READ = new MessageStatus("READ", "READ", 1);
+    public static final MessageStatus TRASHED = new MessageStatus("TRASHED", "TRASHED", 1);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -19,7 +19,7 @@ public class MessageStatus extends EslEnumeration {
     @Deprecated
     public static final MessageStatus UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API Message Status(%s). The upgrade is required.", unknownValue));
-        return new MessageStatus(unknownValue, unknownValue);
+        return new MessageStatus(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, MessageStatus> sdkValues;
@@ -30,8 +30,8 @@ public class MessageStatus extends EslEnumeration {
         sdkValues.put(TRASHED.name(), TRASHED);
     }
 
-    private MessageStatus(String apiValue, String sdkValue) {
-        super(apiValue, sdkValue);
+    private MessageStatus(String apiValue, String sdkValue, int index) {
+        super(apiValue, sdkValue, index);
     }
 
     public static MessageStatus[] values() {

@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.joda.time.DateMidnight.now;
+import static org.junit.Assert.assertFalse;
 
 /**
  * User: jessica
@@ -31,8 +32,9 @@ public class BasicPackageCreationExampleTest {
         DocumentPackage documentPackage = basicPackageCreationExample.getRetrievedPackage();
 
         // Verify if the package is created correctly.
+        assertFalse("Package enableInPerson setting was not set correctly.", documentPackage.getSettings().getEnableInPerson());
 
-        assertThat( "Package description was not set correctly.", documentPackage.getDescription(), is( "This is a package created using the e-SignLive SDK" ) );
+        assertThat("Package description was not set correctly.", documentPackage.getDescription(), is("This is a package created using the e-SignLive SDK"));
         assertThat( "Package expiry date was not set correctly.", documentPackage.getExpiryDate(), is( now().plusMonths( 1 ).toDate() ) );
         assertThat( "Package message was not set correctly.", documentPackage.getPackageMessage(), is( "This message should be delivered to all signers" ) );
 

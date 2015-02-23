@@ -7,19 +7,19 @@ import java.util.Map;
 
 public class FieldStyle extends EslEnumeration {
 
-    public static final FieldStyle BOUND_DATE = new FieldStyle("LABEL", "BOUND_DATE", "{approval.signed}");
-    public static final FieldStyle BOUND_NAME = new FieldStyle("LABEL", "BOUND_NAME", "{signer.name}");
-    public static final FieldStyle BOUND_TITLE = new FieldStyle("LABEL", "BOUND_TITLE", "{signer.title}");
-    public static final FieldStyle BOUND_COMPANY = new FieldStyle("LABEL", "BOUND_COMPANY", "{signer.company}");
-    public static final FieldStyle BOUND_QRCODE = new FieldStyle("QRCODE", "BOUND_QRCODE");
-    public static final FieldStyle UNBOUND_TEXT_FIELD = new FieldStyle("TEXTFIELD", "UNBOUND_TEXT_FIELD");
-    public static final FieldStyle UNBOUND_CUSTOM_FIELD = new FieldStyle("CUSTOMFIELD", "UNBOUND_CUSTOM_FIELD");
-    public static final FieldStyle UNBOUND_CHECK_BOX = new FieldStyle("CHECKBOX", "UNBOUND_CHECK_BOX");
-    public static final FieldStyle UNBOUND_RADIO_BUTTON = new FieldStyle("RADIO", "UNBOUND_RADIO_BUTTON");
-    public static final FieldStyle LABEL = new FieldStyle("LABEL", "LABEL");
-    public static final FieldStyle DROP_LIST = new FieldStyle("LIST", "DROP_LIST");
-    public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA", "TEXT_AREA");
-    public static final FieldStyle SEAL = new FieldStyle("SEAL", "SEAL");
+    public static final FieldStyle BOUND_DATE = new FieldStyle("LABEL", "BOUND_DATE", "{approval.signed}", 0);
+    public static final FieldStyle BOUND_NAME = new FieldStyle("LABEL", "BOUND_NAME", "{signer.name}", 1);
+    public static final FieldStyle BOUND_TITLE = new FieldStyle("LABEL", "BOUND_TITLE", "{signer.title}", 2);
+    public static final FieldStyle BOUND_COMPANY = new FieldStyle("LABEL", "BOUND_COMPANY", "{signer.company}", 3);
+    public static final FieldStyle BOUND_QRCODE = new FieldStyle("QRCODE", "BOUND_QRCODE", 4);
+    public static final FieldStyle UNBOUND_TEXT_FIELD = new FieldStyle("TEXTFIELD", "UNBOUND_TEXT_FIELD", 5);
+    public static final FieldStyle UNBOUND_CUSTOM_FIELD = new FieldStyle("CUSTOMFIELD", "UNBOUND_CUSTOM_FIELD", 6);
+    public static final FieldStyle UNBOUND_CHECK_BOX = new FieldStyle("CHECKBOX", "UNBOUND_CHECK_BOX", 7);
+    public static final FieldStyle UNBOUND_RADIO_BUTTON = new FieldStyle("RADIO", "UNBOUND_RADIO_BUTTON", 8);
+    public static final FieldStyle LABEL = new FieldStyle("LABEL", "LABEL", 9);
+    public static final FieldStyle DROP_LIST = new FieldStyle("LIST", "DROP_LIST", 10);
+    public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA", "TEXT_AREA", 11);
+    public static final FieldStyle SEAL = new FieldStyle("SEAL", "SEAL", 12);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -29,7 +29,7 @@ public class FieldStyle extends EslEnumeration {
     @Deprecated
     public static final FieldStyle UNRECOGNIZED(String unknownValue){
         log.warning(String.format("Unknown API FieldSubtype(%s). The upgrade is required.", unknownValue));
-        return new FieldStyle(unknownValue, unknownValue);
+        return new FieldStyle(unknownValue, unknownValue, values().length);
     }
 
     private static Map<String, FieldStyle> sdkValues;
@@ -48,12 +48,12 @@ public class FieldStyle extends EslEnumeration {
 
     private final String binding;
 
-    private FieldStyle(String apiValue, String sdkValue) {
-        this(apiValue, sdkValue, null);
+    private FieldStyle(String apiValue, String sdkValue, int index) {
+        this(apiValue, sdkValue, null, index);
     }
 
-    private FieldStyle(String apiValue, String sdkValue, String binding) {
-        super(apiValue, sdkValue);
+    private FieldStyle(String apiValue, String sdkValue, String binding, int index) {
+        super(apiValue, sdkValue, index);
         this.binding = binding;
     }
 
