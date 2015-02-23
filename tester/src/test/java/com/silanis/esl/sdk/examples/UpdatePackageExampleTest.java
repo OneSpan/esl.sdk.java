@@ -33,10 +33,10 @@ public class UpdatePackageExampleTest {
         assertThat("LinkTooltip is not updated correctly. ", example.createdSettings.getLinkTooltip(), is(example.settingsToCreate.getLinkTooltip()));
         assertThat("EnableOptOut is not updated correctly. ", example.createdSettings.getEnableOptOut(), is(example.settingsToCreate.getEnableOptOut()));
 
-        assertThat("EnableInPersons are not updated correctly. ", example.createdSettings.getOptOutReasons().size(), is(example.settingsToCreate.getOptOutReasons().size()));
-        assertThat("EnableInPerson1 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(0), is(example.settingsToCreate.getOptOutReasons().get(0)));
-        assertThat("EnableInPerson2 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(1), is(example.settingsToCreate.getOptOutReasons().get(1)));
-        assertThat("EnableInPerson3 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(2), is(example.settingsToCreate.getOptOutReasons().get(2)));
+        assertThat("OptOutReasons are not updated correctly. ", example.createdSettings.getOptOutReasons().size(), is(example.settingsToCreate.getOptOutReasons().size()));
+        assertThat("OptOutReason1 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(0), is(example.settingsToCreate.getOptOutReasons().get(0)));
+        assertThat("OptOutReason2 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(1), is(example.settingsToCreate.getOptOutReasons().get(1)));
+        assertThat("OptOutReason3 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(2), is(example.settingsToCreate.getOptOutReasons().get(2)));
 
 
         assertThat("Name is not updated correctly. ", example.updatedPackage.getName(), is(example.packageToUpdate.getName()));
@@ -58,10 +58,9 @@ public class UpdatePackageExampleTest {
         assertThat("LinkTooltip is not updated correctly. ", example.updatedSettings.getLinkTooltip(), is(example.settingsToUpdate.getLinkTooltip()));
         assertThat("EnableOptOut is not updated correctly. ", example.updatedSettings.getEnableOptOut(), is(example.settingsToUpdate.getEnableOptOut()));
 
-        assertThat("EnableInPersons are not updated correctly. ", example.updatedSettings.getOptOutReasons().size(), is(example.settingsToUpdate.getOptOutReasons().size()));
-        assertThat("EnableInPerson1 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(0), is(example.settingsToUpdate.getOptOutReasons().get(0)));
-        assertThat("EnableInPerson2 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(1), is(example.settingsToUpdate.getOptOutReasons().get(1)));
-        assertThat("EnableInPerson3 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(2), is(example.settingsToUpdate.getOptOutReasons().get(2)));
-
+        assertThat("OptOutReasons are not updated correctly. ", example.updatedSettings.getOptOutReasons().size(), is(example.settingsToUpdate.getOptOutReasons().size()));
+        assertThat("OptOutReason1 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(0), is(example.settingsToUpdate.getOptOutReasons().get(0)));
+        assertThat("OptOutReason2 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(1), is(example.settingsToUpdate.getOptOutReasons().get(1)));
+        assertThat("OptOutReason3 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(2), is(example.settingsToUpdate.getOptOutReasons().get(2)));
     }
 }
