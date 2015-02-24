@@ -52,7 +52,7 @@ public class FieldInjectionAndExtractionExample extends SDKSample {
                                       .withInjectedField(FieldBuilder.textField().withName("Text3").withValue("Third Injected Value"))
                                       .withInjectedField(FieldBuilder.textField().withName("Text4").withValue("Fourth Injected Value"))
                                       .withInjectedField(FieldBuilder.textField().withName("Text5").withValue("Fifth Injected Value"))
-                                      .withInjectedField(FieldBuilder.textField().withName("Text6").withValue("Sixth Injected Value"))
+                                      .withInjectedField(FieldBuilder.textField().withName("Text6").withValue("À à Â â Æ æ Ç ç È è É é Ê ë"))
                 )
                 .build();
 
