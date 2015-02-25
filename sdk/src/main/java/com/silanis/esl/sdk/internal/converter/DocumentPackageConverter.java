@@ -83,7 +83,7 @@ public class DocumentPackageConverter {
         }
 
         if ( sdkPackage.getVisibility() != null ) {
-            apiPackageToCreate.setVisibility(sdkPackage.getVisibility());
+            apiPackageToCreate.setVisibility(new VisibilityConverter(sdkPackage.getVisibility()).toAPIVisibility());
         }
 
         int signerCount = 1;
@@ -167,8 +167,8 @@ public class DocumentPackageConverter {
             packageBuilder.withSenderInfo(new SenderConverter(apiPackage.getSender()).toSDKSenderInfo());
         }
 
-        if (apiPackage.getVisibility() != null && "SENDER".equalsIgnoreCase(apiPackage.getVisibility())) {
-            packageBuilder.withPrivateVisibility();
+        if (apiPackage.getVisibility() != null) {
+            packageBuilder.withVisibility(new VisibilityConverter(apiPackage.getVisibility()).toSDKVisibility());
         }
         packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 

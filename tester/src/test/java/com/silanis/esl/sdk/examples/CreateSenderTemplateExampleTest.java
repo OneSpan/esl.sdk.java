@@ -18,8 +18,6 @@ public class CreateSenderTemplateExampleTest {
 
         DocumentPackage retrievedTemplate = example.eslClient.getPackage(example.templateId);
 
-        assertThat("Template Visibility is incorrectly set.", retrievedTemplate.getVisibility(), is(example.TEMPLATE_SENDER_VISIBILITY));
-
+        assertThat("Template Visibility is incorrectly set.", retrievedTemplate.getVisibility(), is(example.visibility));
     }
-
 }
