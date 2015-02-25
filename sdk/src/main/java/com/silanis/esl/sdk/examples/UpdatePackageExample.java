@@ -1,15 +1,17 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.CeremonyLayoutSettings;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentPackageSettings;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
+import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
@@ -36,6 +38,10 @@ public class UpdatePackageExample extends SDKSample {
     public static final String OLD_DESCRIPTION = "Old Description";
     public static final String OLD_EMAIL_MESSAGE = "Old Email Message";
 
+    // Visibility is for only template
+    public static final Visibility OLD_VISIBILITY = Visibility.ACCOUNT;
+    public static final boolean OLD_NOTARIZED = false;
+
     public static final String NEW_LOGO_IMAGE_LINK = "new logo image link";
     public static final String NEW_LOGO_IMAGE_SOURCE = "new logo image source";
 
@@ -54,10 +60,15 @@ public class UpdatePackageExample extends SDKSample {
     public static final String NEW_PACKAGE_NAME = "new package name";
     public static final String NEW_DESCRIPTION = "new description";
     public static final String NEW_EMAIL_MESSAGE = "new email message";
+    public static final Visibility NEW_VISIBILITY = Visibility.SENDER;
+    public static final boolean NEW_NOTARIZED = true;
 
-    public CeremonyLayoutSettings sentLayoutSettings, updatedLayoutSettings, retrievedLayoutSettings;
-    public DocumentPackageSettings sentSettings, updatedSettings, retrievedSettings;
-    public DocumentPackage sentPackage, updatedPackage;
+    public CeremonyLayoutSettings layoutSettingsToCreate, createdLayoutSettings, layoutSettingsToUpdate, updatedLayoutSettings;
+    public DocumentPackageSettings settingsToCreate, createdSettings, settingsToUpdate, updatedSettings;
+    public DocumentPackage packageToCreate, createdPackage, packageToUpdate, updatedPackage;
+
+    public String email1;
+    private InputStream documentInputStream1;
 
     public static void main( String... args ) {
         new UpdatePackageExample(Props.get()).run();
@@ -65,109 +76,128 @@ public class UpdatePackageExample extends SDKSample {
 
     public UpdatePackageExample( Properties props ) {
         this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ) );
+              props.getProperty( "api.url" ),
+              props.getProperty( "1.email" ) );
     }
 
-    public UpdatePackageExample( String apiKey, String apiUrl ) {
+    public UpdatePackageExample( String apiKey, String apiUrl, String email1 ) {
         super( apiKey, apiUrl );
+        this.email1 = email1;
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     public void execute() {
-        sentLayoutSettings = CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings()
-                                                          .withBreadCrumbs()
-                                                          .withGlobalConfirmButton()
-                                                          .withGlobalDownloadButton()
-                                                          .withGlobalNavigation()
-                                                          .withGlobalSaveAsLayoutButton()
-                                                          .withIFrame()
-                                                          .withLogoLink(OLD_LOGO_IMAGE_LINK)
-                                                          .withLogoSource(OLD_LOGO_IMAGE_SOURCE)
-                                                          .withNavigator()
-                                                          .withProgressBar()
-                                                          .withSessionBar()
-                                                          .withTitle()
-                                                          .build();
+        layoutSettingsToCreate = CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings()
+                  .withBreadCrumbs()
+                  .withGlobalConfirmButton()
+                  .withGlobalDownloadButton()
+                  .withGlobalNavigation()
+                  .withGlobalSaveAsLayoutButton()
+                  .withIFrame()
+                  .withLogoLink(OLD_LOGO_IMAGE_LINK)
+                  .withLogoSource(OLD_LOGO_IMAGE_SOURCE)
+                  .withNavigator()
+                  .withProgressBar()
+                  .withSessionBar()
+                  .withTitle()
+                  .build();
 
-        sentSettings = DocumentPackageSettingsBuilder.newDocumentPackageSettings()
-                                                     .withCaptureText()
-                                                     .withDecline()
-                                                     .withDeclineReason(OLD_DECLINE_REASON_1)
-                                                     .withOptOutReason(OLD_DECLINE_REASON_2)
-                                                     .withOptOutReason(OLD_DECLINE_REASON_3)
-                                                     .withDialogOnComplete()
-                                                     .withDocumentToolbarDownloadButton()
-                                                     .withHandOverLinkHref(OLD_HAND_OVER_LINK_HREF)
-                                                     .withHandOverLinkText(OLD_HAND_OVER_LINK_TEXT)
-                                                     .withHandOverLinkTooltip(OLD_HAND_OVER_LINK_TOOL_TIP)
-                                                     .withInPerson()
-                                                     .withOptOut()
-                                                     .withOptOutReason(OLD_OPT_OUT_REASON_1)
-                                                     .withOptOutReason(OLD_OPT_OUT_REASON_2)
-                                                     .withOptOutReason(OLD_OPT_OUT_REASON_3)
-                                                     .withWatermark()
-                                                     .withCeremonyLayoutSettings(sentLayoutSettings)
-                                                     .build();
+        settingsToCreate = DocumentPackageSettingsBuilder.newDocumentPackageSettings()
+                 .withCaptureText()
+                 .withDecline()
+                 .withDeclineReason(OLD_DECLINE_REASON_1)
+                 .withDeclineReason(OLD_DECLINE_REASON_2)
+                 .withDeclineReason(OLD_DECLINE_REASON_3)
+                 .withDialogOnComplete()
+                 .withDocumentToolbarDownloadButton()
+                 .withHandOverLinkHref(OLD_HAND_OVER_LINK_HREF)
+                 .withHandOverLinkText(OLD_HAND_OVER_LINK_TEXT)
+                 .withHandOverLinkTooltip(OLD_HAND_OVER_LINK_TOOL_TIP)
+                 .withInPerson()
+                 .withOptOut()
+                 .withOptOutReason(OLD_OPT_OUT_REASON_1)
+                 .withOptOutReason(OLD_OPT_OUT_REASON_2)
+                 .withOptOutReason(OLD_OPT_OUT_REASON_3)
+                 .withWatermark()
+                 .withCeremonyLayoutSettings(layoutSettingsToCreate)
+                 .build();
 
-        sentPackage = PackageBuilder.newPackageNamed(OLD_PACKAGE_NAME)
-                                    .describedAs(OLD_DESCRIPTION)
-                                    .withEmailMessage(OLD_EMAIL_MESSAGE)
-                                    .expiresAt(now().plusMonths( 1 ).toDate())
-                                    .withLanguage(Locale.ENGLISH)
-                                    .autocomplete(true)
-                                    .withSettings( sentSettings )
-                                    .build();
+        packageToCreate = PackageBuilder.newPackageNamed(OLD_PACKAGE_NAME)
+                .describedAs(OLD_DESCRIPTION)
+                .withEmailMessage(OLD_EMAIL_MESSAGE)
+                .expiresAt(now().plusMonths(1).toDate())
+                .withLanguage(Locale.ENGLISH)
+                        .withVisibility(OLD_VISIBILITY)
+                .withNotarized(OLD_NOTARIZED)
+                .autocomplete(true)
+                .withSettings(settingsToCreate)
+                .withSigner(newSignerWithEmail(email1)
+                                    .withFirstName("John1")
+                                    .withLastName("Smith1"))
+                .withDocument(newDocumentWithName("First Document")
+                                      .fromStream(documentInputStream1, DocumentType.PDF)
+                                      .withSignature(signatureFor(email1)
+                                                             .onPage(0)
+                                                             .atPosition(100, 100)))
+                .build();
 
-        packageId = eslClient.createPackage(sentPackage);
+        packageId = eslClient.createPackage(packageToCreate);
 
-        updatedLayoutSettings = CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings()
-                                                             .withoutBreadCrumbs()
-                                                             .withoutGlobalConfirmButton()
-                                                             .withoutGlobalDownloadButton()
-                                                             .withoutGlobalNavigation()
-                                                             .withoutGlobalSaveAsLayoutButton()
-                                                             .withoutIFrame()
-                                                             .withLogoLink(NEW_LOGO_IMAGE_LINK)
-                                                             .withLogoSource(NEW_LOGO_IMAGE_SOURCE)
-                                                             .withoutNavigator()
-                                                             .withoutProgressBar()
-                                                             .withoutSessionBar()
-                                                             .withoutTitle()
-                                                             .build();
+        createdPackage = eslClient.getPackage( packageId );
+        createdSettings = createdPackage.getSettings();
+        createdLayoutSettings = createdSettings.getCeremonyLayoutSettings();
 
-        updatedSettings = DocumentPackageSettingsBuilder.newDocumentPackageSettings()
-                                                        .withoutCaptureText()
-                                                        .withDecline()
-                                                        .withDeclineReason(NEW_DECLINE_REASON_1)
-                                                        .withDeclineReason(NEW_DECLINE_REASON_2)
-                                                        .withDeclineReason(NEW_DECLINE_REASON_3)
-                                                        .withoutDialogOnComplete()
-                                                        .withoutDocumentToolbarDownloadButton()
-                                                        .withHandOverLinkHref(NEW_HAND_OVER_LINK_HREF)
-                                                        .withHandOverLinkText(NEW_HAND_OVER_LINK_TEXT)
-                                                        .withHandOverLinkTooltip(NEW_HAND_OVER_LINK_TOOL_TIP)
-                                                        .withoutInPerson()
-                                                        .withoutOptOut()
-                                                        .withOptOutReason(NEW_OPT_OUT_REASON_1)
-                                                        .withOptOutReason(NEW_OPT_OUT_REASON_2)
-                                                        .withOptOutReason(NEW_OPT_OUT_REASON_3)
-                                                        .withoutWatermark()
-                                                        .withCeremonyLayoutSettings(updatedLayoutSettings)
-                                                        .build();
+        layoutSettingsToUpdate = CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings()
+             .withoutBreadCrumbs()
+             .withoutGlobalConfirmButton()
+             .withoutGlobalDownloadButton()
+             .withoutGlobalNavigation()
+             .withoutGlobalSaveAsLayoutButton()
+             .withoutIFrame()
+             .withLogoLink(NEW_LOGO_IMAGE_LINK)
+             .withLogoSource(NEW_LOGO_IMAGE_SOURCE)
+             .withoutNavigator()
+             .withoutProgressBar()
+             .withoutSessionBar()
+             .withoutTitle()
+             .build();
 
-        updatedPackage = PackageBuilder.newPackageNamed(NEW_PACKAGE_NAME)
-                                       .describedAs(NEW_DESCRIPTION)
-                                       .withEmailMessage(NEW_EMAIL_MESSAGE)
-                                       .expiresAt(now().plusMonths( 2 ).toDate())
-                                       .withLanguage(Locale.FRENCH)
-                                       .autocomplete(false)
-                                       .withSettings( updatedSettings )
-                                       .build();
+        settingsToUpdate = DocumentPackageSettingsBuilder.newDocumentPackageSettings()
+            .withoutCaptureText()
+            .withDecline()
+            .withDeclineReason(NEW_DECLINE_REASON_1)
+            .withDeclineReason(NEW_DECLINE_REASON_2)
+            .withDeclineReason(NEW_DECLINE_REASON_3)
+            .withoutDialogOnComplete()
+            .withoutDocumentToolbarDownloadButton()
+            .withHandOverLinkHref(NEW_HAND_OVER_LINK_HREF)
+            .withHandOverLinkText(NEW_HAND_OVER_LINK_TEXT)
+            .withHandOverLinkTooltip(NEW_HAND_OVER_LINK_TOOL_TIP)
+            .withoutInPerson()
+            .withoutOptOut()
+            .withOptOutReason(NEW_OPT_OUT_REASON_1)
+            .withOptOutReason(NEW_OPT_OUT_REASON_2)
+            .withOptOutReason(NEW_OPT_OUT_REASON_3)
+            .withoutWatermark()
+            .withCeremonyLayoutSettings(layoutSettingsToUpdate)
+            .build();
 
-        eslClient.updatePackage(packageId, updatedPackage);
+        packageToUpdate = PackageBuilder.newPackageNamed(NEW_PACKAGE_NAME)
+                .describedAs(NEW_DESCRIPTION)
+                .withEmailMessage(NEW_EMAIL_MESSAGE)
+                .expiresAt(now().plusMonths(2).toDate())
+                .withLanguage(Locale.FRENCH)
+                .withVisibility(NEW_VISIBILITY)
+                .withNotarized(NEW_NOTARIZED)
+                .autocomplete(false)
+                .withSettings(settingsToUpdate)
+                .build();
 
-        retrievedPackage = eslClient.getPackage( packageId );
-        retrievedSettings = retrievedPackage.getSettings();
-        retrievedLayoutSettings = retrievedSettings.getCeremonyLayoutSettings();
+        eslClient.updatePackage(packageId, packageToUpdate);
+
+        updatedPackage = eslClient.getPackage( packageId );
+        updatedSettings = updatedPackage.getSettings();
+        updatedLayoutSettings = updatedSettings.getCeremonyLayoutSettings();
     }
 
 }

@@ -66,6 +66,10 @@ public class DocumentPackageConverter {
             apiPackageToCreate.setEmailMessage(sdkPackage.getPackageMessage());
         }
 
+        if ( sdkPackage.getNotarized() != null ) {
+            apiPackageToCreate.setNotarized(sdkPackage.getNotarized());
+        }
+
         if ( sdkPackage.getAttributes() != null ) {
             apiPackageToCreate.setData(sdkPackage.getAttributes().toMap());
         }
@@ -153,6 +157,10 @@ public class DocumentPackageConverter {
 
         if (apiPackage.getEmailMessage() != null) {
             packageBuilder.withEmailMessage(apiPackage.getEmailMessage());
+        }
+
+        if (apiPackage.getNotarized() != null) {
+            packageBuilder.withNotarized(apiPackage.getNotarized());
         }
 
         if (apiPackage.getLanguage() != null) {

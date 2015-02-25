@@ -21,6 +21,7 @@ public class DocumentPackage implements Serializable {
     private Date expiryDate;
     private Date updatedDate;
     private String packageMessage;
+    private Boolean notarized;
     private PackageId id;
     private PackageStatus status;
     private DocumentPackageSettings settings;
@@ -241,6 +242,14 @@ public class DocumentPackage implements Serializable {
 
     public void setMessages(List<Message> messages) {
         this.messages = messages;
+    }
+
+    public Boolean getNotarized() {
+        return notarized;
+    }
+
+    public void setNotarized(Boolean notarized) {
+        this.notarized = notarized;
     }
 
     public Visibility getVisibility() {
