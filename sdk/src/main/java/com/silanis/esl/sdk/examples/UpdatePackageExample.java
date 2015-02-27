@@ -127,7 +127,7 @@ public class UpdatePackageExample extends SDKSample {
                 .withEmailMessage(OLD_EMAIL_MESSAGE)
                 .expiresAt(now().plusMonths(1).toDate())
                 .withLanguage(Locale.ENGLISH)
-                        .withVisibility(OLD_VISIBILITY)
+                .withVisibility(OLD_VISIBILITY)
                 .withNotarized(OLD_NOTARIZED)
                 .autocomplete(true)
                 .withSettings(settingsToCreate)

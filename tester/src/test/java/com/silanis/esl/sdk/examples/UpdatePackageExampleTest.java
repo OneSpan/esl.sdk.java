@@ -1,5 +1,8 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.sdk.CeremonyLayoutSettings;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentPackageSettings;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,53 +17,57 @@ public class UpdatePackageExampleTest {
         UpdatePackageExample example = new UpdatePackageExample( Props.get() );
         example.run();
 
-        assertThat("Name is not updated correctly. ", example.createdPackage.getName(), is(example.packageToCreate.getName()));
-        assertThat("Description is not updated correctly. ", example.createdPackage.getDescription(), is(example.packageToCreate.getDescription()));
-        assertThat("Language is not updated correctly. ", example.createdPackage.getLanguage(), is(example.packageToCreate.getLanguage()));
-        assertThat("EmailMessage is not updated correctly. ", example.createdPackage.getPackageMessage(), is(example.packageToCreate.getPackageMessage()));
-        assertThat("Autocomplete is not updated correctly. ", example.createdPackage.getAutocomplete(), is(example.packageToCreate.getAutocomplete()));
-        assertThat("ExpiryDate is not updated correctly. ", example.createdPackage.getExpiryDate(), is(example.packageToCreate.getExpiryDate()));
-        assertThat("Notarized is not updated correctly. ", example.createdPackage.getNotarized(), is(example.packageToCreate.getNotarized()));
+        assertPackage(example.createdPackage, example.packageToCreate);
+        assertPackageSettings(example.createdSettings, example.settingsToCreate);
+        assertLayoutSettings(example.createdLayoutSettings, example.layoutSettingsToCreate);
 
-        assertThat("EnableInPerson is not updated correctly. ", example.createdSettings.getEnableInPerson(), is(example.settingsToCreate.getEnableInPerson()));
+        assertPackage(example.updatedPackage, example.packageToUpdate);
+        assertPackageSettings(example.updatedSettings, example.settingsToUpdate);
+        assertLayoutSettings(example.updatedLayoutSettings, example.layoutSettingsToUpdate);
+    }
 
-        assertThat("DeclineReasons are not updated correctly. ", example.createdSettings.getDeclineReasons().size(), is(example.settingsToCreate.getDeclineReasons().size()));
-        assertThat("DeclineReason1 is not updated correctly. ", example.createdSettings.getDeclineReasons().get(0), is(example.settingsToCreate.getDeclineReasons().get(0)));
-        assertThat("DeclineReason2 is not updated correctly. ", example.createdSettings.getDeclineReasons().get(1), is(example.settingsToCreate.getDeclineReasons().get(1)));
-        assertThat("DeclineReason3 is not updated correctly. ", example.createdSettings.getDeclineReasons().get(2), is(example.settingsToCreate.getDeclineReasons().get(2)));
-        assertThat("LinkHref is not updated correctly. ", example.createdSettings.getLinkHref(), is(example.settingsToCreate.getLinkHref()));
-        assertThat("LinkText is not updated correctly. ", example.createdSettings.getLinkText(), is(example.settingsToCreate.getLinkText()));
-        assertThat("LinkTooltip is not updated correctly. ", example.createdSettings.getLinkTooltip(), is(example.settingsToCreate.getLinkTooltip()));
-        assertThat("EnableOptOut is not updated correctly. ", example.createdSettings.getEnableOptOut(), is(example.settingsToCreate.getEnableOptOut()));
+    private void assertPackage(DocumentPackage actualPackage, DocumentPackage expectedPackage) {
+        assertThat("Name is not updated correctly. ", actualPackage.getName(), is(expectedPackage.getName()));
+        assertThat("Description is not updated correctly. ", actualPackage.getDescription(), is(expectedPackage.getDescription()));
+        assertThat("Language is not updated correctly. ", actualPackage.getLanguage(), is(expectedPackage.getLanguage()));
+        assertThat("EmailMessage is not updated correctly. ", actualPackage.getPackageMessage(), is(expectedPackage.getPackageMessage()));
+        assertThat("Autocomplete is not updated correctly. ", actualPackage.getAutocomplete(), is(expectedPackage.getAutocomplete()));
+        assertThat("ExpiryDate is not updated correctly. ", actualPackage.getExpiryDate(), is(expectedPackage.getExpiryDate()));
+        assertThat("Notarized is not updated correctly. ", actualPackage.getNotarized(), is(expectedPackage.getNotarized()));
+    }
 
-        assertThat("OptOutReasons are not updated correctly. ", example.createdSettings.getOptOutReasons().size(), is(example.settingsToCreate.getOptOutReasons().size()));
-        assertThat("OptOutReason1 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(0), is(example.settingsToCreate.getOptOutReasons().get(0)));
-        assertThat("OptOutReason2 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(1), is(example.settingsToCreate.getOptOutReasons().get(1)));
-        assertThat("OptOutReason3 is not updated correctly. ", example.createdSettings.getOptOutReasons().get(2), is(example.settingsToCreate.getOptOutReasons().get(2)));
+    private void assertPackageSettings(DocumentPackageSettings actualSettings, DocumentPackageSettings expectedSettings) {
+        assertThat("EnableInPerson is not updated correctly. ", actualSettings.getEnableInPerson(), is(expectedSettings.getEnableInPerson()));
 
+        assertThat("EnableDecline is not updated correctly. ", actualSettings.getEnableDecline(), is(expectedSettings.getEnableDecline()));
+        assertThat("DeclineReasons are not updated correctly. ", actualSettings.getDeclineReasons().size(), is(expectedSettings.getDeclineReasons().size()));
+        assertThat("DeclineReason1 is not updated correctly. ", actualSettings.getDeclineReasons().get(0), is(expectedSettings.getDeclineReasons().get(0)));
+        assertThat("DeclineReason2 is not updated correctly. ", actualSettings.getDeclineReasons().get(1), is(expectedSettings.getDeclineReasons().get(1)));
+        assertThat("DeclineReason3 is not updated correctly. ", actualSettings.getDeclineReasons().get(2), is(expectedSettings.getDeclineReasons().get(2)));
 
-        assertThat("Name is not updated correctly. ", example.updatedPackage.getName(), is(example.packageToUpdate.getName()));
-        assertThat("Description is not updated correctly. ", example.updatedPackage.getDescription(), is(example.packageToUpdate.getDescription()));
-        assertThat("Language is not updated correctly. ", example.updatedPackage.getLanguage(), is(example.packageToUpdate.getLanguage()));
-        assertThat("EmailMessage is not updated correctly. ", example.updatedPackage.getPackageMessage(), is(example.packageToUpdate.getPackageMessage()));
-        assertThat("Autocomplete is not updated correctly. ", example.updatedPackage.getAutocomplete(), is(example.packageToUpdate.getAutocomplete()));
-        assertThat("ExpiryDate is not updated correctly. ", example.updatedPackage.getExpiryDate(), is(example.packageToUpdate.getExpiryDate()));
-        assertThat("Notarized is not updated correctly. ", example.updatedPackage.getNotarized(), is(example.packageToUpdate.getNotarized()));
+        assertThat("LinkHref is not updated correctly. ", actualSettings.getLinkHref(), is(expectedSettings.getLinkHref()));
+        assertThat("LinkText is not updated correctly. ", actualSettings.getLinkText(), is(expectedSettings.getLinkText()));
+        assertThat("LinkTooltip is not updated correctly. ", actualSettings.getLinkTooltip(), is(expectedSettings.getLinkTooltip()));
 
-        assertThat("EnableInPerson is not updated correctly. ", example.updatedSettings.getEnableInPerson(), is(example.settingsToUpdate.getEnableInPerson()));
+        assertThat("EnableOptOut is not updated correctly. ", actualSettings.getEnableOptOut(), is(expectedSettings.getEnableOptOut()));
+        assertThat("OptOutReasons are not updated correctly. ", actualSettings.getOptOutReasons().size(), is(expectedSettings.getOptOutReasons().size()));
+        assertThat("OptOutReason1 is not updated correctly. ", actualSettings.getOptOutReasons().get(0), is(expectedSettings.getOptOutReasons().get(0)));
+        assertThat("OptOutReason2 is not updated correctly. ", actualSettings.getOptOutReasons().get(1), is(expectedSettings.getOptOutReasons().get(1)));
+        assertThat("OptOutReason3 is not updated correctly. ", actualSettings.getOptOutReasons().get(2), is(expectedSettings.getOptOutReasons().get(2)));
+    }
 
-        assertThat("DeclineReasons are not updated correctly. ", example.updatedSettings.getDeclineReasons().size(), is(example.settingsToUpdate.getDeclineReasons().size()));
-        assertThat("DeclineReason1 is not updated correctly. ", example.updatedSettings.getDeclineReasons().get(0), is(example.settingsToUpdate.getDeclineReasons().get(0)));
-        assertThat("DeclineReason2 is not updated correctly. ", example.updatedSettings.getDeclineReasons().get(1), is(example.settingsToUpdate.getDeclineReasons().get(1)));
-        assertThat("DeclineReason3 is not updated correctly. ", example.updatedSettings.getDeclineReasons().get(2), is(example.settingsToUpdate.getDeclineReasons().get(2)));
-        assertThat("LinkHref is not updated correctly. ", example.updatedSettings.getLinkHref(), is(example.settingsToUpdate.getLinkHref()));
-        assertThat("LinkText is not updated correctly. ", example.updatedSettings.getLinkText(), is(example.settingsToUpdate.getLinkText()));
-        assertThat("LinkTooltip is not updated correctly. ", example.updatedSettings.getLinkTooltip(), is(example.settingsToUpdate.getLinkTooltip()));
-        assertThat("EnableOptOut is not updated correctly. ", example.updatedSettings.getEnableOptOut(), is(example.settingsToUpdate.getEnableOptOut()));
-
-        assertThat("OptOutReasons are not updated correctly. ", example.updatedSettings.getOptOutReasons().size(), is(example.settingsToUpdate.getOptOutReasons().size()));
-        assertThat("OptOutReason1 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(0), is(example.settingsToUpdate.getOptOutReasons().get(0)));
-        assertThat("OptOutReason2 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(1), is(example.settingsToUpdate.getOptOutReasons().get(1)));
-        assertThat("OptOutReason3 is not updated correctly. ", example.updatedSettings.getOptOutReasons().get(2), is(example.settingsToUpdate.getOptOutReasons().get(2)));
+    private void assertLayoutSettings(CeremonyLayoutSettings actualLayoutSettings, CeremonyLayoutSettings expectedLayoutSettings) {
+        assertThat("BreadCrumbs are not updated correctly. ", actualLayoutSettings.getBreadCrumbs(), is(expectedLayoutSettings.getBreadCrumbs()));
+        assertThat("GlobalNavigation is not updated correctly. ", actualLayoutSettings.getGlobalNavigation(), is(expectedLayoutSettings.getGlobalNavigation()));
+        assertThat("iFrame is not updated correctly. ", actualLayoutSettings.getiFrame(), is(expectedLayoutSettings.getiFrame()));
+        assertThat("LogoImageLink is not updated correctly. ", actualLayoutSettings.getLogoImageLink(), is(expectedLayoutSettings.getLogoImageLink()));
+        assertThat("LogoImageSource is not updated correctly. ", actualLayoutSettings.getLogoImageSource(), is(expectedLayoutSettings.getLogoImageSource()));
+        assertThat("Navigator is not updated correctly. ", actualLayoutSettings.getNavigator(), is(expectedLayoutSettings.getNavigator()));
+        assertThat("ProgressBar is not updated correctly. ", actualLayoutSettings.getProgressBar(), is(expectedLayoutSettings.getProgressBar()));
+        assertThat("SessionBar is not updated correctly. ", actualLayoutSettings.getSessionBar(), is(expectedLayoutSettings.getSessionBar()));
+        assertThat("ShowGlobalConfirmButton is not updated correctly. ", actualLayoutSettings.getShowGlobalConfirmButton(), is(expectedLayoutSettings.getShowGlobalConfirmButton()));
+        assertThat("ShowGlobalDownloadButton is not updated correctly. ", actualLayoutSettings.getShowGlobalDownloadButton(), is(expectedLayoutSettings.getShowGlobalDownloadButton()));
+        assertThat("ShowGlobalSaveAsLayoutButton is not updated correctly. ", actualLayoutSettings.getShowGlobalSaveAsLayoutButton(), is(expectedLayoutSettings.getShowGlobalSaveAsLayoutButton()));
+        assertThat("ShowTitle is not updated correctly. ", actualLayoutSettings.getShowTitle(), is(expectedLayoutSettings.getShowTitle()));
     }
 }
