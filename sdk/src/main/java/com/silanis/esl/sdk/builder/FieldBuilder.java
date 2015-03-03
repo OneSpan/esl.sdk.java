@@ -303,7 +303,7 @@ public class FieldBuilder {
      * @return	the field builder itself
      */
     public FieldBuilder withValidation( FieldValidator fieldValidator ) {
-        this.fieldValidator = fieldValidator;
+        mergeValidation(fieldValidator);
         return this;
     }
 
@@ -314,6 +314,25 @@ public class FieldBuilder {
      */
     public FieldBuilder withValidation( FieldValidatorBuilder builder ) {
         return withValidation( builder.build() );
+    }
+
+    private void mergeValidation(FieldValidator fieldValidator) {
+        if (null != this.fieldValidator) {
+            if(null != fieldValidator.getErrorMessage())
+                this.fieldValidator.setErrorMessage(fieldValidator.getErrorMessage());
+            if(null != fieldValidator.getMaxLength())
+                this.fieldValidator.setMaxLength(fieldValidator.getMaxLength());
+            if(null != fieldValidator.getMinLength())
+                this.fieldValidator.setMinLength(fieldValidator.getMinLength());
+            if(null != fieldValidator.getRegex())
+                this.fieldValidator.setRegex(fieldValidator.getRegex());
+            if(null != fieldValidator.getOptions() && fieldValidator.getOptions().size() > 0)
+                this.fieldValidator.setOptions(fieldValidator.getOptions());
+
+            this.fieldValidator.setRequired(fieldValidator.isRequired());
+        } else {
+            this.fieldValidator = fieldValidator;
+        }
     }
 
 
