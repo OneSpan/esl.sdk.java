@@ -16,7 +16,10 @@ public class DocumentPackageAttributes {
     }
 
     public void append( String name, Object value ) {
-        this.contents.put(name, value);
+        if (null == contents) {
+            contents = new HashMap<String,Object>();
+        }
+        contents.put(name, value);
     }
 
     public Map<String, Object> getContents() {

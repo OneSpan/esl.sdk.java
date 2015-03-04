@@ -312,7 +312,7 @@ public class EslClient {
      *
      */
     private boolean isSdkVersionSet(DocumentPackage documentPackage) {
-        if (documentPackage.getAttributes() == null) {
+        if (null == documentPackage.getAttributes() || null == documentPackage.getAttributes().getContents()) {
             return false;
         }
 
