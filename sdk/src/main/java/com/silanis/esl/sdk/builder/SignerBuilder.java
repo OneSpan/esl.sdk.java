@@ -114,7 +114,7 @@ final public class SignerBuilder {
      * @param placeholder
      * @return
      */
-    public SignerBuilder replacing( Placeholder placeholder){
+    public SignerBuilder replacing(Placeholder placeholder){
         this.id = placeholder.getId();
         return this;
     }
