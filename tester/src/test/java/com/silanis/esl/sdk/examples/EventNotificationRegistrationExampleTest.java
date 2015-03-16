@@ -30,12 +30,27 @@ public class EventNotificationRegistrationExampleTest {
 
         assertThat("EventNotificationConfig is null", eventNotificationConfig, is(notNullValue()));
         assertThat("EventNotificationConfig's url is not set correctly", eventNotificationConfig.getUrl(), is(example.URL));
-        assertThat("EventNotificationConfig should have 3 events", eventNotificationConfig.getEvents().size(), is(3));
+        assertThat("EventNotificationConfig should have 18 events", eventNotificationConfig.getEvents().size(), is(18));
 
         List<NotificationEvent> eventList = new ArrayList<NotificationEvent>();
         eventList.add(example.EVENT1);
         eventList.add(example.EVENT2);
         eventList.add(example.EVENT3);
+        eventList.add(example.EVENT4);
+        eventList.add(example.EVENT5);
+        eventList.add(example.EVENT6);
+        eventList.add(example.EVENT7);
+        eventList.add(example.EVENT8);
+        eventList.add(example.EVENT9);
+        eventList.add(example.EVENT10);
+        eventList.add(example.EVENT11);
+        eventList.add(example.EVENT12);
+        eventList.add(example.EVENT13);
+        eventList.add(example.EVENT14);
+        eventList.add(example.EVENT15);
+        eventList.add(example.EVENT16);
+        eventList.add(example.EVENT17);
+        eventList.add(example.EVENT18);
 
         for (NotificationEvent event : eventList) {
             boolean found = false;

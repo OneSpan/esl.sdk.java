@@ -132,6 +132,22 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.PACKAGE_DELETE));
 
+        apiCallbackEvent1 = "KBA_FAILURE";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.KBA_FAILURE));
+
+        apiCallbackEvent1 = "EMAIL_BOUNCE";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.EMAIL_BOUNCE));
+
+        apiCallbackEvent1 = "PACKAGE_ATTACHMENT";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.PACKAGE_ATTACHMENT));
+
+        apiCallbackEvent1 = "SIGNER_LOCKED";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.SIGNER_LOCKED));
+
         apiCallbackEvent1 = "UNKNOWN";
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1.toString(), is(NotificationEvent.UNRECOGNIZED("UNKNOWN").toString()));
@@ -196,6 +212,22 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = NotificationEvent.PACKAGE_DELETE;
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
         assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("PACKAGE_DELETE"));
+
+        sdkNotificationEvent1 = NotificationEvent.KBA_FAILURE;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("KBA_FAILURE"));
+
+        sdkNotificationEvent1 = NotificationEvent.EMAIL_BOUNCE;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("EMAIL_BOUNCE"));
+
+        sdkNotificationEvent1 = NotificationEvent.PACKAGE_ATTACHMENT;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("PACKAGE_ATTACHMENT"));
+
+        sdkNotificationEvent1 = NotificationEvent.SIGNER_LOCKED;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("SIGNER_LOCKED"));
 
         sdkNotificationEvent1 = NotificationEvent.UNRECOGNIZED("UNKNOWN");
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();

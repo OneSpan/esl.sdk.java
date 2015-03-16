@@ -21,6 +21,10 @@ public class NotificationEvent extends EslEnumeration {
     public static final NotificationEvent PACKAGE_TRASH = new NotificationEvent("PACKAGE_TRASH", "PACKAGE_TRASH", 11);
     public static final NotificationEvent PACKAGE_RESTORE = new NotificationEvent("PACKAGE_RESTORE", "PACKAGE_RESTORE", 12);
     public static final NotificationEvent PACKAGE_DELETE = new NotificationEvent("PACKAGE_DELETE", "PACKAGE_DELETE", 13);
+    public static final NotificationEvent KBA_FAILURE = new NotificationEvent("KBA_FAILURE", "KBA_FAILURE", 14);
+    public static final NotificationEvent EMAIL_BOUNCE = new NotificationEvent("EMAIL_BOUNCE", "EMAIL_BOUNCE", 15);
+    public static final NotificationEvent PACKAGE_ATTACHMENT = new NotificationEvent("PACKAGE_ATTACHMENT", "PACKAGE_ATTACHMENT", 16);
+    public static final NotificationEvent SIGNER_LOCKED = new NotificationEvent("SIGNER_LOCKED", "SIGNER_LOCKED", 17);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -50,6 +54,10 @@ public class NotificationEvent extends EslEnumeration {
         sdkValues.put(PACKAGE_TRASH.name(), PACKAGE_TRASH);
         sdkValues.put(PACKAGE_RESTORE.name(), PACKAGE_RESTORE);
         sdkValues.put(PACKAGE_DELETE.name(), PACKAGE_DELETE);
+        sdkValues.put(KBA_FAILURE.name(), KBA_FAILURE);
+        sdkValues.put(EMAIL_BOUNCE.name(), EMAIL_BOUNCE);
+        sdkValues.put(PACKAGE_ATTACHMENT.name(), PACKAGE_ATTACHMENT);
+        sdkValues.put(SIGNER_LOCKED.name(), SIGNER_LOCKED);
     }
 
     private NotificationEvent(String apiValue, String sdkValue, int index) {
