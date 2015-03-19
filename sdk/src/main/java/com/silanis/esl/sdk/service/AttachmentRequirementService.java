@@ -1,25 +1,25 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.internal.converter.SignerConverter;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
-
-import java.util.UUID;
 
 /**
  * The AttachmentRequirementService class provides methods to help create attachments for signers.
  */
 public class AttachmentRequirementService {
 
-    private AttachmentRequirementApiClient apiClient;
     private UrlTemplate template;
     private RestClient client;
+    private PackageService packageService;
 
     public AttachmentRequirementService(AttachmentRequirementApiClient apiClient, RestClient restClient, String baseUrl) {
-        this.apiClient = apiClient;
+        packageService = new PackageService(restClient, baseUrl);
         this.client = restClient;
         template = new UrlTemplate(baseUrl);
     }
@@ -35,8 +35,7 @@ public class AttachmentRequirementService {
         signer.getAttachmentRequirement().get(attachmentName).setSenderComment("");
         signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.COMPLETE);
 
-        Role apiRole = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
-        apiClient.acceptAttachment(packageId.getId(), signer.getId(), apiRole);
+        packageService.updateSigner(packageId, signer);
     }
 
     /**
@@ -51,8 +50,7 @@ public class AttachmentRequirementService {
         signer.getAttachmentRequirement().get(attachmentName).setSenderComment(senderComment);
         signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.REJECTED);
 
-        Role apiRole = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));
-        apiClient.rejectAttachment(packageId.getId(),apiRole);
+        packageService.updateSigner(packageId, signer);
     }
 
     /**

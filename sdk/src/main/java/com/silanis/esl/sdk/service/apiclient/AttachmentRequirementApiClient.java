@@ -2,16 +2,15 @@ package com.silanis.esl.sdk.service.apiclient;
 
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.internal.*;
-import com.silanis.esl.sdk.internal.converter.SignerConverter;
-
-import java.util.UUID;
 
 /**
  * Created by dave on 11/08/14.
  */
+/**
+ * @deprecated Please use the same methods in AttachmentRequirementService instead.
+ */
+@Deprecated
 public class AttachmentRequirementApiClient {
     private UrlTemplate template;
     private RestClient restClient;

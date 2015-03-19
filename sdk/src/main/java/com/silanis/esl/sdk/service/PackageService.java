@@ -11,12 +11,10 @@ import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
-import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -29,12 +27,10 @@ public class PackageService {
 
     private UrlTemplate template;
     private RestClient client;
-    private AuthenticationTokensService authenticationTokensService;
 
     public PackageService(RestClient client, String baseUrl) {
         this.client = client;
         template = new UrlTemplate(baseUrl);
-        authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, baseUrl));
     }
 
     /**
