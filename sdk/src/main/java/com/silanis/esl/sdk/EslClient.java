@@ -4,28 +4,9 @@ import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.service.AccountService;
-import com.silanis.esl.sdk.service.ApprovalService;
-import com.silanis.esl.sdk.service.AttachmentRequirementService;
-import com.silanis.esl.sdk.service.AuditService;
-import com.silanis.esl.sdk.service.AuthenticationTokensService;
-import com.silanis.esl.sdk.service.CustomFieldService;
-import com.silanis.esl.sdk.service.EventNotificationService;
-import com.silanis.esl.sdk.service.FieldSummaryService;
-import com.silanis.esl.sdk.service.GroupService;
-import com.silanis.esl.sdk.service.LayoutService;
-import com.silanis.esl.sdk.service.PackageService;
-import com.silanis.esl.sdk.service.QRCodeService;
-import com.silanis.esl.sdk.service.ReminderService;
-import com.silanis.esl.sdk.service.SessionService;
-import com.silanis.esl.sdk.service.TemplateService;
-import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
-import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
-import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
-import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
-import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
-import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
-import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
+import com.silanis.esl.sdk.service.*;
+import com.silanis.esl.sdk.service.apiclient.*;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -39,6 +20,7 @@ import java.util.List;
 public class EslClient {
 
     private String baseURL;
+    private String webpageURL;
     private PackageService packageService;
     private SessionService sessionService;
     private FieldSummaryService fieldSummaryService;
@@ -54,6 +36,7 @@ public class EslClient {
     private AttachmentRequirementService attachmentRequirementService;
     private LayoutService layoutService;
     private QRCodeService qrCodeService;
+    private AuthenticationService authenticationService;
 
     /**
      * The constructor of the EslClient class
@@ -64,6 +47,26 @@ public class EslClient {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         this.baseURL = baseURL;
+        webpageURL = baseURL;
+        if (webpageURL.endsWith("/api")) {
+            webpageURL = webpageURL.replaceFirst("/api", "");
+        }
+        RestClient client = new RestClient(apiKey);
+        init(client);
+    }
+
+    /**
+     * The constructor of the EslClient class
+     * @param apiKey	the api key token
+     * @param baseURL	the E-SignLive base url
+     * @param webpageURL	the E-SignLive web page url
+     */
+    public EslClient(String apiKey, String baseURL, String webpageURL) {
+        Asserts.notNullOrEmpty( apiKey, "apiKey" );
+        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        Asserts.notNullOrEmpty( webpageURL, "webpageURL" );
+        this.baseURL = baseURL;
+        this.webpageURL = webpageURL;
         RestClient client = new RestClient(apiKey);
         init(client);
     }
@@ -108,6 +111,7 @@ public class EslClient {
         attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL),client,this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
+        authenticationService = new AuthenticationService(this.webpageURL);
     }
 
     /**
@@ -456,6 +460,13 @@ public class EslClient {
 
     public Document uploadDocument( Document document, DocumentPackage documentPackage ) {
         return uploadDocument(document.getFileName(), document.getContent(), document, documentPackage);
+    }
+
+    public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {
+        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+
+        attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
     }
 
     public GroupService getGroupService() {

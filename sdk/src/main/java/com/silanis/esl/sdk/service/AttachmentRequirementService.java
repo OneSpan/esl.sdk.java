@@ -1,10 +1,9 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 
@@ -78,4 +77,79 @@ public class AttachmentRequirementService {
         }
     }
 
+    /**
+     * Sender downloads all attachments for the package.
+     *
+     * @param packageId    the package ID
+     * @return
+     */
+    public byte[] downloadAllAttachmentsForPackage(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        try {
+            return client.getBytes(path);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not download all attachments.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download all attachments." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Sender downloads all attachments for the signer in the package.
+     *
+     * @param sdkPackage the package
+     * @param signer     the Signer
+     * @return
+     */
+
+    public byte[] downloadAllAttachmentsForSignerInPackage(DocumentPackage sdkPackage, Signer signer) {
+
+        com.silanis.esl.api.model.Package apiPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
+        String roleId = "";
+
+        for(Role role : apiPackage.getRoles()) {
+            for(com.silanis.esl.api.model.Signer apiSigner : role.getSigners()) {
+                if(signer.getEmail().equals(apiSigner.getEmail())) {
+                    roleId = role.getId();
+                }
+            }
+        }
+
+        return downloadAllAttachmentsForSignerInPackage(sdkPackage.getId(), roleId);
+    }
+
+    private byte[] downloadAllAttachmentsForSignerInPackage(PackageId packageId, String roleId) {
+        String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_FOR_ROLE_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{roleId}", roleId)
+                              .build();
+
+        try {
+            return client.getBytes(path);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not download all attachments for the signer in the package.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download all attachments for the signer in the package." + " Exception: " + e.getMessage());
+        }
+    }
+
+    public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileBytes, String signerSessionId) {
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId);
+
+        String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{attachmentId}", attachmentId)
+                              .build();
+
+        try {
+            signerClient.postMultipartFile(path, filename, fileBytes, "");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload attachment for signer.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not upload attachment for signer." + " Exception: " + e.getMessage());
+        }
+    }
 }

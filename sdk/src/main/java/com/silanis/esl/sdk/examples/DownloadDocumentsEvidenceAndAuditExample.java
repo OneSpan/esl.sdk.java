@@ -20,16 +20,16 @@ public class DownloadDocumentsEvidenceAndAuditExample {
     public static void main( String... args ) {
         EslClient esl = new EslClient( API_KEY, API_URL );
 
-        PackageId packageId = new PackageId("your package id");
-        byte[] documentContent = esl.downloadDocument(packageId, "your document id");
+        PackageId packageId = new PackageId("8d086f61-09b6-4da1-a385-b12eb3ac3654");
+        byte[] documentContent = esl.downloadDocument(packageId, "2579a8b01f0e008e");
 
-        Files.saveTo(documentContent, "downloaded.pdf");
+        Files.saveTo(documentContent, "download/downloaded.pdf");
 
         byte[] evidenceContent = esl.downloadEvidenceSummary(packageId);
-        Files.saveTo(evidenceContent, "evidence.pdf");
+        Files.saveTo(evidenceContent, "download/evidence.pdf");
 
         byte[] zip = esl.downloadZippedDocuments(packageId);
-        Files.saveTo(zip, "package.zip");
+        Files.saveTo(zip, "download/package.zip");
 
         List<Audit> auditList = esl.getAuditService().getAudit( packageId );
 

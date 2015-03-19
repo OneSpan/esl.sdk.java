@@ -25,8 +25,6 @@ public class VersionUtil {
         }catch (IOException ioEx){
             logger.warning("VersionUtil Exception : " + ioEx.getMessage());
         }
-
-        logger.info("VersionUtil java getVersion() : " + sdkVersion);
         return sdkVersion;
     }
 }

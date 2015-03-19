@@ -108,6 +108,8 @@ public class UrlTemplate {
 
     // AttachmentRequirement Service
     public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
+    public static final String ALL_ATTACHMENTS_PATH = "/packages/{packageId}/attachment/zip";
+    public static final String ALL_ATTACHMENTS_FOR_ROLE_PATH = "/packages/{packageId}/attachment/zip/{roleId}";
 
     // Layout Service
     public static final String LAYOUT_PATH = "/layouts";
