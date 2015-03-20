@@ -7,18 +7,21 @@ import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
 import com.silanis.esl.sdk.io.Files;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+import java.util.zip.ZipFile;
 
-import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.*;
+import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.newAttachmentRequirementWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
 public class AttachmentRequirementExample extends SDKSample {
 
-    private InputStream documentInputStream, attachmentInputStream;
+    private InputStream documentInputStream, attachmentInputStream1, attachmentInputStream2, attachmentInputStream3;
 
     public String email1;
     public String email2;
@@ -32,7 +35,13 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String NAME3 = "Third Attachment";
     public static final String DESCRIPTION3 = "Third description";
     public static final String SIGNER1_ID = "signer1Id";
+    public static final String SIGNER2_ID = "signer2Id";
     public static final String REJECTION_COMMENT = "Reject: uploaded wrong attachment.";
+
+    public static final String DOWNLOADED_ATTACHMENT_PDF = "downloadedAttachment.pdf";
+    public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP = "downloadedAllAttachmentsForPackage.zip";
+    public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner1InPackage.zip";
+    public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner2InPackage.zip";
 
     public DocumentPackage retrievedPackageAfterRejection, retrievedPackageAfterAccepting;
     public Map<String, AttachmentRequirement> signer1Attachments, signer2Attachments;
@@ -40,8 +49,14 @@ public class AttachmentRequirementExample extends SDKSample {
     public RequirementStatus retrievedSigner1Att1RequirementStatus, retrievedSigner2Att1RequirementStatus,
             retrievedSigner2Att2RequirementStatus, retrievedSigner1Att1RequirementStatusAfterRejection,
             retrievedSigner1Att1RequirementStatusAfterAccepting;
+
     public String retrievedSigner1Att1RequirementSenderCommentAfterRejection,
             retrievedSigner1Att1RequirementSenderCommentAfterAccepting;
+
+    public File downloadedAttachemnt1;
+    public long attachment1ForSigner1FileSize;
+    public ZipFile downloadedAllAttachmentsForPackageZip, downloadedAllAttachmentsForSigner1InPackageZip,
+            downloadedAllAttachmentsForSigner2InPackageZip;
 
     public static void main(String... args) {
         new AttachmentRequirementExample(Props.get()).run();
@@ -59,7 +74,9 @@ public class AttachmentRequirementExample extends SDKSample {
         this.email1 = email1;
         this.email2 = email2;
         this.documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        this.attachmentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        this.attachmentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-for-anchor-extraction.pdf");
+        this.attachmentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document-with-fields.pdf");
+        this.attachmentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("extract_document.pdf");
     }
 
     @Override
@@ -80,9 +97,10 @@ public class AttachmentRequirementExample extends SDKSample {
         Signer signer2 = SignerBuilder.newSignerWithEmail(email2)
                 .withFirstName("Patty")
                 .withLastName("Galant")
+                .withCustomId(SIGNER2_ID)
                 .withAttachmentRequirement(newAttachmentRequirementWithName(NAME2)
-                        .withDescription(DESCRIPTION2)
-                        .build())
+                                                   .withDescription(DESCRIPTION2)
+                                                   .build())
                 .withAttachmentRequirement(newAttachmentRequirementWithName(NAME3)
                     .withDescription(DESCRIPTION3)
                     .isRequiredAttachment()
@@ -119,8 +137,15 @@ public class AttachmentRequirementExample extends SDKSample {
         retrievedSigner2Att2RequirementStatus = signer2Att2.getStatus();
 
         // upload attachment
-        eslClient.uploadAttachment(packageId, signer1Att1.getId(), DocumentType.PDF.normalizeName("Test Attachment"),
-                                   new StreamDocumentSource(attachmentInputStream).content(), SIGNER1_ID);
+        byte[] attachment1ForSigner1FileContent = new StreamDocumentSource(attachmentInputStream1).content();
+        eslClient.uploadAttachment(packageId, signer1Att1.getId(), DocumentType.PDF.normalizeName("The attachment1 for signer1"),
+                                   attachment1ForSigner1FileContent, SIGNER1_ID);
+        attachment1ForSigner1FileSize = attachment1ForSigner1FileContent.length;
+
+        eslClient.uploadAttachment(packageId, signer2Att1.getId(), DocumentType.PDF.normalizeName("The attachment1 for signer2"),
+                                   new StreamDocumentSource(attachmentInputStream2).content(), SIGNER2_ID);
+        eslClient.uploadAttachment(packageId, signer2Att2.getId(), DocumentType.PDF.normalizeName("The attachment2 for signer2"),
+                                   new StreamDocumentSource(attachmentInputStream3).content(), SIGNER2_ID);
 
         // Sender rejects Signer1's uploaded attachment
         eslClient.getAttachmentRequirementService().rejectAttachment(packageId, signer1, NAME1, REJECTION_COMMENT);
@@ -138,14 +163,27 @@ public class AttachmentRequirementExample extends SDKSample {
 
         // Download signer1's attachment
         byte[] downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachment(packageId, attachment1Id);
-        Files.saveTo(downloadedAttachment, "downloadedAttachment.pdf");
+        Files.saveTo(downloadedAttachment, DOWNLOADED_ATTACHMENT_PDF);
 
         // Download all attachments for the package
         byte[] downloadedAllAttachmentsForPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForPackage(packageId);
-        Files.saveTo(downloadedAllAttachmentsForPackage, "downloadedAllAttachmentsForPackage.zip");
+        Files.saveTo(downloadedAllAttachmentsForPackage, DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP);
 
-        // Download all attachments for the signer in the package
-        byte[] downloadedAllAttachmentsForSignerInPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer1);
-        Files.saveTo(downloadedAllAttachmentsForSignerInPackage, "downloadedAllAttachmentsForSignerInPackage.zip");
+        // Download all attachments for the signer1 in the package
+        byte[] downloadedAllAttachmentsForSigner1InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer1);
+        Files.saveTo(downloadedAllAttachmentsForSigner1InPackage, DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP);
+
+        // Download all attachments for the signer2 in the package
+        byte[] downloadedAllAttachmentsForSigner2InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer2);
+        Files.saveTo(downloadedAllAttachmentsForSigner2InPackage, DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP);
+
+        try {
+            downloadedAttachemnt1 = new File(DOWNLOADED_ATTACHMENT_PDF);
+            downloadedAllAttachmentsForPackageZip = new ZipFile(DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP);
+            downloadedAllAttachmentsForSigner1InPackageZip = new ZipFile(DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP);
+            downloadedAllAttachmentsForSigner2InPackageZip = new ZipFile(DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
