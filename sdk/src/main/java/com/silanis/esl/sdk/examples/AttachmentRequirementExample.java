@@ -23,9 +23,9 @@ public class AttachmentRequirementExample extends SDKSample {
 
     private InputStream documentInputStream, attachmentInputStream1, attachmentInputStream2, attachmentInputStream3;
 
-    public String email1;
-    public String email2;
-    public Signer signer1;
+    private String email1;
+    private String email2;
+    private Signer signer1;
     private String attachment1Id;
 
     public static final String NAME1 = "Driver's license";
