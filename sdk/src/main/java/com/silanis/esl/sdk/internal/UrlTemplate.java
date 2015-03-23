@@ -101,6 +101,10 @@ public class UrlTemplate {
     public static final String NOTARY_JOURNAL_CSV_PATH = "/user/{userId}/journal/download";
     public static final String NOTARY_JOURNAL_LIST_PATH = "/user/{userId}/journal?to={to}&from={from}&dir={dir}";
 
+    // Delegation Service
+    public static final String DELEGATES_PATH = "/account/senders/{senderId}/delegates";
+    public static final String DELEGATE_ID_PATH = "/account/senders/{senderId}/delegates/{delegateId}";
+
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
     public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
