@@ -91,6 +91,8 @@ public class DelegationExample extends SDKSample {
         delegationUser8 = DelegationUserBuilder.newDelegationUser(retrievedSender8).build();
         delegationUser9 = DelegationUserBuilder.newDelegationUser(retrievedSender9).build();
 
+        eslClient.getAccountService().clearDelegates(createdOwnerMember.getId());
+
         eslClient.getAccountService().addDelegate(createdOwnerMember.getId(), delegationUser1);
         eslClient.getAccountService().addDelegate(createdOwnerMember.getId(), delegationUser2);
         eslClient.getAccountService().addDelegate(createdOwnerMember.getId(), delegationUser3);
