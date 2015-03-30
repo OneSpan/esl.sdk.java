@@ -19,9 +19,6 @@ public class UrlTemplate {
     public static final String ORIGINAL_PATH = "/packages/{packageId}/documents/{documentId}/original";
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";
     public static final String EVIDENCE_SUMMARY_PATH = "/packages/{packageId}/evidence/summary";
-    public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
-    public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";
-    public static final String USAGE_REPORT_PATH = "/reports/usage?from={from}&to={to}";
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
     public static final String CUSTOM_NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
     public static final String NOTIFY_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/notifications";
@@ -31,6 +28,12 @@ public class UrlTemplate {
 
     public static final String FAST_TRACK_URL_PATH = "/fastTrack/{packageId}/url?signing={signing}";
     public static final String START_FAST_TRACK_PATH = "/fastTrack?token={token}";
+
+    // Report Service
+    public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
+    public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";
+    public static final String USAGE_REPORT_PATH = "/reports/usage?from={from}&to={to}";
+    public static final String DELEGATION_REPORT_PATH = "/reports/delegation?senderId={senderId}&from={from}&to={to}";
 
     // Signer Service
     public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";
