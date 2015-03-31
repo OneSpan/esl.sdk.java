@@ -47,6 +47,17 @@ public class FieldValidator {
         return options;
     }
 
+    public void setOptions(List<String> options) {
+        this.options = options;
+    }
+
+    public void addOption(String option) {
+        if (null == option) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+        this.options.add(option);
+    }
+
     public void setRequired( boolean required ) {
         this.required = required;
     }
