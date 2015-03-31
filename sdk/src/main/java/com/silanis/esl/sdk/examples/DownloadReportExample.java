@@ -48,7 +48,7 @@ public class DownloadReportExample extends SDKSample {
     }
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "DownloadCompletionAndUsageReport " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "DownloadReport " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
