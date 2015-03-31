@@ -1187,4 +1187,25 @@ public class PackageService {
             throw new EslException("Could not get Journal Entries in csv." + " Exception: " + e.getMessage());
         }
     }
+
+    /**
+     * Get thank you dialog content.
+     * @param packageId The id of the package to get thank you dialog content.
+     * @return thank you dialog content
+     */
+    public String getThankYouDialogContent(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.THANK_YOU_DIALOG_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        try{
+            String json = client.get(path);
+            Properties thankYouDialogContent = Serialization.fromJson(json, Properties.class);
+            return thankYouDialogContent.getProperty("body");
+        } catch (RequestException e) {
+            throw new EslException("Could not get thank you dialog content.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get thank you dialog content." + " Exception: " + e.getMessage());
+        }
+    }
 }

@@ -38,6 +38,7 @@ public class EslClient {
     private LayoutService layoutService;
     private QRCodeService qrCodeService;
     private AuthenticationService authenticationService;
+    private SystemService systemService;
 
     /**
      * The constructor of the EslClient class
@@ -99,6 +100,7 @@ public class EslClient {
     private void init(RestClient client){
         packageService = new PackageService(client, this.baseURL);
         reportService = new ReportService(client, this.baseURL);
+        systemService = new SystemService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
         auditService = new AuditService(new AuditApiClient(client, this.baseURL));
@@ -509,5 +511,9 @@ public class EslClient {
 
     public QRCodeService getQrCodeService() {
         return qrCodeService;
+    }
+
+    public SystemService getSystemService() {
+        return systemService;
     }
 }

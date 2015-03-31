@@ -22,6 +22,7 @@ public class UrlTemplate {
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
     public static final String CUSTOM_NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
     public static final String NOTIFY_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/notifications";
+    public static final String THANK_YOU_DIALOG_PATH = "/packages/{packageId}/thank_you_dialog";
 
     public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
@@ -40,6 +41,9 @@ public class UrlTemplate {
     public static final String SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
     public static final String SIGNER_URL_PATH = "/packages/{packageId}/roles/{roleId}/signingUrl";
     public static final String SEND_SMS_TO_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}/sms_notification";
+
+    // System Service
+    public static final String SYSTEM_PATH = "/sysinfo";
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";
