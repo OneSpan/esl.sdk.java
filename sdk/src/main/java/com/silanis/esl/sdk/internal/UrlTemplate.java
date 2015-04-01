@@ -30,6 +30,8 @@ public class UrlTemplate {
     public static final String FAST_TRACK_URL_PATH = "/fastTrack/{packageId}/url?signing={signing}";
     public static final String START_FAST_TRACK_PATH = "/fastTrack?token={token}";
 
+    public static final String PACKAGE_INFORMATION_CONFIG_PATH = "/package_information/{packageId}/support_information";
+
     // Report Service
     public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
     public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";

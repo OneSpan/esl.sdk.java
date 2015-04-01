@@ -11,6 +11,7 @@ import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.SupportConfiguration;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
@@ -149,7 +150,7 @@ public class PackageService {
      */
     public void updatePackage( PackageId packageId, DocumentPackage sdkPackage ) throws EslException {
         String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
-                .replace( "{packageId}", packageId.getId() )
+                .replace("{packageId}", packageId.getId())
                 .build();
 
         Package aPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
@@ -1206,6 +1207,27 @@ public class PackageService {
             throw new EslException("Could not get thank you dialog content.", e);
         } catch (Exception e) {
             throw new EslException("Could not get thank you dialog content." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get package support configuration.
+     * @param packageId The id of the package to get package support configuration.
+     * @return package support configuration
+     */
+    public SupportConfiguration getConfig(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_INFORMATION_CONFIG_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        try{
+            String json = client.get(path);
+            com.silanis.esl.api.model.SupportConfiguration apiSupportConfiguration = Serialization.fromJson(json, com.silanis.esl.api.model.SupportConfiguration.class);
+            return new SupportConfigurationConverter(apiSupportConfiguration).toSDKSupportConfiguration();
+        } catch (RequestException e) {
+            throw new EslException("Could not get support configuration.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get support configuration." + " Exception: " + e.getMessage());
         }
     }
 }
