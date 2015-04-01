@@ -174,4 +174,25 @@ public class ApprovalApiClient {
             throw new EslException("Could not get field from signature.", e);
         }
     }
+
+    public List<Approval> getAllSignableApprovals(String packageId, String documentId, String signerId) {
+        String path = template.urlFor(UrlTemplate.SIGNABLE_APPROVAL_PATH)
+                              .replace("{packageId}", packageId)
+                              .replace("{documentId}", documentId)
+                              .replace("{signerId}", signerId)
+                              .build();
+
+        List<Approval> approvals;
+
+        try {
+            String stringResponse = restClient.get(path);
+            approvals = Serialization.fromJsonToList(stringResponse, Approval.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get all signable signatures.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get all signable signatures.", e);
+        }
+
+        return approvals;
+    }
 }
