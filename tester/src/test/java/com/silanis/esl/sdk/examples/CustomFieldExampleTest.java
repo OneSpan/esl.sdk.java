@@ -60,6 +60,8 @@ public class CustomFieldExampleTest {
 
         // Get the custom field values for this user
         assertThat("Could not get the custom field values for this user.", example.retrieveCustomFieldValueList1.size(), is(greaterThanOrEqualTo(1)));
+        assertThat("Could not get the custom field value1 for this user.", example.retrievedCustomFieldValue1.getId(), is(example.customFieldId1));
+        assertThat("Could not get the custom field value2 for this user.", example.retrievedCustomFieldValue2.getId(), is(example.customFieldId2));
 
         // Get the custom field values for this user after deleting 1 user custom field for this user
         assertThat("Could not delete the custom field value for this user.", example.retrieveCustomFieldValueList2.size(), is(example.retrieveCustomFieldValueList1.size() - 1));

@@ -35,11 +35,12 @@ public class CustomFieldExample extends SDKSample {
     public static final String ENGLISH_NAME2 = "Jersey Color";
     public static final String ENGLISH_DESCRIPTION2 = "The color of your team jersey";
 
-    public static String customFieldId1, customFieldId2;
-    public static CustomField retrieveCustomField;
-    public static List<CustomField> retrieveCustomFieldList1, retrieveCustomFieldList2;
+    public String customFieldId1, customFieldId2;
+    public CustomField customField, customField2, retrieveCustomField;
+    public List<CustomField> retrieveCustomFieldList1, retrieveCustomFieldList2;
 
-    public static List<CustomFieldValue> retrieveCustomFieldValueList1, retrieveCustomFieldValueList2;
+    public List<CustomFieldValue> retrieveCustomFieldValueList1, retrieveCustomFieldValueList2;
+    public CustomFieldValue retrievedCustomFieldValue1, retrievedCustomFieldValue2;
 
     public static void main(String... args) {
         new CustomFieldExample(Props.get()).run();
@@ -61,7 +62,7 @@ public class CustomFieldExample extends SDKSample {
     public void execute() {
         // First custom field
         customFieldId1 = UUID.randomUUID().toString().replaceAll("-", "");
-        CustomField customField = eslClient.getCustomFieldService()
+        customField = eslClient.getCustomFieldService()
                 .createCustomField(customFieldWithId(customFieldId1)
                                 .withDefaultValue(DEFAULT_VALUE)
                                 .withTranslation(newTranslation(ENGLISH_LANGUAGE)
@@ -75,13 +76,13 @@ public class CustomFieldExample extends SDKSample {
 
         CustomFieldValue customFieldValue = eslClient.getCustomFieldService()
                 .submitCustomFieldValue(CustomFieldValueBuilder.customFieldValueWithId(customField.getId())
-                                .withValue(FIELD_VALUE1)
-                                .build()
+                    .withValue(FIELD_VALUE1)
+                    .build()
                 );
 
         // Second custom field
         customFieldId2 = UUID.randomUUID().toString().replaceAll("-", "");
-        CustomField customField2 = eslClient.getCustomFieldService()
+        customField2 = eslClient.getCustomFieldService()
                 .createCustomField(customFieldWithId(customFieldId2)
                                 .withDefaultValue(DEFAULT_VALUE2)
                                 .withTranslation(newTranslation(ENGLISH_LANGUAGE)
@@ -92,8 +93,8 @@ public class CustomFieldExample extends SDKSample {
 
         CustomFieldValue customFieldValue2 = eslClient.getCustomFieldService()
                 .submitCustomFieldValue(CustomFieldValueBuilder.customFieldValueWithId(customField2.getId())
-                                .withValue(FIELD_VALUE2)
-                                .build()
+                    .withValue(FIELD_VALUE2)
+                    .build()
                  );
 
         // Create and send package with two custom fields
@@ -137,6 +138,8 @@ public class CustomFieldExample extends SDKSample {
 
         // Get the entire list of user custom field from the user
         retrieveCustomFieldValueList1 = eslClient.getCustomFieldService().getCustomFieldValues();
+        retrievedCustomFieldValue1 = eslClient.getCustomFieldService().getCustomFieldValue(customFieldId1);
+        retrievedCustomFieldValue2 = eslClient.getCustomFieldService().getCustomFieldValue(customFieldId2);
 
         // Delete the second custom field from the user
         eslClient.getCustomFieldService().deleteCustomFieldValue(retrieveCustomFieldValueList1.get(1).getId());
