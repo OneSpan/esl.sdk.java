@@ -335,7 +335,6 @@ public class FieldBuilder {
         }
     }
 
-
     /**
      * Set a field's value for a radio button or a checkbox
      * @param value true for checked and false for unchecked
