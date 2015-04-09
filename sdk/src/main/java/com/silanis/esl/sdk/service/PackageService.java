@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silanis.esl.api.model.*;
-import com.silanis.esl.api.model.CompletionReport;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
@@ -12,6 +11,7 @@ import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.SupportConfiguration;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
@@ -27,10 +27,12 @@ public class PackageService {
 
     private UrlTemplate template;
     private RestClient client;
+    private ReportService reportService;
 
     public PackageService(RestClient client, String baseUrl) {
         this.client = client;
         template = new UrlTemplate(baseUrl);
+        reportService = new ReportService(client, baseUrl);
     }
 
     /**
@@ -148,7 +150,7 @@ public class PackageService {
      */
     public void updatePackage( PackageId packageId, DocumentPackage sdkPackage ) throws EslException {
         String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
-                .replace( "{packageId}", packageId.getId() )
+                .replace("{packageId}", packageId.getId())
                 .build();
 
         Package aPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
@@ -961,170 +963,51 @@ public class PackageService {
     }
 
     /**
-     * Downloads the completion report from a sender
-     *
-     * @param packageStatus Status of the packages
-     * @param senderId Id of the sender
-     * @param from Starting date
-     * @param to Ending date
-     * @return The completion report
-     * @return The completion report
+     * @deprecated Use the {@link com.silanis.esl.sdk.service.ReportService#downloadCompletionReport}.
      */
+    @Deprecated
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
-
-        try {
-            String json = client.get(path);
-            CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
-            return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
-        }
-        catch (RequestException e) {
-            throw new EslServerException("Could not download the completion report.", e);
-        }
-        catch (Exception e) {
-            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
-        }
+        return reportService.downloadCompletionReport(packageStatus, senderId, from, to);
     }
 
     /**
-     * Downloads the completion report from a sender in csv format.
-     *
-     * @param packageStatus Status of the packages
-     * @param senderId Id of the sender
-     * @param from Starting date
-     * @param to Ending date
-     * @return The completion report in csv format
+     * @deprecated Use the {@link com.silanis.esl.sdk.service.ReportService#downloadCompletionReportAsCSV}.
      */
+    @Deprecated
     public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
-
-        try {
-            return client.get(path, "text/csv");
-        } catch (RequestException e) {
-            throw new EslException("Could not download the completion report in csv.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not download the completion report in csv." + " Exception: " + e.getMessage());
-        }
+        return reportService.downloadCompletionReportAsCSV(packageStatus, senderId, from, to);
     }
 
     /**
-     * Downloads the completion report from all senders
-     *
-     * @param packageStatus Status of the packages
-     * @param from Starting date
-     * @param to Ending date
-     * @return The completion report
-     * @return The completion report
+     * @deprecated Use the {@link com.silanis.esl.sdk.service.ReportService#downloadCompletionReport}.
      */
+    @Deprecated
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
-        String path = buildCompletionReportUrl(packageStatus, from, to);
-
-        try {
-            String json = client.get(path);
-            CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
-            return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
-        }
-        catch (RequestException e) {
-            throw new EslServerException("Could not download the completion report.", e);
-        }
-        catch (Exception e) {
-            throw new EslException("Could not download the completion report." + " Exception: " + e.getMessage());
-        }
+        return reportService.downloadCompletionReport(packageStatus, from, to);
     }
 
     /**
-     * Downloads the completion report from all senders in csv format.
-     *
-     * @param packageStatus Status of the packages
-     * @param from Starting date
-     * @param to Ending date
-     * @return The completion report in csv format
+     * @deprecated Use the {@link com.silanis.esl.sdk.service.ReportService#downloadCompletionReportAsCSV}.
      */
+    @Deprecated
     public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
-        String path = buildCompletionReportUrl(packageStatus, from, to);
-
-        try {
-            return client.get(path, "text/csv");
-        } catch (RequestException e) {
-            throw new EslException("Could not download the completion report in csv.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not download the completion report in csv." + " Exception: " + e.getMessage());
-        }
-    }
-
-    private String buildCompletionReportUrl(PackageStatus packageStatus, String senderId, Date from, Date to) {
-        String toDate = DateHelper.dateToIsoUtcFormat(to);
-        String fromDate = DateHelper.dateToIsoUtcFormat(from);
-
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
-                .replace("{from}", fromDate)
-                .replace("{to}", toDate)
-                .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
-                .replace("{senderId}", senderId)
-                .build();
-    }
-
-    private String buildCompletionReportUrl(PackageStatus packageStatus, Date from, Date to) {
-        String toDate = DateHelper.dateToIsoUtcFormat(to);
-        String fromDate = DateHelper.dateToIsoUtcFormat(from);
-
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_ALL_SENDERS_PATH)
-                       .replace("{from}", fromDate)
-                       .replace("{to}", toDate)
-                       .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
-                       .build();
+        return reportService.downloadCompletionReportAsCSV(packageStatus, from, to);
     }
 
     /**
-     * Downloads the usage report.
-     *
-     * @param from Starting date
-     * @param to Ending date
-     * @return The usage report
+     * @deprecated Use the {@link com.silanis.esl.sdk.service.ReportService#downloadUsageReport}.
      */
+    @Deprecated
     public com.silanis.esl.sdk.UsageReport downloadUsageReport(Date from, Date to) {
-        String path = buildUsageReportUrl(from, to);
-
-        try {
-            String json = client.get(path);
-            com.silanis.esl.api.model.UsageReport apiUsageReport = Serialization.fromJson(json, com.silanis.esl.api.model.UsageReport.class);
-            return new UsageReportConverter(apiUsageReport).toSDKUsageReport();
-        }
-        catch (RequestException e) {
-            throw new EslServerException("Could not download the usage report.", e);
-        }
-        catch (Exception e) {
-            throw new EslException("Could not download the usage report." + " Exception: " + e.getMessage());
-        }
+        return reportService.downloadUsageReport(from, to);
     }
 
     /**
-     * Downloads the usage report in csv format.
-     * @param from Starting date
-     * @param to Ending date
-     * @return The usage report in csv format
+     * @deprecated Use the {@link com.silanis.esl.sdk.service.ReportService#downloadUsageReportAsCSV}.
      */
+    @Deprecated
     public String downloadUsageReportAsCSV(Date from, Date to) {
-        String path = buildUsageReportUrl(from, to);
-
-        try {
-            return client.get(path, "text/csv");
-        } catch (RequestException e) {
-            throw new EslException("Could not download the usage report in csv.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not download the usage report in csv." + " Exception: " + e.getMessage());
-        }
-
-    }
-
-    private String buildUsageReportUrl(Date from, Date to) {
-        String toDate = DateHelper.dateToIsoUtcFormat(to);
-        String fromDate = DateHelper.dateToIsoUtcFormat(from);
-
-        return template.urlFor(UrlTemplate.USAGE_REPORT_PATH)
-                .replace("{from}", fromDate)
-                .replace("{to}", toDate)
-                .build();
+        return reportService.downloadUsageReportAsCSV(from, to);
     }
 
     /**
@@ -1303,6 +1186,48 @@ public class PackageService {
             throw new EslException("Could not get Journal Entries in csv.", e);
         } catch (Exception e) {
             throw new EslException("Could not get Journal Entries in csv." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get thank you dialog content.
+     * @param packageId The id of the package to get thank you dialog content.
+     * @return thank you dialog content
+     */
+    public String getThankYouDialogContent(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.THANK_YOU_DIALOG_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        try{
+            String json = client.get(path);
+            Properties thankYouDialogContent = Serialization.fromJson(json, Properties.class);
+            return thankYouDialogContent.getProperty("body");
+        } catch (RequestException e) {
+            throw new EslException("Could not get thank you dialog content.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get thank you dialog content." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get package support configuration.
+     * @param packageId The id of the package to get package support configuration.
+     * @return package support configuration
+     */
+    public SupportConfiguration getConfig(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_INFORMATION_CONFIG_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        try{
+            String json = client.get(path);
+            com.silanis.esl.api.model.SupportConfiguration apiSupportConfiguration = Serialization.fromJson(json, com.silanis.esl.api.model.SupportConfiguration.class);
+            return new SupportConfigurationConverter(apiSupportConfiguration).toSDKSupportConfiguration();
+        } catch (RequestException e) {
+            throw new EslException("Could not get support configuration.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get support configuration." + " Exception: " + e.getMessage());
         }
     }
 }

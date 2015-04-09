@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Session extends Model
-      implements java.io.Serializable
+        implements java.io.Serializable
 {
-    
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_ACCOUNT = "account";
+    @JsonIgnore
+    public static final String FIELD_DELEGATIONUSER = "delegationUser";
     @JsonIgnore
     public static final String FIELD_FEATURES = "features";
     @JsonIgnore
@@ -21,24 +23,28 @@ public class Session extends Model
     @JsonIgnore
     public static final String FIELD_PACKAGES = "packages";
     @JsonIgnore
+    public static final String FIELD_RESTRICTED = "restricted";
+    @JsonIgnore
     public static final String FIELD_SUPPORT = "support";
     @JsonIgnore
     public static final String FIELD_USER = "user";
-    
+
     // Empty Constructor
     public Session ( ) {}
-    
+
     // Fields
     protected Account _account = null;
+    protected DelegationUser _delegationUser = null;
     protected Features _features = null;
-    protected Boolean _inPerson = null;
+    protected Boolean _inPerson = false;
     protected List<String> _packages = new ArrayList<String>();
+    protected Boolean _restricted = false;
     protected SupportConfiguration _support = null;
     protected User _user;
-    
+
     // Accessors
-        
-    
+
+
     public Session setAccount( Account value ){
         // TODO With proper compare
         // if ( this._account == value ) return this;
@@ -55,9 +61,28 @@ public class Session extends Model
     public Account getAccount(){
         return _account;
     }
-    
-        
-    
+
+
+
+    public Session setDelegationUser( DelegationUser value ){
+        // TODO With proper compare
+        // if ( this._delegationUser == value ) return this;
+        this._delegationUser = value;
+        setDirty(FIELD_DELEGATIONUSER);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Session safeSetDelegationUser( DelegationUser value ){
+        if ( value != null ) { this.setDelegationUser( value ); }
+        return this;
+    }
+    public DelegationUser getDelegationUser(){
+        return _delegationUser;
+    }
+
+
+
     public Session setFeatures( Features value ){
         // TODO With proper compare
         // if ( this._features == value ) return this;
@@ -74,9 +99,9 @@ public class Session extends Model
     public Features getFeatures(){
         return _features;
     }
-    
-        
-    
+
+
+
     public Session setInPerson( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_INPERSON,value);
         // TODO With proper compare
@@ -98,9 +123,9 @@ public class Session extends Model
     public boolean evalInPerson(){
         return _inPerson == null ? false : _inPerson.booleanValue();
     }
-    
-        
-    
+
+
+
     public Session setPackages( List<String> value ){
         SchemaSanitizer.throwOnNull(FIELD_PACKAGES,value);
         // TODO With proper compare
@@ -125,9 +150,33 @@ public class Session extends Model
         setDirty(FIELD_PACKAGES);
         return this;
     }
-    
-        
-    
+
+
+
+    public Session setRestricted( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_RESTRICTED,value);
+        // TODO With proper compare
+        // if ( this._restricted == value ) return this;
+        this._restricted = value;
+        setDirty(FIELD_RESTRICTED);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Session safeSetRestricted( Boolean value ){
+        if ( value != null ) { this.setRestricted( value ); }
+        return this;
+    }
+    public Boolean getRestricted(){
+        return _restricted;
+    }
+    @JsonIgnore
+    public boolean evalRestricted(){
+        return _restricted == null ? false : _restricted.booleanValue();
+    }
+
+
+
     public Session setSupport( SupportConfiguration value ){
         // TODO With proper compare
         // if ( this._support == value ) return this;
@@ -144,9 +193,9 @@ public class Session extends Model
     public SupportConfiguration getSupport(){
         return _support;
     }
-    
-        
-    
+
+
+
     public Session setUser( User value ){
         SchemaSanitizer.throwOnNull(FIELD_USER,value);
         // TODO With proper compare
@@ -164,6 +213,6 @@ public class Session extends Model
     public User getUser(){
         return _user;
     }
-    
-    
+
+
 }

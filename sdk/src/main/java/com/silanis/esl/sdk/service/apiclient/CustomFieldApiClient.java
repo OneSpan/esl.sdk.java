@@ -116,6 +116,22 @@ public class CustomFieldApiClient {
         }
     }
 
+    public UserCustomField getUserCustomField(String customFieldId) {
+        String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_ID_PATH)
+                              .replace("{customFieldId}", customFieldId)
+                              .build();
+
+        String response;
+        try {
+            response = restClient.get(path);
+            return Serialization.fromJson(response, UserCustomField.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the custom field for the user.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the custom field for the user.", e);
+        }
+    }
+
     public UserCustomField submitCustomFieldValue(com.silanis.esl.api.model.UserCustomField userCustomField) throws EslException {
         String path = template.urlFor(UrlTemplate.USER_CUSTOMFIELD_PATH).build();
         String response;

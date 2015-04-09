@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.CompletionReport;
+import com.silanis.esl.sdk.DelegationReport;
 import com.silanis.esl.sdk.UsageReport;
 import com.silanis.esl.sdk.UsageReportCategory;
 import org.junit.Test;
@@ -14,11 +15,11 @@ import static org.hamcrest.core.IsNot.not;
 /**
  * Created by lena on 2014-05-27.
  */
-public class DownloadCompletionAndUsageReportExampleTest {
+public class DownloadReportExampleTest {
 
     @Test
     public void verifyResult() {
-        DownloadCompletionAndUsageReportExample example = new DownloadCompletionAndUsageReportExample(Props.get());
+        DownloadReportExample example = new DownloadReportExample(Props.get());
         example.run();
         // Assert correct download of completion report for a sender
         CompletionReport completionReportForSender = example.sdkCompletionReportForSender;
@@ -41,5 +42,10 @@ public class DownloadCompletionAndUsageReportExampleTest {
         assertThat("There should be at a draft key in packages map.", usageReport.getSenderUsageReports().get(0).getCountByUsageReportCategory().containsKey(UsageReportCategory.DRAFT), is(true));
         assertThat("Number of drafts should be greater or equal to 1.", usageReport.getSenderUsageReports().get(0).getCountByUsageReportCategory().get(UsageReportCategory.DRAFT), is(greaterThanOrEqualTo(1)));
         assertThat("Cannot download the usage report in csv format.", example.csvUsageReport, is(not(isEmptyOrNullString())));
+
+        // Assert correct download of delegation report
+        DelegationReport delegationReport = example.sdkDelegationReport;
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReport.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReport, is(not(isEmptyOrNullString())));
     }
 }

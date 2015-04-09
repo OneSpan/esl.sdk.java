@@ -19,12 +19,10 @@ public class UrlTemplate {
     public static final String ORIGINAL_PATH = "/packages/{packageId}/documents/{documentId}/original";
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";
     public static final String EVIDENCE_SUMMARY_PATH = "/packages/{packageId}/evidence/summary";
-    public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
-    public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";
-    public static final String USAGE_REPORT_PATH = "/reports/usage?from={from}&to={to}";
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
     public static final String CUSTOM_NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
     public static final String NOTIFY_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/notifications";
+    public static final String THANK_YOU_DIALOG_PATH = "/packages/{packageId}/thank_you_dialog";
 
     public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
@@ -32,11 +30,22 @@ public class UrlTemplate {
     public static final String FAST_TRACK_URL_PATH = "/fastTrack/{packageId}/url?signing={signing}";
     public static final String START_FAST_TRACK_PATH = "/fastTrack?token={token}";
 
+    public static final String PACKAGE_INFORMATION_CONFIG_PATH = "/package_information/{packageId}/support_information";
+
+    // Report Service
+    public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
+    public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";
+    public static final String USAGE_REPORT_PATH = "/reports/usage?from={from}&to={to}";
+    public static final String DELEGATION_REPORT_PATH = "/reports/delegation?senderId={senderId}&from={from}&to={to}";
+
     // Signer Service
     public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";
     public static final String SIGNER_PATH = "/packages/{packageId}/roles/{roleId}";
     public static final String SIGNER_URL_PATH = "/packages/{packageId}/roles/{roleId}/signingUrl";
     public static final String SEND_SMS_TO_SIGNER_PATH = "/packages/{packageId}/roles/{roleId}/sms_notification";
+
+    // System Service
+    public static final String SYSTEM_PATH = "/sysinfo";
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";
@@ -89,6 +98,7 @@ public class UrlTemplate {
     public static final String APPROVAL_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}";
     public static final String FIELD_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}/fields";
     public static final String FIELD_ID_PATH = "/packages/{packageId}/documents/{documentId}/approvals/{approvalId}/fields/{fieldId}";
+    public static final String SIGNABLE_APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/signers/{signerId}/approvals";
 
     // Provider Document Resource
     public static final String PROVIDER_DOCUMENTS = "/documents";
@@ -100,6 +110,10 @@ public class UrlTemplate {
     public static final String NOTARY_JOURNAL_PATH = "/user/{userId}/journal";
     public static final String NOTARY_JOURNAL_CSV_PATH = "/user/{userId}/journal/download";
     public static final String NOTARY_JOURNAL_LIST_PATH = "/user/{userId}/journal?to={to}&from={from}&dir={dir}";
+
+    // Delegation Service
+    public static final String DELEGATES_PATH = "/account/senders/{senderId}/delegates";
+    public static final String DELEGATE_ID_PATH = "/account/senders/{senderId}/delegates/{delegateId}";
 
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";

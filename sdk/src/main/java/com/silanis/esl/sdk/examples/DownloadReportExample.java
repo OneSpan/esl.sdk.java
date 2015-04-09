@@ -14,30 +14,33 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
-public class DownloadCompletionAndUsageReportExample extends SDKSample {
+public class DownloadReportExample extends SDKSample {
 
     public final String email1;
     private String senderUID;
     private InputStream documentInputStream1;
 
-    public com.silanis.esl.sdk.CompletionReport sdkCompletionReportForSender;
-    public com.silanis.esl.sdk.CompletionReport sdkCompletionReport;
-    public com.silanis.esl.sdk.UsageReport sdkUsageReport;
+    public CompletionReport sdkCompletionReportForSender;
+    public CompletionReport sdkCompletionReport;
+    public UsageReport sdkUsageReport;
+    public DelegationReport sdkDelegationReport;
+
     public String csvCompletionReportForSender;
     public String csvCompletionReport;
     public String csvUsageReport;
+    public String csvDelegationReport;
 
     public static void main(String... args) {
-        new DownloadCompletionAndUsageReportExample(Props.get()).run();
+        new DownloadReportExample(Props.get()).run();
     }
 
-    public DownloadCompletionAndUsageReportExample(Properties properties) {
+    public DownloadReportExample(Properties properties) {
         this(properties.getProperty("api.key"),
                 properties.getProperty("api.url"),
                 properties.getProperty("1.email"));
     }
 
-    public DownloadCompletionAndUsageReportExample(String apiKey, String apiUrl, String email1) {
+    public DownloadReportExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.senderUID = Converter.apiKeyToUID(apiKey);
@@ -45,7 +48,7 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
     }
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "DownloadCompletionAndUsageReport " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "DownloadReport " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
@@ -78,8 +81,8 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
         Date to = toCalendar.getTime();
 
         // Download the completion report for a sender
-        sdkCompletionReportForSender = eslClient.getPackageService().downloadCompletionReport(PackageStatus.DRAFT, senderUID, from, to);
-        csvCompletionReportForSender = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
+        sdkCompletionReportForSender = eslClient.getReportService().downloadCompletionReport(PackageStatus.DRAFT, senderUID, from, to);
+        csvCompletionReportForSender = eslClient.getReportService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, senderUID, from, to);
 
         // Display package id and name of packages in DRAFT from sender
         for(SenderCompletionReport senderCompletionReport : sdkCompletionReportForSender.getSenders()) {
@@ -91,8 +94,8 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
         }
 
         // Download the completion report for all senders
-        sdkCompletionReport = eslClient.getPackageService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, from, to);
-        csvCompletionReport = eslClient.getPackageService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, from, to);
+        sdkCompletionReport = eslClient.getReportService().downloadCompletionReport(com.silanis.esl.sdk.PackageStatus.DRAFT, from, to);
+        csvCompletionReport = eslClient.getReportService().downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus.DRAFT, from, to);
 
         // Display package id and name of packages in DRAFT from sender
         System.out.println();
@@ -106,7 +109,11 @@ public class DownloadCompletionAndUsageReportExample extends SDKSample {
         }
 
         // Download the usage report
-        sdkUsageReport = eslClient.getPackageService().downloadUsageReport(from, to);
-        csvUsageReport = eslClient.getPackageService().downloadUsageReportAsCSV(from, to);
+        sdkUsageReport = eslClient.getReportService().downloadUsageReport(from, to);
+        csvUsageReport = eslClient.getReportService().downloadUsageReportAsCSV(from, to);
+
+        // Download the delegation report for a sender
+        sdkDelegationReport = eslClient.getReportService().downloadDelegationReport(senderUID, from, to);
+        csvDelegationReport = eslClient.getReportService().downloadDelegationReportAsCSV(senderUID, from, to);
     }
 }

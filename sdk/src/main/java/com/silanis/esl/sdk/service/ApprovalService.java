@@ -127,6 +127,27 @@ public class ApprovalService {
     }
 
     /**
+     * Get all signable signatures
+     *
+     * @param sdkPackage  The sdk package containing the signature
+     * @param documentId  The document Id
+     * @param signerId The signer Id
+     * @return All signable signatures
+     * @throws EslException
+     */
+    public List<Signature> getAllSignableSignatures(DocumentPackage sdkPackage, String documentId, String signerId) throws EslException {
+        List<Signature> signatures = new ArrayList<Signature>();
+
+        Package aPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
+        List<Approval> approvals = apiClient.getAllSignableApprovals(sdkPackage.getId().getId(), documentId, signerId);
+        for(Approval approval : approvals) {
+            signatures.add(new SignatureConverter(approval, aPackage).toSDKSignature());
+        }
+
+        return  signatures;
+    }
+
+    /**
      * Add a field to a signature
      *
      * @param packageId   The package Id

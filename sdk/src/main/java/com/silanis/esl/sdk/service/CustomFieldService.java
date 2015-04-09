@@ -111,6 +111,17 @@ public class CustomFieldService {
     }
 
     /**
+     * Get a custom field for the user.
+     *
+     * @param customFieldId of user custom field
+     * @return user custom field
+     */
+    public CustomFieldValue getCustomFieldValue(String customFieldId) {
+        UserCustomField userCustomField = apiClient.getUserCustomField(customFieldId);
+        return new CustomFieldValueConverter(userCustomField).toSDKCustomFieldValue();
+    }
+
+    /**
      * Create an user custom field.
      * If the custom field already existed then update it.
      *

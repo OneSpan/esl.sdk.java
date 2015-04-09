@@ -1,12 +1,13 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Result;
-import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
+import com.silanis.esl.sdk.internal.converter.DelegationUserConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class AccountService {
      * @param accountMember The member to be invited
      */
     public com.silanis.esl.sdk.Sender inviteUser(AccountMember accountMember) {
-        Sender sender = new AccountMemberConverter(accountMember).toAPISender();
+        com.silanis.esl.api.model.Sender sender = new AccountMemberConverter(accountMember).toAPISender();
         sender = apiClient.inviteUser(sender);
         return new SenderConverter(sender).toSDKSender();
     }
@@ -51,9 +52,9 @@ public class AccountService {
      * @return A list mapping all the senders to their respective name
      */
     public Map<String, com.silanis.esl.sdk.Sender> getSenders(Direction direction, PageRequest request) {
-        Result<Sender> apiResponse = apiClient.getSenders(direction, request);
+        Result<com.silanis.esl.api.model.Sender> apiResponse = apiClient.getSenders(direction, request);
         Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
-        for (Sender sender : apiResponse.getResults()) {
+        for (com.silanis.esl.api.model.Sender sender : apiResponse.getResults()) {
             result.put(sender.getEmail(), new SenderConverter(sender).toSDKSender());
         }
         return result;
@@ -66,7 +67,7 @@ public class AccountService {
      * @return The sender corresponding to the senderId
      */
     public com.silanis.esl.sdk.Sender getSender(String senderId) {
-        Sender apiResponse = apiClient.getSender(senderId);
+        com.silanis.esl.api.model.Sender apiResponse = apiClient.getSender(senderId);
         return new SenderConverter(apiResponse).toSDKSender();
     }
 
@@ -87,7 +88,7 @@ public class AccountService {
      * @param senderId The sender Id
      */
     public void updateSender(SenderInfo sender, String senderId) {
-        Sender apiSender = new SenderConverter(sender).toAPISender();
+        com.silanis.esl.api.model.Sender apiSender = new SenderConverter(sender).toAPISender();
         apiSender.setId(senderId);
         apiClient.updateSender(apiSender, senderId);
     }
@@ -98,13 +99,68 @@ public class AccountService {
      * @return the contacts (key=email, value=Sender)
      */
     public Map<String, com.silanis.esl.sdk.Sender> getContacts() {
-        List<Sender> contacts = apiClient.getContacts();
+        List<com.silanis.esl.api.model.Sender> contacts = apiClient.getContacts();
 
         Map<String, com.silanis.esl.sdk.Sender> result = new HashMap<String, com.silanis.esl.sdk.Sender>();
-        for (Sender apiSender : contacts) {
+        for (com.silanis.esl.api.model.Sender apiSender : contacts) {
             result.put(apiSender.getEmail(), new SenderConverter(apiSender).toSDKSender());
         }
 
         return result;
+    }
+
+    /**
+     * Get a list of delegation users of the sender
+     *
+     * @param senderId   Id of the sender who's delegation users we are to retrieve.
+     * @return A list of all the delegation users of the sender.
+     */
+    public List<com.silanis.esl.sdk.DelegationUser> getDelegates(String senderId) {
+        List<com.silanis.esl.sdk.DelegationUser> result = new ArrayList<DelegationUser>();
+        List<com.silanis.esl.api.model.DelegationUser> apiDelegationUsers = apiClient.getDelegates(senderId);
+        for (com.silanis.esl.api.model.DelegationUser delegationUser : apiDelegationUsers) {
+            result.add(new DelegationUserConverter(delegationUser).toSDKDelegationUser());
+        }
+        return result;
+    }
+
+    /**
+     * Update the information of delegates
+     *
+     * @param senderId Id of the sender who's delegation users we are to update.
+     * @param delegateIds The delegate Ids to be updated.
+     */
+    public void updateDelegates(String senderId, List<String> delegateIds) {
+        apiClient.updateDelegates(senderId, delegateIds);
+    }
+
+    /**
+     * Add a new delegate to the sender
+     *
+     * @param senderId Id of the sender who's delegation users we are to add.
+     * @param delegationUser The delegation user to be added.
+     */
+    public void addDelegate(String senderId, com.silanis.esl.sdk.DelegationUser delegationUser) {
+        com.silanis.esl.api.model.DelegationUser apiDelegationUser = new DelegationUserConverter(delegationUser).toAPIDelegationUser();
+        apiClient.addDelegate(senderId, apiDelegationUser);
+    }
+
+    /**
+     * Delete a delegate from the sender
+     *
+     * @param senderId Id of the sender who's delegation user we are to delete.
+     * @param delegateId The delegate's Ids to be deleted.
+     */
+    public void removeDelegate(String senderId, String delegateId) {
+        apiClient.removeDelegate(senderId, delegateId);
+    }
+
+    /**
+     * Delete all delegates from the sender
+     *
+     * @param senderId Id of the sender who's all delegation users we are to delete.
+     */
+    public void clearDelegates(String senderId) {
+        apiClient.clearDelegates(senderId);
     }
 }

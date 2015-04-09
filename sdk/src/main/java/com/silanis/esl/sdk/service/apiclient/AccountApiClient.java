@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.service.apiclient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.silanis.esl.api.model.DelegationUser;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.util.JacksonUtil;
@@ -107,6 +108,77 @@ public class AccountApiClient {
             throw new EslServerException("Could not update sender.", e);
         } catch (Exception e) {
             throw new EslException("Could not update sender." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<DelegationUser> getDelegates(String senderId) {
+        String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
+                              .replace("{senderId}", senderId)
+                              .build();
+
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, DelegationUser.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get delegates.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get delegates." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void updateDelegates(String senderId, List<String> delegateIds) {
+        String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
+                              .replace("{senderId}", senderId)
+                              .build();
+        try {
+            String json = Serialization.toJson(delegateIds);
+            restClient.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update delegates.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update delegates." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void addDelegate(String senderId, DelegationUser delegationUser) {
+        String path = template.urlFor(UrlTemplate.DELEGATE_ID_PATH)
+                              .replace("{senderId}", senderId)
+                              .replace("{delegateId}", delegationUser.getId())
+                              .build();
+        try {
+            String json = Serialization.toJson(delegationUser);
+            restClient.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add a delegate.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not add a delegate." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void removeDelegate(String senderId, String delegateId) {
+        String path = template.urlFor(UrlTemplate.DELEGATE_ID_PATH)
+                              .replace("{senderId}", senderId)
+                              .replace("{delegateId}", delegateId)
+                              .build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not remove a delegate.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not remove a delegate." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void clearDelegates(String senderId) {
+        String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
+                              .replace("{senderId}", senderId)
+                              .build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not clear delegates.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not clear delegates." + " Exception: " + e.getMessage(), e);
         }
     }
 
