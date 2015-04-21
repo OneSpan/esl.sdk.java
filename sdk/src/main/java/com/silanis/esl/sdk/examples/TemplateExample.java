@@ -106,6 +106,6 @@ public class TemplateExample extends SDKSample {
 
         retrievedTemplate = eslClient.getPackage(templateId);
 
-        instantiatedTemplateId = eslClient.createPackageFromTemplate(newPackageNamed(PACKAGE_NAME).build(), templateId);
+        instantiatedTemplateId = eslClient.createPackageFromTemplate(templateId, newPackageNamed(PACKAGE_NAME).build());
     }
 }

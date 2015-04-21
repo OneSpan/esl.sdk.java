@@ -350,14 +350,22 @@ public class EslClient {
     /**
      * Creates a package based on an existent template
      *
-     * @param documentPackage	the document package
      * @param packageId	the package ID used as template for the new package
+     * @param documentPackage	the document package
      * @return	the package ID
      */
-    public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
+    public PackageId createPackageFromTemplate( PackageId packageId, DocumentPackage documentPackage ) {
         validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         return packageService.createPackageFromTemplate(packageId, packageToCreate);
+    }
+
+    /**
+     * @deprecated Please use createPackageFromTemplate( PackageId packageId, DocumentPackage documentPackage ) instead of this method.
+     */
+    @Deprecated
+    public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
+        return createPackageFromTemplate(packageId, documentPackage);
     }
 
     /**

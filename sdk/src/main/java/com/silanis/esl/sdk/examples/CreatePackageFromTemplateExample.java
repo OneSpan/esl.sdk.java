@@ -46,7 +46,7 @@ public class CreatePackageFromTemplateExample {
                         .withCustomId( "Signer2" ) )
                 .build();
 
-        PackageId id = esl.createPackageFromTemplate( packageData, template.getId() );
+        PackageId id = esl.createPackageFromTemplate( template.getId(), packageData );
 
         esl.sendPackage( id );
     }
