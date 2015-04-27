@@ -42,6 +42,7 @@ public class EventNotificationConfigConverter {
 
         Callback callback = new Callback();
         callback.setUrl(sdkEventNotificationConfig.getUrl());
+        callback.setKey(sdkEventNotificationConfig.getKey());
         for (NotificationEvent event : sdkEventNotificationConfig.getEvents()) {
             callback.addEvent(new EventNotificationConverter(event).toAPICallbackEvent());
         }
@@ -60,6 +61,7 @@ public class EventNotificationConfigConverter {
         }
 
         EventNotificationConfig eventNotificationConfig = new EventNotificationConfig(apiCallback.getUrl());
+        eventNotificationConfig.setKey(apiCallback.getKey());
         for (String callbackEvent : apiCallback.getEvents()) {
             eventNotificationConfig.addEvent(new EventNotificationConverter(callbackEvent).toSDKNotificationEvent());
         }

@@ -30,6 +30,7 @@ public class EventNotificationRegistrationExampleTest {
 
         assertThat("EventNotificationConfig is null", eventNotificationConfig, is(notNullValue()));
         assertThat("EventNotificationConfig's url is not set correctly", eventNotificationConfig.getUrl(), is(example.URL));
+        assertThat("EventNotificationConfig's key is not set correctly", eventNotificationConfig.getKey(), is(example.KEY));
         assertThat("EventNotificationConfig should have 18 events", eventNotificationConfig.getEvents().size(), is(18));
 
         List<NotificationEvent> eventList = new ArrayList<NotificationEvent>();

@@ -14,6 +14,7 @@ import java.util.Set;
 final public class EventNotificationConfigBuilder {
 
     private String url;
+    private String key;
     private Set<NotificationEvent> events;
 
     /**
@@ -21,7 +22,17 @@ final public class EventNotificationConfigBuilder {
      * @param url	represents the endpoint to which e-SL will post HTTP based notifications 
      */
     private EventNotificationConfigBuilder( String url ) {
+        this(url, "");
+    }
+
+    /**
+     * <p>This is the constructor of the EventNotificationCongifgBuilder class</p>
+     * @param url	represents the endpoint to which e-SL will post HTTP based notifications
+     * @param key	callback auth key
+     */
+    private EventNotificationConfigBuilder( String url, String key ) {
         this.url = url;
+        this.key = key;
         this.events = new HashSet<NotificationEvent>();
     }
 
@@ -32,6 +43,17 @@ final public class EventNotificationConfigBuilder {
      */
     public static EventNotificationConfigBuilder newEventNotificationConfig( String url ) {
         return new EventNotificationConfigBuilder( url );
+    }
+
+    /**
+     * Adds a key to the current EventNotificationConfig.
+     *
+     * @param key callback auth key
+     * @return the event notification config builder itself
+     */
+    public EventNotificationConfigBuilder withKey( String key ) {
+        this.key = key;
+        return this;
     }
 
     /**
@@ -50,6 +72,7 @@ final public class EventNotificationConfigBuilder {
      */
     public EventNotificationConfig build() {
         EventNotificationConfig result = new EventNotificationConfig( url );
+        result.setKey(key);
         result.getEvents().addAll( events );
         return result;
     }

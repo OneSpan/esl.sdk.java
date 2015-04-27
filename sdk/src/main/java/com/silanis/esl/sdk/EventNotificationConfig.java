@@ -6,10 +6,16 @@ import java.util.Set;
 
 public class EventNotificationConfig {
     private String url;
+    private String key;
     private Set<NotificationEvent> events;
 
     public EventNotificationConfig(String url) {
+        this(url, "");
+    }
+
+    public EventNotificationConfig(String url, String key) {
         this.url = url;
+        this.key = key;
         events = new LinkedHashSet<NotificationEvent>();
     }
 
@@ -19,6 +25,14 @@ public class EventNotificationConfig {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public void setEvents(Set<NotificationEvent> events) {

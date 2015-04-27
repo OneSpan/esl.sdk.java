@@ -8,25 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Callback extends Model
-      implements java.io.Serializable
+        implements java.io.Serializable
 {
-    
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_EVENTS = "events";
     @JsonIgnore
+    public static final String FIELD_KEY = "key";
+    @JsonIgnore
     public static final String FIELD_URL = "url";
-    
+
     // Empty Constructor
     public Callback ( ) {}
-    
+
     // Fields
     protected List<String> _events = new ArrayList<String>();
+    protected String _key = "";
     protected String _url = "";
-    
+
     // Accessors
-        
-    
+
+
     public Callback setEvents( List<String> value ){
         SchemaSanitizer.throwOnNull(FIELD_EVENTS,value);
         // TODO With proper compare
@@ -51,9 +54,30 @@ public class Callback extends Model
         setDirty(FIELD_EVENTS);
         return this;
     }
-    
-        
-    
+
+
+
+    public Callback setKey( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_KEY,value);
+        value = SchemaSanitizer.trim(value);
+        // TODO With proper compare
+        // if ( this._key == value ) return this;
+        this._key = value;
+        setDirty(FIELD_KEY);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Callback safeSetKey( String value ){
+        if ( value != null ) { this.setKey( value ); }
+        return this;
+    }
+    public String getKey(){
+        return _key;
+    }
+
+
+
     public Callback setUrl( String value ){
         SchemaSanitizer.throwOnNull(FIELD_URL,value);
         value = SchemaSanitizer.trim(value);
@@ -72,6 +96,6 @@ public class Callback extends Model
     public String getUrl(){
         return _url;
     }
-    
-    
+
+
 }

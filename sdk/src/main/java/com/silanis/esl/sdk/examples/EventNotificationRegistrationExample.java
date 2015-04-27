@@ -14,6 +14,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
 
     private EventNotificationConfig eventNotificationConfig;
     public static final String URL = "http://my.url.com";
+    public static final String KEY = "abc";
 
     public static final NotificationEvent EVENT1 = NotificationEvent.PACKAGE_CREATE;
     public static final NotificationEvent EVENT2 = NotificationEvent.PACKAGE_ACTIVATE;
@@ -55,6 +56,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
     public void execute() {
         // Register for event notifications
         eslClient.getEventNotificationService().register(newEventNotificationConfig(URL)
+                .withKey(KEY)
                 .forEvent(EVENT1)
                 .forEvent(EVENT2)
                 .forEvent(EVENT3)
