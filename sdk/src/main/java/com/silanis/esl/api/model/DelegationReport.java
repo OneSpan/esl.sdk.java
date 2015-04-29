@@ -1,13 +1,16 @@
 package com.silanis.esl.api.model;
 //
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class DelegationReport extends Report
       implements java.io.Serializable
@@ -25,12 +28,12 @@ public class DelegationReport extends Report
     public DelegationReport ( ) {}
     
     // Fields
-    protected List<DelegationEventReport> _delegationEventReports = new ArrayList<DelegationEventReport>();
+    protected Map<String, Collection<DelegationEventReport>> _delegationEventReports = new HashMap<String, Collection<DelegationEventReport>>();
     
     // Accessors
-        
-    
-    public DelegationReport setDelegationEventReports( List<DelegationEventReport> value ){
+
+
+    public DelegationReport setDelegationEvents( Map<String, Collection<DelegationEventReport>> value ){
         SchemaSanitizer.throwOnNull(FIELD_DELEGATIONEVENTREPORTS,value);
         // TODO With proper compare
         // if ( this._delegationEventReports == value ) return this;
@@ -40,21 +43,14 @@ public class DelegationReport extends Report
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public DelegationReport safeSetDelegationEventReports( List<DelegationEventReport> value ){
-        if ( value != null ) { this.setDelegationEventReports( value ); }
+    public DelegationReport safeSetDelegationEvents( Map<String, Collection<DelegationEventReport>> value ){
+        if ( value != null ) { this.setDelegationEvents( value ); }
         return this;
     }
-    public List<DelegationEventReport> getDelegationEventReports(){
+    public Map<String, Collection<DelegationEventReport>> getDelegationEvents(){
         return _delegationEventReports;
     }
-    // List adder
-    public DelegationReport addDelegationEventReport( DelegationEventReport value ){
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
-        this._delegationEventReports.add(value);
-        setDirty(FIELD_DELEGATIONEVENTREPORTS);
-        return this;
-    }
-    
+
         
     
     @JsonDeserialize(using = JsonDateDeserializer.class)

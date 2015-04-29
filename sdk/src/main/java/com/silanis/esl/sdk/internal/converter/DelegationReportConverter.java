@@ -1,5 +1,12 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.DelegationEventReport;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by schoi on 3/25/15.
  */
@@ -33,12 +40,20 @@ public class DelegationReportConverter {
 
         com.silanis.esl.sdk.DelegationReport result = new com.silanis.esl.sdk.DelegationReport();
 
-        for(com.silanis.esl.api.model.DelegationEventReport apiDelegationEventReport : apiDelegationReport.getDelegationEventReports()) {
-            result.addDelegationEventReports(new DelegationEventReportConverter(apiDelegationEventReport).toSDKDelegationEventReport());
+        for(Map.Entry<String, Collection<com.silanis.esl.api.model.DelegationEventReport>> apiDelegationEventReportMap : apiDelegationReport.getDelegationEvents().entrySet()) {
+            result.getDelegationEventReports().put(apiDelegationEventReportMap.getKey(), getSDKDelegationEventReportList(apiDelegationEventReportMap.getValue()));
         }
         result.setFrom(apiDelegationReport.getFrom());
         result.setTo(apiDelegationReport.getTo());
         return result;
+    }
+
+    private List<com.silanis.esl.sdk.DelegationEventReport> getSDKDelegationEventReportList(Collection<com.silanis.esl.api.model.DelegationEventReport> apiDelegationEventReportCollection) {
+        List<DelegationEventReport> sdkDelegationEventReportList = new ArrayList<com.silanis.esl.sdk.DelegationEventReport>();
+        for(com.silanis.esl.api.model.DelegationEventReport apiDelegationEventReport : apiDelegationEventReportCollection) {
+            sdkDelegationEventReportList.add(new DelegationEventReportConverter(apiDelegationEventReport).toSDKDelegationEventReport());
+        }
+        return sdkDelegationEventReportList;
     }
 
     public com.silanis.esl.api.model.DelegationReport toAPIDelegationReport() {
@@ -48,11 +63,19 @@ public class DelegationReportConverter {
 
         com.silanis.esl.api.model.DelegationReport result = new com.silanis.esl.api.model.DelegationReport();
 
-        for(com.silanis.esl.sdk.DelegationEventReport sdkDelegationEventReport : sdkDelegationReport.getDelegationEventReports()) {
-            result.addDelegationEventReport(new DelegationEventReportConverter(sdkDelegationEventReport).toAPIDelegationEventReport());
+        for(Map.Entry<String, List<com.silanis.esl.sdk.DelegationEventReport>> sdkDelegationEventReportMap : sdkDelegationReport.getDelegationEventReports().entrySet()) {
+            result.getDelegationEvents().put(sdkDelegationEventReportMap.getKey(), getAPIDelegationEventReportCollection(sdkDelegationEventReportMap.getValue()));
         }
         result.setFrom(sdkDelegationReport.getFrom());
         result.setTo(sdkDelegationReport.getTo());
         return result;
+    }
+
+    private Collection<com.silanis.esl.api.model.DelegationEventReport> getAPIDelegationEventReportCollection(List<com.silanis.esl.sdk.DelegationEventReport> sdkDelegationEventReportList) {
+        Collection<com.silanis.esl.api.model.DelegationEventReport> apiDelegationEventReportCollection = new ArrayList<com.silanis.esl.api.model.DelegationEventReport>();
+        for(com.silanis.esl.sdk.DelegationEventReport sdkDelegationEventReport : sdkDelegationEventReportList) {
+            apiDelegationEventReportCollection.add(new DelegationEventReportConverter(sdkDelegationEventReport).toAPIDelegationEventReport());
+        }
+        return apiDelegationEventReportCollection;
     }
 }
