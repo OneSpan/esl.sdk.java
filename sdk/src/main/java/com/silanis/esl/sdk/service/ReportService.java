@@ -162,6 +162,50 @@ public class ReportService {
     /**
      * Downloads the delegation report.
      *
+     * @return The usage report
+     */
+    public com.silanis.esl.sdk.DelegationReport downloadDelegationReport() {
+        String path = buildDelegationReportUrl();
+
+        try {
+            String json = client.get(path);
+            DelegationReport apiDelegationReport = Serialization.fromJson(json, com.silanis.esl.api.model.DelegationReport.class);
+            return new DelegationReportConverter(apiDelegationReport).toSDKDelegationReport();
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the delegation report.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Could not download the delegation report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the delegation report.
+     *
+     * @param from Starting date
+     * @param to Ending date
+     * @return The usage report
+     */
+    public com.silanis.esl.sdk.DelegationReport downloadDelegationReport(Date from, Date to) {
+        String path = buildDelegationReportUrl(from, to);
+
+        try {
+            String json = client.get(path);
+            DelegationReport apiDelegationReport = Serialization.fromJson(json, com.silanis.esl.api.model.DelegationReport.class);
+            return new DelegationReportConverter(apiDelegationReport).toSDKDelegationReport();
+        }
+        catch (RequestException e) {
+            throw new EslServerException("Could not download the delegation report.", e);
+        }
+        catch (Exception e) {
+            throw new EslException("Could not download the delegation report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the delegation report.
+     *
      * @param senderId Id of the sender
      * @param from Starting date
      * @param to Ending date
@@ -180,6 +224,40 @@ public class ReportService {
         }
         catch (Exception e) {
             throw new EslException("Could not download the delegation report." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the delegation report in csv format.
+     * @return The usage report in csv format
+     */
+    public String downloadDelegationReportAsCSV() {
+        String path = buildDelegationReportUrl();
+
+        try {
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the delegation report in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the delegation report in csv." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Downloads the delegation report in csv format.
+     * @param from Starting date
+     * @param to Ending date
+     * @return The usage report in csv format
+     */
+    public String downloadDelegationReportAsCSV(Date from, Date to) {
+        String path = buildDelegationReportUrl(from, to);
+
+        try {
+            return client.get(path, "text/csv");
+        } catch (RequestException e) {
+            throw new EslException("Could not download the delegation report in csv.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the delegation report in csv." + " Exception: " + e.getMessage());
         }
     }
 
@@ -235,14 +313,27 @@ public class ReportService {
                        .build();
     }
 
+    private String buildDelegationReportUrl() {
+        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH)
+                       .build();
+    }
+
+    private String buildDelegationReportUrl(Date from, Date to) {
+        String toDate = DateHelper.dateToIsoUtcFormat(to);
+        String fromDate = DateHelper.dateToIsoUtcFormat(from);
+
+        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH).build().concat("?from={from}&to={to}")
+                       .replace("{from}", fromDate)
+                       .replace("{to}", toDate);
+    }
+
     private String buildDelegationReportUrl(String senderId, Date from, Date to) {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH)
+        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH).build().concat("?senderId={senderId}&from={from}&to={to}")
                        .replace("{senderId}", senderId)
                        .replace("{from}", fromDate)
-                       .replace("{to}", toDate)
-                       .build();
+                       .replace("{to}", toDate);
     }
 }

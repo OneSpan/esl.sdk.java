@@ -44,8 +44,16 @@ public class DownloadReportExampleTest {
         assertThat("Cannot download the usage report in csv format.", example.csvUsageReport, is(not(isEmptyOrNullString())));
 
         // Assert correct download of delegation report
-        DelegationReport delegationReport = example.sdkDelegationReport;
-        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReport.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
-        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReport, is(not(isEmptyOrNullString())));
+        DelegationReport delegationReportForAccountWithoutDate = example.sdkDelegationReportForAccountWithoutDate;
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForAccountWithoutDate.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForAccountWithoutDate, is(not(isEmptyOrNullString())));
+
+        DelegationReport delegationReportForAccount = example.sdkDelegationReportForAccount;
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForAccount.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForAccount, is(not(isEmptyOrNullString())));
+
+        DelegationReport delegationReportForSender = example.sdkDelegationReportForSender;
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForSender.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForSender, is(not(isEmptyOrNullString())));
     }
 }

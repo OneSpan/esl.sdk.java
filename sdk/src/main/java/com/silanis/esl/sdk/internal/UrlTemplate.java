@@ -36,7 +36,7 @@ public class UrlTemplate {
     public static final String COMPLETION_REPORT_PATH = "/reports/completion?senderId={senderId}&status={status}&from={from}&to={to}";
     public static final String COMPLETION_REPORT_FOR_ALL_SENDERS_PATH = "/reports/completion?status={status}&from={from}&to={to}";
     public static final String USAGE_REPORT_PATH = "/reports/usage?from={from}&to={to}";
-    public static final String DELEGATION_REPORT_PATH = "/reports/delegation?senderId={senderId}&from={from}&to={to}";
+    public static final String DELEGATION_REPORT_PATH = "/reports/delegation";
 
     // Signer Service
     public static final String ADD_SIGNER_PATH = "/packages/{packageId}/roles";

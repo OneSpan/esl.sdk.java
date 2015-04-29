@@ -6,7 +6,10 @@ import com.silanis.esl.sdk.internal.Converter;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -23,12 +26,16 @@ public class DownloadReportExample extends SDKSample {
     public CompletionReport sdkCompletionReportForSender;
     public CompletionReport sdkCompletionReport;
     public UsageReport sdkUsageReport;
-    public DelegationReport sdkDelegationReport;
+    public DelegationReport sdkDelegationReportForAccountWithoutDate;
+    public DelegationReport sdkDelegationReportForAccount;
+    public DelegationReport sdkDelegationReportForSender;
 
     public String csvCompletionReportForSender;
     public String csvCompletionReport;
     public String csvUsageReport;
-    public String csvDelegationReport;
+    public String csvDelegationReportForAccountWithoutDate;
+    public String csvDelegationReportForAccount;
+    public String csvDelegationReportForSender;
 
     public static void main(String... args) {
         new DownloadReportExample(Props.get()).run();
@@ -94,7 +101,11 @@ public class DownloadReportExample extends SDKSample {
         csvUsageReport = eslClient.getReportService().downloadUsageReportAsCSV(from, to);
 
         // Download the delegation report for a sender
-        sdkDelegationReport = eslClient.getReportService().downloadDelegationReport(senderUID, from, to);
-        csvDelegationReport = eslClient.getReportService().downloadDelegationReportAsCSV(senderUID, from, to);
+        sdkDelegationReportForAccountWithoutDate = eslClient.getReportService().downloadDelegationReport();
+        sdkDelegationReportForAccount = eslClient.getReportService().downloadDelegationReport(from, to);
+        sdkDelegationReportForSender = eslClient.getReportService().downloadDelegationReport(senderUID, from, to);
+        csvDelegationReportForAccountWithoutDate = eslClient.getReportService().downloadDelegationReportAsCSV();
+        csvDelegationReportForAccount = eslClient.getReportService().downloadDelegationReportAsCSV(from, to);
+        csvDelegationReportForSender = eslClient.getReportService().downloadDelegationReportAsCSV(senderUID, from, to);
     }
 }
