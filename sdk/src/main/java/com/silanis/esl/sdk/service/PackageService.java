@@ -15,6 +15,7 @@ import com.silanis.esl.sdk.SupportConfiguration;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -533,11 +534,11 @@ public class PackageService {
      * @return The document in bytes
      * @throws EslException
      */
-    public byte[] downloadDocument(PackageId packageId, Document document) throws EslException {
+    public DownloadedFile downloadDocument(PackageId packageId, Document document) throws EslException {
         return downloadDocument(packageId, document.getId());
     }
 
-    public byte[] downloadDocument(PackageId packageId, String documentId) throws EslException {
+    public DownloadedFile downloadDocument(PackageId packageId, String documentId) throws EslException {
         String path = template.urlFor(UrlTemplate.PDF_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
@@ -559,7 +560,7 @@ public class PackageService {
      * @return The original document in bytes
      * @throws EslException
      */
-    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) throws EslException {
+    public DownloadedFile downloadOriginalDocument(PackageId packageId, String documentId) throws EslException {
         String path = template.urlFor(UrlTemplate.ORIGINAL_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
@@ -580,7 +581,7 @@ public class PackageService {
      * @return The zipped documents in bytes
      * @throws EslException
      */
-    public byte[] downloadZippedDocuments(PackageId packageId) throws EslException {
+    public DownloadedFile downloadZippedDocuments(PackageId packageId) throws EslException {
         String path = template.urlFor(UrlTemplate.ZIP_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
@@ -600,7 +601,7 @@ public class PackageService {
      * @return The evidence summary in bytes
      * @throws EslException
      */
-    public byte[] downloadEvidenceSummary(PackageId packageId) throws EslException {
+    public DownloadedFile downloadEvidenceSummary(PackageId packageId) throws EslException {
         String path = template.urlFor(UrlTemplate.EVIDENCE_SUMMARY_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
@@ -1175,13 +1176,13 @@ public class PackageService {
      * @param userId The ID of the user whose e-journal entries are being retrieved.
      * @return all of the user's notary e-journal entries in csv format.
      */
-    public String getJournalEntriesAsCSV(String userId) {
+    public DownloadedFile getJournalEntriesAsCSV(String userId) {
         String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_CSV_PATH)
                               .replace("{userId}", userId)
                               .build();
 
         try{
-            return client.get(path, "text/csv");
+            return client.getBytes(path);
         } catch (RequestException e) {
             throw new EslException("Could not get Journal Entries in csv.", e);
         } catch (Exception e) {

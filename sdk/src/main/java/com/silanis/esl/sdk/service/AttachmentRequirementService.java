@@ -7,6 +7,7 @@ import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 
 /**
@@ -60,7 +61,7 @@ public class AttachmentRequirementService {
      * @param attachmentId the attachment's ID
      * @return
      */
-    public byte[] downloadAttachment(PackageId packageId, String attachmentId) {
+    public DownloadedFile downloadAttachment(PackageId packageId, String attachmentId) {
         String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{attachmentId}", attachmentId)
@@ -81,7 +82,7 @@ public class AttachmentRequirementService {
      * @param packageId    the package ID
      * @return
      */
-    public byte[] downloadAllAttachmentsForPackage(PackageId packageId) {
+    public DownloadedFile downloadAllAttachmentsForPackage(PackageId packageId) {
         String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_PATH)
                               .replace("{packageId}", packageId.getId())
                               .build();
@@ -103,7 +104,7 @@ public class AttachmentRequirementService {
      * @return
      */
 
-    public byte[] downloadAllAttachmentsForSignerInPackage(DocumentPackage sdkPackage, Signer signer) {
+    public DownloadedFile downloadAllAttachmentsForSignerInPackage(DocumentPackage sdkPackage, Signer signer) {
 
         com.silanis.esl.api.model.Package apiPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
         String roleId = "";
@@ -119,7 +120,7 @@ public class AttachmentRequirementService {
         return downloadAllAttachmentsForSignerInPackage(sdkPackage.getId(), roleId);
     }
 
-    private byte[] downloadAllAttachmentsForSignerInPackage(PackageId packageId, String roleId) {
+    private DownloadedFile downloadAllAttachmentsForSignerInPackage(PackageId packageId, String roleId) {
         String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_FOR_ROLE_PATH)
                               .replace("{packageId}", packageId.getId())
                               .replace("{roleId}", roleId)

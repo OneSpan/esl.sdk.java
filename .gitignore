@@ -11,3 +11,4 @@ target
 *.settings
 /bin
 downloaded*.pdf
+/*.pdf
