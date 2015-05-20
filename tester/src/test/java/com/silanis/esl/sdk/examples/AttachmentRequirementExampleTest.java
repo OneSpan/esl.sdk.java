@@ -43,7 +43,7 @@ public class AttachmentRequirementExampleTest {
         assertThat("Signer1's attachment1's status should be changed back to COMPLETE.", example.retrievedSigner1Att1RequirementStatusAfterAccepting.toString(), is(equalTo(RequirementStatus.COMPLETE.toString())));
         assertThat("Signer1's attachment1's sender comment should be empty.", example.retrievedSigner1Att1RequirementSenderCommentAfterAccepting, is(""));
 
-        assertThat("Signer1's attachment1 was not downloaded correctly.", example.downloadedAttachemnt1.getName(), is(example.DOWNLOADED_ATTACHMENT_PDF));
+        assertThat("Signer1's attachment1 was not downloaded correctly.", example.downloadedAttachemnt1.getName(), is(example.ATTACHMENT_FILE_NAME1));
         assertThat("Signer1's attachment1 was not downloaded correctly.", example.downloadedAttachemnt1.length(), is(example.attachment1ForSigner1FileSize));
 
         assertThat("All package attachments were not downloaded correctly.", example.downloadedAllAttachmentsForPackageZip.size(), is(3));

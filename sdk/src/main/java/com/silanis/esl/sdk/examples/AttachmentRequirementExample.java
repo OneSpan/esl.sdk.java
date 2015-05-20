@@ -39,7 +39,9 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String SIGNER2_ID = "signer2Id";
     public static final String REJECTION_COMMENT = "Reject: uploaded wrong attachment.";
 
-    public static String DOWNLOADED_ATTACHMENT_PDF;
+    public static final String ATTACHMENT_FILE_NAME1 = DocumentType.PDF.normalizeName("The attachment1 for signer1");
+    public static final String ATTACHMENT_FILE_NAME2 = DocumentType.PDF.normalizeName("The attachment1 for signer2");
+    public static final String ATTACHMENT_FILE_NAME3 = DocumentType.PDF.normalizeName("The attachment2 for signer2");
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP = "downloadedAllAttachmentsForPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner1InPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner2InPackage.zip";
@@ -139,14 +141,13 @@ public class AttachmentRequirementExample extends SDKSample {
 
         // upload attachment
         byte[] attachment1ForSigner1FileContent = new StreamDocumentSource(attachmentInputStream1).content();
-        DOWNLOADED_ATTACHMENT_PDF = DocumentType.PDF.normalizeName("The attachment1 for signer1");
-        eslClient.uploadAttachment(packageId, signer1Att1.getId(), DOWNLOADED_ATTACHMENT_PDF,
+        eslClient.uploadAttachment(packageId, signer1Att1.getId(), ATTACHMENT_FILE_NAME1,
                                    attachment1ForSigner1FileContent, SIGNER1_ID);
         attachment1ForSigner1FileSize = attachment1ForSigner1FileContent.length;
 
-        eslClient.uploadAttachment(packageId, signer2Att1.getId(), DocumentType.PDF.normalizeName("The attachment1 for signer2"),
+        eslClient.uploadAttachment(packageId, signer2Att1.getId(), ATTACHMENT_FILE_NAME2,
                                    new StreamDocumentSource(attachmentInputStream2).content(), SIGNER2_ID);
-        eslClient.uploadAttachment(packageId, signer2Att2.getId(), DocumentType.PDF.normalizeName("The attachment2 for signer2"),
+        eslClient.uploadAttachment(packageId, signer2Att2.getId(), ATTACHMENT_FILE_NAME3,
                                    new StreamDocumentSource(attachmentInputStream3).content(), SIGNER2_ID);
 
         // Sender rejects Signer1's uploaded attachment

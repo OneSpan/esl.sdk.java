@@ -17,7 +17,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentRetrievalExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
-    private DownloadedFile pdfDocumentBytes, originalPdfDocumentBytes, zippedDocumentsBytes;
+
+    public DownloadedFile pdfDocumentFile, originalPdfDocumentFile, zippedDocumentsFile;
 
     public static void main(String... args) {
         new DocumentRetrievalExample(Props.get()).run();
@@ -33,18 +34,6 @@ public class DocumentRetrievalExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-    }
-
-    public DownloadedFile getPdfDocumentBytes() {
-        return pdfDocumentBytes;
-    }
-
-    public DownloadedFile getOriginalPdfDocumentBytes() {
-        return originalPdfDocumentBytes;
-    }
-
-    public DownloadedFile getZippedDocumentsBytes() {
-        return zippedDocumentsBytes;
     }
 
     @Override
@@ -67,9 +56,9 @@ public class DocumentRetrievalExample extends SDKSample {
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
 
-        pdfDocumentBytes = eslClient.downloadDocument(packageId, documentId);
-        originalPdfDocumentBytes = eslClient.downloadOriginalDocument(packageId, documentId);
-        zippedDocumentsBytes = eslClient.downloadZippedDocuments(packageId);
+        pdfDocumentFile = eslClient.downloadDocument(packageId, documentId);
+        originalPdfDocumentFile = eslClient.downloadOriginalDocument(packageId, documentId);
+        zippedDocumentsFile = eslClient.downloadZippedDocuments(packageId);
 
         // To write the byte[] to a file, use:
         // Files.saveTo(pdfDocumentBytes, "/path/to/directory/myDocument.pdf")

@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,6 +16,6 @@ public class NotaryJournalExampleTest {
         example.run();
 
         assertThat("Cannot get the completion report.", example.sdkJournalEntries, is(notNullValue()));
-        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries, Is.is(notNullValue()));
+        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries, is(notNullValue()));
     }
 }
