@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.io.DownloadedFile;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -16,7 +17,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentRetrievalExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
-    private byte[] pdfDocumentBytes, originalPdfDocumentBytes, zippedDocumentsBytes;
+    private DownloadedFile pdfDocumentBytes, originalPdfDocumentBytes, zippedDocumentsBytes;
 
     public static void main(String... args) {
         new DocumentRetrievalExample(Props.get()).run();
@@ -34,15 +35,15 @@ public class DocumentRetrievalExample extends SDKSample {
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
-    public byte[] getPdfDocumentBytes() {
+    public DownloadedFile getPdfDocumentBytes() {
         return pdfDocumentBytes;
     }
 
-    public byte[] getOriginalPdfDocumentBytes() {
+    public DownloadedFile getOriginalPdfDocumentBytes() {
         return originalPdfDocumentBytes;
     }
 
-    public byte[] getZippedDocumentsBytes() {
+    public DownloadedFile getZippedDocumentsBytes() {
         return zippedDocumentsBytes;
     }
 

@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.NotaryJournalEntry;
 import com.silanis.esl.sdk.internal.Converter;
+import com.silanis.esl.sdk.io.DownloadedFile;
 
 import java.util.List;
 import java.util.Properties;
@@ -12,7 +13,7 @@ import java.util.Properties;
 public class NotaryJournalExample extends SDKSample {
 
     public List<NotaryJournalEntry> sdkJournalEntries;
-    public String csvJournalEntries;
+    public DownloadedFile csvJournalEntries;
     private String senderUID;
 
     public static void main( String... args ) {

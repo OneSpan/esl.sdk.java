@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.*;
 
@@ -438,7 +439,7 @@ public class EslClient {
      * @param documentId the document ID
      * @return	the content of the document
      */
-    public byte[] downloadDocument(PackageId packageId, String documentId) {
+    public DownloadedFile downloadDocument(PackageId packageId, String documentId) {
         return packageService.downloadDocument(packageId, documentId);
     }
 
@@ -448,7 +449,7 @@ public class EslClient {
      * @param documentId the document ID
      * @return the content of the original document
      */
-    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) {
+    public DownloadedFile downloadOriginalDocument(PackageId packageId, String documentId) {
         return packageService.downloadOriginalDocument(packageId, documentId);
     }
 
@@ -457,7 +458,7 @@ public class EslClient {
      * @param packageId	the package ID
      * @return	the content of the evidence summary
      */
-    public byte[] downloadEvidenceSummary(PackageId packageId) {
+    public DownloadedFile downloadEvidenceSummary(PackageId packageId) {
         return packageService.downloadEvidenceSummary(packageId);
     }
 
@@ -466,7 +467,7 @@ public class EslClient {
      * @param packageId	the package ID
      * @return	the zipped documents
      */
-    public byte[] downloadZippedDocuments(PackageId packageId) {
+    public DownloadedFile downloadZippedDocuments(PackageId packageId) {
         return packageService.downloadZippedDocuments(packageId);
     }
 

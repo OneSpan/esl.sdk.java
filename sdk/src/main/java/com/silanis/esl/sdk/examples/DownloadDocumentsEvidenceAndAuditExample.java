@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.Audit;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Files;
 
 import java.util.List;
@@ -21,15 +22,15 @@ public class DownloadDocumentsEvidenceAndAuditExample {
         EslClient esl = new EslClient( API_KEY, API_URL );
 
         PackageId packageId = new PackageId("8d086f61-09b6-4da1-a385-b12eb3ac3654");
-        byte[] documentContent = esl.downloadDocument(packageId, "2579a8b01f0e008e");
+        DownloadedFile downloadedFile = esl.downloadDocument(packageId, "2579a8b01f0e008e");
 
-        Files.saveTo(documentContent, "download/downloaded.pdf");
+        Files.saveTo(downloadedFile.getContents(), "download/downloaded.pdf");
 
-        byte[] evidenceContent = esl.downloadEvidenceSummary(packageId);
-        Files.saveTo(evidenceContent, "download/evidence.pdf");
+        DownloadedFile evidenceContent = esl.downloadEvidenceSummary(packageId);
+        Files.saveTo(evidenceContent.getContents(), "download/evidence.pdf");
 
-        byte[] zip = esl.downloadZippedDocuments(packageId);
-        Files.saveTo(zip, "download/package.zip");
+        DownloadedFile zip = esl.downloadZippedDocuments(packageId);
+        Files.saveTo(zip.getContents(), "download/package.zip");
 
         List<Audit> auditList = esl.getAuditService().getAudit( packageId );
 
