@@ -76,7 +76,7 @@ public class DownloadReportExampleTest {
         rows = reader.readAll();
 
         if(completionReport.getSenders().get(0).getPackages().size() > 0) {
-            assertThat(rows, hasSize(completionReport.getSenders().get(0).getPackages().size() + 1));
+            assertThat(rows, hasSize(getCompletionReportCount(completionReport) + 1));
         }
 
         assertCreatedPackageIncludedInCSV(rows, example.packageId, "DRAFT");
@@ -93,7 +93,7 @@ public class DownloadReportExampleTest {
         rows = reader.readAll();
 
         if(completionReport.getSenders().get(0).getPackages().size() > 0) {
-            assertThat(rows, hasSize(completionReport.getSenders().get(0).getPackages().size() + 1));
+            assertThat(rows, hasSize(getCompletionReportCount(completionReport) + 1));
         }
 
         assertCreatedPackageIncludedInCSV(rows, example.package2Id, "SENT");
@@ -153,6 +153,14 @@ public class DownloadReportExampleTest {
             rows = getRowsBySender(rows, example.senderUID);
             assertThat(rows, hasSize(delegationReportForAccount.getDelegationEventReports().get(example.senderUID).size()));
         }
+    }
+
+    private int getCompletionReportCount(CompletionReport completionReport) {
+        int count = 0;
+        for(SenderCompletionReport senderCompletionReport : completionReport.getSenders()) {
+            count += senderCompletionReport.getPackages().size();
+        }
+        return count;
     }
 
     private void assertCreatedPackageIncludedInCompletionReport(CompletionReport completionReport, String sender, PackageId packageId, String packageStatus) {

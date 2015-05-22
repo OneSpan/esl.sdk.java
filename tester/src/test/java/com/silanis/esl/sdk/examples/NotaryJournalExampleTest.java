@@ -24,7 +24,8 @@ public class NotaryJournalExampleTest {
 
         assertThat("Cannot get the completion report.", example.sdkJournalEntries, is(notNullValue()));
 
-        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries, is(notNullValue()));
+        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries.getFilename(), is(notNullValue()));
+        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries.getContents(), is(notNullValue()));
 
         CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvJournalEntries.getContents())));
         List<String[]> rows = reader.readAll();
