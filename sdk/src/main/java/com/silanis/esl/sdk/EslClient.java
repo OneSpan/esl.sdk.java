@@ -439,7 +439,7 @@ public class EslClient {
      * @param documentId the document ID
      * @return	the content of the document
      */
-    public DownloadedFile downloadDocument(PackageId packageId, String documentId) {
+    public byte[] downloadDocument(PackageId packageId, String documentId) {
         return packageService.downloadDocument(packageId, documentId);
     }
 
@@ -449,7 +449,7 @@ public class EslClient {
      * @param documentId the document ID
      * @return the content of the original document
      */
-    public DownloadedFile downloadOriginalDocument(PackageId packageId, String documentId) {
+    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) {
         return packageService.downloadOriginalDocument(packageId, documentId);
     }
 
@@ -458,7 +458,7 @@ public class EslClient {
      * @param packageId	the package ID
      * @return	the content of the evidence summary
      */
-    public DownloadedFile downloadEvidenceSummary(PackageId packageId) {
+    public byte[] downloadEvidenceSummary(PackageId packageId) {
         return packageService.downloadEvidenceSummary(packageId);
     }
 
@@ -467,7 +467,7 @@ public class EslClient {
      * @param packageId	the package ID
      * @return	the zipped documents
      */
-    public DownloadedFile downloadZippedDocuments(PackageId packageId) {
+    public byte[] downloadZippedDocuments(PackageId packageId) {
         return packageService.downloadZippedDocuments(packageId);
     }
 

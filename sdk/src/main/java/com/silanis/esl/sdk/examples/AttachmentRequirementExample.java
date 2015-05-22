@@ -165,19 +165,19 @@ public class AttachmentRequirementExample extends SDKSample {
         retrievedSigner1Att1RequirementSenderCommentAfterAccepting = retrievedPackageAfterAccepting.getSigner(email1).getAttachmentRequirement().get(NAME1).getSenderComment();
 
         // Download signer1's attachment
-        DownloadedFile downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachment(packageId, attachment1Id);
+        DownloadedFile downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachmentFile(packageId, attachment1Id);
         Files.saveTo(downloadedAttachment.getContents(), downloadedAttachment.getFilename());
 
         // Download all attachments for the package
-        DownloadedFile downloadedAllAttachmentsForPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForPackage(packageId);
+        DownloadedFile downloadedAllAttachmentsForPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentFilesForPackage(packageId);
         Files.saveTo(downloadedAllAttachmentsForPackage.getContents(), DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP);
 
         // Download all attachments for the signer1 in the package
-        DownloadedFile downloadedAllAttachmentsForSigner1InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer1);
+        DownloadedFile downloadedAllAttachmentsForSigner1InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentFilesForSignerInPackage(retrievedPackage, signer1);
         Files.saveTo(downloadedAllAttachmentsForSigner1InPackage.getContents(), DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP);
 
         // Download all attachments for the signer2 in the package
-        DownloadedFile downloadedAllAttachmentsForSigner2InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer2);
+        DownloadedFile downloadedAllAttachmentsForSigner2InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentFilesForSignerInPackage(retrievedPackage, signer2);
         Files.saveTo(downloadedAllAttachmentsForSigner2InPackage.getContents(), DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP);
 
         try {

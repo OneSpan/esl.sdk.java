@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.io.DownloadedFile;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -18,7 +17,7 @@ public class DocumentRetrievalExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
 
-    public DownloadedFile pdfDocumentFile, originalPdfDocumentFile, zippedDocumentsFile;
+    public byte[] pdfDocumentBytes, originalPdfDocumentBytes, zippedDocumentsBytes;
 
     public static void main(String... args) {
         new DocumentRetrievalExample(Props.get()).run();
@@ -56,9 +55,9 @@ public class DocumentRetrievalExample extends SDKSample {
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
 
-        pdfDocumentFile = eslClient.downloadDocument(packageId, documentId);
-        originalPdfDocumentFile = eslClient.downloadOriginalDocument(packageId, documentId);
-        zippedDocumentsFile = eslClient.downloadZippedDocuments(packageId);
+        pdfDocumentBytes = eslClient.downloadDocument(packageId, documentId);
+        originalPdfDocumentBytes = eslClient.downloadOriginalDocument(packageId, documentId);
+        zippedDocumentsBytes = eslClient.downloadZippedDocuments(packageId);
 
         // To write the byte[] to a file, use:
         // Files.saveTo(pdfDocumentBytes, "/path/to/directory/myDocument.pdf")

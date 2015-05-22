@@ -1,10 +1,7 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
@@ -55,17 +52,25 @@ public class AttachmentRequirementService {
     }
 
     /**
-     * Sender downloads the attachment.
+     * @deprecated  This method was replaced by {@link #downloadAttachmentFile}
+     */
+    @Deprecated
+    public byte[] downloadAttachment(PackageId packageId, String attachmentId) {
+        return downloadAttachmentFile(packageId, attachmentId).getContents();
+    }
+
+    /**
+     * Sender downloads the attachmentFile with file name.
      *
      * @param packageId    the package ID
      * @param attachmentId the attachment's ID
      * @return
      */
-    public DownloadedFile downloadAttachment(PackageId packageId, String attachmentId) {
+    public DownloadedFile downloadAttachmentFile(PackageId packageId, String attachmentId) {
         String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
-                .replace("{packageId}", packageId.getId())
-                .replace("{attachmentId}", attachmentId)
-                .build();
+                              .replace("{packageId}", packageId.getId())
+                              .replace("{attachmentId}", attachmentId)
+                              .build();
 
         try {
             return client.getBytes(path);
@@ -77,12 +82,20 @@ public class AttachmentRequirementService {
     }
 
     /**
-     * Sender downloads all attachments for the package.
+     * @deprecated  This method was replaced by {@link #downloadAllAttachmentFilesForPackage}
+     */
+    @Deprecated
+    public byte[] downloadAllAttachmentsForPackage(PackageId packageId) {
+        return downloadAllAttachmentFilesForPackage(packageId).getContents();
+    }
+
+    /**
+     * Sender downloads all attachment files with file name for the package.
      *
      * @param packageId    the package ID
      * @return
      */
-    public DownloadedFile downloadAllAttachmentsForPackage(PackageId packageId) {
+    public DownloadedFile downloadAllAttachmentFilesForPackage(PackageId packageId) {
         String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_PATH)
                               .replace("{packageId}", packageId.getId())
                               .build();
@@ -97,14 +110,21 @@ public class AttachmentRequirementService {
     }
 
     /**
-     * Sender downloads all attachments for the signer in the package.
+     * @deprecated  This method was replaced by {@link #downloadAllAttachmentFilesForSignerInPackage}
+     */
+    @Deprecated
+    public byte[] downloadAllAttachmentsForSignerInPackage(DocumentPackage sdkPackage, Signer signer) {
+        return downloadAllAttachmentFilesForSignerInPackage(sdkPackage, signer).getContents();
+    }
+
+    /**
+     * Sender downloads all attachment files with file name for the signer in the package.
      *
      * @param sdkPackage the package
      * @param signer     the Signer
      * @return
      */
-
-    public DownloadedFile downloadAllAttachmentsForSignerInPackage(DocumentPackage sdkPackage, Signer signer) {
+    public DownloadedFile downloadAllAttachmentFilesForSignerInPackage(DocumentPackage sdkPackage, Signer signer) {
 
         com.silanis.esl.api.model.Package apiPackage = new DocumentPackageConverter(sdkPackage).toAPIPackage();
         String roleId = "";

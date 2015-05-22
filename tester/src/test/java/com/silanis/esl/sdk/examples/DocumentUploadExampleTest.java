@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.io.DownloadedFile;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -29,7 +28,7 @@ public class DocumentUploadExampleTest {
         assertThat("Document was not uploaded correctly. ", documentUploadExample.document.getName(), is(equalTo(documentUploadExample.uploadedDocument.getName())) );
 
         Document document = documentPackage.getDocument(DocumentUploadExample.UPLOADED_DOCUMENT_NAME);
-        DownloadedFile documentBinary = documentUploadExample.eslClient.downloadDocument( documentUploadExample.getPackageId(), document.getId().toString() );
-        assertThat("Document was not uploaded correctly. ", documentBinary.getContents().length != 0 );
+        byte[] documentBinary = documentUploadExample.eslClient.downloadDocument( documentUploadExample.getPackageId(), document.getId().toString() );
+        assertThat("Document was not uploaded correctly. ", documentBinary.length != 0 );
     }
 }

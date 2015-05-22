@@ -534,17 +534,17 @@ public class PackageService {
      * @return The document in bytes
      * @throws EslException
      */
-    public DownloadedFile downloadDocument(PackageId packageId, Document document) throws EslException {
+    public byte[] downloadDocument(PackageId packageId, Document document) throws EslException {
         return downloadDocument(packageId, document.getId());
     }
 
-    public DownloadedFile downloadDocument(PackageId packageId, String documentId) throws EslException {
+    public byte[] downloadDocument(PackageId packageId, String documentId) throws EslException {
         String path = template.urlFor(UrlTemplate.PDF_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .build();
         try {
-            return client.getBytesAsOctetStream(path);
+            return client.getBytesAsOctetStream(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the pdf document.", e);
         } catch (Exception e) {
@@ -560,13 +560,13 @@ public class PackageService {
      * @return The original document in bytes
      * @throws EslException
      */
-    public DownloadedFile downloadOriginalDocument(PackageId packageId, String documentId) throws EslException {
+    public byte[] downloadOriginalDocument(PackageId packageId, String documentId) throws EslException {
         String path = template.urlFor(UrlTemplate.ORIGINAL_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .build();
         try {
-            return client.getBytesAsOctetStream(path);
+            return client.getBytesAsOctetStream(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the original document.", e);
         } catch (Exception e) {
@@ -581,12 +581,12 @@ public class PackageService {
      * @return The zipped documents in bytes
      * @throws EslException
      */
-    public DownloadedFile downloadZippedDocuments(PackageId packageId) throws EslException {
+    public byte[] downloadZippedDocuments(PackageId packageId) throws EslException {
         String path = template.urlFor(UrlTemplate.ZIP_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
         try {
-            return client.getBytes(path);
+            return client.getBytes(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the documents to a zip file.", e);
         } catch (Exception e) {
@@ -601,12 +601,12 @@ public class PackageService {
      * @return The evidence summary in bytes
      * @throws EslException
      */
-    public DownloadedFile downloadEvidenceSummary(PackageId packageId) throws EslException {
+    public byte[] downloadEvidenceSummary(PackageId packageId) throws EslException {
         String path = template.urlFor(UrlTemplate.EVIDENCE_SUMMARY_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
         try {
-            return client.getBytes(path);
+            return client.getBytes(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the evidence summary.", e);
         } catch (Exception e) {

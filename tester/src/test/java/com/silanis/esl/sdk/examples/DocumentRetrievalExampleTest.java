@@ -18,9 +18,9 @@ public class DocumentRetrievalExampleTest {
         DocumentRetrievalExample example = new DocumentRetrievalExample(Props.get());
         example.run();
 
-        assertThat("Pdf document is null", example.pdfDocumentFile.getContents(), is(notNullValue()));
-        assertThat("Original document is null", example.originalPdfDocumentFile.getContents(), is(notNullValue()));
-        assertThat("Zip file is null", example.zippedDocumentsFile.getContents(), is(notNullValue()));
-        assertThat("Pdf document and original document should not be the same", example.pdfDocumentFile.getContents(), not(equalTo(example.originalPdfDocumentFile.getContents())));
+        assertThat("Pdf document is null", example.pdfDocumentBytes, is(notNullValue()));
+        assertThat("Original document is null", example.originalPdfDocumentBytes, is(notNullValue()));
+        assertThat("Zip file is null", example.zippedDocumentsBytes, is(notNullValue()));
+        assertThat("Pdf document and original document should not be the same", example.pdfDocumentBytes, not(equalTo(example.originalPdfDocumentBytes)));
     }
 }
