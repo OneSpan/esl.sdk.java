@@ -23,10 +23,10 @@ public class UpdateTemplateWithPlaceholderExampleTest {
         assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().size(), is(1));
         assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().get(example.PLACEHOLDER_ID), is(not(nullValue())));
 
-        assertThat("Template is not updated correctly.", example.retrievedTemplate.getName(), is(example.TEMPLATE2_NAME));
-        assertThat("Template is not updated correctly.", example.retrievedTemplate.getSigners().size(), is(2));
-        assertThat("Template is not updated correctly.", example.retrievedTemplate.getPlaceholders().size(), is(2));
-        assertThat("Template is not updated correctly.", example.retrievedTemplate.getPlaceholders().get(example.PLACEHOLDER_ID), is(not(nullValue())));
-        assertThat("Template is not updated correctly.", example.retrievedTemplate.getPlaceholders().get(example.PLACEHOLDER2_ID), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getName(), is(example.TEMPLATE2_NAME));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getSigners().size(), is(2));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().size(), is(2));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(example.PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(example.PLACEHOLDER2_ID), is(not(nullValue())));
     }
 }
