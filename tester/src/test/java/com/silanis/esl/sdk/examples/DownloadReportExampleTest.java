@@ -22,7 +22,7 @@ import static org.hamcrest.core.IsNot.not;
 public class DownloadReportExampleTest {
 
     @Test
-    public void verifyResult() throws IOException {
+    synchronized public void verifyResult() throws IOException {
         DownloadReportExample example = new DownloadReportExample(Props.get());
         example.run();
         // Assert correct download of completion report for a sender
