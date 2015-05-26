@@ -138,7 +138,7 @@ public class FieldBuilder {
         return new FieldBuilder()
                 .withStyle(FieldStyle.UNBOUND_RADIO_BUTTON)
                 .withValidation(FieldValidatorBuilder.basic()
-                        .withOption(group));
+                                                     .withOption(group));
     }
 
     /**
@@ -165,6 +165,19 @@ public class FieldBuilder {
 
     public static FieldBuilder textArea() {
         return new FieldBuilder().withStyle(FieldStyle.TEXT_AREA);
+    }
+
+    /**
+     * Creates a field builder having set the style to LABELFIELD. It defines
+     * a labelfield field at the location defined that the signer may be
+     * required to fill prior to signing the its associated signature
+     *
+     * @see FieldStyle
+     * @return a LABELFIELD styled field builder
+     */
+
+    public static FieldBuilder labelfield() {
+        return new FieldBuilder().withStyle(FieldStyle.LABELFIELD);
     }
 
     /**

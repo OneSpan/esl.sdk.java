@@ -46,6 +46,9 @@ public class GenericFieldsExample extends SDKSample {
     public static final String TEXT_AREA_ID = "textAreaId";
     public static final int TEXT_AREA_PAGE = 0;
     public static final String TEXT_AREA_VALUE = "textAreaValue";
+    public static final String LABEL_FIELD_ID = "labelFieldId";
+    public static final int LABEL_FIELD_PAGE = 0;
+    public static final String LABEL_FIELD_VALUE = "labelFieldValue";
 
     private int textfieldPositionX = 400;
     private int textfieldPositionY = 200;
@@ -73,6 +76,11 @@ public class GenericFieldsExample extends SDKSample {
     private double textAreaHeight = 600;
     private int textAreaPositionX = 200;
     private int textAreaPositionY = 200;
+    private double labelFieldWidth = 100;
+    private double labelFieldHeight = 60;
+    private int labelFieldPositionX = 250;
+    private int labelFieldPositionY = 250;
+
 
     public static void main( String... args ) {
         new GenericFieldsExample( Props.get() ).run();
@@ -103,9 +111,9 @@ public class GenericFieldsExample extends SDKSample {
                                 .onPage(0)
                                 .atPosition(400, 100)
                                 .withField(textField()
-                                        .withId(new FieldId(TEXTFIELD_ID))
-                                        .onPage(TEXTFIELD_PAGE)
-                                        .atPosition(textfieldPositionX, textfieldPositionY))
+                                    .withId(new FieldId(TEXTFIELD_ID))
+                                    .onPage(TEXTFIELD_PAGE)
+                                    .atPosition(textfieldPositionX, textfieldPositionY))
                                 .withField(checkBox()
                                         .withId(new FieldId(CHECKBOX_1_ID))
                                         .onPage(CHECKBOX_1_PAGE)
@@ -143,7 +151,13 @@ public class GenericFieldsExample extends SDKSample {
                                         .withValue(TEXT_AREA_VALUE)
                                         .onPage(TEXT_AREA_PAGE)
                                         .withSize(textAreaWidth, textAreaHeight)
-                                        .atPosition(textAreaPositionX, textAreaPositionY))))
+                                        .atPosition(textAreaPositionX, textAreaPositionY))
+                                .withField(labelfield()
+                                    .withId(new FieldId(LABEL_FIELD_ID))
+                                    .withValue(LABEL_FIELD_VALUE)
+                                    .onPage(LABEL_FIELD_PAGE)
+                                    .withSize(labelFieldWidth, labelFieldHeight)
+                                    .atPosition(labelFieldPositionX, labelFieldPositionY))))
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
