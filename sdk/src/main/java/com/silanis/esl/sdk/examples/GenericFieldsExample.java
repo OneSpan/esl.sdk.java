@@ -78,8 +78,8 @@ public class GenericFieldsExample extends SDKSample {
     private int textAreaPositionY = 200;
     private double labelFieldWidth = 100;
     private double labelFieldHeight = 60;
-    private int labelFieldPositionX = 250;
-    private int labelFieldPositionY = 250;
+    private int labelFieldPositionX = 150;
+    private int labelFieldPositionY = 150;
 
 
     public static void main( String... args ) {
