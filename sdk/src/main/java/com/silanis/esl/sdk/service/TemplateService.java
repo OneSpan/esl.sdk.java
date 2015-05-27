@@ -64,15 +64,11 @@ public class TemplateService {
     }
 
     /**
-     * Creates a package based on an existent template.
-     *
-     * @param documentPackage the document package
-     * @param packageId	the package ID used as template for the new package
-     * @return	the package ID
+     * @deprecated Please use createPackageFromTemplate( PackageId packageId, DocumentPackage documentPackage ) instead of this method.
      */
+    @Deprecated
     public PackageId createPackageFromTemplate(DocumentPackage documentPackage, PackageId packageId) {
-        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        return packageService.createPackageFromTemplate( packageId, packageToCreate );
+        return createPackageFromTemplate(packageId, documentPackage);
     }
 
     /**
