@@ -39,7 +39,8 @@ public class DownloadReportExampleTest {
         List<String[]> rows = reader.readAll();
 
         if(completionReportForSender.getSenders().get(0).getPackages().size() > 0) {
-            assertThat(rows, hasSize(completionReportForSender.getSenders().get(0).getPackages().size() + 1));
+            assertThat(rows, hasSize(greaterThanOrEqualTo(completionReportForSender.getSenders().get(0).getPackages().size())));
+            assertThat(rows, hasSize(lessThanOrEqualTo(completionReportForSender.getSenders().get(0).getPackages().size() + 2)));
         }
 
         assertCreatedPackageIncludedInCSV(rows, example.packageId, "DRAFT");
@@ -58,7 +59,8 @@ public class DownloadReportExampleTest {
         rows = reader.readAll();
 
         if(completionReportForSender.getSenders().get(0).getPackages().size() > 0) {
-            assertThat(rows, hasSize(completionReportForSender.getSenders().get(0).getPackages().size() + 1));
+            assertThat(rows, hasSize(greaterThanOrEqualTo(completionReportForSender.getSenders().get(0).getPackages().size())));
+            assertThat(rows, hasSize(lessThanOrEqualTo(completionReportForSender.getSenders().get(0).getPackages().size() + 2)));
         }
 
         assertCreatedPackageIncludedInCSV(rows, example.package2Id, "SENT");
@@ -76,7 +78,8 @@ public class DownloadReportExampleTest {
         rows = reader.readAll();
 
         if(completionReport.getSenders().get(0).getPackages().size() > 0) {
-            assertThat(rows, hasSize(getCompletionReportCount(completionReport) + 1));
+            assertThat(rows, hasSize(greaterThanOrEqualTo(getCompletionReportCount(completionReport))));
+            assertThat(rows, hasSize(lessThanOrEqualTo(getCompletionReportCount(completionReport) + 2)));
         }
 
         assertCreatedPackageIncludedInCSV(rows, example.packageId, "DRAFT");
@@ -93,7 +96,8 @@ public class DownloadReportExampleTest {
         rows = reader.readAll();
 
         if(completionReport.getSenders().get(0).getPackages().size() > 0) {
-            assertThat(rows, hasSize(getCompletionReportCount(completionReport) + 1));
+            assertThat(rows, hasSize(greaterThanOrEqualTo(getCompletionReportCount(completionReport))));
+            assertThat(rows, hasSize(lessThanOrEqualTo(getCompletionReportCount(completionReport) + 2)));
         }
 
         assertCreatedPackageIncludedInCSV(rows, example.package2Id, "SENT");
@@ -111,7 +115,8 @@ public class DownloadReportExampleTest {
         rows = reader.readAll();
 
         if(usageReport.getSenderUsageReports().size() > 0) {
-            assertThat(rows, hasSize(usageReport.getSenderUsageReports().size() + 1));
+            assertThat(rows, hasSize(greaterThanOrEqualTo(usageReport.getSenderUsageReports().size())));
+            assertThat(rows, hasSize(lessThanOrEqualTo(usageReport.getSenderUsageReports().size() + 2)));
         }
 
         // Assert correct download of delegation report
