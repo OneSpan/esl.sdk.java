@@ -12,10 +12,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class UserAuthenticationTokenExampleTest {
     @Test
     public void verifyResult() {
-        UserAuthenticationTokenExample userAuthenticationTokenExample = new UserAuthenticationTokenExample( Props.get() );
-        userAuthenticationTokenExample.run();
+        UserAuthenticationTokenExample example = new UserAuthenticationTokenExample( Props.get() );
+        example.run();
 
-        assertThat(userAuthenticationTokenExample.getSessionIdForUser(), is(notNullValue()));
+        assertThat(example.getSessionIdForUser(), is(notNullValue()));
     }
 
 }

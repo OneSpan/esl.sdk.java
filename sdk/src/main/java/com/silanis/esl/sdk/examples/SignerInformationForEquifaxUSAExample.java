@@ -25,7 +25,7 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
     private final String PACKAGE_NAME = "SignerInformationForEquifaxUSAExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxUSA example";
 
-    public final String EMAIL;
+    public final String email;
 
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Smith";
@@ -52,14 +52,14 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
 
     public SignerInformationForEquifaxUSAExample(String apiKey, String apiUrl, String email) {
         super( apiKey, apiUrl );
-        this.EMAIL = email;
+        this.email = email;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
                 .describedAs(PACKAGE_DESCRIPTION)
-                .withSigner(newSignerWithEmail(EMAIL)
+                .withSigner(newSignerWithEmail(email)
                         .withFirstName(FIRST_NAME)
                         .withLastName(LAST_NAME)
                         .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
@@ -76,7 +76,7 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
                                 .withTimeAtAddress(TIME_AT_ADDRESS)))
                 .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
                         .fromStream(documentInputStream, DocumentType.PDF)
-                        .withSignature(signatureFor(EMAIL).build()))
+                        .withSignature(signatureFor(email).build()))
                 .build();
 
         packageId = eslClient.createAndSendPackage(superDuperPackage);

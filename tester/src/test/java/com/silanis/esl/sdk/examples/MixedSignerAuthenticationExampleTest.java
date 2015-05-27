@@ -1,6 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Challenge;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.SignerInformationForEquifaxCanada;
+import com.silanis.esl.sdk.SignerInformationForEquifaxUSA;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -19,7 +22,7 @@ public class MixedSignerAuthenticationExampleTest {
 
         DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = documentPackage.getSigner(example.SIGNER1_EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
+        SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = documentPackage.getSigner(example.signer1Email).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada();
 
         assertThat( "first name in signerInformationForEquifaxCanada was not set correctly.", signerInformationForEquifaxCanada.getFirstName(),
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getFirstName() ) );
@@ -44,12 +47,12 @@ public class MixedSignerAuthenticationExampleTest {
         assertThat( "Home phone number in signerInformationForEquifaxCanada was not set correctly.",signerInformationForEquifaxCanada.getHomePhoneNumber(),
                 is( example.signerWithAuthenticationEquifaxCanada.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxCanada().getHomePhoneNumber() ) );
 
-        for (Challenge challenge: documentPackage.getSigner(example.SIGNER1_EMAIL).getChallengeQuestions()) {
+        for (Challenge challenge: documentPackage.getSigner(example.signer1Email).getChallengeQuestions()) {
             assertThat(challenge.getQuestion().contentEquals(example.signerWithAuthenticationEquifaxCanada.getChallengeQuestions().get(0).getQuestion())
                     || challenge.getQuestion().contentEquals(example.signerWithAuthenticationEquifaxCanada.getChallengeQuestions().get(1).getQuestion()), is(equalTo(true)));
         }
 
-        SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = documentPackage.getSigner(example.SIGNER2_EMAIL).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
+        SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = documentPackage.getSigner(example.signer2Email).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
 
         assertThat( "first name in signerInformationForEquifaxUSA was not set correctly.", signerInformationForEquifaxUSA.getFirstName(),
                 is( example.signerWithAuthenticationEquifaxUSA.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA().getFirstName() ) );
@@ -74,7 +77,7 @@ public class MixedSignerAuthenticationExampleTest {
         assertThat( "time at address in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getTimeAtAddress(),
                 is( example.signerWithAuthenticationEquifaxUSA.getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA().getTimeAtAddress() ) );
 
-        for (Challenge challenge: documentPackage.getSigner(example.SIGNER2_EMAIL).getChallengeQuestions()) {
+        for (Challenge challenge: documentPackage.getSigner(example.signer2Email).getChallengeQuestions()) {
             assertThat(challenge.getQuestion().contentEquals(example.signerWithAuthenticationEquifaxUSA.getChallengeQuestions().get(0).getQuestion())
                     || challenge.getQuestion().contentEquals(example.signerWithAuthenticationEquifaxUSA.getChallengeQuestions().get(1).getQuestion()), is(equalTo(true)));
         }

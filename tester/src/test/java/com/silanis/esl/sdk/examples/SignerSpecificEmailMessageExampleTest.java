@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.examples.SignerSpecificEmailMessageExample.EMAIL_MESSAGE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,10 +18,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerSpecificEmailMessageExampleTest {
     @Test
     public void verifyResult() {
-        SignerSpecificEmailMessageExample signerSpecificEmailMessageExample = new SignerSpecificEmailMessageExample(Props.get());
-        signerSpecificEmailMessageExample.run();
-        DocumentPackage documentPackage = signerSpecificEmailMessageExample.getRetrievedPackage();
+        SignerSpecificEmailMessageExample example = new SignerSpecificEmailMessageExample(Props.get());
+        example.run();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat(documentPackage.getSigner(signerSpecificEmailMessageExample.email1).getMessage(), is(equalTo(SignerSpecificEmailMessageExample.EMAIL_MESSAGE)));
+        assertThat(documentPackage.getSigner(example.email1).getMessage(), is(equalTo(EMAIL_MESSAGE)));
     }
 }
