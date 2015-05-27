@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.examples.DocumentUploadExample.UPLOADED_DOCUMENT_NAME;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -19,16 +20,16 @@ public class DocumentUploadExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentUploadExample documentUploadExample = new DocumentUploadExample( Props.get() );
-        documentUploadExample.run();
+        DocumentUploadExample example = new DocumentUploadExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = documentUploadExample.getEslClient().getPackage(documentUploadExample.getPackageId());
+        DocumentPackage documentPackage = example.getEslClient().getPackage(example.getPackageId());
 
         // Verify if the document was uploaded correctly.
-        assertThat("Document was not uploaded correctly. ", documentUploadExample.document.getName(), is(equalTo(documentUploadExample.uploadedDocument.getName())) );
+        assertThat("Document was not uploaded correctly. ", example.document.getName(), is(equalTo(example.uploadedDocument.getName())) );
 
-        Document document = documentPackage.getDocument(DocumentUploadExample.UPLOADED_DOCUMENT_NAME);
-        byte[] documentBinary = documentUploadExample.eslClient.downloadDocument( documentUploadExample.getPackageId(), document.getId().toString() );
+        Document document = documentPackage.getDocument(UPLOADED_DOCUMENT_NAME);
+        byte[] documentBinary = example.eslClient.downloadDocument( example.getPackageId(), document.getId().toString() );
         assertThat("Document was not uploaded correctly. ", documentBinary.length != 0 );
     }
 }

@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.examples.UpdateTemplateWithPlaceholderExample.*;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
@@ -18,15 +19,15 @@ public class UpdateTemplateWithPlaceholderExampleTest {
         UpdateTemplateWithPlaceholderExample example = new UpdateTemplateWithPlaceholderExample( Props.get() );
         example.run();
 
-        assertThat("Template is not created correctly.", example.retrievedTemplate.getName(), is(example.TEMPLATE1_NAME));
+        assertThat("Template is not created correctly.", example.retrievedTemplate.getName(), is(TEMPLATE1_NAME));
         assertThat("Template is not created correctly.", example.retrievedTemplate.getSigners().size(), is(2));
         assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().size(), is(1));
-        assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().get(example.PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().get(PLACEHOLDER_ID), is(not(nullValue())));
 
-        assertThat("Template is not updated correctly.", example.updatedTemplate.getName(), is(example.TEMPLATE2_NAME));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getName(), is(TEMPLATE2_NAME));
         assertThat("Template is not updated correctly.", example.updatedTemplate.getSigners().size(), is(2));
         assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().size(), is(2));
-        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(example.PLACEHOLDER_ID), is(not(nullValue())));
-        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(example.PLACEHOLDER2_ID), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(PLACEHOLDER2_ID), is(not(nullValue())));
     }
 }

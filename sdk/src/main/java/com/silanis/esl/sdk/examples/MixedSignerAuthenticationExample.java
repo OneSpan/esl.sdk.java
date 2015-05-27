@@ -31,8 +31,8 @@ public class MixedSignerAuthenticationExample extends SDKSample {
     public Signer signerWithAuthenticationEquifaxCanada;
     public Signer signerWithAuthenticationEquifaxUSA;
 
-    public final String SIGNER1_EMAIL;
-    public final String SIGNER2_EMAIL;
+    public final String signer1Email;
+    public final String signer2Email;
 
     public static void main( String... args ) {
         new MixedSignerAuthenticationExample(Props.get()).run();
@@ -47,13 +47,13 @@ public class MixedSignerAuthenticationExample extends SDKSample {
 
     public MixedSignerAuthenticationExample(String apiKey, String apiUrl, String email1, String email2) {
         super( apiKey, apiUrl );
-        this.SIGNER1_EMAIL = email1;
-        this.SIGNER2_EMAIL = email2;
+        this.signer1Email = email1;
+        this.signer2Email = email2;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     public void execute() {
-        signerWithAuthenticationEquifaxCanada = SignerBuilder.newSignerWithEmail(SIGNER1_EMAIL)
+        signerWithAuthenticationEquifaxCanada = SignerBuilder.newSignerWithEmail(signer1Email)
                         .withFirstName("Signer1")
                         .withLastName("Canada")
                         .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
@@ -75,7 +75,7 @@ public class MixedSignerAuthenticationExample extends SDKSample {
                         .answer("hockey"))
                         .build();
 
-        signerWithAuthenticationEquifaxUSA = SignerBuilder.newSignerWithEmail(SIGNER2_EMAIL)
+        signerWithAuthenticationEquifaxUSA = SignerBuilder.newSignerWithEmail(signer2Email)
                 .withFirstName("Signer2")
                 .withLastName("USA")
                 .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
@@ -103,8 +103,8 @@ public class MixedSignerAuthenticationExample extends SDKSample {
                 .withSigner(signerWithAuthenticationEquifaxUSA)
                 .withDocument(newDocumentWithName(DOCUMENT_NAME)
                         .fromStream(documentInputStream, DocumentType.PDF)
-                        .withSignature(signatureFor(SIGNER1_EMAIL).build())
-                        .withSignature(signatureFor(SIGNER2_EMAIL).build()))
+                        .withSignature(signatureFor(signer1Email).build())
+                        .withSignature(signatureFor(signer2Email).build()))
                 .build();
 
         packageId = eslClient.createAndSendPackage(superDuperPackage);

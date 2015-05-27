@@ -17,8 +17,7 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
  */
 public class TemplateExample extends SDKSample {
 
-    private String email1;
-    private String email2;
+    public String email1, email2;
     private InputStream documentInputStream1;
     private DocumentPackage retrievedTemplate;
 
@@ -60,14 +59,6 @@ public class TemplateExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.email2 = email2;
-    }
-
-    public String getEmail1() {
-        return email1;
-    }
-
-    public String getEmail2() {
-        return email2;
     }
 
     @Override

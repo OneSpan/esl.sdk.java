@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static com.silanis.esl.sdk.examples.DocumentPackageSettingsExample.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -21,28 +22,28 @@ public class DocumentPackageSettingsExampleTest {
     @Test
     public void verifyResult() {
 
-        DocumentPackageSettingsExample documentPackageSettingsExample = new DocumentPackageSettingsExample(Props.get());
-        documentPackageSettingsExample.run();
+        DocumentPackageSettingsExample example = new DocumentPackageSettingsExample(Props.get());
+        example.run();
 
-        DocumentPackage documentPackage = documentPackageSettingsExample.getRetrievedPackage();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
         DocumentPackageSettings documentPackageSettings = documentPackage.getSettings();
         assertThat("In Person flag not set correctly. ", documentPackageSettings.getEnableInPerson(), is(true));
         assertThat("Optout flag not set correctly. ", documentPackageSettings.getEnableOptOut(), is(true));
 
         List<String> declineReasons = documentPackageSettings.getDeclineReasons();
-        assertThat("Decline reason is not set properly:", declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_1) ||
-                declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_2) ||
-                declineReasons.contains(DocumentPackageSettingsExample.DECLINE_REASON_3));
+        assertThat("Decline reason is not set properly:", declineReasons.contains(DECLINE_REASON_1) ||
+                declineReasons.contains(DECLINE_REASON_2) ||
+                declineReasons.contains(DECLINE_REASON_3));
 
         List<String> optOutReasons = documentPackageSettings.getOptOutReasons();
 
-        assertThat("Opt out reason is not set properly:", optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_1) ||
-                                                          optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_2) ||
-                                                          optOutReasons.contains(DocumentPackageSettingsExample.OPT_OUT_REASON_3));
-        assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_HREF));
-        assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_TEXT));
-        assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(DocumentPackageSettingsExample.HAND_OVER_LINK_TOOLTIP));
+        assertThat("Opt out reason is not set properly:", optOutReasons.contains(OPT_OUT_REASON_1) ||
+                                                          optOutReasons.contains(OPT_OUT_REASON_2) ||
+                                                          optOutReasons.contains(OPT_OUT_REASON_3));
+        assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(HAND_OVER_LINK_HREF));
+        assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(HAND_OVER_LINK_TEXT));
+        assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(HAND_OVER_LINK_TOOLTIP));
         assertThat("Dialog on complete flag not set correctly. ", documentPackageSettings.getShowDialogOnComplete().equals(true));
         assertThat("Disable first affidavit was not set correctly. ", documentPackageSettings.getEnableFirstAffidavit(), is(equalTo(false)));
         assertThat("Disable second affidavit was not set correctly. ", documentPackageSettings.getEnableSecondAffidavit(), is(equalTo(false)));

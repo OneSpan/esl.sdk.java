@@ -1,14 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.Sender;
 import com.silanis.esl.sdk.SenderInfo;
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import java.util.Map;
 
+import static com.silanis.esl.sdk.Direction.ASCENDING;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -42,10 +41,10 @@ public class SenderManipulationExampleTest {
 
     private boolean assertSenderWasDeleted(String senderEmail) {
         int i = 0;
-        Map<String, Sender> senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, 100));
+        Map<String, Sender> senders = example.eslClient.getAccountService().getSenders(ASCENDING, new PageRequest(1, 100));
         while (!senders.containsKey(senderEmail)) {
             if (senders.size() == 100) {
-                senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++ * 100, 100));
+                senders = example.eslClient.getAccountService().getSenders(ASCENDING, new PageRequest(i++ * 100, 100));
             } else {
                 return true;
             }

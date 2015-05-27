@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static com.silanis.esl.sdk.examples.CreatePackageFromTemplateWithReplacingPlaceholderExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -25,14 +26,14 @@ public class CreatePackageFromTemplateWithReplacingPlaceholderExampleTest {
         Signer signer1 = example.retrievedPackage.getSigners().get(example.email1);
         Signer signer2 = example.retrievedPackage.getSigners().get(example.email2);
 
-        assertThat("Package Signer1 is not set correctly. ", signer1.getFirstName(), is(example.TEMPLATE_SIGNER_FIRST));
-        assertThat("Package Signer1 is not set correctly. ", signer1.getLastName(), is(example.TEMPLATE_SIGNER_LAST));
-        assertThat("Package Signer2 is not set correctly. ", signer2.getFirstName(), is(example.PACKAGE_SIGNER_FIRST));
-        assertThat("Package Signer2 is not set correctly. ", signer2.getLastName(), is(example.PACKAGE_SIGNER_LAST));
-        assertThat("Package Signer2 is not set correctly. ", signer2.getId(), is(example.PLACEHOLDER_ID));
+        assertThat("Package Signer1 is not set correctly. ", signer1.getFirstName(), is(TEMPLATE_SIGNER_FIRST));
+        assertThat("Package Signer1 is not set correctly. ", signer1.getLastName(), is(TEMPLATE_SIGNER_LAST));
+        assertThat("Package Signer2 is not set correctly. ", signer2.getFirstName(), is(PACKAGE_SIGNER_FIRST));
+        assertThat("Package Signer2 is not set correctly. ", signer2.getLastName(), is(PACKAGE_SIGNER_LAST));
+        assertThat("Package Signer2 is not set correctly. ", signer2.getId(), is(PLACEHOLDER_ID));
 
 
-        ArrayList<Signature> signatures = (ArrayList<Signature>)example.retrievedPackage.getDocument(example.DOCUMENT_NAME).getSignatures();
+        ArrayList<Signature> signatures = (ArrayList<Signature>)example.retrievedPackage.getDocument(DOCUMENT_NAME).getSignatures();
 
         assertThat("Package Signaturs are not set correctly. ", signatures.size(), is(2));
         assertThat("Package Signature1 is not set correctly. ", signatures.get(0).getSignerEmail(), is(example.email1));
