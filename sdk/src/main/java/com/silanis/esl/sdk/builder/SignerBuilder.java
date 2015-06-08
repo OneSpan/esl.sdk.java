@@ -28,7 +28,6 @@ final public class SignerBuilder {
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
-    private boolean locked = false;
     private Map<String, AttachmentRequirement> attachments = new HashMap<String, AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
@@ -163,7 +162,6 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setId(id);
-        result.setLocked(locked);
         result.setAttachmentRequirement(attachments);
 
         return result;
@@ -176,7 +174,6 @@ final public class SignerBuilder {
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
-        result.setLocked(locked);
         result.setAttachmentRequirement(attachments);
         return result;
     }
@@ -199,7 +196,6 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setId(id);
-        result.setLocked(locked);
         result.setAttachmentRequirement(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
 
@@ -324,15 +320,6 @@ final public class SignerBuilder {
      */
     public SignerBuilder deliverSignedDocumentsByEmail() {
         deliverSignedDocumentsByEmail = true;
-        return this;
-    }
-
-    /**
-     * Locks the signer.
-     * @return the signer builder object itself
-     */
-    public SignerBuilder lock() {
-        locked = true;
         return this;
     }
 
