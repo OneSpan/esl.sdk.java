@@ -168,19 +168,6 @@ public class FieldBuilder {
     }
 
     /**
-     * Creates a field builder having set the style to LABELFIELD. It defines
-     * a labelfield field at the location defined that the signer may be
-     * required to fill prior to signing the its associated signature
-     *
-     * @see FieldStyle
-     * @return a LABELFIELD styled field builder
-     */
-
-    public static FieldBuilder labelfield() {
-        return new FieldBuilder().withStyle(FieldStyle.LABELFIELD);
-    }
-
-    /**
      * Every bound field (Date, Title, Name) is a label.
      * The user should not have to set a field style to label.
      *

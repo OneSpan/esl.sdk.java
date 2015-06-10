@@ -20,7 +20,6 @@ public class FieldStyle extends EslEnumeration {
     public static final FieldStyle DROP_LIST = new FieldStyle("LIST", "DROP_LIST", 10);
     public static final FieldStyle TEXT_AREA = new FieldStyle("TEXTAREA", "TEXT_AREA", 11);
     public static final FieldStyle SEAL = new FieldStyle("SEAL", "SEAL", 12);
-    public static final FieldStyle LABELFIELD = new FieldStyle("LABELFIELD", "LABELFIELD", 13);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -45,7 +44,6 @@ public class FieldStyle extends EslEnumeration {
         sdkValues.put(DROP_LIST.name(), DROP_LIST);
         sdkValues.put(TEXT_AREA.name(), TEXT_AREA);
         sdkValues.put(SEAL.name(), SEAL);
-        sdkValues.put(LABELFIELD.name(), LABELFIELD);
     }
 
     private final String binding;

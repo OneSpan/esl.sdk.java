@@ -69,13 +69,12 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getStyle(), is(equalTo(FieldStyle.TEXT_AREA)));
                     assertThat(field.getValue(), is(equalTo(GenericFieldsExample.TEXT_AREA_VALUE)));
                 }
-                if (field.getId().toString().equals(GenericFieldsExample.LABEL_FIELD_ID)) {
-                    assertThat(field.getPage(), is(equalTo(GenericFieldsExample.LABEL_FIELD_PAGE)));
-                    assertThat(field.getStyle(), is(equalTo(FieldStyle.LABELFIELD)));
-                    assertThat(field.getValue(), is(equalTo(GenericFieldsExample.LABEL_FIELD_VALUE)));
+                if (field.getId().toString().equals(GenericFieldsExample.LABEL_ID)) {
+                    assertThat(field.getPage(), is(equalTo(GenericFieldsExample.LABEL_PAGE)));
+                    assertThat(field.getStyle(), is(equalTo(FieldStyle.LABEL)));
+                    assertThat(field.getValue(), is(equalTo(GenericFieldsExample.LABEL_VALUE)));
                 }
             }
         }
-
     }
 }

@@ -62,9 +62,9 @@ public class CreatePackageFromTemplateWithFieldsExample extends SDKSample {
     public static final String TEXT_AREA_ID = "textAreaId";
     public static final int TEXT_AREA_PAGE = 0;
     public static final String TEXT_AREA_VALUE = "textAreaValue";
-    public static final String LABEL_FIELD_ID = "labelFieldId";
-    public static final int LABEL_FIELD_PAGE = 0;
-    public static final String LABEL_FIELD_VALUE = "labelFieldValue";
+    public static final String LABEL_ID = "labelId";
+    public static final int LABEL_PAGE = 0;
+    public static final String LABEL_VALUE = "labelValue";
 
     private int textfieldPositionX = 400;
     private int textfieldPositionY = 200;
@@ -168,10 +168,10 @@ public class CreatePackageFromTemplateWithFieldsExample extends SDKSample {
                                            .onPage(TEXT_AREA_PAGE)
                                            .withSize(textAreaWidth, textAreaHeight)
                                            .atPosition(textAreaPositionX, textAreaPositionY))
-                        .withField(labelfield()
-                                           .withId(new FieldId(LABEL_FIELD_ID))
-                                           .withValue(LABEL_FIELD_VALUE)
-                                           .onPage(LABEL_FIELD_PAGE)
+                        .withField(label()
+                                           .withId(new FieldId(LABEL_ID))
+                                           .withValue(LABEL_VALUE)
+                                           .onPage(LABEL_PAGE)
                                            .withSize(labelFieldWidth, labelFieldHeight)
                                            .atPosition(labelFieldPositionX, labelFieldPositionY))))
                 .build();

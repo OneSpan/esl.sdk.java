@@ -63,10 +63,10 @@ public class CreatePackageFromTemplateWithFieldsExampleTest {
                     assertThat(field.getStyle(), is(equalTo(FieldStyle.TEXT_AREA)));
                     assertThat(field.getValue(), is(equalTo(TEXT_AREA_VALUE)));
                 }
-                if (field.getId().toString().equals(LABEL_FIELD_ID)) {
-                    assertThat(field.getPage(), is(equalTo(LABEL_FIELD_PAGE)));
-                    assertThat(field.getStyle(), is(equalTo(FieldStyle.LABELFIELD)));
-                    assertThat(field.getValue(), is(equalTo(LABEL_FIELD_VALUE)));
+                if (field.getId().toString().equals(LABEL_ID)) {
+                    assertThat(field.getPage(), is(equalTo(LABEL_PAGE)));
+                    assertThat(field.getStyle(), is(equalTo(FieldStyle.LABEL)));
+                    assertThat(field.getValue(), is(equalTo(LABEL_VALUE)));
                 }
             }
         }
