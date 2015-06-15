@@ -52,20 +52,22 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetDeclineReasons( sdkPackageSettings.getDeclineReasons() );
         ceremonySettings.safeSetOptOutReasons( sdkPackageSettings.getOptOutReasons() );
         ceremonySettings.safeSetMaxAuthFailsAllowed( sdkPackageSettings.getMaxAuthAttempts() );
+        ceremonySettings.safeSetDisableDeclineOther( sdkPackageSettings.getDisableDeclineOther() );
+        ceremonySettings.safeSetDisableOptOutOther( sdkPackageSettings.getDisableOptOutOther() );
         if (sdkPackageSettings.getEnableFirstAffidavit() != null ) {
             ceremonySettings.safeSetDisableFirstInPersonAffidavit( !sdkPackageSettings.getEnableFirstAffidavit());
         }
 
         if ( sdkPackageSettings.getEnableSecondAffidavit() != null ) {
-            ceremonySettings.safeSetDisableSecondInPersonAffidavit( !sdkPackageSettings.getEnableSecondAffidavit());
+            ceremonySettings.safeSetDisableSecondInPersonAffidavit(!sdkPackageSettings.getEnableSecondAffidavit());
         }
 
         if ( sdkPackageSettings.getShowLanguageDropDown() != null ) {
-            ceremonySettings.safeSetHideLanguageDropdown( !sdkPackageSettings.getShowLanguageDropDown());
+            ceremonySettings.safeSetHideLanguageDropdown(!sdkPackageSettings.getShowLanguageDropDown());
         }
 
         if (sdkPackageSettings.getShowPackageOwnerInPerson() != null ) {
-            ceremonySettings.safeSetHidePackageOwnerInPerson( !sdkPackageSettings.getShowPackageOwnerInPerson());
+            ceremonySettings.safeSetHidePackageOwnerInPerson(!sdkPackageSettings.getShowPackageOwnerInPerson());
         }
 
         if ( sdkPackageSettings.getLinkHref() != null ) {
@@ -73,21 +75,21 @@ public class DocumentPackageSettingsConverter {
             link.setHref( sdkPackageSettings.getLinkHref() );
             link.setText( sdkPackageSettings.getLinkText() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkText() );
             link.setTitle( sdkPackageSettings.getLinkTooltip() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkTooltip() );
-            ceremonySettings.setHandOver( link );
+            ceremonySettings.setHandOver(link);
         }
 
         if ( sdkPackageSettings.getShowDialogOnComplete() != null ) {
             CeremonyEvents ceremonyEvents = new CeremonyEvents();
             CeremonyEventComplete ceremonyEventComplete = new CeremonyEventComplete();
-            ceremonyEventComplete.setDialog( sdkPackageSettings.getShowDialogOnComplete() );
-            ceremonyEvents.setComplete( ceremonyEventComplete );
+            ceremonyEventComplete.setDialog(sdkPackageSettings.getShowDialogOnComplete());
+            ceremonyEvents.setComplete(ceremonyEventComplete);
             ceremonySettings.setEvents(ceremonyEvents);
         }
 
         if ( sdkPackageSettings.getShowDocumentToolbarDownloadButton() != null ) {
             DocumentToolbarOptions documentToolbarOptions = new DocumentToolbarOptions();
-            documentToolbarOptions.setDownloadButton( sdkPackageSettings.getShowDocumentToolbarDownloadButton() );
-            ceremonySettings.setDocumentToolbarOptions( documentToolbarOptions );
+            documentToolbarOptions.setDownloadButton(sdkPackageSettings.getShowDocumentToolbarDownloadButton());
+            ceremonySettings.setDocumentToolbarOptions(documentToolbarOptions);
         }
 
         if ( sdkPackageSettings.getCeremonyLayoutSettings() != null ) {
@@ -131,11 +133,11 @@ public class DocumentPackageSettingsConverter {
         }
 
         if ( apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit() != null ) {
-            result.setEnableFirstAffidavit( !apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit());
+            result.setEnableFirstAffidavit(!apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit());
         }
 
         if ( apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit() != null ) {
-            result.setEnableSecondAffidavit( !apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit());
+            result.setEnableSecondAffidavit(!apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit());
         }
 
         if ( apiPackageSettings.getCeremony().getMaxAuthFailsAllowed() != null ) {
@@ -153,6 +155,14 @@ public class DocumentPackageSettingsConverter {
             result.setLinkText(apiPackageSettings.getCeremony().getHandOver().getText());
             result.setLinkTooltip(apiPackageSettings.getCeremony().getHandOver().getTitle());
             result.setLinkHref(apiPackageSettings.getCeremony().getHandOver().getHref());
+        }
+
+        if (apiPackageSettings.getCeremony().getDisableDeclineOther() != null) {
+            result.setDisableDeclineOther(apiPackageSettings.getCeremony().getDisableDeclineOther());
+        }
+
+        if (apiPackageSettings.getCeremony().getDisableOptOutOther() != null) {
+            result.setDisableOptOutOther(apiPackageSettings.getCeremony().getDisableOptOutOther());
         }
 
         result.setCeremonyLayoutSettings( new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings() );
