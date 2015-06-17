@@ -88,12 +88,11 @@ public class TemplateExample extends SDKSample {
 
         templateId = eslClient.getTemplateService().createTemplate(superDuperPackage);
 
-        superDuperPackage.setId(templateId);
+        retrievedTemplate = eslClient.getPackage(templateId);
+        retrievedTemplate.setName(UPDATED_TEMPLATE_NAME);
+        retrievedTemplate.setDescription(UPDATED_TEMPLATE_DESCRIPTION);
 
-        superDuperPackage.setName(UPDATED_TEMPLATE_NAME);
-        superDuperPackage.setDescription(UPDATED_TEMPLATE_DESCRIPTION);
-
-        eslClient.getTemplateService().updateTemplate(superDuperPackage);
+        eslClient.getTemplateService().updateTemplate(retrievedTemplate);
 
         retrievedTemplate = eslClient.getPackage(templateId);
 

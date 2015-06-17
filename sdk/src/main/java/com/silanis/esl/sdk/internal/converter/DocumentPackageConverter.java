@@ -90,6 +90,10 @@ public class DocumentPackageConverter {
             apiPackageToCreate.setVisibility(new VisibilityConverter(sdkPackage.getVisibility()).toAPIVisibility());
         }
 
+        if ( sdkPackage.getStatus() != null ) {
+            apiPackageToCreate.setStatus(new PackageStatusConverter(sdkPackage.getStatus()).toAPIPackageStatus());
+        }
+
         int signerCount = 1;
         for ( Signer signer : sdkPackage.getSigners().values() ) {
             String id;
