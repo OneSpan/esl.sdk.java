@@ -18,8 +18,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class UpdateTemplateWithPlaceholderExample extends SDKSample {
 
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
+    private InputStream documentInputStream;
 
     public String email1;
     public String email2;
@@ -27,7 +26,7 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
-    public static final String TEMPLATE_NAME = "UpdateTemplateWithPlaceholderExample Template1: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    public static final String TEMPLATE_NAME = "UpdateTemplateWithPlaceholderExample Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String TEMPLATE_DESCRIPTION = "This is a template created using the e-SignLive SDK";
     public static final String TEMPLATE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER_FIRST = "John";
@@ -56,13 +55,12 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
     @Override
     public void execute() {
-        DocumentPackage template1 = newPackageNamed(TEMPLATE_NAME)
+        DocumentPackage template = newPackageNamed(TEMPLATE_NAME)
                 .describedAs(TEMPLATE_DESCRIPTION)
                 .withEmailMessage(TEMPLATE_EMAIL_MESSAGE)
                 .withSigner(newSignerWithEmail(email1)
@@ -71,7 +69,7 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
                 .withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(PLACEHOLDER_ID)))
                 .withDocument(DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
                     .withId(DOCUMENT_ID)
-                    .fromStream(documentInputStream1, DocumentType.PDF)
+                    .fromStream(documentInputStream, DocumentType.PDF)
                     .withSignature(signatureFor(email1)
                                            .onPage(0)
                                            .atPosition(100, 100))
@@ -80,7 +78,7 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
                                            .atPosition(400, 100)))
                 .build();
 
-        templateId = eslClient.getTemplateService().createTemplate(template1);
+        templateId = eslClient.getTemplateService().createTemplate(template);
         retrievedTemplate = eslClient.getPackage(templateId);
 
         eslClient.getTemplateService().addPlaceholder(templateId, new Placeholder(PLACEHOLDER2_ID));
