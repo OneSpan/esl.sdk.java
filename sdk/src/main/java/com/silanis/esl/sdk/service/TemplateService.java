@@ -106,7 +106,7 @@ public class TemplateService {
         DocumentPackage template = new DocumentPackageConverter(packageService.getApiPackage(packageId.getId())).toSDKPackage();
         if (checkSignerOrdering(template)) {
             int firstSignerIndex = template.getSigners().size();
-            for(Signer signer : documentPackage.getSigners().values()){
+            for(Signer signer : documentPackage.getSigners()){
                 signer.setSigningOrder(firstSignerIndex);
                 firstSignerIndex++;
             }
@@ -114,7 +114,7 @@ public class TemplateService {
     }
 
     private boolean checkSignerOrdering(DocumentPackage template) {
-        for(Signer signer : template.getSigners().values()) {
+        for(Signer signer : template.getSigners()) {
             if (signer.getSigningOrder() > 0) {
                 return true;
             }

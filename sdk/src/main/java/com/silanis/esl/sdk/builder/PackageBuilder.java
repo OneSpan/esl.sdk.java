@@ -10,8 +10,8 @@ import java.util.*;
 public class PackageBuilder {
 
     private final String packageName;
-    private final Map<String, Signer> signers = new HashMap<String, Signer>();
-    private final Map<String, Signer> placeholders = new HashMap<String, Signer>();
+    private final List<Signer> signers = new ArrayList<Signer>();
+    private final List<Signer> placeholders = new ArrayList<Signer>();
     private Map<String, Document> documents = new HashMap<String, Document>();
     private boolean autocomplete = true;
     private String description = null;
@@ -75,12 +75,9 @@ public class PackageBuilder {
     public PackageBuilder withSigner( Signer signer ) {
 
         if(signer.isPlaceholderSigner()){
-            placeholders.put(signer.getId().toString(), signer);
-        }
-        else if ( signer.isGroupSigner() ) {
-            signers.put( signer.getGroupId().toString(), signer );
+            placeholders.add(signer);
         } else {
-            signers.put( signer.getEmail(), signer );
+            signers.add(signer);
         }
         return this;
     }

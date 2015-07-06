@@ -12,8 +12,8 @@ public class DocumentPackage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final Map<String, Signer> signers;
-    private final Map<String, Signer> placeholders;
+    private final List<Signer> signers;
+    private final List<Signer> placeholders;
     private final Map<String, Document> documents;
     private final boolean autocomplete;
     private String name;
@@ -38,7 +38,7 @@ public class DocumentPackage implements Serializable {
      * @param autocomplete the autocomplete status. If it is set to true,
      *                     then the document package will be marked as completed automatically by the system
      */
-    public DocumentPackage( String name, Map<String, Signer> signers, Map<String, Signer> placeholders, Map<String, Document> documents, boolean autocomplete ) {
+    public DocumentPackage( String name, List<Signer> signers, List<Signer> placeholders, Map<String, Document> documents, boolean autocomplete ) {
         this.name = name;
         this.signers = signers;
         this.placeholders = placeholders;
@@ -64,7 +64,12 @@ public class DocumentPackage implements Serializable {
      * @return the signer who's email address matches the one provided as parameter
      */
     public Signer getSigner( String email ) {
-        return signers.get( email.toLowerCase() );
+        for(Signer signer : signers) {
+            if(signer.getEmail().equalsIgnoreCase(email)) {
+                return signer;
+            }
+        }
+        return null;
     }
 
     /**
@@ -73,11 +78,23 @@ public class DocumentPackage implements Serializable {
      * @param signer the signer to add
      */
     public void addSigner(Signer signer) {
-        if (!signers.containsKey(signer.getEmail().toLowerCase())) {
-            signers.put(signer.getEmail().toLowerCase(), signer);
+        if(!isExistingSigner(signer)) {
+            signers.add(signer);
         } else {
-            throw new EslException("Another signer with same email already exists.");
+            throw new EslException("Another signer with same email or another placeholder with same id already exists.");
         }
+    }
+
+    private boolean isExistingSigner(Signer signer) {
+        for(Signer signerToCheck : signers) {
+            if(signerToCheck.getEmail().equalsIgnoreCase(signer.getEmail()))
+                return true;
+        }
+        for(Signer signerToCheck : placeholders) {
+            if(signerToCheck.getId().equalsIgnoreCase(signer.getId()))
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -86,26 +103,41 @@ public class DocumentPackage implements Serializable {
      * @param signer the signer to remove
      */
     public void removeSigner(Signer signer) {
-        if (signers.containsKey(signer.getEmail().toLowerCase())) {
-            signers.remove(signer.getEmail().toLowerCase());
-        } else {
-            throw new EslException("Signer does not exist.");
+        for(Signer retrievedSigner : signers) {
+            if(retrievedSigner.getEmail().equalsIgnoreCase(signer.getEmail())) {
+                signers.remove(retrievedSigner);
+                return;
+            }
         }
+        throw new EslException("Signer does not exist.");
     }
 
-    public Map<String, Signer> getSigners() {
+    public List<Signer> getSigners() {
         return signers;
     }
 
     public void removePlaceholder(Signer signer) {
-        if (placeholders.containsKey(signer.getId())) {
-            placeholders.remove(signer.getId());
-        } else {
-            throw new EslException("Placeholder does not exist.");
+        for(Signer placeholder : placeholders) {
+            if(placeholder.getId().equalsIgnoreCase(signer.getId())) {
+                placeholders.remove(placeholder);
+                return;
+            }
         }
+        throw new EslException("Placeholder does not exist.");
     }
 
-    public Map<String, Signer> getPlaceholders(){ return  placeholders; }
+    public List<Signer> getPlaceholders(){
+        return  placeholders;
+    }
+
+    public Signer getPlaceholder(String id){
+        for(Signer signer : placeholders) {
+            if(signer.getId().equals(id)) {
+                return signer;
+            }
+        }
+        return null;
+    }
 
     /**
      * @param name the document name
