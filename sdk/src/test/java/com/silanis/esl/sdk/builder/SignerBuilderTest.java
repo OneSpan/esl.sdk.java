@@ -187,8 +187,8 @@ public class SignerBuilderTest {
                 .withAttachmentRequirement(attachmentRequirement)
                 .build();
 
-        assertThat("Signer should have only 1 attachment.", signer.getAttachmentRequirement().size(), is(1));
-        assertThat("Attachment information was set incorrectly.", signer.getAttachmentRequirement().get("Driver's license"), is(attachmentRequirement));
+        assertThat("Signer should have only 1 attachment.", signer.getAttachmentRequirements().size(), is(1));
+        assertThat("Attachment information was set incorrectly.", signer.getAttachmentRequirement("Driver's license"), is(attachmentRequirement));
     }
 
     @Test
@@ -208,9 +208,9 @@ public class SignerBuilderTest {
                 .withAttachmentRequirement(attachmentRequirement2)
                 .build();
 
-        assertThat("Signer should have 2 attachment.", signer.getAttachmentRequirement().size(), is(2));
-        assertThat("Attachment1 information was set incorrectly.", signer.getAttachmentRequirement().get("Driver's license"), is(attachmentRequirement1));
-        assertThat("Attachment2 information was set incorrectly.", signer.getAttachmentRequirement().get("Medicare card"), is(attachmentRequirement2));
+        assertThat("Signer should have 2 attachment.", signer.getAttachmentRequirements().size(), is(2));
+        assertThat("Attachment1 information was set incorrectly.", signer.getAttachmentRequirement("Driver's license"), is(attachmentRequirement1));
+        assertThat("Attachment2 information was set incorrectly.", signer.getAttachmentRequirement("Medicare card"), is(attachmentRequirement2));
     }
 
 }

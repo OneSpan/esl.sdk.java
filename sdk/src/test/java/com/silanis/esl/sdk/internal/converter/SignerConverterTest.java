@@ -104,11 +104,11 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Email was not correctly set", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
 
         String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
-        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getName())));
-        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getDescription())));
-        assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement().get(attachmentName).isRequired()));
-        assertThat("Attachment's status was not set correctly", apiRole.getAttachmentRequirements().get(0).getStatus().toString(), is(sdkSigner1.getAttachmentRequirement().get(attachmentName).getStatus().toString()));
-        assertThat("Attachment's comments was not set correctly", apiRole.getAttachmentRequirements().get(0).getComment(), is(Matchers.equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getSenderComment())));
+        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getName())));
+        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription())));
+        assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
+        assertThat("Attachment's status was not set correctly", apiRole.getAttachmentRequirements().get(0).getStatus().toString(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getStatus().toString()));
+        assertThat("Attachment's comments was not set correctly", apiRole.getAttachmentRequirements().get(0).getComment(), is(Matchers.equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getSenderComment())));
     }
 
     @Override
@@ -150,9 +150,9 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Message was not set correctly", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
 
         String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
-        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getName())));
-        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement().get(attachmentName).getDescription())));
-        assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement().get(attachmentName).isRequired()));
+        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getName())));
+        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription())));
+        assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
     }
 
     @Test

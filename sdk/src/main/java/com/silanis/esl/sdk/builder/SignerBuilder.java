@@ -4,9 +4,7 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
@@ -29,7 +27,7 @@ final public class SignerBuilder {
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
     private boolean locked = false;
-    private Map<String, AttachmentRequirement> attachments = new HashMap<String, AttachmentRequirement>();
+    private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
     /**
@@ -164,7 +162,7 @@ final public class SignerBuilder {
         result.setMessage(message);
         result.setId(id);
         result.setLocked(locked);
-        result.setAttachmentRequirement(attachments);
+        result.setAttachmentRequirements(attachments);
 
         return result;
     }
@@ -177,7 +175,7 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setLocked(locked);
-        result.setAttachmentRequirement(attachments);
+        result.setAttachmentRequirements(attachments);
         return result;
     }
 
@@ -200,7 +198,7 @@ final public class SignerBuilder {
         result.setMessage(message);
         result.setId(id);
         result.setLocked(locked);
-        result.setAttachmentRequirement(attachments);
+        result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
 
         return result;
@@ -375,7 +373,7 @@ final public class SignerBuilder {
      * @param attachmentRequirement the attachment
      */
     private void addAttachment(AttachmentRequirement attachmentRequirement) {
-        attachments.put(attachmentRequirement.getName(), attachmentRequirement);
+        attachments.add(attachmentRequirement);
     }
 
 

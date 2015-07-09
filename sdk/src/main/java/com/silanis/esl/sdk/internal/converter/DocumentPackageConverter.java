@@ -117,7 +117,7 @@ public class DocumentPackageConverter {
                 role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );
             }
 
-            for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirement().values()) {
+            for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirements()) {
                 role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
             }
 

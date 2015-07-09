@@ -24,7 +24,6 @@ public class SignerManipulationExampleTest {
         assertThat("Added signer first name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getFirstName(), is(equalTo("firstName3")));
         assertThat("Added signer last name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getLastName(), is(equalTo("lastName3")));
         assertThat("Added signer title was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getTitle(), is(equalTo("Title3")));
-        assertThat("Added signer was not locked correctly", documentPackage.getSigner(signerManipulationExample.email3).isLocked(), is(equalTo(true)));
 
         documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
 

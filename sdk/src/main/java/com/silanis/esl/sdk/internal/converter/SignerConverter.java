@@ -192,7 +192,7 @@ public class SignerConverter {
 
         role.setLocked(sdkSigner.isLocked());
 
-        for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirement().values()) {
+        for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirements()) {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }
 
