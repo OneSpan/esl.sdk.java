@@ -84,7 +84,6 @@ public class SignerManipulationExample extends SDKSample {
                 .withFirstName("firstName3")
                 .withLastName("lastName3")
                 .withTitle("Title3")
-                .lock()
                 .build());
 
         createdPackageWithAddedSigner = eslClient.getPackage(packageId);

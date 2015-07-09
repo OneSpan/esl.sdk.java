@@ -1,9 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
@@ -21,8 +18,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class UpdateTemplateWithPlaceholderExample extends SDKSample {
 
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
+    private InputStream documentInputStream;
 
     public String email1;
     public String email2;
@@ -30,8 +26,7 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
-    public static final String TEMPLATE1_NAME = "UpdateTemplateWithPlaceholderExample Template1: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String TEMPLATE2_NAME = "UpdateTemplateWithPlaceholderExample Template2: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    public static final String TEMPLATE_NAME = "UpdateTemplateWithPlaceholderExample Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String TEMPLATE_DESCRIPTION = "This is a template created using the e-SignLive SDK";
     public static final String TEMPLATE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER_FIRST = "John";
@@ -60,13 +55,12 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
     @Override
     public void execute() {
-        DocumentPackage template1 = newPackageNamed(TEMPLATE1_NAME)
+        DocumentPackage template = newPackageNamed(TEMPLATE_NAME)
                 .describedAs(TEMPLATE_DESCRIPTION)
                 .withEmailMessage(TEMPLATE_EMAIL_MESSAGE)
                 .withSigner(newSignerWithEmail(email1)
@@ -75,7 +69,7 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
                 .withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(PLACEHOLDER_ID)))
                 .withDocument(DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
                     .withId(DOCUMENT_ID)
-                    .fromStream(documentInputStream1, DocumentType.PDF)
+                    .fromStream(documentInputStream, DocumentType.PDF)
                     .withSignature(signatureFor(email1)
                                            .onPage(0)
                                            .atPosition(100, 100))
@@ -84,35 +78,17 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
                                            .atPosition(400, 100)))
                 .build();
 
-        DocumentPackage template2 = newPackageNamed(TEMPLATE2_NAME)
-                .describedAs(TEMPLATE_DESCRIPTION)
-                .withEmailMessage(TEMPLATE_EMAIL_MESSAGE)
-                .withSigner(newSignerWithEmail(email1)
-                                    .withFirstName(TEMPLATE_SIGNER_FIRST)
-                                    .withLastName(TEMPLATE_SIGNER_LAST))
-                .withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(PLACEHOLDER_ID)))
-                .withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(PLACEHOLDER2_ID)))
-                .withDocument(DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
-                    .withId(DOCUMENT_ID)
-                    .fromStream(documentInputStream2, DocumentType.PDF)
-                    .withSignature(signatureFor(email1)
-                                           .onPage(0)
-                                           .atPosition(100, 100))
-                    .withSignature(signatureFor(new Placeholder(PLACEHOLDER_ID))
-                                           .onPage(0)
-                                           .atPosition(400, 100))
-                    .withSignature(signatureFor(new Placeholder(PLACEHOLDER2_ID))
-                                           .onPage(0)
-                                           .atPosition(500, 100)))
-                .build();
-
-        templateId = eslClient.getTemplateService().createTemplate(template1);
-
+        templateId = eslClient.getTemplateService().createTemplate(template);
         retrievedTemplate = eslClient.getPackage(templateId);
-        template2.setId(templateId);
 
-        eslClient.getTemplateService().updateTemplate(template2);
+        eslClient.getTemplateService().addPlaceholder(templateId, new Placeholder(PLACEHOLDER2_ID));
+        updatedTemplate = eslClient.getPackage(templateId);
 
+        Signature newSignature = signatureFor(new Placeholder(PLACEHOLDER2_ID))
+                .onPage(0)
+                .atPosition(400, 300).build();
+
+        eslClient.getApprovalService().addSignature(updatedTemplate, DOCUMENT_ID, newSignature);
         updatedTemplate = eslClient.getPackage(templateId);
     }
 }

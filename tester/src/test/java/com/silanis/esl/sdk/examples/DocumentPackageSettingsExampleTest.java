@@ -49,6 +49,8 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("Disable second affidavit was not set correctly. ", documentPackageSettings.getEnableSecondAffidavit(), is(equalTo(false)));
         assertThat("Hide owner from in person drop list.", documentPackageSettings.getShowPackageOwnerInPerson(), is(equalTo(false)));
         assertThat("Hide language drop list.", documentPackageSettings.getShowLanguageDropDown(), is(equalTo(false)));
+        assertThat("Disable DeclineOther was not set correctly.", documentPackageSettings.getDisableDeclineOther(), is(equalTo(true)));
+        assertThat("Disable OptOutOther was not set correctly.", documentPackageSettings.getDisableOptOutOther(), is(equalTo(true)));
 
     }
 

@@ -23,8 +23,8 @@ public class CreatePackageFromTemplateWithReplacingPlaceholderExampleTest {
         assertThat("Package Signers are not added correctly. ", example.retrievedPackage.getSigners().size(), is(3));
         assertThat("Package Signers are not set correctly. ", example.retrievedPackage.getPlaceholders().size(), is(0));
 
-        Signer signer1 = example.retrievedPackage.getSigners().get(example.email1);
-        Signer signer2 = example.retrievedPackage.getSigners().get(example.email2);
+        Signer signer1 = example.retrievedPackage.getSigners().get(1);
+        Signer signer2 = example.retrievedPackage.getSigners().get(2);
 
         assertThat("Package Signer1 is not set correctly. ", signer1.getFirstName(), is(TEMPLATE_SIGNER_FIRST));
         assertThat("Package Signer1 is not set correctly. ", signer1.getLastName(), is(TEMPLATE_SIGNER_LAST));

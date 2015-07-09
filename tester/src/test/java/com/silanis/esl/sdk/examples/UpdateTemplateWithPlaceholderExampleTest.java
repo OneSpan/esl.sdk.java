@@ -19,15 +19,16 @@ public class UpdateTemplateWithPlaceholderExampleTest {
         UpdateTemplateWithPlaceholderExample example = new UpdateTemplateWithPlaceholderExample( Props.get() );
         example.run();
 
-        assertThat("Template is not created correctly.", example.retrievedTemplate.getName(), is(TEMPLATE1_NAME));
+        assertThat("Template is not created correctly.", example.retrievedTemplate.getName(), is(TEMPLATE_NAME));
         assertThat("Template is not created correctly.", example.retrievedTemplate.getSigners().size(), is(2));
         assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().size(), is(1));
-        assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().get(PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Template is not created correctly.", example.retrievedTemplate.getPlaceholders().get(0), is(not(nullValue())));
+        assertThat("Template is not created correctly.", example.retrievedTemplate.getDocument(DOCUMENT_NAME).getSignatures().size(), is(2));
 
-        assertThat("Template is not updated correctly.", example.updatedTemplate.getName(), is(TEMPLATE2_NAME));
         assertThat("Template is not updated correctly.", example.updatedTemplate.getSigners().size(), is(2));
         assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().size(), is(2));
-        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(PLACEHOLDER_ID), is(not(nullValue())));
-        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(PLACEHOLDER2_ID), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(0), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getPlaceholders().get(1), is(not(nullValue())));
+        assertThat("Template is not updated correctly.", example.updatedTemplate.getDocument(DOCUMENT_NAME).getSignatures().size(), is(3));
     }
 }

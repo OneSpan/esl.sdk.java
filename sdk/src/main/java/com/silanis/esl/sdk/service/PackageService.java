@@ -906,7 +906,7 @@ public class PackageService {
                 .build();
 
         List<Role> roles = new ArrayList<Role>();
-        for (com.silanis.esl.sdk.Signer signer : documentPackage.getSigners().values()) {
+        for (com.silanis.esl.sdk.Signer signer : documentPackage.getSigners()) {
             roles.add(new SignerConverter(signer).toAPIRole(signer.getId()));
         }
 

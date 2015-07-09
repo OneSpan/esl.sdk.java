@@ -6,7 +6,9 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.TemplateExample.*;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by lena on 2014-04-30.
@@ -35,7 +37,7 @@ public class TemplateExampleTest {
         assertThat("Template signer 2 last name is incorrectly returned.", retrievedPackage.getSigner(example.email2).getLastName(), is(TEMPLATE_SIGNER2_LAST));
 
         assertThat("Number of template placeholders is incorrectly returned.", retrievedPackage.getPlaceholders().size(), is(1));
-        assertThat("Template placeholder id is incorrectly returned", retrievedPackage.getPlaceholders().containsKey(PLACEHOLDER_ID));
+        assertThat("Template placeholder id is incorrectly returned", retrievedPackage.getPlaceholder(PLACEHOLDER_ID), is(not(nullValue())));
 
         DocumentPackage instantiatedTemplate = example.eslClient.getPackage(example.instantiatedTemplateId);
 

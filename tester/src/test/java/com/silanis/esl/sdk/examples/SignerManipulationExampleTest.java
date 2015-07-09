@@ -6,6 +6,8 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Created by chi-wing on 4/30/14.
@@ -20,17 +22,16 @@ public class SignerManipulationExampleTest {
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(4));
 
-        assertThat("Signer was not added", documentPackage.getSigners().containsKey(signerManipulationExample.email3), is(true));
+        assertThat("Signer was not added", documentPackage.getSigner(signerManipulationExample.email3), is(not(nullValue())));
         assertThat("Added signer first name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getFirstName(), is(equalTo("firstName3")));
         assertThat("Added signer last name was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getLastName(), is(equalTo("lastName3")));
         assertThat("Added signer title was not set correctly", documentPackage.getSigner(signerManipulationExample.email3).getTitle(), is(equalTo("Title3")));
-        assertThat("Added signer was not locked correctly", documentPackage.getSigner(signerManipulationExample.email3).isLocked(), is(equalTo(true)));
 
         documentPackage = signerManipulationExample.createdPackageWithRemovedSigner;
 
         assertThat("Not correct number of signers", documentPackage.getSigners().size(), is(3));
 
-        assertThat("Signer 1 was not removed", documentPackage.getSigners().containsKey(signerManipulationExample.email1), is(false));
+        assertThat("Signer 1 was not removed", documentPackage.getSigner(signerManipulationExample.email1), is(nullValue()));
 
         documentPackage = signerManipulationExample.createdPackageWithUpdatedSigner;
 

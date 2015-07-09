@@ -90,8 +90,12 @@ public class DocumentPackageConverter {
             apiPackageToCreate.setVisibility(new VisibilityConverter(sdkPackage.getVisibility()).toAPIVisibility());
         }
 
+        if ( sdkPackage.getStatus() != null ) {
+            apiPackageToCreate.setStatus(new PackageStatusConverter(sdkPackage.getStatus()).toAPIPackageStatus());
+        }
+
         int signerCount = 1;
-        for ( Signer signer : sdkPackage.getSigners().values() ) {
+        for ( Signer signer : sdkPackage.getSigners() ) {
             String id;
             if(signer.getId() != null ) {
                 id = signer.getId();
@@ -124,7 +128,7 @@ public class DocumentPackageConverter {
             apiPackageToCreate.addRole(role);
         }
 
-        for ( Signer signer : sdkPackage.getPlaceholders().values() ) {
+        for ( Signer signer : sdkPackage.getPlaceholders() ) {
             Role role = new SignerConverter(signer).toAPIRole("role" + signerCount);
             signerCount++;
             apiPackageToCreate.addRole(role);
