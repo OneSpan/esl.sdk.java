@@ -322,15 +322,6 @@ final public class SignerBuilder {
     }
 
     /**
-     * Locks the signer.
-     * @return the signer builder object itself
-     */
-    public SignerBuilder lock() {
-        locked = true;
-        return this;
-    }
-
-    /**
      * @param roleId
      * @return
      * @deprecated Use withCustomId() from now on. Will get deleted in a future release
