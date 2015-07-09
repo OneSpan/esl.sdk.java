@@ -29,8 +29,8 @@ public class AttachmentRequirementExampleTest {
 
         assertThat("Signer2 should have 2 attachment requirements.", example.signer2Attachments.size(), is(2));
         // Check Attachments ordering
-        assertThat("Signer2 should have 2 attachment requirements.", example.signer2Attachments.get(0).getName(), is(equalTo(example.NAME2)));
-        assertThat("Signer2 should have 2 attachment requirements.", example.signer2Attachments.get(1).getName(), is(equalTo(example.NAME3)));
+        assertThat("Signer2's attachment's order was set incorrectly.", example.signer2Attachments.get(0).getName(), is(equalTo(example.NAME2)));
+        assertThat("Signer2's attachment's order was set incorrectly.", example.signer2Attachments.get(1).getName(), is(equalTo(example.NAME3)));
 
         assertThat("Signer2's attachment1's name was set incorrectly.", example.signer2Att1.getName(), is(equalTo(example.NAME2)));
         assertThat("Signer2's attachment1's description was set incorrectly.", example.signer2Att1.getDescription(), is(equalTo(example.DESCRIPTION2)));
