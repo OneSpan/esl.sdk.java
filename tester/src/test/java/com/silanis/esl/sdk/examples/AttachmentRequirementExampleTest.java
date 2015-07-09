@@ -28,6 +28,10 @@ public class AttachmentRequirementExampleTest {
         assertThat("Signer1's attachment1's status was set incorrectly.", example.retrievedSigner1Att1RequirementStatus.toString(), is(equalTo(RequirementStatus.INCOMPLETE.toString())));
 
         assertThat("Signer2 should have 2 attachment requirements.", example.signer2Attachments.size(), is(2));
+        // Check Attachments ordering
+        assertThat("Signer2's attachment's order was set incorrectly.", example.signer2Attachments.get(0).getName(), is(equalTo(example.NAME2)));
+        assertThat("Signer2's attachment's order was set incorrectly.", example.signer2Attachments.get(1).getName(), is(equalTo(example.NAME3)));
+
         assertThat("Signer2's attachment1's name was set incorrectly.", example.signer2Att1.getName(), is(equalTo(example.NAME2)));
         assertThat("Signer2's attachment1's description was set incorrectly.", example.signer2Att1.getDescription(), is(equalTo(example.DESCRIPTION2)));
         assertThat("Signer2's attachment1's isRequired property was set incorrectly.", example.signer2Att1.isRequired(), is(false));

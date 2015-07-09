@@ -4,9 +4,7 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
@@ -28,7 +26,7 @@ final public class SignerBuilder {
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
-    private Map<String, AttachmentRequirement> attachments = new HashMap<String, AttachmentRequirement>();
+    private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
     /**
@@ -162,7 +160,7 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setId(id);
-        result.setAttachmentRequirement(attachments);
+        result.setAttachmentRequirements(attachments);
 
         return result;
     }
@@ -174,7 +172,7 @@ final public class SignerBuilder {
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
-        result.setAttachmentRequirement(attachments);
+        result.setAttachmentRequirements(attachments);
         return result;
     }
 
@@ -196,7 +194,7 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setId(id);
-        result.setAttachmentRequirement(attachments);
+        result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
 
         return result;
@@ -324,6 +322,15 @@ final public class SignerBuilder {
     }
 
     /**
+     * Locks the signer.
+     * @return the signer builder object itself
+     */
+    public SignerBuilder lock() {
+        locked = true;
+        return this;
+    }
+
+    /**
      * @param roleId
      * @return
      * @deprecated Use withCustomId() from now on. Will get deleted in a future release
@@ -362,7 +369,7 @@ final public class SignerBuilder {
      * @param attachmentRequirement the attachment
      */
     private void addAttachment(AttachmentRequirement attachmentRequirement) {
-        attachments.put(attachmentRequirement.getName(), attachmentRequirement);
+        attachments.add(attachmentRequirement);
     }
 
 

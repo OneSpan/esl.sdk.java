@@ -2,7 +2,6 @@ package com.silanis.esl.sdk;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>The Signer class contains all the information about an user that is supposed to sign a document.</p>
@@ -24,7 +23,7 @@ public class Signer implements Serializable {
     private boolean deliverSignedDocumentsByEmail;
     private String id;
     private boolean locked;
-    private Map<String, AttachmentRequirement> attachments;
+    private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
     /**
@@ -268,16 +267,25 @@ public class Signer implements Serializable {
         return locked;
     }
 
-    public Map<String, AttachmentRequirement> getAttachmentRequirement() {
+    public List<AttachmentRequirement> getAttachmentRequirements() {
         return attachments;
     }
 
-    public void setAttachmentRequirement(Map<String, AttachmentRequirement> attachments) {
+    public AttachmentRequirement getAttachmentRequirement(String attachmentName) {
+        for(AttachmentRequirement attachment : attachments) {
+            if(attachment.getName().equals(attachmentName)) {
+                return attachment;
+            }
+        }
+        return null;
+    }
+
+    public void setAttachmentRequirements(List<AttachmentRequirement> attachments) {
         this.attachments = attachments;
     }
 
     public void addAttachmentRequirement(AttachmentRequirement attachment) {
-        this.attachments.put(attachment.getName(), attachment);
+        this.attachments.add(attachment);
     }
 
     public KnowledgeBasedAuthentication getKnowledgeBasedAuthentication() {

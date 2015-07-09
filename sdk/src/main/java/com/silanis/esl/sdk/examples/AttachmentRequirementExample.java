@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipFile;
 
@@ -33,7 +33,7 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String DESCRIPTION1 = "Please upload a scanned copy of your driver's license.";
     public static final String NAME2 = "Medicare card";
     public static final String DESCRIPTION2 = "Optional attachment.";
-    public static final String NAME3 = "Third Attachment";
+    public static final String NAME3 = "Attachment3";
     public static final String DESCRIPTION3 = "Third description";
     public static final String SIGNER1_ID = "signer1Id";
     public static final String SIGNER2_ID = "signer2Id";
@@ -47,7 +47,7 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner2InPackage.zip";
 
     public DocumentPackage retrievedPackageAfterRejection, retrievedPackageAfterAccepting;
-    public Map<String, AttachmentRequirement> signer1Attachments, signer2Attachments;
+    public List<AttachmentRequirement> signer1Attachments, signer2Attachments;
     public AttachmentRequirement signer1Att1, signer2Att1, signer2Att2;
     public RequirementStatus retrievedSigner1Att1RequirementStatus, retrievedSigner2Att1RequirementStatus,
             retrievedSigner2Att2RequirementStatus, retrievedSigner1Att1RequirementStatusAfterRejection,
@@ -125,15 +125,15 @@ public class AttachmentRequirementExample extends SDKSample {
 
         retrievedPackage = eslClient.getPackage(packageId);
 
-        attachment1Id = retrievedPackage.getSigner(email1).getAttachmentRequirement().get(NAME1).getId();
+        attachment1Id = retrievedPackage.getSigner(email1).getAttachmentRequirement(NAME1).getId();
         signer1 = retrievedPackage.getSigner(email1);
 
-        signer1Attachments = retrievedPackage.getSigner(email1).getAttachmentRequirement();
-        signer2Attachments = retrievedPackage.getSigner(email2).getAttachmentRequirement();
+        signer1Attachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
+        signer2Attachments = retrievedPackage.getSigner(email2).getAttachmentRequirements();
 
-        signer1Att1 = signer1Attachments.get(NAME1);
-        signer2Att1 = signer2Attachments.get(NAME2);
-        signer2Att2 = signer2Attachments.get(NAME3);
+        signer1Att1 = signer1Attachments.get(0);
+        signer2Att1 = signer2Attachments.get(0);
+        signer2Att2 = signer2Attachments.get(1);
 
         retrievedSigner1Att1RequirementStatus = signer1Att1.getStatus();
         retrievedSigner2Att1RequirementStatus = signer2Att1.getStatus();
@@ -154,15 +154,15 @@ public class AttachmentRequirementExample extends SDKSample {
         eslClient.getAttachmentRequirementService().rejectAttachment(packageId, signer1, NAME1, REJECTION_COMMENT);
         retrievedPackageAfterRejection = eslClient.getPackage(packageId);
 
-        retrievedSigner1Att1RequirementStatusAfterRejection = retrievedPackageAfterRejection.getSigner(email1).getAttachmentRequirement().get(NAME1).getStatus();
-        retrievedSigner1Att1RequirementSenderCommentAfterRejection = retrievedPackageAfterRejection.getSigner(email1).getAttachmentRequirement().get(NAME1).getSenderComment();
+        retrievedSigner1Att1RequirementStatusAfterRejection = retrievedPackageAfterRejection.getSigner(email1).getAttachmentRequirement(NAME1).getStatus();
+        retrievedSigner1Att1RequirementSenderCommentAfterRejection = retrievedPackageAfterRejection.getSigner(email1).getAttachmentRequirement(NAME1).getSenderComment();
 
         // Sender accepts Signer1's uploaded attachment
         eslClient.getAttachmentRequirementService().acceptAttachment(packageId, signer1, NAME1);
         retrievedPackageAfterAccepting = eslClient.getPackage(packageId);
 
-        retrievedSigner1Att1RequirementStatusAfterAccepting = retrievedPackageAfterAccepting.getSigner(email1).getAttachmentRequirement().get(NAME1).getStatus();
-        retrievedSigner1Att1RequirementSenderCommentAfterAccepting = retrievedPackageAfterAccepting.getSigner(email1).getAttachmentRequirement().get(NAME1).getSenderComment();
+        retrievedSigner1Att1RequirementStatusAfterAccepting = retrievedPackageAfterAccepting.getSigner(email1).getAttachmentRequirement(NAME1).getStatus();
+        retrievedSigner1Att1RequirementSenderCommentAfterAccepting = retrievedPackageAfterAccepting.getSigner(email1).getAttachmentRequirement(NAME1).getSenderComment();
 
         // Download signer1's attachment
         DownloadedFile downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachmentFile(packageId, attachment1Id);
