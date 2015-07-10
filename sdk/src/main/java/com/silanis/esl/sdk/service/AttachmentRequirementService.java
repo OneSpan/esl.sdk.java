@@ -30,8 +30,8 @@ public class AttachmentRequirementService {
      * @param attachmentName
      */
     public void acceptAttachment(PackageId packageId, Signer signer, String attachmentName) {
-        signer.getAttachmentRequirement().get(attachmentName).setSenderComment("");
-        signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.COMPLETE);
+        signer.getAttachmentRequirement(attachmentName).setSenderComment("");
+        signer.getAttachmentRequirement(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.COMPLETE);
 
         packageService.updateSigner(packageId, signer);
     }
@@ -45,8 +45,8 @@ public class AttachmentRequirementService {
      * @param senderComment  the sender's rejection comment
      */
     public void rejectAttachment(PackageId packageId, Signer signer, String attachmentName, String senderComment) {
-        signer.getAttachmentRequirement().get(attachmentName).setSenderComment(senderComment);
-        signer.getAttachmentRequirement().get(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.REJECTED);
+        signer.getAttachmentRequirement(attachmentName).setSenderComment(senderComment);
+        signer.getAttachmentRequirement(attachmentName).setStatus(com.silanis.esl.sdk.RequirementStatus.REJECTED);
 
         packageService.updateSigner(packageId, signer);
     }

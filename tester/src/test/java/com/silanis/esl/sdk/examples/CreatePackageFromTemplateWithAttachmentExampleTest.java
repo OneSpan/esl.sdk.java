@@ -21,7 +21,7 @@ public class CreatePackageFromTemplateWithAttachmentExampleTest {
         DocumentPackage documentPackage = example.getRetrievedPackage();
 
         for (Signer signer : documentPackage.getSigners()) {
-            for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirement().values()) {
+            for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirements()) {
                 assertThat(attachmentRequirement, is(notNullValue()));
             }
         }
