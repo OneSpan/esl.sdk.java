@@ -1,7 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
+import com.google.common.base.Optional;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FieldBuilder;
+import java.util.Collection;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.Iterator;
@@ -12,6 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.joda.time.DateMidnight.now;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: jessica
@@ -21,7 +25,6 @@ import static org.junit.Assert.assertFalse;
  * Test BasicPackageCreationExample.
  */
 public class BasicPackageCreationExampleTest {
-    public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
 
     @Test
     public void verifyResult() {
@@ -62,65 +65,75 @@ public class BasicPackageCreationExampleTest {
         Document document = documentPackage.getDocument("First Document pdf");
 
         Iterator<Signature> signatures = document.getSignatures().iterator();
-        Signature signature;
-        Field field;
+        assertTrue("Signature doesn't exist in First Document.", signatures.hasNext());
 
-        if (signatures.hasNext()) {
-            signature = signatures.next();
+        Signature signature = signatures.next();
+        assertThat( "Signature's signer Email was not set correctly for First Document.", signature.getSignerEmail(), is( basicPackageCreationExample.email1 ) );
+        assertThat("Signature page was not set correctly for First Document.", signature.getPage(), is(0));
 
-            assertThat( "Signature's signer Email was not set correctly for First Document.", signature.getSignerEmail(), is( basicPackageCreationExample.email1 ) );
-            assertThat("Signature page was not set correctly for First Document.", signature.getPage(), is(0));
+        Iterator<Field> fields = signature.getFields().iterator();
+        assertTrue("Field doesn't exist in First Document.", fields.hasNext());
 
-            Iterator<Field> fields = signature.getFields().iterator();
-            if (fields.hasNext())
-            {
-                field = fields.next();
-                assertThat( "Field style for signature was not set correctly in First Document.", field.getStyle(), is( FieldStyle.UNBOUND_CHECK_BOX ) );
-                assertThat( "Field Page number was not set correctly in First Document.", field.getPage(), is( 0 ) );
-                assertThat( "Field value of signature was not set correctly in First Document.", field.getValue(), is( FieldBuilder.RADIO_SELECTED ) );
-            }
-        }
+        Field field = fields.next();
+        assertThat( "Field style for signature was not set correctly in First Document.", field.getStyle(), is( FieldStyle.UNBOUND_CHECK_BOX ) );
+        assertThat( "Field Page number was not set correctly in First Document.", field.getPage(), is( 0 ) );
+        assertThat( "Field value of signature was not set correctly in First Document.", field.getValue(), is( FieldBuilder.RADIO_SELECTED ) );
 
         // Document 2
         document = documentPackage.getDocument("Second Document PDF");
         signatures = document.getSignatures().iterator();
+        assertTrue("Signature doesn't exist in Second Document.", signatures.hasNext());
 
-        if (signatures.hasNext()) {
-            signature = signatures.next();
+        signature = signatures.next();
+        assertThat( "Signature's signer Email was not set correctly for Second Document.", signature.getSignerEmail(), is( "capitalletters@email.com" ) );
+        assertThat( "Signature page was not set correctly for Second Document.", signature.getPage(), is( 0 ) );
 
-            assertThat( "Signature's signer Email was not set correctly for Second Document.", signature.getSignerEmail(), is( "capitalletters@email.com" ) );
-            assertThat( "Signature page was not set correctly for Second Document.", signature.getPage(), is( 0 ) );
 
-            Iterator<Field> fields = signature.getFields().iterator();
-            if (fields.hasNext())
-            {
-                field = fields.next();
-                assertThat( "First radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
-                assertThat( "First radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
-                assertThat( "First radio button value of signature was not set correctly in Second Document.", field.getValue(), is( "" ) );
-                assertThat( "First radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group1));
+        final Optional<Field> firstFieldOptional = findFieldByName("firstField", signature.getFields());
+        assertTrue("Fist radio button doesn't exist in Second Document.", firstFieldOptional.isPresent());
 
-                field = fields.next();
-                assertThat( "Second radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
-                assertThat( "Second radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
-                assertThat( "Second radio button value of signature was not set correctly in Second Document.", field.getValue(), is(FieldBuilder.RADIO_SELECTED) );
-                assertThat( "Second radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group1));
+        Field firstField = firstFieldOptional.get();
+        assertThat( "First radio button style for signature was not set correctly in Second Document.", firstField.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
+        assertThat( "First radio button Page number was not set correctly in Second Document.", firstField.getPage(), is(0) );
+        assertThat( "First radio button value of signature was not set correctly in Second Document.", firstField.getValue(), is( "" ) );
+        assertThat("First radio button group was not set correctly in Second Document.", firstField.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group1));
 
-                field = fields.next();
-                assertThat( "Third radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
-                assertThat( "Third radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
-                assertThat( "Third radio button value of signature was not set correctly in Second Document.", field.getValue(), is( FieldBuilder.RADIO_SELECTED ) );
-                assertThat( "Third radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group2));
+        final Optional<Field> secondFieldOptional = findFieldByName("secondField", signature.getFields());
+        assertTrue("Second radio button doesn't exist in Second Document.", secondFieldOptional.isPresent());
 
-                field = fields.next();
-                assertThat( "Third radio button style for signature was not set correctly in Second Document.", field.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
-                assertThat( "Third radio button Page number was not set correctly in Second Document.", field.getPage(), is( 0 ) );
-                assertThat( "Third radio button value of signature was not set correctly in Second Document.", field.getValue(), is( "" ) );
-                assertThat( "Third radio button group was not set correctly in Second Document.", field.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group2));
+        Field secondField = secondFieldOptional.get();
+        assertThat("Second radio button style for signature was not set correctly in Second Document.", secondField.getStyle(), is(FieldStyle.UNBOUND_RADIO_BUTTON));
+        assertThat( "Second radio button Page number was not set correctly in Second Document.", secondField.getPage(), is( 0 ) );
+        assertThat( "Second radio button value of signature was not set correctly in Second Document.", secondField.getValue(), is(FieldBuilder.RADIO_SELECTED) );
+        assertThat("Second radio button group was not set correctly in Second Document.", secondField.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group1));
 
+        final Optional<Field> thirdFieldOptional = findFieldByName("thirdField", signature.getFields());
+        assertTrue("Third radio button doesn't exist in Second Document.", thirdFieldOptional.isPresent());
+
+        Field thirdField = thirdFieldOptional.get();
+        assertThat("Third radio button style for signature was not set correctly in Second Document.", thirdField.getStyle(), is(FieldStyle.UNBOUND_RADIO_BUTTON));
+        assertThat( "Third radio button Page number was not set correctly in Second Document.", thirdField.getPage(), is( 0 ) );
+        assertThat("Third radio button value of signature was not set correctly in Second Document.", thirdField.getValue(), is(FieldBuilder.RADIO_SELECTED));
+        assertThat( "Third radio button group was not set correctly in Second Document.", thirdField.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group2));
+
+        final Optional<Field> fourthFieldOptional = findFieldByName("fourthField", signature.getFields());
+        assertTrue("Fourth radio button doesn't exist in Second Document.", fourthFieldOptional.isPresent());
+
+        Field fourthField = fourthFieldOptional.get();
+        assertThat( "Fourth radio button style for signature was not set correctly in Second Document.", fourthField.getStyle(), is( FieldStyle.UNBOUND_RADIO_BUTTON ) );
+        assertThat( "Fourth radio button Page number was not set correctly in Second Document.", fourthField.getPage(), is( 0 ) );
+        assertThat( "Fourth radio button value of signature was not set correctly in Second Document.", fourthField.getValue(), is( "" ) );
+        assertThat( "Fourth radio button group was not set correctly in Second Document.", fourthField.getFieldValidator().getOptions().get(0), equalTo(basicPackageCreationExample.group2));
+    }
+
+    private Optional<Field> findFieldByName(String fieldName, Collection<Field> fields) {
+        for (Field field : fields) {
+            if(StringUtils.equals(fieldName, field.getName())) {
+                return Optional.of(field);
             }
         }
 
+        return Optional.absent();
     }
 
 }

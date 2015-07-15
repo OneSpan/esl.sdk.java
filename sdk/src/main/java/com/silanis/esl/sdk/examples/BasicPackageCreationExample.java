@@ -72,21 +72,25 @@ public class BasicPackageCreationExample extends SDKSample {
                                 .withSignature(signatureFor(email2)
                                                 .onPage(0)
                                                 .withField(FieldBuilder.radioButton(group1)
+                                                        .withName("firstField")
                                                         .onPage(0)
                                                         .atPosition(400, 300)
                                                         .withSize(20, 20)
                                                         .withValue(false))
                                                 .withField(FieldBuilder.radioButton(group1)
+                                                        .withName("secondField")
                                                         .onPage(0)
                                                         .atPosition(400, 400)
                                                         .withSize(20, 20)
                                                         .withValue(true))
                                                 .withField(FieldBuilder.radioButton(group2)
+                                                        .withName("thirdField")
                                                         .onPage(0)
                                                         .atPosition(400, 500)
                                                         .withSize(20, 20)
                                                         .withValue(true))
                                                 .withField(FieldBuilder.radioButton(group2)
+                                                        .withName("fourthField")
                                                         .onPage(0)
                                                         .atPosition(400, 600)
                                                         .withSize(20, 20)
@@ -99,7 +103,5 @@ public class BasicPackageCreationExample extends SDKSample {
         packageId = eslClient.createPackageOneStep( superDuperPackage );
         eslClient.sendPackage( packageId );
         retrievedPackage = eslClient.getPackage( packageId );
-
-        SessionToken sessionToken = eslClient.getSessionService().createSessionToken( packageId.toString(), "Client1" );
     }
 }
