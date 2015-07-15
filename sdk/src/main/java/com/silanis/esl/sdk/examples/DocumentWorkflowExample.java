@@ -64,7 +64,7 @@ public class DocumentWorkflowExample extends SDKSample {
                                 .atPosition(100, 100)))
                 .build();
 
-        packageId = eslClient.createPackage( superDuperPackage );
+        packageId = eslClient.createPackageOneStep( superDuperPackage );
         preOrderDocumentsPackage = eslClient.getPackage(packageId);
 
         postOrderDocumentsPackage = eslClient.getPackage(packageId);
