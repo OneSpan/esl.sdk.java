@@ -65,6 +65,8 @@ public class DocumentPackageSettingsExample extends SDKSample {
                         .withHandOverLinkText(HAND_OVER_LINK_TEXT)
                         .withHandOverLinkTooltip(HAND_OVER_LINK_TOOLTIP)
                         .withDialogOnComplete()
+                        .withoutDeclineOther()
+                        .withoutOptOutOther()
 
                         .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
 //                                .withoutGlobalDownloadButton()

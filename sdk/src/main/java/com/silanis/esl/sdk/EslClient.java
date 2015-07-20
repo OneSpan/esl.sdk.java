@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.*;
 

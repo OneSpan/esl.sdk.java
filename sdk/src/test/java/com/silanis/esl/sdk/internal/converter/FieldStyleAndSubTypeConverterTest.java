@@ -130,6 +130,11 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
         assertThat("Seal type was not correctly set", fieldStyle, is( equalTo(FieldStyle.SEAL)));
 
+        fieldSubtype = "LABEL";
+        binding = null;
+        fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
+        assertThat("Label type was not correctly set", fieldStyle, is( equalTo(FieldStyle.LABEL)));
+
         fieldSubtype = "UNKNOWN";
         binding = null;
         fieldStyle = new FieldStyleAndSubTypeConverter(fieldSubtype, binding).toSDKFieldStyle();
@@ -195,18 +200,6 @@ public class FieldStyleAndSubTypeConverterTest implements ConverterTest{
         fieldStyle = FieldStyle.SEAL;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
         assertThat(" was not correctly set", fieldSubtype, is( equalTo("SEAL")));
-
-        fieldStyle = FieldStyle.LABEL;
-        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
-        assertThat(" was not correctly set", fieldSubtype, is( equalTo("LABEL")));
-
-        fieldStyle = FieldStyle.LABEL;
-        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
-        assertThat(" was not correctly set", fieldSubtype, is( equalTo("LABEL")));
-
-        fieldStyle = FieldStyle.LABEL;
-        fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();
-        assertThat(" was not correctly set", fieldSubtype, is( equalTo("LABEL")));
 
         fieldStyle = FieldStyle.LABEL;
         fieldSubtype = new FieldStyleAndSubTypeConverter(fieldStyle).toAPIFieldSubtype();

@@ -16,7 +16,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class DocumentRetrievalExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream;
-    private byte[] pdfDocumentBytes, originalPdfDocumentBytes, zippedDocumentsBytes;
+
+    public byte[] pdfDocumentBytes, originalPdfDocumentBytes, zippedDocumentsBytes;
 
     public static void main(String... args) {
         new DocumentRetrievalExample(Props.get()).run();
@@ -32,18 +33,6 @@ public class DocumentRetrievalExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-    }
-
-    public byte[] getPdfDocumentBytes() {
-        return pdfDocumentBytes;
-    }
-
-    public byte[] getOriginalPdfDocumentBytes() {
-        return originalPdfDocumentBytes;
-    }
-
-    public byte[] getZippedDocumentsBytes() {
-        return zippedDocumentsBytes;
     }
 
     @Override

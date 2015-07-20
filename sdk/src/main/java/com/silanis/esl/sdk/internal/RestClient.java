@@ -3,20 +3,8 @@ package com.silanis.esl.sdk.internal;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.ProxyConfiguration;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
-import java.util.Collection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
@@ -56,8 +44,9 @@ import java.util.Collection;
 public class RestClient {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
+    private static final int BUFFER_SIZE = 4096;
 
-    public static final String ESL_API_VERSION = "10.9";
+    public static final String ESL_API_VERSION = "10.10";
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -67,7 +56,7 @@ public class RestClient {
     public static final String ACCEPT_TYPE_APPLICATION_JSON = "application/json";
     public static final String ESL_ACCEPT_TYPE_APPLICATION_JSON = ACCEPT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
 
-    private final ResponseHandler<byte[]> bytesHandler = new BytesHandler();
+    private final ResponseHandler<DownloadedFile> bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
     private final String apiToken;
@@ -203,6 +192,19 @@ public class RestClient {
                 return null;
             } else {
                 InputStream bodyContent = response.getEntity().getContent();
+                if(null != response.getHeaders("Content-Disposition") && response.getHeaders("Content-Disposition").length > 0) {
+                    String fileName = "";
+                    String disposition = response.getHeaders("Content-Disposition")[0].getValue();
+                    if(null != disposition) {
+                        int index = disposition.indexOf("filename=");
+                        if (index > 0) {
+                            fileName = disposition.substring(index + 10, disposition.length() - 1);
+                        }
+                    }
+                    DownloadedFile downloadedFile = (DownloadedFile) handler.extract(bodyContent);
+                    downloadedFile.setFilename(fileName);
+                    return (T)downloadedFile;
+                }
                 return handler.extract(bodyContent);
             }
         } finally {
@@ -291,14 +293,14 @@ public class RestClient {
         return new BasicHeader(HEADER_KEY_ACCEPT, acceptType);
     }
 
-    public byte[] getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
+    public DownloadedFile getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet(path);
 
         return execute(get, bytesHandler);
     }
 
-    public byte[] getBytesAsOctetStream(String path) throws IOException, HttpException, URISyntaxException, RequestException {
+    public DownloadedFile getBytesAsOctetStream(String path) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet(path);
         get.addHeader(buildAcceptHeader("application/octet-stream"));
@@ -318,10 +320,10 @@ public class RestClient {
         T extract(InputStream input);
     }
 
-    private class BytesHandler implements ResponseHandler<byte[]> {
+    private class BytesHandler implements ResponseHandler<DownloadedFile> {
 
-        public byte[] extract(InputStream input) {
-            return Streams.toByteArray(input);
+        public DownloadedFile extract(InputStream input) {
+            return new DownloadedFile("", Streams.toByteArray(input));
         }
     }
 

@@ -17,8 +17,7 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
  */
 public class TemplateExample extends SDKSample {
 
-    private String email1;
-    private String email2;
+    public String email1, email2;
     private InputStream documentInputStream1;
     private DocumentPackage retrievedTemplate;
 
@@ -62,14 +61,6 @@ public class TemplateExample extends SDKSample {
         this.email2 = email2;
     }
 
-    public String getEmail1() {
-        return email1;
-    }
-
-    public String getEmail2() {
-        return email2;
-    }
-
     @Override
     public void execute() {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
@@ -97,12 +88,11 @@ public class TemplateExample extends SDKSample {
 
         templateId = eslClient.getTemplateService().createTemplate(superDuperPackage);
 
-        superDuperPackage.setId(templateId);
+        retrievedTemplate = eslClient.getPackage(templateId);
+        retrievedTemplate.setName(UPDATED_TEMPLATE_NAME);
+        retrievedTemplate.setDescription(UPDATED_TEMPLATE_DESCRIPTION);
 
-        superDuperPackage.setName(UPDATED_TEMPLATE_NAME);
-        superDuperPackage.setDescription(UPDATED_TEMPLATE_DESCRIPTION);
-
-        eslClient.getTemplateService().updateTemplate(superDuperPackage);
+        eslClient.getTemplateService().updateTemplate(retrievedTemplate);
 
         retrievedTemplate = eslClient.getPackage(templateId);
 

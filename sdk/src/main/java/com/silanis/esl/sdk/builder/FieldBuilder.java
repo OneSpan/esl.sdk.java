@@ -138,7 +138,7 @@ public class FieldBuilder {
         return new FieldBuilder()
                 .withStyle(FieldStyle.UNBOUND_RADIO_BUTTON)
                 .withValidation(FieldValidatorBuilder.basic()
-                        .withOption(group));
+                                                     .withOption(group));
     }
 
     /**

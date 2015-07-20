@@ -96,9 +96,11 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(0))));
         assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(1))));
         assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(2))));
+        assertThat("Disable DeclineOther was not correctly set", apiPackageSettings1.getCeremony().getDisableDeclineOther(), is(equalTo(sdkPackageSettings1.getDisableDeclineOther())));
         assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(0))));
         assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(1))));
         assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(2))));
+        assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(equalTo(sdkPackageSettings1.getDisableOptOutOther())));
         assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(equalTo(sdkPackageSettings1.getLinkHref())));
         assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(equalTo(sdkPackageSettings1.getLinkText())));
         assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(equalTo(sdkPackageSettings1.getLinkTooltip())));
@@ -130,9 +132,11 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(0))));
         assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(1))));
         assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(2))));
+        assertThat("Disable DeclineOther was not correctly set", apiPackageSettings1.getCeremony().getDisableDeclineOther(), is(equalTo(sdkPackageSettings1.getDisableDeclineOther())));
         assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(0))));
         assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(1))));
         assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(2))));
+        assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(equalTo(sdkPackageSettings1.getDisableOptOutOther())));
         assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(equalTo(sdkPackageSettings1.getLinkHref())));
         assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(equalTo(sdkPackageSettings1.getLinkText())));
         assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(equalTo(sdkPackageSettings1.getLinkTooltip())));
@@ -167,10 +171,12 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withDeclineReason("Decline reason One")
                 .withDeclineReason( "Decline reason Two" )
                 .withDeclineReason( "Decline reason Three" )
+                .withoutDeclineOther()
                 .withOptOutReason("Reason One")
                 .withOptOutReason( "Reason Two" )
                 .withOptOutReason( "Reason Three" )
-                .withHandOverLinkHref( "http://www.google.ca" )
+                .withoutOptOutOther()
+                .withHandOverLinkHref("http://www.google.ca")
                 .withHandOverLinkText( "click here" )
                 .withHandOverLinkTooltip( "link tooltip" )
                 .withDialogOnComplete()

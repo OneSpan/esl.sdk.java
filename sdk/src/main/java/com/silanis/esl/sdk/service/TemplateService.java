@@ -1,6 +1,8 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.*;
@@ -64,15 +66,11 @@ public class TemplateService {
     }
 
     /**
-     * Creates a package based on an existent template.
-     *
-     * @param documentPackage the document package
-     * @param packageId	the package ID used as template for the new package
-     * @return	the package ID
+     * @deprecated Please use createPackageFromTemplate( PackageId packageId, DocumentPackage documentPackage ) instead of this method.
      */
+    @Deprecated
     public PackageId createPackageFromTemplate(DocumentPackage documentPackage, PackageId packageId) {
-        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        return packageService.createPackageFromTemplate( packageId, packageToCreate );
+        return createPackageFromTemplate(packageId, documentPackage);
     }
 
     /**
@@ -108,7 +106,7 @@ public class TemplateService {
         DocumentPackage template = new DocumentPackageConverter(packageService.getApiPackage(packageId.getId())).toSDKPackage();
         if (checkSignerOrdering(template)) {
             int firstSignerIndex = template.getSigners().size();
-            for(Signer signer : documentPackage.getSigners().values()){
+            for(Signer signer : documentPackage.getSigners()){
                 signer.setSigningOrder(firstSignerIndex);
                 firstSignerIndex++;
             }
@@ -116,7 +114,7 @@ public class TemplateService {
     }
 
     private boolean checkSignerOrdering(DocumentPackage template) {
-        for(Signer signer : template.getSigners().values()) {
+        for(Signer signer : template.getSigners()) {
             if (signer.getSigningOrder() > 0) {
                 return true;
             }
@@ -175,11 +173,38 @@ public class TemplateService {
         String packageJson = Serialization.toJson(packageToUpdate);
 
         try {
-            client.post(path, packageJson);
+            client.put(path, packageJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update template", e);
         } catch (Exception e) {
             throw new EslException("Could not update template", e);
         }
+    }
+
+    /**
+     * Adds a placeholder to the template.
+     *
+     * @param templateId
+     * @param placeholder
+     * @return The role added
+     * @throws EslException
+     */
+    public Placeholder addPlaceholder(PackageId templateId, Placeholder placeholder) throws EslException {
+        String path = urls.urlFor(UrlTemplate.ROLE_PATH)
+                              .replace("{packageId}", templateId.getId())
+                              .build();
+
+        String placeholderJson = JacksonUtil.serializeDirty(placeholder);
+        String stringResponse;
+        try {
+            stringResponse = client.post(path, placeholderJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add placeholder.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not add placeholder.", e);
+        }
+        Role role = Serialization.fromJson(stringResponse, Role.class);
+
+        return new Placeholder(role.getId());
     }
 }

@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.examples.PackageLanguageConfigurationExample.LANGUAGE;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,12 +19,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PackageLanguageConfigurationExampleTest {
     @Test
     public void verifyResult() {
-        PackageLanguageConfigurationExample packageLanguageConfigurationExample = new PackageLanguageConfigurationExample(Props.get());
-        packageLanguageConfigurationExample.run();
+        PackageLanguageConfigurationExample example = new PackageLanguageConfigurationExample(Props.get());
+        example.run();
 
-        DocumentPackage documentPackage = packageLanguageConfigurationExample.getRetrievedPackage();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat(documentPackage.getLanguage(), is(equalTo(PackageLanguageConfigurationExample.LANGUAGE)));
+        assertThat(documentPackage.getLanguage(), is(equalTo(LANGUAGE)));
 
     }
     

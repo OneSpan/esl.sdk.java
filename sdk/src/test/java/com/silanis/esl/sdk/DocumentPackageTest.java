@@ -34,9 +34,9 @@ public class DocumentPackageTest {
                 .build();
         documentPackage.addSigner(newSigner);
 
-        assertThat("Document package should have 2 signers.", documentPackage.getSigners().keySet().size(), is(2));
-        assertThat("Document package is missing signer1.", documentPackage.getSigners().get(lowerCaseEmail1), is(signer1));
-        assertThat("Document package did not add the new signer.", documentPackage.getSigners().get(lowerCaseEmail2), is(newSigner));
+        assertThat("Document package should have 2 signers.", documentPackage.getSigners().size(), is(2));
+        assertThat("Document package is missing signer1.", documentPackage.getSigners().get(0), is(signer1));
+        assertThat("Document package did not add the new signer.", documentPackage.getSigners().get(1), is(newSigner));
     }
 
     @Test
@@ -56,10 +56,10 @@ public class DocumentPackageTest {
                     .build());
             fail("No exception thrown");
         } catch (EslException e) {
-            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same email already exists."));
+            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same email or another placeholder with same id already exists."));
         }
         assertThat("Document package should not add duplicate signers.", documentPackage.getSigners().size(), is(1));
-        assertThat("Document package is missing signer1", documentPackage.getSigners().get(lowerCaseEmail1), is(signer1));
+        assertThat("Document package is missing signer1", documentPackage.getSigners().get(0), is(signer1));
     }
 
     @Test
@@ -76,8 +76,8 @@ public class DocumentPackageTest {
         documentPackage.addSigner(signer2);
 
         assertThat("Document package should have 2 signers", documentPackage.getSigners().size(), is(2));
-        assertThat("Document package should have the signer1's email in lower case.", documentPackage.getSigners().get(lowerCaseEmail1), is(signer1));
-        assertThat("Document package should have the signer2's email in lower case.", documentPackage.getSigners().get(lowerCaseEmail2), is(signer2));
+        assertThat("Document package should have the signer1's email in lower case.", documentPackage.getSigners().get(0), is(signer1));
+        assertThat("Document package should have the signer2's email in lower case.", documentPackage.getSigners().get(1), is(signer2));
     }
 
     @Test
@@ -144,8 +144,8 @@ public class DocumentPackageTest {
                 .build();
 
         assertThat("Document package should have 2 placeholders.", documentPackage.getPlaceholders().size(), is(2));
-        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().containsKey("placeholderId1"));
-        assertThat("Document package is missing placeholder2", documentPackage.getPlaceholders().containsKey("placeholderId2"));
+        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().contains(placeholder1));
+        assertThat("Document package is missing placeholder2", documentPackage.getPlaceholders().contains(placeholder2));
     }
 
     @Test
@@ -153,16 +153,19 @@ public class DocumentPackageTest {
         Signer placeholder1 = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
                 .build();
 
-        Signer placeholder2 = SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
-                .build();
-
         DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
                 .withSigner(placeholder1)
-                .withSigner(placeholder2)
                 .build();
 
+        try {
+            documentPackage.addSigner(SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
+                                                   .build());
+            fail("No exception thrown");
+        } catch (EslException e) {
+            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same email or another placeholder with same id already exists."));
+        }
         assertThat("Document package should have 1 placeholder.", documentPackage.getPlaceholders().size(), is(1));
-        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().containsKey("placeholderId1"));
+        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().contains(placeholder1));
     }
 
     @Test
@@ -177,7 +180,7 @@ public class DocumentPackageTest {
         documentPackage.removePlaceholder(placeholder);
 
         assertThat("Document package should have 1 placeholder.", documentPackage.getPlaceholders().size(), is(0));
-        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().containsKey("placeholderId1"), is(false));
+        assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().contains(placeholder), is(false));
     }
 
 

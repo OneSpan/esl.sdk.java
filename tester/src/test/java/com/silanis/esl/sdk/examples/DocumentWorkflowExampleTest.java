@@ -3,6 +3,8 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.examples.DocumentWorkflowExample.FIRST_DOCUMENT_NAME;
+import static com.silanis.esl.sdk.examples.DocumentWorkflowExample.SECOND_DOCUMENT_NAME;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,19 +20,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DocumentWorkflowExampleTest {
     @Test
     public void verifyResult() {
-        DocumentWorkflowExample documentWorkflowExample = new DocumentWorkflowExample( Props.get() );
-        documentWorkflowExample.run();
+        DocumentWorkflowExample example = new DocumentWorkflowExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = documentWorkflowExample.preOrderDocumentsPackage;
+        DocumentPackage documentPackage = example.preOrderDocumentsPackage;
 
         // Verify if the document flow was setup correctly.
-        assertThat( documentPackage.getDocument(DocumentWorkflowExample.FIRST_DOCUMENT_NAME).getIndex(), is( equalTo(1)));
-        assertThat( documentPackage.getDocument(DocumentWorkflowExample.SECOND_DOCUMENT_NAME).getIndex(), is( equalTo(2)));
+        assertThat( documentPackage.getDocument(FIRST_DOCUMENT_NAME).getIndex(), is( equalTo(1)));
+        assertThat( documentPackage.getDocument(SECOND_DOCUMENT_NAME).getIndex(), is( equalTo(2)));
 
-        documentPackage = documentWorkflowExample.postOrderDocumentsPackage;
+        documentPackage = example.postOrderDocumentsPackage;
 
         // Verify if the document flow was updated correctly.
-        assertThat( documentPackage.getDocument(DocumentWorkflowExample.FIRST_DOCUMENT_NAME).getIndex(), is( equalTo(2)));
-        assertThat( documentPackage.getDocument(DocumentWorkflowExample.SECOND_DOCUMENT_NAME).getIndex(), is( equalTo(1)));
+        assertThat( documentPackage.getDocument(FIRST_DOCUMENT_NAME).getIndex(), is( equalTo(2)));
+        assertThat( documentPackage.getDocument(SECOND_DOCUMENT_NAME).getIndex(), is( equalTo(1)));
     }
 }

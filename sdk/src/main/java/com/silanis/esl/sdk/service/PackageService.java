@@ -15,6 +15,7 @@ import com.silanis.esl.sdk.SupportConfiguration;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -543,7 +544,7 @@ public class PackageService {
                 .replace("{documentId}", documentId)
                 .build();
         try {
-            return client.getBytesAsOctetStream(path);
+            return client.getBytesAsOctetStream(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the pdf document.", e);
         } catch (Exception e) {
@@ -565,7 +566,7 @@ public class PackageService {
                 .replace("{documentId}", documentId)
                 .build();
         try {
-            return client.getBytesAsOctetStream(path);
+            return client.getBytesAsOctetStream(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the original document.", e);
         } catch (Exception e) {
@@ -585,7 +586,7 @@ public class PackageService {
                 .replace("{packageId}", packageId.getId())
                 .build();
         try {
-            return client.getBytes(path);
+            return client.getBytes(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the documents to a zip file.", e);
         } catch (Exception e) {
@@ -605,7 +606,7 @@ public class PackageService {
                 .replace("{packageId}", packageId.getId())
                 .build();
         try {
-            return client.getBytes(path);
+            return client.getBytes(path).getContents();
         } catch (RequestException e) {
             throw new EslServerException("Could not download the evidence summary.", e);
         } catch (Exception e) {
@@ -905,7 +906,7 @@ public class PackageService {
                 .build();
 
         List<Role> roles = new ArrayList<Role>();
-        for (com.silanis.esl.sdk.Signer signer : documentPackage.getSigners().values()) {
+        for (com.silanis.esl.sdk.Signer signer : documentPackage.getSigners()) {
             roles.add(new SignerConverter(signer).toAPIRole(signer.getId()));
         }
 
@@ -1175,13 +1176,13 @@ public class PackageService {
      * @param userId The ID of the user whose e-journal entries are being retrieved.
      * @return all of the user's notary e-journal entries in csv format.
      */
-    public String getJournalEntriesAsCSV(String userId) {
+    public DownloadedFile getJournalEntriesAsCSV(String userId) {
         String path = template.urlFor(UrlTemplate.NOTARY_JOURNAL_CSV_PATH)
                               .replace("{userId}", userId)
                               .build();
 
         try{
-            return client.get(path, "text/csv");
+            return client.getBytes(path);
         } catch (RequestException e) {
             throw new EslException("Could not get Journal Entries in csv.", e);
         } catch (Exception e) {

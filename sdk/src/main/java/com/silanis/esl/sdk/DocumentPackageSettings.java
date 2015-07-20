@@ -19,6 +19,8 @@ public class DocumentPackageSettings {
     private Boolean showLanguageDropDown = null;
     private Boolean enableFirstAffidavit = null;
     private Boolean enableSecondAffidavit = null;
+    private Boolean disableDeclineOther = null;
+    private Boolean disableOptOutOther = null;
 
     private String linkText;
     private String linkTooltip;
@@ -156,5 +158,29 @@ public class DocumentPackageSettings {
 
     public void setEnableSecondAffidavit(Boolean enableSecondAffidavit) {
         this.enableSecondAffidavit = enableSecondAffidavit;
+    }
+
+    public void setDeclineReasons(List<String> declineReasons) {
+        this.declineReasons = declineReasons;
+    }
+
+    public void setOptOutReasons(List<String> optOutReasons) {
+        this.optOutReasons = optOutReasons;
+    }
+
+    public Boolean getDisableDeclineOther() {
+        return disableDeclineOther;
+    }
+
+    public void setDisableDeclineOther(Boolean disableDeclineOther) {
+        this.disableDeclineOther = disableDeclineOther;
+    }
+
+    public Boolean getDisableOptOutOther() {
+        return disableOptOutOther;
+    }
+
+    public void setDisableOptOutOther(Boolean disableOptOutOther) {
+        this.disableOptOutOther = disableOptOutOther;
     }
 }

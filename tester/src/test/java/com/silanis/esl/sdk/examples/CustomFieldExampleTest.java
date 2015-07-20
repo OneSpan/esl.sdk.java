@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.Iterator;
 
+import static com.silanis.esl.sdk.examples.CustomFieldExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -44,13 +45,13 @@ public class CustomFieldExampleTest {
 
         // Get first custom field
         assertThat("Custom field name was not set correctly.", example.retrieveCustomField.getId(), is(example.customFieldId1));
-        assertThat("Custom field default value was not set correctly.", example.retrieveCustomField.getValue(), is(example.DEFAULT_VALUE));
-        assertThat("Custom field English translation name was not set correctly.", example.retrieveCustomField.getTranslations().get(0).getName(), is(example.ENGLISH_NAME));
-        assertThat("Custom field English translation name was not set correctly.", example.retrieveCustomField.getTranslations().get(0).getLanguage(), is(example.ENGLISH_LANGUAGE));
-        assertThat("Custom field English translation description was not set correctly.", example.retrieveCustomField.getTranslations().get(0).getDescription(), is(example.ENGLISH_DESCRIPTION));
-        assertThat("Custom field French translation name was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getName(), is(example.FRENCH_NAME));
-        assertThat("Custom field French translation language was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getLanguage(), is(example.FRENCH_LANGUAGE));
-        assertThat("Custom field French translation description was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getDescription(), is(example.FRENCH_DESCRIPTION));
+        assertThat("Custom field default value was not set correctly.", example.retrieveCustomField.getValue(), is(DEFAULT_VALUE));
+        assertThat("Custom field English translation name was not set correctly.", example.retrieveCustomField.getTranslations().get(0).getName(), is(ENGLISH_NAME));
+        assertThat("Custom field English translation name was not set correctly.", example.retrieveCustomField.getTranslations().get(0).getLanguage(), is(ENGLISH_LANGUAGE));
+        assertThat("Custom field English translation description was not set correctly.", example.retrieveCustomField.getTranslations().get(0).getDescription(), is(ENGLISH_DESCRIPTION));
+        assertThat("Custom field French translation name was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getName(), is(FRENCH_NAME));
+        assertThat("Custom field French translation language was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getLanguage(), is(FRENCH_LANGUAGE));
+        assertThat("Custom field French translation description was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getDescription(), is(FRENCH_DESCRIPTION));
 
         // Get entire list of custom fields
         assertThat("There should be at least two custom fields.", example.retrieveCustomFieldList1.size(), is(greaterThan(1)));

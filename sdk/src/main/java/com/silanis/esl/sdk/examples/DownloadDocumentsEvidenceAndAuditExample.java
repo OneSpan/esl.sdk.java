@@ -21,9 +21,9 @@ public class DownloadDocumentsEvidenceAndAuditExample {
         EslClient esl = new EslClient( API_KEY, API_URL );
 
         PackageId packageId = new PackageId("8d086f61-09b6-4da1-a385-b12eb3ac3654");
-        byte[] documentContent = esl.downloadDocument(packageId, "2579a8b01f0e008e");
+        byte[] downloadDocument = esl.downloadDocument(packageId, "2579a8b01f0e008e");
 
-        Files.saveTo(documentContent, "download/downloaded.pdf");
+        Files.saveTo(downloadDocument, "download/downloaded.pdf");
 
         byte[] evidenceContent = esl.downloadEvidenceSummary(packageId);
         Files.saveTo(evidenceContent, "download/evidence.pdf");

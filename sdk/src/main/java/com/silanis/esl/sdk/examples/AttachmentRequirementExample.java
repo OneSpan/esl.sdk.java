@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
+import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Files;
 
 import java.io.File;
@@ -38,7 +39,9 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String SIGNER2_ID = "signer2Id";
     public static final String REJECTION_COMMENT = "Reject: uploaded wrong attachment.";
 
-    public static final String DOWNLOADED_ATTACHMENT_PDF = "downloadedAttachment.pdf";
+    public static final String ATTACHMENT_FILE_NAME1 = DocumentType.PDF.normalizeName("The attachment1 for signer1");
+    public static final String ATTACHMENT_FILE_NAME2 = DocumentType.PDF.normalizeName("The attachment1 for signer2");
+    public static final String ATTACHMENT_FILE_NAME3 = DocumentType.PDF.normalizeName("The attachment2 for signer2");
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP = "downloadedAllAttachmentsForPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner1InPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner2InPackage.zip";
@@ -138,13 +141,13 @@ public class AttachmentRequirementExample extends SDKSample {
 
         // upload attachment
         byte[] attachment1ForSigner1FileContent = new StreamDocumentSource(attachmentInputStream1).content();
-        eslClient.uploadAttachment(packageId, signer1Att1.getId(), DocumentType.PDF.normalizeName("The attachment1 for signer1"),
+        eslClient.uploadAttachment(packageId, signer1Att1.getId(), ATTACHMENT_FILE_NAME1,
                                    attachment1ForSigner1FileContent, SIGNER1_ID);
         attachment1ForSigner1FileSize = attachment1ForSigner1FileContent.length;
 
-        eslClient.uploadAttachment(packageId, signer2Att1.getId(), DocumentType.PDF.normalizeName("The attachment1 for signer2"),
+        eslClient.uploadAttachment(packageId, signer2Att1.getId(), ATTACHMENT_FILE_NAME2,
                                    new StreamDocumentSource(attachmentInputStream2).content(), SIGNER2_ID);
-        eslClient.uploadAttachment(packageId, signer2Att2.getId(), DocumentType.PDF.normalizeName("The attachment2 for signer2"),
+        eslClient.uploadAttachment(packageId, signer2Att2.getId(), ATTACHMENT_FILE_NAME3,
                                    new StreamDocumentSource(attachmentInputStream3).content(), SIGNER2_ID);
 
         // Sender rejects Signer1's uploaded attachment
@@ -162,23 +165,23 @@ public class AttachmentRequirementExample extends SDKSample {
         retrievedSigner1Att1RequirementSenderCommentAfterAccepting = retrievedPackageAfterAccepting.getSigner(email1).getAttachmentRequirement(NAME1).getSenderComment();
 
         // Download signer1's attachment
-        byte[] downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachment(packageId, attachment1Id);
-        Files.saveTo(downloadedAttachment, DOWNLOADED_ATTACHMENT_PDF);
+        DownloadedFile downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachmentFile(packageId, attachment1Id);
+        Files.saveTo(downloadedAttachment.getContents(), downloadedAttachment.getFilename());
 
         // Download all attachments for the package
-        byte[] downloadedAllAttachmentsForPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForPackage(packageId);
-        Files.saveTo(downloadedAllAttachmentsForPackage, DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP);
+        DownloadedFile downloadedAllAttachmentsForPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentFilesForPackage(packageId);
+        Files.saveTo(downloadedAllAttachmentsForPackage.getContents(), DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP);
 
         // Download all attachments for the signer1 in the package
-        byte[] downloadedAllAttachmentsForSigner1InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer1);
-        Files.saveTo(downloadedAllAttachmentsForSigner1InPackage, DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP);
+        DownloadedFile downloadedAllAttachmentsForSigner1InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentFilesForSignerInPackage(retrievedPackage, signer1);
+        Files.saveTo(downloadedAllAttachmentsForSigner1InPackage.getContents(), DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP);
 
         // Download all attachments for the signer2 in the package
-        byte[] downloadedAllAttachmentsForSigner2InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentsForSignerInPackage(retrievedPackage, signer2);
-        Files.saveTo(downloadedAllAttachmentsForSigner2InPackage, DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP);
+        DownloadedFile downloadedAllAttachmentsForSigner2InPackage = eslClient.getAttachmentRequirementService().downloadAllAttachmentFilesForSignerInPackage(retrievedPackage, signer2);
+        Files.saveTo(downloadedAllAttachmentsForSigner2InPackage.getContents(), DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP);
 
         try {
-            downloadedAttachemnt1 = new File(DOWNLOADED_ATTACHMENT_PDF);
+            downloadedAttachemnt1 = new File(downloadedAttachment.getFilename());
             downloadedAllAttachmentsForPackageZip = new ZipFile(DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP);
             downloadedAllAttachmentsForSigner1InPackageZip = new ZipFile(DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP);
             downloadedAllAttachmentsForSigner2InPackageZip = new ZipFile(DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP);

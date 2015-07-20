@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
+import static com.silanis.esl.sdk.examples.CustomSenderInfoExample.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -29,10 +30,10 @@ public class CustomSenderInfoExampleTest {
         DocumentPackage documentPackage = customSenderInfoExample.getRetrievedPackage();
 
         SenderInfo senderInfo = documentPackage.getSenderInfo();
-        assertThat("Sender first name not set correctly. ", senderInfo.getFirstName(), is(equalTo(CustomSenderInfoExample.SENDER_FIRST_NAME)));
-        assertThat("Sender last name not set correctly. ", senderInfo.getLastName(), is(equalTo( CustomSenderInfoExample.SENDER_SECOND_NAME )));
-        assertThat("Sender title not set correctly. ", senderInfo.getTitle(), is(equalTo(CustomSenderInfoExample.SENDER_TITLE)));
-        assertThat("Sender company not set correctly. ", senderInfo.getCompany(), is(equalTo(CustomSenderInfoExample.SENDER_COMPANY)));
+        assertThat("Sender first name not set correctly. ", senderInfo.getFirstName(), is(equalTo(SENDER_FIRST_NAME)));
+        assertThat("Sender last name not set correctly. ", senderInfo.getLastName(), is(equalTo( SENDER_SECOND_NAME )));
+        assertThat("Sender title not set correctly. ", senderInfo.getTitle(), is(equalTo(SENDER_TITLE)));
+        assertThat("Sender company not set correctly. ", senderInfo.getCompany(), is(equalTo(SENDER_COMPANY)));
 
         Map<String, Sender> senders = assertSenderWasAdded(100, customSenderInfoExample.senderEmail);
         assertThat("Sender was not added correctly.", senders.containsKey(customSenderInfoExample.senderEmail), is(true));

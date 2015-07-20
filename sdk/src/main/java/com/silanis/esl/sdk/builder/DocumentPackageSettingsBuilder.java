@@ -30,6 +30,8 @@ public class DocumentPackageSettingsBuilder {
     private Boolean showLanguageDropDown = null;
     private Boolean enableFirstAffidavit = null;
     private Boolean enableSecondAffidavit = null;
+    private Boolean disableDeclineOther = null;
+    private Boolean disableOptOutOther = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -351,6 +353,8 @@ public class DocumentPackageSettingsBuilder {
         result.setLinkHref( linkHref );
         result.setLinkText( linkText );
         result.setLinkTooltip( linkTooltip );
+        result.setDisableDeclineOther( disableDeclineOther );
+        result.setDisableOptOutOther( disableOptOutOther );
 
         result.setCeremonyLayoutSettings( ceremonyLayoutSettings );
 
@@ -413,4 +417,53 @@ public class DocumentPackageSettingsBuilder {
         showDocumentToolbarDownloadButton = false;
         return this;
     }
+
+    /**
+     * Display an other option in decline reason
+     * <p>
+     * DEFAULT: ENABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withDeclineOther() {
+        disableDeclineOther = false;
+        return this;
+    }
+
+    /**
+     * Removes an other option in decline reason
+     *
+     * @see #withDeclineOther()
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withoutDeclineOther() {
+        disableDeclineOther = true;
+        return this;
+    }
+
+    /**
+     * Display an other option in opt out reason
+     * <p>
+     * DEFAULT: ENABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withOptOutOther() {
+        disableOptOutOther = false;
+        return this;
+    }
+
+    /**
+     * Removes an other option in opt out reason
+     *
+     * @see #withOptOutOther()
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withoutOptOutOther() {
+        disableOptOutOther = true;
+        return this;
+    }
+
 }

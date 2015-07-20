@@ -103,11 +103,7 @@ public class SignerConverter {
         }
 
         if ( apiRole.getEmailMessage() != null ) {
-            signerBuilder.withEmailMessage( apiRole.getEmailMessage().getContent() );
-        }
-
-        if ( apiRole.evalLocked() ) {
-            signerBuilder.lock();
+            signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
         }
 
         signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
@@ -116,7 +112,13 @@ public class SignerConverter {
             signerBuilder.withAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toSDKAttachmentRequirement());
         }
 
-        return signerBuilder.build();
+        Signer signer = signerBuilder.build();
+
+        if ( apiRole.evalLocked() ) {
+            signer.setLocked(true);
+        }
+
+        return signer;
     }
 
     private Signer newSignerPlaceholderFromAPIRole(){
@@ -133,11 +135,13 @@ public class SignerConverter {
             signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
         }
 
+        Signer signer = signerBuilder.build();
+
         if(apiRole.getLocked()){
-            signerBuilder.lock();
+            signer.setLocked(true);
         }
 
-        return signerBuilder.build();
+        return signer;
     }
     /**
      * Convert from API signer to SDK signer.

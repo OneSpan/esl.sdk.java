@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.*;
-
 /**
  * User: dave
  */

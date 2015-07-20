@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.silanis.esl.sdk.examples.EventNotificationRegistrationExample.*;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -29,29 +30,29 @@ public class EventNotificationRegistrationExampleTest {
         EventNotificationConfig eventNotificationConfig = example.getEventNotificationConfig();
 
         assertThat("EventNotificationConfig is null", eventNotificationConfig, is(notNullValue()));
-        assertThat("EventNotificationConfig's url is not set correctly", eventNotificationConfig.getUrl(), is(example.URL));
-        assertThat("EventNotificationConfig's key is not set correctly", eventNotificationConfig.getKey(), is(example.KEY));
+        assertThat("EventNotificationConfig's url is not set correctly", eventNotificationConfig.getUrl(), is(URL));
+        assertThat("EventNotificationConfig's key is not set correctly", eventNotificationConfig.getKey(), is(KEY));
         assertThat("EventNotificationConfig should have 18 events", eventNotificationConfig.getEvents().size(), is(18));
 
         List<NotificationEvent> eventList = new ArrayList<NotificationEvent>();
-        eventList.add(example.EVENT1);
-        eventList.add(example.EVENT2);
-        eventList.add(example.EVENT3);
-        eventList.add(example.EVENT4);
-        eventList.add(example.EVENT5);
-        eventList.add(example.EVENT6);
-        eventList.add(example.EVENT7);
-        eventList.add(example.EVENT8);
-        eventList.add(example.EVENT9);
-        eventList.add(example.EVENT10);
-        eventList.add(example.EVENT11);
-        eventList.add(example.EVENT12);
-        eventList.add(example.EVENT13);
-        eventList.add(example.EVENT14);
-        eventList.add(example.EVENT15);
-        eventList.add(example.EVENT16);
-        eventList.add(example.EVENT17);
-        eventList.add(example.EVENT18);
+        eventList.add(EVENT1);
+        eventList.add(EVENT2);
+        eventList.add(EVENT3);
+        eventList.add(EVENT4);
+        eventList.add(EVENT5);
+        eventList.add(EVENT6);
+        eventList.add(EVENT7);
+        eventList.add(EVENT8);
+        eventList.add(EVENT9);
+        eventList.add(EVENT10);
+        eventList.add(EVENT11);
+        eventList.add(EVENT12);
+        eventList.add(EVENT13);
+        eventList.add(EVENT14);
+        eventList.add(EVENT15);
+        eventList.add(EVENT16);
+        eventList.add(EVENT17);
+        eventList.add(EVENT18);
 
         for (NotificationEvent event : eventList) {
             boolean found = false;

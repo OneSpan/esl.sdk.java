@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.FieldId;
+import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
 import java.io.InputStream;
@@ -46,6 +47,10 @@ public class GenericFieldsExample extends SDKSample {
     public static final String TEXT_AREA_ID = "textAreaId";
     public static final int TEXT_AREA_PAGE = 0;
     public static final String TEXT_AREA_VALUE = "textAreaValue";
+    public static final String LABEL_ID = "labelId";
+    public static final String LABEL_NAME = "labelName";
+    public static final int LABEL_PAGE = 0;
+    public static final String LABEL_VALUE = "labelValue";
 
     private int textfieldPositionX = 400;
     private int textfieldPositionY = 200;
@@ -73,6 +78,11 @@ public class GenericFieldsExample extends SDKSample {
     private double textAreaHeight = 600;
     private int textAreaPositionX = 200;
     private int textAreaPositionY = 200;
+    private double labelFieldWidth = 100;
+    private double labelFieldHeight = 60;
+    private int labelFieldPositionX = 150;
+    private int labelFieldPositionY = 150;
+
 
     public static void main( String... args ) {
         new GenericFieldsExample( Props.get() ).run();
@@ -92,59 +102,67 @@ public class GenericFieldsExample extends SDKSample {
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "GenericFieldsExample Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .describedAs("This is a package created using the e-SignLive SDK")
-                .withSigner(newSignerWithEmail(email1)
-                        .withFirstName("John")
-                        .withLastName("Smith"))
-                .withDocument(newDocumentWithName(DOCUMENT_NAME)
-                        .fromStream(documentInputStream1, DocumentType.PDF)
-                        .withSignature(signatureFor(email1)
-                                .onPage(0)
-                                .atPosition(400, 100)
-                                .withField(textField()
-                                        .withId(new FieldId(TEXTFIELD_ID))
-                                        .onPage(TEXTFIELD_PAGE)
-                                        .atPosition(textfieldPositionX, textfieldPositionY))
-                                .withField(checkBox()
-                                        .withId(new FieldId(CHECKBOX_1_ID))
-                                        .onPage(CHECKBOX_1_PAGE)
-                                        .withSize(checkbox1Width, checkbox1Height)
-                                        .atPosition(checkbox1PositionX, checkbox1PositionY))
-                                .withField(checkBox()
-                                        .withId(new FieldId(CHECKBOX_2_ID))
-                                        .withValue(CHECKBOX_2_VALUE)
-                                        .onPage(CHECKBOX_2_PAGE)
-                                        .withSize(checkbox2Width, checkbox2Height)
-                                        .atPosition(checkbox2PositionX, checkbox2PositionY))
-                                .withField(radioButton(RADIO_1_GROUP)
-                                        .withId(new FieldId(RADIO_1_ID))
-                                        .onPage(RADIO_1_PAGE)
-                                        .withSize(radio1Width, radio1Height)
-                                        .atPosition(radio1PositionX, radio1PositionY))
-                                .withField(radioButton(RADIO_2_GROUP)
-                                        .withId(new FieldId(RADIO_2_ID))
-                                        .withValue(RADIO_2_VALUE)
-                                        .onPage(RADIO_2_PAGE)
-                                        .withSize(radio2Width, radio2Height)
-                                        .atPosition(radio2PositionX, radio2PositionY))
-                                .withField(dropList()
-                                        .withId(new FieldId(DROP_LIST_ID))
-                                        .withValue(DROP_LIST_OPTION2)
-                                        .withValidation(FieldValidatorBuilder.basic()
-                                            .withOption(DROP_LIST_OPTION1)
-                                            .withOption(DROP_LIST_OPTION2)
-                                            .withOption(DROP_LIST_OPTION3))
-                                        .onPage(DROP_LIST_PAGE)
-                                        .withSize(dropListWidth, dropListHeight)
-                                        .atPosition(dropListPositionX, dropListPositionY))
-                                .withField(textArea()
-                                        .withId(new FieldId(TEXT_AREA_ID))
-                                        .withValue(TEXT_AREA_VALUE)
-                                        .onPage(TEXT_AREA_PAGE)
-                                        .withSize(textAreaWidth, textAreaHeight)
-                                        .atPosition(textAreaPositionX, textAreaPositionY))))
-                .build();
+        DocumentPackage superDuperPackage = newPackageNamed( "GenericFieldsExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+            .describedAs("This is a package created using the e-SignLive SDK")
+            .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
+            .withSigner(newSignerWithEmail(email1)
+                .withFirstName("John")
+                .withLastName("Smith"))
+            .withDocument(newDocumentWithName(DOCUMENT_NAME)
+                .fromStream(documentInputStream1, DocumentType.PDF)
+                .withSignature(signatureFor(email1)
+                    .onPage(0)
+                    .atPosition(400, 100)
+                    .withField(textField()
+                        .withId(new FieldId(TEXTFIELD_ID))
+                        .onPage(TEXTFIELD_PAGE)
+                        .atPosition(textfieldPositionX, textfieldPositionY))
+                    .withField(checkBox()
+                        .withId(new FieldId(CHECKBOX_1_ID))
+                        .onPage(CHECKBOX_1_PAGE)
+                        .withSize(checkbox1Width, checkbox1Height)
+                        .atPosition(checkbox1PositionX, checkbox1PositionY))
+                    .withField(checkBox()
+                        .withId(new FieldId(CHECKBOX_2_ID))
+                        .withValue(CHECKBOX_2_VALUE)
+                        .onPage(CHECKBOX_2_PAGE)
+                        .withSize(checkbox2Width, checkbox2Height)
+                        .atPosition(checkbox2PositionX, checkbox2PositionY))
+                    .withField(radioButton(RADIO_1_GROUP)
+                        .withId(new FieldId(RADIO_1_ID))
+                        .onPage(RADIO_1_PAGE)
+                        .withSize(radio1Width, radio1Height)
+                        .atPosition(radio1PositionX, radio1PositionY))
+                    .withField(radioButton(RADIO_2_GROUP)
+                        .withId(new FieldId(RADIO_2_ID))
+                        .withValue(RADIO_2_VALUE)
+                        .onPage(RADIO_2_PAGE)
+                        .withSize(radio2Width, radio2Height)
+                        .atPosition(radio2PositionX, radio2PositionY))
+                    .withField(dropList()
+                        .withId(new FieldId(DROP_LIST_ID))
+                        .withValue(DROP_LIST_OPTION2)
+                        .withValidation(FieldValidatorBuilder.basic()
+                            .withOption(DROP_LIST_OPTION1)
+                            .withOption(DROP_LIST_OPTION2)
+                            .withOption(DROP_LIST_OPTION3))
+                        .onPage(DROP_LIST_PAGE)
+                        .withSize(dropListWidth, dropListHeight)
+                        .atPosition(dropListPositionX, dropListPositionY))
+                    .withField(textArea()
+                        .withId(new FieldId(TEXT_AREA_ID))
+                        .withValue(TEXT_AREA_VALUE)
+                        .onPage(TEXT_AREA_PAGE)
+                        .withSize(textAreaWidth, textAreaHeight)
+                        .atPosition(textAreaPositionX, textAreaPositionY))
+                    .withField(label()
+                        .withId(new FieldId(LABEL_ID))
+                        .withName(LABEL_NAME)
+                        .withValue(LABEL_VALUE)
+                        .onPage(LABEL_PAGE)
+                        .withSize(labelFieldWidth, labelFieldHeight)
+                        .atPosition(labelFieldPositionX, labelFieldPositionY))))
+            .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
