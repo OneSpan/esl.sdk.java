@@ -49,6 +49,7 @@ public class UrlTemplate {
 
     // Event Notification Service
     public static final String CALLBACK_PATH = "/callback";
+    public static final String CONNECTORS_CALLBACK_PATH = "/callback/connectors/{origin}";
 
     // Audit Service
     public static final String AUDIT_PATH = "/packages/{packageId}/audit";

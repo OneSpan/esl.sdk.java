@@ -28,6 +28,17 @@ public class EventNotificationService {
     }
 
     /**
+     * Registers to receive notifications sent by e-SL that are described by the config parameter passed to this method.
+     *
+     * @param origin The origin of the package.
+     * @param config Describes the event notification of interest.
+     */
+    public void register(String origin, EventNotificationConfig config) {
+        Callback callback = new EventNotificationConfigConverter(config).toAPICallback();
+        apiClient.register(origin, callback);
+    }
+
+    /**
      * <p>Registers to receive notifications sent by e-SL.<p>
      * <p>The builder parameter of this method is convenient to use when you want to easily add more notification events.</p>
      *
@@ -38,12 +49,34 @@ public class EventNotificationService {
     }
 
     /**
+     * <p>Registers to receive notifications sent by e-SL.<p>
+     * <p>The builder parameter of this method is convenient to use when you want to easily add more notification events.</p>
+     *
+     * @param origin The origin of the package.
+     * @param builder The event notification config builder.
+     */
+    public void register(String origin, EventNotificationConfigBuilder builder) {
+        register(origin, builder.build());
+    }
+
+    /**
      * Gets the registered event notifications.
      *
      * @return Description of registered event notifications.
      */
     public EventNotificationConfig getEventNotificationConfig() {
         Callback apiResponse = apiClient.getEventNotificationConfig();
+        return new EventNotificationConfigConverter(apiResponse).toSDKEventNotificationConfig();
+    }
+
+    /**
+     * Gets the registered event notifications.
+     *
+     * @param origin The origin of the package.
+     * @return Description of registered event notifications.
+     */
+    public EventNotificationConfig getEventNotificationConfig(String origin) {
+        Callback apiResponse = apiClient.getEventNotificationConfig(origin);
         return new EventNotificationConfigConverter(apiResponse).toSDKEventNotificationConfig();
     }
 }

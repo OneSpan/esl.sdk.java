@@ -67,6 +67,16 @@ final public class EventNotificationConfigBuilder {
     }
 
     /**
+     * <p>Set events to the current EventNotificationConfig event set</p>
+     * @param events	the events
+     * @return	the event notification config builder itself
+     */
+    public EventNotificationConfigBuilder setEvents( Set<NotificationEvent> events ) {
+        this.events = events;
+        return this;
+    }
+
+    /**
      * <p>Builds the actual event notification config object</p>
      * @return the actual event notification config object
      */

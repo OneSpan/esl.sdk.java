@@ -31,6 +31,21 @@ public class EventNotificationApiClient {
         }
     }
 
+    public void register(String origin, Callback callback) {
+        String path = template.urlFor(UrlTemplate.CONNECTORS_CALLBACK_PATH)
+                              .replace("{origin}", origin)
+                              .build();
+        String packageJson = Serialization.toJson(callback);
+
+        try {
+            restClient.post(path, packageJson);
+        } catch (RequestException rootException) {
+            throw new EslServerException("Unable to register event notification for this connector.", rootException);
+        } catch (Exception rootException) {
+            throw new EslException("Unable to register event notification for this connector.", rootException);
+        }
+    }
+
     public Callback getEventNotificationConfig() {
         String path = template.urlFor(UrlTemplate.CALLBACK_PATH).build();
 
@@ -41,6 +56,21 @@ public class EventNotificationApiClient {
             throw new EslServerException( "Could not retrieve event notification.", e);
         } catch (Exception e) {
             throw new EslException("Could not retrieve event notification." + " Exception: " + e.getMessage());
+        }
+    }
+
+    public Callback getEventNotificationConfig(String origin) {
+        String path = template.urlFor(UrlTemplate.CONNECTORS_CALLBACK_PATH)
+                              .replace("{origin}", origin)
+                              .build();
+
+        try {
+            String stringResponse = restClient.get(path);
+            return JacksonUtil.deserialize(stringResponse, Callback.class);
+        } catch (RequestException e) {
+            throw new EslServerException( "Could not retrieve event notification for this connector.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not retrieve event notification for this connector." + " Exception: " + e.getMessage());
         }
     }
 }
