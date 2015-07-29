@@ -193,14 +193,7 @@ public class RestClient {
             } else {
                 InputStream bodyContent = response.getEntity().getContent();
                 if(null != response.getHeaders("Content-Disposition") && response.getHeaders("Content-Disposition").length > 0) {
-                    String fileName = "";
-                    String disposition = response.getHeaders("Content-Disposition")[0].getValue();
-                    if(null != disposition) {
-                        int index = disposition.indexOf("filename=");
-                        if (index > 0) {
-                            fileName = disposition.substring(index + 10, disposition.length() - 1);
-                        }
-                    }
+                    String fileName = getFilename(response.getHeaders("Content-Disposition")[0].getValue());
                     DownloadedFile downloadedFile = (DownloadedFile) handler.extract(bodyContent);
                     downloadedFile.setFilename(fileName);
                     return (T)downloadedFile;
@@ -212,6 +205,20 @@ public class RestClient {
                 client.close();
             }
         }
+    }
+
+    private String getFilename(String disposition) {
+        String fileNameTitle = "filename*=UTF-8'";
+        String[] parts = disposition.split(";");
+
+        for(String part : parts) {
+            int index = part.indexOf(fileNameTitle);
+            if (index > 0) {
+                return part.substring(index + fileNameTitle.length(), part.length());
+            }
+        }
+
+        return "";
     }
 
     private CloseableHttpClient buildHttpClient() throws HttpException {
