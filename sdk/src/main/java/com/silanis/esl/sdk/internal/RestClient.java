@@ -212,13 +212,13 @@ public class RestClient {
     }
 
     private String getFilename(String disposition) {
-        String fileNameTitle = "filename*=UTF-8'";
+        String fileNameTitle = "filename=\"";
         String[] parts = disposition.split(";");
 
         for(String part : parts) {
             int index = part.indexOf(fileNameTitle);
             if (index > 0) {
-                return part.substring(index + fileNameTitle.length(), part.length());
+                return part.substring(index + fileNameTitle.length(), part.length()-1);
             }
         }
 
