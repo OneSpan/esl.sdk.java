@@ -30,8 +30,8 @@ public class SignerOrderingExampleTest {
 
         // After reordering signers
         DocumentPackage afterReorder = example.afterReorder;
-        assertThat(afterReorder.getSigner(example.email1).getSigningOrder(), is(equalTo(2)));
-        assertThat(afterReorder.getSigner(example.email2).getSigningOrder(), is(equalTo(1)));
+        assertThat(afterReorder.getSigner(example.email1).getSigningOrder(), is(equalTo(1)));
+        assertThat(afterReorder.getSigner(example.email2).getSigningOrder(), is(equalTo(2)));
     }
     
 }

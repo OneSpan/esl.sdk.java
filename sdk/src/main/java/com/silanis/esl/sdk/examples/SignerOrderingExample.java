@@ -19,9 +19,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class SignerOrderingExample extends SDKSample {
 
     public final String email1;
-    public static final int SIGNING_ORDER_FOR_EMAIL1 = 1;
+    public static final int SIGNING_ORDER_FOR_EMAIL1 = 2;
     public final String email2;
-    public static final int SIGNING_ORDER_FOR_EMAIL2 = 2;
+    public static final int SIGNING_ORDER_FOR_EMAIL2 = 1;
     private InputStream documentInputStream1;
     public DocumentPackage initialOrder, afterReorder;
 
@@ -70,8 +70,8 @@ public class SignerOrderingExample extends SDKSample {
 
         // Reorder signers
         afterReorder = eslClient.getPackage(packageId);
-        afterReorder.getSigner(email1).setSigningOrder(2);
-        afterReorder.getSigner(email2).setSigningOrder(1);
+        afterReorder.getSigner(email1).setSigningOrder(1);
+        afterReorder.getSigner(email2).setSigningOrder(2);
         eslClient.getPackageService().orderSigners(afterReorder);
 
         afterReorder = eslClient.getPackage(packageId);
