@@ -46,7 +46,7 @@ public class RestClient {
     public static final String CHARSET_UTF_8 = "UTF-8";
     private static final int BUFFER_SIZE = 4096;
 
-    public static final String ESL_API_VERSION = "10.10";
+    public static final String ESL_API_VERSION = "10.11";
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -54,7 +54,11 @@ public class RestClient {
 
     public static final String HEADER_KEY_ACCEPT = "Accept";
     public static final String ACCEPT_TYPE_APPLICATION_JSON = "application/json";
+    public static final String ACCEPT_TYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
+    public static final String ACCEPT_TYPE_APPLICATION = "*/*";
     public static final String ESL_ACCEPT_TYPE_APPLICATION_JSON = ACCEPT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
+    public static final String ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM = ACCEPT_TYPE_APPLICATION_OCTET_STREAM + "; " + ESL_API_VERSION_HEADER;
+    public static final String ESL_ACCEPT_TYPE_APPLICATION = ACCEPT_TYPE_APPLICATION + "; " + ESL_API_VERSION_HEADER;
 
     private final ResponseHandler<DownloadedFile> bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
@@ -301,16 +305,25 @@ public class RestClient {
     }
 
     public DownloadedFile getBytes(String path) throws IOException, HttpException, URISyntaxException, RequestException {
+        return getBytes(path, ESL_ACCEPT_TYPE_APPLICATION);
+    }
+
+    public DownloadedFile getBytes(String path, String acceptType) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet(path);
+        get.addHeader(buildAcceptHeader(acceptType));
 
         return execute(get, bytesHandler);
     }
 
     public DownloadedFile getBytesAsOctetStream(String path) throws IOException, HttpException, URISyntaxException, RequestException {
+        return getBytesAsOctetStream(path, ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM);
+    }
+
+    public DownloadedFile getBytesAsOctetStream(String path, String acceptType) throws IOException, HttpException, URISyntaxException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet(path);
-        get.addHeader(buildAcceptHeader("application/octet-stream"));
+        get.addHeader(buildAcceptHeader(acceptType));
 
         return execute(get, bytesHandler);
     }
