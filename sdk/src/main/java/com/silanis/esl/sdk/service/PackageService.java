@@ -179,7 +179,7 @@ public class PackageService {
      */
     public void changePackageStatusToDraft(PackageId packageId) throws EslException {
         String path = template.urlFor( UrlTemplate.PACKAGE_ID_PATH )
-                              .replace( "{packageId}", packageId.getId() )
+                              .replace("{packageId}", packageId.getId())
                               .build();
 
         try {
@@ -736,6 +736,90 @@ public class PackageService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new EslException("Unable to delete package. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Restores the specified package.
+     *
+     * @param packageId The id of the package to be restored
+     */
+    public void restore(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_ID_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        String json = "{\"trashed\":false}";
+        try {
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Unable to restore the package.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Unable to restore the package. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Trash the specified package.
+     *
+     * @param packageId The id of the package to be trashed
+     */
+    public void trash(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_ID_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        String json = "{\"trashed\":true}";
+        try {
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Unable to trash the package.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Unable to trash the package. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Archive the specified package.
+     *
+     * @param packageId The id of the package to be archived
+     */
+    public void archive(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_ID_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        String json = "{\"status\":\"ARCHIVED\"}";
+        try {
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Unable to archive the package.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Unable to archive the package. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Mark complete on the specified package.
+     *
+     * @param packageId The id of the package to be marked complete on
+     */
+    public void markComplete(PackageId packageId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_ID_PATH)
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        String json = "{\"status\":\"COMPLETED\"}";
+        try {
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Unable to mark complete on the package.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Unable to mark complete on the package. Exception: " + e.getMessage());
         }
     }
 

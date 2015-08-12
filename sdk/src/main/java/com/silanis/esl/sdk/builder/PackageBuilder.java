@@ -18,6 +18,7 @@ public class PackageBuilder {
     private Date expiryDate;
     private String packageMessage = null;
     private Boolean notarized;
+    private Boolean trashed;
     private PackageId id;
     private PackageStatus status;
     private DocumentPackageSettings settings;
@@ -109,6 +110,11 @@ public class PackageBuilder {
         return this;
     }
 
+    public PackageBuilder withTrashed( Boolean trashed ) {
+        this.trashed = trashed;
+        return this;
+    }
+
     public PackageBuilder withVisibility( Visibility visibility) {
         this.visibility = visibility;
         return this;
@@ -133,7 +139,7 @@ public class PackageBuilder {
         }
 
         if ( settings != null ) {
-            documentPackage.setSettings( settings );
+            documentPackage.setSettings(settings);
         }
 
         if ( description != null ) {
@@ -146,6 +152,10 @@ public class PackageBuilder {
 
         if ( notarized != null ) {
             documentPackage.setNotarized(notarized);
+        }
+
+        if ( trashed != null ) {
+            documentPackage.setTrashed(trashed);
         }
 
         if ( visibility != null ) {

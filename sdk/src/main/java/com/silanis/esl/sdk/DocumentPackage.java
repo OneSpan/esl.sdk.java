@@ -22,6 +22,7 @@ public class DocumentPackage implements Serializable {
     private Date updatedDate;
     private String packageMessage;
     private Boolean notarized;
+    private Boolean trashed;
     private PackageId id;
     private PackageStatus status;
     private DocumentPackageSettings settings;
@@ -282,6 +283,14 @@ public class DocumentPackage implements Serializable {
 
     public void setNotarized(Boolean notarized) {
         this.notarized = notarized;
+    }
+
+    public Boolean getTrashed() {
+        return trashed;
+    }
+
+    public void setTrashed(Boolean trashed) {
+        this.trashed = trashed;
     }
 
     public Visibility getVisibility() {

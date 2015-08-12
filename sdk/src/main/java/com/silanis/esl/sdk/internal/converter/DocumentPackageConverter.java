@@ -70,6 +70,10 @@ public class DocumentPackageConverter {
             apiPackageToCreate.setNotarized(sdkPackage.getNotarized());
         }
 
+        if ( sdkPackage.getTrashed() != null ) {
+            apiPackageToCreate.setTrashed(sdkPackage.getTrashed());
+        }
+
         if ( sdkPackage.getAttributes() != null ) {
             apiPackageToCreate.setData(sdkPackage.getAttributes().toMap());
         }
@@ -165,6 +169,10 @@ public class DocumentPackageConverter {
 
         if (apiPackage.getNotarized() != null) {
             packageBuilder.withNotarized(apiPackage.getNotarized());
+        }
+
+        if (apiPackage.getTrashed() != null) {
+            packageBuilder.withTrashed(apiPackage.getTrashed());
         }
 
         if (apiPackage.getLanguage() != null) {

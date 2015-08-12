@@ -2,8 +2,9 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.PackageStatus.DRAFT;
-import static com.silanis.esl.sdk.PackageStatus.SENT;
+import static com.silanis.esl.sdk.PackageStatus.*;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -17,7 +18,9 @@ public class ChangePackageStatusExampleTest {
         ChangePackageStatusExample example = new ChangePackageStatusExample(Props.get());
         example.run();
 
-        assertThat("Package Status is not changed to SENT correctly. ", example.sentPackage.getStatus(), is(SENT));
-        assertThat("Package Status is not changed to DRAFT correctly. ", example.getRetrievedPackage().getStatus(), is(DRAFT));
+        assertThat("Package Status is not set correctly.", example.sentPackage.getStatus(), is(SENT));
+        assertThat("Package Status is not set correctly.", example.getRetrievedPackage().getStatus(), is(DRAFT));
+        assertTrue("Package trashed is not set correctly.", example.trashedPackage.getTrashed());
+        assertFalse("Package trashed is not set correctly.", example.restoredPackage.getTrashed());
     }
 }

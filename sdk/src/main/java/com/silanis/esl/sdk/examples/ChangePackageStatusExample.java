@@ -19,7 +19,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class ChangePackageStatusExample extends SDKSample {
     private String email1;
     private InputStream documentInputStream1;
-    public DocumentPackage sentPackage;
+    public DocumentPackage sentPackage, trashedPackage, restoredPackage;
 
     public static void main( String... args ) {
         new ChangePackageStatusExample(Props.get()).run();
@@ -51,9 +51,13 @@ public class ChangePackageStatusExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage( packageId );
-        sentPackage = eslClient.getPackage( packageId );
+        eslClient.sendPackage(packageId);
+        sentPackage = eslClient.getPackage(packageId);
         eslClient.changePackageStatusToDraft(packageId);
-        retrievedPackage = eslClient.getPackage( packageId );
+        retrievedPackage = eslClient.getPackage(packageId);
+        eslClient.getPackageService().trash(packageId);
+        trashedPackage = eslClient.getPackage(packageId);
+        eslClient.getPackageService().restore(packageId);
+        restoredPackage = eslClient.getPackage(packageId);
     }
 }
