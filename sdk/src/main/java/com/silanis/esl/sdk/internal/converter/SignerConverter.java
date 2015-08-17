@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * User: jessica
@@ -178,13 +179,58 @@ public class SignerConverter {
         role.setIndex(sdkSigner.getSigningOrder());
         role.setReassign(sdkSigner.canChangeSigner());
 
-        if(sdkSigner.getId() == null || sdkSigner.getId().isEmpty()){
+        if(StringUtils.isEmpty(sdkSigner.getId())){
             role.setId(roleIdName);
             role.setName(roleIdName);
         }
         else{
             role.setId(sdkSigner.getId());
             role.setName(sdkSigner.getId());
+        }
+
+        if(!(sdkSigner.getMessage() == null || sdkSigner.getMessage().isEmpty())){
+            BaseMessage message = new BaseMessage();
+
+            message.setContent(sdkSigner.getMessage());
+            role.setEmailMessage(message);
+        }
+
+        role.setLocked(sdkSigner.isLocked());
+
+        for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirements()) {
+            role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
+        }
+
+        return role;
+    }
+
+    /**
+     * Convert SDK signer to API role
+     *
+     * @param id
+     * @param name
+     * @return an API Role object
+     */
+    public Role toAPIRole(String id, String name){
+        Role role = new Role();
+
+        if(!sdkSigner.isPlaceholderSigner()){
+            role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
+        }
+
+        role.setIndex(sdkSigner.getSigningOrder());
+        role.setReassign(sdkSigner.canChangeSigner());
+
+        if(StringUtils.isEmpty(sdkSigner.getId())) {
+            role.setId(id);
+        } else {
+            role.setId(sdkSigner.getId());
+        }
+
+        if(StringUtils.isEmpty(sdkSigner.getPlaceholderName())) {
+            role.setName(name);
+        } else{
+            role.setName(sdkSigner.getPlaceholderName());
         }
 
         if(!(sdkSigner.getMessage() == null || sdkSigner.getMessage().isEmpty())){

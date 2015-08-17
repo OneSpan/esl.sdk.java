@@ -22,6 +22,7 @@ public class Signer implements Serializable {
     private String message;
     private boolean deliverSignedDocumentsByEmail;
     private String id;
+    private String placeholderName;
     private boolean locked;
     private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
@@ -257,6 +258,14 @@ public class Signer implements Serializable {
 
     public GroupId getGroupId() {
         return this.groupId;
+    }
+
+    public String getPlaceholderName() {
+        return placeholderName;
+    }
+
+    public void setPlaceholderName(String placeholderName) {
+        this.placeholderName = placeholderName;
     }
 
     public void setLocked( boolean locked ) {

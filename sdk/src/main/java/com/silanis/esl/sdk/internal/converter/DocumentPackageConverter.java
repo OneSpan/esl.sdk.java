@@ -133,7 +133,7 @@ public class DocumentPackageConverter {
         }
 
         for ( Signer signer : sdkPackage.getPlaceholders() ) {
-            Role role = new SignerConverter(signer).toAPIRole("role" + signerCount);
+            Role role = new SignerConverter(signer).toAPIRole(signer.getId(), signer.getPlaceholderName());
             signerCount++;
             apiPackageToCreate.addRole(role);
         }
@@ -195,7 +195,7 @@ public class DocumentPackageConverter {
         for ( Role role : apiPackage.getRoles() ) {
 
             if(role.getSigners().isEmpty()){
-                packageBuilder.withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(role.getId())));
+                packageBuilder.withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(role.getId(), role.getName())));
             }
             else if ( role.getSigners().get( 0 ).getGroup() != null ) {
                 packageBuilder.withSigner(SignerBuilder.newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));

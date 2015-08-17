@@ -26,6 +26,7 @@ final public class SignerBuilder {
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
+    private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
 
@@ -62,6 +63,7 @@ final public class SignerBuilder {
         this.email = null;
         this.groupId = null;
         this.id = placeholder.getId();
+        this.placeholderName = placeholder.getName();
     }
 
     /**
@@ -87,11 +89,11 @@ final public class SignerBuilder {
     /**
      * <p>Creates a SignerBuilder object.</p>
      *
-     * @param roleId the placeholder's ID.
+     * @param placeholder the placeholder's ID.
      * @return the signer builder itself
      */
-    public static SignerBuilder newSignerPlaceholder(Placeholder roleId) {
-        return new SignerBuilder(roleId);
+    public static SignerBuilder newSignerPlaceholder(Placeholder placeholder) {
+        return new SignerBuilder(placeholder);
     }
 
     /**
@@ -167,8 +169,9 @@ final public class SignerBuilder {
 
     private Signer buildPlaceholderSigner(){
         Signer result = new Signer(id);
+        result.setPlaceholderName(placeholderName);
 
-        Asserts.notNullOrEmpty( id, "No placeholder set for this signer!" );
+        Asserts.notNullOrEmpty(id, "No placeholder set for this signer!" );
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);

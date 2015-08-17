@@ -207,4 +207,32 @@ public class TemplateService {
 
         return new Placeholder(role.getId());
     }
+
+    /**
+     * Update a placeholder.
+     *
+     * @param templateId
+     * @param placeholder
+     * @return The role added
+     * @throws EslException
+     */
+    public Placeholder updatePlaceholder(PackageId templateId, Placeholder placeholder) throws EslException {
+        String path = urls.urlFor(UrlTemplate.ROLE_ID_PATH)
+                          .replace("{packageId}", templateId.getId())
+                          .replace("{roleId}", placeholder.getId())
+                          .build();
+
+        String placeholderJson = JacksonUtil.serializeDirty(placeholder);
+        String stringResponse;
+        try {
+            stringResponse = client.put(path, placeholderJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the placeholder.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update the placeholder.", e);
+        }
+        Role role = Serialization.fromJson(stringResponse, Role.class);
+
+        return new Placeholder(role.getId());
+    }
 }
