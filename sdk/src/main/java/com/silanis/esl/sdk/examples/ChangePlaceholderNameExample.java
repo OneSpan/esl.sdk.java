@@ -22,8 +22,6 @@ public class ChangePlaceholderNameExample extends SDKSample {
     private InputStream documentInputStream1;
 
     public String email1;
-    public String email2;
-    public PackageId templateId;
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
@@ -44,14 +42,12 @@ public class ChangePlaceholderNameExample extends SDKSample {
     public ChangePlaceholderNameExample(Properties properties) {
         this(properties.getProperty("api.key"),
              properties.getProperty("api.url"),
-             properties.getProperty("1.email"),
-             properties.getProperty("2.email"));
+             properties.getProperty("1.email"));
     }
 
-    public ChangePlaceholderNameExample(String apiKey, String apiUrl, String email1, String email2) {
+    public ChangePlaceholderNameExample(String apiKey, String apiUrl, String email1) {
         super(apiKey, apiUrl);
         this.email1 = email1;
-        this.email2 = email2;
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
     }
 
@@ -78,7 +74,7 @@ public class ChangePlaceholderNameExample extends SDKSample {
                                                                             .atPosition(400, 100)))
                 .build();
 
-        templateId = eslClient.getTemplateService().createTemplate(template);
+        PackageId templateId = eslClient.getTemplateService().createTemplate(template);
         retrievedPackage = eslClient.getPackage(templateId);
 
         eslClient.getTemplateService().updatePlaceholder(templateId, updatedPlaceholder);

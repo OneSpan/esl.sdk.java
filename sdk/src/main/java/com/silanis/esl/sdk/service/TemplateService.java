@@ -205,7 +205,7 @@ public class TemplateService {
         }
         Role role = Serialization.fromJson(stringResponse, Role.class);
 
-        return new Placeholder(role.getId());
+        return new Placeholder(role.getId(), role.getName());
     }
 
     /**
@@ -233,6 +233,6 @@ public class TemplateService {
         }
         Role role = Serialization.fromJson(stringResponse, Role.class);
 
-        return new Placeholder(role.getId());
+        return new Placeholder(role.getId(), role.getName());
     }
 }
