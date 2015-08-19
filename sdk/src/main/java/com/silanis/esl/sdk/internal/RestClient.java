@@ -41,6 +41,8 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.Collection;
 
+import static com.silanis.esl.sdk.internal.HttpUtil.percentDecode;
+
 public class RestClient {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
@@ -218,7 +220,7 @@ public class RestClient {
         for(String part : parts) {
             int index = part.indexOf(fileNameTitle);
             if (index > 0) {
-                return part.substring(index + fileNameTitle.length(), part.length()-1);
+                return percentDecode(part.substring(index + fileNameTitle.length(), part.length() - 1));
             }
         }
 

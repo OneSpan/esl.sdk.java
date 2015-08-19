@@ -39,9 +39,9 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String SIGNER2_ID = "signer2Id";
     public static final String REJECTION_COMMENT = "Reject: uploaded wrong attachment.";
 
-    public static final String ATTACHMENT_FILE_NAME1 = DocumentType.PDF.normalizeName("The attachment1 for signer1");
+    public static final String ATTACHMENT_FILE_NAME1 = "The attachment1 for signer1.pdf";
     public static final String ATTACHMENT_FILE_NAME2 = DocumentType.PDF.normalizeName("The attachment1 for signer2");
-    public static final String ATTACHMENT_FILE_NAME3 = DocumentType.PDF.normalizeName("The attachment2 for signer2");
+    public static final String ATTACHMENT_FILE_NAME3 = "The attachment2 for signer2.pdf";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP = "downloadedAllAttachmentsForPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner1InPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner2InPackage.zip";
