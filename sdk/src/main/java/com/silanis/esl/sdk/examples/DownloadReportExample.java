@@ -99,12 +99,12 @@ public class DownloadReportExample extends SDKSample {
 
         // Date and time range to get completion/usage report.
         Calendar fromCalendar = new GregorianCalendar();
-        fromCalendar.add(Calendar.DATE, -1);
+        fromCalendar.add(Calendar.MINUTE, -5);
         Date from = fromCalendar.getTime();
 
         Calendar toCalendar = new GregorianCalendar();
         toCalendar.setTime(new Date(System.currentTimeMillis()));
-        toCalendar.add(Calendar.DATE, 1);
+        toCalendar.add(Calendar.MINUTE, 5);
         Date to = toCalendar.getTime();
 
         // Download the completion report for a sender
