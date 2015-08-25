@@ -12,7 +12,7 @@ public class PackageBuilder {
     private final String packageName;
     private final List<Signer> signers = new ArrayList<Signer>();
     private final List<Signer> placeholders = new ArrayList<Signer>();
-    private Map<String, Document> documents = new HashMap<String, Document>();
+    private Map<String, Document> documents = new LinkedHashMap<String, Document>();
     private boolean autocomplete = true;
     private String description = null;
     private Date expiryDate;
