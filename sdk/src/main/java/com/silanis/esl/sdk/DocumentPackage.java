@@ -14,7 +14,7 @@ public class DocumentPackage implements Serializable {
 
     private final List<Signer> signers;
     private final List<Signer> placeholders;
-    private final Map<String, Document> documents;
+    private final List<Document> documents;
     private final boolean autocomplete;
     private String name;
     private String description;
@@ -39,7 +39,7 @@ public class DocumentPackage implements Serializable {
      * @param autocomplete the autocomplete status. If it is set to true,
      *                     then the document package will be marked as completed automatically by the system
      */
-    public DocumentPackage( String name, List<Signer> signers, List<Signer> placeholders, Map<String, Document> documents, boolean autocomplete ) {
+    public DocumentPackage( String name, List<Signer> signers, List<Signer> placeholders, List<Document> documents, boolean autocomplete ) {
         this.name = name;
         this.signers = signers;
         this.placeholders = placeholders;
@@ -144,8 +144,13 @@ public class DocumentPackage implements Serializable {
      * @param name the document name
      * @return the document identified by the name provided as parameter
      */
-    public Document getDocument( String name ) {
-        return documents.get( name );
+    public Document getDocument(String name) {
+        for(Document document : documents) {
+            if(document.getName().equals(name)) {
+                return document;
+            }
+        }
+        return null;
     }
 
     /**
@@ -164,8 +169,8 @@ public class DocumentPackage implements Serializable {
      *
      * @return Collection of documents
      */
-    public Collection<Document> getDocuments() {
-        return documents.values();
+    public List<Document> getDocuments() {
+        return documents;
     }
 
     /**
