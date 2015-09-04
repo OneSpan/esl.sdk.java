@@ -6,7 +6,7 @@ import com.silanis.esl.api.model.Entity;
  * Created by chi-wing on 5/28/14.
  */
 public class ServerError {
-    private int code;
+    private Integer code;
     private Entity entity;
     private String message;
     private String messageKey;
@@ -24,11 +24,11 @@ public class ServerError {
         this.technical = technical;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
