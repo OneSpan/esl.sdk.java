@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SigningStatus;
 
 import java.io.InputStream;
@@ -23,6 +22,7 @@ public class GetSigningStatusExample extends SDKSample {
 
     private String email1;
     private InputStream documentInputStream1;
+    public SigningStatus draftSigningStatus, sentSigningStatus, trashedSigningStatus;
 
     public static void main( String... args ) {
         new GetSigningStatusExample( Props.get() ).run();
@@ -60,8 +60,10 @@ public class GetSigningStatusExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        SigningStatus draftSigningStatus = eslClient.getSigningStatus( packageId, null, null );
-        eslClient.sendPackage( packageId );
-        SigningStatus sentSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+        draftSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+        eslClient.sendPackage(packageId);
+        sentSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+        eslClient.getPackageService().trash(packageId);
+        trashedSigningStatus = eslClient.getSigningStatus( packageId, null, null );
     }
 }
