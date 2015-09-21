@@ -59,10 +59,11 @@ public class GetSigningStatusExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-
         draftSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+
         eslClient.sendPackage(packageId);
         sentSigningStatus = eslClient.getSigningStatus( packageId, null, null );
+
         eslClient.getPackageService().trash(packageId);
         trashedSigningStatus = eslClient.getSigningStatus( packageId, null, null );
     }
