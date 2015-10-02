@@ -2,12 +2,15 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.Signer;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.silanis.esl.sdk.examples.CreatePackageFromTemplateWithReplacingPlaceholderExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -33,10 +36,21 @@ public class CreatePackageFromTemplateWithReplacingPlaceholderExampleTest {
         assertThat("Package Signer2 is not set correctly. ", signer2.getId(), is(PLACEHOLDER_ID));
 
 
-        ArrayList<Signature> signatures = (ArrayList<Signature>)example.retrievedPackage.getDocument(DOCUMENT_NAME).getSignatures();
+        List<Signature> signatures = (ArrayList<Signature>)example.retrievedPackage.getDocument(DOCUMENT_NAME).getSignatures();
 
         assertThat("Package Signaturs are not set correctly. ", signatures.size(), is(2));
-        assertThat("Package Signature1 is not set correctly. ", signatures.get(0).getSignerEmail(), is(example.email1));
-        assertThat("Package Signature1 is not set correctly. ", signatures.get(1).getSignerEmail(), is(example.email2));
+        Signature sig1 = getSignatureForEmail(signatures, example.email1);
+        assertThat(sig1, is(notNullValue()));
+        Signature sig2 = getSignatureForEmail(signatures, example.email2);
+        assertThat(sig2, is(notNullValue()));
+    }
+
+    private Signature getSignatureForEmail(List<Signature> signatures, String email) {
+        for (Signature signature : signatures) {
+            if (StringUtils.equals(signature.getSignerEmail(), email)) {
+                return signature;
+            }
+        }
+        return null;
     }
 }
