@@ -176,7 +176,7 @@ public class DownloadReportExampleTest {
             }
 
         }
-        throw new RuntimeException("Could not find SenderCompletionReport for SenderId " + senderId);
+        throw new AssertionError("Could not find SenderCompletionReport for SenderId " + senderId);
     }
 
     private SenderUsageReport getSenderUsageReportForSenderId(List<SenderUsageReport> senderUsageReports, String senderId) {
@@ -186,7 +186,7 @@ public class DownloadReportExampleTest {
             }
 
         }
-        throw new RuntimeException("Could not find SenderUsageReport for SenderId " + senderId);
+        throw new AssertionError("Could not find SenderUsageReport for SenderId " + senderId);
     }
 
     private int getCompletionReportCount(CompletionReport completionReport) {
