@@ -54,6 +54,7 @@
                             <excludes>
                                 <exclude>**/QRCodeExampleTest.java</exclude>
                                 <exclude>**/EventNotificationRegistrationExampleTest.java</exclude>
+                                <exclude>**/GetSigningStatusExampleTest.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
