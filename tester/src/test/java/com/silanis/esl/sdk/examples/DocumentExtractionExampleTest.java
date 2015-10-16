@@ -26,8 +26,8 @@ import static org.hamcrest.Matchers.notNullValue;
 public class DocumentExtractionExampleTest {
 
     /* The test is written based on scaling factor 1.3 but it should work with 1.33333 */
-    public static final double SCALING_FACTOR = 1.3d;
-    public static final double SCALING_FACTOR_TOLERANCE = 0.1d;
+    private double scalingFactor = 1.3d;
+    private double scalingFactorTolerance = 0.1d;
 
     @Test
     public void verifyResult() {
@@ -143,8 +143,8 @@ public class DocumentExtractionExampleTest {
     private boolean areClose(Number number, Number other) {
         double numberValue = number.doubleValue();
         double otherValue = other.doubleValue();
-        double minValue = (otherValue / SCALING_FACTOR) * (SCALING_FACTOR - SCALING_FACTOR_TOLERANCE);
-        double maxValue = (otherValue / SCALING_FACTOR) * (SCALING_FACTOR + SCALING_FACTOR_TOLERANCE);
+        double minValue = (otherValue / scalingFactor) * (scalingFactor - scalingFactorTolerance);
+        double maxValue = (otherValue / scalingFactor) * (scalingFactor + scalingFactorTolerance);
         return numberValue > minValue && numberValue < maxValue;
     }
 

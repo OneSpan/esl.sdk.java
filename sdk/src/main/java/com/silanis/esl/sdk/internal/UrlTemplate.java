@@ -135,6 +135,10 @@ public class UrlTemplate {
     public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";
     public static final String QRCODE_ID_PATH = "/packages/{packageId}/documents/{documentId}/fields/{fieldId}";
 
+    // Signature Image Service
+    public static final String SIGNATURE_IMAGE_FOR_SENDER_PATH = "/account/senders/{senderId}/signatureImage";
+    public static final String SIGNATURE_IMAGE_FOR_PACKAGE_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/signatureImage";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }
