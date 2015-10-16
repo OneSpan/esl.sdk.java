@@ -15,7 +15,6 @@ import com.silanis.esl.sdk.io.DownloadedFile;
 public class SignatureImageService {
     private final UrlTemplate template;
     private final RestClient client;
-    private final String acceptType = "image/jpeg";
 
     public SignatureImageService( RestClient client, String baseUrl ) {
         template = new UrlTemplate( baseUrl );
@@ -27,7 +26,7 @@ public class SignatureImageService {
                               .replace("{senderId}", senderId)
                               .build();
         try {
-            return client.getBytes(path, imageFormat.name());
+            return client.getBytes(path, imageFormat.getAcceptType());
         } catch (RequestException e){
             throw new EslServerException( "Could not download signature image for sender.", e);
         } catch (Exception e) {
@@ -41,7 +40,7 @@ public class SignatureImageService {
                               .replace("{roleId}", signerId)
                               .build();
         try {
-            return client.getBytes(path, imageFormat.name());
+            return client.getBytes(path, imageFormat.getAcceptType());
         } catch (RequestException e){
             throw new EslServerException( "Could not download signature image for package signer.", e);
         } catch (Exception e) {
