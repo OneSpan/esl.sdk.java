@@ -45,10 +45,11 @@ public class TextAnchorConverter {
 
         result.setLeftOffset( sdkTextAnchor.getXOffset() );
         result.setTopOffset( sdkTextAnchor.getYOffset() );
-        result.setText( sdkTextAnchor.getAnchorText() );
-        result.setIndex( sdkTextAnchor.getOccurrence() );
-        result.setCharacterIndex( sdkTextAnchor.getCharacter() );
-        result.setAnchorPoint( sdkTextAnchor.getPosition().toString() );
+        result.setText(sdkTextAnchor.getAnchorText());
+        result.setIndex(sdkTextAnchor.getOccurrence());
+        result.setCharacterIndex(sdkTextAnchor.getCharacter());
+        if(null != sdkTextAnchor.getPosition())
+            result.setAnchorPoint(sdkTextAnchor.getPosition().toString() );
         result.setWidth( sdkTextAnchor.getWidth() );
         result.setHeight( sdkTextAnchor.getHeight() );
 
