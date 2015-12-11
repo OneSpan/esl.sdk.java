@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
@@ -40,6 +41,7 @@ public class EslClient {
     private AuthenticationService authenticationService;
     private SystemService systemService;
     private SignatureImageService signatureImageService;
+    private SigningService signingService;
 
     /**
      * The constructor of the EslClient class
@@ -102,6 +104,7 @@ public class EslClient {
         packageService = new PackageService(client, this.baseURL);
         reportService = new ReportService(client, this.baseURL);
         systemService = new SystemService(client, this.baseURL);
+        signingService = new SigningService(client, this.baseURL);
         signatureImageService = new SignatureImageService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
@@ -274,6 +277,37 @@ public class EslClient {
         Collection<Document> documents = documentPackage.getDocuments();
         return packageService.createPackageOneStep(packageToCreate, documents);
 
+    }
+
+    /**
+     * Sign a document
+     *
+     * @param packageId the package id
+     * @param documentName the document name of the document to sign
+     */
+    public void signDocument(PackageId packageId, String documentName) {
+        com.silanis.esl.api.model.Package aPackage = packageService.getApiPackage(packageId.getId());
+        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            if(document.getName().equals(documentName)) {
+                document.getApprovals().clear();
+                signingService.signDocument(packageId, document);
+            }
+        }
+    }
+
+    /**
+     * Sign a document
+     *
+     * @param packageId the package id
+     */
+    public void signDocuments(PackageId packageId) {
+        SignedDocuments signedDocuments = new SignedDocuments();
+        Package aPackage = packageService.getApiPackage(packageId.getId());
+        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            document.getApprovals().clear();
+            signedDocuments.addDocument(document);
+        }
+        signingService.signDocuments(packageId, signedDocuments);
     }
 
     /**
@@ -534,5 +568,9 @@ public class EslClient {
 
     public SystemService getSystemService() {
         return systemService;
+    }
+
+    public SigningService getSigningService() {
+        return signingService;
     }
 }
