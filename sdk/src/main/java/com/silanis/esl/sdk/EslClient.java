@@ -3,6 +3,7 @@ import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
@@ -280,7 +281,7 @@ public class EslClient {
     }
 
     /**
-     * Sign a document
+     * Sign a document using current api key
      *
      * @param packageId the package id
      * @param documentName the document name of the document to sign
@@ -296,7 +297,7 @@ public class EslClient {
     }
 
     /**
-     * Sign a document
+     * Sign documents using current api key
      *
      * @param packageId the package id
      */
@@ -308,6 +309,27 @@ public class EslClient {
             signedDocuments.addDocument(document);
         }
         signingService.signDocuments(packageId, signedDocuments);
+    }
+
+    /**
+     * Sign documents using signer id
+     *
+     * @param packageId the package id
+     * @param signerId the signer id
+     */
+    public void signDocuments(PackageId packageId, String signerId) {
+        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId);
+
+        SignedDocuments signedDocuments = new SignedDocuments();
+        Package aPackage = packageService.getApiPackage(packageId.getId());
+        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            document.getApprovals().clear();
+            signedDocuments.addDocument(document);
+        }
+        SigningService signingForSignerService = new SigningService(signerClient, this.baseURL);
+        signingForSignerService.signDocuments(packageId, signedDocuments);
     }
 
     /**

@@ -17,8 +17,11 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 12/7/15.
  */
 public class SignDocumentsExample extends SDKSample {
-    private String senderEmail, email1;
+    public String senderEmail, email1;
     private InputStream documentInputStream1, documentInputStream2;
+    private String signer1Id = "signer1";
+
+    public DocumentPackage retrievedPackageBeforeSigning, retrievedPackageAfterSigningApproval1, retrievedPackageAfterSigningApproval2;
 
     public static void main( String... args ) {
         new SignDocumentsExample(Props.get()).run();
@@ -43,6 +46,7 @@ public class SignDocumentsExample extends SDKSample {
         DocumentPackage superDuperPackage = newPackageNamed("SignDocumentsExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner(newSignerWithEmail(email1)
+                                    .withCustomId(signer1Id)
                                     .withFirstName("John1")
                                     .withLastName("Smith1"))
                 .withDocument(newDocumentWithName("First Document")
@@ -65,8 +69,12 @@ public class SignDocumentsExample extends SDKSample {
 
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
+        retrievedPackageBeforeSigning = eslClient.getPackage(packageId);
 
-        retrievedPackage = eslClient.getPackage(packageId);
         eslClient.signDocuments(packageId);
+        retrievedPackageAfterSigningApproval1 = eslClient.getPackage(packageId);
+
+        eslClient.signDocuments(packageId, signer1Id);
+        retrievedPackageAfterSigningApproval2 = eslClient.getPackage(packageId);
     }
 }

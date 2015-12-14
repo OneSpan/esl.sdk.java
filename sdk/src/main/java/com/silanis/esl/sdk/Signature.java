@@ -3,6 +3,7 @@ package com.silanis.esl.sdk;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Represents a specific place on a document that a particular signer or sender needs to click on to accept
@@ -13,6 +14,7 @@ public class Signature implements Serializable {
 
     private String signerEmail;
 
+    private Date accepted;
     private SignatureId signatureId;
     private Placeholder roleId;
     private int page;
@@ -65,6 +67,14 @@ public class Signature implements Serializable {
 
     public String getSignerEmail() {
         return signerEmail;
+    }
+
+    public Date getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Date accepted) {
+        this.accepted = accepted;
     }
 
     public Placeholder getRoleId(){return roleId;}

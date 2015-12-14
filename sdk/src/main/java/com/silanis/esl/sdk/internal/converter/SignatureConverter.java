@@ -97,7 +97,11 @@ public class SignatureConverter {
             }
         }
 
-        return signatureBuilder.build();
+        Signature signature = signatureBuilder.build();
+        if(null != apiApproval.getAccepted())
+            signature.setAccepted(apiApproval.getAccepted());
+
+        return signature;
     }
 
 
