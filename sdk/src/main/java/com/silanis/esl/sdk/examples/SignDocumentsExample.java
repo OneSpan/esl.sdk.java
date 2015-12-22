@@ -56,7 +56,7 @@ public class SignDocumentsExample extends SDKSample {
                                                              .atPosition(100, 100))
                                       .withSignature(signatureFor(email1)
                                                              .onPage(0)
-                                                             .atPosition(300, 100)))
+                                                             .atPosition(400, 100)))
                 .withDocument(newDocumentWithName("Second Document")
                                       .fromStream(documentInputStream2, DocumentType.PDF)
                                       .withSignature(signatureFor(senderEmail)
@@ -64,7 +64,7 @@ public class SignDocumentsExample extends SDKSample {
                                                              .atPosition(100, 100))
                                       .withSignature(signatureFor(email1)
                                                              .onPage(0)
-                                                             .atPosition(300, 100)))
+                                                             .atPosition(400, 100)))
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);
