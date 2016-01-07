@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -15,7 +14,6 @@ public class UserAuthenticationTokenExampleTest {
         UserAuthenticationTokenExample example = new UserAuthenticationTokenExample( Props.get() );
         example.run();
 
-        assertThat(example.getSessionIdForUser(), is(notNullValue()));
+        assertThat(example.getSessionIdForUser(), notNullValue());
     }
-
 }

@@ -4,7 +4,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.AuthenticationMethod.SMS;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -19,10 +18,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerSMSAuthenticationExampleTest {
     @Test
     public void verifyResult() {
-        SignerSMSAuthenticationExample signerSMSAuthenticationExample = new SignerSMSAuthenticationExample(Props.get());
-        signerSMSAuthenticationExample.run();
-        DocumentPackage documentPackage = signerSMSAuthenticationExample.getRetrievedPackage();
+        SignerSMSAuthenticationExample example = new SignerSMSAuthenticationExample(Props.get());
+        example.run();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat(documentPackage.getSigner(signerSMSAuthenticationExample.email1).getAuthenticationMethod(), is(equalTo(SMS)));
+        assertThat(documentPackage.getSigner(example.email1).getAuthenticationMethod(), is(SMS));
     }
 }

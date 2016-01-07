@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -17,6 +16,6 @@ public class ApplicationVersionExampleTest {
         ApplicationVersionExample example = new ApplicationVersionExample(Props.get());
         example.run();
 
-        assertThat("Application Version was not set correctly. ", example.applicationVersion, is(not(isEmptyOrNullString())));
+        assertThat("Application Version was not set correctly. ", example.applicationVersion, not(isEmptyOrNullString()));
     }
 }

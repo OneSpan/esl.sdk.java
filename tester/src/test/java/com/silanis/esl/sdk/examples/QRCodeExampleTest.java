@@ -37,24 +37,24 @@ public class QRCodeExampleTest {
 
         // Verify QR codes were added to document
         assertThat("First QR code's style was not set correctly.", example.addedQRCode1.getStyle(), is(BOUND_QRCODE));
-        assertThat("First QR code's height was not set correctly.", example.addedQRCode1.getHeight(), is(greaterThan(76.0)));
-        assertThat("First QR code's height was not set correctly.", example.addedQRCode1.getHeight(), is(lessThan(78.0)));
-        assertThat("First QR code's width was not set correctly.", example.addedQRCode1.getWidth(), is(greaterThan(76.0)));
-        assertThat("First QR code's width was not set correctly.", example.addedQRCode1.getWidth(), is(lessThan(78.0)));
-        assertThat("First QR code's x position was not set correctly.", example.addedQRCode1.getX(), is(greaterThan(399.0)));
-        assertThat("First QR code's x position was not set correctly.", example.addedQRCode1.getX(), is(lessThan(401.0)));
-        assertThat("First QR code's y position was not set correctly.", example.addedQRCode1.getY(), is(greaterThan(99.0)));
-        assertThat("First QR code's y position was not set correctly.", example.addedQRCode1.getY(), is(lessThan(101.0)));
+        assertThat("First QR code's height was not set correctly.", example.addedQRCode1.getHeight(), greaterThan(76.0));
+        assertThat("First QR code's height was not set correctly.", example.addedQRCode1.getHeight(), lessThan(78.0));
+        assertThat("First QR code's width was not set correctly.", example.addedQRCode1.getWidth(), greaterThan(76.0));
+        assertThat("First QR code's width was not set correctly.", example.addedQRCode1.getWidth(), lessThan(78.0));
+        assertThat("First QR code's x position was not set correctly.", example.addedQRCode1.getX(), greaterThan(399.0));
+        assertThat("First QR code's x position was not set correctly.", example.addedQRCode1.getX(), lessThan(401.0));
+        assertThat("First QR code's y position was not set correctly.", example.addedQRCode1.getY(), greaterThan(99.0));
+        assertThat("First QR code's y position was not set correctly.", example.addedQRCode1.getY(), lessThan(101.0));
 
         assertThat("Second QR code's style was not set correctly.", example.addedQRCode2.getStyle(), is(BOUND_QRCODE));
-        assertThat("Second QR code's height was not set correctly.", example.addedQRCode2.getHeight(), is(greaterThan(76.0)));
-        assertThat("Second QR code's height was not set correctly.", example.addedQRCode2.getHeight(), is(lessThan(78.0)));
-        assertThat("Second QR code's width was not set correctly.", example.addedQRCode2.getWidth(), is(greaterThan(76.0)));
-        assertThat("Second QR code's width was not set correctly.", example.addedQRCode2.getWidth(), is(lessThan(78.0)));
-        assertThat("Second QR code's x position was not set correctly.", example.addedQRCode2.getX(), is(greaterThan(499.0)));
-        assertThat("Second QR code's x position was not set correctly.", example.addedQRCode2.getX(), is(lessThan(501.0)));
-        assertThat("Second QR code's y position was not set correctly.", example.addedQRCode2.getY(), is(greaterThan(99.0)));
-        assertThat("Second QR code's y position was not set correctly.", example.addedQRCode2.getY(), is(lessThan(101.0)));
+        assertThat("Second QR code's height was not set correctly.", example.addedQRCode2.getHeight(), greaterThan(76.0));
+        assertThat("Second QR code's height was not set correctly.", example.addedQRCode2.getHeight(), lessThan(78.0));
+        assertThat("Second QR code's width was not set correctly.", example.addedQRCode2.getWidth(), greaterThan(76.0));
+        assertThat("Second QR code's width was not set correctly.", example.addedQRCode2.getWidth(), lessThan(78.0));
+        assertThat("Second QR code's x position was not set correctly.", example.addedQRCode2.getX(), greaterThan(499.0));
+        assertThat("Second QR code's x position was not set correctly.", example.addedQRCode2.getX(), lessThan(501.0));
+        assertThat("Second QR code's y position was not set correctly.", example.addedQRCode2.getY(), greaterThan(99.0));
+        assertThat("Second QR code's y position was not set correctly.", example.addedQRCode2.getY(), lessThan(101.0));
 
         // Assert the first QR code was modified correctly
         List<Field> modifiedQRCodeList = example.modifiedQRCodeList;
@@ -63,14 +63,14 @@ public class QRCodeExampleTest {
         for (Field field : modifiedQRCodeList) {
             if (field.getId().equals(example.qrCodeId1)) {
                 assertThat("Modified QR code's style was not set correctly.", field.getStyle(), is(BOUND_QRCODE));
-                assertThat("Modified QR code's height was not set correctly.", field.getHeight(), is(greaterThan(76.0)));
-                assertThat("Modified QR code's height was not set correctly.", field.getHeight(), is(lessThan(78.0)));
-                assertThat("Modified QR code's width was not set correctly.", field.getWidth(), is(greaterThan(76.0)));
-                assertThat("Modified QR code's width was not set correctly.", field.getWidth(), is(lessThan(78.0)));
-                assertThat("Modified QR code's x position was not set correctly.", field.getX(), is(greaterThan(399.0)));
-                assertThat("Modified QR code's x position was not set correctly.", field.getX(), is(lessThan(401.0)));
-                assertThat("Modified QR code's y position was not set correctly.", field.getY(), is(greaterThan(499.0)));
-                assertThat("Modified QR code's y position was not set correctly.", field.getY(), is(lessThan(501.0)));
+                assertThat("Modified QR code's height was not set correctly.", field.getHeight(), greaterThan(76.0));
+                assertThat("Modified QR code's height was not set correctly.", field.getHeight(), lessThan(78.0));
+                assertThat("Modified QR code's width was not set correctly.", field.getWidth(), greaterThan(76.0));
+                assertThat("Modified QR code's width was not set correctly.", field.getWidth(), lessThan(78.0));
+                assertThat("Modified QR code's x position was not set correctly.", field.getX(), greaterThan(399.0));
+                assertThat("Modified QR code's x position was not set correctly.", field.getX(), lessThan(401.0));
+                assertThat("Modified QR code's y position was not set correctly.", field.getY(), greaterThan(499.0));
+                assertThat("Modified QR code's y position was not set correctly.", field.getY(), lessThan(501.0));
             }
         }
 
@@ -83,24 +83,24 @@ public class QRCodeExampleTest {
         for (Field updatedQRCode : updatedQRCodeList) {
             if (updatedQRCode.getId().equals(example.qrCodeId1)) {
                 assertThat("First updated QR code's style was not set correctly.", updatedQRCode.getStyle(), is(BOUND_QRCODE));
-                assertThat("First updated QR code's height was not set correctly.", updatedQRCode.getHeight(), is(greaterThan(76.0)));
-                assertThat("First updated QR code's height was not set correctly.", updatedQRCode.getHeight(), is(lessThan(78.0)));
-                assertThat("First updated QR code's width was not set correctly.", updatedQRCode.getWidth(), is(greaterThan(76.0)));
-                assertThat("First updated QR code's width was not set correctly.", updatedQRCode.getWidth(), is(lessThan(78.0)));
-                assertThat("First updated QR code's x position was not set correctly.", updatedQRCode.getX(), is(greaterThan(199.0)));
-                assertThat("First updated QR code's x position was not set correctly.", updatedQRCode.getX(), is(lessThan(201.0)));
-                assertThat("First updated QR code's y position was not set correctly.", updatedQRCode.getY(), is(greaterThan(599.0)));
-                assertThat("First updated QR code's y position was not set correctly.", updatedQRCode.getY(), is(lessThan(601.0)));            }
+                assertThat("First updated QR code's height was not set correctly.", updatedQRCode.getHeight(), greaterThan(76.0));
+                assertThat("First updated QR code's height was not set correctly.", updatedQRCode.getHeight(), lessThan(78.0));
+                assertThat("First updated QR code's width was not set correctly.", updatedQRCode.getWidth(), greaterThan(76.0));
+                assertThat("First updated QR code's width was not set correctly.", updatedQRCode.getWidth(), lessThan(78.0));
+                assertThat("First updated QR code's x position was not set correctly.", updatedQRCode.getX(), greaterThan(199.0));
+                assertThat("First updated QR code's x position was not set correctly.", updatedQRCode.getX(), lessThan(201.0));
+                assertThat("First updated QR code's y position was not set correctly.", updatedQRCode.getY(), greaterThan(599.0));
+                assertThat("First updated QR code's y position was not set correctly.", updatedQRCode.getY(), lessThan(601.0));            }
             if (updatedQRCode.getId().equals(example.qrCodeId2)) {
                 assertThat("Second updated QR code's style was not set correctly.", updatedQRCode.getStyle(), is(BOUND_QRCODE));
-                assertThat("Second updated QR code's height was not set correctly.", updatedQRCode.getHeight(), is(greaterThan(76.0)));
-                assertThat("Second updated QR code's height was not set correctly.", updatedQRCode.getHeight(), is(lessThan(78.0)));
-                assertThat("Second updated QR code's width was not set correctly.", updatedQRCode.getWidth(), is(greaterThan(76.0)));
-                assertThat("Second updated QR code's width was not set correctly.", updatedQRCode.getWidth(), is(lessThan(78.0)));
-                assertThat("Second updated QR code's x position was not set correctly.", updatedQRCode.getX(), is(greaterThan(299.0)));
-                assertThat("Second updated QR code's x position was not set correctly.", updatedQRCode.getX(), is(lessThan(301.0)));
-                assertThat("Second updated QR code's y position was not set correctly.", updatedQRCode.getY(), is(greaterThan(599.0)));
-                assertThat("Second updated QR code's y position was not set correctly.", updatedQRCode.getY(), is(lessThan(601.0)));
+                assertThat("Second updated QR code's height was not set correctly.", updatedQRCode.getHeight(), greaterThan(76.0));
+                assertThat("Second updated QR code's height was not set correctly.", updatedQRCode.getHeight(), lessThan(78.0));
+                assertThat("Second updated QR code's width was not set correctly.", updatedQRCode.getWidth(), greaterThan(76.0));
+                assertThat("Second updated QR code's width was not set correctly.", updatedQRCode.getWidth(), lessThan(78.0));
+                assertThat("Second updated QR code's x position was not set correctly.", updatedQRCode.getX(), greaterThan(299.0));
+                assertThat("Second updated QR code's x position was not set correctly.", updatedQRCode.getX(), lessThan(301.0));
+                assertThat("Second updated QR code's y position was not set correctly.", updatedQRCode.getY(), greaterThan(599.0));
+                assertThat("Second updated QR code's y position was not set correctly.", updatedQRCode.getY(), lessThan(601.0));
             }
         }
 

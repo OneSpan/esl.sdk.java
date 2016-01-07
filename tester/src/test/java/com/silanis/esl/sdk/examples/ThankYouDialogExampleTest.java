@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 
 /**
@@ -17,6 +16,6 @@ public class ThankYouDialogExampleTest {
         ThankYouDialogExample example = new ThankYouDialogExample(Props.get());
         example.run();
 
-        assertThat("Thank you Dialog was not set correctly. ", example.thankYouDialogContent, is(not(isEmptyOrNullString())));
+        assertThat("Thank you Dialog was not set correctly. ", example.thankYouDialogContent, not(isEmptyOrNullString()));
     }
 }

@@ -31,7 +31,7 @@ public class ContactsExampleTest {
 
         // Assert new signer is added to the contacts
         assertThat("New signer was not added to the contacts", example.afterContacts.get(example.email2), notNullValue());
-        assertThat("New signer first name was not set correctly", example.afterContacts.get(example.email2).getFirstName(), is(equalTo("John")));
-        assertThat("New signer last name was not set correctly", example.afterContacts.get(example.email2).getLastName(), is(equalTo("Smith")));
+        assertThat("New signer first name was not set correctly", example.afterContacts.get(example.email2).getFirstName(), equalTo("John"));
+        assertThat("New signer last name was not set correctly", example.afterContacts.get(example.email2).getLastName(), equalTo("Smith"));
     }
 }

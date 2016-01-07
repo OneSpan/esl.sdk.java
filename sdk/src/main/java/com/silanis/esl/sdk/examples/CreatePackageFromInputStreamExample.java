@@ -37,9 +37,9 @@ public class CreatePackageFromInputStreamExample extends SDKSample {
 
     @Override
     public void execute() {
-        InputStream documentStream = CreatePackageFromInputStreamExample.class.getResourceAsStream( "/document.pdf" );
+        InputStream documentStream = CreatePackageFromInputStreamExample.class.getResourceAsStream("/document.pdf");
 
-        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "CreatePackageFromInputStreamExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )

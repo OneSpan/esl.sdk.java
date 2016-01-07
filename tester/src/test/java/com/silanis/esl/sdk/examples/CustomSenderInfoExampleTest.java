@@ -9,6 +9,7 @@ import static com.silanis.esl.sdk.examples.CustomSenderInfoExample.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: jessica
@@ -20,33 +21,33 @@ import static org.hamcrest.core.Is.is;
  */
 
 public class CustomSenderInfoExampleTest {
-    private CustomSenderInfoExample customSenderInfoExample;
+    private CustomSenderInfoExample example;
 
     @Test
     public void verifyResult() {
-        customSenderInfoExample = new CustomSenderInfoExample( Props.get() );
-        customSenderInfoExample.run();
+        example = new CustomSenderInfoExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = customSenderInfoExample.getRetrievedPackage();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
         SenderInfo senderInfo = documentPackage.getSenderInfo();
-        assertThat("Sender first name not set correctly. ", senderInfo.getFirstName(), is(equalTo(SENDER_FIRST_NAME)));
-        assertThat("Sender last name not set correctly. ", senderInfo.getLastName(), is(equalTo( SENDER_SECOND_NAME )));
-        assertThat("Sender title not set correctly. ", senderInfo.getTitle(), is(equalTo(SENDER_TITLE)));
-        assertThat("Sender company not set correctly. ", senderInfo.getCompany(), is(equalTo(SENDER_COMPANY)));
+        assertThat("Sender first name not set correctly. ", senderInfo.getFirstName(), equalTo(SENDER_FIRST_NAME));
+        assertThat("Sender last name not set correctly. ", senderInfo.getLastName(), equalTo( SENDER_SECOND_NAME ));
+        assertThat("Sender title not set correctly. ", senderInfo.getTitle(), equalTo(SENDER_TITLE));
+        assertThat("Sender company not set correctly. ", senderInfo.getCompany(), equalTo(SENDER_COMPANY));
 
-        Map<String, Sender> senders = assertSenderWasAdded(100, customSenderInfoExample.senderEmail);
-        assertThat("Sender was not added correctly.", senders.containsKey(customSenderInfoExample.senderEmail), is(true));
-        assertThat("Sender language was not set correctly.", senders.get(customSenderInfoExample.senderEmail).getLanguage(), is(equalTo("fr")));
+        Map<String, Sender> senders = assertSenderWasAdded(100, example.senderEmail);
+        assertTrue("Sender was not added correctly.", senders.containsKey(example.senderEmail));
+        assertThat("Sender language was not set correctly.", senders.get(example.senderEmail).getLanguage(), equalTo("fr"));
     }
 
     // Get next page of senders until sender is found, or reach end of list
     private Map<String, Sender> assertSenderWasAdded(int numberOfResults, String senderEmail) {
         int i = 0;
-        Map<String, Sender> senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, numberOfResults));
+        Map<String, Sender> senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(1, numberOfResults));
         while (!senders.containsKey(senderEmail)) {
             assertThat("Sender was not added correctly.", senders.size(), is(numberOfResults));
-            senders = customSenderInfoExample.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++ * numberOfResults, numberOfResults));
+            senders = example.eslClient.getAccountService().getSenders(Direction.ASCENDING, new PageRequest(i++ * numberOfResults, numberOfResults));
         }
         return senders;
     }

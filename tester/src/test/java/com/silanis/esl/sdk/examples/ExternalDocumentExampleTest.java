@@ -29,9 +29,9 @@ public class ExternalDocumentExampleTest {
 
         startFTPProvider();
 
-        ExternalDocumentExample externalDocumentExampleTest = new ExternalDocumentExample(Props.get());
-        externalDocumentExampleTest.run();
-        DocumentPackage documentPackage = externalDocumentExampleTest.getRetrievedPackage();
+        ExternalDocumentExample example = new ExternalDocumentExample(Props.get());
+        example.run();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
         stopFTPProvider();
 

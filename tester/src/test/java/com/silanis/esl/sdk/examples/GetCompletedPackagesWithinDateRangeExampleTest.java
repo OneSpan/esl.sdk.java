@@ -12,7 +12,6 @@ import static com.silanis.esl.sdk.examples.GetCompletedPackagesWithinDateRangeEx
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThan;
-import static org.hamcrest.core.Is.is;
 
 /**
  * Created by schoi on 1/16/15.
@@ -32,8 +31,8 @@ public class GetCompletedPackagesWithinDateRangeExampleTest {
 
     private void assertEqualsPackageUpdatedDate(Page<DocumentPackage> packages, Date startDate, Date endDate) {
         for(DocumentPackage draftPackage : packages) {
-            assertThat(draftPackage.getUpdatedDate(), is(greaterThanOrEqualTo(new DateTime(startDate).withTimeAtStartOfDay().toDate())));
-            assertThat(draftPackage.getUpdatedDate(), is(lessThan(new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate())));
+            assertThat(draftPackage.getUpdatedDate(), greaterThanOrEqualTo(new DateTime(startDate).withTimeAtStartOfDay().toDate()));
+            assertThat(draftPackage.getUpdatedDate(), lessThan(new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate()));
         }
     }
 }

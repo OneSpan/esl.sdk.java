@@ -1,13 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Signature;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import java.util.List;
 
+import static com.silanis.esl.sdk.PackageStatus.COMPLETED;
+import static com.silanis.esl.sdk.PackageStatus.SENT;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,22 +23,22 @@ public class SignDocumentsExampleTest {
         example.run();
 
         assertSignatures(example.retrievedPackageBeforeSigning.getDocuments(), example.senderEmail, nullValue(), example.email1, nullValue());
-        assertThat(example.retrievedPackageBeforeSigning.getStatus(), is(PackageStatus.SENT));
+        assertThat(example.retrievedPackageBeforeSigning.getStatus(), is(SENT));
 
         assertSignatures(example.retrievedPackageAfterSigningApproval1.getDocuments(), example.senderEmail, notNullValue(), example.email1, nullValue());
-        assertThat(example.retrievedPackageAfterSigningApproval1.getStatus(), is(PackageStatus.SENT));
+        assertThat(example.retrievedPackageAfterSigningApproval1.getStatus(), is(SENT));
 
         assertSignatures(example.retrievedPackageAfterSigningApproval2.getDocuments(), example.senderEmail, notNullValue(), example.email1, notNullValue());
-        assertThat(example.retrievedPackageAfterSigningApproval2.getStatus(), is(PackageStatus.COMPLETED));
+        assertThat(example.retrievedPackageAfterSigningApproval2.getStatus(), is(COMPLETED));
     }
 
     private void assertSignatures(List<Document> documents, String senderEmail, Matcher<Object> senderAccepted, String signerEmail, Matcher<Object> signerAccepted) {
         for(Document document : documents) {
             for(Signature signature : document.getSignatures()) {
                 if(senderEmail.equals(signature.getSignerEmail()))
-                    assertThat(signature.getAccepted(), is(senderAccepted));
+                    assertThat(signature.getAccepted(), senderAccepted);
                 if(signerEmail.equals(signature.getSignerEmail()))
-                    assertThat(signature.getAccepted(), is(signerAccepted));
+                    assertThat(signature.getAccepted(), signerAccepted);
             }
         }
     }

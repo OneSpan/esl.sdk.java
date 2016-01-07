@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.AuthenticationMethod.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -20,14 +20,14 @@ public class AuthenticationMethodsExampleTest {
 
     @Test
     public void verifyResult() {
-        AuthenticationMethodsExample authenticationMethodsExample = new AuthenticationMethodsExample( Props.get() );
-        authenticationMethodsExample.run();
+        AuthenticationMethodsExample example = new AuthenticationMethodsExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = authenticationMethodsExample.getRetrievedPackage();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat( "Signer 1 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email1).getAuthentication().getMethod(), is(AuthenticationMethod.EMAIL) );
-        assertThat( "Signer 2 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email2).getAuthentication().getMethod(), is(AuthenticationMethod.CHALLENGE) );
-        assertThat( "Signer 3 authentication method was not set correctly.", documentPackage.getSigner(authenticationMethodsExample.email3).getAuthentication().getMethod(), is(AuthenticationMethod.SMS) );
+        assertThat( "Signer 1 authentication method was not set correctly.", documentPackage.getSigner(example.email1).getAuthentication().getMethod(), is(EMAIL) );
+        assertThat( "Signer 2 authentication method was not set correctly.", documentPackage.getSigner(example.email2).getAuthentication().getMethod(), is(CHALLENGE) );
+        assertThat( "Signer 3 authentication method was not set correctly.", documentPackage.getSigner(example.email3).getAuthentication().getMethod(), is(SMS) );
     }
 
 }

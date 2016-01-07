@@ -28,9 +28,6 @@ public class CreateTemplateFromPackageExampleTest {
         assertThat("Document ID is incorrectly returned.", document.getId().toString(), is(DOCUMENT_ID));
 
         assertThat("Package name is incorrectly returned.", retrievedPackage.getName(), is(PACKAGE_NAME_NEW));
-        //TODO: Make sure that this is correctly preserved.
-//        assertThat("Package description is incorrectly returned.", retrievedPackage.getDescription(), is(PACKAGE_DESCRIPTION));
-//        assertThat("Package email message is incorrectly returned.", retrievedPackage.getPackageMessage(), is(PACKAGE_EMAIL_MESSAGE));
         assertThat("Number of package signers is incorrectly returned.", retrievedPackage.getSigners().size(), is(3));
         assertThat("Package signer 1 first name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail1()).getFirstName(), is(PACKAGE_SIGNER1_FIRST));
         assertThat("Package signer 1 last name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail1()).getLastName(), is(PACKAGE_SIGNER1_LAST));

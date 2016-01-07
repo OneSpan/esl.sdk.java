@@ -19,10 +19,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DocumentPackageAttributesExampleTest {
     @Test
     public void verifyResult() {
-        DocumentPackageAttributesExample documentPackageAttributesExample = new DocumentPackageAttributesExample( Props.get() );
-        documentPackageAttributesExample.run();
+        DocumentPackageAttributesExample example = new DocumentPackageAttributesExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = documentPackageAttributesExample.getRetrievedPackage();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
         DocumentPackageAttributes documentPackageAttributes = documentPackage.getAttributes();
         Map<String, Object> attributeMap = documentPackageAttributes.getContents();
         assertThat("Attribute key 1 is not setup correctly.", attributeMap.containsKey(ATTRIBUTE_KEY_1));

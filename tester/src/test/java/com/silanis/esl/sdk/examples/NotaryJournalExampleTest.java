@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -22,10 +21,10 @@ public class NotaryJournalExampleTest {
         NotaryJournalExample example = new NotaryJournalExample(Props.get());
         example.run();
 
-        assertThat("Cannot get the completion report.", example.sdkJournalEntries, is(notNullValue()));
+        assertThat("Cannot get the completion report.", example.sdkJournalEntries, notNullValue());
 
-        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries.getFilename(), is(notNullValue()));
-        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries.getContents(), is(notNullValue()));
+        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries.getFilename(), notNullValue());
+        assertThat("Cannot get the completion report in csv format.", example.csvJournalEntries.getContents(), notNullValue());
 
         CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvJournalEntries.getContents())));
         List<String[]> rows = reader.readAll();

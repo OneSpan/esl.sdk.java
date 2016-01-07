@@ -41,7 +41,7 @@ public class BrandingBarConfigurationExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "BrandingBarConfigurationExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .withSettings( newDocumentPackageSettings()
                         .withoutOptOut()

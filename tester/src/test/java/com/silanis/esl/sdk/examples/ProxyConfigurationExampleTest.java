@@ -2,7 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -16,7 +15,7 @@ public class ProxyConfigurationExampleTest {
         ProxyConfigurationExample example = new ProxyConfigurationExample( Props.get() );
         example.run();
 
-        assertThat(example.retrievedPackage1, is(notNullValue()));
-        assertThat(example.retrievedPackage2, is(notNullValue()));
+        assertThat(example.retrievedPackage1, notNullValue());
+        assertThat(example.retrievedPackage2, notNullValue());
     }
 }

@@ -41,7 +41,7 @@ public class ConsentExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "ConsentExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John1" )

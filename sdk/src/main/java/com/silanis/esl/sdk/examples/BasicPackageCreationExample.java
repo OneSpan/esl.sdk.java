@@ -26,6 +26,22 @@ public class BasicPackageCreationExample extends SDKSample {
     public final String group1 = "group1";
     public final String group2 = "group2";
 
+    public static final String PACKAGE_DESC = "This is a package created using the e-SignLive SDK";
+    public static final Date PACKAGE_EXPIRY = now().plusMonths(1).toDate();
+    public static final String PACKAGE_EMAIL_MSG = "This message should be delivered to all signers";
+
+    public static final String SIGNER1_CUSTOM_ID = "Client1";
+    public static final String SIGNER1_FIRST_NAME = "John";
+    public static final String SIGNER1_LAST_NAME = "Smith";
+    public static final String SIGNER1_TITLE = "Managing Director";
+    public static final String SIGNER1_COMPANY = "Acme Inc.";
+
+    public static final String SIGNER2_FIRST_NAME = "Patty";
+    public static final String SIGNER2_LAST_NAME = "Galant";
+
+    public static final String DOCUMENT1_NAME = "First Document";
+    public static final String DOCUMENT2_NAME = "Second Document";
+
     public static void main( String... args ) {
         new BasicPackageCreationExample(Props.get()).run();
     }
@@ -45,20 +61,20 @@ public class BasicPackageCreationExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("Policy " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
-                .describedAs("This is a package created using the e-SignLive SDK")
-                .expiresAt(now().plusMonths(1).toDate())
-                .withEmailMessage("This message should be delivered to all signers")
+        DocumentPackage superDuperPackage = newPackageNamed("BasicPackageCreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+                .describedAs(PACKAGE_DESC)
+                .expiresAt(PACKAGE_EXPIRY)
+                .withEmailMessage(PACKAGE_EMAIL_MSG)
                 .withSigner(newSignerWithEmail(email1)
-                        .withCustomId("Client1")
-                        .withFirstName("John")
-                        .withLastName("Smith")
-                        .withTitle("Managing Director")
-                        .withCompany("Acme Inc."))
+                        .withCustomId(SIGNER1_CUSTOM_ID)
+                        .withFirstName(SIGNER1_FIRST_NAME)
+                        .withLastName(SIGNER1_LAST_NAME)
+                        .withTitle(SIGNER1_TITLE)
+                        .withCompany(SIGNER1_COMPANY))
                 .withSigner(newSignerWithEmail(email2)
-                        .withFirstName("Patty")
-                        .withLastName("Galant"))
-                .withDocument(newDocumentWithName("First Document pdf")
+                        .withFirstName(SIGNER2_FIRST_NAME)
+                        .withLastName(SIGNER2_LAST_NAME))
+                .withDocument(newDocumentWithName(DOCUMENT1_NAME)
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
@@ -67,7 +83,7 @@ public class BasicPackageCreationExample extends SDKSample {
                                         .atPosition(50, 50)
                                         .withValue(FieldBuilder.RADIO_SELECTED))
                                 .atPosition(100, 100)))
-                .withDocument(newDocumentWithName("Second Document PDF")
+                .withDocument(newDocumentWithName(DOCUMENT2_NAME)
                                 .fromStream(documentInputStream2, DocumentType.PDF)
                                 .withSignature(signatureFor(email2)
                                                 .onPage(0)

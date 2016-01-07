@@ -4,8 +4,7 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.ChangePlaceholderNameExample.PLACEHOLDER_ID;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -18,9 +17,9 @@ public class ChangePlaceholderNameExampleTest {
         ChangePlaceholderNameExample example = new ChangePlaceholderNameExample(Props.get());
         example.run();
 
-        assertThat("Package Status is not set correctly.", example.retrievedPackage.getPlaceholder(PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Package Status is not set correctly.", example.retrievedPackage.getPlaceholder(PLACEHOLDER_ID), notNullValue());
         assertThat("Package Status is not set correctly.", example.retrievedPackage.getPlaceholder(PLACEHOLDER_ID).getPlaceholderName(), is(example.newPlaceholder.getName()));
-        assertThat("Package Status is not set correctly.", example.updatedTemplate.getPlaceholder(PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Package Status is not set correctly.", example.updatedTemplate.getPlaceholder(PLACEHOLDER_ID), notNullValue());
         assertThat("Package Status is not set correctly.", example.updatedTemplate.getPlaceholder(PLACEHOLDER_ID).getPlaceholderName(), is(example.updatedPlaceholder.getName()));
     }
 }

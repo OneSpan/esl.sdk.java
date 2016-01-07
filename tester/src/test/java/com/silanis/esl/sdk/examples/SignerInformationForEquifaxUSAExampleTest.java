@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.SignerInformationForEquifaxUSAExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -29,7 +28,7 @@ public class SignerInformationForEquifaxUSAExampleTest {
         assertThat( "city in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getCity(), is( CITY ) );
         assertThat( "zip code in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getZip(), is(ZIP) );
         assertThat( "state in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getState(), is( STATE ) );
-        assertThat( "date of birth in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getDateOfBirth().toString(), is( equalTo(DATE_OF_BIRTH.toString()) ) );
+        assertThat( "date of birth in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getDateOfBirth().toString(), is( DATE_OF_BIRTH.toString()) );
         assertThat( "social security number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getSocialSecurityNumber(), is( SOCIAL_SECURITY_NUMBER ) );
         assertThat( "home phone number in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getHomePhoneNumber(), is(HOME_PHONE_NUMBER) );
         assertThat( "driver's license in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getDriversLicenseNumber(), is(DRIVERS_LICENSE_NUMBER) );

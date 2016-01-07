@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.CreatePackageFromTemplateExample2.*;
+import static junit.framework.Assert.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -33,10 +34,8 @@ public class CreatePackageFromTemplateExampleTest {
         assertThat("Package signer 2 first name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail2()).getFirstName(), is(PACKAGE_SIGNER2_FIRST));
         assertThat("Package signer 2 last name is incorrectly returned.", retrievedPackage.getSigner(example.getEmail2()).getLastName(), is(PACKAGE_SIGNER2_LAST));
 
-        //TODO: Make sure that this is correctly preserved.
-//        assertThat("Package settings.inPerson incorrectly returned.", retrievedPackage.getSettings().getEnableInPerson(), is(false));
-        assertThat("Package settings.enableDecline is incorrectly returned.", retrievedPackage.getSettings().getEnableDecline(), is(false));
-        assertThat("Package settings.enableOptOut incorrectly returned.", retrievedPackage.getSettings().getEnableOptOut(), is(false));
-        assertThat("Package settings.hideWatermark incorrectly returned.", retrievedPackage.getSettings().getHideWatermark(), is(false));
+        assertFalse("Package settings.enableDecline is incorrectly returned.", retrievedPackage.getSettings().getEnableDecline());
+        assertFalse("Package settings.enableOptOut incorrectly returned.", retrievedPackage.getSettings().getEnableOptOut());
+        assertFalse("Package settings.hideWatermark incorrectly returned.", retrievedPackage.getSettings().getHideWatermark());
     }
 }

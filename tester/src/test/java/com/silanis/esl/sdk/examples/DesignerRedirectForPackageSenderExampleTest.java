@@ -4,7 +4,6 @@ import com.silanis.esl.sdk.internal.HttpRequestUtil;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,7 +16,7 @@ public class DesignerRedirectForPackageSenderExampleTest {
         DesignerRedirectForPackageSenderExample example = new DesignerRedirectForPackageSenderExample( Props.get() );
         example.run();
 
-        assertThat(example.generatedLinkToDesignerForSender, is(notNullValue()));
+        assertThat(example.generatedLinkToDesignerForSender, notNullValue());
 
         String stringResponse = HttpRequestUtil.getUrlContent(example.generatedLinkToDesignerForSender);
         assertThat(stringResponse, containsString("Electronic Disclosures and Signatures Consent"));

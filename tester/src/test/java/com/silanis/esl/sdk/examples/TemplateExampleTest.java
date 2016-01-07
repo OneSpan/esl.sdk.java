@@ -37,7 +37,7 @@ public class TemplateExampleTest {
         assertThat("Template signer 2 last name is incorrectly returned.", retrievedPackage.getSigner(example.email2).getLastName(), is(TEMPLATE_SIGNER2_LAST));
 
         assertThat("Number of template placeholders is incorrectly returned.", retrievedPackage.getPlaceholders().size(), is(1));
-        assertThat("Template placeholder id is incorrectly returned", retrievedPackage.getPlaceholder(PLACEHOLDER_ID), is(not(nullValue())));
+        assertThat("Template placeholder id is incorrectly returned", retrievedPackage.getPlaceholder(PLACEHOLDER_ID), not(nullValue()));
 
         DocumentPackage instantiatedTemplate = example.eslClient.getPackage(example.instantiatedTemplateId);
 

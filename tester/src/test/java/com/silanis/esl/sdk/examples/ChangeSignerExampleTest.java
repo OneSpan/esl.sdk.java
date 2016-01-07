@@ -3,8 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: jessica
@@ -17,11 +16,11 @@ public class ChangeSignerExampleTest {
 
     @Test
     public void verifyResult() {
-        ChangeSignerExample changeSignerExample = new ChangeSignerExample( Props.get() );
-        changeSignerExample.run();
+        ChangeSignerExample example = new ChangeSignerExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = changeSignerExample.getRetrievedPackage();
-        assertThat( "Signer 1 can change signer flag was not set correctly.", documentPackage.getSigner(changeSignerExample.email1).canChangeSigner(), is( true ) );
+        DocumentPackage documentPackage = example.getRetrievedPackage();
+        assertTrue("Signer 1 can change signer flag was not set correctly.", documentPackage.getSigner(example.email1).canChangeSigner());
 
     }
 }

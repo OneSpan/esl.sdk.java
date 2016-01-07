@@ -38,7 +38,7 @@ public class DeletePackageExample extends SDKSample {
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Policy " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed( "DeletePackageExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
                 .describedAs( "This  is a package created using the e-SignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )

@@ -10,6 +10,7 @@ import static com.silanis.esl.sdk.examples.EventNotificationRegistrationExample.
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by lena on 2014-06-17.
@@ -55,7 +56,7 @@ public class EventNotificationRegistrationExampleTest {
                 }
             }
 
-            assertThat("Callback has wrong event", found, is(true));
+            assertTrue("Callback has wrong event", found);
         }
     }
 }

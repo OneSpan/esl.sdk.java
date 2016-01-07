@@ -1,14 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.FieldBuilder;
-import com.silanis.esl.sdk.builder.SignatureBuilder;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -57,7 +56,7 @@ public class DocumentOperationsExample extends SDKSample {
     public void execute() {
 
         // 1. Create a package
-        builtPackage = newPackageNamed("Policy " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        builtPackage = newPackageNamed("DocumentOperationsExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package demonstrating document upload")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withSigner(newSignerWithEmail(email1)

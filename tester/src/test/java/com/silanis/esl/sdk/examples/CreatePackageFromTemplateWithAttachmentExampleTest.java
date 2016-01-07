@@ -5,7 +5,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Signer;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,7 +21,7 @@ public class CreatePackageFromTemplateWithAttachmentExampleTest {
 
         for (Signer signer : documentPackage.getSigners()) {
             for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirements()) {
-                assertThat(attachmentRequirement, is(notNullValue()));
+                assertThat(attachmentRequirement, notNullValue());
             }
         }
     }

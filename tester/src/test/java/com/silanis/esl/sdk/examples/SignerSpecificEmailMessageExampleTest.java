@@ -4,7 +4,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.SignerSpecificEmailMessageExample.EMAIL_MESSAGE;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -22,6 +21,6 @@ public class SignerSpecificEmailMessageExampleTest {
         example.run();
         DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat(documentPackage.getSigner(example.email1).getMessage(), is(equalTo(EMAIL_MESSAGE)));
+        assertThat(documentPackage.getSigner(example.email1).getMessage(), is(EMAIL_MESSAGE));
     }
 }

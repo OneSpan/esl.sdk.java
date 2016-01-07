@@ -44,7 +44,7 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
 
     @Override
     void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("Policy " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed("DesignerRedirectForApiKeyExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
