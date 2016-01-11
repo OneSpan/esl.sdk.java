@@ -27,6 +27,8 @@ public class PackageBuilder {
     private DocumentPackageAttributes attributes;
     private Visibility visibility;
 
+    private static final String ORIGIN_KEY = "origin";
+
     /**
      * The constructor of the PackageBuilder class.
      *
@@ -299,8 +301,11 @@ public class PackageBuilder {
      * @param attributes the document attributes
      * @return the package builder itself
      */
-    public PackageBuilder withAttributes( DocumentPackageAttributes attributes) {
-        this.attributes = attributes;
+    public PackageBuilder withAttributes( DocumentPackageAttributes attributes ) {
+        if(null == this.attributes) {
+            this.attributes = new DocumentPackageAttributes();
+        }
+        this.attributes.append(attributes);
         return this;
     }
 
@@ -316,5 +321,20 @@ public class PackageBuilder {
      */
     public PackageBuilder withAttributes( DocumentPackageAttributesBuilder builder) {
         return withAttributes( builder.build() );
+    }
+
+    /**
+     * Sets the origin for the package.
+     * It can be connector's origin information.
+     *
+     * @param connector the connector origin information
+     * @return the package builder itself
+     */
+    public PackageBuilder withOrigin( Connector connector ) {
+        if(null == this.attributes) {
+            this.attributes = new DocumentPackageAttributes();
+        }
+        this.attributes.append(ORIGIN_KEY, connector.getOrigin());
+        return this;
     }
 }

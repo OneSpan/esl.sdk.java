@@ -51,7 +51,7 @@ public class PackageService {
         try {
             String response = client.post(path, packageJson);
             return Serialization.fromJson(response, PackageId.class);
-        }catch (RequestException e) {
+        } catch (RequestException e) {
             throw new EslServerException("Could not create a new package", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package", e);
@@ -67,7 +67,7 @@ public class PackageService {
      * @return
      * @throws EslException
      */
-    public PackageId createPackageOneStep(Package aPackage, Collection<com.silanis.esl.sdk.Document> documents) throws EslException{
+    public PackageId createPackageOneStep(Package aPackage, Collection<com.silanis.esl.sdk.Document> documents) throws EslException {
         String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
                 .build();
         String packageJson = Serialization.toJson(aPackage);
@@ -76,7 +76,7 @@ public class PackageService {
             String response = client.postMultipartPackage(path, documents, packageJson);
             return Serialization.fromJson(response, PackageId.class);
 
-        }catch (RequestException e) {
+        } catch (RequestException e) {
             throw new EslServerException("Could not create a new package in one-step", e);
         } catch (Exception e) {
             throw new EslException("Could not create a new package in one-step", e);
