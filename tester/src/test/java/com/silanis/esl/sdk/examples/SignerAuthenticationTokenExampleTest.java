@@ -15,5 +15,4 @@ public class SignerAuthenticationTokenExampleTest {
         signerAuthenticationTokenExample.run();
         assertThat(signerAuthenticationTokenExample.getSessionIdForSigner(), notNullValue());
     }
-
 }

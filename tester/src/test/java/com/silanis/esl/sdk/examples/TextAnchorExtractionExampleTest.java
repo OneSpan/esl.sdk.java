@@ -7,8 +7,7 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.TextAnchorExtractionExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.closeTo;
 
 /**
  * Created by dave on 24/03/14.
@@ -25,10 +24,8 @@ public class TextAnchorExtractionExampleTest {
 
         for ( Signature signature : document.getSignatures() ) {
             for ( Field field : signature.getFields() ) {
-                assertThat( "Field's width was incorrectly returned.", field.getWidth(), greaterThanOrEqualTo(-MAX_ERROR_AFTER_SCALING + (double) FIELD_WIDTH) );
-                assertThat( "Field's width was incorrectly returned.", field.getWidth(), lessThanOrEqualTo(MAX_ERROR_AFTER_SCALING + (double) FIELD_WIDTH) );
-                assertThat( "Field's height was incorrectly returned.", field.getHeight(), greaterThanOrEqualTo(-MAX_ERROR_AFTER_SCALING + (double) FIELD_HEIGHT) );
-                assertThat( "Field's height was incorrectly returned.", field.getHeight(), lessThanOrEqualTo(MAX_ERROR_AFTER_SCALING + (double) FIELD_HEIGHT) );
+                assertThat( "Field's width was incorrectly returned.", field.getWidth(), closeTo(FIELD_WIDTH, MAX_ERROR_AFTER_SCALING) );
+                assertThat( "Field's height was incorrectly returned.", field.getHeight(), closeTo(FIELD_HEIGHT, MAX_ERROR_AFTER_SCALING) );
             }
         }
     }

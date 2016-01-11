@@ -32,5 +32,4 @@ public class SignerOrderingExampleTest {
         assertThat(afterReorder.getSigner(example.email1).getSigningOrder(), is(1));
         assertThat(afterReorder.getSigner(example.email2).getSigningOrder(), is(2));
     }
-    
 }

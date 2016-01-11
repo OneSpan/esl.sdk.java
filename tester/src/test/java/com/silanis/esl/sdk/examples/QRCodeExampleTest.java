@@ -103,6 +103,5 @@ public class QRCodeExampleTest {
                 assertThat("Second updated QR code's y position was not set correctly.", updatedQRCode.getY(), lessThan(601.0));
             }
         }
-
     }
 }
