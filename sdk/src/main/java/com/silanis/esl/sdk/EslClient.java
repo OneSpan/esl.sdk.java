@@ -10,7 +10,9 @@ import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.*;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>The EslClient class creates a E-SignLive client with the given api token and base url.</p>
@@ -318,8 +320,13 @@ public class EslClient {
      * @param signerId the signer id
      */
     public void signDocuments(PackageId packageId, String signerId) {
+        String bulkSigningKey = "Bulk Signing on behalf of";
+
         final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
-        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+
+        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
+        signerSessionFields.put(bulkSigningKey, signerId);
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
         SignerRestClient signerClient = new SignerRestClient(signerSessionId);
 
         SignedDocuments signedDocuments = new SignedDocuments();
