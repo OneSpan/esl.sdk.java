@@ -557,8 +557,12 @@ public class EslClient {
     }
 
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {
+        String signerSessionFieldKey = "Upload Attachment on behalf of";
+
         final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
-        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
+        signerSessionFields.put(signerSessionFieldKey, signerId);
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
 
         attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
     }

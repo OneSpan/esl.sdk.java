@@ -5,9 +5,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -30,6 +28,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
     private String email1;
     private final InputStream documentInputStream;
     private String sessionIdForSigner;
+    private String signerSessionFieldKey = "SDK SignerAuthenticationTokenExample Signer";
 
     public SignerAuthenticationTokenExample(Properties props) {
         this( props.getProperty( "api.key" ),
@@ -48,7 +47,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
     @Override
     void execute() {
         String signerId = UUID.randomUUID().toString();
-        DocumentPackage packageToCreate = newPackageNamed("Designer Package " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage packageToCreate = newPackageNamed("SignerAuthenticationTokenExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner(newSignerWithEmail(email1)
                                     .withCustomId("Client1")
@@ -77,7 +76,9 @@ public class SignerAuthenticationTokenExample extends SDKSample {
          * It is a signing session valid in the same way as clicking in an email except it is limited to signing operations on the package for which
          * it was created (accept consent, sign, fill-out fields).
          */
-        sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
+        signerSessionFields.put(signerSessionFieldKey, email1);
+        sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
     }
 
     public String getSessionIdForSigner() {

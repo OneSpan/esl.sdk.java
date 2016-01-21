@@ -2,6 +2,8 @@ package com.silanis.esl.sdk;
 
 import com.silanis.esl.sdk.service.AuthenticationService;
 
+import java.util.Map;
+
 /**
  * Created by mpoitras on 22/04/14.
  */
@@ -34,7 +36,11 @@ public class AuthenticationClient {
     }
 
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {
-        return authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        return getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, null);
+    }
+
+    public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken, Map<String, String> signerSessionFields) {
+        return authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
     }
 
     public String buildRedirectToSigningForSigner(String signerAuthenticationToken, String packageId) {
