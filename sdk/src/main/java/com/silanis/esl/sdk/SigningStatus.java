@@ -9,7 +9,8 @@ public enum SigningStatus {
     EXPIRED( "EXPIRED" ),
     CANCELED( "CANCELED" ),
     SIGNING_PENDING( "SIGNING_PENDING" ),
-    SIGNING_COMPLETE( "SIGNING_COMPLETED" );
+    SIGNING_COMPLETE( "SIGNING_COMPLETED" ),
+    DELETED( "DELETED" );
 
     private final String token;
 

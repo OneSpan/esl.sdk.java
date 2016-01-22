@@ -4,7 +4,6 @@ import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.*;
 
@@ -40,6 +39,7 @@ public class EslClient {
     private QRCodeService qrCodeService;
     private AuthenticationService authenticationService;
     private SystemService systemService;
+    private SignatureImageService signatureImageService;
 
     /**
      * The constructor of the EslClient class
@@ -102,6 +102,7 @@ public class EslClient {
         packageService = new PackageService(client, this.baseURL);
         reportService = new ReportService(client, this.baseURL);
         systemService = new SystemService(client, this.baseURL);
+        signatureImageService = new SignatureImageService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
         auditService = new AuditService(new AuditApiClient(client, this.baseURL));
@@ -189,6 +190,15 @@ public class EslClient {
      */
     public CustomFieldService getCustomFieldService() {
         return customFieldService;
+    }
+
+    /**
+     * Facilitates access to the service that get signature image
+     *
+     * @return  the signature image service
+     */
+    public SignatureImageService getSignatureImageService() {
+        return signatureImageService;
     }
 
     /**

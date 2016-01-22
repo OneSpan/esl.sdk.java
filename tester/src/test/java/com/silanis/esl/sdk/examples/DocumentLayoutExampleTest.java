@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.Signature;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -21,6 +22,8 @@ import static org.hamcrest.core.Is.is;
  * Created by lena on 2014-07-22.
  */
 public class DocumentLayoutExampleTest {
+
+    private static final double TOLERANCE = 1.25;
 
     private DocumentLayoutExample example;
 
@@ -54,6 +57,7 @@ public class DocumentLayoutExampleTest {
         assertThat("Package name should not have changed", packageWithLayout.getName(), is(not(equalTo(LAYOUT_PACKAGE_NAME))));
         assertThat("Package description should not have changed", packageWithLayout.getDescription(), is(not(equalTo(LAYOUT_PACKAGE_DESCRIPTION))));
         assertThat("Package should have only 2 signers", packageWithLayout.getSigners().size(), is(2));
+        /* Note that default consent will be added automatically. */
         assertThat("Package should have 2 documents", packageWithLayout.getDocuments().size(), is(2));
 
         Document documentWithLayout = packageWithLayout.getDocument(APPLY_LAYOUT_DOCUMENT_NAME);
@@ -90,19 +94,14 @@ public class DocumentLayoutExampleTest {
                     // assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
                     // assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
 
-                    assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
-                    assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
-
-                    assertThat("Field y coordinate was not set correctly", field.getY(), is(greaterThan(199.0)));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), is(lessThan(201.0)));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), Matchers.is(closeTo(100, TOLERANCE)));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), Matchers.is(closeTo(200, TOLERANCE)));
                 }
                 if (field.getName().equals(FIELD_2_NAME)) {
                     assertThat("Field style was not set correctly", field.getStyle(), is(BOUND_COMPANY));
                     assertThat("Field page number was not set correctly", field.getPage(), is(0));
-                    assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
-                    assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), is(greaterThan(299.0)));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), is(lessThan(301.0)));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), Matchers.is(closeTo(100, TOLERANCE)));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), Matchers.is(closeTo(300, TOLERANCE)));
                 }
             }
         }

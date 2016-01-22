@@ -1,7 +1,10 @@
 package com.silanis.esl.sdk.internal;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -23,6 +26,7 @@ public class HttpRequestUtil {
 
     public static String getUrlContent(String requestedURL){
         String urlContent = "";
+        InputStream is = null;
         try {
             URL url = new URL(requestedURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -39,18 +43,14 @@ public class HttpRequestUtil {
             redirectRequest.setRequestProperty("Cookie", buildSessionTokenCookieValue(cookieSessionToken) + ";" + buildTempTokenCookieValue(cookieTempTokenValue));
 
             // open the stream and put it into BufferedReader
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(redirectRequest.getInputStream()));
-
-            String inputLine;
-            while ((inputLine = br.readLine()) != null) {
-                urlContent += inputLine + "\n";
-            }
-            br.close();
+            is = redirectRequest.getInputStream();
+            urlContent = IOUtils.toString(new BufferedReader(new InputStreamReader(is)));
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         return urlContent;
     }
