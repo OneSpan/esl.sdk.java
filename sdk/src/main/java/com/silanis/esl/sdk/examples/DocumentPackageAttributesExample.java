@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import static com.silanis.esl.sdk.Connector.SHAREPOINT_2010;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder.newDocumentPackageAttributes;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -30,6 +29,8 @@ import static org.joda.time.DateMidnight.now;
 public class DocumentPackageAttributesExample extends SDKSample{
     private String email1;
     private InputStream documentInputStream1;
+
+    public static final String DYNAMICS_2015 = "dynamics2015";
     public static final String ATTRIBUTE_KEY_1 = "Key 1";
     public static final String ATTRIBUTE_KEY_2 = "Key 2";
     public static final String ATTRIBUTE_KEY_3 = "Key 3";
@@ -73,7 +74,7 @@ public class DocumentPackageAttributesExample extends SDKSample{
                                                                                     .atPosition(400, 200)
                                                                                     .withValue(FieldBuilder.RADIO_SELECTED))
                                                              .atPosition(100, 100)))
-                .withOrigin(SHAREPOINT_2010)
+                .withOrigin(DYNAMICS_2015)
                 .withAttributes(newDocumentPackageAttributes()
                                         .withAttribute(ATTRIBUTE_KEY_1, ATTRIBUTE_1)
                                         .withAttribute(ATTRIBUTE_KEY_2, ATTRIBUTE_2)

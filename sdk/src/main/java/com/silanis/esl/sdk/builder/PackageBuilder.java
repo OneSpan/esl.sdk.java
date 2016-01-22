@@ -325,16 +325,16 @@ public class PackageBuilder {
 
     /**
      * Sets the origin for the package.
-     * It can be connector's origin information.
+     * It can be the origin information.
      *
-     * @param connector the connector origin information
+     * @param origin the origin information
      * @return the package builder itself
      */
-    public PackageBuilder withOrigin( Connector connector ) {
+    public PackageBuilder withOrigin( String origin ) {
         if(null == this.attributes) {
             this.attributes = new DocumentPackageAttributes();
         }
-        this.attributes.append(ORIGIN_KEY, connector.getOrigin());
+        this.attributes.append(ORIGIN_KEY, origin);
         return this;
     }
 }

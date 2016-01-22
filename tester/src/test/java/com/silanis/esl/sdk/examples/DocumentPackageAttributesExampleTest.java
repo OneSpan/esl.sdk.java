@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static com.silanis.esl.sdk.Connector.SHAREPOINT_2010;
 import static com.silanis.esl.sdk.examples.DocumentPackageAttributesExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -35,7 +34,7 @@ public class DocumentPackageAttributesExampleTest {
         assertThat("Attribute key 2 is not setup correctly.", attributeMap.containsKey(ATTRIBUTE_KEY_2));
         assertThat("Attribute key 3 is not setup correctly.", attributeMap.containsKey(ATTRIBUTE_KEY_3));
 
-        assertThat("Attribute 1 is not setup correctly.", attributeMap.get(ORIGIN_KEY).toString().equals(SHAREPOINT_2010.getOrigin()));
+        assertThat("Attribute 1 is not setup correctly.", attributeMap.get(ORIGIN_KEY).toString().equals(DYNAMICS_2015));
         assertThat("Attribute 1 is not setup correctly.", attributeMap.get(ATTRIBUTE_KEY_1).toString().equals(ATTRIBUTE_1));
         assertThat("Attribute 2 is not setup correctly.", attributeMap.get(ATTRIBUTE_KEY_2).toString().equals(ATTRIBUTE_2));
         assertThat("Attribute 3 is not setup correctly.", attributeMap.get(ATTRIBUTE_KEY_3).toString().equals(ATTRIBUTE_3));
