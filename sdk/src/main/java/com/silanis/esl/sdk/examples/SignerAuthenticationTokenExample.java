@@ -27,7 +27,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
     private AuthenticationClient authenticationClient;
     private String email1;
     private final InputStream documentInputStream;
-    private String sessionIdForSigner;
+    public String sessionIdForSigner;
     private String signerSessionFieldKey = "SDK SignerAuthenticationTokenExample Signer";
 
     public SignerAuthenticationTokenExample(Properties props) {
@@ -70,18 +70,14 @@ public class SignerAuthenticationTokenExample extends SDKSample {
           * This is a single use token, limited to a time period (30 minutes). Trying to reuse it or to use it will cause an unauthorized error.
           * Trying to access pages not accessible to a signer will cause an unauthorized error
           */
-        final String signerAuthenticationToken = eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(packageId.getId(), signerId);
+        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
+        signerSessionFields.put(signerSessionFieldKey, email1);
+        final String signerAuthenticationToken = eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
 
         /* This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser).
          * It is a signing session valid in the same way as clicking in an email except it is limited to signing operations on the package for which
          * it was created (accept consent, sign, fill-out fields).
          */
-        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
-        signerSessionFields.put(signerSessionFieldKey, email1);
-        sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
-    }
-
-    public String getSessionIdForSigner() {
-        return sessionIdForSigner;
+        sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
     }
 }

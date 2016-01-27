@@ -27,7 +27,7 @@ public class SenderAuthenticationTokenExample extends SDKSample {
     private AuthenticationClient authenticationClient;
     private String email1;
     private final InputStream documentInputStream;
-    private String sessionIdForSender;
+    public String sessionIdForSender;
 
     public SenderAuthenticationTokenExample(Properties props) {
         this( props.getProperty( "api.key" ),
@@ -69,9 +69,5 @@ public class SenderAuthenticationTokenExample extends SDKSample {
          * it was created (prepare package, modify package, download documents)
          */
         sessionIdForSender = authenticationClient.getSessionIdForSenderAuthenticationToken(senderAuthenticationToken);
-    }
-
-    public String getSessionIdForSender() {
-        return sessionIdForSender;
     }
 }

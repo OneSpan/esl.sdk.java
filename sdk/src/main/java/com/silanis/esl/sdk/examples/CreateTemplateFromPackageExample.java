@@ -18,8 +18,8 @@ import java.util.Properties;
  */
 public class CreateTemplateFromPackageExample extends SDKSample {
 
-    private String email1;
-    private String email2;
+    public String email1;
+    public String email2;
     private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
@@ -31,7 +31,7 @@ public class CreateTemplateFromPackageExample extends SDKSample {
     public static final String PACKAGE_SIGNER1_LAST = "Smith";
     public static final String PACKAGE_SIGNER2_FIRST = "Patty";
     public static final String PACKAGE_SIGNER2_LAST = "Galant";
-    private PackageId retrievedPackageId;
+    public PackageId templateId;
 
     public static void main(String... args) {
         new CreateTemplateFromPackageExample(Props.get()).run();
@@ -48,14 +48,6 @@ public class CreateTemplateFromPackageExample extends SDKSample {
         super(apiKey, apiUrl);
         this.email1 = email1;
         this.email2 = email2;
-    }
-
-    public String getEmail1() {
-        return email1;
-    }
-
-    public String getEmail2() {
-        return email2;
     }
 
     @Override
@@ -80,12 +72,6 @@ public class CreateTemplateFromPackageExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);
-
-        retrievedPackageId = eslClient.getTemplateService().createTemplateFromPackage(packageId, PACKAGE_NAME_NEW);
-
-    }
-
-    public PackageId getRetrievedPackageId() {
-        return retrievedPackageId;
+        templateId = eslClient.getTemplateService().createTemplateFromPackage(packageId, PACKAGE_NAME_NEW);
     }
 }

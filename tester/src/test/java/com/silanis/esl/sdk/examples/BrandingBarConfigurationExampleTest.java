@@ -19,15 +19,14 @@ public class BrandingBarConfigurationExampleTest {
     public void verifyResult() {
     
         // Verify if the branding bar configuration was set up correctly.
-        BrandingBarConfigurationExample brandingBarConfigurationExample = new BrandingBarConfigurationExample( Props.get() );
-        brandingBarConfigurationExample.run();
+        BrandingBarConfigurationExample example = new BrandingBarConfigurationExample( Props.get() );
+        example.run();
 
-        DocumentPackage documentPackage = brandingBarConfigurationExample.getRetrievedPackage();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
     
         assertFalse("Opt out button was not set correctly.", documentPackage.getSettings().getEnableOptOut());
         assertFalse("Tool bar download button was not set correctly.", documentPackage.getSettings().getShowDocumentToolbarDownloadButton());
         assertFalse("Global navigation button was not set correctly.", documentPackage.getSettings().getCeremonyLayoutSettings().getGlobalNavigation());
         assertFalse("Global download button was not set correctly.", documentPackage.getSettings().getCeremonyLayoutSettings().getShowGlobalDownloadButton());
     }
-    
 }

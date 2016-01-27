@@ -30,6 +30,8 @@ abstract public class SDKSample {
     }
 
     public DocumentPackage getRetrievedPackage() {
+        if(null == retrievedPackage)
+            retrievedPackage = eslClient.getPackage(packageId);
         return retrievedPackage;
     }
 

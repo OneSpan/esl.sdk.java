@@ -165,7 +165,7 @@ public class GenericFieldsExample extends SDKSample {
             .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage( packageId );
-        retrievedPackage = eslClient.getPackage( packageId );
+//        eslClient.sendPackage( packageId );
+//        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

@@ -87,6 +87,5 @@ public class DocumentUploadExample extends SDKSample{
 
         SessionToken sessionToken = eslClient.getSessionService().createSessionToken( superDuperPackage.getId().toString(), "Client1" );
     }
-
 }
 

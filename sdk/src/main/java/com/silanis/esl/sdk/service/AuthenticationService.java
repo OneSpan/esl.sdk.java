@@ -2,10 +2,14 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SessionToken;
-import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RequestException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UnauthenticatedRestClient;
+import com.silanis.esl.sdk.internal.UrlTemplate;
 
 import java.net.URLEncoder;
-import java.util.Map;
 
 /**
  * Created by mpoitras on 22/04/14.
@@ -100,12 +104,7 @@ public class AuthenticationService {
     }
 
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {
-        return getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, null);
-    }
-
-    public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken, Map<String, String> signerSessionFields) {
         String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN).replace("{signerAuthenticationToken}", signerAuthenticationToken).build();
-        path += getSignerSessionFieldsString(signerSessionFields);
 
         try {
             String stringResponse = client.get(path);
@@ -116,22 +115,6 @@ public class AuthenticationService {
         } catch (Exception e) {
             throw new EslException("Could not authenticate using a signer authentication token.", e);
         }
-    }
-
-    private String getSignerSessionFieldsString(Map<String, String> signerSessionFields) {
-        if(null == signerSessionFields)
-            return "";
-
-        StringBuilder signerSessionFieldsString = new StringBuilder();
-        for(Map.Entry<String, String> entry : signerSessionFields.entrySet()) {
-            signerSessionFieldsString.append("&").append(URLEncoder.encode(entry.getKey())).append("=").append(URLEncoder.encode(entry.getValue()));
-        }
-
-        if(signerSessionFieldsString.length() > 200) {
-            throw new EslException("The maximum of 200 characters has been exceeded for the key-value pairs.");
-        }
-
-        return signerSessionFieldsString.toString();
     }
 
     public String buildRedirectToSigningForSigner(String signerAuthenticationToken, String packageId) {

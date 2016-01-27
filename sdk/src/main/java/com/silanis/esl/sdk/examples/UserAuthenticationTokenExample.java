@@ -17,7 +17,7 @@ public class UserAuthenticationTokenExample extends SDKSample {
 
 
     private AuthenticationClient authenticationClient;
-    private String sessionIdForUser;
+    public String sessionIdForUser;
 
     public UserAuthenticationTokenExample(Properties props) {
         this( props.getProperty( "api.key" ),
@@ -42,9 +42,5 @@ public class UserAuthenticationTokenExample extends SDKSample {
 
         //This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser). It is a full fledged session valid in the same way as a normal login.
         sessionIdForUser = authenticationClient.getSessionIdForUserAuthenticationToken(userAuthenticationToken);
-    }
-
-    public String getSessionIdForUser() {
-        return sessionIdForUser;
     }
 }

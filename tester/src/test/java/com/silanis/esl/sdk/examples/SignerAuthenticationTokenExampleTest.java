@@ -11,8 +11,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerAuthenticationTokenExampleTest {
     @Test
     public void verifyResult() {
-        SignerAuthenticationTokenExample signerAuthenticationTokenExample = new SignerAuthenticationTokenExample( Props.get() );
-        signerAuthenticationTokenExample.run();
-        assertThat(signerAuthenticationTokenExample.getSessionIdForSigner(), notNullValue());
+        SignerAuthenticationTokenExample example = new SignerAuthenticationTokenExample( Props.get() );
+        example.run();
+
+        assertThat(example.sessionIdForSigner, notNullValue());
     }
 }

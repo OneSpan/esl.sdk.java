@@ -19,7 +19,7 @@ public class ContactsExampleTest {
         ContactsExample example = new ContactsExample(Props.get());
         example.run();
 
-        DocumentPackage documentPackage = example.eslClient.getPackage(example.packageId);
+        DocumentPackage documentPackage = example.getRetrievedPackage();
         Signer signer = documentPackage.getSigner(example.email1);
 
         // Assert signer information is correct

@@ -14,6 +14,6 @@ public class UserAuthenticationTokenExampleTest {
         UserAuthenticationTokenExample example = new UserAuthenticationTokenExample( Props.get() );
         example.run();
 
-        assertThat(example.getSessionIdForUser(), notNullValue());
+        assertThat(example.sessionIdForUser, notNullValue());
     }
 }

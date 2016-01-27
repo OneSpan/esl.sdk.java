@@ -4,7 +4,7 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.examples.CreatePackageFromTemplateExample2.*;
+import static com.silanis.esl.sdk.examples.CreatePackageFromTemplateExample.*;
 import static junit.framework.Assert.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,13 +15,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CreatePackageFromTemplateExampleTest {
     @Test
     public void verifyResult() {
-        CreatePackageFromTemplateExample2 example = new CreatePackageFromTemplateExample2(Props.get());
+        CreatePackageFromTemplateExample example = new CreatePackageFromTemplateExample(Props.get());
         example.run();
 
         DocumentPackage retrievedPackage = example.getRetrievedPackage();
         Document document = retrievedPackage.getDocument(DOCUMENT_NAME);
 
-        assertThat("Document name is incorrectly returned.", document.getName().toString(), is(DOCUMENT_NAME));
+        assertThat("Document name is incorrectly returned.", document.getName(), is(DOCUMENT_NAME));
         assertThat("Document ID is incorrectly returned.", document.getId().toString(), is(DOCUMENT_ID));
 
         assertThat("Package name is incorrectly returned.", retrievedPackage.getName(), is(PACKAGE_NAME));

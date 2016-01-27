@@ -25,7 +25,7 @@ public class CreateTemplateOnBehalfOfAnotherSenderExampleTest {
         verifySenderInfo(retrievedTemplate);
 
         // Verify the package created from template has the correct sender
-        DocumentPackage retrievedPackage = example.eslClient.getPackage(example.packageId);
+        DocumentPackage retrievedPackage = example.getRetrievedPackage();
         verifySenderInfo(retrievedPackage);
     }
 

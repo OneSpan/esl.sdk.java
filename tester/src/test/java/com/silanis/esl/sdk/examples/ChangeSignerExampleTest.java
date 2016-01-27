@@ -21,6 +21,5 @@ public class ChangeSignerExampleTest {
 
         DocumentPackage documentPackage = example.getRetrievedPackage();
         assertTrue("Signer 1 can change signer flag was not set correctly.", documentPackage.getSigner(example.email1).canChangeSigner());
-
     }
 }

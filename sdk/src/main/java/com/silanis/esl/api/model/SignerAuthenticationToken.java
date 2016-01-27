@@ -1,8 +1,7 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class SignerAuthenticationToken extends AuthenticationToken
@@ -15,6 +14,8 @@ public class SignerAuthenticationToken extends AuthenticationToken
     @JsonIgnore
     public static final String FIELD_SIGNERID = "signerId";
     @JsonIgnore
+    public static final String FIELD_SESSION_FIELDS = "sessionFields";
+    @JsonIgnore
     public static final String FIELD_VALUE = "value";
     
     // Empty Constructor
@@ -23,6 +24,7 @@ public class SignerAuthenticationToken extends AuthenticationToken
     // Fields
     protected String _packageId = "";
     protected String _signerId = "";
+    protected SessionFields _sessionFields = null;
     
     // Accessors
         
@@ -60,15 +62,33 @@ public class SignerAuthenticationToken extends AuthenticationToken
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
     public SignerAuthenticationToken safeSetSignerId( String value ){
-        if ( value != null ) { this.setSignerId( value ); }
+        if ( value != null ) { this.setSignerId(value); }
         return this;
     }
     public String getSignerId(){
         return _signerId;
     }
-    
-        
-    
+
+
+
+    public SignerAuthenticationToken setSessionFields( SessionFields value ){
+        // if ( this._sessionFields == value ) return this;
+        this._sessionFields = value;
+        setDirty(FIELD_SESSION_FIELDS);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public SignerAuthenticationToken safeSetSessionFields( SessionFields value ){
+        if ( value != null ) { this.setSessionFields(value); }
+        return this;
+    }
+    public SessionFields getSessionFields(){
+        return _sessionFields;
+    }
+
+
+
     @Override
     public SignerAuthenticationToken setValue( String value ){
         super.setValue(value);

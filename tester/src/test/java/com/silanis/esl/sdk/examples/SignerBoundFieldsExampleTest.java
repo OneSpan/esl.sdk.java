@@ -22,9 +22,9 @@ public class SignerBoundFieldsExampleTest {
 
     @Test
     public void verifyResult() {
-        SignerBoundFieldsExample signerBoundFieldsExample = new SignerBoundFieldsExample( Props.get() );
-        signerBoundFieldsExample.run();
-        DocumentPackage documentPackage = signerBoundFieldsExample.getRetrievedPackage();
+        SignerBoundFieldsExample example = new SignerBoundFieldsExample( Props.get() );
+        example.run();
+        DocumentPackage documentPackage = example.getRetrievedPackage();
 
         for (Signature signature: documentPackage.getDocument(DOCUMENT_NAME).getSignatures()) {
 

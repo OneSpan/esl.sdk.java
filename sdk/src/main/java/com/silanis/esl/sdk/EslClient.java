@@ -321,12 +321,11 @@ public class EslClient {
      */
     public void signDocuments(PackageId packageId, String signerId) {
         String bulkSigningKey = "Bulk Signing on behalf of";
-
-        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
-
         Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
         signerSessionFields.put(bulkSigningKey, signerId);
-        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
+        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
+
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
         SignerRestClient signerClient = new SignerRestClient(signerSessionId);
 
         SignedDocuments signedDocuments = new SignedDocuments();
@@ -559,10 +558,11 @@ public class EslClient {
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {
         String signerSessionFieldKey = "Upload Attachment on behalf of";
 
-        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
         Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
         signerSessionFields.put(signerSessionFieldKey, signerId);
-        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken, signerSessionFields);
+        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
+
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
         attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
     }

@@ -11,10 +11,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SenderAuthenticationTokenExampleTest {
     @Test
     public void verifyResult() {
-        SenderAuthenticationTokenExample senderAuthenticationTokenExample = new SenderAuthenticationTokenExample( Props.get() );
-        senderAuthenticationTokenExample.run();
+        SenderAuthenticationTokenExample example = new SenderAuthenticationTokenExample( Props.get() );
+        example.run();
 
-        assertThat(senderAuthenticationTokenExample.getSessionIdForSender(), notNullValue());
+        assertThat(example.sessionIdForSender, notNullValue());
     }
-
 }
