@@ -7,9 +7,6 @@ import com.silanis.esl.sdk.builder.FieldBuilder;
 import com.silanis.esl.sdk.builder.TextAnchorBuilder;
 
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -18,7 +15,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class TextAnchorExtractionExample extends SDKSample {
 
-    private String email1;
     private InputStream documentInputStream1;
 
     public static final String DOCUMENT_NAME = "Document With Anchors";
@@ -26,24 +22,16 @@ public class TextAnchorExtractionExample extends SDKSample {
     public static final int FIELD_HEIGHT = 40;
 
     public static void main( String... args ) {
-        new TextAnchorExtractionExample( Props.get() ).run();
+        new TextAnchorExtractionExample().run();
     }
 
-    public TextAnchorExtractionExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public TextAnchorExtractionExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
+    public TextAnchorExtractionExample() {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-for-anchor-extraction.pdf" );
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "TextAnchorExtractionExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner(newSignerWithEmail(email1)
                         .withRoleId( "Signer1" )
                         .withFirstName( "John" )

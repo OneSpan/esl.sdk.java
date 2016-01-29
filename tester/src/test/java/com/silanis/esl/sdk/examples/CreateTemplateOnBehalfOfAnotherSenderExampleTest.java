@@ -17,7 +17,7 @@ public class CreateTemplateOnBehalfOfAnotherSenderExampleTest {
 
     @Test
     public void verifyResult() {
-        example = new CreateTemplateOnBehalfOfAnotherSenderExample(Props.get());
+        example = new CreateTemplateOnBehalfOfAnotherSenderExample();
         example.run();
 
         // Verify the template has the correct sender

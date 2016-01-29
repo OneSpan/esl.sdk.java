@@ -1,12 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -19,10 +17,6 @@ import static org.joda.time.DateMidnight.now;
  */
 public class BasicPackageCreationExample extends SDKSample {
 
-    public final String email1;
-    public final String email2;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
     public final String group1 = "group1";
     public final String group2 = "group2";
 
@@ -43,25 +37,13 @@ public class BasicPackageCreationExample extends SDKSample {
     public static final String DOCUMENT2_NAME = "Second Document";
 
     public static void main( String... args ) {
-        new BasicPackageCreationExample(Props.get()).run();
-    }
-
-    public BasicPackageCreationExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ) );
-    }
-
-    public BasicPackageCreationExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = "CapitalLetters@email.com";
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new BasicPackageCreationExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("BasicPackageCreationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        email2 = "CapitalLetters@email.com";
+
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs(PACKAGE_DESC)
                 .expiresAt(PACKAGE_EXPIRY)
                 .withEmailMessage(PACKAGE_EMAIL_MSG)

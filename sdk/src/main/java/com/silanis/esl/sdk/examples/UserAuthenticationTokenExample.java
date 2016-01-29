@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AuthenticationClient;
-import java.util.Properties;
 
 /**
  * A simple example that explains how to create an authentication token for the api key user
@@ -12,22 +11,13 @@ import java.util.Properties;
 public class UserAuthenticationTokenExample extends SDKSample {
 
     public static void main( String... args ) {
-        new UserAuthenticationTokenExample( Props.get() ).run();
+        new UserAuthenticationTokenExample().run();
     }
-
 
     private AuthenticationClient authenticationClient;
     public String sessionIdForUser;
 
-    public UserAuthenticationTokenExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "webpage.url" )
-        );
-    }
-
-    public UserAuthenticationTokenExample(String apiKey, String apiUrl, String webpageUrl) {
-        super( apiKey, apiUrl);
+    public UserAuthenticationTokenExample() {
         authenticationClient = new AuthenticationClient(webpageUrl);
     }
 

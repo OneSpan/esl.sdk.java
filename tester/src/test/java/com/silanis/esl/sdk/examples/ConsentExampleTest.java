@@ -22,7 +22,7 @@ public class ConsentExampleTest {
 
     @Test
     public void verifyResult() {
-        ConsentExample example = new ConsentExample( Props.get() );
+        ConsentExample example = new ConsentExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

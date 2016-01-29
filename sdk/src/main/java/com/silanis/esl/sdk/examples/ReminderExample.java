@@ -5,41 +5,22 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.ReminderSchedule;
 import com.silanis.esl.sdk.builder.ReminderScheduleBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class ReminderExample extends SDKSample {
-    private String email1;
-    private InputStream documentInputStream1;
 
     public ReminderSchedule reminderScheduleToCreate, reminderScheduleToUpdate;
     public ReminderSchedule createdReminderSchedule, updatedReminderSchedule, removedReminderSchedule;
 
     public static void main( String... args ) {
-        new ReminderExample( Props.get() ).run();
-    }
-
-    public ReminderExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ) );
-    }
-
-    public ReminderExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new ReminderExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "ReminderExample Package " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner( newSignerWithEmail( email1 )
                                      .withFirstName( "Patty" )
                                      .withLastName( "Galant" ) )

@@ -8,13 +8,12 @@ import com.silanis.esl.sdk.builder.DelegationUserBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by schoi on 3/23/15.
  */
 public class DelegationExample extends SDKSample {
-    public String ownerEmail, email1, email2, email3, email4, email5, email6, email7, email8, email9;
+    public String email7, email8, email9;
 
     public Sender retrievedOwner, retrievedSender1, retrievedSender2, retrievedSender3,
             retrievedSender4, retrievedSender5, retrievedSender6, retrievedSender7, retrievedSender8, retrievedSender9;
@@ -24,18 +23,10 @@ public class DelegationExample extends SDKSample {
             ,delegationUserListAfterClearing;
 
     public static void main( String... args ) {
-        new DelegationExample(Props.get()).run();
+        new DelegationExample().run();
     }
 
-    public DelegationExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "sender.email" ));
-    }
-
-    public DelegationExample( String apiKey, String apiUrl, String ownerEmail ) {
-        super( apiKey, apiUrl );
-        this.ownerEmail = ownerEmail;
+    public DelegationExample() {
         this.email1 = getRandomEmail();
         this.email2 = getRandomEmail();
         this.email3 = getRandomEmail();
@@ -48,7 +39,7 @@ public class DelegationExample extends SDKSample {
     }
 
     public void execute() {
-        AccountMember ownerMember = getAccountMember(ownerEmail, "firstName", "lastName", "company", "title", "language", "phoneNumber");
+        AccountMember ownerMember = getAccountMember(senderEmail, "firstName", "lastName", "company", "title", "language", "phoneNumber");
         AccountMember accountMember1 = getAccountMember(email1, "firstName1", "lastName", "company1", "title1", "language1", "phoneNumber1");
         AccountMember accountMember2 = getAccountMember(email2, "firstName2", "lastName2", "company2", "title2", "language2", "phoneNumber2");
         AccountMember accountMember3 = getAccountMember(email3, "firstName3", "lastName3", "company3", "title3", "language3", "phoneNumber3");

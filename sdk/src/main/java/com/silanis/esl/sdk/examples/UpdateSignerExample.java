@@ -6,11 +6,6 @@ import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -21,8 +16,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 6/23/15.
  */
 public class UpdateSignerExample extends SDKSample {
-    public String email1, email2, email3, sms1;
-    private InputStream documentInputStream1;
 
     public DocumentPackage updatedPackage;
 
@@ -42,26 +35,7 @@ public class UpdateSignerExample extends SDKSample {
     public static final String SIGNER3_SECOND_ANSWER= "blue";
 
     public static void main( String... args ) {
-        new UpdateSignerExample(Props.get()).run();
-    }
-
-    public UpdateSignerExample(Properties props) {
-        this(props.getProperty("api.key"),
-             props.getProperty("api.url"),
-             props.getProperty("1.email"),
-             props.getProperty("2.email"),
-             props.getProperty("3.email"),
-             props.getProperty("1.sms"));
-    }
-
-    public UpdateSignerExample(String apiKey, String apiUrl, String email1, String email2, String email3, String sms1) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        this.email3 = email3;
-        this.sms1 = sms1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new UpdateSignerExample().run();
     }
 
     public void execute() {
@@ -90,7 +64,7 @@ public class UpdateSignerExample extends SDKSample {
                 .withSmsSentTo(sms1)
                 .withCustomId(SIGNER2_CUSTOM_ID).build();
 
-        DocumentPackage superDuperPackage = newPackageNamed("UpdateSignerExample" + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
             .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
             .withSigner(signer1)
             .withSigner(signer2)

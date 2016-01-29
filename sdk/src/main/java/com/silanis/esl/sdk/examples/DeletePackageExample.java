@@ -4,11 +4,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -20,25 +15,12 @@ import static org.joda.time.DateMidnight.now;
  */
 public class DeletePackageExample extends SDKSample {
 
-    private String email1;
-    private InputStream documentInputStream;
-
     public static void main( String... args ) {
-        new DeletePackageExample( Props.get() ).run();
-    }
-
-    public DeletePackageExample( Properties props ) {
-        this(props.getProperty( "api.key" ), props.getProperty( "api.url" ), props.getProperty( "1.email" ));
-    }
-
-    public DeletePackageExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new DeletePackageExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "DeletePackageExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs( "This  is a package created using the e-SignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
@@ -48,7 +30,7 @@ public class DeletePackageExample extends SDKSample {
                         .withTitle( "Managing Director" )
                         .withCompany( "Acme Inc." ) )
                 .withDocument( newDocumentWithName( "First Document" )
-                        .fromStream( documentInputStream, DocumentType.PDF )
+                        .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature( signatureFor( email1 )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 )

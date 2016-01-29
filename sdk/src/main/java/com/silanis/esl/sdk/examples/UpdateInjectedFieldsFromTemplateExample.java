@@ -1,14 +1,18 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.builder.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.builder.DocumentBuilder;
+import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -17,13 +21,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 2/27/15.
  */
 public class UpdateInjectedFieldsFromTemplateExample extends SDKSample {
-    private String email1;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
-    public static final String PACKAGE_NAME = "UpdateInjectedFieldsFromTemplateExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String PACKAGE_DESCRIPTION = "This is a package created using the e-SignLive SDK";
     public static final String PACKAGE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String PACKAGE_EMAIL_MESSAGE2 = "Changed the email message";
@@ -36,18 +36,10 @@ public class UpdateInjectedFieldsFromTemplateExample extends SDKSample {
     public static final String SIGNER1_COMPANY = "Acme Inc.";
 
     public static void main( String... args ) {
-        new UpdateInjectedFieldsFromTemplateExample(Props.get()).run();
+        new UpdateInjectedFieldsFromTemplateExample().run();
     }
 
-    public UpdateInjectedFieldsFromTemplateExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ));
-    }
-
-    public UpdateInjectedFieldsFromTemplateExample(String apiKey, String apiUrl, String email1) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
+    public UpdateInjectedFieldsFromTemplateExample() {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
     }
@@ -67,7 +59,7 @@ public class UpdateInjectedFieldsFromTemplateExample extends SDKSample {
 
         template.setId(eslClient.getTemplateService().createTemplate(template));
 
-        DocumentPackage newPackage = PackageBuilder.newPackageNamed(PACKAGE_NAME)
+        DocumentPackage newPackage = PackageBuilder.newPackageNamed(getPackageName())
            .describedAs(PACKAGE_DESCRIPTION)
            .withEmailMessage(PACKAGE_EMAIL_MESSAGE2)
            .withSigner(newSignerWithEmail(email1)

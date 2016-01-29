@@ -16,7 +16,7 @@ public class ChangeSignerExampleTest {
 
     @Test
     public void verifyResult() {
-        ChangeSignerExample example = new ChangeSignerExample( Props.get() );
+        ChangeSignerExample example = new ChangeSignerExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

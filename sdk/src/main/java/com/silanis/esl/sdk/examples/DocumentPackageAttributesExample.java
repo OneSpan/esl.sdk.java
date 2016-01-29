@@ -11,11 +11,6 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.SessionToken;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder.newDocumentPackageAttributes;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -27,9 +22,6 @@ import static org.joda.time.DateMidnight.now;
  * Package with custom attributes
  */
 public class DocumentPackageAttributesExample extends SDKSample{
-    private String email1;
-    private InputStream documentInputStream1;
-
     public static final String DYNAMICS_2015 = "dynamics2015";
     public static final String ATTRIBUTE_KEY_1 = "Key 1";
     public static final String ATTRIBUTE_KEY_2 = "Key 2";
@@ -39,23 +31,11 @@ public class DocumentPackageAttributesExample extends SDKSample{
     public static final String ATTRIBUTE_3 = "Attribute 3";
 
     public static void main( String... args ) {
-        new DocumentPackageAttributesExample(Props.get()).run();
-    }
-
-    public DocumentPackageAttributesExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ));
-    }
-
-    public DocumentPackageAttributesExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new DocumentPackageAttributesExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("DocumentPackageAttributesExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")

@@ -2,12 +2,6 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
-
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
@@ -21,31 +15,12 @@ import static org.joda.time.DateMidnight.now;
  */
 public class InPersonExample extends SDKSample {
 
-    private String email1;
-    private String email2;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
-
     public static void main( String... args ) {
-        new InPersonExample( Props.get() ).run();
+        new InPersonExample().run();
     }
 
-    public InPersonExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ),
-                properties.getProperty( "2.email" ) );
-    }
-
-    public InPersonExample( String apiKey, String apiUrl, String email1, String email2 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-    }
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "InPersonExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs( "This is a package created using the e-SignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )

@@ -21,7 +21,7 @@ public class HistoryDocumentExampleTest {
     @Test
     public void verifyResult() {
 
-        HistoryDocumentExample example = new HistoryDocumentExample(Props.get());
+        HistoryDocumentExample example = new HistoryDocumentExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

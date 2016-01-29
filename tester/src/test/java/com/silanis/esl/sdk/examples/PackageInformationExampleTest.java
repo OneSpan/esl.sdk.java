@@ -14,7 +14,7 @@ public class PackageInformationExampleTest {
     
     @Test
     public void verifyResult() {
-        PackageInformationExample example = new PackageInformationExample(Props.get());
+        PackageInformationExample example = new PackageInformationExample();
         example.run();
 
         assertThat("Support configuration was not set correctly. ", example.supportConfiguration, notNullValue());

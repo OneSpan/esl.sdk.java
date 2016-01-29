@@ -4,19 +4,18 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SenderStatus;
-import com.silanis.esl.sdk.builder.*;
+import com.silanis.esl.sdk.builder.AccountMemberBuilder;
+import com.silanis.esl.sdk.builder.DocumentBuilder;
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SenderInfoBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 public class CreateTemplateOnBehalfOfAnotherSenderExample extends SDKSample {
 
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
-    public String senderEmail;
-    public String email1;
     public PackageId templateId;
 
     public static final String SENDER_FIRST_NAME = "Rob";
@@ -25,25 +24,13 @@ public class CreateTemplateOnBehalfOfAnotherSenderExample extends SDKSample {
     public static final String SENDER_COMPANY = "The Masons";
 
     public static void main(String... args) {
-        new CreateTemplateOnBehalfOfAnotherSenderExample(Props.get()).run();
-    }
-
-    public CreateTemplateOnBehalfOfAnotherSenderExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"));
-    }
-
-    public CreateTemplateOnBehalfOfAnotherSenderExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        this.senderEmail = getRandomEmail();
+        new CreateTemplateOnBehalfOfAnotherSenderExample().run();
     }
 
     @Override
     public void execute() {
+        senderEmail = getRandomEmail();
+
         // Invite the sender to account
         eslClient.getAccountService().inviteUser(
                 AccountMemberBuilder.newAccountMember(senderEmail)
@@ -57,7 +44,7 @@ public class CreateTemplateOnBehalfOfAnotherSenderExample extends SDKSample {
         );
 
         // Create the template specifying the sender
-        DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed("CreateTemplateOnBehalfOfAnotherSenderExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSenderInfo(SenderInfoBuilder.newSenderInfo(senderEmail)

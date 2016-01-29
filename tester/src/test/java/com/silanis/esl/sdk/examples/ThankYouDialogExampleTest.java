@@ -13,7 +13,7 @@ public class ThankYouDialogExampleTest {
 
     @Test
     public void verifyResult() {
-        ThankYouDialogExample example = new ThankYouDialogExample(Props.get());
+        ThankYouDialogExample example = new ThankYouDialogExample();
         example.run();
 
         assertThat("Thank you Dialog was not set correctly. ", example.thankYouDialogContent, not(isEmptyOrNullString()));

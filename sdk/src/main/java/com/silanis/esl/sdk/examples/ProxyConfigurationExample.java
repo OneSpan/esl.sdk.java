@@ -1,10 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.EslClient;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.ProxyConfiguration;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.ProxyAuthenticator;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -33,11 +36,12 @@ public class ProxyConfigurationExample extends SDKSample{
     private boolean allowAllSSLCertificates = false;
 
     private EslClient eslClientWithHttpProxy, eslClientWithHttpProxyHasCredentials;
-    private InputStream documentInputStream1, documentInputStream2;
     private ProxyConfiguration httpProxyConfiguration, httpProxyWithCredentialsConfiguration;
     public DocumentPackage retrievedPackage1, retrievedPackage2;
 
-    private String email1;
+    public static void main( String... args ) {
+        new ProxyConfigurationExample(Props.get()).run();
+    }
 
     public ProxyConfigurationExample(Properties props) {
         this(props.getProperty("api.key"),
@@ -46,9 +50,6 @@ public class ProxyConfigurationExample extends SDKSample{
 
     public ProxyConfigurationExample( String apiKey, String apiUrl) {
         super( apiKey, apiUrl );
-        email1 = getRandomEmail();
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
 
         httpProxyConfiguration = newProxyConfiguration()
                                     .withHttpHost(httpProxyURL)
@@ -68,7 +69,7 @@ public class ProxyConfigurationExample extends SDKSample{
     public void execute() {
         HttpProxyServer httpProxyServer = bootstrap().withPort(httpProxyPort).start();
 
-        DocumentPackage package1 = newPackageNamed("ProxyConfigurationExample1 " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage package1 = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")

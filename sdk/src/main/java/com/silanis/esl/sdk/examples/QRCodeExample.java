@@ -1,14 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -17,33 +16,19 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class QRCodeExample extends SDKSample {
 
-    private InputStream documentInputStream1;
     public final String DOCUMENT_NAME = "First Document";
     public final String DOCUMENT_ID = "documentId";
-    public final String email1;
     public Field addedQRCode1, addedQRCode2;
     public FieldId qrCodeId1 = new FieldId("QRCode_Id1");
     public FieldId qrCodeId2;
     public List<Field> modifiedQRCodeList, deletedQRCodeList, updatedQRCodeList;
 
     public static void main(String... args) {
-        new QRCodeExample(Props.get()).run();
-    }
-
-    public QRCodeExample(Properties props) {
-        this(props.getProperty("api.key"),
-                props.getProperty("api.url"),
-                props.getProperty("1.email"));
-    }
-
-    public QRCodeExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new QRCodeExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("QRCodeExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)

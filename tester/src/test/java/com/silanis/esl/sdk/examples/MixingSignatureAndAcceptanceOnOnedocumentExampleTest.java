@@ -20,7 +20,7 @@ public class MixingSignatureAndAcceptanceOnOnedocumentExampleTest {
 
     @Test (expected = com.silanis.esl.sdk.EslException.class)
     public void verifyResult() {
-        MixingSignatureAndAcceptanceOnOnedocumentExample example = new MixingSignatureAndAcceptanceOnOnedocumentExample( Props.get() );
+        MixingSignatureAndAcceptanceOnOnedocumentExample example = new MixingSignatureAndAcceptanceOnOnedocumentExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

@@ -6,10 +6,6 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -22,29 +18,16 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 public class PackageViewRedirectForPackageSenderExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(PackageViewRedirectForPackageSenderExample.class.getName());
-    public static final String PACKAGE_NAME = "PackageViewRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() );
 
     public static void main( String... args ) {
-        new PackageViewRedirectForPackageSenderExample( Props.get() ).run();
+        new PackageViewRedirectForPackageSenderExample().run();
     }
     public String generatedLinkToPackageViewForSender;
 
     private AuthenticationClient authenticationClient;
-    private String senderEmail;
-    private InputStream documentInputStream;
 
-    public PackageViewRedirectForPackageSenderExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "webpage.url" ),
-              props.getProperty( "sender.email" ));
-    }
-
-    public PackageViewRedirectForPackageSenderExample( String apiKey, String apiUrl, String webpageUrl, String senderEmail ) {
-        super( apiKey, apiUrl );
+    public PackageViewRedirectForPackageSenderExample() {
         authenticationClient = new AuthenticationClient(webpageUrl);
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.senderEmail = senderEmail;
     }
 
     @Override
@@ -59,13 +42,13 @@ public class PackageViewRedirectForPackageSenderExample extends SDKSample {
                                     .withPhoneNumber("phoneNumber")
                                     .build() );
 
-        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSenderInfo(SenderInfoBuilder.newSenderInfo(senderEmail)
                                                  .withName("firstName", "lastName")
                                                  .withTitle("title")
                                                  .withCompany("company"))
                 .withDocument(newDocumentWithName("First Document")
-                                      .fromStream(documentInputStream, DocumentType.PDF)
+                                      .fromStream(documentInputStream1, DocumentType.PDF)
                                       .withSignature(signatureFor(senderEmail)
                                                              .onPage(0)
                                                              .atPosition(100, 100))

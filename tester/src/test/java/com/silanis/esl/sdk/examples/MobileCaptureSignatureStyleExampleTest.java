@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class MobileCaptureSignatureStyleExampleTest {
     @Test
     public void verifyResult() {
-        MobileCaptureSignatureStyleExample example = new MobileCaptureSignatureStyleExample(Props.get());
+        MobileCaptureSignatureStyleExample example = new MobileCaptureSignatureStyleExample();
         example.run();
 
         for (Signature signature : example.retrievedPackage.getDocument(DOCUMENT_NAME).getSignatures()) {

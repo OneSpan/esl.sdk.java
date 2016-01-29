@@ -16,7 +16,7 @@ public class UpdateTemplateWithPlaceholderExampleTest {
     @Test
     public void verifyResult() {
 
-        UpdateTemplateWithPlaceholderExample example = new UpdateTemplateWithPlaceholderExample( Props.get() );
+        UpdateTemplateWithPlaceholderExample example = new UpdateTemplateWithPlaceholderExample();
         example.run();
 
         assertThat("Template is not created correctly.", example.retrievedTemplate.getName(), is(TEMPLATE_NAME));

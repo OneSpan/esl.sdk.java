@@ -3,11 +3,6 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -18,34 +13,17 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerOrderingExample extends SDKSample {
 
-    public final String email1;
     public static final int SIGNING_ORDER_FOR_EMAIL1 = 2;
-    public final String email2;
     public static final int SIGNING_ORDER_FOR_EMAIL2 = 1;
-    private InputStream documentInputStream1;
     public DocumentPackage initialOrder, afterReorder;
 
     public static void main( String... args ) {
-        new SignerOrderingExample( Props.get() ).run();
-    }
-
-    public SignerOrderingExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ),
-                properties.getProperty( "2.email" ) );
-    }
-
-    public SignerOrderingExample( String apiKey, String apiUrl, String email1, String email2 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new SignerOrderingExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "SignerOrderingExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" )

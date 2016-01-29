@@ -31,7 +31,7 @@ public class DocumentExtractionExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentExtractionExample example = new DocumentExtractionExample( Props.get() );
+        DocumentExtractionExample example = new DocumentExtractionExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

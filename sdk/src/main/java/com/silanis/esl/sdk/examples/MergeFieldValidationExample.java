@@ -6,11 +6,6 @@ import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.radioButton;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -23,28 +18,13 @@ import static org.joda.time.DateTime.now;
  */
 public class MergeFieldValidationExample extends SDKSample {
 
-    public final String email1;
-    private InputStream documentInputStream;
-
     public static void main(String... args) {
-        new MergeFieldValidationExample(Props.get()).run();
-    }
-
-    public MergeFieldValidationExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"),
-             properties.getProperty("1.email"));
-    }
-
-    public MergeFieldValidationExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new MergeFieldValidationExample().run();
     }
 
     @Override
     void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("MergeFieldValidationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
             .describedAs("This is a package created using the e-SignLive SDK")
             .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
             .expiresAt(now().plusMonths(1).toDate())
@@ -54,7 +34,7 @@ public class MergeFieldValidationExample extends SDKSample {
                 .withFirstName("firstName1")
                 .withLastName("lastName1"))
             .withDocument(newDocumentWithName("First Document")
-                .fromStream(documentInputStream, DocumentType.PDF)
+                .fromStream(documentInputStream1, DocumentType.PDF)
                 .withSignature(captureFor(email1)
                     .withName("Signature1")
                     .withSize(100, 22)

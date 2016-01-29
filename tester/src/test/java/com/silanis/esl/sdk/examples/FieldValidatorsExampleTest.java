@@ -19,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class FieldValidatorsExampleTest {
     @Test
     public void verifyResult() {
-        FieldValidatorsExample example = new FieldValidatorsExample(Props.get());
+        FieldValidatorsExample example = new FieldValidatorsExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

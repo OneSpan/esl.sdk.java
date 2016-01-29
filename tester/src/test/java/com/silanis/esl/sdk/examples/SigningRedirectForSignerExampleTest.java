@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SigningRedirectForSignerExampleTest {
     @Test
     public void verifyResult() {
-        SigningRedirectForSignerExample example = new SigningRedirectForSignerExample( Props.get() );
+        SigningRedirectForSignerExample example = new SigningRedirectForSignerExample();
         example.run();
 
         assertThat(example.generatedLinkToSigningForSigner, notNullValue());

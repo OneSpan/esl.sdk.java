@@ -6,9 +6,9 @@ import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureId;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -23,10 +23,6 @@ public class SignatureManipulationExample extends SDKSample {
 
     public static final String DOCUMENT_NAME = "SignatureManipulationExample";
 
-    public final String email1;
-    public final String email2;
-    public final String email3;
-
     public final String documentId = "documentId";
     private final SignatureId signatureId1 = new SignatureId("signatureId1");
     private final SignatureId signatureId2 = new SignatureId("signatureId2");
@@ -39,8 +35,6 @@ public class SignatureManipulationExample extends SDKSample {
     public Signature updatedSignature1;
     public Signature updatedSignature2;
 
-    private InputStream documentInputStream;
-
     public Collection<Signature> addedSignatures;
     public Collection<Signature> deletedSignatures;
     public Collection<Signature> modifiedSignatures;
@@ -49,28 +43,12 @@ public class SignatureManipulationExample extends SDKSample {
     public DocumentPackage createdPackage;
 
     public static void main( String... args ) {
-        new SignatureManipulationExample(Props.get()).run();
-    }
-
-    public SignatureManipulationExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"),
-                properties.getProperty("2.email"),
-                properties.getProperty("3.email"));
-    }
-
-    public SignatureManipulationExample(String apiKey, String apiUrl, String email1, String email2, String email3) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new SignatureManipulationExample().run();
     }
 
     @Override
     void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("SignatureManipulationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
@@ -87,7 +65,7 @@ public class SignatureManipulationExample extends SDKSample {
                         .withFirstName("firstName3")
                         .withLastName("lastName3"))
                 .withDocument(newDocumentWithName(DOCUMENT_NAME)
-                                .fromStream(documentInputStream, DocumentType.PDF)
+                                .fromStream(documentInputStream1, DocumentType.PDF)
                                 .withId(documentId)
                 )
                 .build();

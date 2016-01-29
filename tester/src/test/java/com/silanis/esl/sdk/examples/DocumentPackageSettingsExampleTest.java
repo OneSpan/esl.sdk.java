@@ -22,7 +22,7 @@ public class DocumentPackageSettingsExampleTest {
     @Test
     public void verifyResult() {
 
-        DocumentPackageSettingsExample example = new DocumentPackageSettingsExample(Props.get());
+        DocumentPackageSettingsExample example = new DocumentPackageSettingsExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

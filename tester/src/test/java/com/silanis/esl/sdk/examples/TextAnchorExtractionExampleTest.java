@@ -17,7 +17,7 @@ public class TextAnchorExtractionExampleTest {
 
     @Test
     public void verifyResult() {
-        TextAnchorExtractionExample example = new TextAnchorExtractionExample( Props.get() );
+        TextAnchorExtractionExample example = new TextAnchorExtractionExample();
         example.run();
 
         Document document = example.retrievedPackage.getDocument( DOCUMENT_NAME );

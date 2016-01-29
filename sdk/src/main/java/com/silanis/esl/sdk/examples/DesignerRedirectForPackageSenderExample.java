@@ -5,10 +5,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
+
 import java.util.logging.Logger;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -23,30 +20,16 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 public class DesignerRedirectForPackageSenderExample extends SDKSample {
 
     private static final Logger logger = Logger.getLogger(DesignerRedirectForPackageSenderExample.class.getName());
-    public static final String PACKAGE_NAME = "DesignerRedirectForPackageSenderExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() );
 
     public static void main( String... args ) {
-        new DesignerRedirectForPackageSenderExample( Props.get() ).run();
+        new DesignerRedirectForPackageSenderExample().run();
     }
 
     private AuthenticationClient authenticationClient;
-    private String packageSender;
-    private InputStream documentInputStream;
-
     public String generatedLinkToDesignerForSender;
 
-    public DesignerRedirectForPackageSenderExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "webpage.url" ),
-              props.getProperty( "sender.email" ));
-    }
-
-    public DesignerRedirectForPackageSenderExample( String apiKey, String apiUrl, String webpageUrl, String packageSender ) {
-        super( apiKey, apiUrl );
+    public DesignerRedirectForPackageSenderExample() {
         authenticationClient = new AuthenticationClient(webpageUrl);
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.packageSender = packageSender;
     }
 
     @Override
@@ -58,7 +41,7 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
         */
 
         eslClient.getAccountService().inviteUser(
-                AccountMemberBuilder.newAccountMember(packageSender)
+                AccountMemberBuilder.newAccountMember(senderEmail)
                         .withFirstName("firstName")
                         .withLastName("lastName")
                         .withCompany("company")
@@ -67,14 +50,14 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
                         .withPhoneNumber("phoneNumber")
                         .build() );
 
-        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
-                .withSenderInfo(SenderInfoBuilder.newSenderInfo(packageSender)
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
+                .withSenderInfo(SenderInfoBuilder.newSenderInfo(senderEmail)
                                                  .withName("firstName", "lastName")
                                                  .withTitle("title")
                                                  .withCompany("company"))
                 .withDocument(newDocumentWithName("First Document")
-                                      .fromStream(documentInputStream, DocumentType.PDF)
-                                      .withSignature(signatureFor(packageSender)
+                                      .fromStream(documentInputStream1, DocumentType.PDF)
+                                      .withSignature(signatureFor(senderEmail)
                                                              .onPage(0)
                                                              .atPosition(100, 100))
                 )

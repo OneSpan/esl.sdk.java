@@ -4,10 +4,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import org.joda.time.DateTime;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -20,12 +17,7 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder.
  */
 public class SignerInformationForEquifaxUSAExample extends SDKSample {
 
-    private InputStream documentInputStream;
-
-    private final String PACKAGE_NAME = "SignerInformationForEquifaxUSAExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private final String PACKAGE_DESCRIPTION = "This is a SignerInformation for EquifaxUSA example";
-
-    public final String email;
 
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Smith";
@@ -41,25 +33,13 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
-        new SignerInformationForEquifaxUSAExample(Props.get()).run();
-    }
-
-    public SignerInformationForEquifaxUSAExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ) );
-    }
-
-    public SignerInformationForEquifaxUSAExample(String apiKey, String apiUrl, String email) {
-        super( apiKey, apiUrl );
-        this.email = email;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new SignerInformationForEquifaxUSAExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs(PACKAGE_DESCRIPTION)
-                .withSigner(newSignerWithEmail(email)
+                .withSigner(newSignerWithEmail(email1)
                         .withFirstName(FIRST_NAME)
                         .withLastName(LAST_NAME)
                         .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
@@ -75,8 +55,8 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
                                 .withDriversLicenseNumber(DRIVERS_LICENSE_NUMBER)
                                 .withTimeAtAddress(TIME_AT_ADDRESS)))
                 .withDocument(newDocumentWithName(FIRST_DOCUMENT_NAME)
-                        .fromStream(documentInputStream, DocumentType.PDF)
-                        .withSignature(signatureFor(email).build()))
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(signatureFor(email1).build()))
                 .build();
 
         packageId = eslClient.createAndSendPackage(superDuperPackage);

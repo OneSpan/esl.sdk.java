@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GenericFieldsExampleTest {
     @Test
     public void verifyResult() {
-        GenericFieldsExample example = new GenericFieldsExample(Props.get());
+        GenericFieldsExample example = new GenericFieldsExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

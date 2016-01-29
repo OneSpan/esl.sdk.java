@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.hasSize;
 public class NotaryJournalExampleTest {
     @Test
     public void verifyResult() throws IOException {
-        NotaryJournalExample example = new NotaryJournalExample(Props.get());
+        NotaryJournalExample example = new NotaryJournalExample();
         example.run();
 
         assertThat("Cannot get the completion report.", example.sdkJournalEntries, notNullValue());

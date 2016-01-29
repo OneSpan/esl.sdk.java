@@ -1,14 +1,16 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
@@ -17,8 +19,6 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
  */
 public class TemplateExample extends SDKSample {
 
-    public String email1, email2;
-    private InputStream documentInputStream1;
     private DocumentPackage retrievedTemplate;
 
     public PackageId templateId;
@@ -35,8 +35,6 @@ public class TemplateExample extends SDKSample {
     public static final String TEMPLATE_SIGNER2_LAST = "Galant";
     public static final String PLACEHOLDER_ID = "PlaceholderId1";
 
-    public static final String PACKAGE_NAME = "Package From Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-
     public static final String UPDATED_TEMPLATE_NAME = "Modified Template Name : " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String UPDATED_TEMPLATE_DESCRIPTION = "Modified Template description";
 
@@ -45,26 +43,11 @@ public class TemplateExample extends SDKSample {
     }
 
     public static void main(String... args) {
-        new TemplateExample(Props.get()).run();
-    }
-
-    public TemplateExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"),
-                properties.getProperty("2.email"));
-    }
-
-    public TemplateExample(String apiKey, String apiUrl, String email1, String email2) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
+        new TemplateExample().run();
     }
 
     @Override
     public void execute() {
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-
         Document document = DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
                 .withId(DOCUMENT_ID)
                 .fromStream(documentInputStream1, DocumentType.PDF)
@@ -96,6 +79,6 @@ public class TemplateExample extends SDKSample {
 
         retrievedTemplate = eslClient.getPackage(templateId);
 
-        instantiatedTemplateId = eslClient.createPackageFromTemplate(templateId, newPackageNamed(PACKAGE_NAME).build());
+        instantiatedTemplateId = eslClient.createPackageFromTemplate(templateId, newPackageNamed(getPackageName()).build());
     }
 }

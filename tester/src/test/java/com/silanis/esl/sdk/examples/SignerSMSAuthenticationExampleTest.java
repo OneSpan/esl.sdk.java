@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerSMSAuthenticationExampleTest {
     @Test
     public void verifyResult() {
-        SignerSMSAuthenticationExample example = new SignerSMSAuthenticationExample(Props.get());
+        SignerSMSAuthenticationExample example = new SignerSMSAuthenticationExample();
         example.run();
         DocumentPackage documentPackage = example.getRetrievedPackage();
 

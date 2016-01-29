@@ -20,7 +20,7 @@ public class AuthenticationMethodsExampleTest {
 
     @Test
     public void verifyResult() {
-        AuthenticationMethodsExample example = new AuthenticationMethodsExample( Props.get() );
+        AuthenticationMethodsExample example = new AuthenticationMethodsExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

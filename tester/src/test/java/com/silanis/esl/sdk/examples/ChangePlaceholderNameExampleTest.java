@@ -14,7 +14,7 @@ public class ChangePlaceholderNameExampleTest {
 
     @Test
     public void verifyResult() {
-        ChangePlaceholderNameExample example = new ChangePlaceholderNameExample(Props.get());
+        ChangePlaceholderNameExample example = new ChangePlaceholderNameExample();
         example.run();
 
         assertThat("Package Status is not set correctly.", example.retrievedPackage.getPlaceholder(PLACEHOLDER_ID), notNullValue());

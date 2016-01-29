@@ -4,12 +4,12 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.builder.*;
+import com.silanis.esl.sdk.builder.DocumentBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -18,10 +18,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 8/17/15.
  */
 public class ChangePlaceholderNameExample extends SDKSample {
-
-    private InputStream documentInputStream1;
-
-    public String email1;
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
@@ -36,19 +32,7 @@ public class ChangePlaceholderNameExample extends SDKSample {
     public DocumentPackage updatedTemplate;
 
     public static void main(String... args) {
-        new ChangePlaceholderNameExample(Props.get()).run();
-    }
-
-    public ChangePlaceholderNameExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"),
-             properties.getProperty("1.email"));
-    }
-
-    public ChangePlaceholderNameExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new ChangePlaceholderNameExample().run();
     }
 
     @Override

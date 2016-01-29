@@ -12,7 +12,7 @@ public class ProxyConfigurationExampleTest {
 
     @Test
     public void verifyResult() throws Exception {
-        ProxyConfigurationExample example = new ProxyConfigurationExample( Props.get() );
+        ProxyConfigurationExample example = new ProxyConfigurationExample(Props.get());
         example.run();
 
         assertThat(example.retrievedPackage1, notNullValue());

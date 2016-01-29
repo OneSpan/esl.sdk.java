@@ -7,7 +7,6 @@ import com.silanis.esl.sdk.PageRequest;
 import org.joda.time.DateTime;
 
 import java.util.Date;
-import java.util.Properties;
 
 /**
  * Created by mina on 29/12/14.
@@ -24,16 +23,7 @@ public class GetCompletedPackagesWithinDateRangeExample extends SDKSample {
     public Page<DocumentPackage> completedPackages;
 
     public static void main( String... args ) {
-        new GetCompletedPackagesWithinDateRangeExample( Props.get() ).run();
-    }
-
-    public GetCompletedPackagesWithinDateRangeExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-              properties.getProperty( "api.url" ) );
-    }
-
-    public GetCompletedPackagesWithinDateRangeExample( String apiKey, String apiUrl ) {
-        super( apiKey, apiUrl );
+        new GetCompletedPackagesWithinDateRangeExample().run();
     }
 
     @Override

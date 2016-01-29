@@ -14,7 +14,7 @@ import static org.hamcrest.core.Is.is;
 public class UpdatePackageExampleTest {
     @Test
     public void verifyResult() {
-        UpdatePackageExample example = new UpdatePackageExample( Props.get() );
+        UpdatePackageExample example = new UpdatePackageExample();
         example.run();
 
         assertPackage(example.createdPackage, example.packageToCreate);

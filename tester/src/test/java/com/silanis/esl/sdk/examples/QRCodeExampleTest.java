@@ -18,7 +18,7 @@ public class QRCodeExampleTest {
 
     @Test
     public void verifyResult() {
-        QRCodeExample example = new QRCodeExample(Props.get());
+        QRCodeExample example = new QRCodeExample();
         example.run();
 
         // *** IMPORTANT NOTES ****

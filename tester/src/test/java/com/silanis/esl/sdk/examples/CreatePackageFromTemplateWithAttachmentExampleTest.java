@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CreatePackageFromTemplateWithAttachmentExampleTest {
     @Test
     public void verifyResult() {
-        CreatePackageFromTemplateWithAttachmentExample example = new CreatePackageFromTemplateWithAttachmentExample(Props.get());
+        CreatePackageFromTemplateWithAttachmentExample example = new CreatePackageFromTemplateWithAttachmentExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

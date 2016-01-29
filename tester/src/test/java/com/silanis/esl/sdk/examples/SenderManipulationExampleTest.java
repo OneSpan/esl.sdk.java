@@ -19,7 +19,7 @@ public class SenderManipulationExampleTest {
 
     @Test
     public void verifyResult() {
-        example = new SenderManipulationExample(Props.get());
+        example = new SenderManipulationExample();
         example.run();
 
         // Invite three senders

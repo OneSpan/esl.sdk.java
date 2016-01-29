@@ -16,11 +16,11 @@ public class SignerInformationForEquifaxUSAExampleTest {
     @Test
     public void verifyResult() {
 
-        SignerInformationForEquifaxUSAExample example = new SignerInformationForEquifaxUSAExample( Props.get() );
+        SignerInformationForEquifaxUSAExample example = new SignerInformationForEquifaxUSAExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();
-        SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = documentPackage.getSigner(example.email).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
+        SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = documentPackage.getSigner(example.email1).getKnowledgeBasedAuthentication().getSignerInformationForEquifaxUSA();
 
         assertThat( "first name in signerInformationForEquifaxUSA was not set correctly.", signerInformationForEquifaxUSA.getFirstName(), is( FIRST_NAME ) );
         assertThat( "last name in signerInformationForEquifaxUSA was not set correctly.",signerInformationForEquifaxUSA.getLastName(), is( LAST_NAME ) );

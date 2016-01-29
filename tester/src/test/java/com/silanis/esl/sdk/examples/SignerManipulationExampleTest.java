@@ -16,7 +16,7 @@ public class SignerManipulationExampleTest {
 
     @Test
     public void verifyResult() {
-        SignerManipulationExample example = new SignerManipulationExample(Props.get());
+        SignerManipulationExample example = new SignerManipulationExample();
         example.run();
         DocumentPackage documentPackage = example.createdPackageWithAddedSigner;
 

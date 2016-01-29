@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerSpecificEmailMessageExampleTest {
     @Test
     public void verifyResult() {
-        SignerSpecificEmailMessageExample example = new SignerSpecificEmailMessageExample(Props.get());
+        SignerSpecificEmailMessageExample example = new SignerSpecificEmailMessageExample();
         example.run();
         DocumentPackage documentPackage = example.getRetrievedPackage();
 

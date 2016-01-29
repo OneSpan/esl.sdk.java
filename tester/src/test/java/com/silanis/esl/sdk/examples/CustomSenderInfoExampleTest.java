@@ -25,7 +25,7 @@ public class CustomSenderInfoExampleTest {
 
     @Test
     public void verifyResult() {
-        example = new CustomSenderInfoExample( Props.get() );
+        example = new CustomSenderInfoExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

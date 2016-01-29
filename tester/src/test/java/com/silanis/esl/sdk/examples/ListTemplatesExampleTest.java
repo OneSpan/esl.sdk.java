@@ -14,7 +14,7 @@ public class ListTemplatesExampleTest {
 
     @Test
     public void verifyResult() {
-        ListTemplatesExample example = new ListTemplatesExample(Props.get());
+        ListTemplatesExample example = new ListTemplatesExample();
         example.run();
 
         Page<DocumentPackage> templateList =  example.getTemplates();

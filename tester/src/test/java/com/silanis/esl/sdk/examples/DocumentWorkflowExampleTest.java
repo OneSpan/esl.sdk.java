@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DocumentWorkflowExampleTest {
     @Test
     public void verifyResult() {
-        DocumentWorkflowExample example = new DocumentWorkflowExample( Props.get() );
+        DocumentWorkflowExample example = new DocumentWorkflowExample();
         example.run();
 
         DocumentPackage documentPackage = example.preOrderDocumentsPackage;

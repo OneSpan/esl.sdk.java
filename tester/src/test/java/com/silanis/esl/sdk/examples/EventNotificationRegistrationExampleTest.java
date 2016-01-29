@@ -17,14 +17,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class EventNotificationRegistrationExampleTest {
 
-    private EventNotificationRegistrationExample example;
-
     /**
      * Tests user can register for callbacks and get callbacks.
      */
     @Test
     public void verifyResult() {
-        example = new EventNotificationRegistrationExample(Props.get());
+        EventNotificationRegistrationExample example = new EventNotificationRegistrationExample();
         example.run();
 
         EventNotificationConfig config = example.config;
@@ -55,7 +53,6 @@ public class EventNotificationRegistrationExampleTest {
                     break;
                 }
             }
-
             assertTrue("Callback has wrong event", found);
         }
     }

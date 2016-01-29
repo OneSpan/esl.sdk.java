@@ -19,7 +19,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerOrderingExampleTest {
     @Test
     public void verifyResult() {
-        SignerOrderingExample example = new SignerOrderingExample( Props.get() );
+        SignerOrderingExample example = new SignerOrderingExample();
         example.run();
 
         // Initial signer order

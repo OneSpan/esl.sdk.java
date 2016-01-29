@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DesignerRedirectForApiKeyExampleTest {
     @Test
     public void verifyResult() {
-        DesignerRedirectForApiKeyExample example = new DesignerRedirectForApiKeyExample( Props.get() );
+        DesignerRedirectForApiKeyExample example = new DesignerRedirectForApiKeyExample();
         example.run();
 
         assertThat(example.generatedLinkToDesignerForApiKey, notNullValue());
@@ -21,5 +21,4 @@ public class DesignerRedirectForApiKeyExampleTest {
         String stringResponse = HttpRequestUtil.getUrlContent(example.generatedLinkToDesignerForApiKey);
         assertThat(stringResponse, containsString("Electronic Disclosures and Signatures Consent"));
     }
-
 }

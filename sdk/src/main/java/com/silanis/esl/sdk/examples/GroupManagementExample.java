@@ -1,13 +1,18 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.builder.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Group;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.GroupMember;
+import com.silanis.esl.sdk.GroupMemberType;
+import com.silanis.esl.sdk.builder.AccountMemberBuilder;
+import com.silanis.esl.sdk.builder.AddressBuilder;
+import com.silanis.esl.sdk.builder.GroupBuilder;
+import com.silanis.esl.sdk.builder.GroupMemberBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -15,12 +20,6 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
 
 public class GroupManagementExample extends SDKSample {
-    public String email1;
-    public String email2;
-    public String email3;
-    public String email4;
-    private InputStream documentInputStream1;
-
     public List<String> groupMemberEmailsAfterUpdate;
 
     public Group createdGroup1;
@@ -32,18 +31,7 @@ public class GroupManagementExample extends SDKSample {
     public Group createdGroup3Updated;
 
     public static void main( String... args ) {
-        new GroupManagementExample( Props.get() ).run();
-    }
-
-    public GroupManagementExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ));
-    }
-
-    public GroupManagementExample( String apiKey, String apiUrl) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new GroupManagementExample().run();
     }
 
     private void displayAccountGroupsAndMembers() {
@@ -155,7 +143,7 @@ public class GroupManagementExample extends SDKSample {
         groupMemberEmailsAfterUpdate = eslClient.getGroupService().getGroupMemberEmails( createdGroup3.getId() );
 
 //        Now let's add a signature for a group member
-        DocumentPackage superDuperPackage = newPackageNamed( "GroupManagementExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner( SignerBuilder.newSignerFromGroup( createdGroup1.getId() )
                         .canChangeSigner()
                         .deliverSignedDocumentsByEmail() )

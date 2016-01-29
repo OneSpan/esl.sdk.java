@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 public class GetGroupSummariesExampleTest {
     @Test
     public void verifyResult() {
-        GetGroupSummariesExample example = new GetGroupSummariesExample(Props.get());
+        GetGroupSummariesExample example = new GetGroupSummariesExample();
         example.run();
 
         assertThat("GroupSummaries is not set correctly.", example.retrievedGroupSummaries, notNullValue());

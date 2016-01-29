@@ -20,7 +20,7 @@ public class DocumentUploadExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentUploadExample example = new DocumentUploadExample( Props.get() );
+        DocumentUploadExample example = new DocumentUploadExample();
         example.run();
 
         DocumentPackage documentPackage = example.getEslClient().getPackage(example.getPackageId());

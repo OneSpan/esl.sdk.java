@@ -21,7 +21,7 @@ public class CreateTemplateFromPackageExampleTest {
 
     @Test
     public void verifyResult() {
-        CreateTemplateFromPackageExample example = new CreateTemplateFromPackageExample(Props.get());
+        CreateTemplateFromPackageExample example = new CreateTemplateFromPackageExample();
         example.run();
 
         DocumentPackage retrievedTemplate = example.eslClient.getPackageService().getPackage(example.templateId);

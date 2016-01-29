@@ -16,7 +16,7 @@ public class ContactsExampleTest {
 
     @Test
     public void verifyResult() {
-        ContactsExample example = new ContactsExample(Props.get());
+        ContactsExample example = new ContactsExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

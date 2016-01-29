@@ -4,11 +4,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.SessionToken;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -20,34 +15,17 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SessionCreationExample extends SDKSample {
 
-    private String email1;
-    private InputStream documentInputStream1;
-    private String webpageUrl;
     private String signerId = "myCustomSignerId";
 
     public SessionToken signerSessionToken;
 
     public static void main( String... args ) {
-        new SessionCreationExample( Props.get() ).run();
-    }
-
-    public SessionCreationExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "webpage.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public SessionCreationExample( String apiKey, String apiUrl, String webpageUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.webpageUrl = webpageUrl;
+        new SessionCreationExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "SessionCreationExample: " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName( "John" )
                         .withLastName( "Smith" )

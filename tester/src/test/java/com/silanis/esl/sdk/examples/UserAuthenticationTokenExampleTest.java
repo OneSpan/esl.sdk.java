@@ -11,7 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class UserAuthenticationTokenExampleTest {
     @Test
     public void verifyResult() {
-        UserAuthenticationTokenExample example = new UserAuthenticationTokenExample( Props.get() );
+        UserAuthenticationTokenExample example = new UserAuthenticationTokenExample(  );
         example.run();
 
         assertThat(example.sessionIdForUser, notNullValue());

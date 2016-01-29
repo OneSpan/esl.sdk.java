@@ -13,7 +13,7 @@ public class ApplicationVersionExampleTest {
 
     @Test
     public void verifyResult() {
-        ApplicationVersionExample example = new ApplicationVersionExample(Props.get());
+        ApplicationVersionExample example = new ApplicationVersionExample();
         example.run();
 
         assertThat("Application Version was not set correctly. ", example.applicationVersion, not(isEmptyOrNullString()));

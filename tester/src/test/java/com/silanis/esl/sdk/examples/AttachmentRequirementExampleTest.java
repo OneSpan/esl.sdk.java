@@ -19,7 +19,7 @@ public class AttachmentRequirementExampleTest {
      */
     @Test
     public void verifyResult() {
-        AttachmentRequirementExample example = new AttachmentRequirementExample(Props.get());
+        AttachmentRequirementExample example = new AttachmentRequirementExample();
         example.run();
 
         // Asserts the attachment requirements for each signer is set correctly.

@@ -27,7 +27,7 @@ public class CustomFieldExampleTest {
 
     @Test
     public void verifyResult() {
-        CustomFieldExample example = new CustomFieldExample( Props.get() );
+        CustomFieldExample example = new CustomFieldExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

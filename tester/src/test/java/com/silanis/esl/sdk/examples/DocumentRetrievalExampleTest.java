@@ -14,7 +14,7 @@ public class DocumentRetrievalExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentRetrievalExample example = new DocumentRetrievalExample(Props.get());
+        DocumentRetrievalExample example = new DocumentRetrievalExample();
         example.run();
 
         assertThat("Pdf document is null", example.pdfDocumentBytes, notNullValue());

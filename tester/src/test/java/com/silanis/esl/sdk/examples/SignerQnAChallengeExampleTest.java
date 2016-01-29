@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class SignerQnAChallengeExampleTest {
     @Test
     public void verifyResult() {
-        SignerQnAChallengeExample example = new SignerQnAChallengeExample(Props.get());
+        SignerQnAChallengeExample example = new SignerQnAChallengeExample();
         example.run();
         DocumentPackage documentPackage = example.getRetrievedPackage();
 

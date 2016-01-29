@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.nullValue;
 public class ReminderExampleTest {
     @Test
     public void verifyResult() {
-        ReminderExample example = new ReminderExample( Props.get() );
+        ReminderExample example = new ReminderExample();
         example.run();
 
         // Verify that a reminder schedule has been created for this package -- we need the packageId for that

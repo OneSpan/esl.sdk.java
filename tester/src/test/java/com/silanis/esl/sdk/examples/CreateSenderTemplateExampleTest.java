@@ -13,7 +13,7 @@ public class CreateSenderTemplateExampleTest {
 
     @Test
     public void verifyResult() {
-        CreateSenderTemplateExample example = new CreateSenderTemplateExample(Props.get());
+        CreateSenderTemplateExample example = new CreateSenderTemplateExample();
         example.run();
 
         DocumentPackage retrievedTemplate = example.eslClient.getPackage(example.templateId);

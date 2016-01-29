@@ -15,7 +15,7 @@ public class GetSigningUrlExampleTest {
 
     @Test
     public void verifyResult() {
-        GetSigningUrlExample example = new GetSigningUrlExample(Props.get());
+        GetSigningUrlExample example = new GetSigningUrlExample();
         example.run();
 
         assertThat("Signing URL for Signer 1 is not returned.", example.signingUrlForSigner1, not(isEmptyOrNullString()));

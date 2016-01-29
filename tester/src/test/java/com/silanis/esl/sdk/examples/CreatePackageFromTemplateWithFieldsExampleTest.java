@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CreatePackageFromTemplateWithFieldsExampleTest {
     @Test
     public void verifyResult() {
-        CreatePackageFromTemplateWithFieldsExample example = new CreatePackageFromTemplateWithFieldsExample(Props.get());
+        CreatePackageFromTemplateWithFieldsExample example = new CreatePackageFromTemplateWithFieldsExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

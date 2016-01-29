@@ -3,14 +3,9 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Message;
-import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -23,28 +18,13 @@ import static org.joda.time.DateMidnight.now;
  */
 public class GetPackageMessageExample extends SDKSample {
 
-    private String email1;
-    private InputStream documentInputStream1;
-
     public static void main(String... args) {
-        new GetPackageMessageExample(Props.get()).run();
-    }
-
-    public GetPackageMessageExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"));
-    }
-
-    public GetPackageMessageExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new GetPackageMessageExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("GetPackageMessageExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")

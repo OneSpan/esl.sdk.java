@@ -22,7 +22,7 @@ public class DocumentPackageAttributesExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentPackageAttributesExample example = new DocumentPackageAttributesExample( Props.get() );
+        DocumentPackageAttributesExample example = new DocumentPackageAttributesExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

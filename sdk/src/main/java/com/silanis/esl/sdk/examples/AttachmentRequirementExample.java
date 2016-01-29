@@ -1,6 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.RequirementStatus;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
@@ -11,10 +15,7 @@ import com.silanis.esl.sdk.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 import java.util.zip.ZipFile;
 
 import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.newAttachmentRequirementWithName;
@@ -22,10 +23,8 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
 public class AttachmentRequirementExample extends SDKSample {
 
-    private InputStream documentInputStream, attachmentInputStream1, attachmentInputStream2, attachmentInputStream3;
+    private InputStream attachmentInputStream1, attachmentInputStream2, attachmentInputStream3;
 
-    private String email1;
-    private String email2;
     private Signer signer1;
     private String attachment1Id;
 
@@ -62,21 +61,10 @@ public class AttachmentRequirementExample extends SDKSample {
             downloadedAllAttachmentsForSigner2InPackageZip;
 
     public static void main(String... args) {
-        new AttachmentRequirementExample(Props.get()).run();
+        new AttachmentRequirementExample().run();
     }
 
-    public AttachmentRequirementExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"),
-             properties.getProperty("1.email"),
-             properties.getProperty("2.email"));
-    }
-
-    public AttachmentRequirementExample(String apiKey, String apiUrl, String email1, String email2) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
-        this.documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+    public AttachmentRequirementExample() {
         this.attachmentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-for-anchor-extraction.pdf");
         this.attachmentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document-with-fields.pdf");
         this.attachmentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("extract_document.pdf");
@@ -110,12 +98,12 @@ public class AttachmentRequirementExample extends SDKSample {
                     .build())
                 .build();
 
-        DocumentPackage superDuperPackage = newPackageNamed("AttachmentRequirementExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner(signer1)
                 .withSigner(signer2)
                 .withDocument(DocumentBuilder.newDocumentWithName("test document")
-                        .fromStream(documentInputStream, DocumentType.PDF)
+                        .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(SignatureBuilder.signatureFor(email1)
                                 .build())
                         .build())

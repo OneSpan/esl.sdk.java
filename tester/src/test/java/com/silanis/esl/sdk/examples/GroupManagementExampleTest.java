@@ -23,7 +23,7 @@ public class GroupManagementExampleTest {
 
     @Test
     public void verifyResult() {
-        GroupManagementExample example = new GroupManagementExample(Props.get());
+        GroupManagementExample example = new GroupManagementExample();
         example.run();
 
         assertThat("Group 1 was not added properly", example.createdGroup1.getId(), is(example.retrievedGroup1.getId()));

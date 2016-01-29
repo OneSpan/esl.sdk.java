@@ -1,20 +1,19 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.AccountMember;
+import com.silanis.esl.sdk.Direction;
+import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.Sender;
+import com.silanis.esl.sdk.SenderInfo;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Created by chi-wing on 6/6/14.
  */
 public class SenderManipulationExample extends SDKSample {
-    public final String email1;
-    public final String email2;
-    public final String email3;
-
     public AccountMember accountMember1;
     public AccountMember accountMember2;
     public AccountMember accountMember3;
@@ -23,16 +22,10 @@ public class SenderManipulationExample extends SDKSample {
     Sender retrievedUpdatedSender3;
 
     public static void main( String... args ) {
-        new SenderManipulationExample( Props.get() ).run();
+        new SenderManipulationExample().run();
     }
 
-    public SenderManipulationExample(Properties properties){
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"));
-    }
-
-    public SenderManipulationExample(String apiKey, String apiUrl) {
-        super(apiKey, apiUrl);
+    public SenderManipulationExample() {
         this.email1 = getRandomEmail();
         this.email2 = getRandomEmail();
         this.email3 = getRandomEmail();

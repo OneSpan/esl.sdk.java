@@ -19,7 +19,7 @@ public class SignDocumentsExampleTest {
     @Test
     public void verifyResult() {
 
-        SignDocumentsExample example = new SignDocumentsExample( Props.get() );
+        SignDocumentsExample example = new SignDocumentsExample();
         example.run();
 
         assertSignatures(example.retrievedPackageBeforeSigning.getDocuments(), example.senderEmail, nullValue(), example.email1, nullValue());

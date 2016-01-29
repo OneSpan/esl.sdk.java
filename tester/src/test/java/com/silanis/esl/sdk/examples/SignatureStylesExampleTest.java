@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignatureStylesExampleTest {
     @Test
     public void verifyResult() {
-        SignatureStylesExample example = new SignatureStylesExample( Props.get() );
+        SignatureStylesExample example = new SignatureStylesExample();
         example.run();
         DocumentPackage documentPackage = example.getRetrievedPackage();
 

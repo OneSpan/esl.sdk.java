@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PackageLanguageConfigurationExampleTest {
     @Test
     public void verifyResult() {
-        PackageLanguageConfigurationExample example = new PackageLanguageConfigurationExample(Props.get());
+        PackageLanguageConfigurationExample example = new PackageLanguageConfigurationExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

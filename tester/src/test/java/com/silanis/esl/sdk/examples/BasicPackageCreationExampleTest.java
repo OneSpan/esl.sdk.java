@@ -37,7 +37,7 @@ public class BasicPackageCreationExampleTest {
     @Test
     public void verifyResult() {
 
-        BasicPackageCreationExample example = new BasicPackageCreationExample( Props.get() );
+        BasicPackageCreationExample example = new BasicPackageCreationExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

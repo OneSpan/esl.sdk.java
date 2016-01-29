@@ -17,7 +17,7 @@ public class TemplateExampleTest {
 
     @Test
     public void verifyResult() {
-        TemplateExample example = new TemplateExample( Props.get() );
+        TemplateExample example = new TemplateExample();
         example.run();
 
         DocumentPackage retrievedPackage = example.getRetrievedTemplate();
@@ -41,7 +41,7 @@ public class TemplateExampleTest {
 
         DocumentPackage instantiatedTemplate = example.eslClient.getPackage(example.instantiatedTemplateId);
 
-        assertThat("Package name from template is incorrectly returned.", instantiatedTemplate.getName(), is(PACKAGE_NAME));
+        assertThat("Package name from template is incorrectly returned.", instantiatedTemplate.getName(), is(example.getPackageName()));
 
         assertThat("Number of package signers from template is incorrectly returned.", instantiatedTemplate.getSigners().size(), is(3));
         assertThat("Package signer 1 first name is incorrectly returned.", instantiatedTemplate.getSigner(example.email1).getFirstName(), is(TEMPLATE_SIGNER1_FIRST));

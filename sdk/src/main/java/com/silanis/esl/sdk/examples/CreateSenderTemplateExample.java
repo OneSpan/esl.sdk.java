@@ -1,12 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.builder.*;
-
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Visibility;
+import com.silanis.esl.sdk.builder.DocumentBuilder;
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import static com.silanis.esl.sdk.Visibility.SENDER;
 
@@ -15,32 +16,17 @@ import static com.silanis.esl.sdk.Visibility.SENDER;
  */
 public class CreateSenderTemplateExample extends SDKSample {
 
-    private InputStream documentInputStream1;
-    private String email1;
-
     public PackageId templateId;
     public Visibility visibility = SENDER;
 
     public static void main(String... args) {
-        new CreateSenderTemplateExample(Props.get()).run();
-    }
-
-    public CreateSenderTemplateExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"));
-    }
-
-    public CreateSenderTemplateExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new CreateSenderTemplateExample().run();
     }
 
     @Override
     public void execute() {
 
-        DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed("CreateSenderTemplateExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed(getPackageName())
                 .describedAs("This is a Template created using the e-SignLive SDK")
                 .withVisibility(visibility)
                 .withEmailMessage("This message should be delivered to all signers")
@@ -57,5 +43,4 @@ public class CreateSenderTemplateExample extends SDKSample {
 
         templateId = eslClient.getTemplateService().createTemplate(superDuperPackage);
     }
-
 }

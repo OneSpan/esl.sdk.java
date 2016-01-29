@@ -14,7 +14,7 @@ import static org.hamcrest.core.IsNot.not;
 public class StartFastTrackExampleTest {
     @Test
     public void verifyResult() {
-        StartFastTrackExample example = new StartFastTrackExample(Props.get());
+        StartFastTrackExample example = new StartFastTrackExample();
         example.run();
 
         assertThat("Signing URL for Signer 1 is not returned.", example.signingUrl, not(isEmptyOrNullString()));

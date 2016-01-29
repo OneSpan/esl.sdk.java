@@ -3,10 +3,6 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.AuthenticationClient;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -20,32 +16,20 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SenderAuthenticationTokenExample extends SDKSample {
 
-    public static void main( String... args ) {
-        new SenderAuthenticationTokenExample( Props.get() ).run();
-    }
-
     private AuthenticationClient authenticationClient;
-    private String email1;
-    private final InputStream documentInputStream;
     public String sessionIdForSender;
 
-    public SenderAuthenticationTokenExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "webpage.url" ),
-              props.getProperty( "1.email" ));
+    public static void main( String... args ) {
+        new SenderAuthenticationTokenExample().run();
     }
 
-    public SenderAuthenticationTokenExample(String apiKey, String apiUrl, String webpageUrl, String email1) {
-        super( apiKey, apiUrl);
+    public SenderAuthenticationTokenExample() {
         authenticationClient = new AuthenticationClient(webpageUrl);
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.email1 = email1;
     }
 
     @Override
     void execute() {
-        DocumentPackage packageToCreate = newPackageNamed("Designer Package " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage packageToCreate = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner( newSignerWithEmail( email1 )
                                      .withCustomId( "Client1" )
@@ -54,7 +38,7 @@ public class SenderAuthenticationTokenExample extends SDKSample {
                                      .withTitle("Managing Director")
                                      .withCompany("Acme Inc.") )
                 .withDocument(newDocumentWithName("First Document")
-                                      .fromStream(documentInputStream, DocumentType.PDF))
+                                      .fromStream(documentInputStream1, DocumentType.PDF))
                 .build();
         packageId = eslClient.createPackage( packageToCreate );
 

@@ -12,7 +12,7 @@ public class SessionCreationExampleTest {
 
     @Test
     public void verifyResult() {
-        SessionCreationExample example = new SessionCreationExample(Props.get());
+        SessionCreationExample example = new SessionCreationExample();
         example.run();
 
         assertThat("Session Token is not set correctly. ", example.signerSessionToken.getSessionToken(), notNullValue());

@@ -3,14 +3,9 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Signer;
-import com.silanis.esl.sdk.internal.Converter;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
-import static com.silanis.esl.sdk.SignatureImageFormat.*;
+import static com.silanis.esl.sdk.SignatureImageFormat.JPG;
+import static com.silanis.esl.sdk.SignatureImageFormat.PNG;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -20,25 +15,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 10/16/15.
  */
 public class SignatureImageExample extends SDKSample {
-    private String email1;
-    private String senderUID;
-    private InputStream documentInputStream1;
 
     public static void main( String... args ) {
-        new SignatureImageExample(Props.get()).run();
-    }
-
-    public SignatureImageExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ));
-    }
-
-    public SignatureImageExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.senderUID = Converter.apiKeyToUID(apiKey);
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new SignatureImageExample().run();
     }
 
     public void execute() {
@@ -46,7 +25,7 @@ public class SignatureImageExample extends SDKSample {
                 .withCustomId("signer1")
                 .withFirstName("John1")
                 .withLastName("Smith1").build();
-        DocumentPackage superDuperPackage = newPackageNamed("SignatureImageExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSigner(signer1)
                 .withDocument(newDocumentWithName("First Document")

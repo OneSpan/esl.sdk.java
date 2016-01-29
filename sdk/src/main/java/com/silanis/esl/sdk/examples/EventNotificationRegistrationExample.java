@@ -4,10 +4,26 @@ import com.silanis.esl.sdk.EventNotificationConfig;
 import com.silanis.esl.sdk.NotificationEvent;
 
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
-import static com.silanis.esl.sdk.NotificationEvent.*;
+import static com.silanis.esl.sdk.NotificationEvent.DOCUMENT_SIGNED;
+import static com.silanis.esl.sdk.NotificationEvent.EMAIL_BOUNCE;
+import static com.silanis.esl.sdk.NotificationEvent.KBA_FAILURE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_ACTIVATE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_ATTACHMENT;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_COMPLETE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_CREATE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_DEACTIVATE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_DECLINE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_DELETE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_EXPIRE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_OPT_OUT;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_READY_FOR_COMPLETION;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_RESTORE;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_TRASH;
+import static com.silanis.esl.sdk.NotificationEvent.ROLE_REASSIGN;
+import static com.silanis.esl.sdk.NotificationEvent.SIGNER_COMPLETE;
+import static com.silanis.esl.sdk.NotificationEvent.SIGNER_LOCKED;
 import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEventNotificationConfig;
 
 /**
@@ -45,16 +61,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
     public Set<NotificationEvent> connectorsEvents = new HashSet<NotificationEvent>();
 
     public static void main(String... args) {
-        new EventNotificationRegistrationExample(Props.get()).run();
-    }
-
-    public EventNotificationRegistrationExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"));
-    }
-
-    public EventNotificationRegistrationExample(String apiKey, String apiUrl) {
-        super(apiKey, apiUrl);
+        new EventNotificationRegistrationExample().run();
     }
 
     @Override

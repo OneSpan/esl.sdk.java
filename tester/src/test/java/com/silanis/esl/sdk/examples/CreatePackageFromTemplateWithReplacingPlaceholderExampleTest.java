@@ -20,7 +20,7 @@ public class CreatePackageFromTemplateWithReplacingPlaceholderExampleTest {
 
     @Test
     public void verifyResult() {
-        CreatePackageFromTemplateWithReplacingPlaceholderExample example = new CreatePackageFromTemplateWithReplacingPlaceholderExample(Props.get());
+        CreatePackageFromTemplateWithReplacingPlaceholderExample example = new CreatePackageFromTemplateWithReplacingPlaceholderExample();
         example.run();
 
         assertThat("Package Signers are not added correctly. ", example.retrievedPackage.getSigners().size(), is(3));

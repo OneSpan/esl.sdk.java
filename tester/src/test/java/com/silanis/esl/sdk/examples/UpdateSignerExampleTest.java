@@ -16,7 +16,7 @@ public class UpdateSignerExampleTest {
 
     @Test
     public void verifyResult() {
-        UpdateSignerExample example = new UpdateSignerExample(Props.get());
+        UpdateSignerExample example = new UpdateSignerExample();
         example.run();
 
         assertNotNull("Package signer1 is not set correctly.", example.getRetrievedPackage().getSigner(example.email1));

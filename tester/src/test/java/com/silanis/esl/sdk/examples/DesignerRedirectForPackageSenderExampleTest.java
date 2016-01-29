@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DesignerRedirectForPackageSenderExampleTest {
     @Test
     public void verifyResult() {
-        DesignerRedirectForPackageSenderExample example = new DesignerRedirectForPackageSenderExample( Props.get() );
+        DesignerRedirectForPackageSenderExample example = new DesignerRedirectForPackageSenderExample();
         example.run();
 
         assertThat(example.generatedLinkToDesignerForSender, notNullValue());

@@ -4,12 +4,10 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -19,29 +17,10 @@ import static org.joda.time.DateMidnight.now;
 
 public class HistoryDocumentExample extends SDKSample {
 
-    public final String email1;
-    public final String email2;
     public String externalDocumentName;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
 
     public static void main(String... args) {
-        new HistoryDocumentExample(Props.get()).run();
-    }
-
-    public HistoryDocumentExample(Properties props) {
-        this(props.getProperty("api.key"),
-                props.getProperty("api.url"),
-                props.getProperty("1.email"),
-                props.getProperty("2.email"));
-    }
-
-    public HistoryDocumentExample(String apiKey, String apiUrl, String email1, String email2) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new HistoryDocumentExample().run();
     }
 
     public void execute() {

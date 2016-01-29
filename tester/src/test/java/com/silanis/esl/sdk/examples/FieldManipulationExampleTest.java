@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class FieldManipulationExampleTest {
     @Test
     public void verifyResult() {
-        FieldManipulationExample example = new FieldManipulationExample(Props.get());
+        FieldManipulationExample example = new FieldManipulationExample();
         example.run();
 
         // Test if all fields are added properly

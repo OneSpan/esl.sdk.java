@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class FieldInjectionAndExtractionExampleTest {
     @Test
     public void verifyResult() {
-        FieldInjectionAndExtractionExample example = new FieldInjectionAndExtractionExample(Props.get());
+        FieldInjectionAndExtractionExample example = new FieldInjectionAndExtractionExample();
         example.run();
 
         // InjectedField list is not returned by the esl-backend.

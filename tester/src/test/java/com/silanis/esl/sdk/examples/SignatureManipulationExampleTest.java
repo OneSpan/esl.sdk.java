@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class SignatureManipulationExampleTest {
     @Test
     public void verifyResult() {
-        SignatureManipulationExample example = new SignatureManipulationExample(Props.get());
+        SignatureManipulationExample example = new SignatureManipulationExample();
         example.run();
 
         // Test if all signatures are added properly

@@ -24,7 +24,7 @@ public class DownloadReportExampleTest {
 
     @Test
     synchronized public void verifyResult() throws IOException {
-        DownloadReportExample example = new DownloadReportExample(Props.get());
+        DownloadReportExample example = new DownloadReportExample();
         example.run();
         // Assert correct download of completion report for a sender
         CompletionReport completionReportForSender = example.sdkCompletionReportForSenderDraft;

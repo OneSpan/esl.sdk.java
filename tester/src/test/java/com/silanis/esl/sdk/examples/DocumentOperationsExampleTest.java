@@ -15,7 +15,7 @@ public class DocumentOperationsExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentOperationsExample example = new DocumentOperationsExample(Props.get());
+        DocumentOperationsExample example = new DocumentOperationsExample();
         example.run();
 
         DocumentPackage documentPackage = example.retrievedPackageWithNewDocument;

@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.lessThan;
 public class GetCompletedPackagesWithinDateRangeExampleTest {
     @Test
     public void verifyResult() {
-        GetCompletedPackagesWithinDateRangeExample example = new GetCompletedPackagesWithinDateRangeExample(Props.get());
+        GetCompletedPackagesWithinDateRangeExample example = new GetCompletedPackagesWithinDateRangeExample();
         example.run();
 
         assertEqualsPackageUpdatedDate(example.draftPackages, START_DATE, END_DATE);

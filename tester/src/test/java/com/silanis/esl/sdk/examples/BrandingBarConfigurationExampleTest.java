@@ -19,7 +19,7 @@ public class BrandingBarConfigurationExampleTest {
     public void verifyResult() {
     
         // Verify if the branding bar configuration was set up correctly.
-        BrandingBarConfigurationExample example = new BrandingBarConfigurationExample( Props.get() );
+        BrandingBarConfigurationExample example = new BrandingBarConfigurationExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();

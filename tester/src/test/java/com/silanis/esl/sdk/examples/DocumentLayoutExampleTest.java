@@ -29,7 +29,7 @@ public class DocumentLayoutExampleTest {
 
     @Test
     public void verifyResult() {
-        example = new DocumentLayoutExample(Props.get());
+        example = new DocumentLayoutExample();
         example.run();
 
         // Assert the layout was created correctly.
@@ -106,6 +106,4 @@ public class DocumentLayoutExampleTest {
             }
         }
     }
-
-
 }
