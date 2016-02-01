@@ -62,7 +62,7 @@ public class AuthenticationTokensApiClient {
         payloadObject.setSignerId(signerId);
 
         SessionFields sessionFields = new SessionFields();
-        sessionFields.safeSetFields(fields);
+        sessionFields.setFields(fields);
         payloadObject.setSessionFields(sessionFields);
         try {
             String payload = JacksonUtil.serialize(payloadObject);

@@ -1,54 +1,78 @@
 package com.silanis.esl.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.silanis.esl.api.util.JacksonUtil;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class SessionFields extends Model
-        implements java.io.Serializable {
+public class SessionFields {
 
-    // Dirty Flag Constants
-    @JsonIgnore
-    public static final String FIELD_FIELDS = "fields";
+    public static final int MAX_LENGTH = 200;
+    private static final String FIELD_SEPARATOR = ", ";
+    private static final String KEY_VALUE_SEPARATOR = ": ";
 
-    // Empty Constructor
-    public SessionFields ( ) {}
+    private Map<String, String> fields;
 
-    // Fields
-    protected Map<String, String> _fields = null;
-
-    public SessionFields setFields( Map<String, String> value ){
-        this._fields = value;
-        setDirty(FIELD_FIELDS);
-        return this;
+    public SessionFields() {
+        this(new LinkedHashMap<String, String>());
     }
-    @JsonIgnore
-    public SessionFields safeSetFields( Map<String, String> value ){
-        if ( value != null ) { this.setFields(value); }
-        return this;
+
+    public SessionFields(Map<String, String> fields) {
+        this.fields = fields;
     }
-    public Map<String, String> getFields(){
-        return _fields;
+
+    @JsonValue
+    public Map<String, String> getFields() {
+        return fields;
     }
-    // Map adder
-    public SessionFields addFields( Map value ){
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
-        this._fields.putAll(value);
-        setDirty(FIELD_FIELDS);
-        return this;
+
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
+    }
+
+    @JsonAnySetter
+    public void addField(String key, String value) {
+        fields.put(key, value);
     }
 
     @Override
     public String toString() {
-        StringBuilder fieldStringBuilder = new StringBuilder();
-        if(null == _fields) {
-            return "";
+        final StringBuilder fieldStringBuilder = new StringBuilder();
+        final Iterator<Map.Entry<String, String>> it = fields.entrySet().iterator();
+
+        Map.Entry<String, String> entry;
+        while (it.hasNext()) {
+            entry = it.next();
+
+            fieldStringBuilder.append(entry.getKey()).append(KEY_VALUE_SEPARATOR).append(entry.getValue());
+
+            if (it.hasNext())
+                fieldStringBuilder.append(FIELD_SEPARATOR);
         }
-        for(Map.Entry<String, String> entry : _fields.entrySet()) {
-            fieldStringBuilder.append(entry.getKey()).append(": ").append(entry.getValue());
-        }
+
         return fieldStringBuilder.toString();
+    }
+
+    public String toJson() {
+        return JacksonUtil.serialize(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SessionFields that = (SessionFields) o;
+
+        return !(fields != null ? !fields.equals(that.fields) : that.fields != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return fields != null ? fields.hashCode() : 0;
     }
 }
