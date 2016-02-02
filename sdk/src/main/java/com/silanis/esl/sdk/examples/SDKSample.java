@@ -24,7 +24,7 @@ abstract public class SDKSample {
             sms1, sms2, sms3, sms4, sms5, sms6, senderSms, webpageUrl, senderUID;
 
     public SDKSample() {
-        eslClient = new EslClient(props.getProperty( "api.key" ), props.getProperty( "api.url" ));
+        eslClient = new EslClient(props.getProperty( "api.key" ), props.getProperty( "api.url" ), props.getProperty( "webpage.url" ));
         setProperties();
     }
 

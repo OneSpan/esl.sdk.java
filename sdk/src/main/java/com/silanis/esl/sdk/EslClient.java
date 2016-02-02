@@ -54,11 +54,8 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
-        webpageURL = baseURL;
-        if (webpageURL.endsWith("/api")) {
-            webpageURL = webpageURL.replaceFirst("/api", "");
-        }
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey);
         init(client);
     }
@@ -73,7 +70,7 @@ public class EslClient {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         Asserts.notNullOrEmpty( webpageURL, "webpageURL" );
-        this.baseURL = baseURL;
+        setBaseURL(baseURL);
         this.webpageURL = webpageURL;
         RestClient client = new RestClient(apiKey);
         init(client);
@@ -82,7 +79,8 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates);
         init(client);
     }
@@ -90,7 +88,8 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL, ProxyConfiguration proxyConfiguration) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, proxyConfiguration);
         init(client);
     }
@@ -98,7 +97,8 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration);
         init(client);
     }
@@ -132,6 +132,17 @@ public class EslClient {
      */
     String getBaseURL() {
         return baseURL;
+    }
+
+    private void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    private void setWebpageURL(String baseURL) {
+        webpageURL = baseURL;
+        if (webpageURL.endsWith("/api")) {
+            webpageURL = webpageURL.replaceFirst("/api", "");
+        }
     }
 
     /**
