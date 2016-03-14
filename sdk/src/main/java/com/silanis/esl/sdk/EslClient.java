@@ -67,6 +67,10 @@ public class EslClient {
      * @param webpageURL	the E-SignLive web page url
      */
     public EslClient(String apiKey, String baseURL, String webpageURL) {
+        this(apiKey, baseURL, webpageURL, false);
+    }
+
+    public EslClient(String apiKey, String baseURL, String webpageURL, boolean allowAllSSLCertificates) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         Asserts.notNullOrEmpty( webpageURL, "webpageURL" );
@@ -77,21 +81,11 @@ public class EslClient {
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        setBaseURL(baseURL);
-        setWebpageURL(baseURL);
-        RestClient client = new RestClient(apiKey, allowAllSSLCertificates);
-        init(client);
+        this(apiKey, baseURL, allowAllSSLCertificates, null);
     }
 
     public EslClient(String apiKey, String baseURL, ProxyConfiguration proxyConfiguration) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        setBaseURL(baseURL);
-        setWebpageURL(baseURL);
-        RestClient client = new RestClient(apiKey, proxyConfiguration);
-        init(client);
+        this(apiKey, baseURL, false, proxyConfiguration);
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
