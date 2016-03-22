@@ -38,6 +38,7 @@ public class MimeTypeUtils {
         fileExtensionMap.put("pptm", "application/vnd.ms-powerpoint.presentation.macroEnabled.12");
         fileExtensionMap.put("potm", "application/vnd.ms-powerpoint.presentation.macroEnabled.12");
         fileExtensionMap.put("ppsm", "application/vnd.ms-powerpoint.slideshow.macroEnabled.12");
+        fileExtensionMap.put("rtf", "application/rtf");
         // Open Office
         fileExtensionMap.put("odt", "application/vnd.oasis.opendocument.text");
         fileExtensionMap.put("ott", "application/vnd.oasis.opendocument.text-template");

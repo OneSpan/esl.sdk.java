@@ -3,10 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.AuthenticationClient;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
+
 import java.util.logging.Logger;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -23,33 +20,24 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
     private static final Logger logger = Logger.getLogger(DesignerRedirectForApiKeyExample.class.getName());
 
     public static void main( String... args ) {
-        new DesignerRedirectForApiKeyExample( Props.get() ).run();
+        new DesignerRedirectForApiKeyExample().run();
     }
 
     private AuthenticationClient authenticationClient;
-    private InputStream documentInputStream;
     public String generatedLinkToDesignerForApiKey;
 
-    public DesignerRedirectForApiKeyExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "webpage.url" ));
-    }
-
-    public DesignerRedirectForApiKeyExample(String apiKey, String apiUrl, String webpageUrl) {
-        super( apiKey, apiUrl );
+    public DesignerRedirectForApiKeyExample() {
         authenticationClient = new AuthenticationClient(webpageUrl);
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     @Override
     void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("Policy " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withDocument(newDocumentWithName("First Document")
-                                      .fromStream(documentInputStream, DocumentType.PDF))
+                                      .fromStream(documentInputStream1, DocumentType.PDF))
                                       .build();
         packageId = eslClient.createPackage( superDuperPackage );
 

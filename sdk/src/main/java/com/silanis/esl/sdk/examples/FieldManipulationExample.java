@@ -1,13 +1,13 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.FieldId;
+import com.silanis.esl.sdk.SignatureId;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -19,12 +19,9 @@ import static org.joda.time.DateTime.now;
  * Created by chi-wing on 7/16/14.
  */
 public class FieldManipulationExample extends SDKSample {
-    public final String email1;
 
     private final String documentId = "documentId";
     private final SignatureId signatureId = new SignatureId("signatureId");
-
-    private InputStream documentInputStream;
 
     public Field field1;
     public Field field2;
@@ -41,22 +38,10 @@ public class FieldManipulationExample extends SDKSample {
 
     public DocumentPackage createdPackage;
 
-    public FieldManipulationExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"));
-    }
-
-    public FieldManipulationExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-    }
-
     @Override
     void execute() {
 
-        DocumentPackage superDuperPackage = newPackageNamed("FieldManipulationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
@@ -65,7 +50,7 @@ public class FieldManipulationExample extends SDKSample {
                         .withFirstName("firstName1")
                         .withLastName("lastName1"))
                 .withDocument(newDocumentWithName("FieldManipulationExample")
-                                .fromStream(documentInputStream, DocumentType.PDF)
+                                .fromStream(documentInputStream1, DocumentType.PDF)
                                 .withId(documentId)
                                 .withSignature(signatureFor(email1)
                                         .onPage(0)

@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.Is.is;
 
 /**
  * User: jessica
@@ -17,8 +16,8 @@ public class DeletePackageExampleTest {
 
     @Test (expected = com.silanis.esl.sdk.EslException.class)
     public void verifyResult() {
-        DeletePackageExample deletePackageExample = new DeletePackageExample(Props.get());
-        deletePackageExample.run();
-        assertThat("Package should have been deleted.", deletePackageExample.getRetrievedPackage(), is(nullValue()));
+        DeletePackageExample example = new DeletePackageExample();
+        example.run();
+        assertThat("Package should have been deleted.", example.getRetrievedPackage(), nullValue());
     }
 }

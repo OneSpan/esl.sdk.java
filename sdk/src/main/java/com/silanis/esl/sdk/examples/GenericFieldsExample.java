@@ -6,13 +6,13 @@ import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
-import static com.silanis.esl.sdk.builder.FieldBuilder.*;
+import static com.silanis.esl.sdk.builder.FieldBuilder.checkBox;
+import static com.silanis.esl.sdk.builder.FieldBuilder.dropList;
+import static com.silanis.esl.sdk.builder.FieldBuilder.label;
+import static com.silanis.esl.sdk.builder.FieldBuilder.radioButton;
+import static com.silanis.esl.sdk.builder.FieldBuilder.textArea;
+import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -22,8 +22,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class GenericFieldsExample extends SDKSample {
 
-    private String email1;
-    private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
     public static final String TEXTFIELD_ID = "textFieldId";
     public static final int TEXTFIELD_PAGE = 0;
@@ -83,26 +81,13 @@ public class GenericFieldsExample extends SDKSample {
     private int labelFieldPositionX = 150;
     private int labelFieldPositionY = 150;
 
-
     public static void main( String... args ) {
-        new GenericFieldsExample( Props.get() ).run();
-    }
-
-    public GenericFieldsExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public GenericFieldsExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new GenericFieldsExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "GenericFieldsExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
             .describedAs("This is a package created using the e-SignLive SDK")
             .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
             .withSigner(newSignerWithEmail(email1)
@@ -166,6 +151,5 @@ public class GenericFieldsExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
         eslClient.sendPackage( packageId );
-        retrievedPackage = eslClient.getPackage( packageId );
     }
 }

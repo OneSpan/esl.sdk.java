@@ -4,7 +4,6 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.Signature;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -15,7 +14,8 @@ import static com.silanis.esl.sdk.FieldStyle.BOUND_TITLE;
 import static com.silanis.esl.sdk.examples.DocumentLayoutExample.*;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -29,17 +29,17 @@ public class DocumentLayoutExampleTest {
 
     @Test
     public void verifyResult() {
-        example = new DocumentLayoutExample(Props.get());
+        example = new DocumentLayoutExample();
         example.run();
 
         // Assert the layout was created correctly.
         List<DocumentPackage> layouts = example.layouts;
-        assertThat("Layout list is empty", layouts.size(), is(greaterThan(0)));
+        assertThat("Layout list is empty", layouts.size(), greaterThan(0));
 
         for (DocumentPackage layout : layouts) {
             if (layout.getName().equals(LAYOUT_PACKAGE_NAME)) {
-                assertThat("Layout id was not set correctly", layout.getId().getId(), is(equalTo(example.layoutId)));
-                assertThat("Layout desciption was not set correctly", layout.getDescription(), is(equalTo(LAYOUT_PACKAGE_DESCRIPTION)));
+                assertThat("Layout id was not set correctly", layout.getId().getId(), is(example.layoutId));
+                assertThat("Layout desciption was not set correctly", layout.getDescription(), is(LAYOUT_PACKAGE_DESCRIPTION));
                 assertThat("Layout should only have one document", layout.getDocuments().size(), is(1));
                 assertThat("Layout should have two signers", layout.getSigners().size(), is(2));
 
@@ -54,8 +54,8 @@ public class DocumentLayoutExampleTest {
         // Assert that document layout was applied correctly to document.
         DocumentPackage packageWithLayout = example.packageWithLayout;
 
-        assertThat("Package name should not have changed", packageWithLayout.getName(), is(not(equalTo(LAYOUT_PACKAGE_NAME))));
-        assertThat("Package description should not have changed", packageWithLayout.getDescription(), is(not(equalTo(LAYOUT_PACKAGE_DESCRIPTION))));
+        assertThat("Package name should not have changed", packageWithLayout.getName(), not(LAYOUT_PACKAGE_NAME));
+        assertThat("Package description should not have changed", packageWithLayout.getDescription(), not(LAYOUT_PACKAGE_DESCRIPTION));
         assertThat("Package should have only 2 signers", packageWithLayout.getSigners().size(), is(2));
         /* Note that default consent will be added automatically. */
         assertThat("Package should have 2 documents", packageWithLayout.getDocuments().size(), is(2));
@@ -71,7 +71,7 @@ public class DocumentLayoutExampleTest {
 
     private void validateSignatureFields(Collection<Signature> signatures) {
         for (Signature signature : signatures) {
-            assertThat("Signature email was not set correctly", signature.getSignerEmail(), is(equalTo(example.email1)));
+            assertThat("Signature email was not set correctly", signature.getSignerEmail(), is(example.email1));
             assertThat("Signature page number was not set correctly", signature.getPage(), is(0));
             assertThat("Signature field size should be 2", signature.getFields().size(), is(2));
 
@@ -94,18 +94,16 @@ public class DocumentLayoutExampleTest {
                     // assertThat("Field x coordinate was not set correctly", field.getX(), is(greaterThan(99.0)));
                     // assertThat("Field x coordinate was not set correctly", field.getX(), is(lessThan(101.0)));
 
-                    assertThat("Field x coordinate was not set correctly", field.getX(), Matchers.is(closeTo(100, TOLERANCE)));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), Matchers.is(closeTo(200, TOLERANCE)));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), closeTo(100, TOLERANCE));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), closeTo(200, TOLERANCE));
                 }
                 if (field.getName().equals(FIELD_2_NAME)) {
                     assertThat("Field style was not set correctly", field.getStyle(), is(BOUND_COMPANY));
                     assertThat("Field page number was not set correctly", field.getPage(), is(0));
-                    assertThat("Field x coordinate was not set correctly", field.getX(), Matchers.is(closeTo(100, TOLERANCE)));
-                    assertThat("Field y coordinate was not set correctly", field.getY(), Matchers.is(closeTo(300, TOLERANCE)));
+                    assertThat("Field x coordinate was not set correctly", field.getX(), closeTo(100, TOLERANCE));
+                    assertThat("Field y coordinate was not set correctly", field.getY(), closeTo(300, TOLERANCE));
                 }
             }
         }
     }
-
-
 }

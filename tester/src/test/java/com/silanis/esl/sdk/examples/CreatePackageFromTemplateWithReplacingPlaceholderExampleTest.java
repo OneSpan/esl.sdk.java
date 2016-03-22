@@ -20,7 +20,7 @@ public class CreatePackageFromTemplateWithReplacingPlaceholderExampleTest {
 
     @Test
     public void verifyResult() {
-        CreatePackageFromTemplateWithReplacingPlaceholderExample example = new CreatePackageFromTemplateWithReplacingPlaceholderExample(Props.get());
+        CreatePackageFromTemplateWithReplacingPlaceholderExample example = new CreatePackageFromTemplateWithReplacingPlaceholderExample();
         example.run();
 
         assertThat("Package Signers are not added correctly. ", example.retrievedPackage.getSigners().size(), is(3));
@@ -40,9 +40,9 @@ public class CreatePackageFromTemplateWithReplacingPlaceholderExampleTest {
 
         assertThat("Package Signaturs are not set correctly. ", signatures.size(), is(2));
         Signature sig1 = getSignatureForEmail(signatures, example.email1);
-        assertThat(sig1, is(notNullValue()));
+        assertThat(sig1, notNullValue());
         Signature sig2 = getSignatureForEmail(signatures, example.email2);
-        assertThat(sig2, is(notNullValue()));
+        assertThat(sig2, notNullValue());
     }
 
     private Signature getSignatureForEmail(List<Signature> signatures, String email) {

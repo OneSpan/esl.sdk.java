@@ -14,11 +14,10 @@ import static org.junit.Assert.assertTrue;
  * Created by schoi on 3/23/15.
  */
 public class DelegationExampleTest {
-    private DelegationExample example;
 
     @Test
     public void verifyResult() {
-        example = new DelegationExample(Props.get());
+        DelegationExample example = new DelegationExample();
         example.run();
 
         assertThat("Sender1's email was not invited correctly.", example.retrievedSender1.getEmail(), is(example.email1));

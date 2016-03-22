@@ -4,7 +4,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Page;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
@@ -15,11 +14,11 @@ public class ListTemplatesExampleTest {
 
     @Test
     public void verifyResult() {
-        ListTemplatesExample example = new ListTemplatesExample(Props.get());
+        ListTemplatesExample example = new ListTemplatesExample();
         example.run();
 
         Page<DocumentPackage> templateList =  example.getTemplates();
 
-        assertThat("The returned number of templates is less than 1.", templateList.getSize(), is(greaterThanOrEqualTo(1)));
+        assertThat("The returned number of templates is less than 1.", templateList.getSize(), greaterThanOrEqualTo(1));
     }
 }

@@ -22,6 +22,15 @@ public class DocumentPackageAttributes {
         contents.put(name, value);
     }
 
+    public void append( DocumentPackageAttributes attributes ) {
+        if (null == contents) {
+            contents = new HashMap<String,Object>();
+        }
+        if(null != attributes && null != attributes.getContents()) {
+            contents.putAll(attributes.getContents());
+        }
+    }
+
     public Map<String, Object> getContents() {
         return contents;
     }

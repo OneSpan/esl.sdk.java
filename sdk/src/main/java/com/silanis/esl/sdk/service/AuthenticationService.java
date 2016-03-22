@@ -2,7 +2,12 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SessionToken;
-import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RequestException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UnauthenticatedRestClient;
+import com.silanis.esl.sdk.internal.UrlTemplate;
 
 import java.net.URLEncoder;
 
@@ -100,6 +105,7 @@ public class AuthenticationService {
 
     public String getSessionIdForSignerAuthenticationToken(String signerAuthenticationToken) {
         String path = authenticationUrlTemplate.urlFor(UrlTemplate.AUTHENTICATION_PATH_FOR_SIGNER_AUTHENTICATION_TOKEN).replace("{signerAuthenticationToken}", signerAuthenticationToken).build();
+
         try {
             String stringResponse = client.get(path);
             final SessionToken sessionIdToken = Serialization.fromJson(stringResponse, SessionToken.class);

@@ -4,10 +4,6 @@ import com.silanis.esl.sdk.AuthenticationClient;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -26,35 +22,23 @@ public class SigningRedirectForSignerExample extends SDKSample {
     private static final Logger logger = Logger.getLogger(SigningRedirectForSignerExample.class.getName());
 
     public static void main( String... args ) {
-        new SigningRedirectForSignerExample( Props.get() ).run();
+        new SigningRedirectForSignerExample().run();
     }
 
     private AuthenticationClient authenticationClient;
-    private String signerEmail;
-    private InputStream documentInputStream;
 
     public String generatedLinkToSigningForSigner;
 
-    public SigningRedirectForSignerExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "webpage.url" ),
-              props.getProperty( "1.email" ) );
-    }
-
-    public SigningRedirectForSignerExample(String apiKey, String apiUrl, String webpageUrl, String signerEmail) {
-        super( apiKey, apiUrl );
+    public SigningRedirectForSignerExample() {
         authenticationClient = new AuthenticationClient(webpageUrl);
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        this.signerEmail = signerEmail;
     }
 
     @Override
     void execute() {
         String signerId = UUID.randomUUID().toString();
-        DocumentPackage packageToCreate = newPackageNamed("Designer Package " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage packageToCreate = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
-                .withSigner(newSignerWithEmail(signerEmail)
+                .withSigner(newSignerWithEmail(email1)
                                     .withCustomId("Client1")
                                     .withFirstName("John")
                                     .withLastName("Smith")
@@ -63,8 +47,8 @@ public class SigningRedirectForSignerExample extends SDKSample {
                                     .withCustomId(signerId)
                 )
                 .withDocument(newDocumentWithName("First Document")
-                                      .fromStream(documentInputStream, DocumentType.PDF)
-                                      .withSignature(signatureFor(signerEmail)
+                                      .fromStream(documentInputStream1, DocumentType.PDF)
+                                      .withSignature(signatureFor(email1)
                                                              .onPage(0)
                                                              .atPosition(100, 100)))
                 .build();

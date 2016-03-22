@@ -2,7 +2,7 @@ package com.silanis.esl.sdk;
 
 public enum DocumentType {
 
-    PDF("pdf"), WORD("docx");
+    PDF("pdf"), WORD("docx"), RTF("rtf"), ODT("odt");
 
     private final String extension;
 

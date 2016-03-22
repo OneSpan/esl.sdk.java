@@ -1,35 +1,16 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.builder.FieldBuilder;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.EslServerException;
-
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
-import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
-import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
-import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
-import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
-import static org.joda.time.DateMidnight.now;
 
 public class ExceptionHandlingExample extends SDKSample {
 
 
     public static void main( String... args ) {
-        new BasicPackageCreationExample(Props.get()).run();
-    }
-
-    public ExceptionHandlingExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ) );
-    }
-
-    public ExceptionHandlingExample( String apiKey, String apiUrl ) {
-        super( apiKey, apiUrl );
+        new ExceptionHandlingExample().run();
     }
 
     public void execute() {

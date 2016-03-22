@@ -15,7 +15,7 @@ public class ChangePackageStatusExampleTest {
 
     @Test
     public void verifyResult() {
-        ChangePackageStatusExample example = new ChangePackageStatusExample(Props.get());
+        ChangePackageStatusExample example = new ChangePackageStatusExample();
         example.run();
 
         assertThat("Package Status is not set correctly.", example.sentPackage.getStatus(), is(SENT));

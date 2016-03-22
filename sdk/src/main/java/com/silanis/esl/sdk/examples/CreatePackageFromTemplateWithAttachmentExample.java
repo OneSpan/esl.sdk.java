@@ -3,12 +3,12 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.builder.*;
-
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
+import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
+import com.silanis.esl.sdk.builder.DocumentBuilder;
+import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
+import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.builder.SignatureBuilder;
+import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
@@ -16,12 +16,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 2/6/15.
  */
 public class CreatePackageFromTemplateWithAttachmentExample extends SDKSample {
-    private String email1;
-    private InputStream documentInputStream1;
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
-    public static final String PACKAGE_NAME = "CreatePackageFromTemplateWithAttachmentExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String PACKAGE_DESCRIPTION = "This is a package created using the e-SignLive SDK";
     public static final String PACKAGE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String PACKAGE_EMAIL_MESSAGE2 = "Changed the email message";
@@ -37,24 +34,11 @@ public class CreatePackageFromTemplateWithAttachmentExample extends SDKSample {
     public static final String ATTACHMENT_REQUIREMENT_DESCRIPTION = "Please upload a scanned copy of your driver's license.";
 
     public static void main(String... args) {
-        new CreatePackageFromTemplateWithAttachmentExample(Props.get()).run();
-    }
-
-    public CreatePackageFromTemplateWithAttachmentExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"),
-             properties.getProperty("1.email"));
-    }
-
-    public CreatePackageFromTemplateWithAttachmentExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
+        new CreatePackageFromTemplateWithAttachmentExample().run();
     }
 
     @Override
     public void execute() {
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-
         DocumentPackage template = PackageBuilder.newPackageNamed("Template")
              .describedAs("first message")
              .withEmailMessage(PACKAGE_EMAIL_MESSAGE)
@@ -70,7 +54,7 @@ public class CreatePackageFromTemplateWithAttachmentExample extends SDKSample {
 
         template.setId(eslClient.getTemplateService().createTemplate(template));
 
-        DocumentPackage newPackage = PackageBuilder.newPackageNamed(PACKAGE_NAME)
+        DocumentPackage newPackage = PackageBuilder.newPackageNamed(getPackageName())
            .describedAs(PACKAGE_DESCRIPTION)
            .withEmailMessage(PACKAGE_EMAIL_MESSAGE2)
            .withSigner(newSignerWithEmail(email1)

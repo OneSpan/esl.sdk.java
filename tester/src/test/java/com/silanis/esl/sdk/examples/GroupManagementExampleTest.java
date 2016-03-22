@@ -23,7 +23,7 @@ public class GroupManagementExampleTest {
 
     @Test
     public void verifyResult() {
-        GroupManagementExample example = new GroupManagementExample(Props.get());
+        GroupManagementExample example = new GroupManagementExample();
         example.run();
 
         assertThat("Group 1 was not added properly", example.createdGroup1.getId(), is(example.retrievedGroup1.getId()));
@@ -36,9 +36,7 @@ public class GroupManagementExampleTest {
         assertThat("Group was not updated properly, member 1 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email2));
         assertThat("Group was not updated properly, member 2 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email3));
         assertThat("Group was not updated properly, member 3 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email4));
-
     }
-
 
     private List<GroupId> getGroupsId(Collection<Group> groups){
         List<GroupId> groupsId = new ArrayList<GroupId>();

@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL1;
 import static com.silanis.esl.sdk.examples.SignerOrderingExample.SIGNING_ORDER_FOR_EMAIL2;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -20,18 +19,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SignerOrderingExampleTest {
     @Test
     public void verifyResult() {
-        SignerOrderingExample example = new SignerOrderingExample( Props.get() );
+        SignerOrderingExample example = new SignerOrderingExample();
         example.run();
 
         // Initial signer order
         DocumentPackage beforeReorder = example.initialOrder;
-        assertThat(beforeReorder.getSigner(example.email1).getSigningOrder(), is(equalTo(SIGNING_ORDER_FOR_EMAIL1)));
-        assertThat(beforeReorder.getSigner(example.email2).getSigningOrder(), is(equalTo(SIGNING_ORDER_FOR_EMAIL2)));
+        assertThat(beforeReorder.getSigner(example.email1).getSigningOrder(), is(SIGNING_ORDER_FOR_EMAIL1));
+        assertThat(beforeReorder.getSigner(example.email2).getSigningOrder(), is(SIGNING_ORDER_FOR_EMAIL2));
 
         // After reordering signers
         DocumentPackage afterReorder = example.afterReorder;
-        assertThat(afterReorder.getSigner(example.email1).getSigningOrder(), is(equalTo(1)));
-        assertThat(afterReorder.getSigner(example.email2).getSigningOrder(), is(equalTo(2)));
+        assertThat(afterReorder.getSigner(example.email1).getSigningOrder(), is(1));
+        assertThat(afterReorder.getSigner(example.email2).getSigningOrder(), is(2));
     }
-    
 }

@@ -3,11 +3,6 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -18,34 +13,18 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class DocumentWorkflowExample extends SDKSample {
 
-    private String email1;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
     public DocumentPackage preOrderDocumentsPackage;
     public DocumentPackage postOrderDocumentsPackage;
     public static final String FIRST_DOCUMENT_NAME = "First Document";
     public static final String SECOND_DOCUMENT_NAME = "Second Document";
 
     public static void main( String... args ) {
-        new DocumentWorkflowExample( Props.get() ).run();
-    }
-
-    public DocumentWorkflowExample( Properties properties ) {
-        this(properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public DocumentWorkflowExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new DocumentWorkflowExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "DocumentWorkflowExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package with a document workflow created using the e-SignLive SDK")
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")

@@ -5,6 +5,8 @@ import com.silanis.esl.api.model.SenderAuthenticationToken;
 import com.silanis.esl.api.model.SignerAuthenticationToken;
 import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
 
+import java.util.Map;
+
 /**
  * Created by mpoitras on 22/04/14.
  */
@@ -51,7 +53,21 @@ public class AuthenticationTokensService {
      * @return A single use, time limited signer authentication token. This token can be used to authenticate into a session.
      */
     public String createSignerAuthenticationToken(String packageId, String signerId) {
-        final SignerAuthenticationToken resultObject = apiClient.createSignerAuthenticationToken(packageId, signerId);
+        return createSignerAuthenticationToken(packageId, signerId, null);
+    }
+
+    /**
+     * Create a signer authentication token which is used to obtain a signing session for that signer.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerExample}
+     *
+     * @param packageId The package for which the signer authentication token is created.
+     * @param signerId  The signer for which the signer authentication token is created.
+     * @param signerSessionFields  The signer session fields for which the signer authentication token is created.
+     * @return A single use, time limited signer authentication token. This token can be used to authenticate into a session.
+     */
+    public String createSignerAuthenticationToken(String packageId, String signerId, Map<String, String> signerSessionFields) {
+        final SignerAuthenticationToken resultObject = apiClient.createSignerAuthenticationToken(packageId, signerId, signerSessionFields);
         return resultObject.getValue();
     }
 }

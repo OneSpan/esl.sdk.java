@@ -6,11 +6,6 @@ import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.joda.time.DateTime;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -22,38 +17,18 @@ import static com.silanis.esl.sdk.builder.SignerInformationForEquifaxUSABuilder.
  */
 public class MixedSignerAuthenticationExample extends SDKSample {
 
-    private InputStream documentInputStream;
-
-    private final String PACKAGE_NAME = "MixedSignerAuthenticationExample " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private final String PACKAGE_DESCRIPTION = "This is a mixed signer authentication example";
     private final String DOCUMENT_NAME = "First Document pdf";
 
     public Signer signerWithAuthenticationEquifaxCanada;
     public Signer signerWithAuthenticationEquifaxUSA;
 
-    public final String signer1Email;
-    public final String signer2Email;
-
     public static void main( String... args ) {
-        new MixedSignerAuthenticationExample(Props.get()).run();
-    }
-
-    public MixedSignerAuthenticationExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ),
-                props.getProperty( "2.email" ));
-    }
-
-    public MixedSignerAuthenticationExample(String apiKey, String apiUrl, String email1, String email2) {
-        super( apiKey, apiUrl );
-        this.signer1Email = email1;
-        this.signer2Email = email2;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new MixedSignerAuthenticationExample().run();
     }
 
     public void execute() {
-        signerWithAuthenticationEquifaxCanada = SignerBuilder.newSignerWithEmail(signer1Email)
+        signerWithAuthenticationEquifaxCanada = SignerBuilder.newSignerWithEmail(email1)
                         .withFirstName("Signer1")
                         .withLastName("Canada")
                         .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxCanada()
@@ -75,7 +50,7 @@ public class MixedSignerAuthenticationExample extends SDKSample {
                         .answer("hockey"))
                         .build();
 
-        signerWithAuthenticationEquifaxUSA = SignerBuilder.newSignerWithEmail(signer2Email)
+        signerWithAuthenticationEquifaxUSA = SignerBuilder.newSignerWithEmail(email2)
                 .withFirstName("Signer2")
                 .withLastName("USA")
                 .challengedWithKnowledgeBasedAuthentication(newSignerInformationForEquifaxUSA()
@@ -97,14 +72,14 @@ public class MixedSignerAuthenticationExample extends SDKSample {
                         .answer("drums"))
                 .build();
 
-        DocumentPackage superDuperPackage = newPackageNamed(PACKAGE_NAME)
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs(PACKAGE_DESCRIPTION)
                 .withSigner(signerWithAuthenticationEquifaxCanada)
                 .withSigner(signerWithAuthenticationEquifaxUSA)
                 .withDocument(newDocumentWithName(DOCUMENT_NAME)
-                        .fromStream(documentInputStream, DocumentType.PDF)
-                        .withSignature(signatureFor(signer1Email).build())
-                        .withSignature(signatureFor(signer2Email).build()))
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(signatureFor(email1).build())
+                        .withSignature(signatureFor(email2).build()))
                 .build();
 
         packageId = eslClient.createAndSendPackage(superDuperPackage);

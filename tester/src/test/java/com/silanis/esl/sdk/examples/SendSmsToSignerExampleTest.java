@@ -8,7 +8,7 @@ import org.junit.Test;
 public class SendSmsToSignerExampleTest {
     @Test
     public void verifyResult() {
-        SendSmsToSignerExample example = new SendSmsToSignerExample( Props.get() );
+        SendSmsToSignerExample example = new SendSmsToSignerExample();
         example.run();
     }
 }

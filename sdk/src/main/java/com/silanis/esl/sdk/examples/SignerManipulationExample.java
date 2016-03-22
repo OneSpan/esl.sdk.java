@@ -5,11 +5,6 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -20,41 +15,19 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerManipulationExample extends SDKSample {
 
-    public final String email1;
-    public final String email2;
-    public final String email3;
-
     public DocumentPackage createdPackage;
     public DocumentPackage createdPackageWithAddedSigner;
     public DocumentPackage createdPackageWithRemovedSigner;
     public DocumentPackage createdPackageWithUpdatedSigner;
     public Signer updatedSigner;
 
-    private InputStream documentInputStream;
-
     public static void main(String... args) {
-        new SignerManipulationExample(Props.get()).run();
-    }
-
-    public SignerManipulationExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-                properties.getProperty("api.url"),
-                properties.getProperty("1.email"),
-                properties.getProperty("2.email"),
-                properties.getProperty("3.email"));
-    }
-
-    public SignerManipulationExample(String apiKey, String apiUrl, String email1, String email2, String email3) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new SignerManipulationExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("SignerManipulationExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("firstName1")
                         .withLastName("lastName1")
@@ -64,7 +37,7 @@ public class SignerManipulationExample extends SDKSample {
                         .withLastName("lastName2")
                         .withTitle("Title2"))
                 .withDocument(newDocumentWithName("First Document")
-                        .fromStream(documentInputStream, DocumentType.PDF)
+                        .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
                                 .atPosition(500, 100))

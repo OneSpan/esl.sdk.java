@@ -2,10 +2,13 @@ package com.silanis.esl.sdk.service.apiclient;
 
 import com.silanis.esl.api.model.AuthenticationToken;
 import com.silanis.esl.api.model.SenderAuthenticationToken;
+import com.silanis.esl.api.model.SessionFields;
 import com.silanis.esl.api.model.SignerAuthenticationToken;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.internal.*;
+
+import java.util.Map;
 
 /**
  * Created by lena on 2014-08-28.
@@ -49,10 +52,18 @@ public class AuthenticationTokensApiClient {
     }
 
     public SignerAuthenticationToken createSignerAuthenticationToken(String packageId, String signerId) {
+        return createSignerAuthenticationToken(packageId, signerId, null);
+    }
+
+    public SignerAuthenticationToken createSignerAuthenticationToken(String packageId, String signerId, Map<String, String> fields) {
         String path = template.urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_PATH).build();
         final SignerAuthenticationToken payloadObject = new SignerAuthenticationToken();
         payloadObject.setPackageId(packageId);
         payloadObject.setSignerId(signerId);
+
+        SessionFields sessionFields = new SessionFields();
+        sessionFields.setFields(fields);
+        payloadObject.setSessionFields(sessionFields);
         try {
             String payload = JacksonUtil.serialize(payloadObject);
             String stringResponse = restClient.post(path, payload);
@@ -63,5 +74,4 @@ public class AuthenticationTokensApiClient {
             throw new EslException("Could not create a signer authentication token.", e);
         }
     }
-
 }

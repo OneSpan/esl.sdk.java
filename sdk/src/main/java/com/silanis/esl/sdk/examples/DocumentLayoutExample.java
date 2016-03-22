@@ -1,12 +1,14 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Direction;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.PageRequest;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.signerCompany;
@@ -19,10 +21,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Create, get and apply document layouts.
  */
 public class DocumentLayoutExample extends SDKSample {
-
-    public final String email1;
-    private InputStream documentInputStream1;
-    private InputStream documentInputStream2;
 
     public String layoutId;
     public List<DocumentPackage> layouts;
@@ -38,20 +36,7 @@ public class DocumentLayoutExample extends SDKSample {
     public static final String APPLY_LAYOUT_DOCUMENT_DESCRIPTION = "Document with applied layout description.";
 
     public static void main(String... args) {
-        new DocumentLayoutExample(Props.get()).run();
-    }
-
-    public DocumentLayoutExample(Properties props) {
-        this(props.getProperty("api.key"),
-                props.getProperty("api.url"),
-                props.getProperty("1.email"));
-    }
-
-    public DocumentLayoutExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new DocumentLayoutExample().run();
     }
 
     public void execute() {
@@ -91,7 +76,7 @@ public class DocumentLayoutExample extends SDKSample {
         layouts = eslClient.getLayoutService().getLayouts(Direction.ASCENDING, new PageRequest(1, 100));
 
         // Create a new package to apply document layout to
-        DocumentPackage packageFromLayout = newPackageNamed("DocumentLayoutExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage packageFromLayout = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)

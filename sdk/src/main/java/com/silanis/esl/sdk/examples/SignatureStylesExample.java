@@ -3,20 +3,17 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import java.io.InputStream;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
-import static com.silanis.esl.sdk.builder.SignatureBuilder.*;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.initialsFor;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 /**
  * Demonstrating the 3 options a signer can have when signing a document
  */
 public class SignatureStylesExample extends SDKSample {
 
-    private String email1;
-    private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
     public static final int FULL_NAME_SIGNATURE_PAGE = 0;
     public static final double FULL_NAME_SIGNATURE_POSITION_X = 500;
@@ -29,24 +26,12 @@ public class SignatureStylesExample extends SDKSample {
     public static final double HAND_DRAWN_SIGNATURE_POSITION_Y = 500;
 
     public static void main( String... args ) {
-        new SignatureStylesExample( Props.get() ).run();
-    }
-
-    public SignatureStylesExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public SignatureStylesExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new SignatureStylesExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )

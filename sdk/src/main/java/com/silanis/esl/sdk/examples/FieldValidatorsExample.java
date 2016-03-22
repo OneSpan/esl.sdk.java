@@ -4,12 +4,16 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.FieldId;
 
-import java.io.InputStream;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
-import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.*;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.EMAIL_REGEX;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.alphabetic;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.alphanumeric;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.basic;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.email;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.numeric;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.regex;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.url;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -19,8 +23,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class FieldValidatorsExample extends SDKSample {
 
-    public final String email1;
-    private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
     public static final FieldId FIELD_NUMERIC_ID = new FieldId("numeric");
     public static final int     FIELD_NUMERIC_MAX_LENGTH = 10;
@@ -39,24 +41,12 @@ public class FieldValidatorsExample extends SDKSample {
     public static final String  FIELD_REGEX_ERROR_MESSAGE = "This is not a valid email";
 
     public static void main( String... args ) {
-        new FieldValidatorsExample( Props.get() ).run();
-    }
-
-    public FieldValidatorsExample( Properties properties ) {
-        this( properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public FieldValidatorsExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new FieldValidatorsExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed( "Sample Insurance policy" )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
                         .withLastName( "Smith" ) )

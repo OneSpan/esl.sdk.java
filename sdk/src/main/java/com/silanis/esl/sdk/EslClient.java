@@ -1,14 +1,18 @@
 package com.silanis.esl.sdk;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.*;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>The EslClient class creates a E-SignLive client with the given api token and base url.</p>
@@ -40,6 +44,7 @@ public class EslClient {
     private AuthenticationService authenticationService;
     private SystemService systemService;
     private SignatureImageService signatureImageService;
+    private SigningService signingService;
 
     /**
      * The constructor of the EslClient class
@@ -49,11 +54,8 @@ public class EslClient {
     public EslClient(String apiKey, String baseURL) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
-        webpageURL = baseURL;
-        if (webpageURL.endsWith("/api")) {
-            webpageURL = webpageURL.replaceFirst("/api", "");
-        }
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey);
         init(client);
     }
@@ -65,35 +67,32 @@ public class EslClient {
      * @param webpageURL	the E-SignLive web page url
      */
     public EslClient(String apiKey, String baseURL, String webpageURL) {
+        this(apiKey, baseURL, webpageURL, false);
+    }
+
+    public EslClient(String apiKey, String baseURL, String webpageURL, boolean allowAllSSLCertificates) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
         Asserts.notNullOrEmpty( webpageURL, "webpageURL" );
-        this.baseURL = baseURL;
+        setBaseURL(baseURL);
         this.webpageURL = webpageURL;
         RestClient client = new RestClient(apiKey);
         init(client);
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
-        RestClient client = new RestClient(apiKey, allowAllSSLCertificates);
-        init(client);
+        this(apiKey, baseURL, allowAllSSLCertificates, null);
     }
 
     public EslClient(String apiKey, String baseURL, ProxyConfiguration proxyConfiguration) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
-        RestClient client = new RestClient(apiKey, proxyConfiguration);
-        init(client);
+        this(apiKey, baseURL, false, proxyConfiguration);
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        this.baseURL = baseURL;
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration);
         init(client);
     }
@@ -102,6 +101,7 @@ public class EslClient {
         packageService = new PackageService(client, this.baseURL);
         reportService = new ReportService(client, this.baseURL);
         systemService = new SystemService(client, this.baseURL);
+        signingService = new SigningService(client, this.baseURL);
         signatureImageService = new SignatureImageService(client, this.baseURL);
         sessionService = new SessionService(client, this.baseURL);
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
@@ -126,6 +126,17 @@ public class EslClient {
      */
     String getBaseURL() {
         return baseURL;
+    }
+
+    private void setBaseURL(String baseURL) {
+        this.baseURL = baseURL;
+    }
+
+    private void setWebpageURL(String baseURL) {
+        webpageURL = baseURL;
+        if (webpageURL.endsWith("/api")) {
+            webpageURL = webpageURL.replaceFirst("/api", "");
+        }
     }
 
     /**
@@ -274,6 +285,62 @@ public class EslClient {
         Collection<Document> documents = documentPackage.getDocuments();
         return packageService.createPackageOneStep(packageToCreate, documents);
 
+    }
+
+    /**
+     * Sign a document using current api key
+     *
+     * @param packageId the package id
+     * @param documentName the document name of the document to sign
+     */
+    public void signDocument(PackageId packageId, String documentName) {
+        com.silanis.esl.api.model.Package aPackage = packageService.getApiPackage(packageId.getId());
+        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            if(document.getName().equals(documentName)) {
+                document.getApprovals().clear();
+                signingService.signDocument(packageId, document);
+            }
+        }
+    }
+
+    /**
+     * Sign documents using current api key
+     *
+     * @param packageId the package id
+     */
+    public void signDocuments(PackageId packageId) {
+        SignedDocuments signedDocuments = new SignedDocuments();
+        Package aPackage = packageService.getApiPackage(packageId.getId());
+        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            document.getApprovals().clear();
+            signedDocuments.addDocument(document);
+        }
+        signingService.signDocuments(packageId, signedDocuments);
+    }
+
+    /**
+     * Sign documents using signer id
+     *
+     * @param packageId the package id
+     * @param signerId the signer id
+     */
+    public void signDocuments(PackageId packageId, String signerId) {
+        String bulkSigningKey = "Bulk Signing on behalf of";
+        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
+        signerSessionFields.put(bulkSigningKey, signerId);
+        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
+
+        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId);
+
+        SignedDocuments signedDocuments = new SignedDocuments();
+        Package aPackage = packageService.getApiPackage(packageId.getId());
+        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            document.getApprovals().clear();
+            signedDocuments.addDocument(document);
+        }
+        SigningService signingForSignerService = new SigningService(signerClient, this.baseURL);
+        signingForSignerService.signDocuments(packageId, signedDocuments);
     }
 
     /**
@@ -494,7 +561,12 @@ public class EslClient {
     }
 
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {
-        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId);
+        String signerSessionFieldKey = "Upload Attachment on behalf of";
+
+        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
+        signerSessionFields.put(signerSessionFieldKey, signerId);
+        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
+
         String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
         attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
@@ -534,5 +606,9 @@ public class EslClient {
 
     public SystemService getSystemService() {
         return systemService;
+    }
+
+    public SigningService getSigningService() {
+        return signingService;
     }
 }

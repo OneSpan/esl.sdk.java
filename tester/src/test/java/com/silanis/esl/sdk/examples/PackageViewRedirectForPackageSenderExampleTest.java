@@ -1,10 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.internal.HttpRequestUtil;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.examples.PackageViewRedirectForPackageSenderExample.PACKAGE_NAME;
-import static org.hamcrest.CoreMatchers.*;
+import static com.silanis.esl.sdk.internal.HttpRequestUtil.getUrlContent;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -14,12 +14,12 @@ public class PackageViewRedirectForPackageSenderExampleTest {
 
     @Test
     public void verifyResult() {
-        PackageViewRedirectForPackageSenderExample example = new PackageViewRedirectForPackageSenderExample( Props.get() );
+        PackageViewRedirectForPackageSenderExample example = new PackageViewRedirectForPackageSenderExample();
         example.run();
 
-        assertThat(example.generatedLinkToPackageViewForSender, is(notNullValue()));
+        assertThat(example.generatedLinkToPackageViewForSender, notNullValue());
 
-        String stringResponse = HttpRequestUtil.getUrlContent(example.generatedLinkToPackageViewForSender);
-        assertThat(stringResponse, containsString(PACKAGE_NAME));
+        String stringResponse = getUrlContent(example.generatedLinkToPackageViewForSender);
+        assertThat(stringResponse, containsString(example.getPackageName()));
     }
 }

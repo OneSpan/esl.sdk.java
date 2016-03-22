@@ -13,6 +13,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: jessica
@@ -25,23 +27,23 @@ public class CustomFieldExampleTest {
 
     @Test
     public void verifyResult() {
-        CustomFieldExample example = new CustomFieldExample( Props.get() );
+        CustomFieldExample example = new CustomFieldExample();
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat("First custom field not set correctly.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.customFieldId1), is(true));
-        assertThat("Second custom field should have been deleted.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.customFieldId2), is(false));
+        assertTrue("First custom field not set correctly.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.customFieldId1));
+        assertFalse("Second custom field should have been deleted.", example.getEslClient().getCustomFieldService().doesCustomFieldExist(example.customFieldId2));
 
         Collection<Signature> signatures = documentPackage.getDocument("First Document").getSignatures();
         Iterator<Signature> signatureIterator = signatures.iterator();
-        assertThat("Signatures not set correctly.", signatures.iterator().hasNext(), is(true));
+        assertTrue("Signatures not set correctly.", signatures.iterator().hasNext());
 
         Signature signature = signatureIterator.next();
         assertThat("Signature email not set correctly.", signature.getSignerEmail(), is(example.email1));
 
         Collection<Field> fields = signature.getFields();
-        assertThat("Fields not set correctly.", fields.iterator().hasNext(), is(true));
+        assertTrue("Fields not set correctly.", fields.iterator().hasNext());
 
         // Get first custom field
         assertThat("Custom field name was not set correctly.", example.retrieveCustomField.getId(), is(example.customFieldId1));
@@ -54,13 +56,13 @@ public class CustomFieldExampleTest {
         assertThat("Custom field French translation description was not set correctly.", example.retrieveCustomField.getTranslations().get(1).getDescription(), is(FRENCH_DESCRIPTION));
 
         // Get entire list of custom fields
-        assertThat("There should be at least two custom fields.", example.retrieveCustomFieldList1.size(), is(greaterThan(1)));
+        assertThat("There should be at least two custom fields.", example.retrieveCustomFieldList1.size(), greaterThan(1));
 
         // Get first page of custom field
-        assertThat("There should be two custom fields in list.", example.retrieveCustomFieldList2.size(), is(greaterThan(1)));
+        assertThat("There should be two custom fields in list.", example.retrieveCustomFieldList2.size(), greaterThan(1));
 
         // Get the custom field values for this user
-        assertThat("Could not get the custom field values for this user.", example.retrieveCustomFieldValueList1.size(), is(greaterThanOrEqualTo(1)));
+        assertThat("Could not get the custom field values for this user.", example.retrieveCustomFieldValueList1.size(), greaterThanOrEqualTo(1));
         assertThat("Could not get the custom field value1 for this user.", example.retrievedCustomFieldValue1.getId(), is(example.customFieldId1));
         assertThat("Could not get the custom field value2 for this user.", example.retrievedCustomFieldValue2.getId(), is(example.customFieldId2));
 

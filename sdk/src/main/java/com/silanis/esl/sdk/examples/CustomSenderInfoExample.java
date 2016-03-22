@@ -6,11 +6,6 @@ import com.silanis.esl.sdk.SenderStatus;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -18,34 +13,18 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class CustomSenderInfoExample extends SDKSample {
 
-
-    public String senderEmail;
-    public String signerEmail;
-    private InputStream documentInputStream1;
-
     public static final String SENDER_FIRST_NAME = "Rob";
     public static final String SENDER_SECOND_NAME = "Mason";
     public static final String SENDER_TITLE = "Chief Vizier";
     public static final String SENDER_COMPANY = "The Masons";
 
     public static void main( String... args ) {
-        new CustomSenderInfoExample( Props.get() ).run();
-    }
-
-    public CustomSenderInfoExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-                props.getProperty( "api.url" ),
-                props.getProperty( "1.email" ));
-    }
-
-    public CustomSenderInfoExample( String apiKey, String apiUrl, String signerEmail ) {
-        super( apiKey, apiUrl );
-        this.senderEmail = getRandomEmail();
-        this.signerEmail = signerEmail;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new CustomSenderInfoExample().run();
     }
 
     public void execute() {
+        senderEmail = getRandomEmail();
+
         // Note on the custom sender information:
         //
         // The custom sender information is disregarded if the sender is one of the signers for the process.
@@ -61,12 +40,12 @@ public class CustomSenderInfoExample extends SDKSample {
                         .withStatus(SenderStatus.ACTIVE)
                         .build());
 
-        DocumentPackage superDuperPackage = newPackageNamed( "CustomSenderInfoExample " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSenderInfo( SenderInfoBuilder.newSenderInfo( senderEmail )
                         .withName( SENDER_FIRST_NAME, SENDER_SECOND_NAME )
                         .withTitle( SENDER_TITLE )
                         .withCompany( SENDER_COMPANY ) )
-                .withSigner( newSignerWithEmail( signerEmail )
+                .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "Patty" )
                         .withLastName( "Galant" ) )
                 .withDocument( newDocumentWithName( "Second Document" )
@@ -74,7 +53,7 @@ public class CustomSenderInfoExample extends SDKSample {
                         .withSignature( signatureFor( senderEmail )
                                 .onPage( 0 )
                                 .atPosition( 100, 100 ) )
-                        .withSignature( signatureFor( signerEmail )
+                        .withSignature( signatureFor( email1 )
                                 .onPage( 0 )
                                 .atPosition( 100, 200 )
                         )

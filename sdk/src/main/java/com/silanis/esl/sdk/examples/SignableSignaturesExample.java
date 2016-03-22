@@ -4,11 +4,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Signature;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -20,38 +16,20 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignableSignaturesExample extends SDKSample {
 
-    private InputStream documentInputStream1;
-
     private DocumentPackage sentPackage;
 
     private String signer1Id = "signer1Id";
     private String signer2Id = "signer2Id";
     private String documentId = "documentId";
 
-    public String email1;
-    public String email2;
     public List<Signature> signer1SignableSignatures, signer2SignableSignatures;
 
     public static void main( String... args ) {
-        new SignableSignaturesExample(Props.get()).run();
-    }
-
-    public SignableSignaturesExample(Properties props) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ),
-              props.getProperty( "2.email" ));
-    }
-
-    public SignableSignaturesExample(String apiKey, String apiUrl, String email1, String email2) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new SignableSignaturesExample().run();
     }
 
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed("SignableSignaturesExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
             .describedAs("This is a package created using the e-SignLive SDK")
             .withSigner(newSignerWithEmail(email1)
                                 .withFirstName("John1")

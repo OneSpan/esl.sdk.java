@@ -1,13 +1,15 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -18,10 +20,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class UpdateTemplateWithPlaceholderExample extends SDKSample {
 
-    private InputStream documentInputStream;
-
-    public String email1;
-    public String email2;
     public PackageId templateId;
 
     public static final String DOCUMENT_NAME = "First Document";
@@ -32,30 +30,13 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
     public static final String TEMPLATE_SIGNER_FIRST = "John";
     public static final String TEMPLATE_SIGNER_LAST = "Smith";
 
-    public static final String PACKAGE_NAME = "UpdateTemplateWithPlaceholderExample Package: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String PACKAGE_DESCRIPTION = "This is a package created using the e-SignLive SDK";
-
     public static final String PLACEHOLDER_ID = "PlaceholderId1";
     public static final String PLACEHOLDER2_ID = "PlaceholderId2";
 
     public DocumentPackage retrievedTemplate, updatedTemplate;
 
     public static void main(String... args) {
-        new UpdateTemplateWithPlaceholderExample(Props.get()).run();
-    }
-
-    public UpdateTemplateWithPlaceholderExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"),
-             properties.getProperty("1.email"),
-             properties.getProperty("2.email"));
-    }
-
-    public UpdateTemplateWithPlaceholderExample(String apiKey, String apiUrl, String email1, String email2) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new UpdateTemplateWithPlaceholderExample().run();
     }
 
     @Override
@@ -69,7 +50,7 @@ public class UpdateTemplateWithPlaceholderExample extends SDKSample {
                 .withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(PLACEHOLDER_ID)))
                 .withDocument(DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
                     .withId(DOCUMENT_ID)
-                    .fromStream(documentInputStream, DocumentType.PDF)
+                    .fromStream(documentInputStream1, DocumentType.PDF)
                     .withSignature(signatureFor(email1)
                                            .onPage(0)
                                            .atPosition(100, 100))

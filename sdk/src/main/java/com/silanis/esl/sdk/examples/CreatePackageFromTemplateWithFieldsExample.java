@@ -7,13 +7,16 @@ import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
-import static com.silanis.esl.sdk.builder.FieldBuilder.*;
+import static com.silanis.esl.sdk.builder.FieldBuilder.checkBox;
+import static com.silanis.esl.sdk.builder.FieldBuilder.dropList;
+import static com.silanis.esl.sdk.builder.FieldBuilder.label;
+import static com.silanis.esl.sdk.builder.FieldBuilder.radioButton;
+import static com.silanis.esl.sdk.builder.FieldBuilder.textArea;
+import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -22,13 +25,10 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by schoi on 5/26/15.
  */
 public class CreatePackageFromTemplateWithFieldsExample extends SDKSample {
-    private String email1, email2;
-    private InputStream documentInputStream1;
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
     public static final String TEMPLATE_NAME = "CreatePackageFromTemplateWithFieldsExample Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String PACKAGE_NAME = "CreateTemplateFromPackageExample: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String PACKAGE_DESCRIPTION = "This is a package created using the e-SignLive SDK";
     public static final String PACKAGE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER1_FIRST = "John";
@@ -98,21 +98,7 @@ public class CreatePackageFromTemplateWithFieldsExample extends SDKSample {
     private int labelFieldPositionY = 150;
 
     public static void main( String... args ) {
-        new CreatePackageFromTemplateWithFieldsExample(Props.get()).run();
-    }
-
-    public CreatePackageFromTemplateWithFieldsExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ),
-              props.getProperty( "2.email" ));
-    }
-
-    public CreatePackageFromTemplateWithFieldsExample( String apiKey, String apiUrl, String email1, String email2 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new CreatePackageFromTemplateWithFieldsExample().run();
     }
 
     public void execute() {
@@ -181,7 +167,7 @@ public class CreatePackageFromTemplateWithFieldsExample extends SDKSample {
 
         template.setId(templateId);
 
-        DocumentPackage newPackage = PackageBuilder.newPackageNamed(PACKAGE_NAME)
+        DocumentPackage newPackage = PackageBuilder.newPackageNamed(getPackageName())
                                         .describedAs(PACKAGE_DESCRIPTION)
                                         .withEmailMessage(PACKAGE_EMAIL_MESSAGE)
                                         .withSigner(newSignerWithEmail(email2)

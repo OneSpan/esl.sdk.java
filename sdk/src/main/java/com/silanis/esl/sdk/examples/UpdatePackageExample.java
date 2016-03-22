@@ -1,13 +1,15 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.CeremonyLayoutSettings;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentPackageSettings;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Visibility;
 import com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
-import java.io.InputStream;
 import java.util.Locale;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -67,23 +69,8 @@ public class UpdatePackageExample extends SDKSample {
     public DocumentPackageSettings settingsToCreate, createdSettings, settingsToUpdate, updatedSettings;
     public DocumentPackage packageToCreate, createdPackage, packageToUpdate, updatedPackage;
 
-    public String email1;
-    private InputStream documentInputStream1;
-
     public static void main( String... args ) {
-        new UpdatePackageExample(Props.get()).run();
-    }
-
-    public UpdatePackageExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ) );
-    }
-
-    public UpdatePackageExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new UpdatePackageExample().run();
     }
 
     public void execute() {

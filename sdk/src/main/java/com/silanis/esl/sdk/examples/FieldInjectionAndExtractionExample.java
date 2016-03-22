@@ -6,32 +6,20 @@ import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class FieldInjectionAndExtractionExample extends SDKSample {
-    private String email1;
     private InputStream documentInputStream1;
     public static final String DOCUMENT_NAME = "First Document";
 
     public static void main( String... args ) {
-        new FieldInjectionAndExtractionExample( Props.get() ).run();
+        new FieldInjectionAndExtractionExample().run();
     }
 
-    public FieldInjectionAndExtractionExample( Properties properties ) {
-        this(properties.getProperty( "api.key" ),
-                properties.getProperty( "api.url" ),
-                properties.getProperty( "1.email" ) );
-    }
-
-    public FieldInjectionAndExtractionExample( String apiKey, String apiUrl, String email1 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
+    public FieldInjectionAndExtractionExample() {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "field_groups.pdf" );
     }
 
@@ -40,7 +28,7 @@ public class FieldInjectionAndExtractionExample extends SDKSample {
 
         // Note that the field ID for injected field is not a significant for the field injection.
         // InjectedField list is not returned by the esl-backend.
-        DocumentPackage superDuperPackage = newPackageNamed( "FieldInjectionAndExtractionExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()) )
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
                 .withSigner(newSignerWithEmail(email1)
                                     .withFirstName("John")

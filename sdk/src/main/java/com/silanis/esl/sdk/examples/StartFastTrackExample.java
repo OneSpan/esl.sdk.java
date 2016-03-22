@@ -1,16 +1,19 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.FastTrackSigner;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.FastTrackSignerBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
@@ -18,8 +21,6 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
  * Created by schoi on 1/23/15.
  */
 public class StartFastTrackExample extends SDKSample {
-    private String email1;
-    private InputStream documentInputStream1;
 
     public PackageId templateId;
     public String signingUrl;
@@ -38,23 +39,11 @@ public class StartFastTrackExample extends SDKSample {
     public static final String DOCUMENT_ID = "doc1";
 
     public static void main(String... args) {
-        new StartFastTrackExample(Props.get()).run();
-    }
-
-    public StartFastTrackExample(Properties properties) {
-        this(properties.getProperty("api.key"),
-             properties.getProperty("api.url"),
-             properties.getProperty("1.email"));
-    }
-
-    public StartFastTrackExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
+        new StartFastTrackExample().run();
     }
 
     @Override
     public void execute() {
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         Signer signer1 = SignerBuilder.newSignerWithEmail(email1)
                                       .withFirstName(TEMPLATE_SIGNER_FIRST)
                                       .withLastName(TEMPLATE_SIGNER_LAST).build();

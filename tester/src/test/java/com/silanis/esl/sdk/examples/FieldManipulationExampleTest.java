@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by chi-wing on 7/16/14.
@@ -16,25 +16,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class FieldManipulationExampleTest {
     @Test
     public void verifyResult() {
-        FieldManipulationExample fieldManipulationExample = new FieldManipulationExample(Props.get());
-        fieldManipulationExample.run();
+        FieldManipulationExample example = new FieldManipulationExample();
+        example.run();
 
         // Test if all fields are added properly
-        Map<String,Field> fieldMap = convertListToMap(fieldManipulationExample.addedFields);
-        assertThat("Field 1 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field1.getName()), is(true));
-        assertThat("Field 2 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field2.getName()), is(true));
-        assertThat("Field 3 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field3.getName()), is(true));
+        Map<String,Field> fieldMap = convertListToMap(example.addedFields);
+        assertTrue("Field 1 was not set correctly", fieldMap.containsKey(example.field1.getName()));
+        assertTrue("Field 2 was not set correctly", fieldMap.containsKey(example.field2.getName()));
+        assertTrue("Field 3 was not set correctly", fieldMap.containsKey(example.field3.getName()));
 
         // Test if field1 is deleted properly
-        fieldMap = convertListToMap(fieldManipulationExample.deletedFields);
-        assertThat("Field 1 was not deleted correctly", fieldMap.containsKey(fieldManipulationExample.field1.getName()), is(false));
-        assertThat("Field 2 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field2.getName()), is(true));
-        assertThat("Field 3 was not set correctly", fieldMap.containsKey(fieldManipulationExample.field3.getName()), is(true));
+        fieldMap = convertListToMap(example.deletedFields);
+        assertFalse("Field 1 was not deleted correctly", fieldMap.containsKey(example.field1.getName()));
+        assertTrue("Field 2 was not set correctly", fieldMap.containsKey(example.field2.getName()));
+        assertTrue("Field 3 was not set correctly", fieldMap.containsKey(example.field3.getName()));
 
         // Test if field3 is updated properly
-        fieldMap = convertListToMap(fieldManipulationExample.updatedFields);
-        assertThat("Field 3 was not updated correctly", fieldMap.containsKey(fieldManipulationExample.updatedField.getName()), is(true));
-
+        fieldMap = convertListToMap(example.updatedFields);
+        assertTrue("Field 3 was not updated correctly", fieldMap.containsKey(example.updatedField.getName()));
     }
 
     private Map<String, Field> convertListToMap(Collection<Field> fields){
@@ -44,5 +43,4 @@ public class FieldManipulationExampleTest {
         }
         return fieldMap;
     }
-
 }

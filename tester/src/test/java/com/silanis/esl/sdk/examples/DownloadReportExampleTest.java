@@ -24,19 +24,19 @@ public class DownloadReportExampleTest {
 
     @Test
     synchronized public void verifyResult() throws IOException {
-        DownloadReportExample example = new DownloadReportExample(Props.get());
+        DownloadReportExample example = new DownloadReportExample();
         example.run();
         // Assert correct download of completion report for a sender
         CompletionReport completionReportForSender = example.sdkCompletionReportForSenderDraft;
         SenderCompletionReport senderCompletionReportForSenderId1 = getSenderCompletionReportForSenderId(example.sdkCompletionReportForSenderDraft.getSenders(), example.senderUID);
 
         assertThat("There should be only 1 sender.", completionReportForSender.getSenders().size(), is(1));
-        assertThat("Number of package completion reports should be greater than 1.", senderCompletionReportForSenderId1.getPackages().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of document completion report should be greater than 1.", senderCompletionReportForSenderId1.getPackages().get(0).getDocuments().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of signer completion report should be greater than 1.", senderCompletionReportForSenderId1.getPackages().get(0).getSigners().size(), is(greaterThanOrEqualTo(1)));
+        assertThat("Number of package completion reports should be greater than 1.", senderCompletionReportForSenderId1.getPackages().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of document completion report should be greater than 1.", senderCompletionReportForSenderId1.getPackages().get(0).getDocuments().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of signer completion report should be greater than 1.", senderCompletionReportForSenderId1.getPackages().get(0).getSigners().size(), greaterThanOrEqualTo(1));
 
         assertCreatedPackageIncludedInCompletionReport(completionReportForSender, example.senderUID, example.packageId, "DRAFT");
-        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportForSenderDraft, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportForSenderDraft, not(isEmptyOrNullString()));
 
         CSVReader reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvCompletionReportForSenderDraft.getBytes())));
         List<String[]> rows = reader.readAll();
@@ -52,13 +52,13 @@ public class DownloadReportExampleTest {
         SenderCompletionReport senderCompletionReportForSenderId3 = getSenderCompletionReportForSenderId(example.sdkCompletionReportForSenderSent.getSenders(), example.senderUID);
 
         assertThat("There should be only 1 sender.", completionReportForSender.getSenders().size(), is(1));
-        assertThat("Number of package completion reports should be greater than 1.", senderCompletionReportForSenderId3.getPackages().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of document completion report should be greater than 1.", senderCompletionReportForSenderId3.getPackages().get(0).getDocuments().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of signer completion report should be greater than 1.", senderCompletionReportForSenderId3.getPackages().get(0).getSigners().size(), is(greaterThanOrEqualTo(1)));
+        assertThat("Number of package completion reports should be greater than 1.", senderCompletionReportForSenderId3.getPackages().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of document completion report should be greater than 1.", senderCompletionReportForSenderId3.getPackages().get(0).getDocuments().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of signer completion report should be greater than 1.", senderCompletionReportForSenderId3.getPackages().get(0).getSigners().size(), greaterThanOrEqualTo(1));
 
         assertCreatedPackageIncludedInCompletionReport(completionReportForSender, example.senderUID, example.package2Id, "SENT");
 
-        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportForSenderSent, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportForSenderSent, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvCompletionReportForSenderSent.getBytes())));
         rows = reader.readAll();
@@ -74,12 +74,12 @@ public class DownloadReportExampleTest {
         CompletionReport completionReport = example.sdkCompletionReportDraft;
         SenderCompletionReport senderCompletionReportForSenderId2 = getSenderCompletionReportForSenderId(completionReport.getSenders(), example.senderUID);
 
-        assertThat("Number of sender should be greater than 1.", completionReport.getSenders().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of package completion reports should be greater than 0.", senderCompletionReportForSenderId2.getPackages().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Number of sender should be greater than 1.", completionReport.getSenders().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of package completion reports should be greater than 0.", senderCompletionReportForSenderId2.getPackages().size(), greaterThanOrEqualTo(0));
 
         assertCreatedPackageIncludedInCompletionReport(completionReport, example.senderUID, example.packageId, "DRAFT");
 
-        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportDraft, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportDraft, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvCompletionReportDraft.getBytes())));
         rows = reader.readAll();
@@ -92,12 +92,12 @@ public class DownloadReportExampleTest {
         assertCreatedPackageIncludedInCSV(rows, example.packageId, "DRAFT");
 
         completionReport = example.sdkCompletionReportSent;
-        assertThat("Number of sender should be greater than 1.", completionReport.getSenders().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of package completion reports should be greater than 0.", senderCompletionReportForSenderId2.getPackages().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Number of sender should be greater than 1.", completionReport.getSenders().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of package completion reports should be greater than 0.", senderCompletionReportForSenderId2.getPackages().size(), greaterThanOrEqualTo(0));
 
         assertCreatedPackageIncludedInCompletionReport(completionReport, example.senderUID, example.package2Id, "SENT");
 
-        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportSent, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the completion report in csv format.", example.csvCompletionReportSent, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvCompletionReportSent.getBytes())));
         rows = reader.readAll();
@@ -113,12 +113,12 @@ public class DownloadReportExampleTest {
         UsageReport usageReport = example.sdkUsageReport;
         SenderUsageReport senderUsageReportForSenderId = getSenderUsageReportForSenderId(usageReport.getSenderUsageReports(), example.senderUID);
 
-        assertThat("There should be only 1 sender.", usageReport.getSenderUsageReports().size(), is(greaterThanOrEqualTo(1)));
-        assertThat("Number of map entries should be greater or equal to 1.", senderUsageReportForSenderId.getCountByUsageReportCategory().size(), is(greaterThanOrEqualTo(1)));
+        assertThat("There should be only 1 sender.", usageReport.getSenderUsageReports().size(), greaterThanOrEqualTo(1));
+        assertThat("Number of map entries should be greater or equal to 1.", senderUsageReportForSenderId.getCountByUsageReportCategory().size(), greaterThanOrEqualTo(1));
         assertThat("There should be at a draft key in packages map.", senderUsageReportForSenderId.getCountByUsageReportCategory().containsKey(UsageReportCategory.DRAFT), is(true));
-        assertThat("Number of drafts should be greater or equal to 1.", senderUsageReportForSenderId.getCountByUsageReportCategory().get(UsageReportCategory.DRAFT), is(greaterThanOrEqualTo(1)));
+        assertThat("Number of drafts should be greater or equal to 1.", senderUsageReportForSenderId.getCountByUsageReportCategory().get(UsageReportCategory.DRAFT), greaterThanOrEqualTo(1));
 
-        assertThat("Cannot download the usage report in csv format.", example.csvUsageReport, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the usage report in csv format.", example.csvUsageReport, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvUsageReport.getBytes())));
         rows = reader.readAll();
@@ -130,9 +130,9 @@ public class DownloadReportExampleTest {
 
         // Assert correct download of delegation report
         DelegationReport delegationReportForAccountWithoutDate = example.sdkDelegationReportForAccountWithoutDate;
-        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForAccountWithoutDate.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForAccountWithoutDate.getDelegationEventReports().size(), greaterThanOrEqualTo(0));
 
-        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForAccountWithoutDate, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForAccountWithoutDate, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvDelegationReportForAccountWithoutDate.getBytes())));
         rows = reader.readAll();
@@ -143,9 +143,9 @@ public class DownloadReportExampleTest {
         }
 
         DelegationReport delegationReportForAccount = example.sdkDelegationReportForAccount;
-        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForAccount.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForAccount.getDelegationEventReports().size(), greaterThanOrEqualTo(0));
 
-        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForAccount, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForAccount, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvDelegationReportForAccount.getBytes())));
         rows = reader.readAll();
@@ -156,9 +156,9 @@ public class DownloadReportExampleTest {
         }
 
         DelegationReport delegationReportForSender = example.sdkDelegationReportForSender;
-        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForSender.getDelegationEventReports().size(), is(greaterThanOrEqualTo(0)));
+        assertThat("Number of delegation event reports should be equal or greater than 0.", delegationReportForSender.getDelegationEventReports().size(), greaterThanOrEqualTo(0));
 
-        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForSender, is(not(isEmptyOrNullString())));
+        assertThat("Cannot download the delegation report in csv format.", example.csvDelegationReportForSender, not(isEmptyOrNullString()));
 
         reader = new CSVReader(new InputStreamReader(new ByteArrayInputStream(example.csvDelegationReportForSender.getBytes())));
         rows = reader.readAll();
@@ -200,14 +200,14 @@ public class DownloadReportExampleTest {
     private void assertCreatedPackageIncludedInCompletionReport(CompletionReport completionReport, String sender, PackageId packageId, String packageStatus) {
         PackageCompletionReport createdPackageCompletionReport = getCreatedPackageCompletionReport(completionReport, sender, packageId);
 
-        assertThat(createdPackageCompletionReport, is(notNullValue()));
-        assertThat(createdPackageCompletionReport.getPackageStatus(), is(notNullValue()));
+        assertThat(createdPackageCompletionReport, notNullValue());
+        assertThat(createdPackageCompletionReport.getPackageStatus(), notNullValue());
         assertThat(createdPackageCompletionReport.getPackageStatus().name(), is(packageStatus));
     }
 
     private void assertCreatedPackageIncludedInCSV(List<String[]> rows, PackageId packageId, String packageStatus) {
         String[] createdPackageRow = getCreatedPackageCSVRow(rows, packageId);
-        assertThat(createdPackageRow, is(notNullValue()));
+        assertThat(createdPackageRow, notNullValue());
         assertThat(Arrays.asList(createdPackageRow), hasItems(packageId.getId(), packageStatus));
     }
 

@@ -4,10 +4,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 import java.util.UUID;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -20,36 +16,18 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class GetSigningUrlExample extends SDKSample {
 
-    private String email1;
-    private String email2;
-    private InputStream documentInputStream1;
-
     public String signingUrlForSigner1;
     public String signingUrlForSigner2;
 
     public static void main( String... args ) {
-        new GetSigningUrlExample(Props.get()).run();
-    }
-
-    public GetSigningUrlExample( Properties props ) {
-        this( props.getProperty( "api.key" ),
-              props.getProperty( "api.url" ),
-              props.getProperty( "1.email" ),
-              props.getProperty( "2.email" ) );
-    }
-
-    public GetSigningUrlExample( String apiKey, String apiUrl, String email1, String email2 ) {
-        super( apiKey, apiUrl );
-        this.email1 = email1;
-        this.email2 = email2;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
+        new GetSigningUrlExample().run();
     }
 
     public void execute() {
         String signer1Id = UUID.randomUUID().toString();
         String signer2Id = UUID.randomUUID().toString();
 
-        DocumentPackage superDuperPackage = newPackageNamed("GetSigningUrlExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
                 .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
                 .withSigner(newSignerWithEmail(email1)

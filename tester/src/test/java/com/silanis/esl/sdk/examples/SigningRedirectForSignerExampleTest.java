@@ -1,10 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.internal.HttpRequestUtil;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.internal.HttpRequestUtil.getUrlContent;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -14,12 +13,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SigningRedirectForSignerExampleTest {
     @Test
     public void verifyResult() {
-        SigningRedirectForSignerExample example = new SigningRedirectForSignerExample( Props.get() );
+        SigningRedirectForSignerExample example = new SigningRedirectForSignerExample();
         example.run();
 
-        assertThat(example.generatedLinkToSigningForSigner, is(notNullValue()));
+        assertThat(example.generatedLinkToSigningForSigner, notNullValue());
 
-        String stringResponse = HttpRequestUtil.getUrlContent(example.generatedLinkToSigningForSigner);
+        String stringResponse = getUrlContent(example.generatedLinkToSigningForSigner);
         assertThat(stringResponse, containsString("Electronic Disclosures and Signatures Consent"));
     }
 }

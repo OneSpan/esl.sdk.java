@@ -12,7 +12,7 @@ public class SignableSignaturesExampleTest {
 
     @Test
     public void verifyResult() {
-        SignableSignaturesExample example = new SignableSignaturesExample(Props.get());
+        SignableSignaturesExample example = new SignableSignaturesExample();
         example.run();
 
         assertThat("signer1's signable signatures are not set correctly. ", example.signer1SignableSignatures.size(), is(2));

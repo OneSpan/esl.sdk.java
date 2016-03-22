@@ -3,12 +3,8 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -25,29 +21,14 @@ import static org.joda.time.DateMidnight.now;
  */
 public class ExternalDocumentExample extends SDKSample {
 
-    public final String email1;
-    private InputStream documentInputStream1;
-
     public static void main(String... args) {
-        new ExternalDocumentExample(Props.get()).run();
-    }
-
-    public ExternalDocumentExample(Properties props) {
-        this(props.getProperty("api.key"),
-                props.getProperty("api.url"),
-                props.getProperty("1.email"));
-    }
-
-    public ExternalDocumentExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new ExternalDocumentExample().run();
     }
 
     public void execute() {
 
         DocumentPackage packageWithExternalContent =
-                newPackageNamed("FTPDocumentExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+                newPackageNamed(getPackageName())
                         .expiresAt(now().plusMonths(1).toDate())
                         .withSigner(newSignerWithEmail(email1)
                                 .withCustomId("Client1")

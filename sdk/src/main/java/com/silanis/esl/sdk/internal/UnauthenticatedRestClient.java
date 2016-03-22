@@ -7,6 +7,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class UnauthenticatedRestClient {
     public String get(String path) throws IOException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet( path );
-
+        get.addHeader(new BasicHeader(RestClient.HEADER_KEY_ACCEPT, RestClient.ESL_ACCEPT_TYPE_APPLICATION_JSON));
         return execute(get, jsonHandler);
     }
 

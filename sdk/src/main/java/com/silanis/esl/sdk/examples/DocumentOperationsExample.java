@@ -1,15 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.FieldBuilder;
-import com.silanis.esl.sdk.builder.SignatureBuilder;
-
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -21,9 +15,6 @@ import static org.joda.time.DateMidnight.now;
  * Created by chi-wing on 5/2/14.
  */
 public class DocumentOperationsExample extends SDKSample {
-
-    private String email1;
-    private InputStream documentInputStream;
 
     public DocumentPackage builtPackage;
     public DocumentPackage retrievedPackage;
@@ -39,25 +30,13 @@ public class DocumentOperationsExample extends SDKSample {
     public static final String UPDATED_DOCUMENT_DESCRIPTION = "Updated Document Description";
 
     public static void main(String... args) {
-        new DocumentOperationsExample(Props.get()).run();
-    }
-
-    public DocumentOperationsExample(Properties props) {
-        this(props.getProperty("api.key"),
-                props.getProperty("api.url"),
-                props.getProperty("1.email"));
-    }
-
-    public DocumentOperationsExample(String apiKey, String apiUrl, String email1) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        new DocumentOperationsExample().run();
     }
 
     public void execute() {
 
         // 1. Create a package
-        builtPackage = newPackageNamed("Policy " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
+        builtPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package demonstrating document upload")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withSigner(newSignerWithEmail(email1)
@@ -73,7 +52,7 @@ public class DocumentOperationsExample extends SDKSample {
 
         // 2. Construct a document
         Document document = newDocumentWithName(ORIGINAL_DOCUMENT_NAME)
-                .fromStream(documentInputStream, DocumentType.PDF)
+                .fromStream(documentInputStream1, DocumentType.PDF)
                 .withId("documentId")
                 .withSignature(signatureFor(email1)
                         .atPosition(100, 100)

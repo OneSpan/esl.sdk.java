@@ -13,7 +13,7 @@ public class GetSigningStatusExampleTest {
 
     @Test
     public void verifyResult() {
-        GetSigningStatusExample example = new GetSigningStatusExample(Props.get());
+        GetSigningStatusExample example = new GetSigningStatusExample();
         example.run();
 
         assertThat("Signing status was not set properly.", example.draftSigningStatus, is(INACTIVE));

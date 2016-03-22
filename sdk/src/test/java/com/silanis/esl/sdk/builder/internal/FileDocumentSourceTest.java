@@ -18,7 +18,7 @@ public class FileDocumentSourceTest {
         byte[] content = source.content();
 
         assertThat(content, is(notNullValue()));
-        assertThat(content.length, is(greaterThan(0)));
+        assertThat(content.length, greaterThan(0));
     }
 
     @Test(expected = IllegalArgumentException.class)
