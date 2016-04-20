@@ -1,11 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.internal.HttpRequestUtil;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by mpoitras on 22/04/14.
@@ -16,9 +15,6 @@ public class DesignerRedirectForApiKeyExampleTest {
         DesignerRedirectForApiKeyExample example = new DesignerRedirectForApiKeyExample();
         example.run();
 
-        assertThat(example.generatedLinkToDesignerForApiKey, notNullValue());
-
-        String stringResponse = HttpRequestUtil.getUrlContent(example.generatedLinkToDesignerForApiKey);
-        assertThat(stringResponse, containsString("Electronic Disclosures and Signatures Consent"));
+        assertThat(example.generatedLinkToDesignerForApiKey, not(isEmptyOrNullString()));
     }
 }

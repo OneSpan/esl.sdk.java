@@ -20,6 +20,5 @@ public class DocumentRetrievalExampleTest {
         assertThat("Pdf document is null", example.pdfDocumentBytes, notNullValue());
         assertThat("Original document is null", example.originalPdfDocumentBytes, notNullValue());
         assertThat("Zip file is null", example.zippedDocumentsBytes, notNullValue());
-        assertThat("Pdf document and original document should not be the same", example.pdfDocumentBytes, not(example.originalPdfDocumentBytes));
     }
 }

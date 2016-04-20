@@ -2,10 +2,9 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.internal.HttpRequestUtil.getUrlContent;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by schoi on 12/24/14.
@@ -17,9 +16,6 @@ public class PackageViewRedirectForPackageSenderExampleTest {
         PackageViewRedirectForPackageSenderExample example = new PackageViewRedirectForPackageSenderExample();
         example.run();
 
-        assertThat(example.generatedLinkToPackageViewForSender, notNullValue());
-
-        String stringResponse = getUrlContent(example.generatedLinkToPackageViewForSender);
-        assertThat(stringResponse, containsString(example.getPackageName()));
+        assertThat(example.generatedLinkToPackageViewForSender, not(isEmptyOrNullString()));
     }
 }
