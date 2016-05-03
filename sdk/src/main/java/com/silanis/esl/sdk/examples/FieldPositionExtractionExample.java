@@ -20,6 +20,8 @@ public class FieldPositionExtractionExample extends SDKSample {
 
     @Override
     public void execute() {
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document-with-fields.pdf" );
+
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner( newSignerWithEmail( email1 )
                         .withFirstName( "John" )
