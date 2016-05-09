@@ -81,13 +81,26 @@ public class EslClient {
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates) {
-        this(apiKey, baseURL, allowAllSSLCertificates, null);
+        this(apiKey, baseURL, allowAllSSLCertificates, (ProxyConfiguration) null);
     }
 
     public EslClient(String apiKey, String baseURL, ProxyConfiguration proxyConfiguration) {
         this(apiKey, baseURL, false, proxyConfiguration);
     }
 
+    public EslClient(String apiKey, String baseURL, SocksConfiguration socksConfiguration) {
+    	this(apiKey, baseURL, false, socksConfiguration);
+    }
+
+    public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, SocksConfiguration socksConfiguration) {
+        Asserts.notNullOrEmpty( apiKey, "apiKey" );
+        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
+        RestClient client = new RestClient(apiKey, allowAllSSLCertificates, socksConfiguration);
+        init(client);
+    }    
+    
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
         Asserts.notNullOrEmpty( baseURL, "baseURL" );
