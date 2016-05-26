@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.CeremonySettings;
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 
 /**
@@ -135,29 +134,6 @@ public class CeremonyLayoutSettingsBuilder {
      */
     public CeremonyLayoutSettingsBuilder withoutSessionBar() {
         sessionBar = false;
-        return this;
-    }
-
-    /**
-     * Disables displaying the e-SL UI embedded in an IFrame.
-     *
-     * @see #withIFrame()
-     * @return This
-     */
-    public CeremonyLayoutSettingsBuilder withoutIFrame() {
-        iFrame = false;
-        return this;
-    }
-
-    /**
-     * Mandatory setting to enable when embedding the e-SL UI in an IFrame.
-     * <p>
-     * DEFAULT: DISABLED
-     *
-     * @return This
-     */
-    public CeremonyLayoutSettingsBuilder withIFrame() {
-        iFrame = true;
         return this;
     }
 

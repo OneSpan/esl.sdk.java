@@ -59,7 +59,6 @@ public class UpdatePackageExampleTest {
     private void assertLayoutSettings(CeremonyLayoutSettings actualLayoutSettings, CeremonyLayoutSettings expectedLayoutSettings) {
         assertThat("BreadCrumbs are not updated correctly. ", actualLayoutSettings.getBreadCrumbs(), is(expectedLayoutSettings.getBreadCrumbs()));
         assertThat("GlobalNavigation is not updated correctly. ", actualLayoutSettings.getGlobalNavigation(), is(expectedLayoutSettings.getGlobalNavigation()));
-        assertThat("iFrame is not updated correctly. ", actualLayoutSettings.getiFrame(), is(expectedLayoutSettings.getiFrame()));
         assertThat("LogoImageLink is not updated correctly. ", actualLayoutSettings.getLogoImageLink(), is(expectedLayoutSettings.getLogoImageLink()));
         assertThat("LogoImageSource is not updated correctly. ", actualLayoutSettings.getLogoImageSource(), is(expectedLayoutSettings.getLogoImageSource()));
         assertThat("Navigator is not updated correctly. ", actualLayoutSettings.getNavigator(), is(expectedLayoutSettings.getNavigator()));
