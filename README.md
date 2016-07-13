@@ -1,5 +1,4 @@
 esl.sdk.java
 ============
 
-A SDK for integration with e-signlive.
-
+**eSignlive (eSignature) SDK for Java**. Add e-signatures to your Java-based apps.
