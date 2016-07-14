@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.SenderType;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by lena on 2014-05-29.
@@ -35,13 +40,15 @@ public class SenderTypeConverter {
             return sdkSenderType;
         }
 
-        SenderType[] senderTypes = SenderType.values();
-        for (SenderType senderType : senderTypes) {
-            if(apiSenderType.equals(senderType.getApiValue())){
-                return senderType;
-            }
+        try {
+            return Iterables.find(Arrays.asList(SenderType.values()), new Predicate<SenderType>() {
+                public boolean apply(SenderType senderType) {
+                    return apiSenderType.equals(senderType.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return SenderType.UNRECOGNIZED(apiSenderType);
         }
-        return SenderType.UNRECOGNIZED(apiSenderType);
     }
 
     public String toAPISenderType() {

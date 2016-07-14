@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.AuthenticationMethod;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * User: jessica
@@ -52,13 +57,16 @@ public class AuthenticationMethodConverter {
         if (apiAuthMethod == null) {
             return sdkAuthMethod;
         }
-        AuthenticationMethod[] authenticationMethods = AuthenticationMethod.values();
-        for (AuthenticationMethod authenticationMethod : authenticationMethods) {
-            if(apiAuthMethod.equals(authenticationMethod.getApiValue())){
-                return authenticationMethod;
-            }
+
+        try {
+            return Iterables.find(Arrays.asList(AuthenticationMethod.values()), new Predicate<AuthenticationMethod>() {
+                public boolean apply(AuthenticationMethod authenticationMethod) {
+                    return apiAuthMethod.equals(authenticationMethod.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
         }
-        return AuthenticationMethod.UNRECOGNIZED(apiAuthMethod);
     }
 
 }

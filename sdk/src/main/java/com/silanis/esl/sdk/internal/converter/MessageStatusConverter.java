@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.MessageStatus;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by lena on 2014-07-03.
@@ -40,13 +45,15 @@ public class MessageStatusConverter {
             return sdkMessageStatus;
         }
 
-        MessageStatus[] messageStatuses = MessageStatus.values();
-        for (MessageStatus messageStatus : messageStatuses) {
-            if(apiMessageStatus.equals(messageStatus.getApiValue())){
-                return messageStatus;
-            }
+        try {
+            return Iterables.find(Arrays.asList(MessageStatus.values()), new Predicate<MessageStatus>() {
+                public boolean apply(MessageStatus messageStatus) {
+                    return apiMessageStatus.equals(messageStatus.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return MessageStatus.UNRECOGNIZED(apiMessageStatus);
         }
-        return MessageStatus.UNRECOGNIZED(apiMessageStatus);
     }
 
     /**

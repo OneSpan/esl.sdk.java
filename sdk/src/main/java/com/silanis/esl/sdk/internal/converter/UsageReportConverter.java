@@ -1,5 +1,9 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.silanis.esl.sdk.SenderUsageReport;
 import com.silanis.esl.sdk.UsageReportCategory;
 
 import java.util.EnumMap;
@@ -36,12 +40,12 @@ public class UsageReportConverter {
             com.silanis.esl.sdk.UsageReport result = new com.silanis.esl.sdk.UsageReport();
             result.setFrom(apiUsageReport.getFrom());
             result.setTo(apiUsageReport.getTo());
-
-            com.silanis.esl.sdk.SenderUsageReport sdkSenderUsageReport;
-            for (com.silanis.esl.api.model.SenderUsageReport apiSenderUsageReport : senderUsageReportList) {
-                sdkSenderUsageReport = toSDKSenderUsageReport(apiSenderUsageReport);
-                result.addSenderUsageReport(sdkSenderUsageReport);
-            }
+            result.setSenderUsageReports(Lists.newArrayList(Iterables.transform(senderUsageReportList, new Function<com.silanis.esl.api.model.SenderUsageReport, SenderUsageReport>() {
+                @Override
+                public SenderUsageReport apply(final com.silanis.esl.api.model.SenderUsageReport input) {
+                    return toSDKSenderUsageReport(input);
+                }
+            })));
 
             return result;
         }

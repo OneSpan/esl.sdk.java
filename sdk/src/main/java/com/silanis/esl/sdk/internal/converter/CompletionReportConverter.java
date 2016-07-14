@@ -1,5 +1,8 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.DocumentsCompletionReport;
 import com.silanis.esl.api.model.PackageCompletionReport;
 import com.silanis.esl.api.model.SenderCompletionReport;
@@ -43,34 +46,37 @@ public class CompletionReportConverter {
             result.setFrom(apiCompletionReport.getFrom());
             result.setTo(apiCompletionReport.getTo());
 
-            com.silanis.esl.sdk.SenderCompletionReport sdkSenderCompletionReport;
-            for (SenderCompletionReport apiSenderCompletionReport : senderCompletionReportList) {
-                sdkSenderCompletionReport = toSDKSenderCompletionReport(apiSenderCompletionReport);
+            result.setSenders(Lists.newArrayList(Iterables.transform(apiCompletionReport.getSenders(), new Function<SenderCompletionReport, com.silanis.esl.sdk.SenderCompletionReport>() {
+                @Override
+                public com.silanis.esl.sdk.SenderCompletionReport apply(final SenderCompletionReport input) {
+                    com.silanis.esl.sdk.SenderCompletionReport sdkSenderCompletionReport;
+                    sdkSenderCompletionReport = toSDKSenderCompletionReport(input);
 
-                List<PackageCompletionReport> packageCompletionReportList = apiSenderCompletionReport.getPackages();
-                com.silanis.esl.sdk.PackageCompletionReport sdkPackageCompletionReport;
-                for (PackageCompletionReport apiPackageCompletionReport : packageCompletionReportList) {
-                    sdkPackageCompletionReport = toSDKPackageCompletionReport(apiPackageCompletionReport);
+                    List<PackageCompletionReport> packageCompletionReportList = input.getPackages();
+                    com.silanis.esl.sdk.PackageCompletionReport sdkPackageCompletionReport;
+                    for (PackageCompletionReport apiPackageCompletionReport : packageCompletionReportList) {
+                        sdkPackageCompletionReport = toSDKPackageCompletionReport(apiPackageCompletionReport);
 
-                    List<DocumentsCompletionReport> documentCompletionReportList = apiPackageCompletionReport.getDocuments();
-                    com.silanis.esl.sdk.DocumentsCompletionReport sdkDocumentsCompletionReport;
-                    for (DocumentsCompletionReport apiDocumentsCompletionReport : documentCompletionReportList) {
-                        sdkDocumentsCompletionReport = toSDKDocumentCompletionReport(apiDocumentsCompletionReport);
-                        sdkPackageCompletionReport.addDocument(sdkDocumentsCompletionReport);
+                        List<DocumentsCompletionReport> documentCompletionReportList = apiPackageCompletionReport.getDocuments();
+                        com.silanis.esl.sdk.DocumentsCompletionReport sdkDocumentsCompletionReport;
+                        for (DocumentsCompletionReport apiDocumentsCompletionReport : documentCompletionReportList) {
+                            sdkDocumentsCompletionReport = toSDKDocumentCompletionReport(apiDocumentsCompletionReport);
+                            sdkPackageCompletionReport.addDocument(sdkDocumentsCompletionReport);
+                        }
+
+                        List<SignersCompletionReport> signersCompletionReportList = apiPackageCompletionReport.getSigners();
+                        com.silanis.esl.sdk.SignersCompletionReport sdkSignersCompletionReport;
+                        for (SignersCompletionReport apiSignersCompletionReport : signersCompletionReportList) {
+                            sdkSignersCompletionReport = toSDKSignersCompletionReport(apiSignersCompletionReport);
+                            sdkPackageCompletionReport.addSigner(sdkSignersCompletionReport);
+                        }
+
+                        sdkSenderCompletionReport.addPackage(sdkPackageCompletionReport);
                     }
 
-                    List<SignersCompletionReport> signersCompletionReportList = apiPackageCompletionReport.getSigners();
-                    com.silanis.esl.sdk.SignersCompletionReport sdkSignersCompletionReport;
-                    for (SignersCompletionReport apiSignersCompletionReport : signersCompletionReportList) {
-                        sdkSignersCompletionReport = toSDKSignersCompletionReport(apiSignersCompletionReport);
-                        sdkPackageCompletionReport.addSigner(sdkSignersCompletionReport);
-                    }
-
-                    sdkSenderCompletionReport.addPackage(sdkPackageCompletionReport);
+                    return sdkSenderCompletionReport;
                 }
-
-                result.addSender(sdkSenderCompletionReport);
-            }
+            })));
 
             return result;
         }

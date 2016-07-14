@@ -1,8 +1,13 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.silanis.esl.sdk.Translation;
 import com.silanis.esl.sdk.builder.CustomFieldBuilder;
 import com.silanis.esl.sdk.builder.TranslationBuilder;
+
+import java.util.List;
 
 /**
  * User: jessica
@@ -45,13 +50,15 @@ public class CustomFieldConverter {
         }
         com.silanis.esl.api.model.CustomField result = new com.silanis.esl.api.model.CustomField();
 
-        result.setId( sdkCustomField.getId() );
-        result.setValue( sdkCustomField.getValue() );
-        result.setRequired(sdkCustomField.getRequired());
-
-        for ( Translation translation : sdkCustomField.getTranslations() ) {
-            result.addTranslation( translation.toAPITranslation() );
-        }
+        result.safeSetId( sdkCustomField.getId() );
+        result.safeSetValue( sdkCustomField.getValue() );
+        result.safeSetRequired(sdkCustomField.getRequired());
+        result.safeSetTranslations(Lists.newArrayList(Iterables.transform(sdkCustomField.getTranslations(), new Function<Translation, com.silanis.esl.api.model.Translation>() {
+            @Override
+            public com.silanis.esl.api.model.Translation apply(final Translation input) {
+                return input.toAPITranslation();
+            }
+        })));
 
         return result;
     }
@@ -65,15 +72,20 @@ public class CustomFieldConverter {
         if (apiCustomField == null) {
             return sdkCustomField;
         }
-        CustomFieldBuilder result = new CustomFieldBuilder();
-        result.withId( apiCustomField.getId() )
-              .withDefaultValue(apiCustomField.getValue())
-              .isRequired( apiCustomField.evalRequired() );
 
-        for ( com.silanis.esl.api.model.Translation tran : apiCustomField.getTranslations() ) {
-            result.withTranslation( TranslationBuilder.newTranslation(tran) );
-        }
-        return result.build();
+        List<Translation> sdkTranslations =
+            Lists.newArrayList(Iterables.transform(apiCustomField.getTranslations(), new Function<com.silanis.esl.api.model.Translation, Translation>() {
+                @Override
+                public Translation apply(final com.silanis.esl.api.model.Translation input) {
+                    return TranslationBuilder.newTranslation(input).build();
+                }
+            }));
+
+        return CustomFieldBuilder.customFieldWithId(apiCustomField.getId())
+                                                      .withDefaultValue(apiCustomField.getValue())
+                                                      .withTranslations(sdkTranslations)
+                                                      .isRequired(apiCustomField.evalRequired())
+                                 .build();
     }
 
 }

@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.FieldType;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by schoi on 12/17/14.
@@ -52,12 +57,14 @@ public class FieldTypeConverter {
             return sdkFieldType;
         }
 
-        FieldType[] fieldTypes = FieldType.values();
-        for (FieldType fieldType : fieldTypes) {
-            if(apiFieldType.equals(fieldType.getApiValue())){
-                return fieldType;
-            }
+        try {
+            return Iterables.find(Arrays.asList(FieldType.values()), new Predicate<FieldType>() {
+                public boolean apply(FieldType fieldType) {
+                    return apiFieldType.equals(fieldType.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return FieldType.UNRECOGNIZED(apiFieldType);
         }
-        return FieldType.UNRECOGNIZED(apiFieldType);
     }
 }

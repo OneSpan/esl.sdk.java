@@ -1,13 +1,25 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Message;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -49,96 +61,94 @@ public class DocumentPackageConverter {
             return apiPackage;
         }
 
-        com.silanis.esl.api.model.Package apiPackageToCreate = new com.silanis.esl.api.model.Package()
-                .setName(sdkPackage.getName())
-                .setDue(sdkPackage.getExpiryDate())
-                .setAutocomplete(sdkPackage.getAutocomplete());
+        com.silanis.esl.api.model.Package result = new com.silanis.esl.api.model.Package()
+                .safeSetName(sdkPackage.getName())
+                .safeSetDue(sdkPackage.getExpiryDate())
+                .safeSetAutocomplete(sdkPackage.getAutocomplete())
+                .safeSetNotarized(sdkPackage.getNotarized())
+                .safeSetTrashed(sdkPackage.getTrashed());
 
         if ( sdkPackage.getId() != null ) {
-            apiPackageToCreate.setId(sdkPackage.getId().toString());
+            result.setId(sdkPackage.getId().toString());
         }
 
         if ( sdkPackage.getDescription() != null && !sdkPackage.getDescription().isEmpty() ) {
-            apiPackageToCreate.setDescription(sdkPackage.getDescription());
+            result.setDescription(sdkPackage.getDescription());
         }
 
         if ( sdkPackage.getPackageMessage() != null && !sdkPackage.getPackageMessage().isEmpty() ) {
-            apiPackageToCreate.setEmailMessage(sdkPackage.getPackageMessage());
-        }
-
-        if ( sdkPackage.getNotarized() != null ) {
-            apiPackageToCreate.setNotarized(sdkPackage.getNotarized());
-        }
-
-        if ( sdkPackage.getTrashed() != null ) {
-            apiPackageToCreate.setTrashed(sdkPackage.getTrashed());
+            result.setEmailMessage(sdkPackage.getPackageMessage());
         }
 
         if ( sdkPackage.getAttributes() != null ) {
-            apiPackageToCreate.setData(sdkPackage.getAttributes().toMap());
+            result.setData(sdkPackage.getAttributes().toMap());
         }
 
         if ( sdkPackage.getLanguage() != null ) {
-            apiPackageToCreate.setLanguage(sdkPackage.getLanguage().getLanguage());
+            result.setLanguage(sdkPackage.getLanguage().getLanguage());
         }
 
         if ( sdkPackage.getSettings() != null ) {
-            apiPackageToCreate.setSettings(new DocumentPackageSettingsConverter(sdkPackage.getSettings()).toAPIPackageSettings());
+            result.setSettings(new DocumentPackageSettingsConverter(sdkPackage.getSettings()).toAPIPackageSettings());
         }
 
         if ( sdkPackage.getSenderInfo() != null ) {
-            apiPackageToCreate.setSender(new SenderConverter(sdkPackage.getSenderInfo()).toAPISender());
+            result.setSender(new SenderConverter(sdkPackage.getSenderInfo()).toAPISender());
         }
 
         if ( sdkPackage.getVisibility() != null ) {
-            apiPackageToCreate.setVisibility(new VisibilityConverter(sdkPackage.getVisibility()).toAPIVisibility());
+            result.setVisibility(new VisibilityConverter(sdkPackage.getVisibility()).toAPIVisibility());
         }
 
         if ( sdkPackage.getStatus() != null ) {
-            apiPackageToCreate.setStatus(new PackageStatusConverter(sdkPackage.getStatus()).toAPIPackageStatus());
+            result.setStatus(new PackageStatusConverter(sdkPackage.getStatus()).toAPIPackageStatus());
         }
 
-        int signerCount = 1;
-        for ( Signer signer : sdkPackage.getSigners() ) {
-            String id;
-            if(signer.getId() != null ) {
-                id = signer.getId();
-            }
-            else if(signer.getGroupId() == null){
-                id = "role" + signerCount;
-            }
-            else{
-                id = signer.getGroupId().getId();
-            }
+        List<Role> roles =
+            Lists.newArrayList(Iterables.transform(sdkPackage.getSigners(), new Function<Signer, Role>() {
+                int signerCount = 1;
+                @Override
+                public Role apply(final Signer input) {
+                    String id;
+                    if(input.getId() != null ) {
+                        id = input.getId();
+                    }
+                    else if(input.getGroupId() == null){
+                        id = "role" + signerCount;
+                    }
+                    else{
+                        id = input.getGroupId().getId();
+                    }
 
-            Role role = new Role()
-                    .setName( signer.getId() == null ? "signer" + signerCount : signer.getId() )
-                    .addSigner( new SignerConverter(signer).toAPISigner() )
-                    .setIndex( signer.getSigningOrder() )
-                    .setReassign( signer.canChangeSigner() )
-                    .setLocked(signer.isLocked())
-                    .setId( id );
+                    Role role = new Role()
+                        .setName( input.getId() == null ? "signer" + signerCount : input.getId() )
+                        .addSigner( new SignerConverter(input).toAPISigner() )
+                        .setIndex( input.getSigningOrder() )
+                        .setReassign( input.canChangeSigner() )
+                        .setLocked(input.isLocked())
+                        .setId( id );
 
-            signerCount++;
+                    signerCount++;
 
-            if ( signer.getMessage() != null ) {
-                role.setEmailMessage( new BaseMessage().setContent( signer.getMessage() ) );
-            }
+                    if ( input.getMessage() != null ) {
+                        role.setEmailMessage( new BaseMessage().setContent( input.getMessage() ) );
+                    }
 
-            for (AttachmentRequirement attachmentRequirement : signer.getAttachmentRequirements()) {
-                role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
-            }
+                    for (AttachmentRequirement attachmentRequirement : input.getAttachmentRequirements()) {
+                        role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
+                    }
+                    return role;
+                }
+            }));
 
-            apiPackageToCreate.addRole(role);
-        }
+        result.safeSetRoles(roles);
 
         for ( Signer signer : sdkPackage.getPlaceholders() ) {
             Role role = new SignerConverter(signer).toAPIRole(signer.getId(), signer.getPlaceholderName());
-            signerCount++;
-            apiPackageToCreate.addRole(role);
+            result.addRole(role);
         }
 
-        return apiPackageToCreate;
+        return result;
     }
 
     /**

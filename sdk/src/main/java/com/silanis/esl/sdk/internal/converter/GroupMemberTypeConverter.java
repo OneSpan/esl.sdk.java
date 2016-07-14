@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.GroupMemberType;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * User: jessica
@@ -56,12 +61,14 @@ public class GroupMemberTypeConverter {
             return sdkMemberType;
         }
 
-        GroupMemberType[] groupMemberTypes = GroupMemberType.values();
-        for (GroupMemberType groupMemberType : groupMemberTypes) {
-            if(apiMemberType.equals(groupMemberType.getApiValue())){
-                return groupMemberType;
-            }
+        try {
+            return Iterables.find(Arrays.asList(GroupMemberType.values()), new Predicate<GroupMemberType>() {
+                public boolean apply(GroupMemberType groupMemberType) {
+                    return apiMemberType.equals(groupMemberType.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return GroupMemberType.UNRECOGNIZED(apiMemberType);
         }
-        return GroupMemberType.UNRECOGNIZED(apiMemberType);
     }
 }

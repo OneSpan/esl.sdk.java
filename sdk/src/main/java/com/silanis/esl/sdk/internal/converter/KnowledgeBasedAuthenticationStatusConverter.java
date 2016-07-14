@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by schoi on 9/11/14.
@@ -38,13 +43,15 @@ public class KnowledgeBasedAuthenticationStatusConverter {
             return sdkKnowledgeBasedAuthenticationStatus;
         }
 
-        KnowledgeBasedAuthenticationStatus[] knowledgeBasedAuthenticationStatuses = KnowledgeBasedAuthenticationStatus.values();
-        for (KnowledgeBasedAuthenticationStatus knowledgeBasedAuthenticationStatus : knowledgeBasedAuthenticationStatuses) {
-            if(apiKnowledgeBasedAuthenticationStatus.equals(knowledgeBasedAuthenticationStatus.getApiValue())){
-                return knowledgeBasedAuthenticationStatus;
-            }
+        try {
+            return Iterables.find(Arrays.asList(KnowledgeBasedAuthenticationStatus.values()), new Predicate<KnowledgeBasedAuthenticationStatus>() {
+                public boolean apply(KnowledgeBasedAuthenticationStatus knowledgeBasedAuthenticationStatus) {
+                    return apiKnowledgeBasedAuthenticationStatus.equals(knowledgeBasedAuthenticationStatus.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
         }
-        return KnowledgeBasedAuthenticationStatus.UNRECOGNIZED(apiKnowledgeBasedAuthenticationStatus);
     }
 
     /**

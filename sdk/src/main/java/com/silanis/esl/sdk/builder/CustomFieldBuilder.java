@@ -58,7 +58,7 @@ public class CustomFieldBuilder {
     }
 
     /**
-     * Sets translation of the custom field's label
+     * Add translation of the custom field's label
      *
      * @param builder translation builder
      * @return the custom field builder itself
@@ -68,7 +68,7 @@ public class CustomFieldBuilder {
     }
 
     /**
-     * Sets translation of the custom field's label.
+     * Add translation of the custom field's label.
      *
      * @see #withTranslation(TranslationBuilder)
      * @param translation
@@ -80,7 +80,20 @@ public class CustomFieldBuilder {
         }
         this.translations.add( translation );
         return this;
+    }
 
+    /**
+     * Add translations of the custom field's label.
+     *
+     * @param translations
+     * @return This
+     */
+    public CustomFieldBuilder withTranslations( List<Translation> translations ) {
+        if ( this.translations == null ) {
+            this.translations = new ArrayList<Translation>();
+        }
+        this.translations.addAll(translations);
+        return this;
     }
 
     /**

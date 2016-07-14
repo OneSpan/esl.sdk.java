@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.FieldStyle;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * User: jessica
@@ -64,13 +69,15 @@ public class FieldStyleAndSubTypeConverter {
         }
 
         if ( apiFieldBinding == null ) {
-            FieldStyle[] fieldStyles = FieldStyle.values();
-            for (FieldStyle fieldStyle : fieldStyles) {
-                if(apiFieldSubType.equals(fieldStyle.getApiValue())){
-                    return fieldStyle;
-                }
+            try {
+                return Iterables.find(Arrays.asList(FieldStyle.values()), new Predicate<FieldStyle>() {
+                    public boolean apply(FieldStyle fieldStyle) {
+                        return apiFieldSubType.equals(fieldStyle.getApiValue());
+                    }
+                });
+            } catch (NoSuchElementException e) {
+                return FieldStyle.UNRECOGNIZED(apiFieldSubType);
             }
-            return FieldStyle.UNRECOGNIZED(apiFieldSubType);
 
         } else {
             String binding = apiFieldBinding;

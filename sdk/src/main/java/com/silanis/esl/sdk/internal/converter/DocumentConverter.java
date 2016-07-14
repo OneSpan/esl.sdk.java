@@ -1,5 +1,8 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.External;
 import com.silanis.esl.api.model.Package;
@@ -80,53 +83,52 @@ public class DocumentConverter {
      *
      * @return API Document.
      */
-    public com.silanis.esl.api.model.Document toAPIDocument( com.silanis.esl.api.model.Package createdPackage ) {
+    public com.silanis.esl.api.model.Document toAPIDocument( final com.silanis.esl.api.model.Package createdPackage ) {
 
         if (sdkDocument == null) {
             return apiDocument;
         }
 
-        com.silanis.esl.api.model.Document resultAPIDocument = new com.silanis.esl.api.model.Document()
+        com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
                 .setName(sdkDocument.getName());
 
-        if ( sdkDocument.getId() != null ) {
-            resultAPIDocument.setId(sdkDocument.getId().getId());
+        if(sdkDocument.getId() != null) {
+            result.safeSetId(sdkDocument.getId().getId());
         }
-
-        if ( sdkDocument.getDescription() != null ) {
-            resultAPIDocument.setDescription(sdkDocument.getDescription());
-        }
+        result.safeSetDescription(sdkDocument.getDescription());
 
         if( sdkDocument.getExternal() != null){
             External external =  new ExternalConverter(sdkDocument.getExternal()).toAPIExternal();
-            resultAPIDocument.setExternal(external);
+            result.setExternal(external);
         }
 
-        for ( Signature signature : sdkDocument.getSignatures() ) {
+        result.safeSetApprovals(Lists.newArrayList(Iterables.transform(sdkDocument.getSignatures(), new Function<Signature, Approval>() {
+            @Override
+            public Approval apply(final Signature input) {
+                Approval approval = new SignatureConverter(input).toAPIApproval();
+                if( input.isPlaceholderSignature() ){
+                    approval.setRole(input.getRoleId().getId());
+                } else if ( input.isGroupSignature() ) {
+                    approval.setRole(findRoleIdForGroup( input.getGroupId(), createdPackage ) );
+                } else {
+                    approval.setRole(findRoleIdForSignature( input.getSignerEmail(), createdPackage ) );
+                }
 
-            Approval approval = new SignatureConverter(signature).toAPIApproval();
-            if( signature.isPlaceholderSignature() ){
-                approval.setRole(signature.getRoleId().getId());
+                return approval;
             }
-            else if ( signature.isGroupSignature() ) {
-                approval.setRole(findRoleIdForGroup( signature.getGroupId(), createdPackage ) );
-            } else {
-                approval.setRole(findRoleIdForSignature( signature.getSignerEmail(), createdPackage ) );
-            }
-            resultAPIDocument.addApproval(approval);
-        }
+        })));
 
         for (com.silanis.esl.sdk.Field field : sdkDocument.getInjectedFields() ) {
-            resultAPIDocument.addField(ConversionService.convert(field));
+            result.addField(ConversionService.convert(field));
         }
 
         for (com.silanis.esl.sdk.Field field : sdkDocument.getQrCodes()) {
-            resultAPIDocument.addField(ConversionService.convert(field));
+            result.addField(ConversionService.convert(field));
         }
 
-        return resultAPIDocument;
+        return result;
     }
 
     public com.silanis.esl.api.model.Document toAPIDocumentMetadata(){
@@ -135,21 +137,18 @@ public class DocumentConverter {
             throw new IllegalArgumentException("No SDK document available to perform conversion");
         }
 
-        com.silanis.esl.api.model.Document resultAPIDocument = new com.silanis.esl.api.model.Document()
-                .setIndex(sdkDocument.getIndex())
-                .setExtract(sdkDocument.isExtract())
-                .setName(sdkDocument.getName())
-                .setExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal());
+        com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
+                .safeSetIndex(sdkDocument.getIndex())
+                .safeSetExtract(sdkDocument.isExtract())
+                .safeSetName(sdkDocument.getName())
+                .safeSetExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal())
+                .safeSetDescription(sdkDocument.getDescription());
 
         if( sdkDocument.getId() != null){
-            resultAPIDocument.setId( sdkDocument.getId().toString() );
+            result.setId(sdkDocument.getId().toString());
         }
 
-        if( sdkDocument.getDescription() != null){
-            resultAPIDocument.setDescription( sdkDocument.getDescription() );
-        }
-
-        return resultAPIDocument;
+        return result;
     }
 
     /**

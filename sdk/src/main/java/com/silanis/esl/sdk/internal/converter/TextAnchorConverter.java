@@ -43,15 +43,15 @@ public class TextAnchorConverter {
 
         ExtractAnchor result = new ExtractAnchor();
 
-        result.setLeftOffset( sdkTextAnchor.getXOffset() );
-        result.setTopOffset( sdkTextAnchor.getYOffset() );
-        result.setText(sdkTextAnchor.getAnchorText());
-        result.setIndex(sdkTextAnchor.getOccurrence());
-        result.setCharacterIndex(sdkTextAnchor.getCharacter());
+        result.safeSetLeftOffset( sdkTextAnchor.getXOffset() );
+        result.safeSetTopOffset( sdkTextAnchor.getYOffset() );
+        result.safeSetText(sdkTextAnchor.getAnchorText());
+        result.safeSetIndex(sdkTextAnchor.getOccurrence());
+        result.safeSetCharacterIndex(sdkTextAnchor.getCharacter());
         if(null != sdkTextAnchor.getPosition())
             result.setAnchorPoint(sdkTextAnchor.getPosition().toString() );
-        result.setWidth( sdkTextAnchor.getWidth() );
-        result.setHeight( sdkTextAnchor.getHeight() );
+        result.safeSetWidth( sdkTextAnchor.getWidth() );
+        result.safeSetHeight( sdkTextAnchor.getHeight() );
 
         return result;
     }

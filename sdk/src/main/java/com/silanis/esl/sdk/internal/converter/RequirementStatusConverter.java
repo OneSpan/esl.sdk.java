@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.RequirementStatus;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by lena on 2014-06-02.
@@ -35,13 +40,15 @@ public class RequirementStatusConverter {
             return sdkRequirementStatus;
         }
 
-        RequirementStatus[] requirementStatuses = RequirementStatus.values();
-        for (RequirementStatus requirementStatus : requirementStatuses) {
-            if(apiRequirementStatus.equals(requirementStatus.getApiValue())){
-                return requirementStatus;
-            }
+        try {
+            return Iterables.find(Arrays.asList(RequirementStatus.values()), new Predicate<RequirementStatus>() {
+                public boolean apply(RequirementStatus requirementStatus) {
+                    return apiRequirementStatus.equals(requirementStatus.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
         }
-        return RequirementStatus.UNRECOGNIZED(apiRequirementStatus);
     }
 
     public String toAPIRequirementStatus() {

@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.Visibility;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by schoi on 2/20/15.
@@ -33,13 +38,15 @@ public class VisibilityConverter {
             return sdkVisibility;
         }
 
-        Visibility[] visibilities = Visibility.values();
-        for (Visibility visibility : visibilities) {
-            if(apiVisibility.equals(visibility.getApiValue())){
-                return visibility;
-            }
+        try {
+            return Iterables.find(Arrays.asList(Visibility.values()), new Predicate<Visibility>() {
+                public boolean apply(Visibility visibility) {
+                    return apiVisibility.equals(visibility.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return Visibility.UNRECOGNIZED(apiVisibility);
         }
-        return Visibility.UNRECOGNIZED(apiVisibility);
     }
 
     public String toAPIVisibility() {
@@ -49,5 +56,4 @@ public class VisibilityConverter {
 
         return sdkVisibility.getApiValue();
     }
-
 }

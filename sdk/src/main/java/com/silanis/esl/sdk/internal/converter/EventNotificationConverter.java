@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.NotificationEvent;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by lena on 2014-06-17.
@@ -50,12 +55,14 @@ public class EventNotificationConverter {
             return sdkNotificationEvent;
         }
 
-        NotificationEvent[] notificationEvents = NotificationEvent.values();
-        for (NotificationEvent notificationEvent : notificationEvents) {
-            if(apiCallbackEvent.equals(notificationEvent.getApiValue())){
-                return notificationEvent;
-            }
+        try {
+            return Iterables.find(Arrays.asList(NotificationEvent.values()), new Predicate<NotificationEvent>() {
+                public boolean apply(NotificationEvent notificationEvent) {
+                    return apiCallbackEvent.equals(notificationEvent.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);
         }
-        return NotificationEvent.UNRECOGNIZED(apiCallbackEvent);
     }
 }

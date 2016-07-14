@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.BasePackageType;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by schoi on 12/16/14.
@@ -32,13 +37,15 @@ public class BasePackageTypeConverter {
             return sdkBasePackageType;
         }
 
-        BasePackageType[] basePackageTypes = BasePackageType.values();
-        for (BasePackageType basePackageType : basePackageTypes) {
-            if(apiBasePackageType.equals(basePackageType.getApiValue())){
-                return basePackageType;
-            }
+        try {
+            return Iterables.find(Arrays.asList(BasePackageType.values()), new Predicate<BasePackageType>() {
+                public boolean apply(BasePackageType basePackageType) {
+                    return apiBasePackageType.equals(basePackageType.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return BasePackageType.UNRECOGNIZED(apiBasePackageType);
         }
-        return BasePackageType.UNRECOGNIZED(apiBasePackageType);
     }
 
     public String toAPIBasePackageType() {

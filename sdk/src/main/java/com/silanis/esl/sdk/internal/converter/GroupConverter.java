@@ -1,20 +1,19 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.GroupMember;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.builder.GroupBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: jessica
  * Date: 02/12/13
  * Time: 9:46 AM
- *
+ * <p/>
  * Converter between SDK and API Group.
- *
-*/
+ */
 public class GroupConverter {
 
     private com.silanis.esl.sdk.Group sdkGroup = null;
@@ -49,12 +48,12 @@ public class GroupConverter {
         }
 
         com.silanis.esl.api.model.Group result = toAPIGroupWithoutMembers();
-
-        List<GroupMember> apiMembers = new ArrayList<GroupMember>();
-        for ( com.silanis.esl.sdk.GroupMember sdkGroupMember : sdkGroup.getMembers() ) {
-            apiMembers.add( new GroupMemberConverter(sdkGroupMember).toAPIGroupMember() );
-        }
-        result.setMembers( apiMembers );
+        result.setMembers(Lists.newArrayList(Iterables.transform(sdkGroup.getMembers(), new Function<com.silanis.esl.sdk.GroupMember, GroupMember>() {
+            @Override
+            public GroupMember apply(final com.silanis.esl.sdk.GroupMember input) {
+                return new GroupMemberConverter(input).toAPIGroupMember();
+            }
+        })));
 
         return result;
     }
@@ -71,14 +70,14 @@ public class GroupConverter {
         }
 
         com.silanis.esl.api.model.Group result = new com.silanis.esl.api.model.Group();
-        result.setName( sdkGroup.getName() );
-        result.safeSetCreated( sdkGroup.getCreated() );
-        result.safeSetUpdated( sdkGroup.getUpdated() );
-        result.setEmail( sdkGroup.getEmail() );
-        result.setEmailMembers( sdkGroup.getEmailMembers() );
+        result.setName(sdkGroup.getName());
+        result.safeSetCreated(sdkGroup.getCreated());
+        result.safeSetUpdated(sdkGroup.getUpdated());
+        result.safeSetEmail(sdkGroup.getEmail());
+        result.safeSetEmailMembers(sdkGroup.getEmailMembers());
 
-        if ( sdkGroup.getId() != null ) {
-            result.safeSetId( sdkGroup.getId().getId() );
+        if (sdkGroup.getId() != null) {
+            result.safeSetId(sdkGroup.getId().getId());
         }
 
         return result;
@@ -88,7 +87,6 @@ public class GroupConverter {
      * Convert from API to SDK.
      *
      * @return SDK Group.
-     *
      */
     public com.silanis.esl.sdk.Group toSDKGroup() {
 
@@ -97,25 +95,28 @@ public class GroupConverter {
         }
 
         com.silanis.esl.sdk.Group result;
-        GroupBuilder builder = GroupBuilder.newGroup( apiGroup.getName() )
-                .withEmail( apiGroup.getEmail() );
+        GroupBuilder builder = GroupBuilder.newGroup(apiGroup.getName())
+                                           .withEmail(apiGroup.getEmail());
 
-        if ( apiGroup.getEmailMembers() ) {
+        if (apiGroup.getEmailMembers()) {
             builder = builder.withIndividualMemberEmailing();
         } else {
             builder = builder.withoutIndividualMemberEmailing();
         }
 
-        if ( apiGroup.getId() != null ) {
-            builder.withId( new GroupId( apiGroup.getId() ) );
+        if (apiGroup.getId() != null) {
+            builder.withId(new GroupId(apiGroup.getId()));
         }
 
         result = builder.build();
 
-        for ( com.silanis.esl.api.model.GroupMember apiGroupMember : apiGroup.getMembers() ) {
-            com.silanis.esl.sdk.GroupMember sdkGroupMember = new GroupMemberConverter(apiGroupMember).toSDKGroupMember();
-            result.getMembers().add( sdkGroupMember );
-        }
+        result.getMembers().addAll(Lists.newArrayList(Iterables.transform(apiGroup.getMembers(), new Function<GroupMember, com.silanis.esl.sdk.GroupMember>() {
+            @Override
+            public com.silanis.esl.sdk.GroupMember apply(final GroupMember input) {
+                return new GroupMemberConverter(input).toSDKGroupMember();
+            }
+        })));
+
         return result;
     }
 

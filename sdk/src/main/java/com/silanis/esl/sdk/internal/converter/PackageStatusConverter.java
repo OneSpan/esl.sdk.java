@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.silanis.esl.sdk.PackageStatus;
+
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Created by lena on 2014-06-02.
@@ -35,13 +40,15 @@ public class PackageStatusConverter {
             return sdkPackageStatus;
         }
 
-        PackageStatus[] packageStatuses = PackageStatus.values();
-        for (PackageStatus packageStatus : packageStatuses) {
-            if(apiPackageStatus.equals(packageStatus.getApiValue())){
-                return packageStatus;
-            }
+        try {
+            return Iterables.find(Arrays.asList(PackageStatus.values()), new Predicate<PackageStatus>() {
+                public boolean apply(PackageStatus packageStatus) {
+                    return apiPackageStatus.equals(packageStatus.getApiValue());
+                }
+            });
+        } catch (NoSuchElementException e) {
+            return PackageStatus.UNRECOGNIZED(apiPackageStatus);
         }
-        return PackageStatus.UNRECOGNIZED(apiPackageStatus);
     }
 
     public String toAPIPackageStatus() {

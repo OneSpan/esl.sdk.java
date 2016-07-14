@@ -84,7 +84,7 @@ public class CustomFieldConverterTest implements ConverterTest {
         apiCustomField1 = createTypicalAPICustomField();
         sdkCustomField1 = new CustomFieldConverter(apiCustomField1).toSDKCustomField();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiCustomField1, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", sdkCustomField1, is(notNullValue()));
         assertThat("ID was not correctly set", apiCustomField1.getId(), is(equalTo(sdkCustomField1.getId())));
         assertThat("Value was not correctly set", apiCustomField1.getValue(), is(equalTo(sdkCustomField1.getValue())));
         assertThat("Required was not correctly set", apiCustomField1.getRequired(), is(equalTo(sdkCustomField1.getRequired())));
