@@ -36,7 +36,7 @@ public class CreatePackageFromTemplateExample extends SDKSample {
 
     @Override
     public void execute() {
-        DocumentPackage template = PackageBuilder.newPackageNamed("Template")
+        DocumentPackage template = PackageBuilder.newPackageNamed("Template " + getPackageName())
                 .describedAs("first message")
                 .withEmailMessage(PACKAGE_EMAIL_MESSAGE)
                 .withSigner(newSignerWithEmail(email1)

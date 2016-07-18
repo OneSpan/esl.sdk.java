@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.examples.CreateTemplateFromPackageExample.DOCUMENT_ID;
 import static com.silanis.esl.sdk.examples.CreateTemplateFromPackageExample.DOCUMENT_NAME;
-import static com.silanis.esl.sdk.examples.CreateTemplateFromPackageExample.PACKAGE_NAME_NEW;
 import static com.silanis.esl.sdk.examples.CreateTemplateFromPackageExample.PACKAGE_SIGNER1_FIRST;
 import static com.silanis.esl.sdk.examples.CreateTemplateFromPackageExample.PACKAGE_SIGNER1_LAST;
 import static com.silanis.esl.sdk.examples.CreateTemplateFromPackageExample.PACKAGE_SIGNER2_FIRST;
@@ -30,7 +29,7 @@ public class CreateTemplateFromPackageExampleTest {
         assertThat("Document name is incorrectly returned.", document.getName(), is(DOCUMENT_NAME));
         assertThat("Document ID is incorrectly returned.", document.getId().toString(), is(DOCUMENT_ID));
 
-        assertThat("Package name is incorrectly returned.", retrievedTemplate.getName(), is(PACKAGE_NAME_NEW));
+        assertThat("Package name is incorrectly returned.", retrievedTemplate.getName(), is(example.newPackageName));
         assertThat("Number of package signers is incorrectly returned.", retrievedTemplate.getSigners().size(), is(3));
         assertThat("Package signer 1 first name is incorrectly returned.", retrievedTemplate.getSigner(example.email1).getFirstName(), is(PACKAGE_SIGNER1_FIRST));
         assertThat("Package signer 1 last name is incorrectly returned.", retrievedTemplate.getSigner(example.email1).getLastName(), is(PACKAGE_SIGNER1_LAST));

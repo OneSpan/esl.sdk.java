@@ -15,14 +15,15 @@ public class CreateTemplateFromPackageExample extends SDKSample {
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
-    public static final String PACKAGE_NAME_NEW = "Template name";
     public static final String PACKAGE_DESCRIPTION = "This is a package created using the e-SignLive SDK";
     public static final String PACKAGE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String PACKAGE_SIGNER1_FIRST = "John";
     public static final String PACKAGE_SIGNER1_LAST = "Smith";
     public static final String PACKAGE_SIGNER2_FIRST = "Patty";
     public static final String PACKAGE_SIGNER2_LAST = "Galant";
+
     public PackageId templateId;
+    public String newPackageName = "New " + getPackageName();
 
     public static void main(String... args) {
         new CreateTemplateFromPackageExample().run();
@@ -48,6 +49,6 @@ public class CreateTemplateFromPackageExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);
-        templateId = eslClient.getTemplateService().createTemplateFromPackage(packageId, PACKAGE_NAME_NEW);
+        templateId = eslClient.getTemplateService().createTemplateFromPackage(packageId, newPackageName);
     }
 }
