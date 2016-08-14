@@ -49,6 +49,7 @@ public class ProxyConfiguration {
     public int getHttpsPort() {
         return httpsPort;
     }
+    
     public void setHttpsPort(int httpsPort) {
         this.httpsPort = httpsPort;
     }
