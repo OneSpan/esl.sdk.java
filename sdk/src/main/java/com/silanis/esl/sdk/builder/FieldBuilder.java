@@ -179,6 +179,18 @@ public class FieldBuilder {
     }
 
     /**
+     * Creates a field builder having set the style to DATEPICKER. It defines
+     * a datepicker field at the location defined that the signer may be
+     * required to fill prior to signing the its associated signature
+     *
+     * @see FieldStyle
+     * @return a DATEPICKER styled field builder
+     */
+    public static FieldBuilder datepicker() {
+        return new FieldBuilder().withStyle(FieldStyle.DATEPICKER);
+    }
+
+    /**
      * Creates a field builder having set the style to BOUND_QRCODE.
      * A QR code field will be displayed at the location defined with a
      * default size of width=77 and height=77.

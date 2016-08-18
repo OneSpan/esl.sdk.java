@@ -17,12 +17,14 @@ public class FieldValidatorBuilder {
     public static final String ALPHANUMERIC_REGEX = "^[\\s0-9a-zA-Z]+$";
     public static final String NUMERIC_REGEX = "^[-+]?[0-9]*\\.?[0-9]*$";
     public static final String DEFAULT_REGEX = null;
+    public static final String DEFAULT_DATEPICKER_FORMAT = "YYYY-MM-dd";
 
     public static final String ALPHABETIC_ERROR_MESSAGE = "Value entered must by alphabetic only.";
     public static final String ALPHANUMERIC_ERROR_MESSAGE = "Value entered must be alphanumeric only.";
     public static final String NUMERIC_ERROR_MESSAGE = "Value entered must be numeric only.";
     public static final String EMAIL_ERROR_MESSAGE = "Value entered must be an email.";
     public static final String URL_ERROR_MESSAGE = "Value entered must be a URL.";
+    public static final String DATEPICKER_ERROR_MESSAGE = "Value entered must be valid DateTimeFormat only.";
 
     private static final int DEFAULT_MAX_LENGTH = Integer.MAX_VALUE;
 
@@ -83,6 +85,24 @@ public class FieldValidatorBuilder {
     public static FieldValidatorBuilder numeric() {
         return new FieldValidatorBuilder( NUMERIC_REGEX )
                 .withErrorMessage( NUMERIC_ERROR_MESSAGE );
+    }
+    /**
+     * Creates a default datepicker format. The format is "YYYY-MM-dd".
+     *
+     * @return	a field validator builder
+     */
+    public static FieldValidatorBuilder datepickerFormat() {
+        return new FieldValidatorBuilder( DEFAULT_DATEPICKER_FORMAT )
+            .withErrorMessage(DATEPICKER_ERROR_MESSAGE);
+    }
+    /**
+     * Creates a default datepicker format.
+     * @param format string that user want to use, for example, "YYYY-dd-MM", "MM-dd-YYYY", "dd-MM-YYYY", "MMM dd, YYYY", "MMMM dd, YYYY".
+     * @return	a Numeric value field validator builder
+     */
+    public static FieldValidatorBuilder datepickerFormat(String format) {
+        return new FieldValidatorBuilder( format )
+            .withErrorMessage( DATEPICKER_ERROR_MESSAGE );
     }
     /**
      * Creates a Regex based field validator. The allowed values should match the Regex expression.

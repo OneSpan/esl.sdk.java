@@ -15,7 +15,6 @@ public class Field implements Serializable {
     private double x, y;
     private double width, height;
     private int page;
-//    private String email;
     private FieldStyle style;
     private String value;
     private String name;
@@ -65,14 +64,6 @@ public class Field implements Serializable {
     public void setPage( int page ) {
         this.page = page;
     }
-
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail( String email ) {
-//        this.email = email;
-//    }
 
     public FieldStyle getStyle() {
         return style;

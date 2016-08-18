@@ -8,6 +8,7 @@ import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.checkBox;
+import static com.silanis.esl.sdk.builder.FieldBuilder.datepicker;
 import static com.silanis.esl.sdk.builder.FieldBuilder.dropList;
 import static com.silanis.esl.sdk.builder.FieldBuilder.label;
 import static com.silanis.esl.sdk.builder.FieldBuilder.radioButton;
@@ -49,6 +50,11 @@ public class GenericFieldsExample extends SDKSample {
     public static final String LABEL_NAME = "labelName";
     public static final int LABEL_PAGE = 0;
     public static final String LABEL_VALUE = "labelValue";
+    public static final String DATEPICKER_ID = "datepickerId";
+    public static final String DATEPICKER_NAME = "datepickerName";
+    public static final int DATEPICKER_PAGE = 0;
+    public static final String DATEPICKER_VALUE = "datepickerValue";
+    public static final String DATEPICKER_FORMAT = "MM-dd-YYYY";
 
     private int textfieldPositionX = 400;
     private int textfieldPositionY = 200;
@@ -80,6 +86,10 @@ public class GenericFieldsExample extends SDKSample {
     private double labelFieldHeight = 60;
     private int labelFieldPositionX = 150;
     private int labelFieldPositionY = 150;
+    private double datepickerFieldWidth = 100;
+    private double datepickerFieldHeight = 60;
+    private int datepickerFieldPositionX = 150;
+    private int datepickerFieldPositionY = 150;
 
     public static void main( String... args ) {
         new GenericFieldsExample().run();
@@ -146,7 +156,16 @@ public class GenericFieldsExample extends SDKSample {
                         .withValue(LABEL_VALUE)
                         .onPage(LABEL_PAGE)
                         .withSize(labelFieldWidth, labelFieldHeight)
-                        .atPosition(labelFieldPositionX, labelFieldPositionY))))
+                        .atPosition(labelFieldPositionX, labelFieldPositionY))
+                    .withField(datepicker()
+                        .withId(new FieldId(DATEPICKER_ID))
+                        .withName(DATEPICKER_NAME)
+                        .withValue(DATEPICKER_VALUE)
+                        .onPage(DATEPICKER_PAGE)
+                        .withSize(datepickerFieldWidth, datepickerFieldHeight)
+                        .atPosition(datepickerFieldPositionX, datepickerFieldPositionY)
+                        .withValidation(FieldValidatorBuilder.datepickerFormat(DATEPICKER_FORMAT)
+                                                             .required()))))
             .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
