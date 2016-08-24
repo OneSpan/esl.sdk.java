@@ -23,15 +23,7 @@ import static org.littleshoot.proxy.impl.DefaultHttpProxyServer.bootstrap;
 /**
  * Created by whou on 08/12/14.
  */
-public class ProxyConfigurationExample extends SDKSample{
-
-    private final String httpProxyURL = "localhost";
-    private final int httpProxyPort = 8001;
-
-    private final String httpProxyWithCredentialsURL = "localhost";
-    private final int httpProxyWithCredentialsPort = 8002;
-    private final String httpProxyUserName = "httpUser";
-    private final String httpProxyPassword = "httpPwd";
+public class ProxyConfigurationExample extends SDKSample {
 
     private boolean allowAllSSLCertificates = false;
 
@@ -52,14 +44,14 @@ public class ProxyConfigurationExample extends SDKSample{
         super( apiKey, apiUrl );
 
         httpProxyConfiguration = newProxyConfiguration()
-                                    .withHttpHost(httpProxyURL)
-                                    .withHttpPort(httpProxyPort)
+                                    .withHttpHost(proxyHost)
+                                    .withHttpPort(proxyPort)
                                     .build();
 
         httpProxyWithCredentialsConfiguration = newProxyConfiguration()
-                                    .withHttpHost(httpProxyWithCredentialsURL)
-                                    .withHttpPort(httpProxyWithCredentialsPort)
-                                    .withCredentials(httpProxyUserName, httpProxyPassword)
+                                    .withHttpHost(proxyWithCredentialsHost)
+                                    .withHttpPort(proxyWithCredentialsPort)
+                                    .withCredentials(proxyUserName, proxyPassword)
                                     .build();
 
         eslClientWithHttpProxy = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyConfiguration);
@@ -67,7 +59,7 @@ public class ProxyConfigurationExample extends SDKSample{
     }
 
     public void execute() {
-        HttpProxyServer httpProxyServer = bootstrap().withPort(httpProxyPort).start();
+        HttpProxyServer httpProxyServer = bootstrap().withPort(proxyPort).start();
 
         DocumentPackage package1 = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the e-SignLive SDK")
@@ -88,7 +80,7 @@ public class ProxyConfigurationExample extends SDKSample{
         retrievedPackage1 = eslClientWithHttpProxy.getPackage(packageId1);
         httpProxyServer.stop();
 
-        HttpProxyServer httpProxyWithCredentialsServer = startHttpProxyWithCredentials(httpProxyWithCredentialsPort, "httpUser", "httpPwd");
+        HttpProxyServer httpProxyWithCredentialsServer = startHttpProxyWithCredentials(proxyWithCredentialsPort, "httpUser", "httpPwd");
 
         DocumentPackage package2 = newPackageNamed("ProxyConfigurationExample2 " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the e-SignLive SDK")
