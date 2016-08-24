@@ -21,7 +21,10 @@ abstract public class SDKSample {
     protected Properties props = Props.get();
 
     public String email1, email2, email3, email4, email5, email6, senderEmail,
-            sms1, sms2, sms3, sms4, sms5, sms6, senderSms, webpageUrl, senderUID;
+        sms1, sms2, sms3, sms4, sms5, sms6, senderSms, webpageUrl, senderUID,
+        proxyHost, proxyWithCredentialsHost, proxyUserName, proxyPassword;
+
+    public int proxyPort, proxyWithCredentialsPort;
 
     public SDKSample() {
         eslClient = new EslClient(props.getProperty( "api.key" ), props.getProperty( "api.url" ), props.getProperty( "webpage.url" ));
@@ -54,7 +57,13 @@ abstract public class SDKSample {
         sms5 = props.getProperty( "5.sms" );
         sms6 = props.getProperty( "6.sms" );
         senderSms = props.getProperty( "sender.sms" );
-        webpageUrl = props.getProperty( "webpage.url" );
+        webpageUrl = props.getProperty("webpage.url");
+        proxyHost = props.getProperty( "proxy.host" );
+        proxyPort = Integer.parseInt(props.getProperty("proxy.port"));
+        proxyWithCredentialsHost = props.getProperty("proxyWithCredentials.host");
+        proxyWithCredentialsPort = Integer.parseInt(props.getProperty("proxyWithCredentials.port"));
+        proxyUserName = props.getProperty("proxy.userName");
+        proxyPassword = props.getProperty("proxy.password");
         senderUID = Converter.apiKeyToUID(props.getProperty("api.key"));
 
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
