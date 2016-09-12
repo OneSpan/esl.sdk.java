@@ -2,8 +2,17 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.RequirementStatus.*;
-import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.*;
+import static com.silanis.esl.sdk.RequirementStatus.COMPLETE;
+import static com.silanis.esl.sdk.RequirementStatus.INCOMPLETE;
+import static com.silanis.esl.sdk.RequirementStatus.REJECTED;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.ATTACHMENT_FILE_NAME1;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.DESCRIPTION1;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.DESCRIPTION2;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.DESCRIPTION3;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.NAME1;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.NAME2;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.NAME3;
+import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.REJECTION_COMMENT;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;

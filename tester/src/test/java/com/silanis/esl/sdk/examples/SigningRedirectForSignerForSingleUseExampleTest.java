@@ -7,13 +7,13 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.core.IsNot.not;
 
 /**
- * Created by mpoitras on 22/04/14.
+ * Created by schoi on 9/12/16.
  */
-public class SigningRedirectForSignerExampleTest {
+public class SigningRedirectForSignerForSingleUseExampleTest {
 
     @Test
     public void verifyResult() {
-        SigningRedirectForSignerExample example = new SigningRedirectForSignerExample();
+        SigningRedirectForSignerForSingleUseExample example = new SigningRedirectForSignerForSingleUseExample();
         example.run();
 
         assertThat(example.generatedLinkToSigningForSigner, not(isEmptyOrNullString()));

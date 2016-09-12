@@ -10,6 +10,7 @@ import static org.hamcrest.core.IsNot.not;
  * Created by mpoitras on 22/04/14.
  */
 public class DesignerRedirectForApiKeyExampleTest {
+
     @Test
     public void verifyResult() {
         DesignerRedirectForApiKeyExample example = new DesignerRedirectForApiKeyExample();

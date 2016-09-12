@@ -56,7 +56,7 @@ public class AuthenticationTokensApiClient {
     }
 
     public SignerAuthenticationToken createSignerAuthenticationToken(String packageId, String signerId, Map<String, String> fields) {
-        String path = template.urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_PATH).build();
+        String path = template.urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_MULTI_USE_PATH).build();
         final SignerAuthenticationToken payloadObject = new SignerAuthenticationToken();
         payloadObject.setPackageId(packageId);
         payloadObject.setSignerId(signerId);
@@ -72,6 +72,26 @@ public class AuthenticationTokensApiClient {
             throw new EslServerException("Could not create a signer authentication token.", e);
         } catch (Exception e) {
             throw new EslException("Could not create a signer authentication token.", e);
+        }
+    }
+
+    public SignerAuthenticationToken createSignerAuthenticationTokenForSingleUse(String packageId, String signerId, Map<String, String> fields) {
+        String path = template.urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_SINGLE_USE_PATH).build();
+        final SignerAuthenticationToken payloadObject = new SignerAuthenticationToken();
+        payloadObject.setPackageId(packageId);
+        payloadObject.setSignerId(signerId);
+
+        SessionFields sessionFields = new SessionFields();
+        sessionFields.setFields(fields);
+        payloadObject.setSessionFields(sessionFields);
+        try {
+            String payload = JacksonUtil.serialize(payloadObject);
+            String stringResponse = restClient.post(path, payload);
+            return Serialization.fromJson(stringResponse, SignerAuthenticationToken.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a signer authentication token for single use.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create a signer authentication token for single use.", e);
         }
     }
 }

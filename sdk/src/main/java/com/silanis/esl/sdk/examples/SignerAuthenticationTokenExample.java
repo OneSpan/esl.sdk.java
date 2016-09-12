@@ -26,7 +26,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
     }
 
     private AuthenticationClient authenticationClient;
-    public String sessionIdForSigner;
+    public String signerSessionIdForMultiUse, signerSessionIdForSingleUse;
     private String signerSessionFieldKey = "SDK SignerAuthenticationTokenExample Signer";
 
     public SignerAuthenticationTokenExample() {
@@ -62,11 +62,14 @@ public class SignerAuthenticationTokenExample extends SDKSample {
         Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
         signerSessionFields.put(signerSessionFieldKey, email1);
         final String signerAuthenticationToken = eslClient.getAuthenticationTokensService().createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
+        final String signerAuthenticationTokenForSingleUse = eslClient.getAuthenticationTokensService().createSignerAuthenticationTokenForSingleUse(packageId.getId(), signerId, signerSessionFields);
 
         /* This value is ready to be used in a cookie header (or alternatively set as a cookie on the browser).
          * It is a signing session valid in the same way as clicking in an email except it is limited to signing operations on the package for which
          * it was created (accept consent, sign, fill-out fields).
          */
-        sessionIdForSigner = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        signerSessionIdForMultiUse = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        signerSessionIdForSingleUse = authenticationClient.getSessionIdForSignerAuthenticationToken(signerAuthenticationTokenForSingleUse);
+
     }
 }

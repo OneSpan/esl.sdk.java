@@ -9,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * Created by mpoitras on 22/04/14.
  */
 public class SenderAuthenticationTokenExampleTest {
+
     @Test
     public void verifyResult() {
         SenderAuthenticationTokenExample example = new SenderAuthenticationTokenExample();

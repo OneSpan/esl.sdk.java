@@ -14,6 +14,7 @@ public class SignerAuthenticationTokenExampleTest {
         SignerAuthenticationTokenExample example = new SignerAuthenticationTokenExample();
         example.run();
 
-        assertThat(example.sessionIdForSigner, notNullValue());
+        assertThat(example.signerSessionIdForMultiUse, notNullValue());
+        assertThat(example.signerSessionIdForSingleUse, notNullValue());
     }
 }
