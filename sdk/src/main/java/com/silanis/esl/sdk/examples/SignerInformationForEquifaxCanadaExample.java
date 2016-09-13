@@ -29,7 +29,7 @@ public class SignerInformationForEquifaxCanadaExample extends SDKSample {
     public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(25).toDate();
     public static final String DRIVERS_LICENSE_NUMBER = "1234567";
     public static final String SOCIAL_INSURANCE_NUMBER = "123456789";
-    public static final String HOME_PHONE_NUMBER = "6485923567";
+    public static final String HOME_PHONE_NUMBER = "+16485923567";
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
     public static void main( String... args ) {
