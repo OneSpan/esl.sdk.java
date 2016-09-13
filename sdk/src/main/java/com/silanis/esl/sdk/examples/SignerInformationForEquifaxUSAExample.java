@@ -28,7 +28,7 @@ public class SignerInformationForEquifaxUSAExample extends SDKSample {
     public static final Integer TIME_AT_ADDRESS = 1;
     public static final String SOCIAL_SECURITY_NUMBER = "666110007";
     public static final Date   DATE_OF_BIRTH = new DateTime().minusYears(42).toDate();
-    public static final String HOME_PHONE_NUMBER = "2055551212";
+    public static final String HOME_PHONE_NUMBER = "+12055551212";
     public static final String DRIVERS_LICENSE_NUMBER = "251689216";
     public static final String FIRST_DOCUMENT_NAME = "First Document pdf";
 
