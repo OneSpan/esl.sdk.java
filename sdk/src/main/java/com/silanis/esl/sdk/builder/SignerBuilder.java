@@ -246,7 +246,7 @@ final public class SignerBuilder {
      * </p>
      * The signer will be asked to authenticate, before accessing his signing
      * ceremony, by providing an SMS PIN number that will have been sent by
-     * e-SignLive to his phone.
+     * eSignLive to his phone.
      *
      * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent @size(min="10", max="40")
      * @return the signer builder object itself
@@ -454,7 +454,7 @@ final public class SignerBuilder {
     /**
      * Challenge builder is a convenient class used to create an Authentication
      * object. It is used to help define the authentication questions and
-     * answers when the user logs on to e-SignLive.
+     * answers when the user logs on to eSignLive.
      *
      */
     public static class ChallengeBuilder extends AuthenticationBuilder {
@@ -471,7 +471,7 @@ final public class SignerBuilder {
         }
 
         /**
-         * First question asked to the user when they log on to e-SignLive.
+         * First question asked to the user when they log on to eSignLive.
          * @param question the first question @size(min="1", max="255")
          * @return This
          */
@@ -480,7 +480,7 @@ final public class SignerBuilder {
         }
 
         /**
-         * Second question asked to the user when they log on to e-SignLive.
+         * Second question asked to the user when they log on to eSignLive.
          * @param question the second question @size(min="1", max="255")
          * @return This
          */
@@ -564,7 +564,7 @@ final public class SignerBuilder {
         private final String phoneNumber;
 
         /**
-         * Builder used to define authentication with e-SignLive by entering an
+         * Builder used to define authentication with eSignLive by entering an
          * SMS PIN number sent at the phone number defined below when the user
          * attempts to log in.
          *

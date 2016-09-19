@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>The EslClient class creates a E-SignLive client with the given api token and base url.</p>
+ * <p>The EslClient class creates a eSignLive client with the given api token and base url.</p>
  * <p>The base url can be the staging or production url.</p>
- * <p>For example: http://sandbox.e-signlive.com/api</p>
+ * <p>For example: http://sandbox.esignlive.com/api</p>
  *
  * <p>Provides access to service classes such as PackageService to help create packages.</p>
  */
@@ -49,7 +49,7 @@ public class EslClient {
     /**
      * The constructor of the EslClient class
      * @param apiKey	the api key token
-     * @param baseURL	the E-SignLive base url
+     * @param baseURL	the eSignLive base url
      */
     public EslClient(String apiKey, String baseURL) {
         Asserts.notNullOrEmpty( apiKey, "apiKey" );
@@ -63,8 +63,8 @@ public class EslClient {
     /**
      * The constructor of the EslClient class
      * @param apiKey	the api key token
-     * @param baseURL	the E-SignLive base url
-     * @param webpageURL	the E-SignLive web page url
+     * @param baseURL	the eSignLive base url
+     * @param webpageURL	the eSignLive web page url
      */
     public EslClient(String apiKey, String baseURL, String webpageURL) {
         this(apiKey, baseURL, webpageURL, false);

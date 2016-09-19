@@ -21,7 +21,7 @@ public class MixingSignatureAndAcceptanceOnOnedocumentExample extends SDKSample 
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
                 .withSigner(newSignerWithEmail(email1)
                                     .withFirstName("John1")

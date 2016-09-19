@@ -58,7 +58,7 @@ public class DocumentBuilder {
 
     /**
      * Enables the extraction operation against the document. Enabling this
-     * setting indicate to the e-SignLive document engine that signature
+     * setting indicate to the eSignLive document engine that signature
      * positions on the document will be extracted from form fields on the
      * document as opposed to being explicitly defined using x-y coordinates,
      * for example.

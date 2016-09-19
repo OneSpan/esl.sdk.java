@@ -8,8 +8,6 @@ import com.silanis.esl.sdk.CeremonyLayoutSettings;
  * This object allows to customize whether or not certain visual elements should
  * be presented and how they should be presented.
  *
- * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony">
- *      Customizing the Signing Ceremony    [e-Sign Enterprise Documentation Project]</a>
  */
 public class CeremonyLayoutSettingsBuilder {
     private Boolean iFrame = null;
@@ -43,7 +41,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withNavigator() {
@@ -68,7 +65,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withGlobalNavigation() {
@@ -93,7 +89,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withBreadCrumbs() {
@@ -118,7 +113,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withSessionBar() {
@@ -143,7 +137,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withTitle() {
@@ -168,7 +161,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withProgressBar() {
@@ -219,7 +211,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withGlobalConfirmButton() {
@@ -244,7 +235,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: ENABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withGlobalSaveAsLayoutButton() {
@@ -269,7 +259,6 @@ public class CeremonyLayoutSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      *
-     * @see <a href="http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony#ceremony_layout">Ceremony Layout</a>
      * @return This
      */
     public CeremonyLayoutSettingsBuilder withGlobalDownloadButton() {

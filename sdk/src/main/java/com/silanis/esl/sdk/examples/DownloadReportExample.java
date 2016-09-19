@@ -38,7 +38,7 @@ public class DownloadReportExample extends SDKSample {
     @Override
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
@@ -61,7 +61,7 @@ public class DownloadReportExample extends SDKSample {
         packageId = eslClient.createPackage(superDuperPackage);
 
         DocumentPackage superDuperPackage2 = newPackageNamed( "DownloadReportForSent " + new SimpleDateFormat( "HH:mm:ss" ).format( new Date() ) )
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)

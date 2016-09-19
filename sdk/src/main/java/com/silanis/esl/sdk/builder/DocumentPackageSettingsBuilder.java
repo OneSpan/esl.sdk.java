@@ -12,8 +12,6 @@ import java.util.List;
  * <p>
  * This object allows to customize the signing ceremony with certain UI widgets of customization options.
  *
- * @see <a href=http://dokuwiki.silanis.com/doku.php?id=esl:e-signlive_guide_customizing-the-signing-ceremony>
- *     Customizing the Signing Ceremony    [e-Sign Enterprise Documentation Project] </a>
  */
 public class DocumentPackageSettingsBuilder {
     private Boolean enableInPerson = null;
@@ -198,7 +196,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Enables the option to stamp the signed documents with the e-SignLive logo at each location they were signed.
+     * Enables the option to stamp the signed documents with the eSignLive logo at each location they were signed.
      * <p>
      * DEFAULT: ENABLED
      * <p>
@@ -212,7 +210,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Disables the option to stamp the signed documents with the e-SignLive logo at each location they were signed.
+     * Disables the option to stamp the signed documents with the eSignLive logo at each location they were signed.
      *
      * @see #withWatermark()
      * @return This
@@ -279,7 +277,7 @@ public class DocumentPackageSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      * @see #withHandOverLinkHref(String)
-     * @param text text displayed to represent the handoverlink href on the e-SignLive UI. @size(max="255")
+     * @param text text displayed to represent the handoverlink href on the eSignLive UI. @size(max="255")
      * @return This
      */
 
@@ -299,7 +297,7 @@ public class DocumentPackageSettingsBuilder {
      * @see #withHandOverLinkHref(String)
      * @param tooltip
      *            text displayed to represent the handoverlink href tool tip on
-     *            the e-SignLive UI. @size(max="255")
+     *            the eSignLive UI. @size(max="255")
      * @return This
      */
     public DocumentPackageSettingsBuilder withHandOverLinkTooltip( String tooltip ) {
@@ -308,7 +306,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Set e-SignLive signing ceremony branding and customization options.
+     * Set eSignLive signing ceremony branding and customization options.
      *
      * @param ceremonyLayoutSettingsBuilder
      * @return This
@@ -318,7 +316,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Set e-SignLive signing ceremony branding and customization options.
+     * Set eSignLive signing ceremony branding and customization options.
      *
      * @param ceremonyLayoutSettings
      * @return This

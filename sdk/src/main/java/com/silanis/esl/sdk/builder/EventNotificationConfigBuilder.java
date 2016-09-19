@@ -8,8 +8,7 @@ import java.util.Set;
 
 /**
  * <p>The EventNotificationConfigBuilder class is used to build and configure event notifications.</p>
- * @see <a href=http://docs.e-signlive.com/doku.php?id=esl:e-signlive_guide_event-notification>
- * Events and Event Notifications    [e-SignLive™ Documentation Project]</a>
+ * Events and Event Notifications    [eSignLive™ Documentation Project]</a>
  */
 final public class EventNotificationConfigBuilder {
 

@@ -30,7 +30,7 @@ public class SenderAuthenticationTokenExample extends SDKSample {
     @Override
     void execute() {
         DocumentPackage packageToCreate = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .withSigner( newSignerWithEmail( email1 )
                                      .withCustomId( "Client1" )
                                      .withFirstName( "John" )

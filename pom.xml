@@ -13,7 +13,7 @@
     <name>java-sdk</name>
     <packaging>pom</packaging>
 
-    <description>A Java software development kit for signing documents using E-Signlive</description>
+    <description>A Java software development kit for signing documents using eSignlive</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

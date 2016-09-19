@@ -45,7 +45,7 @@ public class CreateTemplateOnBehalfOfAnotherSenderExample extends SDKSample {
 
         // Create the template specifying the sender
         DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSenderInfo(SenderInfoBuilder.newSenderInfo(senderEmail)
                         .withName(SENDER_FIRST_NAME, SENDER_LAST_NAME)

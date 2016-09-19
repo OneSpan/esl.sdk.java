@@ -99,7 +99,7 @@ public class AttachmentRequirementExample extends SDKSample {
                 .build();
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .withSigner(signer1)
                 .withSigner(signer2)
                 .withDocument(DocumentBuilder.newDocumentWithName("test document")

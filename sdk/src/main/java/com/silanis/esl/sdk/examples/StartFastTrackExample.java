@@ -26,7 +26,7 @@ public class StartFastTrackExample extends SDKSample {
     public String signingUrl;
 
     public static final String TEMPLATE_NAME = "StartFastTrackExample Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String TEMPLATE_DESCRIPTION = "This is a package created using the e-SignLive SDK";
+    public static final String TEMPLATE_DESCRIPTION = "This is a package created using the eSignLive SDK";
     public static final String TEMPLATE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER_FIRST = "John";
     public static final String TEMPLATE_SIGNER_LAST = "Smith";

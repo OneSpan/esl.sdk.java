@@ -20,7 +20,7 @@ public class ChangePackageStatusExample extends SDKSample {
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .withSigner(newSignerWithEmail(email1)
                                     .withFirstName("John1")
                                     .withLastName("Smith1"))

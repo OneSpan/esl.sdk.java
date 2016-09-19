@@ -35,7 +35,7 @@ public class DocumentUploadExample extends SDKSample{
 
         // 1. Create a package
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs( "This is a package created using the e-SignLive SDK" )
+                .describedAs( "This is a package created using the eSignLive SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
                 .withSigner( newSignerWithEmail( email1 )

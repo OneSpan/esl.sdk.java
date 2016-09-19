@@ -20,7 +20,7 @@ public class BasicPackageCreationExample extends SDKSample {
     public final String group1 = "group1";
     public final String group2 = "group2";
 
-    public static final String PACKAGE_DESC = "This is a package created using the e-SignLive SDK";
+    public static final String PACKAGE_DESC = "This is a package created using the eSignLive SDK";
     public static final Date PACKAGE_EXPIRY = now().plusMonths(1).toDate();
     public static final String PACKAGE_EMAIL_MSG = "This message should be delivered to all signers";
 

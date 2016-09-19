@@ -28,7 +28,7 @@ public class GetSigningUrlExample extends SDKSample {
         String signer2Id = UUID.randomUUID().toString();
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the e-SignLive SDK")
+                .describedAs("This is a package created using the eSignLive SDK")
                 .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
                 .withSigner(newSignerWithEmail(email1)
                                     .withFirstName("John1")

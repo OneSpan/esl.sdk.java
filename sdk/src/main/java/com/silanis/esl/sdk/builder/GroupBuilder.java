@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * <p>GroupBuilder is a convenient class to used to define groups of senders for a given e-SignLive account.</p>
+ * <p>GroupBuilder is a convenient class to used to define groups of senders for a given eSignLive account.</p>
  */
 public class GroupBuilder {
     private GroupId id;
@@ -71,7 +71,7 @@ public class GroupBuilder {
     }
 
     /**
-     * When setting this method, e-SignLive will email each individual members of the group as opposed to
+     * When setting this method, eSignLive will email each individual members of the group as opposed to
      * sending an email to the group email address.
      * <p>
      * @see #withEmail(String)
@@ -83,7 +83,7 @@ public class GroupBuilder {
     }
 
     /**
-     * Invoking this method will result in e-SignLive sending emails to the group email {@link #withEmail(String)}
+     * Invoking this method will result in eSignLive sending emails to the group email {@link #withEmail(String)}
      * address as opposed to each individual members.
      * <p>
      * @see #withIndividualMemberEmailing()

@@ -25,7 +25,7 @@ public class DocumentWorkflowExample extends SDKSample {
     @Override
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package with a document workflow created using the e-SignLive SDK")
+                .describedAs("This is a package with a document workflow created using the eSignLive SDK")
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith"))

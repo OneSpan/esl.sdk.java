@@ -21,7 +21,7 @@ public class AuthenticationMethodsExample extends SDKSample {
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs( "This is a package created using the e-SignLive SDK to demonstrate the authentication methods." )
+                .describedAs( "This is a package created using the eSignLive SDK to demonstrate the authentication methods." )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
                 .withSigner( newSignerWithEmail( email1 )

@@ -262,7 +262,7 @@ public class FieldBuilder {
     }
 
     /**
-     * Informs the e-SignLive document engine that the position of the field
+     * Informs the eSignLive document engine that the position of the field
      * must be inferred from the position of an acrobat form field with a
      * specified name (@see #withName(String)).
      * <p>
@@ -277,7 +277,7 @@ public class FieldBuilder {
     }
 
     /**
-     * Informs the e-SignLive document engine that the position of the field
+     * Informs the eSignLive document engine that the position of the field
      * must be defined relative to the position of a certain text string on the document.
      * <p>
      * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
@@ -290,7 +290,7 @@ public class FieldBuilder {
     }
 
     /**
-     * Informs the e-SignLive document engine that the position of the field
+     * Informs the eSignLive document engine that the position of the field
      * must be defined relative to the position of a certain text string on the document.
      * <p>
      * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
