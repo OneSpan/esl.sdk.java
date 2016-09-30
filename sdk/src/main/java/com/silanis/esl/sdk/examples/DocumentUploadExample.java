@@ -35,15 +35,15 @@ public class DocumentUploadExample extends SDKSample{
 
         // 1. Create a package
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs( "This is a package created using the eSignLive SDK" )
-                .expiresAt( now().plusMonths( 1 ).toDate() )
-                .withEmailMessage( "This message should be delivered to all signers" )
-                .withSigner( newSignerWithEmail( email1 )
-                        .withCustomId( "Client1" )
-                        .withFirstName( "John" )
-                        .withLastName( "Smith" )
-                        .withTitle( "Managing Director" )
-                        .withCompany( "Acme Inc." ) )
+                .describedAs("This is a package created using the eSignLive SDK")
+                .expiresAt(now().plusMonths(1).toDate())
+                .withEmailMessage("This message should be delivered to all signers")
+                .withSigner(newSignerWithEmail(email1)
+                                .withCustomId("Client1")
+                                .withFirstName("John")
+                                .withLastName("Smith")
+                                .withTitle("Managing Director")
+                                .withCompany("Acme Inc."))
                         .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
@@ -63,7 +63,7 @@ public class DocumentUploadExample extends SDKSample{
                 .build();
 
         // 3. Attach the document to the created package by uploading the document.
-        uploadedDocument = eslClient.uploadDocument(document.getFileName(), document.getContent(), document, superDuperPackage);
+        uploadedDocument = eslClient.uploadDocument(document.getFileName(), document.getContent(), document, packageId);
 
         eslClient.sendPackage(superDuperPackage.getId());
 

@@ -1,4 +1,5 @@
 package com.silanis.esl.sdk;
+
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -6,8 +7,33 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.service.*;
-import com.silanis.esl.sdk.service.apiclient.*;
+import com.silanis.esl.sdk.service.AccountService;
+import com.silanis.esl.sdk.service.ApprovalService;
+import com.silanis.esl.sdk.service.AttachmentRequirementService;
+import com.silanis.esl.sdk.service.AuditService;
+import com.silanis.esl.sdk.service.AuthenticationService;
+import com.silanis.esl.sdk.service.AuthenticationTokensService;
+import com.silanis.esl.sdk.service.CustomFieldService;
+import com.silanis.esl.sdk.service.EventNotificationService;
+import com.silanis.esl.sdk.service.FieldSummaryService;
+import com.silanis.esl.sdk.service.GroupService;
+import com.silanis.esl.sdk.service.LayoutService;
+import com.silanis.esl.sdk.service.PackageService;
+import com.silanis.esl.sdk.service.QRCodeService;
+import com.silanis.esl.sdk.service.ReminderService;
+import com.silanis.esl.sdk.service.ReportService;
+import com.silanis.esl.sdk.service.SessionService;
+import com.silanis.esl.sdk.service.SignatureImageService;
+import com.silanis.esl.sdk.service.SigningService;
+import com.silanis.esl.sdk.service.SystemService;
+import com.silanis.esl.sdk.service.TemplateService;
+import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
+import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
+import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
+import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
+import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
+import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
+import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -18,7 +44,7 @@ import java.util.Map;
  * <p>The EslClient class creates a eSignLive client with the given api token and base url.</p>
  * <p>The base url can be the staging or production url.</p>
  * <p>For example: http://sandbox.esignlive.com/api</p>
- *
+ * <p/>
  * <p>Provides access to service classes such as PackageService to help create packages.</p>
  */
 public class EslClient {
@@ -48,12 +74,13 @@ public class EslClient {
 
     /**
      * The constructor of the EslClient class
-     * @param apiKey	the api key token
-     * @param baseURL	the eSignLive base url
+     *
+     * @param apiKey  the api key token
+     * @param baseURL the eSignLive base url
      */
     public EslClient(String apiKey, String baseURL) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        Asserts.notNullOrEmpty(apiKey, "apiKey");
+        Asserts.notNullOrEmpty(baseURL, "baseURL");
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey);
@@ -62,18 +89,19 @@ public class EslClient {
 
     /**
      * The constructor of the EslClient class
-     * @param apiKey	the api key token
-     * @param baseURL	the eSignLive base url
-     * @param webpageURL	the eSignLive web page url
+     *
+     * @param apiKey     the api key token
+     * @param baseURL    the eSignLive base url
+     * @param webpageURL the eSignLive web page url
      */
     public EslClient(String apiKey, String baseURL, String webpageURL) {
         this(apiKey, baseURL, webpageURL, false);
     }
 
     public EslClient(String apiKey, String baseURL, String webpageURL, boolean allowAllSSLCertificates) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
-        Asserts.notNullOrEmpty( webpageURL, "webpageURL" );
+        Asserts.notNullOrEmpty(apiKey, "apiKey");
+        Asserts.notNullOrEmpty(baseURL, "baseURL");
+        Asserts.notNullOrEmpty(webpageURL, "webpageURL");
         setBaseURL(baseURL);
         this.webpageURL = webpageURL;
         RestClient client = new RestClient(apiKey);
@@ -89,15 +117,15 @@ public class EslClient {
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
-        Asserts.notNullOrEmpty( apiKey, "apiKey" );
-        Asserts.notNullOrEmpty( baseURL, "baseURL" );
+        Asserts.notNullOrEmpty(apiKey, "apiKey");
+        Asserts.notNullOrEmpty(baseURL, "baseURL");
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration);
         init(client);
     }
 
-    private void init(RestClient client){
+    private void init(RestClient client) {
         packageService = new PackageService(client, this.baseURL);
         reportService = new ReportService(client, this.baseURL);
         systemService = new SystemService(client, this.baseURL);
@@ -108,13 +136,13 @@ public class EslClient {
         auditService = new AuditService(new AuditApiClient(client, this.baseURL));
         eventNotificationService = new EventNotificationService(new EventNotificationApiClient(client, this.baseURL));
         authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, this.baseURL));
-        groupService = new GroupService( client, this.baseURL );
+        groupService = new GroupService(client, this.baseURL);
         customFieldService = new CustomFieldService(new CustomFieldApiClient(client, this.baseURL));
-        accountService = new AccountService( new AccountApiClient(client, this.baseURL));
-        approvalService = new ApprovalService( new ApprovalApiClient(client, this.baseURL));
-        reminderService = new ReminderService( client, this.baseURL );
+        accountService = new AccountService(new AccountApiClient(client, this.baseURL));
+        approvalService = new ApprovalService(new ApprovalApiClient(client, this.baseURL));
+        reminderService = new ReminderService(client, this.baseURL);
         templateService = new TemplateService(client, this.baseURL, packageService);
-        attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL),client,this.baseURL);
+        attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL), client, this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
         authenticationService = new AuthenticationService(this.webpageURL);
@@ -122,7 +150,8 @@ public class EslClient {
 
     /**
      * Gets the baseUrl
-     * @return	the baseUrl
+     *
+     * @return the baseUrl
      */
     String getBaseURL() {
         return baseURL;
@@ -141,7 +170,8 @@ public class EslClient {
 
     /**
      * Gets the package service
-     * @return	the package service
+     *
+     * @return the package service
      */
     public PackageService getPackageService() {
         return packageService;
@@ -149,7 +179,8 @@ public class EslClient {
 
     /**
      * Gets the report service
-     * @return	the report service
+     *
+     * @return the report service
      */
     public ReportService getReportService() {
         return reportService;
@@ -164,7 +195,7 @@ public class EslClient {
     /**
      * Facilitates access to the service that provides a summary of all the document fields and their values
      *
-     * @return	the field summary service
+     * @return the field summary service
      */
     public FieldSummaryService getFieldSummaryService() {
         return fieldSummaryService;
@@ -178,7 +209,7 @@ public class EslClient {
     /**
      * Facilitates access to the service that could be used to register for event notifications
      *
-     * @return  the event notification service
+     * @return the event notification service
      */
     public EventNotificationService getEventNotificationService() {
         return eventNotificationService;
@@ -187,7 +218,7 @@ public class EslClient {
     /**
      * Facilitates access to the service that creates authentication tokens
      *
-     * @return  the authentication token service
+     * @return the authentication token service
      */
     public AuthenticationTokensService getAuthenticationTokensService() {
         return authenticationTokensService;
@@ -197,7 +228,7 @@ public class EslClient {
     /**
      * Facilitates access to the service that could be used to add custom field
      *
-     * @return  the custom field service
+     * @return the custom field service
      */
     public CustomFieldService getCustomFieldService() {
         return customFieldService;
@@ -206,7 +237,7 @@ public class EslClient {
     /**
      * Facilitates access to the service that get signature image
      *
-     * @return  the signature image service
+     * @return the signature image service
      */
     public SignatureImageService getSignatureImageService() {
         return signatureImageService;
@@ -218,21 +249,20 @@ public class EslClient {
      * <p> - converts the document package to JSON format</p>
      * <p> - makes an eSL REST call to actually create the package. Is is using as payload the above generated JSON content.
      *
-     * @param documentPackage	the document package
-     * @return	the package ID
+     * @param documentPackage the document package
+     * @return the package ID
      */
     public PackageId createPackage(DocumentPackage documentPackage) {
 
-        if(!isSdkVersionSet(documentPackage)){
+        if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
         validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
-        DocumentPackage retrievedPackage = getPackage(id);
 
         for (Document document : documentPackage.getDocuments()) {
-            uploadDocument( document, retrievedPackage );
+            uploadDocument(document, id);
         }
 
         return id;
@@ -242,11 +272,11 @@ public class EslClient {
      * <p>Update the package, when the package status is only Draft</p>
      *
      * @param packageId
-     * @param documentPackage	the document package
+     * @param documentPackage the document package
      */
     public void updatePackage(PackageId packageId, DocumentPackage documentPackage) {
 
-        if(!isSdkVersionSet(documentPackage)){
+        if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
         validateSignatures(documentPackage);
@@ -264,7 +294,7 @@ public class EslClient {
 
     /**
      * Creates the package in one step
-     *
+     * <p/>
      * WARNING: DOES NOT WORK WHEN SENDER HAS A SIGNATURE
      *
      * @param documentPackage the document package
@@ -273,12 +303,12 @@ public class EslClient {
 
     public PackageId createPackageOneStep(DocumentPackage documentPackage) {
 
-        if(!isSdkVersionSet(documentPackage)){
+        if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
         validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
-        for ( Document document : documentPackage.getDocuments() ) {
+        for (Document document : documentPackage.getDocuments()) {
             com.silanis.esl.api.model.Document apiDocument = new DocumentConverter(document).toAPIDocument(packageToCreate);
             packageToCreate.addDocument(apiDocument);
         }
@@ -290,13 +320,13 @@ public class EslClient {
     /**
      * Sign a document using current api key
      *
-     * @param packageId the package id
+     * @param packageId    the package id
      * @param documentName the document name of the document to sign
      */
     public void signDocument(PackageId packageId, String documentName) {
         com.silanis.esl.api.model.Package aPackage = packageService.getApiPackage(packageId.getId());
-        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
-            if(document.getName().equals(documentName)) {
+        for (com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+            if (document.getName().equals(documentName)) {
                 document.getApprovals().clear();
                 signingService.signDocument(packageId, document);
             }
@@ -311,7 +341,7 @@ public class EslClient {
     public void signDocuments(PackageId packageId) {
         SignedDocuments signedDocuments = new SignedDocuments();
         Package aPackage = packageService.getApiPackage(packageId.getId());
-        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+        for (com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
             document.getApprovals().clear();
             signedDocuments.addDocument(document);
         }
@@ -322,7 +352,7 @@ public class EslClient {
      * Sign documents using signer id
      *
      * @param packageId the package id
-     * @param signerId the signer id
+     * @param signerId  the signer id
      */
     public void signDocuments(PackageId packageId, String signerId) {
         String bulkSigningKey = "Bulk Signing on behalf of";
@@ -335,7 +365,7 @@ public class EslClient {
 
         SignedDocuments signedDocuments = new SignedDocuments();
         Package aPackage = packageService.getApiPackage(packageId.getId());
-        for(com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
+        for (com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
             document.getApprovals().clear();
             signedDocuments.addDocument(document);
         }
@@ -349,7 +379,7 @@ public class EslClient {
      * @param documentPackage
      */
     private void validateSignatures(DocumentPackage documentPackage) {
-        for(Document document : documentPackage.getDocuments()) {
+        for (Document document : documentPackage.getDocuments()) {
             validateMixingSignatureAndAcceptance(document);
         }
     }
@@ -360,9 +390,9 @@ public class EslClient {
      * @param document
      */
     private void validateMixingSignatureAndAcceptance(Document document) {
-        if(checkAcceptanceSignatureStyle(document)) {
-            for(Signature signature : document.getSignatures()) {
-                if (signature.getStyle() != SignatureStyle.ACCEPTANCE )
+        if (checkAcceptanceSignatureStyle(document)) {
+            for (Signature signature : document.getSignatures()) {
+                if (signature.getStyle() != SignatureStyle.ACCEPTANCE)
                     throw new EslException("It is not allowed to use acceptance signature styles and other signature styles together in one document.");
             }
         }
@@ -403,7 +433,6 @@ public class EslClient {
      *
      * @param documentPackage
      * @return return true if the version is already set false otherwise
-     *
      */
     private boolean isSdkVersionSet(DocumentPackage documentPackage) {
         if (null == documentPackage.getAttributes() || null == documentPackage.getAttributes().getContents()) {
@@ -421,18 +450,18 @@ public class EslClient {
      */
     public PackageId createAndSendPackage(DocumentPackage documentPackage) {
         PackageId result = createPackage(documentPackage);
-        sendPackage( result );
+        sendPackage(result);
         return result;
     }
 
     /**
      * Creates a package based on an existent template
      *
-     * @param packageId	the package ID used as template for the new package
-     * @param documentPackage	the document package
-     * @return	the package ID
+     * @param packageId       the package ID used as template for the new package
+     * @param documentPackage the document package
+     * @return the package ID
      */
-    public PackageId createPackageFromTemplate( PackageId packageId, DocumentPackage documentPackage ) {
+    public PackageId createPackageFromTemplate(PackageId packageId, DocumentPackage documentPackage) {
         validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         return packageService.createPackageFromTemplate(packageId, packageToCreate);
@@ -442,7 +471,7 @@ public class EslClient {
      * @deprecated Please use createPackageFromTemplate( PackageId packageId, DocumentPackage documentPackage ) instead of this method.
      */
     @Deprecated
-    public PackageId createPackageFromTemplate( DocumentPackage documentPackage, PackageId packageId ) {
+    public PackageId createPackageFromTemplate(DocumentPackage documentPackage, PackageId packageId) {
         return createPackageFromTemplate(packageId, documentPackage);
     }
 
@@ -452,7 +481,7 @@ public class EslClient {
      * <p> - send emails to signers and the package owner</p>
      * <p> - sends notifications (if any)</p>
      *
-     * @param id	the package ID
+     * @param id the package ID
      */
     public void sendPackage(PackageId id) {
         packageService.sendPackage(id);
@@ -460,10 +489,11 @@ public class EslClient {
 
     /**
      * Retrieves a summary for all the document fields of the package identified by its packageId
-     * @param packageId	the package ID
-     * @return	a list of field summarys
+     *
+     * @param packageId the package ID
+     * @return a list of field summarys
      */
-    public List<FieldSummary> getFieldValues( PackageId packageId ) {
+    public List<FieldSummary> getFieldValues(PackageId packageId) {
         return getFieldSummaryService().getFieldSummary(packageId);
     }
 
@@ -482,7 +512,7 @@ public class EslClient {
      * @deprecated Use the {@link com.silanis.esl.sdk.service.AuthenticationTokensService#createSignerAuthenticationToken}.
      */
     @Deprecated
-    public SessionToken createSignerSessionToken( PackageId packageId, String signerId ) throws EslException {
+    public SessionToken createSignerSessionToken(PackageId packageId, String signerId) throws EslException {
         return sessionService.createSessionToken(packageId.getId(), signerId);
     }
 
@@ -491,14 +521,14 @@ public class EslClient {
      * <p>The content of SessionToken that is returned by this method is needed to access</p>
      * <p>the signing ceremony on behalf of the signer for whom the session was generated</p>
      *
-     * @param packageId	the package ID
-     * @param signerId	the signer ID
-     * @return	the session token
+     * @param packageId the package ID
+     * @param signerId  the signer ID
      * @throws EslException
+     * @return the session token
      * @deprecated Use the {@link com.silanis.esl.sdk.service.AuthenticationTokensService#createSignerAuthenticationToken}.
      */
     @Deprecated
-    public SessionToken createSessionToken( PackageId packageId, String signerId ) throws EslException {
+    public SessionToken createSessionToken(PackageId packageId, String signerId) throws EslException {
         return sessionService.createSessionToken(packageId.getId(), signerId);
     }
 
@@ -506,15 +536,16 @@ public class EslClient {
      * @param packageId The document package identifier
      * @return the document package with the given packageId
      */
-    public DocumentPackage getPackage( PackageId packageId ) {
+    public DocumentPackage getPackage(PackageId packageId) {
         return packageService.getPackage(packageId);
     }
 
     /**
      * Downloads a document that belongs to a package
-     * @param packageId	the package ID
+     *
+     * @param packageId  the package ID
      * @param documentId the document ID
-     * @return	the content of the document
+     * @return the content of the document
      */
     public byte[] downloadDocument(PackageId packageId, String documentId) {
         return packageService.downloadDocument(packageId, documentId);
@@ -522,7 +553,8 @@ public class EslClient {
 
     /**
      * Downloads an original document that belongs to a package.
-     * @param packageId the package ID
+     *
+     * @param packageId  the package ID
      * @param documentId the document ID
      * @return the content of the original document
      */
@@ -532,8 +564,9 @@ public class EslClient {
 
     /**
      * Downloads the evidence summary for a package
-     * @param packageId	the package ID
-     * @return	the content of the evidence summary
+     *
+     * @param packageId the package ID
+     * @return the content of the evidence summary
      */
     public byte[] downloadEvidenceSummary(PackageId packageId) {
         return packageService.downloadEvidenceSummary(packageId);
@@ -541,23 +574,40 @@ public class EslClient {
 
     /**
      * Downloads the zipped documents of a package
-     * @param packageId	the package ID
-     * @return	the zipped documents
+     *
+     * @param packageId the package ID
+     * @return the zipped documents
      */
     public byte[] downloadZippedDocuments(PackageId packageId) {
         return packageService.downloadZippedDocuments(packageId);
     }
 
-    public SigningStatus getSigningStatus( PackageId packageId, SignerId signerId, DocumentId documentId ) {
+    public SigningStatus getSigningStatus(PackageId packageId, SignerId signerId, DocumentId documentId) {
         return packageService.getSigningStatus(packageId, signerId, documentId);
     }
 
-    public Document uploadDocument( String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage ) {
-        return packageService.uploadDocument(documentPackage.getId(), fileName, fileContent, document, documentPackage);
+    /**
+     * @deprecated Please use uploadDocument(String fileName, byte[] fileContent, Document document, PackageId packageId) instead of this method.
+     */
+    @Deprecated
+    public Document uploadDocument(String fileName, byte[] fileContent, Document document, DocumentPackage documentPackage) {
+        return uploadDocument(fileName, fileContent, document, documentPackage.getId());
     }
 
-    public Document uploadDocument( Document document, DocumentPackage documentPackage ) {
-        return uploadDocument(document.getFileName(), document.getContent(), document, documentPackage);
+    public Document uploadDocument(String fileName, byte[] fileContent, Document document, PackageId packageId) {
+        return packageService.uploadDocument(packageId, fileName, fileContent, document);
+    }
+
+    /**
+     * @deprecated Please use uploadDocument(Document document, PackageId packageId) instead of this method.
+     */
+    @Deprecated
+    public Document uploadDocument(Document document, DocumentPackage documentPackage) {
+        return uploadDocument(document.getFileName(), document.getContent(), document, documentPackage.getId());
+    }
+
+    public Document uploadDocument(Document document, PackageId packageId) {
+        return uploadDocument(document.getFileName(), document.getContent(), document, packageId);
     }
 
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {

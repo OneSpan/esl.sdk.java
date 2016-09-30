@@ -144,10 +144,8 @@ public class TemplateService {
             throw new EslException("Could not create template", e);
         }
 
-        DocumentPackage createdTemplate = packageService.getPackage(templateId);
-
         for (Document document : template.getDocuments()) {
-            packageService.uploadDocument( templateId, document.getFileName(), document.getContent(), document, createdTemplate);
+            packageService.uploadDocument( templateId, document.getFileName(), document.getContent(), document);
         }
 
         return templateId;

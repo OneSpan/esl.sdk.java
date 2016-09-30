@@ -225,6 +225,14 @@ public class PackageService {
     }
 
     /**
+     * @deprecated Please use uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document) instead of this method.
+     */
+    @Deprecated
+    public com.silanis.esl.sdk.Document uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document, DocumentPackage documentPackage) throws EslException {
+        return uploadDocument(packageId, fileName, fileBytes, document);
+    }
+
+    /**
      * Uploads the Document and file in byte[] to the package.
      *
      * @param packageId
@@ -233,8 +241,9 @@ public class PackageService {
      * @param document  The document with approvals and fields
      * @throws EslException
      */
-    public com.silanis.esl.sdk.Document uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document, DocumentPackage documentPackage) throws EslException {
-        Package apiPackage = new DocumentPackageConverter(documentPackage).toAPIPackage();
+    public com.silanis.esl.sdk.Document uploadDocument(PackageId packageId, String fileName, byte[] fileBytes, com.silanis.esl.sdk.Document document) throws EslException {
+        Package apiPackage = getApiPackage(packageId.getId());
+
         Document apiDocument = new DocumentConverter(document).toAPIDocument(apiPackage);
 
         return uploadApiDocument(packageId.getId(), fileName, fileBytes, apiDocument);

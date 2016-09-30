@@ -101,6 +101,6 @@ public class UpdateInjectedFieldsFromTemplateExample extends SDKSample {
         eslClient.getPackageService().deleteDocument(packageId, retrievedDocument.getId().getId());
 
         // Uploading newly created document.
-        eslClient.uploadDocument(documentToChange.getFileName(), documentToChange.getContent(), documentToChange, retrievedPackage);
+        eslClient.uploadDocument(documentToChange.getFileName(), documentToChange.getContent(), documentToChange, packageId);
     }
 }

@@ -64,7 +64,7 @@ public class DocumentOperationsExample extends SDKSample {
                 .build();
 
         // 3. Attach the document to the created package by uploading the document.
-        eslClient.uploadDocument(document.getFileName(), document.getContent(), document, retrievedPackage);
+        eslClient.uploadDocument(document.getFileName(), document.getContent(), document, packageId);
 
         retrievedPackageWithNewDocument = eslClient.getPackage(packageId);
 
