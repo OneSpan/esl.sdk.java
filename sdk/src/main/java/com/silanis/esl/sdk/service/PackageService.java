@@ -3,22 +3,57 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.model.SigningUrl;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentId;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentVisibility;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.FastTrackRole;
+import com.silanis.esl.sdk.FastTrackSigner;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
+import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.RoleList;
+import com.silanis.esl.sdk.SignerId;
+import com.silanis.esl.sdk.SigningStatus;
 import com.silanis.esl.sdk.SupportConfiguration;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
-import com.silanis.esl.sdk.internal.*;
-import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.internal.DateHelper;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RedirectResolver;
+import com.silanis.esl.sdk.internal.RequestException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentVisibilityConverter;
+import com.silanis.esl.sdk.internal.converter.NotaryJournalEntryConverter;
+import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
+import com.silanis.esl.sdk.internal.converter.SignerConverter;
+import com.silanis.esl.sdk.internal.converter.SupportConfigurationConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -191,10 +226,70 @@ public class PackageService {
         }
     }
 
+    /**
+     * Configure a document visibility.
+     *
+     * @param packageId
+     * @param visibility	the document visibility
+     * @throws EslException
+     */
+    public void configureDocumentVisibility(PackageId packageId, DocumentVisibility visibility) throws EslException {
+        String path = template.urlFor( UrlTemplate.DOCUMENT_VISIBILITY_PATH )
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        com.silanis.esl.api.model.DocumentVisibility apiVisibility = new DocumentVisibilityConverter(visibility).toAPIDocumentVisibility();
+        String json = Serialization.toJson(apiVisibility);
+
+        try {
+            client.post(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not configure document visibility.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not configure document visibility.", e);
+        }
+    }
+
+    /**
+     * Get a document visibility.
+     *
+     * @param packageId
+     * @throws EslException
+     */
+    public DocumentVisibility getDocumentVisibility(PackageId packageId) throws EslException {
+        String path = template.urlFor( UrlTemplate.DOCUMENT_VISIBILITY_PATH )
+                              .replace("{packageId}", packageId.getId())
+                              .build();
+
+        try {
+            String response = client.get(path);
+            com.silanis.esl.api.model.DocumentVisibility apiVisibility = Serialization.fromJson(response, com.silanis.esl.api.model.DocumentVisibility.class);
+            return new DocumentVisibilityConverter(apiVisibility).toSDKDocumentVisibility();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get document visibility.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get document visibility.", e);
+        }
+    }
+
     public DocumentPackage getPackage(PackageId packageId) {
         Package aPackage = getApiPackage(packageId.getId());
 
         return packageConverter(aPackage).toSDKPackage();
+    }
+
+    public List<com.silanis.esl.sdk.Document> getDocuments(PackageId packageId, String signerId) {
+        DocumentPackage documentPackage = getPackage(packageId);
+        final DocumentVisibility visibility = getDocumentVisibility(packageId);
+
+        return visibility.getDocuments(documentPackage, signerId);
+    }
+
+    public List<com.silanis.esl.sdk.Signer> getSigners(PackageId packageId, String documentId) {
+        DocumentPackage documentPackage = getPackage(packageId);
+        final DocumentVisibility visibility = getDocumentVisibility(packageId);
+
+        return visibility.getSigners(documentPackage, documentId);
     }
 
     private DocumentPackageConverter packageConverter(Package aPackage){

@@ -252,6 +252,26 @@ public class EslClient {
     }
 
     /**
+     * <p>Configure the document visibility.</p>
+     *
+     * @param packageId
+     * @param visibility	the document visibility
+     */
+    public void configureDocumentVisibility(PackageId packageId, DocumentVisibility visibility) {
+        packageService.configureDocumentVisibility(packageId, visibility);
+    }
+
+    /**
+     * <p>Get document visibility.</p>
+     *
+     * @param packageId
+     * @return the document visibility
+     */
+    public DocumentVisibility getDocumentVisibility(PackageId packageId) {
+        return packageService.getDocumentVisibility(packageId);
+    }
+
+    /**
      * Creates the package in one step
      *
      * WARNING: DOES NOT WORK WHEN SENDER HAS A SIGNATURE
@@ -441,6 +461,24 @@ public class EslClient {
      */
     public DocumentPackage getPackage( PackageId packageId ) {
         return packageService.getPackage(packageId);
+    }
+
+    /**
+     * @param packageId The document package identifier
+     * @param signerId	the signer ID
+     * @return the document list based on document visibility for the specific signer
+     */
+    public List<Document> getDocuments( PackageId packageId, String signerId ) {
+        return packageService.getDocuments(packageId, signerId);
+    }
+
+    /**
+     * @param packageId The document package identifier
+     * @param documentId	the document ID
+     * @return the signer list based on document visibility for the specific document
+     */
+    public List<Signer> getSigners( PackageId packageId, String documentId ) {
+        return packageService.getSigners(packageId, documentId);
     }
 
     /**
