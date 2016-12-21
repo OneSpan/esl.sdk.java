@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
+import com.google.common.base.Optional;
 import com.silanis.esl.sdk.DocumentVisibility;
 import com.silanis.esl.sdk.DocumentVisibilityConfiguration;
 import org.apache.commons.lang3.StringUtils;
@@ -7,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static com.silanis.esl.sdk.builder.DocumentVisibilityConfigurationBuilder.newDocumentVisibilityConfiguration;
 
@@ -91,6 +91,6 @@ public class DocumentVisibilityBasedOnSignerBuilder {
                 return Optional.of(documentVisibilityConfiguration);
             }
         }
-        return Optional.empty();
+        return Optional.absent();
     }
 }
