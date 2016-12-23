@@ -11,7 +11,7 @@ import java.util.List;
 public class DocumentVisibilityConfigurationBuilder {
 
     private String documentId;
-    private List<String> signerIds = new ArrayList<String>();;
+    private List<String> signerIds = new ArrayList<String>();
 
     /**
      * <p>The constructor of this class.</p>
