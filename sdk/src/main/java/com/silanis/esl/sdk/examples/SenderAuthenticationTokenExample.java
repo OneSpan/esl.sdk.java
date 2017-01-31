@@ -28,7 +28,7 @@ public class SenderAuthenticationTokenExample extends SDKSample {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         DocumentPackage packageToCreate = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the eSignLive SDK")
                 .withSigner( newSignerWithEmail( email1 )

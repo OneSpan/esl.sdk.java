@@ -31,7 +31,7 @@ public class DesignerRedirectForApiKeyExample extends SDKSample {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the eSignLive SDK")
                 .expiresAt(now().plusMonths(1).toDate())

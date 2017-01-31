@@ -1,8 +1,9 @@
-package com.silanis.esl.sdk.examples;
+package com.silanis.esl.sdk.examples.notAllowed;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
+import com.silanis.esl.sdk.examples.SDKSample;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;

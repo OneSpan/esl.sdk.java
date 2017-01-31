@@ -33,7 +33,7 @@ public class DesignerRedirectForPackageSenderExample extends SDKSample {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         /*Note on Custom Sender and the creation of sender authentication tokens:
         *
         * Only an account manager will be authorized to create a package with a custom sender (the custom sender which needs to be in the same account).

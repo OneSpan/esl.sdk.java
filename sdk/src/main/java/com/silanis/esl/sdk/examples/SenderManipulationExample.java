@@ -32,7 +32,7 @@ public class SenderManipulationExample extends SDKSample {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         accountMember1 = AccountMemberBuilder.newAccountMember(email1)
                     .withFirstName( "firstName1" )
                     .withLastName( "lastName1" )

@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.examples.notAllowed.MixingSignatureAndAcceptanceOnOnedocumentExample;
 import org.junit.Test;
 
 import java.util.ArrayList;

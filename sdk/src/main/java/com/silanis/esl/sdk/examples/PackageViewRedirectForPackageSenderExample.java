@@ -31,7 +31,7 @@ public class PackageViewRedirectForPackageSenderExample extends SDKSample {
     }
 
     @Override
-    void execute() {
+    public void execute() {
 
         eslClient.getAccountService().inviteUser(
                 AccountMemberBuilder.newAccountMember(senderEmail)

@@ -34,7 +34,7 @@ public class SignerAuthenticationTokenExample extends SDKSample {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         String signerId = UUID.randomUUID().toString();
         DocumentPackage packageToCreate = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the eSignLive SDK")

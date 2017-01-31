@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.sdk.examples.notAllowed.DeletePackageExample;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

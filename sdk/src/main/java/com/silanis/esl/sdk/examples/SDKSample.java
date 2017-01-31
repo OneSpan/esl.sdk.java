@@ -36,7 +36,7 @@ abstract public class SDKSample {
         setProperties();
     }
 
-    abstract void execute();
+    abstract protected void execute();
 
     public void run() {
         execute();
