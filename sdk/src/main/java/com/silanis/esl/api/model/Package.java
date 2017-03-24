@@ -64,6 +64,8 @@ public class Package extends BasePackage
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_VISIBILITY = "visibility";
+    @JsonIgnore
+    public static final String FIELD_CREATED = "created";
     
     // Empty Constructor
     public Package ( ) {}
@@ -445,6 +447,17 @@ public class Package extends BasePackage
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
-    
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @Override
+    public Package setCreated( java.util.Date value ){
+        super.setCreated(value);
+        return this;
+    }
+    @JsonIgnore
+    public Package safeSetCreated( java.util.Date value ){
+        if ( value != null ) { this.setCreated( value ); }
+        return this;
+    }
     
 }

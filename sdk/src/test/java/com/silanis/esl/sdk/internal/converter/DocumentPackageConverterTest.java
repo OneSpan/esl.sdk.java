@@ -107,6 +107,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Message status was not correctly set", apiPackage1.getMessages().get(0).getStatus().toString(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getStatus().toString())));
         assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getContent())));
         assertThat("Sender email address was not correctly set", apiPackage1.getSender().getEmail(), is(equalTo(sdkDocumentPackage1.getSenderInfo().getEmail())));
+        assertThat("Creation date was not correctly set", apiPackage1.getCreated(), is(sdkDocumentPackage1.getCreatedDate()));
     }
 
     @Override
@@ -159,6 +160,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiDocumentPackage.setDue(new Date());
         apiDocumentPackage.setName("API package name");
         apiDocumentPackage.setStatus(PackageStatus.DRAFT.getApiValue());
+        apiDocumentPackage.setCreated(new Date());
 
         Message apiMessage = new Message();
         apiMessage.setContent("opt-out reason");

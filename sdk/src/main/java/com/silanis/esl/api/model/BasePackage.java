@@ -61,6 +61,8 @@ public class BasePackage extends Entity
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_VISIBILITY = "visibility";
+    @JsonIgnore
+    public static final String FIELD_CREATED = "created";
     
     // Empty Constructor
     public BasePackage ( ) {}
@@ -85,6 +87,7 @@ public class BasePackage extends Entity
     protected String _type = "PACKAGE";
     protected java.util.Date _updated;
     protected String _visibility = "ACCOUNT";
+    protected java.util.Date _created;
     
     // Accessors
         
@@ -160,7 +163,7 @@ public class BasePackage extends Entity
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
     public BasePackage safeSetDescription( String value ){
-        if ( value != null ) { this.setDescription( value ); }
+        if ( value != null ) { this.setDescription(value); }
         return this;
     }
     public String getDescription(){
@@ -265,7 +268,7 @@ public class BasePackage extends Entity
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
     public BasePackage safeSetLanguage( String value ){
-        if ( value != null ) { this.setLanguage( value ); }
+        if ( value != null ) { this.setLanguage(value); }
         return this;
     }
     public String getLanguage(){
@@ -344,7 +347,7 @@ public class BasePackage extends Entity
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
     public BasePackage safeSetNotarized( Boolean value ){
-        if ( value != null ) { this.setNotarized( value ); }
+        if ( value != null ) { this.setNotarized(value); }
         return this;
     }
     public Boolean getNotarized(){
@@ -537,6 +540,25 @@ public class BasePackage extends Entity
     public String getVisibility(){
         return _visibility;
     }
-    
-    
+
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public BasePackage setCreated( java.util.Date value ){
+        SchemaSanitizer.throwOnNull(FIELD_CREATED, value);
+        this._created = value;
+        setDirty(FIELD_CREATED);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public BasePackage safeSetCreated( java.util.Date value ){
+        if ( value != null ) { this.setCreated( value ); }
+        return this;
+    }
+
+    @JsonSerialize(using = JsonDateSerializer.class)
+    public java.util.Date getCreated(){
+        return _created;
+    }
+
 }

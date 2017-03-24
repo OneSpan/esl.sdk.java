@@ -57,6 +57,8 @@ public class Template extends BaseTemplate
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_VISIBILITY = "visibility";
+    @JsonIgnore
+    public static final String FIELD_CREATED = "created";
     
     // Empty Constructor
     public Template ( ) {}
@@ -391,6 +393,18 @@ public class Template extends BaseTemplate
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
-    
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @Override
+    public Template setCreated( java.util.Date value ){
+        super.setCreated(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Template safeSetCreated( java.util.Date value ){
+        if ( value != null ) { this.setCreated( value ); }
+        return this;
+    }
     
 }

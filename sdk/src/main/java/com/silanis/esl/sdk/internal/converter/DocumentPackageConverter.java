@@ -244,6 +244,9 @@ public class DocumentPackageConverter {
         if (apiPackage.getUpdated() != null) {
             documentPackage.setUpdatedDate(apiPackage.getUpdated());
         }
+        if (apiPackage.getCreated() != null) {
+            documentPackage.setCreatedDate(apiPackage.getCreated());
+        }
 
         return documentPackage;
     }

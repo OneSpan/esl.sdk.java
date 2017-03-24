@@ -20,6 +20,7 @@ public class DocumentPackage implements Serializable {
     private String description;
     private Date expiryDate;
     private Date updatedDate;
+    private Date createdDate;
     private String packageMessage;
     private Boolean notarized;
     private Boolean trashed;
@@ -206,6 +207,15 @@ public class DocumentPackage implements Serializable {
 
     public Date getUpdatedDate() {
         return updatedDate;
+    }
+
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     /**
