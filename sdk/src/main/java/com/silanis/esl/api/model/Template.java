@@ -391,6 +391,13 @@ public class Template extends BaseTemplate
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @Override
+    public Template setCreated( java.util.Date value ){
+        super.setCreated(value);
+        return this;
+    }
     
     
 }

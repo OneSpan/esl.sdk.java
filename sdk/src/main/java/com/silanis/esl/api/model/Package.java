@@ -445,6 +445,13 @@ public class Package extends BasePackage
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @Override
+    public Package setCreated( java.util.Date value ){
+        super.setCreated(value);
+        return this;
+    }
     
     
 }

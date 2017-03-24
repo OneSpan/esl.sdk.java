@@ -61,6 +61,8 @@ public class BasePackage extends Entity
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_VISIBILITY = "visibility";
+    @JsonIgnore
+    public static final String FIELD_CREATED = "created";
     
     // Empty Constructor
     public BasePackage ( ) {}
@@ -85,6 +87,7 @@ public class BasePackage extends Entity
     protected String _type = "PACKAGE";
     protected java.util.Date _updated;
     protected String _visibility = "ACCOUNT";
+    protected java.util.Date _created;
     
     // Accessors
         
@@ -537,6 +540,19 @@ public class BasePackage extends Entity
     public String getVisibility(){
         return _visibility;
     }
-    
-    
+
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public BasePackage setCreated( java.util.Date value ){
+        SchemaSanitizer.throwOnNull(FIELD_CREATED, value);
+        this._created = value;
+        setDirty(FIELD_CREATED);
+        return this;
+    }
+
+    @JsonSerialize(using = JsonDateSerializer.class)
+    public java.util.Date getCreated(){
+        return _created;
+    }
+
 }

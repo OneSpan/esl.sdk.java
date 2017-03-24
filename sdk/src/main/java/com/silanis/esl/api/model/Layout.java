@@ -392,6 +392,13 @@ public class Layout extends BaseTemplate
         if ( value != null ) { this.setVisibility( value ); }
         return this;
     }
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @Override
+    public Layout setCreated( java.util.Date value ){
+        super.setCreated(value);
+        return this;
+    }
     
     
 }
