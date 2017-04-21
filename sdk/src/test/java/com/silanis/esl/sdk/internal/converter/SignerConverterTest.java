@@ -1,7 +1,12 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.AttachmentRequirement;
+import com.silanis.esl.api.model.ExternalSigning;
+import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
+import com.silanis.esl.sdk.builder.ExternalSigningBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -190,6 +195,17 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Message was not set correctly", apiRole.getEmailMessage(), is(nullValue()));
     }
 
+
+    @Test
+    public void convertSDKSignerWithExternalSigningDigipassMethodAndIdentityInfoNotNull() {
+        sdkSigner1 = createTypicalSDKSignerWithExternalSigningDigipassAndIdentityInfoNotNull();
+        apiSigner1 = new SignerConverter(sdkSigner1).toAPISigner();
+
+        assertThat("External Signing Key was not set correctly",
+                apiSigner1.getExternalSigning().getProviderKey(),  Matchers.is(Matchers.equalTo(ExternalProviderKey.DIGIPASS.getApiValue())));
+        assertThat("IdentityInfo was not set correctly", apiSigner1.getExternalSigning().getIdentityInfo(), notNullValue());
+    }
+
     /**
      * Create an SDK Signer.
      *
@@ -267,4 +283,20 @@ public class SignerConverterTest implements ConverterTest {
     }
 
 
+    private com.silanis.esl.sdk.Signer createTypicalSDKSignerWithExternalSigningDigipassAndIdentityInfoNotNull() {
+
+        return SignerBuilder.newSignerWithEmail("abc@test.com")
+                .canChangeSigner()
+                .deliverSignedDocumentsByEmail()
+                .signingOrder(1)
+                .withCompany("ABC Inc.")
+                .withCustomId("1")
+                .withFirstName("first name")
+                .withLastName("last name")
+                .withEmailMessage("Email message.")
+                .withTitle("Miss")
+                .withExternalSigning(ExternalSigningBuilder.newExternalSigning(
+                        ExternalProviderKey.fromAPIExternalProviderKey("DIGIPASS")).withIdentityInfo("Test"))
+                .build();
+    }
 }
