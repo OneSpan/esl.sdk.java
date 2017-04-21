@@ -27,6 +27,7 @@ public class Signer implements Serializable {
     private boolean locked;
     private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
+    private ExternalSigning externalSigning;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -314,4 +315,11 @@ public class Signer implements Serializable {
         this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
     }
 
+    public ExternalSigning getExternalSigning() {
+        return externalSigning;
+    }
+
+    public void setExternalSigning(ExternalSigning externalSigning) {
+        this.externalSigning = externalSigning;
+    }
 }
