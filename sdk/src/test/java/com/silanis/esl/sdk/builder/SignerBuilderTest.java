@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class SignerBuilderTest {
     @Test
@@ -211,6 +212,20 @@ public class SignerBuilderTest {
         assertThat("Signer should have 2 attachment.", signer.getAttachmentRequirements().size(), is(2));
         assertThat("Attachment1 information was set incorrectly.", signer.getAttachmentRequirement("Driver's license"), is(attachmentRequirement1));
         assertThat("Attachment2 information was set incorrectly.", signer.getAttachmentRequirement("Medicare card"), is(attachmentRequirement2));
+    }
+
+
+    @Test
+    public void providingExternalSigningDigipassMethod() {
+        Signer signer = newSignerWithEmail("joe@blow.com")
+                .withFirstName("Joe")
+                .withLastName("Blow")
+                .withExternalSigning(ExternalSigningBuilder.newExternalSigning(
+                        ExternalProviderKey.fromAPIExternalProviderKey("DIGIPASS")))
+                .build();
+
+        assertNotNull(signer.getExternalSigning());
+        assertThat(signer.getExternalSigning().getProviderKey(), is(equalTo(ExternalProviderKey.DIGIPASS)));
     }
 
 }
