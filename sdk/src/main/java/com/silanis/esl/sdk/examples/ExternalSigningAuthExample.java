@@ -21,11 +21,11 @@ public class ExternalSigningAuthExample extends SDKSample {
         DocumentPackage packageTest = PackageBuilder.newPackageNamed(packageName)
                 .withSigner(SignerBuilder.newSignerWithEmail(email1)
                         .withFirstName("John1")
-                        .withLastName("Smith1"))
-                .withSigner(SignerBuilder.newSignerWithEmail(email2).
-                        withFirstName("John2").withLastName("Smith2")
+                        .withLastName("Smith1")
                         .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider(PROVIDER_KEY)
                                 .withIdentityInfo(IDENTITY_INFO)))
+                .withSigner(SignerBuilder.newSignerWithEmail(email2).
+                        withFirstName("John2").withLastName("Smith2"))
                 .withDocument(DocumentBuilder.newDocumentWithName("Custom Consent Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(SignatureBuilder.signatureFor(email1).onPage(0).atPosition(100, 100))).build();

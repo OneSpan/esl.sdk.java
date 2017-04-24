@@ -23,7 +23,7 @@ public class ExternalSigningAuthExampleTest {
 
         assertThat("External Signing Auth null", documentPackage.getSigner(example.email1).getExternalSigningAuth(), notNullValue());
 
-        Signer signer = documentPackage.getSigner(example.email2);
+        Signer signer = documentPackage.getSigner(example.email1);
         assertThat("External Signing Auth is null", signer.getExternalSigningAuth(), notNullValue());
         assertThat("Identity Info is not Equal", signer.getExternalSigningAuth().getIdentityInfo(),
                 is(ExternalSigningAuthExample.IDENTITY_INFO));
