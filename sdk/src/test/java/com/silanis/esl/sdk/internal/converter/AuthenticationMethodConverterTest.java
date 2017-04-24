@@ -88,6 +88,16 @@ public class AuthenticationMethodConverterTest implements ConverterTest {
         sdkAuthenticationMethod = converter.toSDKAuthMethod();
         assertThat("AuthenticationMethod was not set correctly", sdkAuthenticationMethod, is(AuthenticationMethod.KBA));
 
+        apiAuthenticationMethod = "CERTIFICATE";
+        converter = new AuthenticationMethodConverter(apiAuthenticationMethod);
+        sdkAuthenticationMethod = converter.toSDKAuthMethod();
+        assertThat("AuthenticationMethod was not set correctly", sdkAuthenticationMethod, is(AuthenticationMethod.CERTIFICATE));
+
+        apiAuthenticationMethod = "EXTERNAL";
+        converter = new AuthenticationMethodConverter(apiAuthenticationMethod);
+        sdkAuthenticationMethod = converter.toSDKAuthMethod();
+        assertThat("AuthenticationMethod was not set correctly", sdkAuthenticationMethod, is(AuthenticationMethod.EXTERNAL));
+
         apiAuthenticationMethod = "UNKNOWN";
         converter = new AuthenticationMethodConverter(apiAuthenticationMethod);
         sdkAuthenticationMethod = converter.toSDKAuthMethod();
@@ -115,6 +125,16 @@ public class AuthenticationMethodConverterTest implements ConverterTest {
         converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);
         apiAuthenticationMethod = converter.toAPIAuthMethod();
         assertThat("AuthenticationMethod was not set correctly", apiAuthenticationMethod, is("KBA"));
+
+        sdkAuthenticationMethod = com.silanis.esl.sdk.AuthenticationMethod.CERTIFICATE;
+        converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);
+        apiAuthenticationMethod = converter.toAPIAuthMethod();
+        assertThat("AuthenticationMethod was not set correctly", apiAuthenticationMethod, is("CERTIFICATE"));
+
+        sdkAuthenticationMethod = com.silanis.esl.sdk.AuthenticationMethod.EXTERNAL;
+        converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);
+        apiAuthenticationMethod = converter.toAPIAuthMethod();
+        assertThat("AuthenticationMethod was not set correctly", apiAuthenticationMethod, is("EXTERNAL"));
 
         sdkAuthenticationMethod = com.silanis.esl.sdk.AuthenticationMethod.UNRECOGNIZED("UNKNOWN");
         converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);

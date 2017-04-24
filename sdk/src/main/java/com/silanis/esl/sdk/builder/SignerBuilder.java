@@ -29,6 +29,7 @@ final public class SignerBuilder {
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
+    private List<Authentication> authentications = new ArrayList<Authentication>();
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -163,6 +164,7 @@ final public class SignerBuilder {
         result.setMessage(message);
         result.setId(id);
         result.setAttachmentRequirements(attachments);
+        result.setAuthentications(authentications);
 
         return result;
     }
@@ -176,6 +178,7 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setAttachmentRequirements(attachments);
+        result.setAuthentications(authentications);
         return result;
     }
 
@@ -192,6 +195,7 @@ final public class SignerBuilder {
         result.setTitle(title);
         result.setCompany(company);
         result.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
+        result.setAuthentications(authentications);
 
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
@@ -301,6 +305,26 @@ final public class SignerBuilder {
      */
     public SignerBuilder canChangeSigner() {
         canChangeSigner = true;
+        return this;
+    }
+
+    /**
+     * <p>Sets the certificateSigning.</p>
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withCertificateSigning() {
+        Authentication authentication = new Authentication(AuthenticationMethod.CERTIFICATE);
+        authentications.add(authentication);
+        return this;
+    }
+
+    /**
+     * <p>Sets the externalSigning.</p>
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withExternalSigning() {
+        Authentication authentication = new Authentication(AuthenticationMethod.EXTERNAL);
+        authentications.add(authentication);
         return this;
     }
 

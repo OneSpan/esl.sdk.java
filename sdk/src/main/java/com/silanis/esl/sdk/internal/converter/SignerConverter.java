@@ -1,14 +1,18 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Role;
+import com.silanis.esl.sdk.Authentication;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * User: jessica
@@ -56,15 +60,26 @@ public class SignerConverter {
         com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
 
         if ( !sdkSigner.isGroupSigner() ) {
-            result.setEmail( sdkSigner.getEmail() )
+            result.setEmail(sdkSigner.getEmail())
                     .setFirstName(sdkSigner.getFirstName())
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
                     .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
-                    .setDelivery( new Delivery().setEmail( sdkSigner.isDeliverSignedDocumentsByEmail() ) );
+                    .setDelivery(new Delivery().setEmail(sdkSigner.isDeliverSignedDocumentsByEmail()));
+
+            if(!sdkSigner.getAuthentications().isEmpty()) {
+                List<Auth> auths = result.getAuths();
+                for(Authentication authentication : sdkSigner.getAuthentications()) {
+                    Auth auth = new Auth();
+                    auth.setScheme(authentication.getMethod().name());
+                    auths.add(auth);
+                }
+                result.setAuths(auths);
+            }
+
         } else {
-            result.setGroup( new com.silanis.esl.api.model.Group().setId( sdkSigner.getGroupId().toString() ) );
+            result.setGroup(new com.silanis.esl.api.model.Group().setId(sdkSigner.getGroupId().toString()));
         }
 
         if ( sdkSigner.getId() != null ) {
@@ -114,6 +129,13 @@ public class SignerConverter {
         }
 
         Signer signer = signerBuilder.build();
+
+        List<Auth> auths = apiSigner.getAuths();
+        if(auths != null && !auths.isEmpty()) {
+            for(Auth auth : auths) {
+                signer.addAuthentication(new AuthenticationConverter(auth).toSDKAuthentication());
+            }
+        }
 
         if ( apiRole.evalLocked() ) {
             signer.setLocked(true);
