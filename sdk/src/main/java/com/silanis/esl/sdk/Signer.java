@@ -21,6 +21,7 @@ public class Signer implements Serializable {
     private boolean canChangeSigner;
     private String message;
     private boolean deliverSignedDocumentsByEmail;
+    private boolean authenticatedSigning;
     private String id;
     private String placeholderName;
     private boolean locked;
@@ -235,6 +236,14 @@ public class Signer implements Serializable {
      */
     public boolean isDeliverSignedDocumentsByEmail() {
         return deliverSignedDocumentsByEmail;
+    }
+
+    public boolean isAuthenticatedSigning() {
+        return authenticatedSigning;
+    }
+
+    public void setAuthenticatedSigning(boolean authenticatedSigning) {
+        this.authenticatedSigning = authenticatedSigning;
     }
 
     /**

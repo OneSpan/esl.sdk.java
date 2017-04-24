@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
@@ -25,6 +27,8 @@ public class Signer extends User
     public static final String FIELD_DATA = "data";
     @JsonIgnore
     public static final String FIELD_DELIVERY = "delivery";
+    @JsonIgnore
+    public static final String FIELD_AUTHS = "auths";
     @JsonIgnore
     public static final String FIELD_EMAIL = "email";
     @JsonIgnore
@@ -63,7 +67,9 @@ public class Signer extends User
     
     // Fields
     protected Auth _auth;
+    protected List<Auth> _auths = new ArrayList<Auth>();
     protected Delivery _delivery;
+    protected Boolean _authenticatedSigning = false;
     protected Group _group = null;
     protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
     
@@ -164,8 +170,38 @@ public class Signer extends User
     public Delivery getDelivery(){
         return _delivery;
     }
-    
-        
+
+
+
+    public Signer setAuths(List<Auth> value) {
+        SchemaSanitizer.throwOnNull(FIELD_AUTHS, value);
+        // TODO With proper compare
+        // if ( this._customFields == value ) return this;
+        this._auths = value;
+        setDirty(FIELD_AUTHS);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetAuths( List<Auth> value ){
+        if ( value != null ) { this.setAuths( value ); }
+        return this;
+    }
+
+    // List adder
+    public Signer addAuth(Auth value) {
+        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+        this._auths.add(value);
+        setDirty(FIELD_AUTHS);
+        return this;
+    }
+
+
+    public List<Auth> getAuths() {
+        return _auths;
+    }
+
     
     @Override
     public Signer setEmail( String value ){

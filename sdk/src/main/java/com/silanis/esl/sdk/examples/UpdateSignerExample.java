@@ -52,6 +52,7 @@ public class UpdateSignerExample extends SDKSample {
         Signer signer3 = newSignerWithEmail(email3)
                 .withFirstName(SIGNER3_FIRST_NAME)
                 .withLastName(SIGNER3_LAST_NAME)
+                .enableAuthenticatedSigning()
                 .challengedWithQuestions(firstQuestion(SIGNER3_FIRST_QUESTION)
                                                  .answer(SIGNER3_FIRST_ANSWER)
                                                  .secondQuestion(SIGNER3_SECOND_QUESTION)

@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Role;
@@ -9,6 +10,9 @@ import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: jessica
@@ -56,13 +60,22 @@ public class SignerConverter {
         com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
 
         if ( !sdkSigner.isGroupSigner() ) {
-            result.setEmail( sdkSigner.getEmail() )
+            result.setEmail(sdkSigner.getEmail())
                     .setFirstName(sdkSigner.getFirstName())
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
                     .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
-                    .setDelivery( new Delivery().setEmail( sdkSigner.isDeliverSignedDocumentsByEmail() ) );
+                    .setDelivery(new Delivery().setEmail(sdkSigner.isDeliverSignedDocumentsByEmail()));
+
+            if(sdkSigner.isAuthenticatedSigning()) {
+                List<Auth> auths = new ArrayList<Auth>();
+                Auth auth = new Auth();
+                auth.setScheme("CERTIFICATE");
+                auths.add(auth);
+                result.setAuths(auths);
+            }
+
         } else {
             result.setGroup( new com.silanis.esl.api.model.Group().setId( sdkSigner.getGroupId().toString() ) );
         }
@@ -88,6 +101,9 @@ public class SignerConverter {
                     .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
+            }
+            if ( signerHasCertificateSigning(apiSigner) ) {
+                signerBuilder.enableAuthenticatedSigning();
             }
         } else {
             signerBuilder = SignerBuilder.newSignerFromGroup( new GroupId( apiSigner.getGroup().getId() ) );
@@ -120,6 +136,20 @@ public class SignerConverter {
         }
 
         return signer;
+    }
+
+    private boolean signerHasCertificateSigning(com.silanis.esl.api.model.Signer apiSigner) {
+        List<Auth> auths = apiSigner.getAuths();
+
+        if(auths == null || auths.isEmpty())
+            return false;
+
+        for(Auth auth : auths) {
+            if(StringUtils.equalsIgnoreCase(auth.getScheme(), "CERTIFICATE"))
+                return true;
+        }
+
+        return false;
     }
 
     private Signer newSignerPlaceholderFromAPIRole(){

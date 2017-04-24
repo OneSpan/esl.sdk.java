@@ -25,6 +25,7 @@ final public class SignerBuilder {
     private boolean canChangeSigner;
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
+    private boolean authenticatedSigning;
     private String id = null;
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
@@ -163,6 +164,7 @@ final public class SignerBuilder {
         result.setMessage(message);
         result.setId(id);
         result.setAttachmentRequirements(attachments);
+        result.setAuthenticatedSigning(authenticatedSigning);
 
         return result;
     }
@@ -176,6 +178,7 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setAttachmentRequirements(attachments);
+        result.setAuthenticatedSigning(authenticatedSigning);
         return result;
     }
 
@@ -192,6 +195,7 @@ final public class SignerBuilder {
         result.setTitle(title);
         result.setCompany(company);
         result.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
+        result.setAuthenticatedSigning(authenticatedSigning);
 
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
@@ -301,6 +305,15 @@ final public class SignerBuilder {
      */
     public SignerBuilder canChangeSigner() {
         canChangeSigner = true;
+        return this;
+    }
+
+    /**
+     * <p>Sets the authenticatedSigning property to true.</p>
+     * @return the signer builder object itself
+     */
+    public SignerBuilder enableAuthenticatedSigning() {
+        authenticatedSigning = true;
         return this;
     }
 
