@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class ExternalSigning extends Model implements java.io.Serializable{
+public class ExternalSigningAuth extends Model implements java.io.Serializable{
 
     @JsonIgnore
     public static final String FIELD_IDENTITY_INFO = "identityInfo";

@@ -1,13 +1,13 @@
 package com.silanis.esl.sdk;
 
-public class ExternalSigning implements java.io.Serializable{
+public class ExternalSigningAuth implements java.io.Serializable{
 
     private static final long serialVersionUID = 1L;
 
     private String identityInfo;
-    private ExternalProviderKey providerKey;
+    private String providerKey;
 
-    public ExternalSigning(ExternalProviderKey providerKey){
+    public ExternalSigningAuth(String providerKey){
         this.providerKey = providerKey;
     }
 
@@ -19,11 +19,11 @@ public class ExternalSigning implements java.io.Serializable{
         this.identityInfo = identityInfo;
     }
 
-    public ExternalProviderKey getProviderKey() {
+    public String getProviderKey() {
         return providerKey;
     }
 
-    public void setProviderKey(ExternalProviderKey providerKey) {
+    public void setProviderKey(String providerKey) {
         this.providerKey = providerKey;
     }
 }

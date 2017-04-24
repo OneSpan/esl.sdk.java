@@ -74,7 +74,7 @@ public class Signer extends User
     protected Boolean _authenticatedSigning = false;
     protected Group _group = null;
     protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
-    protected ExternalSigning _externalSigning = null;
+    protected ExternalSigningAuth _externalSigningAuth = null;
 
     
     // Accessors
@@ -458,19 +458,19 @@ public class Signer extends User
         return this;
     }
 
-    public Signer setExternalSigning( ExternalSigning value ){
-        this._externalSigning = value;
+    public Signer setExternalSigningAuth( ExternalSigningAuth value ){
+        this._externalSigningAuth = value;
         setDirty(FIELD_EXTERNAL_SIGNING_AUTHENTICATION);
         return this;
     }
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Signer safeSetExternalSigning( ExternalSigning value ){
-        if ( value != null ) { this.setExternalSigning( value ); }
+    public Signer safeSetExternalSigningAuth( ExternalSigningAuth value ){
+        if ( value != null ) { this.setExternalSigningAuth( value ); }
         return this;
     }
-    public ExternalSigning getExternalSigning(){
-        return _externalSigning;
+    public ExternalSigningAuth getExternalSigningAuth(){
+        return _externalSigningAuth;
     }
 
 }

@@ -30,7 +30,7 @@ final public class SignerBuilder {
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
-    private ExternalSigning externalSigning;
+    private ExternalSigningAuth externalSigningAuth;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -204,7 +204,7 @@ final public class SignerBuilder {
         result.setId(id);
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
-        result.setExternalSigning(externalSigning);
+        result.setExternalSigningAuth(externalSigningAuth);
 
         return result;
     }
@@ -441,13 +441,13 @@ final public class SignerBuilder {
         return this;
     }
 
-    public SignerBuilder withExternalSigning(ExternalSigning externalSigning){
-        this.externalSigning = externalSigning;
+    public SignerBuilder withExternalSigningAuth(ExternalSigningAuth externalSigningAuth){
+        this.externalSigningAuth = externalSigningAuth;
         return this;
     }
 
-    public SignerBuilder withExternalSigning(ExternalSigningBuilder externalSigningBuilder){
-        this.externalSigning = externalSigningBuilder.build();
+    public SignerBuilder withExternalSigningAuth(ExternalSigningAuthBuilder externalSigningAuthBuilder){
+        this.externalSigningAuth = externalSigningAuthBuilder.build();
         return this;
     }
 

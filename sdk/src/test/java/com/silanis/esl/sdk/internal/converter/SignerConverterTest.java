@@ -2,11 +2,9 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.AttachmentRequirement;
-import com.silanis.esl.api.model.ExternalSigning;
 import com.silanis.esl.api.model.Signer;
-import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
-import com.silanis.esl.sdk.builder.ExternalSigningBuilder;
+import com.silanis.esl.sdk.builder.ExternalSigningAuthBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -131,6 +129,10 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(equalTo(sdkSigner1.getLastName())));
         assertThat("Company was not correctly set", apiSigner1.getCompany(), is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(equalTo(sdkSigner1.getTitle())));
+        assertThat("Provider Key was not correctly set", apiSigner1.getExternalSigningAuth().getProviderKey(),
+                is(equalTo(sdkSigner1.getExternalSigningAuth().getProviderKey())));
+        assertThat("Identity Info was not correctly set", apiSigner1.getExternalSigningAuth().getIdentityInfo(),
+                is(equalTo(sdkSigner1.getExternalSigningAuth().getIdentityInfo())));
 
     }
 
@@ -195,17 +197,6 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Message was not set correctly", apiRole.getEmailMessage(), is(nullValue()));
     }
 
-
-    @Test
-    public void convertSDKSignerWithExternalSigningDigipassMethodAndIdentityInfoNotNull() {
-        sdkSigner1 = createTypicalSDKSignerWithExternalSigningDigipassAndIdentityInfoNotNull();
-        apiSigner1 = new SignerConverter(sdkSigner1).toAPISigner();
-
-        assertThat("External Signing Key was not set correctly",
-                apiSigner1.getExternalSigning().getProviderKey(),  Matchers.is(Matchers.equalTo(ExternalProviderKey.DIGIPASS.getApiValue())));
-        assertThat("IdentityInfo was not set correctly", apiSigner1.getExternalSigning().getIdentityInfo(), notNullValue());
-    }
-
     /**
      * Create an SDK Signer.
      *
@@ -227,6 +218,8 @@ public class SignerConverterTest implements ConverterTest {
                         .withDescription("Please upload your scanned driver license.")
                         .isRequiredAttachment()
                         .build())
+                .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider("DIGIPASS")
+                .withIdentityInfo("Xz3AwPp9xazJ0ku5CZnlmgAx2DlJJGw0k0kd8SHkAeT").build())
                 .build();
     }
 
@@ -282,21 +275,4 @@ public class SignerConverterTest implements ConverterTest {
         return apiRole;
     }
 
-
-    private com.silanis.esl.sdk.Signer createTypicalSDKSignerWithExternalSigningDigipassAndIdentityInfoNotNull() {
-
-        return SignerBuilder.newSignerWithEmail("abc@test.com")
-                .canChangeSigner()
-                .deliverSignedDocumentsByEmail()
-                .signingOrder(1)
-                .withCompany("ABC Inc.")
-                .withCustomId("1")
-                .withFirstName("first name")
-                .withLastName("last name")
-                .withEmailMessage("Email message.")
-                .withTitle("Miss")
-                .withExternalSigning(ExternalSigningBuilder.newExternalSigning(
-                        ExternalProviderKey.fromAPIExternalProviderKey("DIGIPASS")).withIdentityInfo("Test"))
-                .build();
-    }
 }

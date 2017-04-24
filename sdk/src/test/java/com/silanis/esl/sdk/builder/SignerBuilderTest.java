@@ -216,16 +216,30 @@ public class SignerBuilderTest {
 
 
     @Test
-    public void providingExternalSigningDigipassMethod() {
+    public void providingExternalSigningAuth() {
         Signer signer = newSignerWithEmail("joe@blow.com")
                 .withFirstName("Joe")
                 .withLastName("Blow")
-                .withExternalSigning(ExternalSigningBuilder.newExternalSigning(
-                        ExternalProviderKey.fromAPIExternalProviderKey("DIGIPASS")))
+                .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider("DIGIPASS")
+                        .withIdentityInfo("Xz3AwPp9xazJ0ku5CZnlmgAx2DlJJGw0k0kd8SHkAeT").build())
                 .build();
 
-        assertNotNull(signer.getExternalSigning());
-        assertThat(signer.getExternalSigning().getProviderKey(), is(equalTo(ExternalProviderKey.DIGIPASS)));
+        assertNotNull(signer.getExternalSigningAuth());
+        assertThat(signer.getExternalSigningAuth().getProviderKey(), is(equalTo("DIGIPASS")));
+        assertThat(signer.getExternalSigningAuth().getIdentityInfo(), is(equalTo("Xz3AwPp9xazJ0ku5CZnlmgAx2DlJJGw0k0kd8SHkAeT")));
     }
+
+    @Test(expected = EslException.class)
+    public void EmptyPayloadNotAllowed() {
+
+        SignerBuilder.newSignerWithEmail("billy@bob.com")
+                .withFirstName("Billy")
+                .withLastName("Bob")
+                .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider(" "))
+                .build();
+    }
+
+
+
 
 }
