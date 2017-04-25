@@ -74,6 +74,12 @@ public class Signer extends User
     protected Boolean _authenticatedSigning = false;
     protected Group _group = null;
     protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
+
+    /**
+     * This feature is not yet completed.
+     * It is NOT recommended to be used it right now, because we expect some changes in model.
+     */
+
     protected ExternalSigningAuth _externalSigningAuth = null;
 
     

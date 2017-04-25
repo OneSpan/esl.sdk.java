@@ -3,6 +3,11 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.esl.sdk.ExternalSigningAuth;
 import com.silanis.esl.sdk.internal.Asserts;
 
+/**
+ * This feature is not yet completed.
+ * It is NOT recommended to be used it right now, because we expect some changes in model.
+ */
+
 public class ExternalSigningAuthBuilder {
 
     private String providerKey;

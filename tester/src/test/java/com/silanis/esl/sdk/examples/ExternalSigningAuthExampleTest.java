@@ -10,8 +10,12 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ExternalSigningAuthExampleTest {
+/**
+ * This feature is not yet completed.
+ * It is NOT recommended to be used it right now, because we expect some changes in model.
+ */
 
+public class ExternalSigningAuthExampleTest {
 
     @Test
     public void verifyResult() {

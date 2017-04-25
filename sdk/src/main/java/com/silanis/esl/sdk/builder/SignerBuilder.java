@@ -441,10 +441,20 @@ final public class SignerBuilder {
         return this;
     }
 
+    /**
+     * This feature is not yet completed.
+     * It is NOT recommended to be used it right now, because we expect some changes in model.
+     */
+
     public SignerBuilder withExternalSigningAuth(ExternalSigningAuth externalSigningAuth){
         this.externalSigningAuth = externalSigningAuth;
         return this;
     }
+
+    /**
+     * This feature is not yet completed.
+     * It is NOT recommended to be used it right now, because we expect some changes in model.
+     */
 
     public SignerBuilder withExternalSigningAuth(ExternalSigningAuthBuilder externalSigningAuthBuilder){
         this.externalSigningAuth = externalSigningAuthBuilder.build();

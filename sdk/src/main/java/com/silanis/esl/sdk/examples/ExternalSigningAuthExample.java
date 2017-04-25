@@ -5,6 +5,11 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.*;
 
+/**
+ * This feature is not yet completed.
+ * It is NOT recommended to be used it right now, because we expect some changes in model.
+ */
+
 public class ExternalSigningAuthExample extends SDKSample {
 
     public static String PROVIDER_KEY = "DIGIPASS";
