@@ -1,7 +1,10 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.AttachmentRequirement;
+import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
+import com.silanis.esl.sdk.builder.ExternalSigningAuthBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -126,6 +129,10 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(equalTo(sdkSigner1.getLastName())));
         assertThat("Company was not correctly set", apiSigner1.getCompany(), is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(equalTo(sdkSigner1.getTitle())));
+        assertThat("Provider Key was not correctly set", apiSigner1.getExternalSigningAuth().getProviderKey(),
+                is(equalTo(sdkSigner1.getExternalSigningAuth().getProviderKey())));
+        assertThat("Identity Info was not correctly set", apiSigner1.getExternalSigningAuth().getIdentityInfo(),
+                is(equalTo(sdkSigner1.getExternalSigningAuth().getIdentityInfo())));
 
     }
 
@@ -211,6 +218,8 @@ public class SignerConverterTest implements ConverterTest {
                         .withDescription("Please upload your scanned driver license.")
                         .isRequiredAttachment()
                         .build())
+                .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider("DIGIPASS")
+                .withIdentityInfo("Xz3AwPp9xazJ0ku5CZnlmgAx2DlJJGw0k0kd8SHkAeT").build())
                 .build();
     }
 
@@ -265,6 +274,5 @@ public class SignerConverterTest implements ConverterTest {
 
         return apiRole;
     }
-
 
 }

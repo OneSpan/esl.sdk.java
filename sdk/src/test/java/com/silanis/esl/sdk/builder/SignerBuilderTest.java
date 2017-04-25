@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class SignerBuilderTest {
     @Test
@@ -212,5 +213,33 @@ public class SignerBuilderTest {
         assertThat("Attachment1 information was set incorrectly.", signer.getAttachmentRequirement("Driver's license"), is(attachmentRequirement1));
         assertThat("Attachment2 information was set incorrectly.", signer.getAttachmentRequirement("Medicare card"), is(attachmentRequirement2));
     }
+
+
+    @Test
+    public void providingExternalSigningAuth() {
+        Signer signer = newSignerWithEmail("joe@blow.com")
+                .withFirstName("Joe")
+                .withLastName("Blow")
+                .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider("DIGIPASS")
+                        .withIdentityInfo("Xz3AwPp9xazJ0ku5CZnlmgAx2DlJJGw0k0kd8SHkAeT").build())
+                .build();
+
+        assertNotNull(signer.getExternalSigningAuth());
+        assertThat(signer.getExternalSigningAuth().getProviderKey(), is(equalTo("DIGIPASS")));
+        assertThat(signer.getExternalSigningAuth().getIdentityInfo(), is(equalTo("Xz3AwPp9xazJ0ku5CZnlmgAx2DlJJGw0k0kd8SHkAeT")));
+    }
+
+    @Test(expected = EslException.class)
+    public void EmptyPayloadNotAllowed() {
+
+        SignerBuilder.newSignerWithEmail("billy@bob.com")
+                .withFirstName("Billy")
+                .withLastName("Bob")
+                .withExternalSigningAuth(ExternalSigningAuthBuilder.forProvider(" "))
+                .build();
+    }
+
+
+
 
 }

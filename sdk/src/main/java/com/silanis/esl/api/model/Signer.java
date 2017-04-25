@@ -61,6 +61,8 @@ public class Signer extends User
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
+    @JsonIgnore
+    public static final String FIELD_EXTERNAL_SIGNING_AUTHENTICATION = "externalSigningAuth";
 
     // Empty Constructor
     public Signer ( ) {}
@@ -72,6 +74,14 @@ public class Signer extends User
     protected Boolean _authenticatedSigning = false;
     protected Group _group = null;
     protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
+
+    /**
+     * This feature is not yet completed.
+     * It is NOT recommended to be used it right now, because we expect some changes in model.
+     */
+
+    protected ExternalSigningAuth _externalSigningAuth = null;
+
     
     // Accessors
         
@@ -452,6 +462,21 @@ public class Signer extends User
     public Signer addUserCustomField( UserCustomField value ){
         super.addUserCustomField(value);
         return this;
+    }
+
+    public Signer setExternalSigningAuth( ExternalSigningAuth value ){
+        this._externalSigningAuth = value;
+        setDirty(FIELD_EXTERNAL_SIGNING_AUTHENTICATION);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetExternalSigningAuth( ExternalSigningAuth value ){
+        if ( value != null ) { this.setExternalSigningAuth( value ); }
+        return this;
+    }
+    public ExternalSigningAuth getExternalSigningAuth(){
+        return _externalSigningAuth;
     }
 
 }

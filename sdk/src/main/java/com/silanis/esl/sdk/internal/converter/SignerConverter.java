@@ -60,12 +60,13 @@ public class SignerConverter {
         com.silanis.esl.api.model.Signer result = new com.silanis.esl.api.model.Signer();
 
         if ( !sdkSigner.isGroupSigner() ) {
-            result.setEmail(sdkSigner.getEmail())
+            result.setEmail( sdkSigner.getEmail() )
                     .setFirstName(sdkSigner.getFirstName())
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
                     .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
+                    .setExternalSigningAuth(new ExternalSigningAuthConverter(sdkSigner.getExternalSigningAuth()).toApiExternalSigningAuth())
                     .setDelivery(new Delivery().setEmail(sdkSigner.isDeliverSignedDocumentsByEmail()));
 
             if(sdkSigner.isAuthenticatedSigning()) {
@@ -75,7 +76,6 @@ public class SignerConverter {
                 auths.add(auth);
                 result.setAuths(auths);
             }
-
         } else {
             result.setGroup( new com.silanis.esl.api.model.Group().setId( sdkSigner.getGroupId().toString() ) );
         }
@@ -98,7 +98,8 @@ public class SignerConverter {
                     .withLastName( apiSigner.getLastName() )
                     .withCompany( apiSigner.getCompany() )
                     .withTitle( apiSigner.getTitle() )
-                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
+                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication() )
+                    .withExternalSigningAuth(new ExternalSigningAuthConverter( apiSigner.getExternalSigningAuth() ).toSdkExternalSigningAuth() );
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }

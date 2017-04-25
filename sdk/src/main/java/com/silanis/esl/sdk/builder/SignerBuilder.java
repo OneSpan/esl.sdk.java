@@ -30,6 +30,7 @@ final public class SignerBuilder {
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
+    private ExternalSigningAuth externalSigningAuth;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -203,6 +204,7 @@ final public class SignerBuilder {
         result.setId(id);
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
+        result.setExternalSigningAuth(externalSigningAuth);
 
         return result;
     }
@@ -436,6 +438,26 @@ final public class SignerBuilder {
             this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
         }
         this.knowledgeBasedAuthentication.setSignerInformationForEquifaxUSA(signerInformationForEquifaxUSA);
+        return this;
+    }
+
+    /**
+     * This feature is not yet completed.
+     * It is NOT recommended to be used it right now, because we expect some changes in model.
+     */
+
+    public SignerBuilder withExternalSigningAuth(ExternalSigningAuth externalSigningAuth){
+        this.externalSigningAuth = externalSigningAuth;
+        return this;
+    }
+
+    /**
+     * This feature is not yet completed.
+     * It is NOT recommended to be used it right now, because we expect some changes in model.
+     */
+
+    public SignerBuilder withExternalSigningAuth(ExternalSigningAuthBuilder externalSigningAuthBuilder){
+        this.externalSigningAuth = externalSigningAuthBuilder.build();
         return this;
     }
 
