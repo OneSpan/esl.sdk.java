@@ -13,7 +13,7 @@ public class DocumentPackageSettings {
     private List<String> declineReasons = new ArrayList<String>();
     private List<String> optOutReasons = new ArrayList<String>();
     private Integer maxAuthAttempts = null;
-    private Boolean showDocumentToolbarDownloadButton = true;
+    private Boolean showDocumentToolbarDownloadButton;
     private Boolean showDialogOnComplete = null;
     private Boolean showPackageOwnerInPerson = null;
     private Boolean showLanguageDropDown = null;

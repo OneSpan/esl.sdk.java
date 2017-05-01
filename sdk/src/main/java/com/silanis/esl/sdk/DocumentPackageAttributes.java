@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -10,21 +10,21 @@ import java.util.Map;
  */
 public class DocumentPackageAttributes {
 
-    private Map<String,Object> contents = new HashMap<String,Object>();
+    private Map<String,Object> contents = new LinkedHashMap<String, Object>();
 
     public DocumentPackageAttributes() {
     }
 
     public void append( String name, Object value ) {
         if (null == contents) {
-            contents = new HashMap<String,Object>();
+            contents = new LinkedHashMap<String, Object>();
         }
         contents.put(name, value);
     }
 
     public void append( DocumentPackageAttributes attributes ) {
         if (null == contents) {
-            contents = new HashMap<String,Object>();
+            contents = new LinkedHashMap<String, Object>();
         }
         if(null != attributes && null != attributes.getContents()) {
             contents.putAll(attributes.getContents());
