@@ -1,8 +1,7 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class TitleBarOptions extends Model
@@ -19,8 +18,8 @@ public class TitleBarOptions extends Model
     public TitleBarOptions ( ) {}
     
     // Fields
-    protected Boolean _progressBar = true;
-    protected Boolean _title = true;
+    protected Boolean _progressBar;
+    protected Boolean _title;
     
     // Accessors
         

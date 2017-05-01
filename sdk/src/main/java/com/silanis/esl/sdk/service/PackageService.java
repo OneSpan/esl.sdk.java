@@ -199,11 +199,6 @@ public class PackageService {
         } catch (Exception e) {
             throw new EslException("Could not update the package.", e);
         }
-        // Update roles
-        List<Role> roleList = aPackage.getRoles();
-        for (Role role : roleList) {
-            updateRole(packageId, role);
-        }
     }
 
     /**

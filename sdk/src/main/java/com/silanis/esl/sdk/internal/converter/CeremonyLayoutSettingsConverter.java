@@ -44,15 +44,18 @@ public class CeremonyLayoutSettingsConverter {
             return apiLayoutOptions;
         }
 
-        TitleBarOptions titleBarOptions = new TitleBarOptions();
-        titleBarOptions.safeSetTitle( sdkCeremonyLayoutSettings.getShowTitle() );
-        titleBarOptions.safeSetProgressBar( sdkCeremonyLayoutSettings.getProgressBar() );
-
         HeaderOptions headerOptions = new HeaderOptions();
+
+        if (sdkCeremonyLayoutSettings.getShowTitle() != null || sdkCeremonyLayoutSettings.getProgressBar() != null) {
+            TitleBarOptions titleBarOptions = new TitleBarOptions();
+            titleBarOptions.safeSetTitle(sdkCeremonyLayoutSettings.getShowTitle());
+            titleBarOptions.safeSetProgressBar(sdkCeremonyLayoutSettings.getProgressBar());
+            headerOptions.safeSetTitleBar(titleBarOptions);
+        }
+
         headerOptions.safeSetBreadcrumbs( sdkCeremonyLayoutSettings.getBreadCrumbs() );
         headerOptions.safeSetSessionBar( sdkCeremonyLayoutSettings.getSessionBar() );
         headerOptions.safeSetGlobalNavigation( sdkCeremonyLayoutSettings.getGlobalNavigation() );
-        headerOptions.safeSetTitleBar( titleBarOptions );
 
         GlobalActionsOptions globalActionsOptions = new GlobalActionsOptions();
         globalActionsOptions.safeSetConfirm( sdkCeremonyLayoutSettings.getShowGlobalConfirmButton() );
@@ -72,7 +75,6 @@ public class CeremonyLayoutSettingsConverter {
         com.silanis.esl.api.model.LayoutOptions result = new LayoutOptions();
         result.safeSetIframe( sdkCeremonyLayoutSettings.getiFrame() );
         result.safeSetNavigator( sdkCeremonyLayoutSettings.getNavigator() );
-        result.safeSetFooter( new FooterOptions() );
         result.safeSetHeader( headerOptions );
         result.safeSetBrandingBar( brandingBarOptions );
 
