@@ -109,6 +109,9 @@ public class UrlTemplate {
     // Reminders Service
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
 
+    // Signer Verification Service
+    public static final String SIGNER_VERIFICATION_PATH = "/packages/{packageId}/roles/{roleId}/verification";
+
     // Signing Service
     public static final String SIGN_DOCUMENT_PATH = "/packages/{packageId}/documents/signConfirm";
     public static final String SIGN_DOCUMENTS_PATH = "/packages/{packageId}/documents/signed_documents";

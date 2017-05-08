@@ -3,57 +3,23 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.esl.api.model.Approval;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.Result;
-import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
-import com.silanis.esl.api.model.SigningUrl;
+import com.silanis.esl.api.model.Verification;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.DocumentId;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentVisibility;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.FastTrackRole;
-import com.silanis.esl.sdk.FastTrackSigner;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.PackageStatus;
-import com.silanis.esl.sdk.Page;
-import com.silanis.esl.sdk.PageRequest;
-import com.silanis.esl.sdk.RoleList;
-import com.silanis.esl.sdk.SignerId;
-import com.silanis.esl.sdk.SigningStatus;
-import com.silanis.esl.sdk.SupportConfiguration;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
-import com.silanis.esl.sdk.internal.DateHelper;
-import com.silanis.esl.sdk.internal.EslServerException;
-import com.silanis.esl.sdk.internal.RedirectResolver;
-import com.silanis.esl.sdk.internal.RequestException;
-import com.silanis.esl.sdk.internal.RestClient;
-import com.silanis.esl.sdk.internal.Serialization;
-import com.silanis.esl.sdk.internal.UrlTemplate;
-import com.silanis.esl.sdk.internal.converter.DocumentConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import com.silanis.esl.sdk.internal.converter.DocumentVisibilityConverter;
-import com.silanis.esl.sdk.internal.converter.NotaryJournalEntryConverter;
-import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
-import com.silanis.esl.sdk.internal.converter.SignerConverter;
-import com.silanis.esl.sdk.internal.converter.SupportConfigurationConverter;
+import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.converter.*;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -222,13 +188,79 @@ public class PackageService {
     }
 
     /**
+     * Creates a signer verifications.
+     *
+     * @param documentPackage
+     * @throws com.silanis.esl.sdk.EslException
+     */
+    public void createSignerVerifications(String packageId, DocumentPackage documentPackage) {
+        Package createdPackage = getApiPackage(packageId);
+        for(com.silanis.esl.sdk.Signer signer : documentPackage.getSigners()) {
+            if(isNotBlank(signer.getVerificationType())) {
+                Role role = getRoleByEmail(createdPackage, signer.getEmail());
+                Verification verification = new Verification();
+                verification.setTypeKey(signer.getVerificationType());
+                createSignerVerification(createdPackage.getId(), role.getId(), verification);
+            }
+        }
+    }
+
+    private Verification createSignerVerification(String packageId, String roleId, Verification verification) throws EslException {
+        String path = template.urlFor(UrlTemplate.SIGNER_VERIFICATION_PATH)
+                .replace("{packageId}", packageId)
+                .replace("{roleId}", roleId)
+                .build();
+
+        String verificationJson = Serialization.toJson(verification);
+
+        try {
+            String response = client.post(path, verificationJson);
+            return Serialization.fromJson(response, Verification.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create a signer verification", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create a signer verification", e);
+        }
+    }
+
+    /**
+     * Gets the a signer verification.
+     *
+     * @param packageId
+     * @param roleId
+     * @return Verification
+     * @throws EslException
+     */
+    private Verification getSignerVerification(String packageId, String roleId) throws EslException {
+        String path = template.urlFor(UrlTemplate.SIGNER_VERIFICATION_PATH)
+                .replace("{packageId}", packageId)
+                .replace("{roleId}", roleId)
+                .build();
+
+        String stringResponse;
+        try {
+            stringResponse = client.get(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get signer verification.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get signer verification.", e);
+        }
+
+        if(StringUtils.isBlank(stringResponse)) {
+            return null;
+        }
+
+        return Serialization.fromJson(stringResponse, Verification.class);
+    }
+
+    /**
      * Configure a document visibility.
      *
      * @param packageId
      * @param visibility	the document visibility
      * @throws EslException
      */
-    public void configureDocumentVisibility(PackageId packageId, DocumentVisibility visibility) throws EslException {
+    public void configureDocumentVisibility(PackageId packageId, com.silanis.esl.sdk.DocumentVisibility visibility) throws EslException {
         String path = template.urlFor( UrlTemplate.DOCUMENT_VISIBILITY_PATH )
                               .replace("{packageId}", packageId.getId())
                               .build();
@@ -251,7 +283,7 @@ public class PackageService {
      * @param packageId
      * @throws EslException
      */
-    public DocumentVisibility getDocumentVisibility(PackageId packageId) throws EslException {
+    public com.silanis.esl.sdk.DocumentVisibility getDocumentVisibility(PackageId packageId) throws EslException {
         String path = template.urlFor( UrlTemplate.DOCUMENT_VISIBILITY_PATH )
                               .replace("{packageId}", packageId.getId())
                               .build();
@@ -269,20 +301,37 @@ public class PackageService {
 
     public DocumentPackage getPackage(PackageId packageId) {
         Package aPackage = getApiPackage(packageId.getId());
+        DocumentPackage documentPackage = packageConverter(aPackage).toSDKPackage();
+        if(!StringUtils.equalsIgnoreCase(BasePackageType.TEMPLATE.name(), aPackage.getType())) {
+            setSignerVerificationToSDKPackage(aPackage, documentPackage);
+        }
 
-        return packageConverter(aPackage).toSDKPackage();
+        return documentPackage;
+    }
+
+    private void setSignerVerificationToSDKPackage(Package aPackage, DocumentPackage documentPackage) {
+        for(Role role : aPackage.getRoles()) {
+            if(role.getSigners().isEmpty())
+                continue;
+
+            Verification verification = getSignerVerification(aPackage.getId(), role.getId());
+            if(verification != null && isNotBlank(verification.getTypeKey())) {
+                String signerEmail = role.getSigners().get(0).getEmail();
+                documentPackage.getSigner(signerEmail).setVerificationType(verification.getTypeKey());
+            }
+        }
     }
 
     public List<com.silanis.esl.sdk.Document> getDocuments(PackageId packageId, String signerId) {
         DocumentPackage documentPackage = getPackage(packageId);
-        final DocumentVisibility visibility = getDocumentVisibility(packageId);
+        final com.silanis.esl.sdk.DocumentVisibility visibility = getDocumentVisibility(packageId);
 
         return visibility.getDocuments(documentPackage, signerId);
     }
 
     public List<com.silanis.esl.sdk.Signer> getSigners(PackageId packageId, String documentId) {
         DocumentPackage documentPackage = getPackage(packageId);
-        final DocumentVisibility visibility = getDocumentVisibility(packageId);
+        final com.silanis.esl.sdk.DocumentVisibility visibility = getDocumentVisibility(packageId);
 
         return visibility.getSigners(documentPackage, documentId);
     }
@@ -753,7 +802,7 @@ public class PackageService {
      * @param request Identifying which page of results to return
      * @return List of DocumentPackages that populate the specified page
      */
-    public Page<DocumentPackage> getPackages(String status, PageRequest request) {
+    public com.silanis.esl.sdk.Page<DocumentPackage> getPackages(String status, PageRequest request) {
         String path = template.urlFor(UrlTemplate.PACKAGE_LIST_PATH)
                 .replace("{status}", status)
                 .replace("{from}", Integer.toString(request.getFrom()))
@@ -782,7 +831,7 @@ public class PackageService {
      * @param to Date range ending of this date included
      * @return List of DocumentPackages that populate the specified page
      */
-    public Page<DocumentPackage> getUpdatedPackagesWithinDateRange(PackageStatus status, PageRequest request, Date from, Date to) {
+    public com.silanis.esl.sdk.Page<DocumentPackage> getUpdatedPackagesWithinDateRange(PackageStatus status, PageRequest request, Date from, Date to) {
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
         String toDate = DateHelper.dateToIsoUtcFormat(to);
 
@@ -807,7 +856,7 @@ public class PackageService {
         }
     }
 
-    private Page<DocumentPackage> convertToPage(Result<Package> results, PageRequest request) {
+    private com.silanis.esl.sdk.Page<DocumentPackage> convertToPage(Result<Package> results, PageRequest request) {
         List<DocumentPackage> converted = new ArrayList<DocumentPackage>();
 
         for (Package aPackage : results.getResults()) {
@@ -815,7 +864,7 @@ public class PackageService {
             converted.add(dp);
         }
 
-        return new Page<DocumentPackage>(converted, results.getCount(), request);
+        return new com.silanis.esl.sdk.Page<DocumentPackage>(converted, results.getCount(), request);
     }
 
     /**
@@ -985,7 +1034,7 @@ public class PackageService {
         }
     }
 
-    public Page<DocumentPackage> getTemplates(PageRequest request) {
+    public com.silanis.esl.sdk.Page<DocumentPackage> getTemplates(PageRequest request) {
         String path = template.urlFor(UrlTemplate.TEMPLATE_LIST_PATH)
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
@@ -1218,6 +1267,17 @@ public class PackageService {
         return new Role();
     }
 
+    private Role getRoleByEmail(Package apiPackage, String signerEmail) {
+        for(Role role : apiPackage.getRoles()) {
+            for(Signer signer : role.getSigners()) {
+                if(signer.getEmail().equals(signerEmail)) {
+                    return role;
+                }
+            }
+        }
+        return new Role();
+    }
+
     private String getSigningUrl(PackageId packageId, Role role) {
 
         String path = template.urlFor(UrlTemplate.SIGNER_URL_PATH)
@@ -1399,7 +1459,7 @@ public class PackageService {
      * @param packageId The id of the package to get package support configuration.
      * @return package support configuration
      */
-    public SupportConfiguration getConfig(PackageId packageId) {
+    public com.silanis.esl.sdk.SupportConfiguration getConfig(PackageId packageId) {
         String path = template.urlFor(UrlTemplate.PACKAGE_INFORMATION_CONFIG_PATH)
                               .replace("{packageId}", packageId.getId())
                               .build();

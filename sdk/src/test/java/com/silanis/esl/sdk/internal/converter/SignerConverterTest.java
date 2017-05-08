@@ -99,8 +99,6 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(equalTo(sdkSigner1.getLastName())));
         assertThat("Company was not correctly set", apiSigner1.getCompany(), is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(equalTo(sdkSigner1.getTitle())));
-        assertThat("Authenticated signing flag was not correctly set", apiSigner1.getAuths(), hasSize(1));
-        assertThat("Authenticated signing flag was not correctly set", apiSigner1.getAuths().get(0).getScheme(), is("CERTIFICATE"));
         assertThat("Signer ID was not correctly set", apiRole.getId(), is(equalTo(sdkSigner1.getId())));
         assertThat("Signing order was not correctly set", apiRole.getIndex(), is(equalTo(sdkSigner1.getSigningOrder())));
         assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(equalTo(sdkSigner1.canChangeSigner())));
@@ -228,12 +226,6 @@ public class SignerConverterTest implements ConverterTest {
         apiSigner.setLastName("Signer last name");
         apiSigner.setCompany("ABC Inc.");
         apiSigner.setTitle("Doctor");
-
-        List<Auth> auths = new ArrayList<Auth>();
-        Auth auth = new Auth();
-        auth.setScheme("CERTIFICATE");
-        auths.add(auth);
-        apiSigner.setAuths(auths);
 
         Delivery delivery = new Delivery();
         delivery.setDownload(true);

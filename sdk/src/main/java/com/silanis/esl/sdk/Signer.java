@@ -27,7 +27,7 @@ public class Signer implements Serializable {
     private boolean locked;
     private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
-    private List<Authentication> authentications = new ArrayList<Authentication>();
+    private String verificationType;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -122,18 +122,6 @@ public class Signer implements Serializable {
 
     public Authentication getAuthentication() {
         return authentication;
-    }
-
-    public List<Authentication> getAuthentications() {
-        return authentications;
-    }
-
-    public void addAuthentication(Authentication authentication) {
-        this.authentications.add(authentication);
-    }
-
-    public void setAuthentications(List<Authentication> authentications) {
-        this.authentications = authentications;
     }
 
     /**
@@ -319,4 +307,11 @@ public class Signer implements Serializable {
         this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
     }
 
+    public String getVerificationType() {
+        return verificationType;
+    }
+
+    public void setVerificationType(String verificationType) {
+        this.verificationType = verificationType;
+    }
 }

@@ -11,8 +11,6 @@ public class AuthenticationMethod extends EslEnumeration {
     public static final AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE", "CHALLENGE", 1);
     public static final AuthenticationMethod SMS = new AuthenticationMethod("SMS", "SMS", 2);
     public static final AuthenticationMethod KBA = new AuthenticationMethod("KBA", "KBA", 3);
-    public static final AuthenticationMethod CERTIFICATE = new AuthenticationMethod("CERTIFICATE", "CERTIFICATE", 4);
-    public static final AuthenticationMethod EXTERNAL = new AuthenticationMethod("EXTERNAL", "EXTERNAL", 5);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -32,8 +30,6 @@ public class AuthenticationMethod extends EslEnumeration {
         sdkValues.put(CHALLENGE.name(), CHALLENGE);
         sdkValues.put(SMS.name(), SMS);
         sdkValues.put(KBA.name(), KBA);
-        sdkValues.put(CERTIFICATE.name(), CERTIFICATE);
-        sdkValues.put(EXTERNAL.name(), EXTERNAL);
     }
     
     private AuthenticationMethod(String apiValue, String sdkValue, int index) {

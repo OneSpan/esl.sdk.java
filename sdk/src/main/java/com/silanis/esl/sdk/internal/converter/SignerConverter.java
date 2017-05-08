@@ -68,16 +68,6 @@ public class SignerConverter {
                     .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
                     .setDelivery(new Delivery().setEmail(sdkSigner.isDeliverSignedDocumentsByEmail()));
 
-            if(!sdkSigner.getAuthentications().isEmpty()) {
-                List<Auth> auths = result.getAuths();
-                for(Authentication authentication : sdkSigner.getAuthentications()) {
-                    Auth auth = new Auth();
-                    auth.setScheme(authentication.getMethod().name());
-                    auths.add(auth);
-                }
-                result.setAuths(auths);
-            }
-
         } else {
             result.setGroup(new com.silanis.esl.api.model.Group().setId(sdkSigner.getGroupId().toString()));
         }
@@ -129,13 +119,6 @@ public class SignerConverter {
         }
 
         Signer signer = signerBuilder.build();
-
-        List<Auth> auths = apiSigner.getAuths();
-        if(auths != null && !auths.isEmpty()) {
-            for(Auth auth : auths) {
-                signer.addAuthentication(new AuthenticationConverter(auth).toSDKAuthentication());
-            }
-        }
 
         if ( apiRole.evalLocked() ) {
             signer.setLocked(true);

@@ -1,7 +1,7 @@
 package com.silanis.esl.sdk;
 
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Package;
-import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.SignerRestClient;
@@ -265,6 +265,8 @@ public class EslClient {
             uploadDocument(document, id);
         }
 
+        packageService.createSignerVerifications(id.getId(), documentPackage);
+
         return id;
     }
 
@@ -333,7 +335,11 @@ public class EslClient {
             packageToCreate.addDocument(apiDocument);
         }
         Collection<Document> documents = documentPackage.getDocuments();
-        return packageService.createPackageOneStep(packageToCreate, documents);
+
+        PackageId id = packageService.createPackageOneStep(packageToCreate, documents);
+
+        packageService.createSignerVerifications(id.getId(), documentPackage);
+        return id;
 
     }
 

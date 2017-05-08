@@ -11,12 +11,12 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 /**
  * Created by schoi on 19/04/17.
  */
-public class AuthenticatedSigningExample extends SDKSample {
+public class SignerVerificationExample extends SDKSample {
 
     public DocumentPackage sentPackage;
 
     public static void main( String... args ) {
-        new AuthenticatedSigningExample().run();
+        new SignerVerificationExample().run();
     }
 
     public void execute() {
@@ -25,8 +25,7 @@ public class AuthenticatedSigningExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John1")
                         .withLastName("Smith1")
-                .withCertificateSigning()
-                .withExternalSigning())
+                        .withSignerVerification("CERTIFICATE"))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
