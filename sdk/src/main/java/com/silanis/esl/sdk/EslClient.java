@@ -283,6 +283,7 @@ public class EslClient {
         }
         validateSignatures(documentPackage);
         packageService.updatePackage(packageId, documentPackage);
+        packageService.updateSignerVerification(packageId.getId(), documentPackage);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Signer;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -13,7 +14,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerVerificationExample extends SDKSample {
 
-    public DocumentPackage sentPackage;
+    public DocumentPackage createdPackage, updatedPackage;
+    public String firstVerificationType, deletedVerificationType;
+    public static final String CERTIFICATE =  "personalCertificateSigning";
 
     public static void main( String... args ) {
         new SignerVerificationExample().run();
@@ -25,7 +28,7 @@ public class SignerVerificationExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John1")
                         .withLastName("Smith1")
-                        .withSignerVerification("CERTIFICATE"))
+                        .withSignerVerification(CERTIFICATE))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
@@ -34,7 +37,16 @@ public class SignerVerificationExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage(packageId);
-        sentPackage = eslClient.getPackage(packageId);
+        createdPackage = eslClient.getPackage( packageId );
+
+        Signer signer = createdPackage.getSigner(email1);
+        firstVerificationType = signer.getVerificationType();
+
+        signer.setVerificationType("");
+        eslClient.updatePackage(packageId, createdPackage);
+        updatedPackage = eslClient.getPackage( packageId );
+
+        signer = updatedPackage.getSigner(email1);
+        deletedVerificationType = signer.getVerificationType();
     }
 }
