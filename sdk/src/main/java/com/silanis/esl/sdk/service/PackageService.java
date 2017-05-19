@@ -200,7 +200,7 @@ public class PackageService {
             if(isNotBlank(signer.getVerificationType())) {
                 Role role = getRoleByEmail(createdPackage, signer.getEmail());
                 Verification verification = new Verification();
-                verification.setTypeKey(signer.getVerificationType());
+                verification.setTypeId(signer.getVerificationType());
                 createSignerVerification(createdPackage.getId(), role.getId(), verification);
             }
         }
@@ -349,9 +349,9 @@ public class PackageService {
                 continue;
 
             Verification verification = getSignerVerification(aPackage.getId(), role.getId());
-            if(verification != null && isNotBlank(verification.getTypeKey())) {
+            if(verification != null && isNotBlank(verification.getTypeId())) {
                 String signerEmail = role.getSigners().get(0).getEmail();
-                documentPackage.getSigner(signerEmail).setVerificationType(verification.getTypeKey());
+                documentPackage.getSigner(signerEmail).setVerificationType(verification.getTypeId());
             }
         }
     }
@@ -384,7 +384,7 @@ public class PackageService {
                 continue;
             }
 
-            verification.setTypeKey(sdkVerificationType);
+            verification.setTypeId(sdkVerificationType);
             updateSignerVerification(packageId, role.getId(), verification);
         }
     }
@@ -396,14 +396,14 @@ public class PackageService {
         if(verification == null)
             return false;
 
-        return StringUtils.equals(verification.getTypeKey(), verificationType);
+        return StringUtils.equals(verification.getTypeId(), verificationType);
     }
 
     private boolean isEmptyVerification(Verification verification) {
         if(verification == null)
             return true;
 
-        if(isBlank(verification.getTypeKey()))
+        if(isBlank(verification.getTypeId()))
             return true;
 
         return false;

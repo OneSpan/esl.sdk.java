@@ -4,12 +4,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.silanis.esl.api.model.DelegationUser;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
+import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PageRequest;
-import com.silanis.esl.sdk.internal.*;
-
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RequestException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UrlTemplate;
 import java.util.List;
 
 /**
@@ -193,6 +197,26 @@ public class AccountApiClient {
             throw new EslServerException("Could not get contacts.", e);
         } catch (Exception e) {
             throw new EslException("Could not get contacts." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<VerificationType> getVerificationTypes() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_VERIFICATION_TYPE_PATH)
+                // TODO: Why we need pass accountId when it is not used in backend?
+                .replace("{accountId}", "dummyAccountId")
+                .build();
+
+        try {
+            String stringResponse = restClient.get(path);
+            Result result = Serialization.fromJson(stringResponse, Result.class);
+
+            List<VerificationType> verificationTypes = Serialization.fromJsonToList(Serialization.toJson(result.getResults()), VerificationType.class);
+
+            return verificationTypes;
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get verification types.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get verification types." + " Exception: " + e.getMessage(), e);
         }
     }
 }

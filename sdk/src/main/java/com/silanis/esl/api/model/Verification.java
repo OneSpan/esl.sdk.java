@@ -6,11 +6,11 @@ import org.apache.commons.lang3.StringUtils;
 import static com.silanis.esl.api.util.SchemaSanitizer.throwOnNull;
 import static com.silanis.esl.api.util.SchemaSanitizer.trim;
 
-public class Verification extends Entity
-        implements java.io.Serializable {
+public class Verification extends Model {
 
     @JsonIgnore
-    public static final String FIELD_TYPE_KEY = "typeKey";
+    public static final String FIELD_TYPE_ID = "typeId";
+
     @JsonIgnore
     public static final String FIELD_PAYLOAD = "payload";
 
@@ -18,34 +18,36 @@ public class Verification extends Entity
     public Verification() {
     }
 
-    protected String _typeKey = "";
+    protected String _typeId = "";
     protected String _payload = "";
 
-    public Verification setTypeKey(String value) {
-        throwOnNull(FIELD_TYPE_KEY, value);
+    public Verification setTypeId(String value) {
+        throwOnNull(FIELD_TYPE_ID, value);
         value = trim(value);
 
-        if (StringUtils.equals(this._typeKey, value)) return this;
+        if (StringUtils.equals(this._typeId, value)) return this;
 
-        this._typeKey = value;
-        setDirty(FIELD_TYPE_KEY);
+        this._typeId = value;
+        setDirty(FIELD_TYPE_ID);
         return this;
     }
 
     @JsonIgnore
-    public Verification safeSetTypeKey(String value) {
+    public Verification safeSetTypeId(String value) {
         if (value != null) {
-            this.setTypeKey(value);
+            this.setTypeId(value);
         }
         return this;
     }
 
-    public String getTypeKey() {
-        return _typeKey;
+    public String getTypeId() {
+        return _typeId;
     }
 
-
     public Verification setPayload(String value) {
+        throwOnNull(FIELD_PAYLOAD, value);
+        value = trim(value);
+
         if (StringUtils.equals(this._payload, value)) return this;
 
         this._payload = value;
