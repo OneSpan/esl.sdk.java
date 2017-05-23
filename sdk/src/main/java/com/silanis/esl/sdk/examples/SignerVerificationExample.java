@@ -16,10 +16,16 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerVerificationExample extends SDKSample {
 
-    public static final String VERIFICATION_TYPE_ID = "DIGIPASS";
-    public static final String VERIFICATION_PAYLOAD  = "bSxW5aAFG2yTW5NaqaAF";
+    private static final String CREATE_VERIFICATION_TYPE_ID = "DIGIPASS";
+    private static final String CREATE_VERIFICATION_PAYLOAD  = "bSxW5aAFG2yTW5NaqaAF";
+    private static final String UPDATE_VERIFICATION_TYPE_ID = "personalCertificateSigning";
+    private static final String UPDATE_VERIFICATION_PAYLOAD  = "";
 
-    public SignerVerification retrievedSignerVerification;
+    public SignerVerification signerVerificationToBeCreated;
+    public SignerVerification signerVerificationToBeUpdated;
+    public SignerVerification retrievedSignerVerificationAfterCreate;
+    public SignerVerification retrievedSignerVerificationAfterUpdate;
+    public SignerVerification retrievedSignerVerificationAfterDelete;
 
 
     public static void main( String... args ) {
@@ -43,13 +49,30 @@ public class SignerVerificationExample extends SDKSample {
         retrievedPackage = eslClient.getPackage(packageId);
 
         Signer signer = retrievedPackage.getSigner(email1);
-        SignerVerification signerVerificationToCreate = SignerVerificationBuilder
-                .newSignerVerification(VERIFICATION_TYPE_ID)
-                .withPayload(VERIFICATION_PAYLOAD)
+
+        // Create
+        signerVerificationToBeCreated = SignerVerificationBuilder
+                .newSignerVerification(CREATE_VERIFICATION_TYPE_ID)
+                .withPayload(CREATE_VERIFICATION_PAYLOAD)
                 .build();
 
-        eslClient.createSignerVerification(packageId, signer.getId(), signerVerificationToCreate);
+        eslClient.createSignerVerification(packageId, signer.getId(), signerVerificationToBeCreated);
 
-        retrievedSignerVerification = eslClient.getSignerVerification(packageId, signer.getId());
+        retrievedSignerVerificationAfterCreate = eslClient.getSignerVerification(packageId, signer.getId());
+
+        // Update
+        signerVerificationToBeUpdated = SignerVerificationBuilder
+                .newSignerVerification(UPDATE_VERIFICATION_TYPE_ID)
+                .withPayload(UPDATE_VERIFICATION_PAYLOAD)
+                .build();
+
+        eslClient.updateSignerVerification(packageId, signer.getId(), signerVerificationToBeUpdated);
+
+        retrievedSignerVerificationAfterUpdate = eslClient.getSignerVerification(packageId, signer.getId());
+
+        // Delete
+        eslClient.deleteSignerVerification(packageId, signer.getId());
+
+        retrievedSignerVerificationAfterDelete = eslClient.getSignerVerification(packageId, signer.getId());
     }
 }
