@@ -1,6 +1,8 @@
 package com.silanis.esl.sdk.builder;
 
+import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.SignerVerification;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by aafrasiabian on 23/05/17.
@@ -15,6 +17,10 @@ public class SignerVerificationBuilder {
     }
 
     public static SignerVerificationBuilder newSignerVerification(String typeId) {
+        if(StringUtils.isBlank(typeId)) {
+            throw new EslException("No TypeId set for this signer verification!");
+        }
+
         SignerVerificationBuilder signerVerificationBuilder = new SignerVerificationBuilder(typeId);
         return signerVerificationBuilder;
     }
