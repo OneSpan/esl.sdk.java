@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.DelegationUserConverter;
@@ -163,4 +164,11 @@ public class AccountService {
     public void clearDelegates(String senderId) {
         apiClient.clearDelegates(senderId);
     }
+
+
+    public List<VerificationType> getVerificationTypes() {
+        return apiClient.getVerificationTypes();
+    }
+
+
 }

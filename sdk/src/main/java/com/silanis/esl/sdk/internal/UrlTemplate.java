@@ -95,6 +95,7 @@ public class UrlTemplate {
     public static final String ACCOUNT_MEMBER_INVITE_PATH = "/account/senders/{senderUid}/invite";
     public static final String ACCOUNT_MEMBER_LIST_PATH = "/account/senders?to={to}&from={from}&dir={dir}";
     public static final String ACCOUNT_CONTACTS_PATH = "/users";
+    public static final String ACCOUNT_VERIFICATION_TYPE_PATH = "/account/{accountId}/verificationTypes";
 
     // Approval Service
     public static final String APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/approvals";
@@ -110,7 +111,10 @@ public class UrlTemplate {
     public static final String REMINDERS_PATH = "/packages/{packageId}/reminders";
 
     // Signer Verification Service
-    public static final String SIGNER_VERIFICATION_PATH = "/packages/{packageId}/roles/{roleId}/verification";
+    public static final String ADD_SIGNER_VERIFICATION_PATH = "/packages/{packageId}/roles/{roleId}/verification";
+    public static final String UPDATE_SIGNER_VERIFICATION_PATH = "/packages/{packageId}/roles/{roleId}/verification";
+    public static final String GET_SIGNER_VERIFICATION_PATH = "/packages/{packageId}/roles/{roleId}/verification";
+    public static final String DELETE_SIGNER_VERIFICATION_PATH = "/packages/{packageId}/roles/{roleId}/verification";
 
     // Signing Service
     public static final String SIGN_DOCUMENT_PATH = "/packages/{packageId}/documents/signConfirm";

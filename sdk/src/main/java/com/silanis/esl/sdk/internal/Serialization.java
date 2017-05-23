@@ -3,9 +3,9 @@ package com.silanis.esl.sdk.internal;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.silanis.esl.api.model.Error;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.api.model.Error;
 import java.util.ArrayList;
 import java.util.List;
 

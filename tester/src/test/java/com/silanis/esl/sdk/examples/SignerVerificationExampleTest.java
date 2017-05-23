@@ -1,9 +1,10 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.sdk.SignerVerification;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.examples.SignerVerificationExample.CERTIFICATE;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -16,7 +17,35 @@ public class SignerVerificationExampleTest {
         SignerVerificationExample example = new SignerVerificationExample();
         example.run();
 
-        assertThat("Signer Verification is not created correctly.", example.firstVerificationType, is(CERTIFICATE));
-        assertThat("Signer Verification is not deleted correctly.", example.deletedVerificationType, isEmptyOrNullString());
+        // Create
+        SignerVerification actualAfterCreate = example.retrievedSignerVerificationAfterCreate;
+        SignerVerification expectedAfterCreate = example.signerVerificationToBeCreated;
+
+
+        assertThat("Retrieved Signer Verification 'typeId' doesn't match with the created one.",
+                actualAfterCreate.getTypeId(), is(expectedAfterCreate.getTypeId()));
+
+        assertThat("Retrieved Signer Verification 'payload' doesn't match with the created one.",
+                actualAfterCreate.getPayload(), is(expectedAfterCreate.getPayload()));
+
+
+        // Update
+        SignerVerification actualAfterUpdate = example.retrievedSignerVerificationAfterUpdate;
+        SignerVerification expectedAfterUpdate = example.signerVerificationToBeUpdated;
+
+
+        assertThat("Retrieved Signer Verification 'typeId' doesn't match with the updated one.",
+                actualAfterUpdate.getTypeId(), is(expectedAfterUpdate.getTypeId()));
+
+        assertThat("Retrieved Signer Verification 'payload' doesn't match with the updated one.",
+                actualAfterUpdate.getPayload(), is(expectedAfterUpdate.getPayload()));
+
+
+        // Update
+        SignerVerification actualAfterDelete = example.retrievedSignerVerificationAfterDelete;
+
+
+        assertThat("Retrieved Signer Verification should be null after deleting it.",
+                actualAfterDelete, nullValue());
     }
 }

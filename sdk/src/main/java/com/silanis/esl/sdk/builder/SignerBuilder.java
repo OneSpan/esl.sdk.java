@@ -29,7 +29,6 @@ final public class SignerBuilder {
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
-    private String verificationType = "";
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -144,17 +143,6 @@ final public class SignerBuilder {
     }
 
     /**
-     * Sets the signer's verification type.
-     *
-     * @param verificationType the signer's verification type.
-     * @return the signer builder itself
-     */
-    public SignerBuilder withSignerVerification(String verificationType) {
-        this.verificationType = verificationType;
-        return this;
-    }
-
-    /**
      * Sets the signing order. If all signers can sign in any order, don't set this setting.
      * <p>
      * E.g.: a signer with a signingOrder of 1 would be required to sign before a signer with a signingOrder of 2, for example.
@@ -175,7 +163,6 @@ final public class SignerBuilder {
         result.setMessage(message);
         result.setId(id);
         result.setAttachmentRequirements(attachments);
-        result.setVerificationType(verificationType);
 
         return result;
     }
@@ -189,7 +176,6 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setAttachmentRequirements(attachments);
-        result.setVerificationType(verificationType);
         return result;
     }
 
@@ -213,7 +199,6 @@ final public class SignerBuilder {
         result.setId(id);
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
-        result.setVerificationType(verificationType);
 
         return result;
     }
