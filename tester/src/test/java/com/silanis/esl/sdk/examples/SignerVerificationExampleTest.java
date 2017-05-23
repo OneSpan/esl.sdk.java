@@ -1,9 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.sdk.SignerVerification;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.examples.SignerVerificationExample.CERTIFICATE;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -16,7 +16,11 @@ public class SignerVerificationExampleTest {
         SignerVerificationExample example = new SignerVerificationExample();
         example.run();
 
-        assertThat("Signer Verification is not created correctly.", example.firstVerificationType, is(CERTIFICATE));
-        assertThat("Signer Verification is not deleted correctly.", example.deletedVerificationType, isEmptyOrNullString());
+
+        SignerVerification retrievedSignerVerification = example.retrievedSignerVerification;
+
+
+        assertThat("Signer Verification is not created correctly.", example.VERIFICATION_TYPE_ID, is(retrievedSignerVerification.getTypeId()));
+        assertThat("Signer Verification is not deleted correctly.", example.VERIFICATION_PAYLOAD, is(retrievedSignerVerification.getPayload()));
     }
 }

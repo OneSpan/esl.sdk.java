@@ -3,6 +3,8 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.SignerVerification;
+import com.silanis.esl.sdk.builder.SignerVerificationBuilder;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -14,9 +16,11 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignerVerificationExample extends SDKSample {
 
-    public DocumentPackage createdPackage, updatedPackage;
-    public String firstVerificationType, deletedVerificationType;
-    public static final String CERTIFICATE =  "personalCertificateSigning";
+    public static final String VERIFICATION_TYPE_ID = "DIGIPASS";
+    public static final String VERIFICATION_PAYLOAD  = "bSxW5aAFG2yTW5NaqaAF";
+
+    public SignerVerification retrievedSignerVerification;
+
 
     public static void main( String... args ) {
         new SignerVerificationExample().run();
@@ -27,8 +31,7 @@ public class SignerVerificationExample extends SDKSample {
                 .describedAs("This is a package created using the eSignLive SDK")
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John1")
-                        .withLastName("Smith1")
-                        .withSignerVerification(CERTIFICATE))
+                        .withLastName("Smith1"))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
@@ -37,16 +40,16 @@ public class SignerVerificationExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-        createdPackage = eslClient.getPackage( packageId );
+        retrievedPackage = eslClient.getPackage(packageId);
 
-        Signer signer = createdPackage.getSigner(email1);
-        firstVerificationType = signer.getVerificationType();
+        Signer signer = retrievedPackage.getSigner(email1);
+        SignerVerification signerVerificationToCreate = SignerVerificationBuilder
+                .newSignerVerification(VERIFICATION_TYPE_ID)
+                .withPayload(VERIFICATION_PAYLOAD)
+                .build();
 
-        signer.setVerificationType("");
-        eslClient.updatePackage(packageId, createdPackage);
-        updatedPackage = eslClient.getPackage( packageId );
+        eslClient.createSignerVerification(packageId, signer.getId(), signerVerificationToCreate);
 
-        signer = updatedPackage.getSigner(email1);
-        deletedVerificationType = signer.getVerificationType();
+        retrievedSignerVerification = eslClient.getSignerVerification(packageId, signer.getId());
     }
 }

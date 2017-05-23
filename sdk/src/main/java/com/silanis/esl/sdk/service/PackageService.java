@@ -8,7 +8,6 @@ import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Signer;
-import com.silanis.esl.api.model.Verification;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
@@ -18,9 +17,6 @@ import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
-
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -189,105 +185,6 @@ public class PackageService {
     }
 
     /**
-     * Creates a signer verifications.
-     *
-     * @param documentPackage
-     * @throws com.silanis.esl.sdk.EslException
-     */
-    public void createSignerVerifications(String packageId, DocumentPackage documentPackage) {
-        Package createdPackage = getApiPackage(packageId);
-        for(com.silanis.esl.sdk.Signer signer : documentPackage.getSigners()) {
-            if(isNotBlank(signer.getVerificationType())) {
-                Role role = getRoleByEmail(createdPackage, signer.getEmail());
-                Verification verification = new Verification();
-                verification.setTypeId(signer.getVerificationType());
-                createSignerVerification(createdPackage.getId(), role.getId(), verification);
-            }
-        }
-    }
-
-    private Verification createSignerVerification(String packageId, String roleId, Verification verification) throws EslException {
-        String path = template.urlFor(UrlTemplate.SIGNER_VERIFICATION_PATH)
-                .replace("{packageId}", packageId)
-                .replace("{roleId}", roleId)
-                .build();
-
-        String verificationJson = Serialization.toJson(verification);
-
-        try {
-            String response = client.post(path, verificationJson);
-            return Serialization.fromJson(response, Verification.class);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not create a signer verification", e);
-        } catch (Exception e) {
-            throw new EslException("Could not create a signer verification", e);
-        }
-    }
-
-    private Verification updateSignerVerification(String packageId, String roleId, Verification verification) throws EslException {
-        String path = template.urlFor(UrlTemplate.SIGNER_VERIFICATION_PATH)
-                .replace("{packageId}", packageId)
-                .replace("{roleId}", roleId)
-                .build();
-
-        String verificationJson = Serialization.toJson(verification);
-
-        try {
-            String response = client.put(path, verificationJson);
-            return Serialization.fromJson(response, Verification.class);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not update the signer verification", e);
-        } catch (Exception e) {
-            throw new EslException("Could not update the signer verification", e);
-        }
-    }
-
-    private void deleteSignerVerification(String packageId, String roleId) throws EslException {
-        String path = template.urlFor(UrlTemplate.SIGNER_VERIFICATION_PATH)
-                .replace("{packageId}", packageId)
-                .replace("{roleId}", roleId)
-                .build();
-
-        try {
-            client.delete(path);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not delete a signer verification", e);
-        } catch (Exception e) {
-            throw new EslException("Could not delete a signer verification", e);
-        }
-    }
-
-    /**
-     * Gets the a signer verification.
-     *
-     * @param packageId
-     * @param roleId
-     * @return Verification
-     * @throws EslException
-     */
-    private Verification getSignerVerification(String packageId, String roleId) throws EslException {
-        String path = template.urlFor(UrlTemplate.SIGNER_VERIFICATION_PATH)
-                .replace("{packageId}", packageId)
-                .replace("{roleId}", roleId)
-                .build();
-
-        String stringResponse;
-        try {
-            stringResponse = client.get(path);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not get signer verification.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not get signer verification.", e);
-        }
-
-        if(StringUtils.isBlank(stringResponse)) {
-            return null;
-        }
-
-        return Serialization.fromJson(stringResponse, Verification.class);
-    }
-
-    /**
      * Configure a document visibility.
      *
      * @param packageId
@@ -336,77 +233,8 @@ public class PackageService {
     public DocumentPackage getPackage(PackageId packageId) {
         Package aPackage = getApiPackage(packageId.getId());
         DocumentPackage documentPackage = packageConverter(aPackage).toSDKPackage();
-        if(!StringUtils.equalsIgnoreCase(BasePackageType.TEMPLATE.name(), aPackage.getType())) {
-            setSignerVerificationToSDKPackage(aPackage, documentPackage);
-        }
 
         return documentPackage;
-    }
-
-    private void setSignerVerificationToSDKPackage(Package aPackage, DocumentPackage documentPackage) {
-        for(Role role : aPackage.getRoles()) {
-            if(role.getSigners().isEmpty())
-                continue;
-
-            Verification verification = getSignerVerification(aPackage.getId(), role.getId());
-            if(verification != null && isNotBlank(verification.getTypeId())) {
-                String signerEmail = role.getSigners().get(0).getEmail();
-                documentPackage.getSigner(signerEmail).setVerificationType(verification.getTypeId());
-            }
-        }
-    }
-
-    public void updateSignerVerification(String packageId, DocumentPackage documentPackage) {
-        Package apiPackage = getApiPackage(packageId);
-        for(Role role : apiPackage.getRoles()) {
-            if(role.getSigners().isEmpty())
-                continue;
-
-            Verification verification = getSignerVerification(apiPackage.getId(), role.getId());
-            String signerEmail = role.getSigners().get(0).getEmail();
-            com.silanis.esl.sdk.Signer sdkSigner = documentPackage.getSigner(signerEmail);
-
-            if(sdkSigner == null)
-                continue;
-
-            String sdkVerificationType = sdkSigner.getVerificationType();
-
-            if(equals(verification, sdkVerificationType))
-                continue;
-
-            if(!isEmptyVerification(verification) && isBlank(sdkVerificationType)) {
-                deleteSignerVerification(packageId, role.getId());
-                continue;
-            }
-
-            if(isEmptyVerification(verification) && isNotBlank(sdkVerificationType)) {
-                createSignerVerification(packageId, role.getId(), verification);
-                continue;
-            }
-
-            verification.setTypeId(sdkVerificationType);
-            updateSignerVerification(packageId, role.getId(), verification);
-        }
-    }
-
-    private boolean equals(Verification verification, String verificationType) {
-        if(verification == null && isBlank(verificationType))
-            return true;
-
-        if(verification == null)
-            return false;
-
-        return StringUtils.equals(verification.getTypeId(), verificationType);
-    }
-
-    private boolean isEmptyVerification(Verification verification) {
-        if(verification == null)
-            return true;
-
-        if(isBlank(verification.getTypeId()))
-            return true;
-
-        return false;
     }
 
     public List<com.silanis.esl.sdk.Document> getDocuments(PackageId packageId, String signerId) {

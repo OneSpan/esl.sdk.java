@@ -7,6 +7,7 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.internal.converter.SignerVerificationConverter;
 import com.silanis.esl.sdk.service.AccountService;
 import com.silanis.esl.sdk.service.ApprovalService;
 import com.silanis.esl.sdk.service.AttachmentRequirementService;
@@ -24,6 +25,7 @@ import com.silanis.esl.sdk.service.ReminderService;
 import com.silanis.esl.sdk.service.ReportService;
 import com.silanis.esl.sdk.service.SessionService;
 import com.silanis.esl.sdk.service.SignatureImageService;
+import com.silanis.esl.sdk.service.SignerVerificationService;
 import com.silanis.esl.sdk.service.SigningService;
 import com.silanis.esl.sdk.service.SystemService;
 import com.silanis.esl.sdk.service.TemplateService;
@@ -71,6 +73,7 @@ public class EslClient {
     private SystemService systemService;
     private SignatureImageService signatureImageService;
     private SigningService signingService;
+    private SignerVerificationService signerVerificationService;
 
     /**
      * The constructor of the EslClient class
@@ -146,6 +149,7 @@ public class EslClient {
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
         authenticationService = new AuthenticationService(this.webpageURL);
+        signerVerificationService = new SignerVerificationService(client, baseURL);
     }
 
     /**
@@ -265,8 +269,6 @@ public class EslClient {
             uploadDocument(document, id);
         }
 
-        packageService.createSignerVerifications(id.getId(), documentPackage);
-
         return id;
     }
 
@@ -283,7 +285,6 @@ public class EslClient {
         }
         validateSignatures(documentPackage);
         packageService.updatePackage(packageId, documentPackage);
-        packageService.updateSignerVerification(packageId.getId(), documentPackage);
     }
 
     /**
@@ -339,9 +340,7 @@ public class EslClient {
 
         PackageId id = packageService.createPackageOneStep(packageToCreate, documents);
 
-        packageService.createSignerVerifications(id.getId(), documentPackage);
         return id;
-
     }
 
     /**
@@ -665,6 +664,27 @@ public class EslClient {
         String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
         attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
+    }
+
+    public void createSignerVerification(PackageId packageId, String roleId, SignerVerification signerVerification) {
+        Verification verification = new SignerVerificationConverter().toAPISignerVerification(signerVerification);
+        signerVerificationService.createSignerVerification(packageId.getId(), roleId, verification);
+    }
+
+    public SignerVerification getSignerVerification(PackageId packageId, String roleId) {
+        Verification verification = signerVerificationService.getSignerVerification(packageId.getId(), roleId);
+
+        SignerVerification signerVerification = new SignerVerificationConverter().toSDKSignerVerification(verification);
+        return signerVerification;
+    }
+
+    public void updateSignerVerification(PackageId packageId, String roleId, SignerVerification signerVerification) {
+        Verification verification = new SignerVerificationConverter().toAPISignerVerification(signerVerification);
+        signerVerificationService.updateSignerVerification(packageId.getId(), roleId, verification);
+    }
+
+    public void deleteSignerVerification(PackageId packageId, String roleId) {
+        signerVerificationService.deleteSignerVerification(packageId.getId(), roleId);
     }
 
     public GroupService getGroupService() {

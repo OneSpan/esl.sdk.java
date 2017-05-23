@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +26,6 @@ public class Signer implements Serializable {
     private boolean locked;
     private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
-    private String verificationType;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -305,13 +303,5 @@ public class Signer implements Serializable {
 
     public void setKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
         this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
-    }
-
-    public String getVerificationType() {
-        return verificationType;
-    }
-
-    public void setVerificationType(String verificationType) {
-        this.verificationType = verificationType;
     }
 }
