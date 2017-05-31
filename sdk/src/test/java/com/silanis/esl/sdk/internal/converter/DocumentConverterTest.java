@@ -6,9 +6,12 @@ import com.silanis.esl.sdk.External;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -144,6 +147,37 @@ public class DocumentConverterTest {
         assertThat("API document External id is not set", apiDocument1.getExternal().getId(), is(equalTo(expectedExternalId)));
         assertThat("API document External provider is not set", apiDocument1.getExternal().getProvider(), is(equalTo(expectedProvider)));
 
+    }
+
+    @Test
+    public void convertSDKtoAPIWithData(){
+        String attributeName = "name";
+        String attributeValue = "value";
+
+        sdkDocument1 = createDocumentWithData(attributeName, attributeValue);
+        com.silanis.esl.api.model.Package apiPackage = new com.silanis.esl.api.model.Package();
+
+        apiDocument1 = new DocumentConverter(sdkDocument1).toAPIDocument(apiPackage);
+
+        assertThat("API document Data is null", apiDocument1.getData(), notNullValue());
+        assertFalse("API document Data is not set", apiDocument1.getData().isEmpty());
+        assertThat("API document Data is not set properly", (String) apiDocument1.getData().get(attributeName), is(attributeValue));
+    }
+
+    private com.silanis.esl.sdk.Document createDocumentWithData(final String name, final String value) {
+        com.silanis.esl.sdk.Document sdkDocument;
+        documentInputStream = this.getClass().getClassLoader()
+                .getResourceAsStream("document.pdf");
+
+        sdkDocument = newDocumentWithName("sdkDocument")
+                .fromStream(documentInputStream, DocumentType.PDF)
+                .withId("sdkDocumentId")
+                .withData((Map)new HashMap<String, String>() {{
+                    put(name, value);
+                }})
+                .build();
+
+        return sdkDocument;
     }
 
     private com.silanis.esl.sdk.Document createDocumentWithExternal(String expectedProvider, String expectedExternalId, String expectedProviderName) {

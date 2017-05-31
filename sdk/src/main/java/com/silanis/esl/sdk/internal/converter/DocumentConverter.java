@@ -62,6 +62,7 @@ public class DocumentConverter {
 
         documentBuilder.withDescription( apiDocument.getDescription() );
         documentBuilder.withExternal(new ExternalConverter(apiDocument.getExternal()).toSDKExternal());
+        documentBuilder.withData( apiDocument.getData() );
         for ( Approval apiApproval : apiDocument.getApprovals() ) {
             documentBuilder.withSignature( new SignatureConverter( apiApproval, apiPackage ).toSDKSignature());
         }
@@ -92,6 +93,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
+                .setData(sdkDocument.getData())
                 .setName(sdkDocument.getName());
 
         if(sdkDocument.getId() != null) {

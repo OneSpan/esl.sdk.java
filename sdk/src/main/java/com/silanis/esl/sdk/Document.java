@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>The document class contains data describing pages, signatures and their associated data and layout.</>
@@ -27,6 +28,7 @@ public class Document implements Serializable {
     private List<Field> qrCodes = new ArrayList<Field>();
     private String description;
     private External external;
+    private Map<String, Object> data;
 
     /**
      * <p>Accessor method used to retrieve the file name</p>
@@ -183,5 +185,13 @@ public class Document implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public Map<String, Object> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, Object> data) {
+        this.data = data;
     }
 }

@@ -8,7 +8,9 @@ import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>DocumentBuilder class is used to facilitate the creation and customization of a document.</p>
@@ -17,6 +19,7 @@ import java.util.List;
 public class DocumentBuilder {
 
     public static final String DEFAULT_NAME = "New Document";
+    public static final String ESL_DOC_EXTRACT_TYPE = "esl_doc_extract_type";
 
     private String name;
     private final List<Signature> signatures;
@@ -29,6 +32,7 @@ public class DocumentBuilder {
     private List<Field> qrCodes = new ArrayList<Field>();
     private String description;
     private External external;
+    private Map<String, Object> data = new LinkedHashMap<String, Object>();
 
     public DocumentBuilder() {
         this.name = DEFAULT_NAME;
@@ -152,6 +156,7 @@ public class DocumentBuilder {
         }
         document.addInjectedFields(injectedFields);
         document.addQRCodes(qrCodes);
+        document.setData(data);
 
         return document;
     }
@@ -224,6 +229,48 @@ public class DocumentBuilder {
      */
     public DocumentBuilder withDescription( String description ) {
         this.description = description;
+        return this;
+    }
+
+    /**
+     * Set this document's data
+     *
+     * @param data
+     * @return the document builder itself
+     */
+    public DocumentBuilder withData( Map<String, Object> data ) {
+
+        if(data != null)
+            this.data.putAll(data);
+
+        return this;
+    }
+
+    /**
+     * Set this document's data
+     *
+     * @param builder
+     * @return the document attributes builder itselfDocumentConverterTest
+     */
+    public DocumentBuilder withData( DocumentAttributesBuilder builder ) {
+
+        this.data.putAll(builder.build());
+
+        return this;
+    }
+
+    /**
+     * Set this document's extraction type
+     *
+     * @param extractionType
+     * @return the document builder itself
+     */
+    public DocumentBuilder withExtractionType( ExtractionType extractionType ) {
+        if(ExtractionType.FORM_FIELDS_ONLY.equals(extractionType)) {
+            this.data.remove(ESL_DOC_EXTRACT_TYPE);
+        } else {
+            this.data.put(ESL_DOC_EXTRACT_TYPE, extractionType.getValue());
+        }
         return this;
     }
 }
