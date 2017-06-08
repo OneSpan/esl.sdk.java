@@ -148,6 +148,14 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.SIGNER_LOCKED));
 
+        apiCallbackEvent1 = "PACKAGE_ARCHIVE";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.PACKAGE_ARCHIVE));
+
+        apiCallbackEvent1 = "TEMPLATE_CREATE";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.TEMPLATE_CREATE));
+
         apiCallbackEvent1 = "UNKNOWN";
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1.toString(), is(NotificationEvent.UNRECOGNIZED("UNKNOWN").toString()));
@@ -228,6 +236,14 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = NotificationEvent.SIGNER_LOCKED;
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
         assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("SIGNER_LOCKED"));
+
+        sdkNotificationEvent1 = NotificationEvent.PACKAGE_ARCHIVE;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("PACKAGE_ARCHIVE"));
+
+        sdkNotificationEvent1 = NotificationEvent.TEMPLATE_CREATE;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("TEMPLATE_CREATE"));
 
         sdkNotificationEvent1 = NotificationEvent.UNRECOGNIZED("UNKNOWN");
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();

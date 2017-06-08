@@ -24,6 +24,8 @@ import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_TRASH;
 import static com.silanis.esl.sdk.NotificationEvent.ROLE_REASSIGN;
 import static com.silanis.esl.sdk.NotificationEvent.SIGNER_COMPLETE;
 import static com.silanis.esl.sdk.NotificationEvent.SIGNER_LOCKED;
+import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_ARCHIVE;
+import static com.silanis.esl.sdk.NotificationEvent.TEMPLATE_CREATE;
 import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEventNotificationConfig;
 
 /**
@@ -56,6 +58,8 @@ public class EventNotificationRegistrationExample extends SDKSample {
     public static final NotificationEvent EVENT16 = EMAIL_BOUNCE;
     public static final NotificationEvent EVENT17 = PACKAGE_ATTACHMENT;
     public static final NotificationEvent EVENT18 = SIGNER_LOCKED;
+    public static final NotificationEvent EVENT19 = PACKAGE_ARCHIVE;
+    public static final NotificationEvent EVENT20 = TEMPLATE_CREATE;
 
     public Set<NotificationEvent> events = new HashSet<NotificationEvent>();
     public Set<NotificationEvent> connectorsEvents = new HashSet<NotificationEvent>();
@@ -85,6 +89,8 @@ public class EventNotificationRegistrationExample extends SDKSample {
         events.add(EVENT16);
         events.add(EVENT17);
         events.add(EVENT18);
+        events.add(EVENT19);
+        events.add(EVENT20);
 
         eslClient.getEventNotificationService().register(newEventNotificationConfig(URL).withKey(KEY).setEvents(events));
 

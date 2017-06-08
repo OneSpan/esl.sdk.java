@@ -25,6 +25,8 @@ public class NotificationEvent extends EslEnumeration {
     public static final NotificationEvent EMAIL_BOUNCE = new NotificationEvent("EMAIL_BOUNCE", "EMAIL_BOUNCE", 15);
     public static final NotificationEvent PACKAGE_ATTACHMENT = new NotificationEvent("PACKAGE_ATTACHMENT", "PACKAGE_ATTACHMENT", 16);
     public static final NotificationEvent SIGNER_LOCKED = new NotificationEvent("SIGNER_LOCKED", "SIGNER_LOCKED", 17);
+    public static final NotificationEvent PACKAGE_ARCHIVE = new NotificationEvent("PACKAGE_ARCHIVE", "PACKAGE_ARCHIVE", 18);
+    public static final NotificationEvent TEMPLATE_CREATE = new NotificationEvent("TEMPLATE_CREATE", "TEMPLATE_CREATE", 19);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -58,6 +60,8 @@ public class NotificationEvent extends EslEnumeration {
         sdkValues.put(EMAIL_BOUNCE.name(), EMAIL_BOUNCE);
         sdkValues.put(PACKAGE_ATTACHMENT.name(), PACKAGE_ATTACHMENT);
         sdkValues.put(SIGNER_LOCKED.name(), SIGNER_LOCKED);
+        sdkValues.put(PACKAGE_ARCHIVE.name(), PACKAGE_ARCHIVE);
+        sdkValues.put(TEMPLATE_CREATE.name(), TEMPLATE_CREATE);
     }
 
     private NotificationEvent(String apiValue, String sdkValue, int index) {
