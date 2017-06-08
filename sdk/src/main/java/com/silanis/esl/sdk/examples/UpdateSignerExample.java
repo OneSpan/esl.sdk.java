@@ -26,6 +26,8 @@ public class UpdateSignerExample extends SDKSample {
     public static final String SIGNER2_CUSTOM_ID = "signerId2";
     public static final String SIGNER2_FIRST_NAME = "Patty";
     public static final String SIGNER2_LAST_NAME = "Galant";
+    public static final String SIGNER2_LANGUAGE = "fr";
+    public static final String SIGNER2_UPDATE_LANGUAGE = "ko";
 
     public static final String SIGNER3_FIRST_NAME = "John2";
     public static final String SIGNER3_LAST_NAME = "Smith2";
@@ -47,6 +49,7 @@ public class UpdateSignerExample extends SDKSample {
         Signer signer2 = newSignerWithEmail(email2)
                 .withFirstName(SIGNER2_FIRST_NAME)
                 .withLastName(SIGNER2_LAST_NAME)
+                .withLanguage(SIGNER2_LANGUAGE)
                 .withCustomId(SIGNER2_CUSTOM_ID).build();
 
         Signer signer3 = newSignerWithEmail(email3)
@@ -62,6 +65,7 @@ public class UpdateSignerExample extends SDKSample {
                 .withFirstName(SIGNER2_FIRST_NAME)
                 .withLastName(SIGNER2_LAST_NAME)
                 .withSmsSentTo(sms1)
+                .withLanguage(SIGNER2_UPDATE_LANGUAGE)
                 .withCustomId(SIGNER2_CUSTOM_ID).build();
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())

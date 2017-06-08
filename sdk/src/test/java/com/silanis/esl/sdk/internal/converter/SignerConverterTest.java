@@ -99,6 +99,7 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(equalTo(sdkSigner1.getLastName())));
         assertThat("Company was not correctly set", apiSigner1.getCompany(), is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(equalTo(sdkSigner1.getTitle())));
+        assertThat("Language was not correctly set", apiSigner1.getLanguage(), is(equalTo(sdkSigner1.getLanguage())));
         assertThat("Signer ID was not correctly set", apiRole.getId(), is(equalTo(sdkSigner1.getId())));
         assertThat("Signing order was not correctly set", apiRole.getIndex(), is(equalTo(sdkSigner1.getSigningOrder())));
         assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(equalTo(sdkSigner1.canChangeSigner())));
@@ -145,6 +146,8 @@ public class SignerConverterTest implements ConverterTest {
                 is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiRole.getSigners().get(0).getTitle(),
                 is(equalTo(sdkSigner1.getTitle())));
+        assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
+                is(equalTo(sdkSigner1.getLanguage())));
 
         assertThat("ID was not set correctly", apiRole.getId().toString(), is(equalTo(sdkSigner1.getId())));
         assertThat("Name was not set correctly", apiRole.getName().toString(), is(equalTo(sdkSigner1.getId())));
@@ -164,6 +167,7 @@ public class SignerConverterTest implements ConverterTest {
                 .deliverSignedDocumentsByEmail()
                 .signingOrder(1)
                 .withCompany("ABC Inc.")
+                .withLanguage("fr")
                 .withFirstName("first name")
                 .withLastName("last name")
                 .withTitle("Miss")
@@ -182,6 +186,8 @@ public class SignerConverterTest implements ConverterTest {
                 is(equalTo(sdkSigner1.getCompany())));
         assertThat("Title was not correctly set", apiRole.getSigners().get(0).getTitle(),
                 is(equalTo(sdkSigner1.getTitle())));
+        assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
+                is(equalTo(sdkSigner1.getLanguage())));
 
         assertThat("ID was not set correctly", apiRole.getId().toString(), is(equalTo(roleId)));
         assertThat("Name was not set correctly", apiRole.getName().toString(), is(equalTo(roleId)));
@@ -200,6 +206,7 @@ public class SignerConverterTest implements ConverterTest {
                 .deliverSignedDocumentsByEmail()
                 .signingOrder(1)
                 .withCompany("ABC Inc.")
+                .withLanguage("fr")
                 .withCustomId("1")
                 .withFirstName("first name")
                 .withLastName("last name")
@@ -225,6 +232,7 @@ public class SignerConverterTest implements ConverterTest {
         apiSigner.setFirstName("Signer first name");
         apiSigner.setLastName("Signer last name");
         apiSigner.setCompany("ABC Inc.");
+        apiSigner.setLanguage("fr");
         apiSigner.setTitle("Doctor");
 
         Delivery delivery = new Delivery();

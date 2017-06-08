@@ -67,6 +67,7 @@ public class BasicPackageCreationExampleTest {
         assertThat( "Signer 1 last name was not set correctly.", signer.getLastName(), is(SIGNER1_LAST_NAME) );
         assertThat( "Signer 1 title was not set correctly.", signer.getTitle(), is(SIGNER1_TITLE) );
         assertThat( "Signer 1 company was not set correctly.", signer.getCompany(), is(SIGNER1_COMPANY) );
+        assertThat( "Signer 1 language was not set correctly.", signer.getLanguage(), is(SIGNER1_LANGUAGE) );
 
         // Signer 2
         signer = documentPackage.getSigner(example.email2);

@@ -18,6 +18,7 @@ public class Signer implements Serializable {
     private int signingOrder;
     private String title;
     private String company;
+    private String language;
     private boolean canChangeSigner;
     private String message;
     private boolean deliverSignedDocumentsByEmail;
@@ -183,6 +184,24 @@ public class Signer implements Serializable {
      */
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    /**
+     * Accessor method used to retrieve the signer's language
+     *
+     * @return	the signer's language
+     */
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
+     * Accessor method used to set the signer's language
+     *
+     * @param language the signer's language
+     */
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     /**

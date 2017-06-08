@@ -29,6 +29,7 @@ public class BasicPackageCreationExample extends SDKSample {
     public static final String SIGNER1_LAST_NAME = "Smith";
     public static final String SIGNER1_TITLE = "Managing Director";
     public static final String SIGNER1_COMPANY = "Acme Inc.";
+    public static final String SIGNER1_LANGUAGE = "fr";
 
     public static final String SIGNER2_FIRST_NAME = "Patty";
     public static final String SIGNER2_LAST_NAME = "Galant";
@@ -51,6 +52,7 @@ public class BasicPackageCreationExample extends SDKSample {
                         .withCustomId(SIGNER1_CUSTOM_ID)
                         .withFirstName(SIGNER1_FIRST_NAME)
                         .withLastName(SIGNER1_LAST_NAME)
+                        .withLanguage(SIGNER1_LANGUAGE)
                         .withTitle(SIGNER1_TITLE)
                         .withCompany(SIGNER1_COMPANY))
                 .withSigner(newSignerWithEmail(email2)

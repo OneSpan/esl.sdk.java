@@ -65,6 +65,7 @@ public class SignerConverter {
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
+                    .setLanguage(sdkSigner.getLanguage())
                     .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
                     .setDelivery(new Delivery().setEmail(sdkSigner.isDeliverSignedDocumentsByEmail()));
 
@@ -89,6 +90,7 @@ public class SignerConverter {
                     .withFirstName( apiSigner.getFirstName() )
                     .withLastName( apiSigner.getLastName() )
                     .withCompany( apiSigner.getCompany() )
+                    .withLanguage( apiSigner.getLanguage() )
                     .withTitle( apiSigner.getTitle() )
                     .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {

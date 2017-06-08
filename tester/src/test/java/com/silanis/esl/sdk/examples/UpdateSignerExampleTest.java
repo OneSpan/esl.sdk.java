@@ -19,10 +19,11 @@ public class UpdateSignerExampleTest {
         UpdateSignerExample example = new UpdateSignerExample();
         example.run();
 
-        assertNotNull("Package signer1 is not set correctly.", example.getRetrievedPackage().getSigner(example.email1));
-        assertThat("Package signer1 is not set correctly.", example.getRetrievedPackage().getSigner(example.email1).getAuthentication().getMethod(), is(EMAIL));
-        assertNotNull("Package signer2 is not set correctly.", example.getRetrievedPackage().getSigner(example.email2));
-        assertThat("Package signer2 is not set correctly.", example.getRetrievedPackage().getSigner(example.email2).getAuthentication().getMethod(), is(EMAIL));
+        assertNotNull("Package signer1 is not set correctly.", example.retrievedPackage.getSigner(example.email1));
+        assertThat("Package signer1 is not set correctly.", example.retrievedPackage.getSigner(example.email1).getAuthentication().getMethod(), is(EMAIL));
+        assertNotNull("Package signer2 is not set correctly.", example.retrievedPackage.getSigner(example.email2));
+        assertThat("Package signer2 is not set correctly.", example.retrievedPackage.getSigner(example.email2).getAuthentication().getMethod(), is(EMAIL));
+        assertThat("Package signer2 is not set correctly.", example.retrievedPackage.getSigner(example.email2).getLanguage(), is(SIGNER2_LANGUAGE));
 
         assertNull("Package signer1 is not updated correctly.", example.updatedPackage.getSigner(example.email1));
         assertNotNull("Package signer1 is not updated correctly.", example.updatedPackage.getSigner(example.email3));
@@ -35,5 +36,6 @@ public class UpdateSignerExampleTest {
         assertNotNull("Package signer2 is not updated correctly.", example.updatedPackage.getSigner(example.email2));
         assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getAuthentication().getMethod(), is(SMS));
         assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getAuthentication().getPhoneNumber(), is(example.sms1));
+        assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getLanguage(), is(SIGNER2_UPDATE_LANGUAGE));
     }
 }

@@ -22,6 +22,7 @@ final public class SignerBuilder {
     private Authentication authentication = null;
     private String title = "";
     private String company = "";
+    private String language = "";
     private boolean canChangeSigner;
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
@@ -191,6 +192,7 @@ final public class SignerBuilder {
         result = new Signer(email, firstName, lastName, authentication);
         result.setTitle(title);
         result.setCompany(company);
+        result.setLanguage(language);
         result.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
 
         result.setSigningOrder(signingOrder);
@@ -291,6 +293,19 @@ final public class SignerBuilder {
     public SignerBuilder withCompany(String company) {
         Asserts.genericAssert(!isGroupSigner(), "company can not be set for a group signer");
         this.company = company;
+        return this;
+    }
+
+    /**
+     * <p>Sets the signer's language.</p>
+     *
+     * @param language the signer's language
+     * @return	the signer builder object itself
+     * @throws EslException throws an exception if signer is a group signer.
+     */
+    public SignerBuilder withLanguage(String language) {
+        Asserts.genericAssert(!isGroupSigner(), "language can not be set for a group signer");
+        this.language = language;
         return this;
     }
 
