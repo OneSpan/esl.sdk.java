@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
@@ -22,7 +23,7 @@ final public class SignerBuilder {
     private Authentication authentication = null;
     private String title = "";
     private String company = "";
-    private String language = "";
+    private Locale language;
     private boolean canChangeSigner;
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
@@ -303,7 +304,7 @@ final public class SignerBuilder {
      * @return	the signer builder object itself
      * @throws EslException throws an exception if signer is a group signer.
      */
-    public SignerBuilder withLanguage(String language) {
+    public SignerBuilder withLanguage(Locale language) {
         Asserts.genericAssert(!isGroupSigner(), "language can not be set for a group signer");
         this.language = language;
         return this;

@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.util.Date;
+import java.util.Locale;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -29,7 +30,7 @@ public class BasicPackageCreationExample extends SDKSample {
     public static final String SIGNER1_LAST_NAME = "Smith";
     public static final String SIGNER1_TITLE = "Managing Director";
     public static final String SIGNER1_COMPANY = "Acme Inc.";
-    public static final String SIGNER1_LANGUAGE = "fr";
+    public static final Locale SIGNER1_LANGUAGE = Locale.SIMPLIFIED_CHINESE;
 
     public static final String SIGNER2_FIRST_NAME = "Patty";
     public static final String SIGNER2_LAST_NAME = "Galant";

@@ -1,18 +1,19 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.Authentication;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
+import java.util.Locale;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * User: jessica
@@ -65,12 +66,15 @@ public class SignerConverter {
                     .setLastName(sdkSigner.getLastName())
                     .setTitle(sdkSigner.getTitle())
                     .setCompany(sdkSigner.getCompany())
-                    .setLanguage(sdkSigner.getLanguage())
                     .setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication())
                     .setDelivery(new Delivery().setEmail(sdkSigner.isDeliverSignedDocumentsByEmail()));
 
         } else {
             result.setGroup(new com.silanis.esl.api.model.Group().setId(sdkSigner.getGroupId().toString()));
+        }
+
+        if ( sdkSigner.getLanguage() != null ) {
+            result.setLanguage(sdkSigner.getLanguage().toString());
         }
 
         if ( sdkSigner.getId() != null ) {
@@ -87,11 +91,11 @@ public class SignerConverter {
 
         if ( apiSigner.getGroup() == null ) {
             signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
-                    .withFirstName( apiSigner.getFirstName() )
-                    .withLastName( apiSigner.getLastName() )
+                    .withFirstName( apiSigner.getFirstName())
+                    .withLastName( apiSigner.getLastName())
                     .withCompany( apiSigner.getCompany() )
-                    .withLanguage( apiSigner.getLanguage() )
-                    .withTitle( apiSigner.getTitle() )
+                    .withLanguage( convertToLocale(apiSigner.getLanguage()) )
+                    .withTitle(apiSigner.getTitle())
                     .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if ( apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail() ) {
                 signerBuilder.deliverSignedDocumentsByEmail();
@@ -127,6 +131,13 @@ public class SignerConverter {
         }
 
         return signer;
+    }
+
+    private Locale convertToLocale(String lang) {
+        if(isBlank(lang))
+            return new Locale("");
+
+        return LocaleUtils.toLocale(apiSigner.getLanguage());
     }
 
     private Signer newSignerPlaceholderFromAPIRole(){

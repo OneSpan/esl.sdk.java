@@ -2,6 +2,7 @@ package com.silanis.esl.sdk;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * <p>The Signer class contains all the information about an user that is supposed to sign a document.</p>
@@ -18,7 +19,7 @@ public class Signer implements Serializable {
     private int signingOrder;
     private String title;
     private String company;
-    private String language;
+    private Locale language;
     private boolean canChangeSigner;
     private String message;
     private boolean deliverSignedDocumentsByEmail;
@@ -191,7 +192,7 @@ public class Signer implements Serializable {
      *
      * @return	the signer's language
      */
-    public String getLanguage() {
+    public Locale getLanguage() {
         return language;
     }
 
@@ -200,7 +201,7 @@ public class Signer implements Serializable {
      *
      * @param language the signer's language
      */
-    public void setLanguage(String language) {
+    public void setLanguage(Locale language) {
         this.language = language;
     }
 

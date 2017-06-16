@@ -6,6 +6,8 @@ import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 
+import java.util.Locale;
+
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -26,17 +28,17 @@ public class UpdateSignerExample extends SDKSample {
     public static final String SIGNER2_CUSTOM_ID = "signerId2";
     public static final String SIGNER2_FIRST_NAME = "Patty";
     public static final String SIGNER2_LAST_NAME = "Galant";
-    public static final String SIGNER2_LANGUAGE = "fr";
-    public static final String SIGNER2_UPDATE_LANGUAGE = "ko";
+    public static final Locale SIGNER2_LANGUAGE = Locale.FRENCH;
+    public static final Locale SIGNER2_UPDATE_LANGUAGE = Locale.SIMPLIFIED_CHINESE;
 
     public static final String SIGNER3_FIRST_NAME = "John2";
     public static final String SIGNER3_LAST_NAME = "Smith2";
     public static final String SIGNER3_FIRST_QUESTION = "What's 1+1?";
-    public static final String SIGNER3_FIRST_ANSWER= "2";
+    public static final String SIGNER3_FIRST_ANSWER = "2";
     public static final String SIGNER3_SECOND_QUESTION = "What color's the sky?";
-    public static final String SIGNER3_SECOND_ANSWER= "blue";
+    public static final String SIGNER3_SECOND_ANSWER = "blue";
 
-    public static void main( String... args ) {
+    public static void main(String... args) {
         new UpdateSignerExample().run();
     }
 
@@ -69,18 +71,19 @@ public class UpdateSignerExample extends SDKSample {
                 .withCustomId(SIGNER2_CUSTOM_ID).build();
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-            .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
-            .withSigner(signer1)
-            .withSigner(signer2)
-            .withDocument(newDocumentWithName("doc1")
-                                  .fromStream(documentInputStream1, DocumentType.PDF)
-                                  .withSignature(signatureFor(email1)
-                                                         .onPage(0)
-                                                         .atPosition(30, 100))
-                                  .withSignature(signatureFor(email2)
-                                                         .onPage(0)
-                                                         .atPosition(30, 300)))
-            .build();
+                .withLanguage(Locale.JAPANESE)
+                .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings().withInPerson())
+                .withSigner(signer1)
+                .withSigner(signer2)
+                .withDocument(newDocumentWithName("doc1")
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(signatureFor(email1)
+                                .onPage(0)
+                                .atPosition(30, 100))
+                        .withSignature(signatureFor(email2)
+                                .onPage(0)
+                                .atPosition(30, 300)))
+                .build();
 
         PackageId packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
