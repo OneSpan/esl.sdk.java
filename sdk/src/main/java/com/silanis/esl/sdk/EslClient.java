@@ -107,7 +107,7 @@ public class EslClient {
         Asserts.notNullOrEmpty(webpageURL, "webpageURL");
         setBaseURL(baseURL);
         this.webpageURL = webpageURL;
-        RestClient client = new RestClient(apiKey);
+        RestClient client = new RestClient(apiKey, allowAllSSLCertificates);
         init(client);
     }
 
@@ -387,7 +387,7 @@ public class EslClient {
         final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
 
         String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
-        SignerRestClient signerClient = new SignerRestClient(signerSessionId);
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
         SignedDocuments signedDocuments = new SignedDocuments();
         Package aPackage = packageService.getApiPackage(packageId.getId());

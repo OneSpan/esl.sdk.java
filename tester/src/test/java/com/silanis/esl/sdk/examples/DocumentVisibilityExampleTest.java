@@ -15,7 +15,7 @@ public class DocumentVisibilityExampleTest {
 
     @Test
     public void verifyResult() {
-        DocumentVisibilityExample example = new DocumentVisibilityExample( Props.get() );
+        DocumentVisibilityExample example = new DocumentVisibilityExample();
         example.run();
 
         assertThat("Document Visibility was not set correctly.", example.retrievedVisibility.getConfigurations(), hasSize(3));

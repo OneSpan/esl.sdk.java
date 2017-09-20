@@ -27,7 +27,7 @@ abstract public class SDKSample {
     public int proxyPort, proxyWithCredentialsPort;
 
     public SDKSample() {
-        eslClient = new EslClient(props.getProperty( "api.key" ), props.getProperty( "api.url" ), props.getProperty( "webpage.url" ));
+        eslClient = new EslClient(props.getProperty( "api.key" ), props.getProperty( "api.url" ), props.getProperty( "webpage.url" ), true);
         setProperties();
     }
 

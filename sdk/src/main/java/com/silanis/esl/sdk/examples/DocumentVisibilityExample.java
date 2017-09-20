@@ -25,7 +25,6 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class DocumentVisibilityExample extends SDKSample {
 
-    private String email1, email2, email3;
     private InputStream documentInputStream1, documentInputStream2, documentInputStream3;
 
     public static final String DOC1_ID = "doc1Id";
@@ -44,29 +43,14 @@ public class DocumentVisibilityExample extends SDKSample {
     public List<Document> documentsForSigner1, documentsForSigner2, documentsForSigner3;
     public List<Signer> signersForDocument1, signersForDocument2, signersForDocument3;
 
-    public static void main(String... args) {
-        new DocumentVisibilityExample(Props.get()).run();
-    }
-
-    public DocumentVisibilityExample(Properties props) {
-        this(props.getProperty("api.key"),
-             props.getProperty("api.url"),
-             props.getProperty("1.email"),
-             props.getProperty("2.email"),
-             props.getProperty("3.email"));
-    }
-
-    public DocumentVisibilityExample(String apiKey, String apiUrl, String email1, String email2, String email3) {
-        super(apiKey, apiUrl);
-        this.email1 = email1;
-        this.email2 = email2;
-        this.email3 = email3;
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
-        documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+    public static void main( String... args ) {
+        new DocumentVisibilityExample().run();
     }
 
     public void execute() {
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
 
         DocumentPackage superDuperPackage = newPackageNamed("DocumentVisibilityExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
             .describedAs("This is a package created using the e-SignLive SDK")

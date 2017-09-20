@@ -15,6 +15,11 @@ public class SignerRestClient extends RestClient {
         this.sessionId = sessionId;
     }
 
+    public SignerRestClient(String sessionId, boolean allowAllSSLCertificates) {
+        super("", allowAllSSLCertificates);
+        this.sessionId = sessionId;
+    }
+
     public SignerRestClient(String sessionId, ProxyConfiguration proxyConfiguration) {
         super("", proxyConfiguration);
         this.sessionId = sessionId;

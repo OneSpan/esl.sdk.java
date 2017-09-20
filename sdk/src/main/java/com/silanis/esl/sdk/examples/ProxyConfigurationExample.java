@@ -25,7 +25,7 @@ import static org.littleshoot.proxy.impl.DefaultHttpProxyServer.bootstrap;
  */
 public class ProxyConfigurationExample extends SDKSample {
 
-    private boolean allowAllSSLCertificates = false;
+    private boolean allowAllSSLCertificates = true;
 
     private EslClient eslClientWithHttpProxy, eslClientWithHttpProxyHasCredentials;
     private ProxyConfiguration httpProxyConfiguration, httpProxyWithCredentialsConfiguration;
