@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
+import com.google.common.collect.Sets;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.Field;
@@ -7,10 +8,7 @@ import com.silanis.esl.sdk.builder.internal.FileDocumentSource;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>DocumentBuilder class is used to facilitate the creation and customization of a document.</p>
@@ -19,7 +17,6 @@ import java.util.Map;
 public class DocumentBuilder {
 
     public static final String DEFAULT_NAME = "New Document";
-    public static final String ESL_DOC_EXTRACT_TYPE = "esl_doc_extract_type";
 
     private String name;
     private final List<Signature> signatures;
@@ -27,6 +24,7 @@ public class DocumentBuilder {
     private String fileName;
     private int index;
     private boolean extract;
+    private Set<String> extractionType = Sets.newHashSet();
     private String id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private List<Field> qrCodes = new ArrayList<Field>();
@@ -147,6 +145,7 @@ public class DocumentBuilder {
         document.addSignatures(signatures);
         document.setIndex( index );
         document.setExtraction( extract );
+        document.setExtractionType( extractionType );
         document.setExternal(external);
         if (description != null ) {
             document.setDescription(description);
@@ -266,11 +265,7 @@ public class DocumentBuilder {
      * @return the document builder itself
      */
     public DocumentBuilder withExtractionType( ExtractionType extractionType ) {
-        if(ExtractionType.FORM_FIELDS_ONLY.equals(extractionType)) {
-            this.data.remove(ESL_DOC_EXTRACT_TYPE);
-        } else {
-            this.data.put(ESL_DOC_EXTRACT_TYPE, extractionType.getValue());
-        }
+        this.extractionType.add(extractionType.name());
         return this;
     }
 }

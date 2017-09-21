@@ -7,10 +7,7 @@ import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.External;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.Field;
-import com.silanis.esl.sdk.FieldStyle;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 
 /**
@@ -62,7 +59,10 @@ public class DocumentConverter {
 
         documentBuilder.withDescription( apiDocument.getDescription() );
         documentBuilder.withExternal(new ExternalConverter(apiDocument.getExternal()).toSDKExternal());
-        documentBuilder.withData( apiDocument.getData() );
+        for(String extractionType : apiDocument.getExtractionType()) {
+            documentBuilder.withExtractionType(ExtractionType.valueOf(extractionType));
+        }
+        documentBuilder.withData(apiDocument.getData() );
         for ( Approval apiApproval : apiDocument.getApprovals() ) {
             documentBuilder.withSignature( new SignatureConverter( apiApproval, apiPackage ).toSDKSignature());
         }
@@ -93,6 +93,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
+                .setExtractionType(sdkDocument.getExtractionType())
                 .setData(sdkDocument.getData())
                 .setName(sdkDocument.getName());
 
@@ -142,6 +143,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .safeSetIndex(sdkDocument.getIndex())
                 .safeSetExtract(sdkDocument.isExtract())
+                .setExtractionType(sdkDocument.getExtractionType())
                 .safeSetName(sdkDocument.getName())
                 .safeSetExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal())
                 .safeSetDescription(sdkDocument.getDescription());

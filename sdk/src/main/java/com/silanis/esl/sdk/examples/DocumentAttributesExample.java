@@ -3,7 +3,8 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 
-import static com.silanis.esl.sdk.ExtractionType.FORM_FIELDS_WITH_TEXT_TAGS;
+import static com.silanis.esl.sdk.ExtractionType.ACROFIELDS;
+import static com.silanis.esl.sdk.ExtractionType.TEXT_TAGS;
 import static com.silanis.esl.sdk.builder.DocumentAttributesBuilder.newDocumentAttributes;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -43,7 +44,6 @@ public class DocumentAttributesExample extends SDKSample {
                         .withData(newDocumentAttributes()
                                 .addAttribute(ATTRIBUTE_KEY_1, ATTRIBUTE_1)
                                 .addAttribute(ATTRIBUTE_KEY_2, ATTRIBUTE_2))
-                        .withExtractionType(FORM_FIELDS_WITH_TEXT_TAGS)
                         .withData(newDocumentAttributes()
                                 .addAttribute(ATTRIBUTE_KEY_3, ATTRIBUTE_3)))
                         .build();

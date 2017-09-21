@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.collect.Sets;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.External;
@@ -9,6 +10,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.silanis.esl.sdk.ExtractionType.ACROFIELDS;
+import static com.silanis.esl.sdk.ExtractionType.TEXT_TAGS;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static junit.framework.TestCase.assertFalse;
@@ -85,6 +88,7 @@ public class DocumentConverterTest {
         assertThat("Name was not correctly set", sdkDocument1.getName(), is(equalTo(apiDocument1.getName())));
         assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(equalTo(apiDocument1.getId())));
         assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(equalTo(apiDocument1.getIndex())));
+        assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionType(), is(apiDocument1.getExtractionType()));
     }
 
     @Test
@@ -97,6 +101,7 @@ public class DocumentConverterTest {
         assertThat("Name was not correctly set", sdkDocument1.getName(), is(equalTo(apiDocument1.getName())));
         assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(equalTo(apiDocument1.getId())));
         assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(equalTo(apiDocument1.getIndex())));
+        assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionType(), is(apiDocument1.getExtractionType()));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -203,6 +208,8 @@ public class DocumentConverterTest {
                 .fromStream(documentInputStream, DocumentType.PDF)
                 .withId("sdkDocumentId")
                 .withDescription("sdkDocument Description")
+                .withExtractionType(TEXT_TAGS)
+                .withExtractionType(ACROFIELDS)
                 .withSignature(signatureFor("john.smith@email.com")
                         .onPage(0))
                 .build();
@@ -218,6 +225,7 @@ public class DocumentConverterTest {
                 .setIndex(1)
                 .setName("apiDocument")
                 .setId("apiDocumentId")
+                .setExtractionType(Sets.newHashSet(TEXT_TAGS.name(), ACROFIELDS.name()))
                 .setDescription("apiDocument Description");
 
         return apiDocument;
