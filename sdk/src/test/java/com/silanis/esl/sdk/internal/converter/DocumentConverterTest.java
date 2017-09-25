@@ -88,7 +88,7 @@ public class DocumentConverterTest {
         assertThat("Name was not correctly set", sdkDocument1.getName(), is(equalTo(apiDocument1.getName())));
         assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(equalTo(apiDocument1.getId())));
         assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(equalTo(apiDocument1.getIndex())));
-        assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionType(), is(apiDocument1.getExtractionType()));
+        assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionTypes(), is(apiDocument1.getExtractionTypes()));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class DocumentConverterTest {
         assertThat("Name was not correctly set", sdkDocument1.getName(), is(equalTo(apiDocument1.getName())));
         assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(equalTo(apiDocument1.getId())));
         assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(equalTo(apiDocument1.getIndex())));
-        assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionType(), is(apiDocument1.getExtractionType()));
+        assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionTypes(), is(apiDocument1.getExtractionTypes()));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -225,7 +225,7 @@ public class DocumentConverterTest {
                 .setIndex(1)
                 .setName("apiDocument")
                 .setId("apiDocumentId")
-                .setExtractionType(Sets.newHashSet(TEXT_TAGS.name(), ACROFIELDS.name()))
+                .setExtractionTypes(Sets.newHashSet(TEXT_TAGS.name(), ACROFIELDS.name()))
                 .setDescription("apiDocument Description");
 
         return apiDocument;

@@ -24,7 +24,7 @@ public class DocumentBuilder {
     private String fileName;
     private int index;
     private boolean extract;
-    private Set<String> extractionType = Sets.newHashSet();
+    private Set<String> extractionTypes = Sets.newHashSet();
     private String id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private List<Field> qrCodes = new ArrayList<Field>();
@@ -145,7 +145,7 @@ public class DocumentBuilder {
         document.addSignatures(signatures);
         document.setIndex( index );
         document.setExtraction( extract );
-        document.setExtractionType( extractionType );
+        document.setExtractionTypes(extractionTypes);
         document.setExternal(external);
         if (description != null ) {
             document.setDescription(description);
@@ -265,7 +265,7 @@ public class DocumentBuilder {
      * @return the document builder itself
      */
     public DocumentBuilder withExtractionType( ExtractionType extractionType ) {
-        this.extractionType.add(extractionType.name());
+        this.extractionTypes.add(extractionType.name());
         return this;
     }
 }

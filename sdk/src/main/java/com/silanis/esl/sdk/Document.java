@@ -22,7 +22,7 @@ public class Document implements Serializable {
     private String fileName;
     private int index;
     private boolean extract;
-    private Set<String> extractionType = Sets.newHashSet();
+    private Set<String> extractionTypes = Sets.newHashSet();
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private List<Field> qrCodes = new ArrayList<Field>();
@@ -127,12 +127,12 @@ public class Document implements Serializable {
         return extract;
     }
 
-    public Set<String> getExtractionType() {
-        return extractionType;
+    public Set<String> getExtractionTypes() {
+        return extractionTypes;
     }
 
-    public void setExtractionType(Set<String> extractionType) {
-        this.extractionType = extractionType;
+    public void setExtractionTypes(Set<String> extractionTypes) {
+        this.extractionTypes = extractionTypes;
     }
 
     /**

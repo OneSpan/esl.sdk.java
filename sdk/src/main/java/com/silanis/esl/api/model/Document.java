@@ -25,7 +25,7 @@ public class Document extends Entity
     @JsonIgnore
     public static final String FIELD_EXTRACT = "extract";
     @JsonIgnore
-    public static final String FIELD_EXTRACTION_TYPE = "extractionType";
+    public static final String FIELD_EXTRACTION_TYPES = "extractionTypes";
     @JsonIgnore
     public static final String FIELD_FIELDS = "fields";
     @JsonIgnore
@@ -47,7 +47,7 @@ public class Document extends Entity
     protected String _description = "";
     protected External _external = null;
     protected Boolean _extract = false;
-    protected Set<String> _extractionType = Sets.newHashSet();
+    protected Set<String> _extractionTypes = Sets.newHashSet();
     protected List<Field> _fields = new ArrayList<Field>();
     protected Integer _index = 0;
     protected List<Page> _pages = new ArrayList<Page>();
@@ -162,26 +162,26 @@ public class Document extends Entity
 
 
 
-    public Document setExtractionType(Set<String> value) {
-        SchemaSanitizer.throwOnNull(FIELD_EXTRACTION_TYPE, value);
+    public Document setExtractionTypes(Set<String> value) {
+        SchemaSanitizer.throwOnNull(FIELD_EXTRACTION_TYPES, value);
         // TODO With proper compare
-        // if ( this._extractionType == value ) return this;
-        this._extractionType = value;
-        setDirty(FIELD_EXTRACTION_TYPE);
+        // if ( this._extractionTypes == value ) return this;
+        this._extractionTypes = value;
+        setDirty(FIELD_EXTRACTION_TYPES);
         return this;
     }
 
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetExtractionType(Set<String> value) {
+    public Document safeSetExtractionTypes(Set<String> value) {
         if (value != null) {
-            this.setExtractionType(value);
+            this.setExtractionTypes(value);
         }
         return this;
     }
 
-    public Set<String> getExtractionType() {
-        return _extractionType;
+    public Set<String> getExtractionTypes() {
+        return _extractionTypes;
     }
 
 

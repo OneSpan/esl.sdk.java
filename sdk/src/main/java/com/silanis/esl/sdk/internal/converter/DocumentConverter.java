@@ -59,7 +59,7 @@ public class DocumentConverter {
 
         documentBuilder.withDescription( apiDocument.getDescription() );
         documentBuilder.withExternal(new ExternalConverter(apiDocument.getExternal()).toSDKExternal());
-        for(String extractionType : apiDocument.getExtractionType()) {
+        for(String extractionType : apiDocument.getExtractionTypes()) {
             documentBuilder.withExtractionType(ExtractionType.valueOf(extractionType));
         }
         documentBuilder.withData(apiDocument.getData() );
@@ -93,7 +93,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
-                .setExtractionType(sdkDocument.getExtractionType())
+                .setExtractionTypes(sdkDocument.getExtractionTypes())
                 .setData(sdkDocument.getData())
                 .setName(sdkDocument.getName());
 
@@ -143,7 +143,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .safeSetIndex(sdkDocument.getIndex())
                 .safeSetExtract(sdkDocument.isExtract())
-                .setExtractionType(sdkDocument.getExtractionType())
+                .setExtractionTypes(sdkDocument.getExtractionTypes())
                 .safeSetName(sdkDocument.getName())
                 .safeSetExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal())
                 .safeSetDescription(sdkDocument.getDescription());
