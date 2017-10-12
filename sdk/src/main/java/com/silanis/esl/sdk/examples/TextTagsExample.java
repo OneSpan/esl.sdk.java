@@ -45,15 +45,15 @@ public class TextTagsExample extends SDKSample {
                         .withLastName("Smith3"))
                 .withDocument(newDocumentWithName(DOCUMENT1_NAME)
                         .fromStream(documentInputStream1, DocumentType.PDF)
-                        .withExtractionType(ExtractionType.FORM_FIELDS_ONLY)
                         .enableExtraction())
                 .withDocument(newDocumentWithName(DOCUMENT2_NAME)
                         .fromStream(documentInputStream2, DocumentType.PDF)
-                        .withExtractionType(ExtractionType.TEXT_TAGS_ONLY)
+                        .withExtractionType(ExtractionType.TEXT_TAGS)
                         .enableExtraction())
                 .withDocument(newDocumentWithName(DOCUMENT3_NAME)
                         .fromStream(documentInputStream3, DocumentType.PDF)
-                        .withExtractionType(ExtractionType.FORM_FIELDS_WITH_TEXT_TAGS)
+                        .withExtractionType(ExtractionType.TEXT_TAGS)
+                        .withExtractionType(ExtractionType.ACROFIELDS)
                         .enableExtraction())
                 .build();
 

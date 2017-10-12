@@ -1,10 +1,9 @@
 package com.silanis.esl.sdk;
 
+import com.google.common.collect.Sets;
+
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>The document class contains data describing pages, signatures and their associated data and layout.</>
@@ -23,6 +22,7 @@ public class Document implements Serializable {
     private String fileName;
     private int index;
     private boolean extract;
+    private Set<String> extractionTypes = Sets.newHashSet();
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
     private List<Field> qrCodes = new ArrayList<Field>();
@@ -125,6 +125,14 @@ public class Document implements Serializable {
 
     public boolean isExtract() {
         return extract;
+    }
+
+    public Set<String> getExtractionTypes() {
+        return extractionTypes;
+    }
+
+    public void setExtractionTypes(Set<String> extractionTypes) {
+        this.extractionTypes = extractionTypes;
     }
 
     /**

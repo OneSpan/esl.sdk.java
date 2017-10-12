@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Sets;
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Document extends Entity
@@ -21,6 +24,8 @@ public class Document extends Entity
     public static final String FIELD_EXTERNAL = "external";
     @JsonIgnore
     public static final String FIELD_EXTRACT = "extract";
+    @JsonIgnore
+    public static final String FIELD_EXTRACTION_TYPES = "extractionTypes";
     @JsonIgnore
     public static final String FIELD_FIELDS = "fields";
     @JsonIgnore
@@ -42,6 +47,7 @@ public class Document extends Entity
     protected String _description = "";
     protected External _external = null;
     protected Boolean _extract = false;
+    protected Set<String> _extractionTypes = Sets.newHashSet();
     protected List<Field> _fields = new ArrayList<Field>();
     protected Integer _index = 0;
     protected List<Page> _pages = new ArrayList<Page>();
@@ -153,9 +159,33 @@ public class Document extends Entity
     public boolean evalExtract(){
         return _extract == null ? false : _extract.booleanValue();
     }
-    
-        
-    
+
+
+
+    public Document setExtractionTypes(Set<String> value) {
+        SchemaSanitizer.throwOnNull(FIELD_EXTRACTION_TYPES, value);
+        // TODO With proper compare
+        // if ( this._extractionTypes == value ) return this;
+        this._extractionTypes = value;
+        setDirty(FIELD_EXTRACTION_TYPES);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Document safeSetExtractionTypes(Set<String> value) {
+        if (value != null) {
+            this.setExtractionTypes(value);
+        }
+        return this;
+    }
+
+    public Set<String> getExtractionTypes() {
+        return _extractionTypes;
+    }
+
+
+
     public Document setFields( List<Field> value ){
         SchemaSanitizer.throwOnNull(FIELD_FIELDS,value);
         // TODO With proper compare

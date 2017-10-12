@@ -156,7 +156,7 @@ public class AttachmentRequirementService {
     }
 
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileBytes, String signerSessionId) {
-        SignerRestClient signerClient = new SignerRestClient(signerSessionId);
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
         String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
                               .replace("{packageId}", packageId.getId())
