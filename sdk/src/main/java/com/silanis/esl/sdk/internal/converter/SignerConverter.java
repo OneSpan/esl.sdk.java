@@ -154,6 +154,10 @@ public class SignerConverter {
             signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
         }
 
+        if(apiRole.getIndex() != null){
+            signerBuilder.signingOrder(apiRole.getIndex());
+        }
+
         Signer signer = signerBuilder.build();
 
         if(apiRole.getLocked()){

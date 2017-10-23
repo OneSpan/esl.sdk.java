@@ -10,6 +10,7 @@ public class Placeholder implements Serializable {
 
     private String id;
     private String name;
+    private int signingOrder;
 
     public Placeholder(String id){
         this.id = id;
@@ -19,6 +20,12 @@ public class Placeholder implements Serializable {
     public Placeholder(String id, String name){
         this.id = id;
         this.name = name;
+    }
+
+    public Placeholder(String id, String name, Integer signingOrder){
+        this.id = id;
+        this.name = name;
+        if(signingOrder != null) this.signingOrder = signingOrder;
     }
 
     public String getId() {
@@ -35,5 +42,13 @@ public class Placeholder implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getSigningOrder() {
+        return signingOrder;
+    }
+
+    public void setSigningOrder(int signingOrder) {
+        this.signingOrder = signingOrder;
     }
 }

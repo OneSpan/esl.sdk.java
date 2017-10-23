@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerFromGroup;
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
+
 /**
  * User: jessica
  * Date: 26/11/13
@@ -145,6 +148,7 @@ public class DocumentPackageConverter {
 
         for ( Signer signer : sdkPackage.getPlaceholders() ) {
             Role role = new SignerConverter(signer).toAPIRole(signer.getId(), signer.getPlaceholderName());
+            role.setIndex(signer.getSigningOrder());
             result.addRole(role);
         }
 
@@ -205,10 +209,10 @@ public class DocumentPackageConverter {
         for ( Role role : apiPackage.getRoles() ) {
 
             if(role.getSigners().isEmpty()){
-                packageBuilder.withSigner(SignerBuilder.newSignerPlaceholder(new Placeholder(role.getId(), role.getName())));
+                packageBuilder.withSigner(newSignerPlaceholder(new Placeholder(role.getId(), role.getName(), role.getIndex())));
             }
             else if ( role.getSigners().get( 0 ).getGroup() != null ) {
-                packageBuilder.withSigner(SignerBuilder.newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
+                packageBuilder.withSigner(newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
             } else {
                 packageBuilder.withSigner( new SignerConverter(role).toSDKSigner() );
 

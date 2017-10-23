@@ -66,6 +66,7 @@ final public class SignerBuilder {
         this.groupId = null;
         this.id = placeholder.getId();
         this.placeholderName = placeholder.getName();
+        this.signingOrder = placeholder.getSigningOrder();
     }
 
     /**
