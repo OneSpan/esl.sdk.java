@@ -147,7 +147,6 @@ public class TemplateService {
         return maxSigningOrder;
     }
 
-
     private boolean checkSignerOrdering(DocumentPackage template) {
         List<Signer> signers = new ArrayList<Signer>();
         signers.addAll(template.getSigners());
