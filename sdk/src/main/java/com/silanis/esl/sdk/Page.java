@@ -37,6 +37,10 @@ public class Page<T> implements Iterable<T> {
         return hasNextPage() ? request.next() : null ;
     }
 
+    public List<T> getResults() {
+        return results;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return results.iterator();
