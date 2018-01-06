@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.internal;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.ProxyConfiguration;
+import com.silanis.esl.sdk.RequestThrottledException;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 import org.apache.http.Consts;
@@ -42,6 +43,9 @@ import java.security.cert.X509Certificate;
 import java.util.Collection;
 
 import static com.silanis.esl.sdk.internal.HttpUtil.percentDecode;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.pow;
 
 public class RestClient {
 
@@ -170,47 +174,79 @@ public class RestClient {
     }
 
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
+        int triesLeft = Integer.parseInt(System.getProperty("esignlive.max.retries", "3"));
+        int currentTry = 0;
 
-        CloseableHttpClient client = null;
-        try {
-            client = buildHttpClient();
-        } catch (HttpException e) {
-            throw new RequestException(request.getRequestLine().getMethod(),
-                    request.getRequestLine().getUri(),
-                    500,
-                    "No SSL Socket Factory",
-                    "Could not build request because of SSL socket Factory");
-        }
+        while (triesLeft-- > 0) {
+            currentTry++;
 
-        try {
-            addAuthorizationHeader(request);
-            support.log(request);
-            CloseableHttpResponse response = client.execute(request);
-
-            if (response.getStatusLine().getStatusCode() >= 400) {
-                String errorDetails = Streams.toString(response.getEntity().getContent());
+            CloseableHttpClient client;
+            try {
+                client = buildHttpClient();
+            } catch (HttpException e) {
                 throw new RequestException(request.getRequestLine().getMethod(),
                         request.getRequestLine().getUri(),
-                        response.getStatusLine().getStatusCode(),
-                        response.getStatusLine().getReasonPhrase(),
-                        errorDetails);
-            } else if (response.getStatusLine().getStatusCode() == 204) {
-                return null;
-            } else {
-                InputStream bodyContent = response.getEntity().getContent();
-                if(null != response.getHeaders("Content-Disposition") && response.getHeaders("Content-Disposition").length > 0) {
-                    String fileName = getFilename(response.getHeaders("Content-Disposition")[0].getValue());
-                    DownloadedFile downloadedFile = (DownloadedFile) handler.extract(bodyContent);
-                    downloadedFile.setFilename(fileName);
-                    return (T)downloadedFile;
-                }
-                return handler.extract(bodyContent);
+                        500,
+                        "No SSL Socket Factory",
+                        "Could not build request because of SSL socket Factory");
             }
-        } finally {
-            if (null != client) {
-                client.close();
+
+            try {
+                addAuthorizationHeader(request);
+                support.log(request);
+                CloseableHttpResponse response = client.execute(request);
+                int statusCode = response.getStatusLine().getStatusCode();
+
+                support.logMessage("Received HTTP status code " + statusCode);
+                if (statusCode == 429) {
+                    support.logMessage("Maximum API call rate exceeded. "
+                            + (triesLeft > 1 ? "Will retry after backoff." : "Will not retry after backoff."));
+
+                    long backoffDuration = getSleepDuration(currentTry, 10, 5000);
+
+                    support.logMessage("Sleeping " + backoffDuration + " ms before retrying request");
+                    sleep(backoffDuration);
+                }
+                else if (statusCode >= 400) {
+                    String errorDetails = Streams.toString(response.getEntity().getContent());
+                    throw new RequestException(request.getRequestLine().getMethod(),
+                            request.getRequestLine().getUri(),
+                            response.getStatusLine().getStatusCode(),
+                            response.getStatusLine().getReasonPhrase(),
+                            errorDetails);
+                } else if (statusCode == 204) {
+                    return null;
+                } else {
+                    InputStream bodyContent = response.getEntity().getContent();
+                    if(null != response.getHeaders("Content-Disposition") && response.getHeaders("Content-Disposition").length > 0) {
+                        String fileName = getFilename(response.getHeaders("Content-Disposition")[0].getValue());
+                        DownloadedFile downloadedFile = (DownloadedFile) handler.extract(bodyContent);
+                        downloadedFile.setFilename(fileName);
+                        return (T)downloadedFile;
+                    }
+                    return handler.extract(bodyContent);
+                }
+            }
+            finally {
+                if (null != client) {
+                    client.close();
+                }
             }
         }
+
+        support.logMessage("Request was throttled after " + currentTry + " attempts");
+        throw new RequestThrottledException(currentTry);
+    }
+
+    private void sleep(long backoffDuration) {
+        try { Thread.sleep(backoffDuration); } catch (InterruptedException ignored) {}
+    }
+
+    private long getSleepDuration(int currentTry, int minSleepTimeMillis, int maxSleepTimeMillis) {
+        currentTry = max(0, currentTry);
+        long sleepTime = (long)(minSleepTimeMillis * pow(2, currentTry));
+
+        return min(sleepTime, maxSleepTimeMillis);
     }
 
     private String getFilename(String disposition) {
