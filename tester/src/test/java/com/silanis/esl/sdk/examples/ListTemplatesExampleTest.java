@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.ExtractionType;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import static org.hamcrest.Matchers.hasSize;
  */
 public class ListTemplatesExampleTest {
 
+    @Ignore("This test works fine, but it takes too long if there are many templates. If necessary, run it manually")
     @Test
     public void verifyResult() {
         ListTemplatesExample example = new ListTemplatesExample();
