@@ -43,6 +43,7 @@ public class BasicPackageCreationExample extends SDKSample {
     }
 
     public void execute() {
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document_with_text_tag_and_form_field.pdf");
         email2 = "CapitalLetters@email.com";
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())

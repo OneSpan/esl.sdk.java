@@ -21,6 +21,7 @@ public class Document implements Serializable {
     private byte[] content;
     private String fileName;
     private int index;
+    private int numberOfPages;
     private boolean extract;
     private Set<String> extractionTypes = Sets.newHashSet();
     private DocumentId id;
@@ -112,6 +113,24 @@ public class Document implements Serializable {
      */
     public int getIndex() {
         return index;
+    }
+
+    /**
+     * <p>Accessor method used to retrieve the number of pages of the document</p>
+     *
+     * @return	the number of pages
+     */
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    /**
+     * <p>Accessor method used to specify the number of pages of the document.</p>
+     *
+     * @param numberOfPages	the document signing order
+     */
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
     }
 
     /**

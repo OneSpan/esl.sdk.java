@@ -7,7 +7,11 @@ import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.External;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.FieldStyle;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 
 /**
@@ -77,7 +81,12 @@ public class DocumentConverter {
             }
         }
 
-        return documentBuilder.build();
+        Document document = documentBuilder.build();
+        if ( apiDocument.getPages() != null && !apiDocument.getPages().isEmpty() ) {
+            document.setNumberOfPages(apiDocument.getPages().size());
+        }
+
+        return document;
     }
     /**
      * Convert from SDK document to API Document.
@@ -93,7 +102,6 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
-                .setExtractionTypes(sdkDocument.getExtractionTypes())
                 .setData(sdkDocument.getData())
                 .setName(sdkDocument.getName());
 
@@ -143,7 +151,6 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .safeSetIndex(sdkDocument.getIndex())
                 .safeSetExtract(sdkDocument.isExtract())
-                .setExtractionTypes(sdkDocument.getExtractionTypes())
                 .safeSetName(sdkDocument.getName())
                 .safeSetExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal())
                 .safeSetDescription(sdkDocument.getDescription());
