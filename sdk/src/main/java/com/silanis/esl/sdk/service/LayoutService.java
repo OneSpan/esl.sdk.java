@@ -59,6 +59,38 @@ public class LayoutService {
     }
 
     /**
+     * Create and get a layout from an already created DocumentPackage.
+     *
+     * @param layout the DocumentPackage with one document from which to create layout.
+     * @return DocumentPackage layout.
+     */
+    public DocumentPackage createAndGetLayout(DocumentPackage layout) {
+        String path = template.urlFor(UrlTemplate.LAYOUT_PATH)
+                .build();
+
+        Package layoutToCreate = new DocumentPackageConverter(layout).toAPIPackage();
+
+        for (com.silanis.esl.sdk.Document document : layout.getDocuments()) {
+            layoutToCreate.addDocument(new DocumentConverter(document).toAPIDocument(layoutToCreate));
+        }
+
+        String packageString = Serialization.toJson(layoutToCreate);
+        Template template = Serialization.fromJson(packageString, Template.class);
+        template.setId(layout.getId().getId());
+        String templateString = Serialization.toJson(template);
+
+        try {
+            String response = client.post(path, templateString);
+            Package aPackage = Serialization.fromJson(response, Package.class);
+            return new DocumentPackageConverter(aPackage).toSDKPackage();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create layout.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create layout." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Get a list of layouts (DocumentPackages).
      *
      * @param direction of retrieved list to be sorted in ascending or descending order by name.
