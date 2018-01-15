@@ -76,6 +76,7 @@ public class BasicPackageCreationExampleTest {
 
         // Document 1
         Document document = documentPackage.getDocument(DOCUMENT1_NAME);
+        assertThat("The number of pages in the document is not set correctly.", document.getNumberOfPages(), is(7));
 
         Iterator<Signature> signatures = document.getSignatures().iterator();
         assertTrue("Signature doesn't exist in First Document.", signatures.hasNext());
@@ -94,6 +95,7 @@ public class BasicPackageCreationExampleTest {
 
         // Document 2
         document = documentPackage.getDocument(DOCUMENT2_NAME);
+        assertThat("The number of pages in the document is not set correctly.", document.getNumberOfPages(), is(1));
         signatures = document.getSignatures().iterator();
         assertTrue("Signature doesn't exist in Second Document.", signatures.hasNext());
 
