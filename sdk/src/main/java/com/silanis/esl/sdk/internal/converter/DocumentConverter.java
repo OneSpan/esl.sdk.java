@@ -8,6 +8,7 @@ import com.silanis.esl.api.model.External;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.ExtractionType;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.FieldStyle;
 import com.silanis.esl.sdk.GroupId;
@@ -102,6 +103,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .setIndex(sdkDocument.getIndex())
                 .setExtract(sdkDocument.isExtract())
+                .setExtractionTypes(sdkDocument.getExtractionTypes())
                 .setData(sdkDocument.getData())
                 .setName(sdkDocument.getName());
 
@@ -151,6 +153,7 @@ public class DocumentConverter {
         com.silanis.esl.api.model.Document result = new com.silanis.esl.api.model.Document()
                 .safeSetIndex(sdkDocument.getIndex())
                 .safeSetExtract(sdkDocument.isExtract())
+                .setExtractionTypes(sdkDocument.getExtractionTypes())
                 .safeSetName(sdkDocument.getName())
                 .safeSetExternal(new ExternalConverter(sdkDocument.getExternal()).toAPIExternal())
                 .safeSetDescription(sdkDocument.getDescription());
