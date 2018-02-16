@@ -53,6 +53,8 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public static final String FIELD_OPTOUTREASONS = "optOutReasons";
     @JsonIgnore
+    public static final String FIELD_ADA = "ada";
+    @JsonIgnore
     public static final String FIELD_STYLE = "style";
 
     // Empty Constructor
@@ -78,6 +80,7 @@ public class CeremonySettings extends ViewSettings
     protected Integer _maxAuthFailsAllowed = null;
     protected Boolean _optOutButton = false;
     protected List<String> _optOutReasons = new ArrayList<String>();
+    protected Boolean _ada = false;
 
     // Accessors
 
@@ -534,6 +537,27 @@ public class CeremonySettings extends ViewSettings
         this._optOutReasons.add(value);
         setDirty(FIELD_OPTOUTREASONS);
         return this;
+    }
+
+
+    public CeremonySettings setAda( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_ADA, value);
+        this._ada = value;
+        setDirty(FIELD_ADA);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetAda( Boolean value ){
+        if ( value != null ) { this.setAda( value ); }
+        return this;
+    }
+    public Boolean getAda(){
+        return _ada;
+    }
+    @JsonIgnore
+    public boolean evalAda(){
+        return _ada == null ? false : _ada.booleanValue();
     }
 
 

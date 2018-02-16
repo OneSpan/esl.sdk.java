@@ -21,6 +21,7 @@ public class DocumentPackageSettings {
     private Boolean enableSecondAffidavit = null;
     private Boolean disableDeclineOther = null;
     private Boolean disableOptOutOther = null;
+    private Boolean ada = null;
 
     private String linkText;
     private String linkTooltip;
@@ -182,5 +183,13 @@ public class DocumentPackageSettings {
 
     public void setDisableOptOutOther(Boolean disableOptOutOther) {
         this.disableOptOutOther = disableOptOutOther;
+    }
+
+    public Boolean getAda() {
+        return ada;
+    }
+
+    public void setAda(Boolean ada) {
+        this.ada = ada;
     }
 }

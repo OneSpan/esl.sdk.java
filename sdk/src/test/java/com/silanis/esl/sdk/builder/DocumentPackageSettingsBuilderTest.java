@@ -116,5 +116,9 @@ public class DocumentPackageSettingsBuilderTest {
         documentPackageSettings = newDocumentPackageSettings().withWatermark().build();
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
         assertFalse("hideWatermark was not set correctly", documentPackageSettings.getHideWatermark());
+
+        documentPackageSettings = newDocumentPackageSettings().withAda().build();
+        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertTrue("ada was not set correctly", documentPackageSettings.getAda());
     }
 }

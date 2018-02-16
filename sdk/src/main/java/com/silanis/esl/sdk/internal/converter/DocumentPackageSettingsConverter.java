@@ -54,6 +54,7 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetMaxAuthFailsAllowed( sdkPackageSettings.getMaxAuthAttempts() );
         ceremonySettings.safeSetDisableDeclineOther( sdkPackageSettings.getDisableDeclineOther() );
         ceremonySettings.safeSetDisableOptOutOther( sdkPackageSettings.getDisableOptOutOther() );
+        ceremonySettings.safeSetAda(sdkPackageSettings.getAda());
         if (sdkPackageSettings.getEnableFirstAffidavit() != null ) {
             ceremonySettings.safeSetDisableFirstInPersonAffidavit( !sdkPackageSettings.getEnableFirstAffidavit());
         }
@@ -163,6 +164,10 @@ public class DocumentPackageSettingsConverter {
 
         if (apiPackageSettings.getCeremony().getDisableOptOutOther() != null) {
             result.setDisableOptOutOther(apiPackageSettings.getCeremony().getDisableOptOutOther());
+        }
+
+        if (apiPackageSettings.getCeremony().getAda() != null) {
+            result.setAda(apiPackageSettings.getCeremony().getAda());
         }
 
         result.setCeremonyLayoutSettings( new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings() );

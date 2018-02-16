@@ -51,5 +51,6 @@ public class DocumentPackageSettingsExampleTest {
         assertFalse("Hide language drop list.", documentPackageSettings.getShowLanguageDropDown());
         assertTrue("Disable DeclineOther was not set correctly.", documentPackageSettings.getDisableDeclineOther());
         assertTrue("Disable OptOutOther was not set correctly.", documentPackageSettings.getDisableOptOutOther());
+        assertTrue("ADA was not set correctly.", documentPackageSettings.getAda());
     }
 }

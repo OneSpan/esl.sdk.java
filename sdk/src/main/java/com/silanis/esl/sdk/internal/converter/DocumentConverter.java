@@ -87,6 +87,10 @@ public class DocumentConverter {
             document.setNumberOfPages(apiDocument.getPages().size());
         }
 
+        if ( apiDocument.getTagged() != null ) {
+            document.setTagged(apiDocument.getTagged());
+        }
+
         return document;
     }
     /**
@@ -111,6 +115,7 @@ public class DocumentConverter {
             result.safeSetId(sdkDocument.getId().getId());
         }
         result.safeSetDescription(sdkDocument.getDescription());
+        result.safeSetTagged(sdkDocument.isTagged());
 
         if( sdkDocument.getExternal() != null){
             External external =  new ExternalConverter(sdkDocument.getExternal()).toAPIExternal();

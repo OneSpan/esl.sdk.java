@@ -22,52 +22,55 @@ public class DocumentPackageSettingsExample extends SDKSample {
     public static final String HAND_OVER_LINK_TEXT = "click here";
     public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
 
-    public static void main( String... args ) {
+    public static void main(String... args) {
         new DocumentPackageSettingsExample().run();
     }
 
     @Override
     public void execute() {
-        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .withSettings( newDocumentPackageSettings()
-                        .withInPerson()
-                        .withoutLanguageDropDown()
-                        .hideOwnerInPersonDropDown()
-                        .disableFirstAffidavit()
-                        .disableSecondAffidavit()
-                        .withDecline()
-                        .withDeclineReason(DECLINE_REASON_1)
-                        .withDeclineReason(DECLINE_REASON_2)
-                        .withDeclineReason(DECLINE_REASON_3)
-                        .withOptOut()
-                        .withOptOutReason(OPT_OUT_REASON_1)
-                        .withOptOutReason(OPT_OUT_REASON_2)
-                        .withOptOutReason(OPT_OUT_REASON_3)
-                        .withHandOverLinkHref(HAND_OVER_LINK_HREF)
-                        .withHandOverLinkText(HAND_OVER_LINK_TEXT)
-                        .withHandOverLinkTooltip(HAND_OVER_LINK_TOOLTIP)
-                        .withDialogOnComplete()
-                        .withoutDeclineOther()
-                        .withoutOptOutOther()
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "taggedDocument.pdf" );
 
-                        .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
+        DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
+                .withSettings(newDocumentPackageSettings()
+                                .withInPerson()
+                                .withoutLanguageDropDown()
+                                .hideOwnerInPersonDropDown()
+                                .disableFirstAffidavit()
+                                .disableSecondAffidavit()
+                                .withDecline()
+                                .withDeclineReason(DECLINE_REASON_1)
+                                .withDeclineReason(DECLINE_REASON_2)
+                                .withDeclineReason(DECLINE_REASON_3)
+                                .withOptOut()
+                                .withAda()
+                                .withOptOutReason(OPT_OUT_REASON_1)
+                                .withOptOutReason(OPT_OUT_REASON_2)
+                                .withOptOutReason(OPT_OUT_REASON_3)
+                                .withHandOverLinkHref(HAND_OVER_LINK_HREF)
+                                .withHandOverLinkText(HAND_OVER_LINK_TEXT)
+                                .withHandOverLinkTooltip(HAND_OVER_LINK_TOOLTIP)
+                                .withDialogOnComplete()
+                                .withoutDeclineOther()
+                                .withoutOptOutOther()
+
+                                .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
 //                                .withoutGlobalDownloadButton()
-                                .withoutGlobalConfirmButton()
-                                .withoutGlobalSaveAsLayoutButton()
-                        )
+                                                .withoutGlobalConfirmButton()
+                                                .withoutGlobalSaveAsLayoutButton()
+                                )
                 )
-                .withSigner( newSignerWithEmail( email1 )
-                        .withFirstName( "John" )
-                        .withLastName( "Smith" ) )
-                .withDocument( newDocumentWithName( "First Document" )
-                        .fromStream( documentInputStream1, DocumentType.PDF )
-                        .withSignature( signatureFor( email1 )
-                                .onPage( 0 )
-                                .atPosition( 100, 100 ) ) )
+                .withSigner(newSignerWithEmail(email1)
+                        .withFirstName("John")
+                        .withLastName("Smith"))
+                .withDocument(newDocumentWithName("First Document")
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(signatureFor(email1)
+                                .onPage(0)
+                                .atPosition(100, 100)))
                 .build();
 
-        packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage( packageId );
-        retrievedPackage = eslClient.getPackage( packageId );
+        packageId = eslClient.createPackage(superDuperPackage);
+        eslClient.sendPackage(packageId);
+        retrievedPackage = eslClient.getPackage(packageId);
     }
 }

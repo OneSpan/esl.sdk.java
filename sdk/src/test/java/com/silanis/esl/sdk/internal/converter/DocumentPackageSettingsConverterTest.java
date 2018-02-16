@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.GlobalActionsOptions;
+import com.silanis.esl.api.model.HeaderOptions;
+import com.silanis.esl.api.model.LayoutOptions;
+import com.silanis.esl.api.model.LayoutStyle;
+import com.silanis.esl.api.model.Link;
+import com.silanis.esl.api.model.Style;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,7 +17,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * User: jessica
@@ -68,8 +72,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
 
         sdkPackageSettings1 = createTypicalSDKPackageSettings();
         sdkPackageSettings2 = new DocumentPackageSettingsConverter(sdkPackageSettings1).toSDKPackageSettings();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkPackageSettings2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkPackageSettings2, is( equalTo( sdkPackageSettings1 ) ) );
+        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkPackageSettings2, notNullValue() );
+        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkPackageSettings2, is( sdkPackageSettings1 ) );
     }
 
     @Override
@@ -79,8 +83,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiPackageSettings1 = createTypicalAPIPackageSettings();
         apiPackageSettings2 = new DocumentPackageSettingsConverter(apiPackageSettings1).toAPIPackageSettings();
 
-        assertThat( "Converter returned a null api object for a non null api object", apiPackageSettings2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiPackageSettings2, is( equalTo( apiPackageSettings1 ) ) );
+        assertThat( "Converter returned a null api object for a non null api object", apiPackageSettings2, notNullValue() );
+        assertThat( "Converter didn't return the same non-null api object it was given", apiPackageSettings2, is( apiPackageSettings1 ) );
     }
 
     @Override
@@ -89,33 +93,33 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiPackageSettings1 = createTypicalAPIPackageSettings();
         sdkPackageSettings1 = new DocumentPackageSettingsConverter(apiPackageSettings1).toSDKPackageSettings();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiPackageSettings1, is( notNullValue() ) );
-        assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is( equalTo(sdkPackageSettings1.getEnableInPerson()) ) );
-        assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is( equalTo(sdkPackageSettings1.getEnableDecline()) ) );
-        assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(equalTo(sdkPackageSettings1.getEnableOptOut())));
-        assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(0))));
-        assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(1))));
-        assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(2))));
-        assertThat("Disable DeclineOther was not correctly set", apiPackageSettings1.getCeremony().getDisableDeclineOther(), is(equalTo(sdkPackageSettings1.getDisableDeclineOther())));
-        assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(0))));
-        assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(1))));
-        assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(2))));
-        assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(equalTo(sdkPackageSettings1.getDisableOptOutOther())));
-        assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(equalTo(sdkPackageSettings1.getLinkHref())));
-        assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(equalTo(sdkPackageSettings1.getLinkText())));
-        assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(equalTo(sdkPackageSettings1.getLinkTooltip())));
-        assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(equalTo(sdkPackageSettings1.getHideCaptureText())));
-        assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(equalTo(sdkPackageSettings1.getHideWatermark())));
-        assertThat("Max auth fails allowed was not correctly set",apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(equalTo(sdkPackageSettings1.getMaxAuthAttempts())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiPackageSettings1, notNullValue());
+        assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is(sdkPackageSettings1.getEnableInPerson()));
+        assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is(sdkPackageSettings1.getEnableDecline()));
+        assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(sdkPackageSettings1.getEnableOptOut()));
+        assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(sdkPackageSettings1.getDeclineReasons().get(0)));
+        assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(sdkPackageSettings1.getDeclineReasons().get(1)));
+        assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(sdkPackageSettings1.getDeclineReasons().get(2)));
+        assertThat("Disable DeclineOther was not correctly set", apiPackageSettings1.getCeremony().getDisableDeclineOther(), is(sdkPackageSettings1.getDisableDeclineOther()));
+        assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(sdkPackageSettings1.getOptOutReasons().get(0)));
+        assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(sdkPackageSettings1.getOptOutReasons().get(1)));
+        assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(sdkPackageSettings1.getOptOutReasons().get(2)));
+        assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(sdkPackageSettings1.getDisableOptOutOther()));
+        assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
+        assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
+        assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
+        assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
+        assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
+        assertThat("Max auth fails allowed was not correctly set",apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(sdkPackageSettings1.getMaxAuthAttempts()));
 
-        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton())));
-        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton())));
-        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton())));
+        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
+        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
+        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton()));
 
-        assertThat("Hide Language Drop Down was not correctly set", sdkPackageSettings1.getShowLanguageDropDown(), is(equalTo(!apiPackageSettings1.getCeremony().getHideLanguageDropdown())));
-        assertThat("Hide package owner from in person drop down was not correctly set", sdkPackageSettings1.getShowPackageOwnerInPerson(), is(equalTo(!apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson())));
-        assertThat("Hide first affidavit was not correctly set", sdkPackageSettings1.getEnableFirstAffidavit(), is(equalTo(!apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit())));
-        assertThat("Hide second affidavit was not correctly set", sdkPackageSettings1.getEnableSecondAffidavit(), is(equalTo(!apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit())));
+        assertThat("Hide Language Drop Down was not correctly set", sdkPackageSettings1.getShowLanguageDropDown(), is(!apiPackageSettings1.getCeremony().getHideLanguageDropdown()));
+        assertThat("Hide package owner from in person drop down was not correctly set", sdkPackageSettings1.getShowPackageOwnerInPerson(), is(!apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson()));
+        assertThat("Hide first affidavit was not correctly set", sdkPackageSettings1.getEnableFirstAffidavit(), is(!apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit()));
+        assertThat("Hide second affidavit was not correctly set", sdkPackageSettings1.getEnableSecondAffidavit(), is(!apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit()));
     }
 
     @Override
@@ -126,30 +130,30 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiPackageSettings1 = new DocumentPackageSettingsConverter(sdkPackageSettings1).toAPIPackageSettings();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiPackageSettings1, is( notNullValue() ) );
-        assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is( equalTo(sdkPackageSettings1.getEnableInPerson()) ) );
-        assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is( equalTo(sdkPackageSettings1.getEnableDecline()) ) );
-        assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(equalTo(sdkPackageSettings1.getEnableOptOut())));
-        assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(0))));
-        assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(1))));
-        assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(equalTo(sdkPackageSettings1.getDeclineReasons().get(2))));
-        assertThat("Disable DeclineOther was not correctly set", apiPackageSettings1.getCeremony().getDisableDeclineOther(), is(equalTo(sdkPackageSettings1.getDisableDeclineOther())));
-        assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(0))));
-        assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(1))));
-        assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(equalTo(sdkPackageSettings1.getOptOutReasons().get(2))));
-        assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(equalTo(sdkPackageSettings1.getDisableOptOutOther())));
-        assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(equalTo(sdkPackageSettings1.getLinkHref())));
-        assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(equalTo(sdkPackageSettings1.getLinkText())));
-        assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(equalTo(sdkPackageSettings1.getLinkTooltip())));
-        assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(equalTo(sdkPackageSettings1.getHideCaptureText())));
-        assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(equalTo(sdkPackageSettings1.getHideWatermark())));
-        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton())));
-        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton())));
-        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(equalTo(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton())));
+        assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is(sdkPackageSettings1.getEnableInPerson()) );
+        assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is(sdkPackageSettings1.getEnableDecline()) );
+        assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(sdkPackageSettings1.getEnableOptOut()));
+        assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(sdkPackageSettings1.getDeclineReasons().get(0)));
+        assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(sdkPackageSettings1.getDeclineReasons().get(1)));
+        assertThat("Third decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(2), is(sdkPackageSettings1.getDeclineReasons().get(2)));
+        assertThat("Disable DeclineOther was not correctly set", apiPackageSettings1.getCeremony().getDisableDeclineOther(), is(sdkPackageSettings1.getDisableDeclineOther()));
+        assertThat("First opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(0), is(sdkPackageSettings1.getOptOutReasons().get(0)));
+        assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(sdkPackageSettings1.getOptOutReasons().get(1)));
+        assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(sdkPackageSettings1.getOptOutReasons().get(2)));
+        assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(sdkPackageSettings1.getDisableOptOutOther()));
+        assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
+        assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
+        assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
+        assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
+        assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
+        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
+        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
+        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton()));
 
-        assertThat("Hide Language Drop Down was not correctly set", apiPackageSettings1.getCeremony().getHideLanguageDropdown(), is(equalTo(!sdkPackageSettings1.getShowLanguageDropDown())));
-        assertThat("Hide package owner from in person drop down was not correctly set", apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson(), is(equalTo(!sdkPackageSettings1.getShowPackageOwnerInPerson())));
-        assertThat("Hide first affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit(), is(equalTo(!sdkPackageSettings1.getEnableFirstAffidavit())));
-        assertThat("Hide second affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit(), is(equalTo(!sdkPackageSettings1.getEnableSecondAffidavit())));
+        assertThat("Hide Language Drop Down was not correctly set", apiPackageSettings1.getCeremony().getHideLanguageDropdown(), is(!sdkPackageSettings1.getShowLanguageDropDown()));
+        assertThat("Hide package owner from in person drop down was not correctly set", apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson(), is(!sdkPackageSettings1.getShowPackageOwnerInPerson()));
+        assertThat("Hide first affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit(), is(!sdkPackageSettings1.getEnableFirstAffidavit()));
+        assertThat("Hide second affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit(), is(!sdkPackageSettings1.getEnableSecondAffidavit()));
     }
 
     /**

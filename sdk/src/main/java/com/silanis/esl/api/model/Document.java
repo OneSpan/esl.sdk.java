@@ -38,6 +38,8 @@ public class Document extends Entity
     public static final String FIELD_PAGES = "pages";
     @JsonIgnore
     public static final String FIELD_SIZE = "size";
+    @JsonIgnore
+    public static final String FIELD_TAGGED = "tagged";
     
     // Empty Constructor
     public Document ( ) {}
@@ -52,6 +54,7 @@ public class Document extends Entity
     protected Integer _index = 0;
     protected List<Page> _pages = new ArrayList<Page>();
     protected Integer _size = 0;
+    protected Boolean _tagged = false;
     
     // Accessors
         
@@ -305,6 +308,33 @@ public class Document extends Entity
     public Integer getSize(){
         return _size;
     }
-    
-    
+
+
+
+
+    public Document setTagged(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_TAGGED, value);
+        this._tagged = value;
+        setDirty(FIELD_TAGGED);
+        return this;
+    }
+
+    @JsonIgnore
+    public Document safeSetTagged(Boolean value) {
+        if (value != null) {
+            this.setTagged(value);
+        }
+        return this;
+    }
+
+    public Boolean getTagged() {
+        return _tagged;
+    }
+
+    @JsonIgnore
+    public boolean evalTagged() {
+        return _tagged == null ? false : _tagged.booleanValue();
+    }
+
+
 }

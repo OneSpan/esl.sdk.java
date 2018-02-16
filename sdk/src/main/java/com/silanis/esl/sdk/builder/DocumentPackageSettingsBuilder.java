@@ -30,6 +30,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean enableSecondAffidavit = null;
     private Boolean disableDeclineOther = null;
     private Boolean disableOptOutOther = null;
+    private Boolean ada = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -247,6 +248,32 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Enables the option for a signer to sign ADA documents.
+     * <p>
+     * DEFAULT: ENABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withAda() {
+        ada = true;
+        return this;
+    }
+
+    /**
+     * Disables the option for a signer to sign ADA documents.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withoutAda() {
+        ada = false;
+        return this;
+    }
+
+    /**
      * Enables adding a link on the signing ceremony page where the user will be
      * sent after being shown the completion dialog box. Replaces the continue
      * button during the signing ceremony. Use the LinkBuilder class to create
@@ -353,6 +380,7 @@ public class DocumentPackageSettingsBuilder {
         result.setLinkTooltip( linkTooltip );
         result.setDisableDeclineOther( disableDeclineOther );
         result.setDisableOptOutOther( disableOptOutOther );
+        result.setAda( ada );
 
         result.setCeremonyLayoutSettings( ceremonyLayoutSettings );
 

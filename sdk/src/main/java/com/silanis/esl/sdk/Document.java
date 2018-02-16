@@ -23,6 +23,7 @@ public class Document implements Serializable {
     private int index;
     private int numberOfPages;
     private boolean extract;
+    private Boolean tagged;
     private Set<String> extractionTypes = Sets.newHashSet();
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
@@ -144,6 +145,14 @@ public class Document implements Serializable {
 
     public boolean isExtract() {
         return extract;
+    }
+
+    public Boolean isTagged() {
+        return tagged;
+    }
+
+    public void setTagged(boolean tagged) {
+        this.tagged = tagged;
     }
 
     public Set<String> getExtractionTypes() {
