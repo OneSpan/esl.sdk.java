@@ -3,23 +3,19 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.ExtractionType;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 import static com.silanis.esl.sdk.examples.ListTemplatesExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by lena on 2014-05-06.
  */
 public class ListTemplatesExampleTest {
 
-    @Ignore("This test works fine, but it takes too long if there are many templates. If necessary, run it manually")
     @Test
     public void verifyResult() {
         ListTemplatesExample example = new ListTemplatesExample();

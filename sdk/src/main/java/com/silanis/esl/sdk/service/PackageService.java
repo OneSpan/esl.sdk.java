@@ -3,20 +3,57 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.silanis.esl.api.model.*;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.model.SigningUrl;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DocumentId;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.FastTrackRole;
+import com.silanis.esl.sdk.FastTrackSigner;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.PackageStatus;
+import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.RoleList;
+import com.silanis.esl.sdk.SignerId;
+import com.silanis.esl.sdk.SigningStatus;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
-import com.silanis.esl.sdk.internal.*;
-import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.internal.DateHelper;
+import com.silanis.esl.sdk.internal.EslServerException;
+import com.silanis.esl.sdk.internal.RedirectResolver;
+import com.silanis.esl.sdk.internal.RequestException;
+import com.silanis.esl.sdk.internal.RestClient;
+import com.silanis.esl.sdk.internal.Serialization;
+import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.DocumentConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
+import com.silanis.esl.sdk.internal.converter.DocumentVisibilityConverter;
+import com.silanis.esl.sdk.internal.converter.NotaryJournalEntryConverter;
+import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
+import com.silanis.esl.sdk.internal.converter.SignerConverter;
+import com.silanis.esl.sdk.internal.converter.SupportConfigurationConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.UUID;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -303,10 +340,10 @@ public class PackageService {
         return uploadApiDocument(packageId.getId(), fileName, fileBytes, apiDocument);
     }
 
-    public com.silanis.esl.sdk.Document uploadApiDocument( String packageId, String fileName, byte[] fileBytes, Document document ) {
+    public com.silanis.esl.sdk.Document uploadApiDocument(String packageId, String fileName, byte[] fileBytes, Document document) {
         String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
-                              .replace("{packageId}", packageId)
-                              .build();
+                .replace("{packageId}", packageId)
+                .build();
 
         String documentJson = Serialization.toJson(document);
 
@@ -318,6 +355,40 @@ public class PackageService {
             throw new EslServerException("Could not upload document to package.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload document to package.", e);
+        }
+    }
+
+    public List<com.silanis.esl.sdk.Document> uploadDocuments(final String packageId, List<com.silanis.esl.sdk.Document> documents) {
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", packageId)
+                .build();
+
+        final Package apiPackage = getApiPackage(packageId);
+
+        List<Document> apiDocuments = Lists.newArrayList(Iterables.transform(documents, new Function<com.silanis.esl.sdk.Document, Document>() {
+            @Override
+            public Document apply(final com.silanis.esl.sdk.Document input) {
+                return new DocumentConverter(input).toAPIDocument(apiPackage);
+            }
+        }));
+
+        String documentsJson = Serialization.toJson(apiDocuments);
+
+        try {
+            String response = client.postMultipartPackage(path, documents, documentsJson);
+            List<Document> uploadedDocuments = Serialization.fromJsonToList(response, Document.class);
+
+            return Lists.newArrayList(Iterables.transform(uploadedDocuments, new Function<Document, com.silanis.esl.sdk.Document>() {
+                @Override
+                public com.silanis.esl.sdk.Document apply(final Document input) {
+                    return new DocumentConverter(input, getApiPackage(packageId)).toSDKDocument();
+                }
+            }));
+
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload multiple documents to package.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not upload multiple documents to package.", e);
         }
     }
 

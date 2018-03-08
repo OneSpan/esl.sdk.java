@@ -12,6 +12,8 @@ import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.SessionToken;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
+import java.util.List;
+
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -23,15 +25,18 @@ import static org.joda.time.DateMidnight.now;
  */
 public class DocumentUploadExample extends SDKSample{
 
-    public static final String UPLOADED_DOCUMENT_NAME = "First Document";
-    public Document document;
-    public Document uploadedDocument;
+    public static final String DOCUMENT1_NAME = "First Document";
+    public static final String DOCUMENT2_NAME = "Second Document";
+    public Document document1, document2;
+    public List<Document> uploadedDocuments;
 
     public static void main( String... args ) {
         new DocumentUploadExample().run();
     }
 
     public void execute() {
+
+        documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("taggedDocument.pdf");
 
         // 1. Create a package
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
@@ -50,8 +55,8 @@ public class DocumentUploadExample extends SDKSample{
 
         superDuperPackage.setId(packageId);
 
-        // 2. Construct a document
-        document = newDocumentWithName(UPLOADED_DOCUMENT_NAME)
+        // 2. Construct documents
+        document1 = newDocumentWithName(DOCUMENT1_NAME)
                 .fromStream(documentInputStream1, DocumentType.PDF)
                 .withSignature(signatureFor(email1)
                         .onPage(0)
@@ -62,8 +67,19 @@ public class DocumentUploadExample extends SDKSample{
                         .atPosition(100, 100))
                 .build();
 
-        // 3. Attach the document to the created package by uploading the document.
-        uploadedDocument = eslClient.uploadDocument(document.getFileName(), document.getContent(), document, packageId);
+        document2 = newDocumentWithName(DOCUMENT2_NAME)
+                .fromStream(documentInputStream2, DocumentType.PDF)
+                .withSignature(signatureFor(email1)
+                        .onPage(0)
+                        .withField(FieldBuilder.checkBox()
+                                .onPage(0)
+                                .atPosition(400, 200)
+                                .withValue(FieldBuilder.CHECKBOX_CHECKED))
+                        .atPosition(100, 100))
+                .build();
+
+        // 3. Upload the documents to the created package by uploading the document.
+        uploadedDocuments = eslClient.uploadDocuments(packageId, document1, document2);
 
         eslClient.sendPackage(superDuperPackage.getId());
 

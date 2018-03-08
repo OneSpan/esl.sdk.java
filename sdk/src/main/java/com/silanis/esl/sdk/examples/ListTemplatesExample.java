@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.silanis.esl.sdk.PageRequest.DEFAULT_PAGE_SIZE;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -71,12 +70,8 @@ public class ListTemplatesExample extends SDKSample {
 
         templateId = eslClient.getTemplateService().createTemplate(superDuperTemplate);
 
-        int index = 0;
-        do {
-            templatesPage = eslClient.getPackageService().getTemplates(new PageRequest(index));
-            index =+ DEFAULT_PAGE_SIZE;
-            templates.addAll(templatesPage.getResults());
-        } while (templatesPage.getResults().size() > 0);
+        templatesPage = eslClient.getPackageService().getTemplates(new PageRequest(0));
+        templates.addAll(templatesPage.getResults());
     }
 
     public List<DocumentPackage> getTemplates() {

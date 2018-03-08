@@ -1,34 +1,15 @@
 package com.silanis.esl.sdk;
 
-import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.SignedDocuments;
+import com.silanis.esl.api.model.Verification;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerVerificationConverter;
-import com.silanis.esl.sdk.service.AccountService;
-import com.silanis.esl.sdk.service.ApprovalService;
-import com.silanis.esl.sdk.service.AttachmentRequirementService;
-import com.silanis.esl.sdk.service.AuditService;
-import com.silanis.esl.sdk.service.AuthenticationService;
-import com.silanis.esl.sdk.service.AuthenticationTokensService;
-import com.silanis.esl.sdk.service.CustomFieldService;
-import com.silanis.esl.sdk.service.EventNotificationService;
-import com.silanis.esl.sdk.service.FieldSummaryService;
-import com.silanis.esl.sdk.service.GroupService;
-import com.silanis.esl.sdk.service.LayoutService;
-import com.silanis.esl.sdk.service.PackageService;
-import com.silanis.esl.sdk.service.QRCodeService;
-import com.silanis.esl.sdk.service.ReminderService;
-import com.silanis.esl.sdk.service.ReportService;
-import com.silanis.esl.sdk.service.SessionService;
-import com.silanis.esl.sdk.service.SignatureImageService;
-import com.silanis.esl.sdk.service.SignerVerificationService;
-import com.silanis.esl.sdk.service.SigningService;
-import com.silanis.esl.sdk.service.SystemService;
-import com.silanis.esl.sdk.service.TemplateService;
+import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
@@ -38,9 +19,12 @@ import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
 import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.Arrays.asList;
 
 /**
  * <p>The EslClient class creates a eSignLive client with the given api token and base url.</p>
@@ -265,9 +249,7 @@ public class EslClient {
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
 
-        for (Document document : documentPackage.getDocuments()) {
-            uploadDocument(document, id);
-        }
+        uploadDocuments(id, documentPackage.getDocuments());
 
         return id;
     }
@@ -640,6 +622,18 @@ public class EslClient {
 
     public Document uploadDocument(String fileName, byte[] fileContent, Document document, PackageId packageId) {
         return packageService.uploadDocument(packageId, fileName, fileContent, document);
+    }
+
+    public List<Document> uploadDocuments(PackageId packageId, Document... documents) {
+        return uploadDocuments(packageId, asList(documents));
+    }
+
+    public List<Document> uploadDocuments(PackageId packageId, List<Document> documents) {
+        if(documents.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return packageService.uploadDocuments(packageId.getId(), documents);
+        }
     }
 
     /**
