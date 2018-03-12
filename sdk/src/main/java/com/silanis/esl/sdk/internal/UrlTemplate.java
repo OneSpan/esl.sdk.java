@@ -143,6 +143,7 @@ public class UrlTemplate {
     public static final String LAYOUT_PATH = "/layouts";
     public static final String LAYOUT_LIST_PATH = "/layouts?to={to}&from={from}&dir={dir}";
     public static final String APPLY_LAYOUT_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutId={layoutId}";
+    public static final String APPLY_LAYOUT_PATH_BY_NAME = "/packages/{packageId}/documents/{documentId}/layout?layoutName={layoutName}";
 
     // QR Code Service
     public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";

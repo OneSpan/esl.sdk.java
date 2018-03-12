@@ -144,5 +144,29 @@ public class LayoutService {
             throw new EslException("Could not apply layout." + " Exception: " + e.getMessage());
         }
     }
+    
+    /**
+     * Apply a document layout to a document in a DocumentPackage. Adds fields to signer's signature or if the signer
+     * does not exist, will create placeholders.
+     *
+     * @param packageId  The package id of the DocumentPackage to apply layout.
+     * @param documentId The document id of the document to apply layout.
+     * @param layoutName   The layout name of the layout to apply.
+     */
+    public void applyLayoutByName(PackageId packageId, String documentId, String layoutName) {
+        String path = template.urlFor(UrlTemplate.APPLY_LAYOUT_PATH_BY_NAME)
+                .replace("{packageId}", packageId.getId())
+                .replace("{documentId}", documentId)
+                .replace("{layoutName}", layoutName)
+                .build();
+
+        try {
+            client.post(path, "");
+        } catch (RequestException e) {
+            throw new EslServerException("Could not apply layout.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not apply layout." + " Exception: " + e.getMessage());
+        }
+    }
 
 }

@@ -34,6 +34,9 @@ public class DocumentLayoutExample extends SDKSample {
     public static final String APPLY_LAYOUT_DOCUMENT_NAME = "Apply Layout Document";
     public static final String APPLY_LAYOUT_DOCUMENT_ID = "docId";
     public static final String APPLY_LAYOUT_DOCUMENT_DESCRIPTION = "Document with applied layout description.";
+    public static final String APPLY_LAYOUT_BY_NAME_DOCUMENT_NAME = "Apply Layout Document by Name";
+    public static final String APPLY_LAYOUT_BY_NAME_DOCUMENT_ID = "docId2";
+    public static final String APPLY_LAYOUT_BY_NAME_DOCUMENT_DESCRIPTION = "Document with applied layout by name description.";
 
     public static void main(String... args) {
         new DocumentLayoutExample().run();
@@ -89,12 +92,19 @@ public class DocumentLayoutExample extends SDKSample {
                         .withId(APPLY_LAYOUT_DOCUMENT_ID)
                         .withDescription(APPLY_LAYOUT_DOCUMENT_DESCRIPTION)
                         .fromStream(documentInputStream2, DocumentType.PDF))
+                .withDocument(newDocumentWithName(APPLY_LAYOUT_BY_NAME_DOCUMENT_NAME)
+                        .withId(APPLY_LAYOUT_BY_NAME_DOCUMENT_ID)
+                        .withDescription(APPLY_LAYOUT_BY_NAME_DOCUMENT_DESCRIPTION)
+                        .fromStream(documentInputStream3, DocumentType.PDF))
                 .build();
 
         packageId = eslClient.createPackage(packageFromLayout);
 
         // Apply the layout to document in package
         eslClient.getLayoutService().applyLayout(packageId, APPLY_LAYOUT_DOCUMENT_ID, layoutId);
+        
+        // Apply the layout by name to document in package
+        eslClient.getLayoutService().applyLayout(packageId, APPLY_LAYOUT_BY_NAME_DOCUMENT_ID, LAYOUT_PACKAGE_NAME);
 
         packageWithLayout = eslClient.getPackage(packageId);
     }
