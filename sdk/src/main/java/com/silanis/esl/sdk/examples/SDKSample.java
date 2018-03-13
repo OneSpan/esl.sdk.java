@@ -16,7 +16,7 @@ abstract public class SDKSample {
     protected PackageId packageId;
     protected String packageName;
     protected DocumentPackage retrievedPackage;
-    protected InputStream documentInputStream1, documentInputStream2, documentInputStream3;
+    protected InputStream documentInputStream1, documentInputStream2;
 
     protected Properties props = Props.get();
 
@@ -68,7 +68,6 @@ abstract public class SDKSample {
 
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
         documentInputStream2 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
-        documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream( "document.pdf" );
     }
 
     protected EslClient getEslClient() {

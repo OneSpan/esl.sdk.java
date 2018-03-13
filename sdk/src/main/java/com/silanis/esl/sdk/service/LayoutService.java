@@ -9,6 +9,8 @@ import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,14 +156,17 @@ public class LayoutService {
      * @param layoutName   The layout name of the layout to apply.
      */
     public void applyLayoutByName(PackageId packageId, String documentId, String layoutName) {
-        String path = template.urlFor(UrlTemplate.APPLY_LAYOUT_PATH_BY_NAME)
-                .replace("{packageId}", packageId.getId())
-                .replace("{documentId}", documentId)
-                .replace("{layoutName}", layoutName)
-                .build();
 
         try {
+            String path = template.urlFor(UrlTemplate.APPLY_LAYOUT_BY_NAME_PATH)
+                    .replace("{packageId}", packageId.getId())
+                    .replace("{documentId}", documentId)
+                    .replace("{layoutName}", URLEncoder.encode(layoutName, "UTF-8"))
+                    .build();
+
             client.post(path, "");
+        } catch (UnsupportedEncodingException e) {
+            throw new EslException("Layout name : '" + layoutName + "' can not be url encoded.", e);
         } catch (RequestException e) {
             throw new EslServerException("Could not apply layout.", e);
         } catch (Exception e) {

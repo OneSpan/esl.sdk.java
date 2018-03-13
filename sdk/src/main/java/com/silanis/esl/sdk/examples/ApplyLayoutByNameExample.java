@@ -1,14 +1,11 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.PageRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.signerCompany;
@@ -18,12 +15,11 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * Create, get and apply document layouts.
+ * Created by schoi on 12/03/18.
  */
-public class DocumentLayoutExample extends SDKSample {
+public class ApplyLayoutByNameExample extends SDKSample {
 
     public String layoutId;
-    public List<DocumentPackage> layouts;
 
     public static final String LAYOUT_PACKAGE_NAME = "Layout " + new SimpleDateFormat("HH:mm:ss").format(new Date());
     public static final String LAYOUT_PACKAGE_DESCRIPTION = "This is a package with document to create layout.";
@@ -35,7 +31,7 @@ public class DocumentLayoutExample extends SDKSample {
     public static final String APPLY_LAYOUT_DOCUMENT_DESCRIPTION = "Document with applied layout description.";
 
     public static void main(String... args) {
-        new DocumentLayoutExample().run();
+        new ApplyLayoutByNameExample().run();
     }
 
     public void execute() {
@@ -54,15 +50,15 @@ public class DocumentLayoutExample extends SDKSample {
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)
-                                .atPosition(100, 100)
+                                .atPosition(120, 100)
                                 .withField(signerTitle()
                                         .withName(FIELD_1_NAME)
                                         .onPage(0)
-                                        .atPosition(100, 200))
+                                        .atPosition(120, 200))
                                 .withField(signerCompany()
                                         .withName(FIELD_2_NAME)
                                         .onPage(0)
-                                        .atPosition(100, 300))))
+                                        .atPosition(120, 300))))
                 .build();
 
         PackageId packageId1 = eslClient.createPackage(superDuperPackage);
@@ -70,9 +66,6 @@ public class DocumentLayoutExample extends SDKSample {
 
         // Create layout from package
         layoutId = eslClient.getLayoutService().createLayout(superDuperPackage);
-
-        // Get a list of layouts
-        layouts = eslClient.getLayoutService().getLayouts(Direction.ASCENDING, new PageRequest(1, 100));
 
         // Create a new package to apply document layout to
         DocumentPackage packageFromLayout = newPackageNamed(getPackageName())
@@ -93,6 +86,6 @@ public class DocumentLayoutExample extends SDKSample {
         packageId = eslClient.createPackage(packageFromLayout);
 
         // Apply the layout to document in package
-        eslClient.getLayoutService().applyLayout(packageId, APPLY_LAYOUT_DOCUMENT_ID, layoutId);
+        eslClient.getLayoutService().applyLayoutByName(packageId, APPLY_LAYOUT_DOCUMENT_ID, LAYOUT_PACKAGE_NAME);
     }
 }
