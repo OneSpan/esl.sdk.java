@@ -109,7 +109,12 @@ public class ProxyConfigurationExample extends SDKSample {
                   public boolean authenticate(String s1, String s2) {
                       return acceptedUsername.equals(s1) && acceptedPassword.equals(s2);
                   }
-              }).
+
+            @Override
+            public String getRealm() {
+                return null;
+            }
+        }).
               start();
         return httpProxyServer;
     }

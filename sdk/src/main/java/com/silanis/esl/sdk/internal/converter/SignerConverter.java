@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
 
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.*;
 
 /**
  * User: jessica
@@ -137,7 +137,7 @@ public class SignerConverter {
         if(isBlank(lang))
             return new Locale("");
 
-        return LocaleUtils.toLocale(apiSigner.getLanguage());
+        return LocaleUtils.toLocale(apiSigner.getLanguage().replaceAll("-", "_"));
     }
 
     private Signer newSignerPlaceholderFromAPIRole(){
