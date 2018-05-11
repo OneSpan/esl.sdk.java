@@ -8,12 +8,13 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
+import java.util.Locale;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Locale;
-
-import static org.apache.commons.lang3.StringUtils.*;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * User: jessica
@@ -74,7 +75,8 @@ public class SignerConverter {
         }
 
         if ( sdkSigner.getLanguage() != null ) {
-            result.setLanguage(sdkSigner.getLanguage().toString());
+            String languageCountry = sdkSigner.getLanguage().getCountry();
+            result.setLanguage(sdkSigner.getLanguage().getLanguage() + (isNotBlank(languageCountry) ? "-" + languageCountry : EMPTY));
         }
 
         if ( sdkSigner.getId() != null ) {

@@ -139,7 +139,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
                 .withStatus(PackageStatus.DRAFT)
                 .describedAs("typical description")
                 .withEmailMessage("typical email message")
-                .withLanguage(Locale.CANADA)
+                .withLanguage(Locale.ENGLISH)
                 .build();
         return sdkDocumentPackage;
     }

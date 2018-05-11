@@ -16,14 +16,14 @@ import com.silanis.esl.sdk.SenderInfo;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
-import com.silanis.esl.sdk.builder.SignerBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerFromGroup;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * User: jessica
@@ -88,7 +88,8 @@ public class DocumentPackageConverter {
         }
 
         if ( sdkPackage.getLanguage() != null ) {
-            result.setLanguage(sdkPackage.getLanguage().getLanguage());
+            String languageCountry = sdkPackage.getLanguage().getCountry();
+            result.setLanguage(sdkPackage.getLanguage().getLanguage() + (isNotBlank(languageCountry) ? "-" + languageCountry : EMPTY));
         }
 
         if ( sdkPackage.getSettings() != null ) {
