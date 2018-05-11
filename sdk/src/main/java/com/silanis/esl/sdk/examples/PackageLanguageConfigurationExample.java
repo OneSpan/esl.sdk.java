@@ -15,7 +15,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class PackageLanguageConfigurationExample extends SDKSample {
 
-    public static final Locale LANGUAGE = Locale.FRENCH;
+    public static final Locale LANGUAGE = Locale.SIMPLIFIED_CHINESE;
 
     public static void main( String... args ) {
         new PackageLanguageConfigurationExample().run();
