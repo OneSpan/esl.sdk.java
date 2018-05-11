@@ -16,6 +16,7 @@ import com.silanis.esl.sdk.SenderInfo;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -191,7 +192,7 @@ public class DocumentPackageConverter {
         }
 
         if (apiPackage.getLanguage() != null) {
-            packageBuilder.withLanguage(new Locale(apiPackage.getLanguage()));
+            packageBuilder.withLanguage(toSdkLanguage(apiPackage.getLanguage()));
         }
 
         if (apiPackage.getSettings() != null) {
@@ -254,6 +255,19 @@ public class DocumentPackageConverter {
         }
 
         return documentPackage;
+    }
+
+    private Locale toSdkLanguage(String apiLanguage) {
+        if(apiLanguage == null)
+            return null;
+
+        String[] strArray = apiLanguage.split("-");
+
+        if(strArray.length == 2) {
+            return new Locale(strArray[0], strArray[1]);
+        } else {
+            return new Locale(strArray[0]);
+        }
     }
 
 }
