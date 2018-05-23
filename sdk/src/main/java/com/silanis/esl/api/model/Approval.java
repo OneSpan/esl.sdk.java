@@ -29,6 +29,8 @@ public class Approval extends Entity
     public static final String FIELD_ROLE = "role";
     @JsonIgnore
     public static final String FIELD_SIGNED = "signed";
+    @JsonIgnore
+    public static final String FIELD_OPTIONAL = "optional";
     
     // Empty Constructor
     public Approval ( ) {}
@@ -38,6 +40,7 @@ public class Approval extends Entity
     protected List<Field> _fields = new ArrayList<Field>();
     protected String _role = "";
     protected java.util.Date _signed = null;
+    protected Boolean _optional = false;
     
     // Accessors
         
@@ -171,6 +174,17 @@ public class Approval extends Entity
     public java.util.Date getSigned(){
         return _signed;
     }
-    
+
+    public Approval setOptional(Boolean value){
+        this._optional = value;
+        setDirty(FIELD_OPTIONAL);
+        return this;
+    }
+    @JsonIgnore
+    public Approval safeSetOptional(Boolean value){
+        if ( value != null ) { this.setOptional(value); }
+        return this;
+    }
+    public Boolean getOptional() { return _optional; }
     
 }

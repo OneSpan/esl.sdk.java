@@ -28,6 +28,7 @@ final public class SignatureBuilder {
     private Collection<Field> fields = new ArrayList<Field>();
     private boolean extract;
     private TextAnchor textAnchor;
+    private boolean optional = false;
 
     /**
      * SignatureBuilder constructor for regular signature with email
@@ -370,6 +371,17 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Marks the signature as optional. Optional signatures don't have to
+     * be signed and can be left empty if the user chooses to.
+     *
+     * @return the signature builder itself
+     */
+    public SignatureBuilder makeOptional() {
+        this.optional = true;
+        return this;
+    }
+
+    /**
      * This method actually builds the Signature object
      *
      * @return the signature
@@ -393,6 +405,7 @@ final public class SignatureBuilder {
         signature.addFields( fields );
         signature.setExtraction( extract );
         signature.setTextAnchor( textAnchor );
+        signature.setOptional( optional );
 
         return signature;
     }

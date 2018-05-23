@@ -36,6 +36,8 @@ public class Features extends Model
     public static final String FIELD_SHOWDOCUMENTSPREVIEW = "showDocumentsPreview";
     @JsonIgnore
     public static final String FIELD_TAMPERSEALEVIDENCE = "tamperSealEvidence";
+    @JsonIgnore
+    public static final String FIELD_OPTIONAL = "optionalSignature";
     
     // Empty Constructor
     public Features ( ) {}
@@ -54,6 +56,7 @@ public class Features extends Model
     protected Boolean _notarize = false;
     protected Boolean _showDocumentsPreview = false;
     protected Boolean _tamperSealEvidence = false;
+    protected Boolean _optionalSignature = false;
     
     // Accessors
         
@@ -367,6 +370,23 @@ public class Features extends Model
     public boolean evalTamperSealEvidence(){
         return _tamperSealEvidence == null ? false : _tamperSealEvidence.booleanValue();
     }
-    
+
+
+    public Features setOptionalSignature( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_OPTIONAL, value);
+        this._optionalSignature = value;
+        setDirty(FIELD_OPTIONAL);
+        return this;
+    }
+    @JsonIgnore
+    public Features safeSetOptionalSignature( Boolean value ){
+        if (value != null) { this.setOptionalSignature(value); }
+        return this;
+    }
+    public Boolean get_optionalSignature() { return _optionalSignature; }
+    @JsonIgnore
+    public boolean evalOptionalSignature(){
+        return _optionalSignature == null ? false : _optionalSignature.booleanValue();
+    }
     
 }

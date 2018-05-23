@@ -28,6 +28,7 @@ public class Signature implements Serializable {
     private String name;
     private boolean extraction;
     private TextAnchor textAnchor;
+    private boolean optional;
 
     private GroupId groupId;
 
@@ -165,4 +166,7 @@ public class Signature implements Serializable {
     public void setId(SignatureId signatureId) {
         this.signatureId = signatureId;
     }
+
+    public boolean isOptional() { return optional; }
+    public void setOptional(boolean value) { this.optional = value; }
 }
