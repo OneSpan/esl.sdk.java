@@ -28,6 +28,7 @@ public class Signature implements Serializable {
     private String name;
     private boolean extraction;
     private TextAnchor textAnchor;
+    private boolean optional;
 
     private GroupId groupId;
 
@@ -45,6 +46,7 @@ public class Signature implements Serializable {
         this.y = y;
         this.groupId = null;
         this.roleId = null;
+        this.optional = false;
     }
 
     public Signature(GroupId groupId, int page, double x, double y ) {
@@ -54,6 +56,7 @@ public class Signature implements Serializable {
         this.y = y;
         this.page = page;
         this.signerEmail = null;
+        this.optional = false;
     }
 
     public Signature(Placeholder roleId, int page, double x, double y ) {
@@ -63,6 +66,7 @@ public class Signature implements Serializable {
         this.y = y;
         this.page = page;
         this.signerEmail = null;
+        this.optional = false;
     }
 
     public String getSignerEmail() {
@@ -165,4 +169,8 @@ public class Signature implements Serializable {
     public void setId(SignatureId signatureId) {
         this.signatureId = signatureId;
     }
+
+    public boolean isOptional() { return optional; }
+    public boolean getOptional() { return optional; }
+    public void setOptional(boolean value) { this.optional = value; }
 }

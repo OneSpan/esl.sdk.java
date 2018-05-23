@@ -103,6 +103,11 @@ public class SignatureConverter {
             }
         }
 
+        if (apiApproval.getOptional()) {
+
+            signatureBuilder.makeOptional();
+        }
+
         Signature signature = signatureBuilder.build();
         if(null != apiApproval.getAccepted())
             signature.setAccepted(apiApproval.getAccepted());
@@ -132,6 +137,8 @@ public class SignatureConverter {
         if(sdkSignature.getName() != null){
             result.setName(sdkSignature.getName());
         }
+
+        result.setOptional(sdkSignature.getOptional());
 
         result.addField(getAPIFieldFromSignature());
 

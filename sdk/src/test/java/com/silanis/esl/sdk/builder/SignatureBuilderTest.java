@@ -194,4 +194,12 @@ public class SignatureBuilderTest {
 
         assertThat(signature.getStyle(), is(equalTo(SignatureStyle.MOBILE_CAPTURE)));
     }
+
+    @Test
+    public void creatingOptionalSignature() {
+        SignatureBuilder builder = signatureFor("test@test.com").makeOptional();
+        Signature signature = builder.build();
+
+        assertEquals(true, signature.isOptional());
+    }
 }
