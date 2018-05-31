@@ -23,10 +23,12 @@ import com.silanis.esl.sdk.FastTrackSigner;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
+import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.RoleList;
 import com.silanis.esl.sdk.SignerId;
 import com.silanis.esl.sdk.SigningStatus;
+import com.silanis.esl.sdk.Visibility;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
 import com.silanis.esl.sdk.internal.DateHelper;
 import com.silanis.esl.sdk.internal.EslServerException;
@@ -1021,11 +1023,27 @@ public class PackageService {
     }
 
     public com.silanis.esl.sdk.Page<DocumentPackage> getTemplates(PageRequest request) {
-        String path = template.urlFor(UrlTemplate.TEMPLATE_LIST_PATH)
-                .replace("{from}", Integer.toString(request.getFrom()))
-                .replace("{to}", Integer.toString(request.to()))
+        String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
+                .addParam("type", "template")
+                .addParam("from", Integer.toString(request.getFrom()))
+                .addParam("to", Integer.toString(request.to()))
                 .build();
 
+        return getTemplates(request, path);
+    }
+
+    public com.silanis.esl.sdk.Page<DocumentPackage> getTemplates(PageRequest request, Visibility visibility) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_PATH)
+                .addParam("type", "template")
+                .addParam("from", Integer.toString(request.getFrom()))
+                .addParam("to", Integer.toString(request.to()))
+                .addParam("visibility", visibility.name())
+                .build();
+
+        return getTemplates(request, path);
+    }
+
+    private Page<DocumentPackage> getTemplates(PageRequest request, String path) {
         try {
             String response = client.get(path);
             Result<Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {
@@ -1038,7 +1056,6 @@ public class PackageService {
             throw new EslException("Could not get template list. Exception: " + e.getMessage());
         }
     }
-
 
     /**
      * Adds a signer to the specified package

@@ -1,9 +1,15 @@
 package com.silanis.esl.sdk.internal;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 public class UrlTemplate {
 
     private String baseUrl;
     private String path;
+    private final Map<String, String> params = new HashMap<String, String>();
 
     // Package Service
     public static final String PACKAGE_PATH = "/packages";
@@ -25,7 +31,6 @@ public class UrlTemplate {
     public static final String NOTIFY_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/notifications";
     public static final String THANK_YOU_DIALOG_PATH = "/packages/{packageId}/thank_you_dialog";
 
-    public static final String TEMPLATE_LIST_PATH = "/packages?type=template&from={from}&to={to}";
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
     public static final String FAST_TRACK_URL_PATH = "/fastTrack/{packageId}/url?signing={signing}";
@@ -167,8 +172,29 @@ public class UrlTemplate {
         return this;
     }
 
+    public UrlTemplate addParam(String paramKey, String paramValue) {
+        params.put(paramKey, paramValue);
+        return this;
+    }
+
     public String build() {
-        return baseUrl + path;
+        String url = baseUrl + path;
+
+        boolean isFirstParam = true;
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            final String paramValue = param.getValue();
+            if (isNotBlank(paramValue)) {
+                if (isFirstParam) {
+                    url += "?";
+                    isFirstParam = false;
+                } else {
+                    url += "&";
+                }
+                url += param.getKey() + "=" + paramValue;
+            }
+        }
+
+        return url;
     }
 
 }
