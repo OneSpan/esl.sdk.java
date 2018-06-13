@@ -42,13 +42,13 @@ public class OptionalSignaturesExample extends SDKSample {
                                                          .atPosition(100, 100))
                                   .withSignature(signatureFor(email1)
                                                          .onPage(0)
-                                                         .atPosition(300, 100))
+                                                         .atPosition(150, 100))
                                   .withSignature(signatureFor(email2)
                                                          .onPage(0)
-                                                         .atPosition(500, 100))
+                                                         .atPosition(200, 100))
                                   .withSignature(signatureFor(email2)
                                                          .onPage(0)
-                                                         .atPosition(700, 100)
+                                                         .atPosition(250, 100)
                                                          .makeOptional()))
             .build();
 
