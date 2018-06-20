@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.ExtractionType;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.Visibility;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class ListTemplatesExample extends SDKSample {
 
         templateId = eslClient.getTemplateService().createTemplate(superDuperTemplate);
 
-        templatesPage = eslClient.getPackageService().getTemplates(new PageRequest(0));
+        templatesPage = eslClient.getPackageService().getTemplates(new PageRequest(0), Visibility.SENDER);
         templates.addAll(templatesPage.getResults());
     }
 
