@@ -19,6 +19,7 @@ public class Signer implements Serializable {
     private int signingOrder;
     private String title;
     private String company;
+    private String signerType;
     private Locale language;
     private boolean canChangeSigner;
     private String message;
@@ -167,6 +168,24 @@ public class Signer implements Serializable {
      */
     public String getCompany() {
         return company;
+    }
+
+    /**
+     * Accessor method used to retrieve the signer's type
+     *
+     * @return	the signer's type
+     */
+    public String getSignerType() {
+        return signerType;
+    }
+
+    /**
+     * Accessor method used to set the signer's type
+     *
+     * @param signerType	the signer's type
+     */
+    public void setSignerType(String signerType) {
+        this.signerType = signerType;
     }
 
     /**

@@ -28,6 +28,8 @@ public class Signer extends User
     @JsonIgnore
     public static final String FIELD_DELIVERY = "delivery";
     @JsonIgnore
+    public static final String FIELD_SIGNER_TYPE = "signerType";
+    @JsonIgnore
     public static final String FIELD_EMAIL = "email";
     @JsonIgnore
     public static final String FIELD_EXTERNAL = "external";
@@ -66,6 +68,7 @@ public class Signer extends User
     // Fields
     protected Auth _auth;
     protected Delivery _delivery;
+    protected String _signerType = "THIRD_PARTY_SIGNER";
     protected Group _group = null;
     protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
     
@@ -166,6 +169,30 @@ public class Signer extends User
     public Delivery getDelivery(){
         return _delivery;
     }
+
+
+
+    public Signer setSignerType(String value) {
+        SchemaSanitizer.throwOnNull(FIELD_SIGNER_TYPE, value);
+        // if ( this._signerType == value ) return this;
+        this._signerType = value;
+        setDirty(FIELD_SIGNER_TYPE);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Signer safeSetSignerType(String value) {
+        if (value != null) {
+            this.setSignerType(value);
+        }
+        return this;
+    }
+
+    public String getSignerType() {
+        return _signerType;
+    }
+
 
 
     @Override

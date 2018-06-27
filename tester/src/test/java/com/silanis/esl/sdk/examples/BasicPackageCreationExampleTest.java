@@ -33,6 +33,7 @@ public class BasicPackageCreationExampleTest {
     private static final String SDK_VALUE = "Java v" + getVersion();
     private static final String ORIGIN_KEY = "origin";
     private static final String ORIGIN_VALUE = "api";
+    private static final String THIRD_PARTY_SIGNER = "THIRD_PARTY_SIGNER";
 
     @Test
     public void verifyResult() {
@@ -68,11 +69,13 @@ public class BasicPackageCreationExampleTest {
         assertThat( "Signer 1 title was not set correctly.", signer.getTitle(), is(SIGNER1_TITLE) );
         assertThat( "Signer 1 company was not set correctly.", signer.getCompany(), is(SIGNER1_COMPANY) );
         assertThat( "Signer 1 language was not set correctly.", signer.getLanguage(), is(SIGNER1_LANGUAGE) );
+        assertThat( "Signer 1 signer type was not set correctly.", signer.getSignerType(), is(THIRD_PARTY_SIGNER) );
 
         // Signer 2
         signer = documentPackage.getSigner(example.email2);
         assertThat( "Signer 2 first name was not set correctly.", signer.getFirstName(), is(SIGNER2_FIRST_NAME) );
         assertThat( "Signer 2 last name was not set correctly.", signer.getLastName(), is(SIGNER2_LAST_NAME) );
+        assertThat( "Signer 2 signer type was not set correctly.", signer.getSignerType(), is(THIRD_PARTY_SIGNER) );
 
         // Document 1
         Document document = documentPackage.getDocument(DOCUMENT1_NAME);

@@ -38,7 +38,7 @@ public class SignerConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkSigner1 = null;
         converter = new SignerConverter(sdkSigner1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISigner(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISigner(), nullValue());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SignerConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiSigner1 = null;
         converter = new SignerConverter(apiRole);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSigner(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSigner(), nullValue());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SignerConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkSigner1 = null;
         converter = new SignerConverter(sdkSigner1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSigner(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSigner(), nullValue());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SignerConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiRole = null;
         converter = new SignerConverter(apiRole);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISigner(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISigner(), nullValue());
     }
 
     @Override
@@ -71,8 +71,8 @@ public class SignerConverterTest implements ConverterTest {
 
         sdkSigner1 = createTypicalSDKSigner();
         sdkSigner2 = new SignerConverter(sdkSigner1).toSDKSigner();
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkSigner2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkSigner2, is(equalTo(sdkSigner1)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkSigner2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkSigner2, is(sdkSigner1));
     }
 
     @Override
@@ -82,8 +82,8 @@ public class SignerConverterTest implements ConverterTest {
         apiRole = createTypicalAPIRole();
         apiSigner2 = new SignerConverter(apiRole).toAPISigner();
 
-        assertThat("Converter returned a null api object for a non null api object", apiSigner2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiSigner2, is(equalTo(apiRole.getSigners().get(0))));
+        assertThat("Converter returned a null api object for a non null api object", apiSigner2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiSigner2, is(apiRole.getSigners().get(0)));
     }
 
     @Override
@@ -94,24 +94,25 @@ public class SignerConverterTest implements ConverterTest {
 
         sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiRole, is(notNullValue()));
-        assertThat("Email was not correctly set", apiSigner1.getEmail(), is(equalTo(sdkSigner1.getEmail())));
-        assertThat("First name was not correctly set", apiSigner1.getFirstName(), is(equalTo(sdkSigner1.getFirstName())));
-        assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(equalTo(sdkSigner1.getLastName())));
-        assertThat("Company was not correctly set", apiSigner1.getCompany(), is(equalTo(sdkSigner1.getCompany())));
-        assertThat("Title was not correctly set", apiSigner1.getTitle(), is(equalTo(sdkSigner1.getTitle())));
-        assertThat("Language was not correctly set", apiSigner1.getLanguage(), is(equalTo(sdkSigner1.getLanguage().getLanguage())));
-        assertThat("Signer ID was not correctly set", apiRole.getId(), is(equalTo(sdkSigner1.getId())));
-        assertThat("Signing order was not correctly set", apiRole.getIndex(), is(equalTo(sdkSigner1.getSigningOrder())));
-        assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(equalTo(sdkSigner1.canChangeSigner())));
-        assertThat("Email was not correctly set", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiRole, notNullValue());
+        assertThat("Email was not correctly set", apiSigner1.getEmail(), is(sdkSigner1.getEmail()));
+        assertThat("First name was not correctly set", apiSigner1.getFirstName(), is(sdkSigner1.getFirstName()));
+        assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(sdkSigner1.getLastName()));
+        assertThat("Company was not correctly set", apiSigner1.getCompany(), is(sdkSigner1.getCompany()));
+        assertThat("SignerType was not correctly set", apiSigner1.getSignerType(), is(sdkSigner1.getSignerType()));
+        assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
+        assertThat("Language was not correctly set", apiSigner1.getLanguage(), is(sdkSigner1.getLanguage().getLanguage()));
+        assertThat("Signer ID was not correctly set", apiRole.getId(), is(sdkSigner1.getId()));
+        assertThat("Signing order was not correctly set", apiRole.getIndex(), is(sdkSigner1.getSigningOrder()));
+        assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(sdkSigner1.canChangeSigner()));
+        assertThat("Email was not correctly set", apiRole.getEmailMessage().getContent(), is(sdkSigner1.getMessage()));
 
         String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
-        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getName())));
-        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription())));
+        assertThat("Attachment's name was not set correctly", attachmentName, is(sdkSigner1.getAttachmentRequirement(attachmentName).getName()));
+        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription()));
         assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
         assertThat("Attachment's status was not set correctly", apiRole.getAttachmentRequirements().get(0).getStatus().toString(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getStatus().toString()));
-        assertThat("Attachment's comments was not set correctly", apiRole.getAttachmentRequirements().get(0).getComment(), is(Matchers.equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getSenderComment())));
+        assertThat("Attachment's comments was not set correctly", apiRole.getAttachmentRequirements().get(0).getComment(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getSenderComment()));
     }
 
     @Override
@@ -120,12 +121,12 @@ public class SignerConverterTest implements ConverterTest {
 
         sdkSigner1 = createTypicalSDKSigner();
         apiSigner1 = new SignerConverter(sdkSigner1).toAPISigner();
-        assertThat("Converter returned a null api object for a non null sdk object", apiSigner1, is(notNullValue()));
-        assertThat("Email was not correctly set", apiSigner1.getEmail(), is(equalTo(sdkSigner1.getEmail())));
-        assertThat("First name was not correctly set", apiSigner1.getFirstName(), is(equalTo(sdkSigner1.getFirstName())));
-        assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(equalTo(sdkSigner1.getLastName())));
-        assertThat("Company was not correctly set", apiSigner1.getCompany(), is(equalTo(sdkSigner1.getCompany())));
-        assertThat("Title was not correctly set", apiSigner1.getTitle(), is(equalTo(sdkSigner1.getTitle())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiSigner1, notNullValue());
+        assertThat("Email was not correctly set", apiSigner1.getEmail(), is(sdkSigner1.getEmail()));
+        assertThat("First name was not correctly set", apiSigner1.getFirstName(), is(sdkSigner1.getFirstName()));
+        assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(sdkSigner1.getLastName()));
+        assertThat("Company was not correctly set", apiSigner1.getCompany(), is(sdkSigner1.getCompany()));
+        assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
 
     }
 
@@ -136,27 +137,27 @@ public class SignerConverterTest implements ConverterTest {
         String roleId = UUID.randomUUID().toString().replace("-", "");
         apiRole = new SignerConverter(sdkSigner1).toAPIRole(roleId);
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiRole, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", apiRole, notNullValue());
         assertThat("Email was not correctly set", apiRole.getSigners().get(0).getEmail(),
-                is(equalTo(sdkSigner1.getEmail())));
+                is(sdkSigner1.getEmail()));
         assertThat("First name was not correctly set", apiRole.getSigners().get(0).getFirstName(),
-                is(equalTo(sdkSigner1.getFirstName())));
+                is(sdkSigner1.getFirstName()));
         assertThat("Last name was not correctly set", apiRole.getSigners().get(0).getLastName(),
-                is(equalTo(sdkSigner1.getLastName())));
+                is(sdkSigner1.getLastName()));
         assertThat("Company was not correctly set", apiRole.getSigners().get(0).getCompany(),
-                is(equalTo(sdkSigner1.getCompany())));
+                is(sdkSigner1.getCompany()));
         assertThat("Title was not correctly set", apiRole.getSigners().get(0).getTitle(),
-                is(equalTo(sdkSigner1.getTitle())));
+                is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
-                is(equalTo(sdkSigner1.getLanguage().getLanguage())));
+                is(sdkSigner1.getLanguage().getLanguage()));
 
-        assertThat("ID was not set correctly", apiRole.getId().toString(), is(equalTo(sdkSigner1.getId())));
-        assertThat("Name was not set correctly", apiRole.getName().toString(), is(equalTo(sdkSigner1.getId())));
-        assertThat("Message was not set correctly", apiRole.getEmailMessage().getContent(), is(equalTo(sdkSigner1.getMessage())));
+        assertThat("ID was not set correctly", apiRole.getId().toString(), is(sdkSigner1.getId()));
+        assertThat("Name was not set correctly", apiRole.getName().toString(), is(sdkSigner1.getId()));
+        assertThat("Message was not set correctly", apiRole.getEmailMessage().getContent(), is(sdkSigner1.getMessage()));
 
         String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
-        assertThat("Attachment's name was not set correctly", attachmentName, is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getName())));
-        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(equalTo(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription())));
+        assertThat("Attachment's name was not set correctly", attachmentName, is(sdkSigner1.getAttachmentRequirement(attachmentName).getName()));
+        assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription()));
         assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
     }
 
@@ -176,23 +177,23 @@ public class SignerConverterTest implements ConverterTest {
 
         apiRole = new SignerConverter(sdkSigner1).toAPIRole(roleId);
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiRole, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", apiRole, notNullValue());
         assertThat("Email was not correctly set", apiRole.getSigners().get(0).getEmail(),
-                is(equalTo(sdkSigner1.getEmail())));
+                is(sdkSigner1.getEmail()));
         assertThat("First name was not correctly set", apiRole.getSigners().get(0).getFirstName(),
-                is(equalTo(sdkSigner1.getFirstName())));
+                is(sdkSigner1.getFirstName()));
         assertThat("Last name was not correctly set", apiRole.getSigners().get(0).getLastName(),
-                is(equalTo(sdkSigner1.getLastName())));
+                is(sdkSigner1.getLastName()));
         assertThat("Company was not correctly set", apiRole.getSigners().get(0).getCompany(),
-                is(equalTo(sdkSigner1.getCompany())));
+                is(sdkSigner1.getCompany()));
         assertThat("Title was not correctly set", apiRole.getSigners().get(0).getTitle(),
-                is(equalTo(sdkSigner1.getTitle())));
+                is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
-                is(equalTo(sdkSigner1.getLanguage().getLanguage())));
+                is(sdkSigner1.getLanguage().getLanguage()));
 
-        assertThat("ID was not set correctly", apiRole.getId().toString(), is(equalTo(roleId)));
-        assertThat("Name was not set correctly", apiRole.getName().toString(), is(equalTo(roleId)));
-        assertThat("Message was not set correctly", apiRole.getEmailMessage(), is(nullValue()));
+        assertThat("ID was not set correctly", apiRole.getId().toString(), is(roleId));
+        assertThat("Name was not set correctly", apiRole.getName().toString(), is(roleId));
+        assertThat("Message was not set correctly", apiRole.getEmailMessage(), nullValue());
     }
 
     /**
@@ -235,6 +236,7 @@ public class SignerConverterTest implements ConverterTest {
         apiSigner.setCompany("ABC Inc.");
         apiSigner.setLanguage("fr");
         apiSigner.setTitle("Doctor");
+        apiSigner.setSignerType("THIRD_PARTY_SIGNER");
 
         Delivery delivery = new Delivery();
         delivery.setDownload(true);
