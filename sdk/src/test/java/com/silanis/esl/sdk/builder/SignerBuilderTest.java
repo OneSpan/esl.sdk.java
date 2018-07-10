@@ -1,14 +1,19 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.AuthenticationMethod;
+import com.silanis.esl.sdk.Challenge;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signer;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.AuthenticationMethod.SMS;
+import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
 import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQuestion;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
@@ -84,8 +89,8 @@ public class SignerBuilderTest {
                 .withCompany("Acme Inc")
                 .build();
 
-        assertThat(signer.getTitle(), is(equalTo("Super Manager")));
-        assertThat(signer.getCompany(), is(equalTo("Acme Inc")));
+        assertThat(signer.getTitle(), is("Super Manager"));
+        assertThat(signer.getCompany(), is("Acme Inc"));
     }
 
     @Test
@@ -95,7 +100,7 @@ public class SignerBuilderTest {
                 .withLastName("Blow")
                 .build();
 
-        assertThat(signer.getAuthenticationMethod(), is(equalTo(AuthenticationMethod.EMAIL)));
+        assertThat(signer.getAuthenticationMethod(), is(AuthenticationMethod.EMAIL));
     }
 
     @Test
@@ -107,7 +112,7 @@ public class SignerBuilderTest {
                         .answer("golf"))
                 .build();
 
-        assertThat(signer.getAuthenticationMethod(), is(equalTo(AuthenticationMethod.CHALLENGE)));
+        assertThat(signer.getAuthenticationMethod(), is(AuthenticationMethod.CHALLENGE));
     }
 
     @Test
@@ -141,8 +146,19 @@ public class SignerBuilderTest {
                 .withSmsSentTo("1112223333")
                 .build();
 
-        assertThat(signer.getAuthenticationMethod(), is(equalTo(AuthenticationMethod.SMS)));
-        assertThat(signer.getPhoneNumber(), is(equalTo("1112223333")));
+        assertThat(signer.getAuthenticationMethod(), is(SMS));
+        assertThat(signer.getPhoneNumber(), is("1112223333"));
+    }
+
+    @Test
+    public void setsUpSSOAuthentication() {
+        Signer signer = newSignerWithEmail("joe@blow.com")
+                .withFirstName("Joe")
+                .withLastName("Blow")
+                .withSSOAuthentication()
+                .build();
+
+        assertThat(signer.getAuthenticationMethod(), is(SSO));
     }
 
     @Test(expected = EslException.class)

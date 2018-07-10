@@ -11,6 +11,7 @@ public class AuthenticationMethod extends EslEnumeration {
     public static final AuthenticationMethod CHALLENGE = new AuthenticationMethod("CHALLENGE", "CHALLENGE", 1);
     public static final AuthenticationMethod SMS = new AuthenticationMethod("SMS", "SMS", 2);
     public static final AuthenticationMethod KBA = new AuthenticationMethod("KBA", "KBA", 3);
+    public static final AuthenticationMethod SSO = new AuthenticationMethod("SSO", "SSO", 4);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -30,6 +31,7 @@ public class AuthenticationMethod extends EslEnumeration {
         sdkValues.put(CHALLENGE.name(), CHALLENGE);
         sdkValues.put(SMS.name(), SMS);
         sdkValues.put(KBA.name(), KBA);
+        sdkValues.put(SSO.name(), SSO);
     }
     
     private AuthenticationMethod(String apiValue, String sdkValue, int index) {

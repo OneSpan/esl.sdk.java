@@ -1,11 +1,24 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.Authentication;
+import com.silanis.esl.sdk.AuthenticationMethod;
+import com.silanis.esl.sdk.Challenge;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.SignerInformationForEquifaxCanada;
+import com.silanis.esl.sdk.SignerInformationForEquifaxUSA;
 import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
+import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
 
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
@@ -257,6 +270,18 @@ final public class SignerBuilder {
      */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
         this.authenticationBuilder = new SMSAuthenticationBuilder(phoneNumber);
+        return this;
+    }
+
+    /**
+     * <p>
+     * Sets the signer's authentication type to SSO.
+     * </p>
+     *
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withSSOAuthentication() {
+        this.authenticationBuilder = newAuthenticationWithMethod(SSO);
         return this;
     }
 
