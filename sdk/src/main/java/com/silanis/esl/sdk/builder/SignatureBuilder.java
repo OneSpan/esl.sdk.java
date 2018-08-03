@@ -29,6 +29,7 @@ final public class SignatureBuilder {
     private boolean extract;
     private TextAnchor textAnchor;
     private boolean optional = false;
+    private boolean enforceCaptureSignature = false;
 
     /**
      * SignatureBuilder constructor for regular signature with email
@@ -382,6 +383,16 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Enables the signature level enforceCaptureSignature setting.
+     *
+     * @return the signature builder itself
+     */
+    public SignatureBuilder enableEnforceCaptureSignature() {
+        this.enforceCaptureSignature = true;
+        return this;
+    }
+
+    /**
      * This method actually builds the Signature object
      *
      * @return the signature
@@ -406,6 +417,7 @@ final public class SignatureBuilder {
         signature.setExtraction( extract );
         signature.setTextAnchor( textAnchor );
         signature.setOptional( optional );
+        signature.setEnforceCaptureSignature( enforceCaptureSignature );
 
         return signature;
     }

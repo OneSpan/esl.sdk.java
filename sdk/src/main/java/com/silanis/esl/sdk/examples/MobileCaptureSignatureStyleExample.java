@@ -25,17 +25,18 @@ public class MobileCaptureSignatureStyleExample extends SDKSample {
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSigner(newSignerWithEmail(email1)
-                                    .withFirstName("John")
-                                    .withLastName("Smith"))
+                        .withFirstName("John")
+                        .withLastName("Smith"))
                 .withDocument(newDocumentWithName(DOCUMENT_NAME)
-                                      .fromStream(documentInputStream1, DocumentType.PDF)
-                                      .withSignature(mobileCaptureFor(email1)
-                                                             .onPage(MOBILE_CAPTURE_SIGNATURE_PAGE)
-                                                             .atPosition(MOBILE_CAPTURE_SIGNATURE_POSITION_X, MOBILE_CAPTURE_SIGNATURE_POSITION_Y)))
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(mobileCaptureFor(email1)
+                                .enableEnforceCaptureSignature()
+                                .onPage(MOBILE_CAPTURE_SIGNATURE_PAGE)
+                                .atPosition(MOBILE_CAPTURE_SIGNATURE_POSITION_X, MOBILE_CAPTURE_SIGNATURE_POSITION_Y)))
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);
         eslClient.sendPackage(packageId);
-        retrievedPackage = eslClient.getPackage( packageId );
+        retrievedPackage = eslClient.getPackage(packageId);
     }
 }

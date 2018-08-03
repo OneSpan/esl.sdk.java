@@ -1,6 +1,10 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.SignatureStyle;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,14 +21,14 @@ public class SignatureBuilderTest {
     public static final double DEFAULT_DOUBLE_TOLERANCE = 0.01f;
 
     @Test
-    public void buildCaptureForPlaceholder(){
+    public void buildCaptureForPlaceholder() {
         Placeholder placeholder = new Placeholder("placeholderId");
         Signature signature = captureFor(placeholder).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.HAND_DRAWN ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getRoleId(), is(equalTo(placeholder)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.HAND_DRAWN)));
     }
 
     @Test
@@ -32,98 +36,98 @@ public class SignatureBuilderTest {
         Placeholder placeholder = new Placeholder("placeholderId");
         Signature signature = signatureFor(placeholder).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.FULL_NAME ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getRoleId(), is(equalTo(placeholder)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.FULL_NAME)));
     }
 
     @Test
     public void buildAcceptanceForPlaceholder() {
         Placeholder placeholder = new Placeholder("placeholderId");
-        Signature signature = SignatureBuilder.acceptanceFor( placeholder ).build();
+        Signature signature = SignatureBuilder.acceptanceFor(placeholder).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.ACCEPTANCE ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getRoleId(), is(equalTo(placeholder)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.ACCEPTANCE)));
     }
 
     @Test
     public void buildInitialsForPlaceholder() {
         Placeholder placeholder = new Placeholder("placeholderId");
-        Signature signature = initialsFor( placeholder ).build();
+        Signature signature = initialsFor(placeholder).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.INITIALS ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getRoleId(), is(equalTo(placeholder)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.INITIALS)));
     }
 
     @Test
     public void buildMobileCaptureForPlaceholder() {
         Placeholder placeholder = new Placeholder("placeholderId");
-        Signature signature = mobileCaptureFor( placeholder ).build();
+        Signature signature = mobileCaptureFor(placeholder).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getRoleId(), is( equalTo( placeholder ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.MOBILE_CAPTURE ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getRoleId(), is(equalTo(placeholder)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.MOBILE_CAPTURE)));
     }
 
     @Test
     public void buildCaptureForGroup() {
-        GroupId groupId = new GroupId( "myGroupId" );
-        Signature signature = captureFor( groupId ).build();
+        GroupId groupId = new GroupId("myGroupId");
+        Signature signature = captureFor(groupId).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.HAND_DRAWN ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getGroupId(), is(equalTo(groupId)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.HAND_DRAWN)));
     }
 
     @Test
     public void buildSignatureForGroup() {
-        GroupId groupId = new GroupId( "myGroupId" );
-        Signature signature = signatureFor( groupId ).build();
+        GroupId groupId = new GroupId("myGroupId");
+        Signature signature = signatureFor(groupId).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.FULL_NAME ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getGroupId(), is(equalTo(groupId)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.FULL_NAME)));
     }
 
     @Test
     public void buildAcceptanceForGroup() {
-        GroupId groupId = new GroupId( "myGroupId" );
-        Signature signature = SignatureBuilder.acceptanceFor( groupId ).build();
+        GroupId groupId = new GroupId("myGroupId");
+        Signature signature = SignatureBuilder.acceptanceFor(groupId).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.ACCEPTANCE ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getGroupId(), is(equalTo(groupId)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.ACCEPTANCE)));
     }
 
     @Test
     public void buildInitialsForGroup() {
-        GroupId groupId = new GroupId( "myGroupId" );
-        Signature signature = initialsFor( groupId ).build();
+        GroupId groupId = new GroupId("myGroupId");
+        Signature signature = initialsFor(groupId).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.INITIALS ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getGroupId(), is(equalTo(groupId)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.INITIALS)));
     }
 
     @Test
     public void buildMobileCaptureForGroup() {
-        GroupId groupId = new GroupId( "myGroupId" );
-        Signature signature = mobileCaptureFor( groupId ).build();
+        GroupId groupId = new GroupId("myGroupId");
+        Signature signature = mobileCaptureFor(groupId).build();
 
-        assertThat( signature, is( notNullValue() ) );
-        assertThat( signature.getGroupId(), is( equalTo( groupId ) ) );
-        assertThat( signature.getSignerEmail(), isEmptyOrNullString() );
-        assertThat( signature.getStyle(), is( equalTo( SignatureStyle.MOBILE_CAPTURE ) ) );
+        assertThat(signature, is(notNullValue()));
+        assertThat(signature.getGroupId(), is(equalTo(groupId)));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.MOBILE_CAPTURE)));
     }
 
     @Test
@@ -137,31 +141,31 @@ public class SignatureBuilderTest {
         SignatureStyle style = SignatureStyle.HAND_DRAWN;
 
         Collection<Field> fields = new ArrayList<Field>();
-        for ( int i = 0; i < 3; i++ )
-            fields.add( newField().atPosition(50, 50).build() );
+        for (int i = 0; i < 3; i++)
+            fields.add(newField().atPosition(50, 50).build());
 
         SignatureBuilder builder = signatureFor(email)
-                .withStyle( style )
-                .atPosition( x, y )
-                .onPage( page )
-                .withSize( width, height );
+                .withStyle(style)
+                .atPosition(x, y)
+                .onPage(page)
+                .withSize(width, height);
 
-        for ( Field field : fields )
-            builder.withField( field );
+        for (Field field : fields)
+            builder.withField(field);
 
         Signature signature = builder.build();
 
-        assertEquals( email, signature.getSignerEmail() );
-        assertEquals( x, signature.getX(), DEFAULT_DOUBLE_TOLERANCE );
-        assertEquals( y, signature.getY(), DEFAULT_DOUBLE_TOLERANCE );
-        assertEquals( width, signature.getWidth(), DEFAULT_DOUBLE_TOLERANCE );
-        assertEquals( height, signature.getHeight(), DEFAULT_DOUBLE_TOLERANCE );
-        assertEquals( page, signature.getPage() );
-        assertEquals( style, signature.getStyle() );
+        assertEquals(email, signature.getSignerEmail());
+        assertEquals(x, signature.getX(), DEFAULT_DOUBLE_TOLERANCE);
+        assertEquals(y, signature.getY(), DEFAULT_DOUBLE_TOLERANCE);
+        assertEquals(width, signature.getWidth(), DEFAULT_DOUBLE_TOLERANCE);
+        assertEquals(height, signature.getHeight(), DEFAULT_DOUBLE_TOLERANCE);
+        assertEquals(page, signature.getPage());
+        assertEquals(style, signature.getStyle());
 
-        assertEquals( fields.size(), signature.getFields().size() );
-        for ( Field field : fields )
-            assertTrue( signature.getFields().contains( field ) );
+        assertEquals(fields.size(), signature.getFields().size());
+        for (Field field : fields)
+            assertTrue(signature.getFields().contains(field));
     }
 
     @Test
@@ -169,30 +173,30 @@ public class SignatureBuilderTest {
         SignatureBuilder builder = signatureFor("test@test.com");
         Signature signature = builder.build();
 
-        assertEquals( SignatureBuilder.DEFAULT_HEIGHT, signature.getHeight(), DEFAULT_DOUBLE_TOLERANCE );
-        assertEquals( SignatureBuilder.DEFAULT_WIDTH, signature.getWidth(), DEFAULT_DOUBLE_TOLERANCE );
-        assertEquals( SignatureBuilder.DEFAULT_STYLE, signature.getStyle() );
+        assertEquals(SignatureBuilder.DEFAULT_HEIGHT, signature.getHeight(), DEFAULT_DOUBLE_TOLERANCE);
+        assertEquals(SignatureBuilder.DEFAULT_WIDTH, signature.getWidth(), DEFAULT_DOUBLE_TOLERANCE);
+        assertEquals(SignatureBuilder.DEFAULT_STYLE, signature.getStyle());
     }
 
     @Test
     public void creatingInitialsForSignerSetsStyle() {
         Signature signature = initialsFor("test@test.com").build();
 
-        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.INITIALS)));
+        assertThat(signature.getStyle(), is(SignatureStyle.INITIALS));
     }
 
     @Test
     public void creatingCaptureForSignerSetsStyle() {
         Signature signature = captureFor("test@test.com").build();
 
-        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.HAND_DRAWN)));
+        assertThat(signature.getStyle(), is(SignatureStyle.HAND_DRAWN));
     }
 
     @Test
     public void creatingMobileCaptureForSignerSetsStyle() {
         Signature signature = mobileCaptureFor("test@test.com").build();
 
-        assertThat(signature.getStyle(), is(equalTo(SignatureStyle.MOBILE_CAPTURE)));
+        assertThat(signature.getStyle(), is(SignatureStyle.MOBILE_CAPTURE));
     }
 
     @Test
@@ -201,5 +205,12 @@ public class SignatureBuilderTest {
         Signature signature = builder.build();
 
         assertTrue(signature.isOptional());
+    }
+
+    @Test
+    public void creatingCaptureWithEnforceCaptureSignatureSetting() {
+        Signature signature = captureFor("test@test.com").enableEnforceCaptureSignature().build();
+
+        assertTrue(signature.isEnforceCaptureSignature());
     }
 }

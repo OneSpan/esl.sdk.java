@@ -16,7 +16,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * User: jessica
  * Date: 20/11/13
  * Time: 3:42 PM
- *
+ * <p>
  * Converter between SDK signature and API signature.
  */
 public class SignatureConverter {
@@ -44,7 +44,6 @@ public class SignatureConverter {
      * Convert from API approval to SDK signature.
      *
      * @return an SDK Signature object.
-     *
      */
     public com.silanis.esl.sdk.Signature toSDKSignature() {
 
@@ -54,62 +53,61 @@ public class SignatureConverter {
 
         SignatureBuilder signatureBuilder = null;
 
-        for ( Role role : apiPackage.getRoles() ) {
-            if ( role.getId().equals( apiApproval.getRole() ) ) {
-                if ( isPlaceholder(role)) {
+        for (Role role : apiPackage.getRoles()) {
+            if (role.getId().equals(apiApproval.getRole())) {
+                if (isPlaceholder(role)) {
                     signatureBuilder = SignatureBuilder.signatureFor(new Placeholder(role.getId()));
-                }
-                else if ( isGroupRole(role) ){
+                } else if (isGroupRole(role)) {
                     signatureBuilder = SignatureBuilder.signatureFor(new GroupId(role.getSigners().get(0).getGroup().getId()));
-                }
-                else{
+                } else {
                     signatureBuilder = SignatureBuilder.signatureFor(role.getSigners().get(0).getEmail());
                 }
             }
         }
 
-        if(apiApproval.getId() != null){
+        if (apiApproval.getId() != null) {
             signatureBuilder.withId(new SignatureId(apiApproval.getId()));
         }
 
-        signatureBuilder.withName( apiApproval.getName() );
+        signatureBuilder.withName(apiApproval.getName());
 
         com.silanis.esl.api.model.Field apiSignatureField = null;
-        for ( com.silanis.esl.api.model.Field apiField : apiApproval.getFields() ) {
-            if (apiField.getType().equals(FieldType.SIGNATURE.getApiValue()) ) {
+        for (com.silanis.esl.api.model.Field apiField : apiApproval.getFields()) {
+            if (apiField.getType().equals(FieldType.SIGNATURE.getApiValue())) {
                 apiSignatureField = apiField;
             } else {
-                signatureBuilder.withField( new FieldConverter(apiField).toSDKField() );
+                signatureBuilder.withField(new FieldConverter(apiField).toSDKField());
             }
 
         }
-        if ( apiSignatureField == null ) {
-            signatureBuilder.withStyle( com.silanis.esl.sdk.SignatureStyle.ACCEPTANCE );
-            signatureBuilder.withSize( 0, 0 );
+        if (apiSignatureField == null) {
+            signatureBuilder.withStyle(com.silanis.esl.sdk.SignatureStyle.ACCEPTANCE);
+            signatureBuilder.withSize(0, 0);
 
         } else {
-            signatureBuilder.withStyle( com.silanis.esl.sdk.SignatureStyle.fromAPIFieldSubType(apiSignatureField.getSubtype()) );
-            if ( apiSignatureField.getPage() != null )
-                signatureBuilder.onPage( apiSignatureField.getPage() );
+            signatureBuilder.withStyle(com.silanis.esl.sdk.SignatureStyle.fromAPIFieldSubType(apiSignatureField.getSubtype()));
+            if (apiSignatureField.getPage() != null)
+                signatureBuilder.onPage(apiSignatureField.getPage());
 
-            if ( apiSignatureField.getLeft() != null && apiSignatureField.getTop() != null )
-                signatureBuilder.atPosition( apiSignatureField.getLeft(), apiSignatureField.getTop() );
+            if (apiSignatureField.getLeft() != null && apiSignatureField.getTop() != null)
+                signatureBuilder.atPosition(apiSignatureField.getLeft(), apiSignatureField.getTop());
 
-            if ( apiSignatureField.getHeight() != null && apiSignatureField.getWidth() != null )
-                signatureBuilder.withSize( apiSignatureField.getWidth(), apiSignatureField.getHeight() );
+            if (apiSignatureField.getHeight() != null && apiSignatureField.getWidth() != null)
+                signatureBuilder.withSize(apiSignatureField.getWidth(), apiSignatureField.getHeight());
 
-            if ( apiSignatureField.evalExtract() ) {
+            if (apiSignatureField.evalExtract()) {
                 signatureBuilder.withPositionExtracted();
             }
         }
 
-        if (apiApproval.getOptional()) {
-
+        if (apiApproval.getOptional())
             signatureBuilder.makeOptional();
-        }
+
+        if (apiApproval.getEnforceCaptureSignature())
+            signatureBuilder.enableEnforceCaptureSignature();
 
         Signature signature = signatureBuilder.build();
-        if(null != apiApproval.getAccepted())
+        if (null != apiApproval.getAccepted())
             signature.setAccepted(apiApproval.getAccepted());
 
         return signature;
@@ -120,7 +118,6 @@ public class SignatureConverter {
      * Convert from SDK signature to API approval.
      *
      * @return an API approval object.
-     *
      */
     public Approval toAPIApproval() {
 
@@ -130,20 +127,21 @@ public class SignatureConverter {
 
         Approval result = new Approval();
 
-        if(sdkSignature.getId() != null){
+        if (sdkSignature.getId() != null) {
             result.setId(sdkSignature.getId().getId());
         }
 
-        if(sdkSignature.getName() != null){
+        if (sdkSignature.getName() != null) {
             result.setName(sdkSignature.getName());
         }
 
         result.setOptional(sdkSignature.isOptional());
+        result.setEnforceCaptureSignature(sdkSignature.isEnforceCaptureSignature());
 
         result.addField(getAPIFieldFromSignature());
 
-        for ( com.silanis.esl.sdk.Field field : sdkSignature.getFields() ) {
-            result.addField( ConversionService.convert( field ) );
+        for (com.silanis.esl.sdk.Field field : sdkSignature.getFields()) {
+            result.addField(ConversionService.convert(field));
         }
 
         return result;
@@ -178,23 +176,23 @@ public class SignatureConverter {
             result.setId(sdkSignature.getId().getId());
         }
 
-        if ( sdkSignature.getName() != null ) {
+        if (sdkSignature.getName() != null) {
             result.setName(sdkSignature.getName());
         }
 
         if (!sdkSignature.isExtraction()) {
-            result.setTop( sdkSignature.getY() );
-            result.setLeft( sdkSignature.getX() );
-            result.setWidth( sdkSignature.getWidth() );
-            result.setHeight( sdkSignature.getHeight() );
+            result.setTop(sdkSignature.getY());
+            result.setLeft(sdkSignature.getX());
+            result.setWidth(sdkSignature.getWidth());
+            result.setHeight(sdkSignature.getHeight());
         }
 
-        if (sdkSignature.getTextAnchor() != null ) {
-            result.setExtractAnchor( new TextAnchorConverter(sdkSignature.getTextAnchor()).toAPIExtractAnchor() );
+        if (sdkSignature.getTextAnchor() != null) {
+            result.setExtractAnchor(new TextAnchorConverter(sdkSignature.getTextAnchor()).toAPIExtractAnchor());
         }
 
         result.setType(FieldType.SIGNATURE.getApiValue());
-        result.setSubtype( getSignatureSubtype() );
+        result.setSubtype(getSignatureSubtype());
 
         return result;
     }
@@ -210,5 +208,5 @@ public class SignatureConverter {
         }
         return sdkSignature.getStyle().getApiValue();
     }
-    
+
 }

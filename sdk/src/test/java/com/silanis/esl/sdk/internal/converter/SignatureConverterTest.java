@@ -7,10 +7,8 @@ import com.silanis.esl.sdk.builder.SignatureBuilder;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertTrue;
 
 
 public class SignatureConverterTest implements ConverterTest {
@@ -88,6 +86,7 @@ public class SignatureConverterTest implements ConverterTest {
         apiApproval1 = new SignatureConverter(sdkSignature1).toAPIApproval();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiApproval1, is(notNullValue()));
+        assertTrue("EnforceCaptureSignature was not correctly set", apiApproval1.getEnforceCaptureSignature());
         assertThat("Name was not correctly set", apiApproval1.getFields().get(0).getName(), is(equalTo(sdkSignature1.getName().toString())));
         assertThat("Height was not correctly set", apiApproval1.getFields().get(0).getHeight(), is(equalTo(sdkSignature1.getHeight())));
         assertThat("Width was not correctly set", apiApproval1.getFields().get(0).getWidth(), is(equalTo(sdkSignature1.getWidth())));
@@ -101,6 +100,7 @@ public class SignatureConverterTest implements ConverterTest {
                 .atPosition(100, 100)
                 .withName("signature")
                 .withSize(100, 100)
+                .enableEnforceCaptureSignature()
                 .onPage(0)
                 .build();
     }
@@ -117,6 +117,7 @@ public class SignatureConverterTest implements ConverterTest {
         apiSignature.setPage(0);
 
         apiApproval.addField(apiSignature);
+        apiApproval.setEnforceCaptureSignature(true);
 
         return apiApproval;
     }
