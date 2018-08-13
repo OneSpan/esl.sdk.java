@@ -21,6 +21,7 @@ public class DocumentPackageSettings {
     private Boolean enableSecondAffidavit = null;
     private Boolean disableDeclineOther = null;
     private Boolean disableOptOutOther = null;
+    private Boolean enforceCaptureSignature = null;
     private Boolean ada = null;
 
     private String linkText;
@@ -29,15 +30,19 @@ public class DocumentPackageSettings {
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
-    public Boolean getShowPackageOwnerInPerson() { return showPackageOwnerInPerson; }
+    public Boolean getShowPackageOwnerInPerson() {
+        return showPackageOwnerInPerson;
+    }
 
-    public void setShowPackageOwnerInPerson( Boolean showPackageOwnerInPerson ) { this.showPackageOwnerInPerson = showPackageOwnerInPerson; }
+    public void setShowPackageOwnerInPerson(Boolean showPackageOwnerInPerson) {
+        this.showPackageOwnerInPerson = showPackageOwnerInPerson;
+    }
 
     public Boolean getEnableInPerson() {
         return enableInPerson;
     }
 
-    public void setEnableInPerson( Boolean enableInPerson ) {
+    public void setEnableInPerson(Boolean enableInPerson) {
         this.enableInPerson = enableInPerson;
     }
 
@@ -45,7 +50,7 @@ public class DocumentPackageSettings {
         return enableOptOut;
     }
 
-    public void setEnableOptOut( Boolean enableOptOut ) {
+    public void setEnableOptOut(Boolean enableOptOut) {
         this.enableOptOut = enableOptOut;
     }
 
@@ -53,7 +58,7 @@ public class DocumentPackageSettings {
         return enableDecline;
     }
 
-    public void setEnableDecline( Boolean enableDecline ) {
+    public void setEnableDecline(Boolean enableDecline) {
         this.enableDecline = enableDecline;
     }
 
@@ -61,7 +66,7 @@ public class DocumentPackageSettings {
         return hideWatermark;
     }
 
-    public void setHideWatermark( Boolean hideWatermark ) {
+    public void setHideWatermark(Boolean hideWatermark) {
         this.hideWatermark = hideWatermark;
     }
 
@@ -69,7 +74,7 @@ public class DocumentPackageSettings {
         return hideCaptureText;
     }
 
-    public void setHideCaptureText( Boolean hideCaptureText ) {
+    public void setHideCaptureText(Boolean hideCaptureText) {
         this.hideCaptureText = hideCaptureText;
     }
 
@@ -85,7 +90,7 @@ public class DocumentPackageSettings {
         return maxAuthAttempts;
     }
 
-    public void setMaxAuthAttempts( Integer maxAuthAttempts ) {
+    public void setMaxAuthAttempts(Integer maxAuthAttempts) {
         this.maxAuthAttempts = maxAuthAttempts;
     }
 
@@ -93,7 +98,7 @@ public class DocumentPackageSettings {
         return showDocumentToolbarDownloadButton;
     }
 
-    public void setShowDocumentToolbarDownloadButton( Boolean showDocumentToolbarDownloadButton ) {
+    public void setShowDocumentToolbarDownloadButton(Boolean showDocumentToolbarDownloadButton) {
         this.showDocumentToolbarDownloadButton = showDocumentToolbarDownloadButton;
     }
 
@@ -101,7 +106,7 @@ public class DocumentPackageSettings {
         return showDialogOnComplete;
     }
 
-    public void setShowDialogOnComplete( Boolean showDialogOnComplete ) {
+    public void setShowDialogOnComplete(Boolean showDialogOnComplete) {
         this.showDialogOnComplete = showDialogOnComplete;
     }
 
@@ -109,7 +114,7 @@ public class DocumentPackageSettings {
         return linkText;
     }
 
-    public void setLinkText( String linkText ) {
+    public void setLinkText(String linkText) {
         this.linkText = linkText;
     }
 
@@ -117,7 +122,7 @@ public class DocumentPackageSettings {
         return linkTooltip;
     }
 
-    public void setLinkTooltip( String linkTooltip ) {
+    public void setLinkTooltip(String linkTooltip) {
         this.linkTooltip = linkTooltip;
     }
 
@@ -125,7 +130,7 @@ public class DocumentPackageSettings {
         return linkHref;
     }
 
-    public void setLinkHref( String linkHref ) {
+    public void setLinkHref(String linkHref) {
         this.linkHref = linkHref;
     }
 
@@ -133,7 +138,7 @@ public class DocumentPackageSettings {
         return ceremonyLayoutSettings;
     }
 
-    public void setCeremonyLayoutSettings( CeremonyLayoutSettings ceremonyLayoutSettings ) {
+    public void setCeremonyLayoutSettings(CeremonyLayoutSettings ceremonyLayoutSettings) {
         this.ceremonyLayoutSettings = ceremonyLayoutSettings;
     }
 
@@ -183,6 +188,14 @@ public class DocumentPackageSettings {
 
     public void setDisableOptOutOther(Boolean disableOptOutOther) {
         this.disableOptOutOther = disableOptOutOther;
+    }
+
+    public Boolean getEnforceCaptureSignature() {
+        return enforceCaptureSignature;
+    }
+
+    public void setEnforceCaptureSignature(Boolean enforceCaptureSignature) {
+        this.enforceCaptureSignature = enforceCaptureSignature;
     }
 
     public Boolean getAda() {

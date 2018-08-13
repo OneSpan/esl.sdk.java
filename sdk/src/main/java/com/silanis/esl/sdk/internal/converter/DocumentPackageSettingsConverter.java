@@ -1,13 +1,18 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.CeremonyEventComplete;
+import com.silanis.esl.api.model.CeremonyEvents;
+import com.silanis.esl.api.model.CeremonySettings;
+import com.silanis.esl.api.model.DocumentToolbarOptions;
+import com.silanis.esl.api.model.Link;
+import com.silanis.esl.api.model.PackageSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
 
 /**
  * User: jessica
  * Date: 27/11/13
  * Time: 3:12 PM
- *
+ * <p>
  * Converter between SDK and API package settings.
  */
 
@@ -26,6 +31,7 @@ public class DocumentPackageSettingsConverter {
 
     /**
      * Construct with SDK package settings object involved in conversion.
+     *
      * @param sdkPackageSettings
      */
     public DocumentPackageSettingsConverter(com.silanis.esl.sdk.DocumentPackageSettings sdkPackageSettings) {
@@ -44,42 +50,44 @@ public class DocumentPackageSettingsConverter {
 
         CeremonySettings ceremonySettings = new CeremonySettings();
 
-        ceremonySettings.safeSetInPerson( sdkPackageSettings.getEnableInPerson() );
-        ceremonySettings.safeSetOptOutButton( sdkPackageSettings.getEnableOptOut() );
-        ceremonySettings.safeSetDeclineButton( sdkPackageSettings.getEnableDecline() );
-        ceremonySettings.safeSetHideWatermark( sdkPackageSettings.getHideWatermark() );
-        ceremonySettings.safeSetHideCaptureText( sdkPackageSettings.getHideCaptureText() );
-        ceremonySettings.safeSetDeclineReasons( sdkPackageSettings.getDeclineReasons() );
-        ceremonySettings.safeSetOptOutReasons( sdkPackageSettings.getOptOutReasons() );
-        ceremonySettings.safeSetMaxAuthFailsAllowed( sdkPackageSettings.getMaxAuthAttempts() );
-        ceremonySettings.safeSetDisableDeclineOther( sdkPackageSettings.getDisableDeclineOther() );
-        ceremonySettings.safeSetDisableOptOutOther( sdkPackageSettings.getDisableOptOutOther() );
+        ceremonySettings.safeSetInPerson(sdkPackageSettings.getEnableInPerson());
+        ceremonySettings.safeSetOptOutButton(sdkPackageSettings.getEnableOptOut());
+        ceremonySettings.safeSetDeclineButton(sdkPackageSettings.getEnableDecline());
+        ceremonySettings.safeSetHideWatermark(sdkPackageSettings.getHideWatermark());
+        ceremonySettings.safeSetHideCaptureText(sdkPackageSettings.getHideCaptureText());
+        ceremonySettings.safeSetDeclineReasons(sdkPackageSettings.getDeclineReasons());
+        ceremonySettings.safeSetOptOutReasons(sdkPackageSettings.getOptOutReasons());
+        ceremonySettings.safeSetMaxAuthFailsAllowed(sdkPackageSettings.getMaxAuthAttempts());
+        ceremonySettings.safeSetDisableDeclineOther(sdkPackageSettings.getDisableDeclineOther());
+        ceremonySettings.safeSetDisableOptOutOther(sdkPackageSettings.getDisableOptOutOther());
+        ceremonySettings.safeSetEnforceCaptureSignature(sdkPackageSettings.getEnforceCaptureSignature());
         ceremonySettings.safeSetAda(sdkPackageSettings.getAda());
-        if (sdkPackageSettings.getEnableFirstAffidavit() != null ) {
-            ceremonySettings.safeSetDisableFirstInPersonAffidavit( !sdkPackageSettings.getEnableFirstAffidavit());
+
+        if (sdkPackageSettings.getEnableFirstAffidavit() != null) {
+            ceremonySettings.safeSetDisableFirstInPersonAffidavit(!sdkPackageSettings.getEnableFirstAffidavit());
         }
 
-        if ( sdkPackageSettings.getEnableSecondAffidavit() != null ) {
+        if (sdkPackageSettings.getEnableSecondAffidavit() != null) {
             ceremonySettings.safeSetDisableSecondInPersonAffidavit(!sdkPackageSettings.getEnableSecondAffidavit());
         }
 
-        if ( sdkPackageSettings.getShowLanguageDropDown() != null ) {
+        if (sdkPackageSettings.getShowLanguageDropDown() != null) {
             ceremonySettings.safeSetHideLanguageDropdown(!sdkPackageSettings.getShowLanguageDropDown());
         }
 
-        if (sdkPackageSettings.getShowPackageOwnerInPerson() != null ) {
+        if (sdkPackageSettings.getShowPackageOwnerInPerson() != null) {
             ceremonySettings.safeSetHidePackageOwnerInPerson(!sdkPackageSettings.getShowPackageOwnerInPerson());
         }
 
-        if ( sdkPackageSettings.getLinkHref() != null ) {
+        if (sdkPackageSettings.getLinkHref() != null) {
             Link link = new Link();
-            link.setHref( sdkPackageSettings.getLinkHref() );
-            link.setText( sdkPackageSettings.getLinkText() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkText() );
-            link.setTitle( sdkPackageSettings.getLinkTooltip() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkTooltip() );
+            link.setHref(sdkPackageSettings.getLinkHref());
+            link.setText(sdkPackageSettings.getLinkText() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkText());
+            link.setTitle(sdkPackageSettings.getLinkTooltip() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkTooltip());
             ceremonySettings.setHandOver(link);
         }
 
-        if ( sdkPackageSettings.getShowDialogOnComplete() != null ) {
+        if (sdkPackageSettings.getShowDialogOnComplete() != null) {
             CeremonyEvents ceremonyEvents = new CeremonyEvents();
             CeremonyEventComplete ceremonyEventComplete = new CeremonyEventComplete();
             ceremonyEventComplete.setDialog(sdkPackageSettings.getShowDialogOnComplete());
@@ -87,18 +95,18 @@ public class DocumentPackageSettingsConverter {
             ceremonySettings.setEvents(ceremonyEvents);
         }
 
-        if ( sdkPackageSettings.getShowDocumentToolbarDownloadButton() != null ) {
+        if (sdkPackageSettings.getShowDocumentToolbarDownloadButton() != null) {
             DocumentToolbarOptions documentToolbarOptions = new DocumentToolbarOptions();
             documentToolbarOptions.setDownloadButton(sdkPackageSettings.getShowDocumentToolbarDownloadButton());
             ceremonySettings.setDocumentToolbarOptions(documentToolbarOptions);
         }
 
-        if ( sdkPackageSettings.getCeremonyLayoutSettings() != null ) {
+        if (sdkPackageSettings.getCeremonyLayoutSettings() != null) {
             ceremonySettings.setLayout(new CeremonyLayoutSettingsConverter(sdkPackageSettings.getCeremonyLayoutSettings()).toAPILayoutOptions());
         }
 
         PackageSettings result = new PackageSettings();
-        result.setCeremony( ceremonySettings );
+        result.setCeremony(ceremonySettings);
 
         return result;
 
@@ -125,23 +133,23 @@ public class DocumentPackageSettingsConverter {
         result.getDeclineReasons().addAll(apiPackageSettings.getCeremony().getDeclineReasons());
         result.getOptOutReasons().addAll(apiPackageSettings.getCeremony().getOptOutReasons());
 
-        if (apiPackageSettings.getCeremony().getHideLanguageDropdown() != null ) {
+        if (apiPackageSettings.getCeremony().getHideLanguageDropdown() != null) {
             result.setShowLanguageDropDown(!apiPackageSettings.getCeremony().getHideLanguageDropdown());
         }
 
-        if ( apiPackageSettings.getCeremony().getHidePackageOwnerInPerson() != null ) {
+        if (apiPackageSettings.getCeremony().getHidePackageOwnerInPerson() != null) {
             result.setShowPackageOwnerInPerson(!apiPackageSettings.getCeremony().getHidePackageOwnerInPerson());
         }
 
-        if ( apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit() != null ) {
+        if (apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit() != null) {
             result.setEnableFirstAffidavit(!apiPackageSettings.getCeremony().getDisableFirstInPersonAffidavit());
         }
 
-        if ( apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit() != null ) {
+        if (apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit() != null) {
             result.setEnableSecondAffidavit(!apiPackageSettings.getCeremony().getDisableSecondInPersonAffidavit());
         }
 
-        if ( apiPackageSettings.getCeremony().getMaxAuthFailsAllowed() != null ) {
+        if (apiPackageSettings.getCeremony().getMaxAuthFailsAllowed() != null) {
             result.setMaxAuthAttempts(apiPackageSettings.getCeremony().getMaxAuthFailsAllowed());
         }
 
@@ -166,13 +174,17 @@ public class DocumentPackageSettingsConverter {
             result.setDisableOptOutOther(apiPackageSettings.getCeremony().getDisableOptOutOther());
         }
 
+        if (apiPackageSettings.getCeremony().getEnforceCaptureSignature() != null) {
+            result.setEnforceCaptureSignature(apiPackageSettings.getCeremony().getEnforceCaptureSignature());
+        }
+
         if (apiPackageSettings.getCeremony().getAda() != null) {
             result.setAda(apiPackageSettings.getCeremony().getAda());
         }
 
-        result.setCeremonyLayoutSettings( new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings() );
+        result.setCeremonyLayoutSettings(new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings());
 
         return result;
     }
-    
+
 }

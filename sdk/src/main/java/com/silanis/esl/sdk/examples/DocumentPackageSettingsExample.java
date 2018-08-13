@@ -28,7 +28,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
 
     @Override
     public void execute() {
-        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream( "taggedDocument.pdf" );
+        documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("taggedDocument.pdf");
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withSettings(newDocumentPackageSettings()
@@ -42,6 +42,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                 .withDeclineReason(DECLINE_REASON_2)
                                 .withDeclineReason(DECLINE_REASON_3)
                                 .withOptOut()
+                                .withEnforceCaptureSignature()
                                 .withAda()
                                 .withOptOutReason(OPT_OUT_REASON_1)
                                 .withOptOutReason(OPT_OUT_REASON_2)

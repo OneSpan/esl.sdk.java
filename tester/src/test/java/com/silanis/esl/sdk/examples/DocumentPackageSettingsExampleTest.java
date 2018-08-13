@@ -39,8 +39,8 @@ public class DocumentPackageSettingsExampleTest {
         List<String> optOutReasons = documentPackageSettings.getOptOutReasons();
 
         assertThat("Opt out reason is not set properly:", optOutReasons.contains(OPT_OUT_REASON_1) ||
-                                                          optOutReasons.contains(OPT_OUT_REASON_2) ||
-                                                          optOutReasons.contains(OPT_OUT_REASON_3));
+                optOutReasons.contains(OPT_OUT_REASON_2) ||
+                optOutReasons.contains(OPT_OUT_REASON_3));
         assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(HAND_OVER_LINK_HREF));
         assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(HAND_OVER_LINK_TEXT));
         assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(HAND_OVER_LINK_TOOLTIP));
@@ -51,6 +51,7 @@ public class DocumentPackageSettingsExampleTest {
         assertFalse("Hide language drop list.", documentPackageSettings.getShowLanguageDropDown());
         assertTrue("Disable DeclineOther was not set correctly.", documentPackageSettings.getDisableDeclineOther());
         assertTrue("Disable OptOutOther was not set correctly.", documentPackageSettings.getDisableOptOutOther());
+        assertTrue("EnforceCaptureSignature was not set correctly.", documentPackageSettings.getEnforceCaptureSignature());
         assertTrue("ADA was not set correctly.", documentPackageSettings.getAda());
     }
 }

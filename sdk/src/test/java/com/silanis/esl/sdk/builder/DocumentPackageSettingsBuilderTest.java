@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -116,6 +114,10 @@ public class DocumentPackageSettingsBuilderTest {
         documentPackageSettings = newDocumentPackageSettings().withWatermark().build();
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
         assertFalse("hideWatermark was not set correctly", documentPackageSettings.getHideWatermark());
+
+        documentPackageSettings = newDocumentPackageSettings().withEnforceCaptureSignature().build();
+        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertTrue("enforceCaptureSignature was not set correctly", documentPackageSettings.getEnforceCaptureSignature());
 
         documentPackageSettings = newDocumentPackageSettings().withAda().build();
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());

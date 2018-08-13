@@ -11,7 +11,6 @@ import java.util.List;
  * Builder object used to customize the signing ceremony.
  * <p>
  * This object allows to customize the signing ceremony with certain UI widgets of customization options.
- *
  */
 public class DocumentPackageSettingsBuilder {
     private Boolean enableInPerson = null;
@@ -30,6 +29,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean enableSecondAffidavit = null;
     private Boolean disableDeclineOther = null;
     private Boolean disableOptOutOther = null;
+    private Boolean enforceCaptureSignature = null;
     private Boolean ada = null;
 
     private String linkText = null;
@@ -54,6 +54,7 @@ public class DocumentPackageSettingsBuilder {
         showPackageOwnerInPerson = true;
         return this;
     }
+
     /**
      * Removes the owner of the package from the list of users, when switching users during an inPerson signing ceremony.
      */
@@ -110,8 +111,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Disables displaying the completion dialog after completing the signing ceremony.
      *
-     * @see #withDialogOnComplete()
      * @return This
+     * @see #withDialogOnComplete()
      */
     public DocumentPackageSettingsBuilder withoutDialogOnComplete() {
         showDialogOnComplete = false;
@@ -138,8 +139,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Disables switching signer during the same signature session.
      *
-     * @see #withInPerson()
      * @return This
+     * @see #withInPerson()
      */
     public DocumentPackageSettingsBuilder withoutInPerson() {
         enableInPerson = false;
@@ -163,8 +164,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Disables the option for a signer to decline signing electronically.
      *
-     * @see #withOptOut()
      * @return This
+     * @see #withOptOut()
      */
     public DocumentPackageSettingsBuilder withoutOptOut() {
         enableOptOut = false;
@@ -188,8 +189,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Disables the option for a signer to decline the signing ceremony as a whole.
      *
-     * @see #withDecline()
      * @return This
+     * @see #withDecline()
      */
     public DocumentPackageSettingsBuilder withoutDecline() {
         enableDecline = false;
@@ -213,8 +214,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Disables the option to stamp the signed documents with the eSignLive logo at each location they were signed.
      *
-     * @see #withWatermark()
      * @return This
+     * @see #withWatermark()
      */
     public DocumentPackageSettingsBuilder withoutWatermark() {
         hideWatermark = true;
@@ -286,8 +287,8 @@ public class DocumentPackageSettingsBuilder {
      * @param href URL to where the user will be redirected upon clicking on the link. @size(max="255")
      * @return This
      */
-    public DocumentPackageSettingsBuilder withHandOverLinkHref( String href ) {
-        Asserts.notNullOrEmpty( href, "href" );
+    public DocumentPackageSettingsBuilder withHandOverLinkHref(String href) {
+        Asserts.notNullOrEmpty(href, "href");
         linkHref = href;
 
         //If no protocol was specified, we assume https
@@ -303,12 +304,13 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      * DEFAULT: DISABLED
      * <p>
-     * @see #withHandOverLinkHref(String)
+     *
      * @param text text displayed to represent the handoverlink href on the eSignLive UI. @size(max="255")
      * @return This
+     * @see #withHandOverLinkHref(String)
      */
 
-    public DocumentPackageSettingsBuilder withHandOverLinkText( String text ) {
+    public DocumentPackageSettingsBuilder withHandOverLinkText(String text) {
         linkText = text;
         return this;
     }
@@ -321,13 +323,12 @@ public class DocumentPackageSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      *
-     * @see #withHandOverLinkHref(String)
-     * @param tooltip
-     *            text displayed to represent the handoverlink href tool tip on
-     *            the eSignLive UI. @size(max="255")
+     * @param tooltip text displayed to represent the handoverlink href tool tip on
+     *                the eSignLive UI. @size(max="255")
      * @return This
+     * @see #withHandOverLinkHref(String)
      */
-    public DocumentPackageSettingsBuilder withHandOverLinkTooltip( String tooltip ) {
+    public DocumentPackageSettingsBuilder withHandOverLinkTooltip(String tooltip) {
         linkTooltip = tooltip;
         return this;
     }
@@ -338,8 +339,8 @@ public class DocumentPackageSettingsBuilder {
      * @param ceremonyLayoutSettingsBuilder
      * @return This
      */
-    public DocumentPackageSettingsBuilder withCeremonyLayoutSettings( CeremonyLayoutSettingsBuilder ceremonyLayoutSettingsBuilder ) {
-        return withCeremonyLayoutSettings( ceremonyLayoutSettingsBuilder.build() );
+    public DocumentPackageSettingsBuilder withCeremonyLayoutSettings(CeremonyLayoutSettingsBuilder ceremonyLayoutSettingsBuilder) {
+        return withCeremonyLayoutSettings(ceremonyLayoutSettingsBuilder.build());
     }
 
     /**
@@ -348,7 +349,7 @@ public class DocumentPackageSettingsBuilder {
      * @param ceremonyLayoutSettings
      * @return This
      */
-    public DocumentPackageSettingsBuilder withCeremonyLayoutSettings( CeremonyLayoutSettings ceremonyLayoutSettings ) {
+    public DocumentPackageSettingsBuilder withCeremonyLayoutSettings(CeremonyLayoutSettings ceremonyLayoutSettings) {
         this.ceremonyLayoutSettings = ceremonyLayoutSettings;
         return this;
     }
@@ -361,28 +362,29 @@ public class DocumentPackageSettingsBuilder {
     public DocumentPackageSettings build() {
         DocumentPackageSettings result = new DocumentPackageSettings();
 
-        result.setEnableInPerson( enableInPerson );
-        result.setEnableOptOut( enableOptOut );
-        result.setEnableDecline( enableDecline );
-        result.setHideWatermark( hideWatermark );
-        result.setHideCaptureText( hideCaptureText );
-        result.getDeclineReasons().addAll( declineReasons );
-        result.getOptOutReasons().addAll( optOutReasons );
-        result.setMaxAuthAttempts( maxAuthAttempts );
-        result.setShowDocumentToolbarDownloadButton( showDocumentToolbarDownloadButton );
-        result.setShowDialogOnComplete( showDialogOnComplete );
-        result.setEnableFirstAffidavit( enableFirstAffidavit);
-        result.setEnableSecondAffidavit( enableSecondAffidavit);
-        result.setShowLanguageDropDown( showLanguageDropDown);
-        result.setShowPackageOwnerInPerson( showPackageOwnerInPerson);
-        result.setLinkHref( linkHref );
-        result.setLinkText( linkText );
-        result.setLinkTooltip( linkTooltip );
-        result.setDisableDeclineOther( disableDeclineOther );
-        result.setDisableOptOutOther( disableOptOutOther );
-        result.setAda( ada );
+        result.setEnableInPerson(enableInPerson);
+        result.setEnableOptOut(enableOptOut);
+        result.setEnableDecline(enableDecline);
+        result.setHideWatermark(hideWatermark);
+        result.setHideCaptureText(hideCaptureText);
+        result.getDeclineReasons().addAll(declineReasons);
+        result.getOptOutReasons().addAll(optOutReasons);
+        result.setMaxAuthAttempts(maxAuthAttempts);
+        result.setShowDocumentToolbarDownloadButton(showDocumentToolbarDownloadButton);
+        result.setShowDialogOnComplete(showDialogOnComplete);
+        result.setEnableFirstAffidavit(enableFirstAffidavit);
+        result.setEnableSecondAffidavit(enableSecondAffidavit);
+        result.setShowLanguageDropDown(showLanguageDropDown);
+        result.setShowPackageOwnerInPerson(showPackageOwnerInPerson);
+        result.setLinkHref(linkHref);
+        result.setLinkText(linkText);
+        result.setLinkTooltip(linkTooltip);
+        result.setDisableDeclineOther(disableDeclineOther);
+        result.setDisableOptOutOther(disableOptOutOther);
+        result.setEnforceCaptureSignature(enforceCaptureSignature);
+        result.setAda(ada);
 
-        result.setCeremonyLayoutSettings( ceremonyLayoutSettings );
+        result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
 
         return result;
     }
@@ -397,8 +399,8 @@ public class DocumentPackageSettingsBuilder {
      * @param reason @size(max="255")
      * @return This
      */
-    public DocumentPackageSettingsBuilder withDeclineReason( String reason ) {
-        declineReasons.add( reason );
+    public DocumentPackageSettingsBuilder withDeclineReason(String reason) {
+        declineReasons.add(reason);
         return this;
     }
 
@@ -410,12 +412,12 @@ public class DocumentPackageSettingsBuilder {
      * reasons.
      * <p>
      *
-     * @see #withOptOut()
      * @param reason @size(max="255")
      * @return This
+     * @see #withOptOut()
      */
-    public DocumentPackageSettingsBuilder withOptOutReason( String reason ) {
-        optOutReasons.add( reason );
+    public DocumentPackageSettingsBuilder withOptOutReason(String reason) {
+        optOutReasons.add(reason);
         return this;
     }
 
@@ -436,8 +438,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Removes the download link that appears after the signer completed the signing ceremony
      *
-     * @see #withDocumentToolbarDownloadButton()
      * @return This
+     * @see #withDocumentToolbarDownloadButton()
      */
     public DocumentPackageSettingsBuilder withoutDocumentToolbarDownloadButton() {
         showDocumentToolbarDownloadButton = false;
@@ -460,8 +462,8 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Removes an other option in decline reason
      *
-     * @see #withDeclineOther()
      * @return This
+     * @see #withDeclineOther()
      */
     public DocumentPackageSettingsBuilder withoutDeclineOther() {
         disableDeclineOther = true;
@@ -484,12 +486,35 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Removes an other option in opt out reason
      *
-     * @see #withOptOutOther()
      * @return This
+     * @see #withOptOutOther()
      */
     public DocumentPackageSettingsBuilder withoutOptOutOther() {
         disableOptOutOther = true;
         return this;
     }
 
+    /**
+     * Enforce capture signature
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withEnforceCaptureSignature() {
+        enforceCaptureSignature = true;
+        return this;
+    }
+
+    /**
+     * Disable enforce capture signature
+     *
+     * @return This
+     * @see #withOptOutOther()
+     */
+    public DocumentPackageSettingsBuilder withoutEnforceCaptureSignature() {
+        enforceCaptureSignature = false;
+        return this;
+    }
 }

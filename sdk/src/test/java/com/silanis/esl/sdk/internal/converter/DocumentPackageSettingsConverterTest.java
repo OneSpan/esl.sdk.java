@@ -111,6 +111,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
         assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
         assertThat("Max auth fails allowed was not correctly set",apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(sdkPackageSettings1.getMaxAuthAttempts()));
+        assertThat("Enforce capture signature flag was not correctly set",apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
 
         assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
         assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
@@ -145,6 +146,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
         assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
         assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
+        assertThat("Enforce capture signature flag was not correctly set",apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
         assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
         assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
         assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
@@ -184,6 +186,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withHandOverLinkText( "click here" )
                 .withHandOverLinkTooltip( "link tooltip" )
                 .withDialogOnComplete()
+                .withEnforceCaptureSignature()
                 .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
                         .withoutGlobalDownloadButton()
                         .withoutGlobalConfirmButton()
@@ -229,6 +232,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setDisableSecondInPersonAffidavit( true);
         apiCeremonySettings.setHideLanguageDropdown(true);
         apiCeremonySettings.setHidePackageOwnerInPerson(true);
+        apiCeremonySettings.setEnforceCaptureSignature(true);
 
         Style style = new Style();
         style.setBackgroundColor("white");
