@@ -31,7 +31,7 @@ public class ProxyConfigurationExample extends SDKSample {
     private ProxyConfiguration httpProxyConfiguration, httpProxyWithCredentialsConfiguration;
     public DocumentPackage retrievedPackage1, retrievedPackage2;
 
-    public static void main( String... args ) {
+    public static void main(String... args) {
         new ProxyConfigurationExample(Props.get()).run();
     }
 
@@ -40,19 +40,19 @@ public class ProxyConfigurationExample extends SDKSample {
                 props.getProperty("api.url"));
     }
 
-    public ProxyConfigurationExample( String apiKey, String apiUrl) {
-        super( apiKey, apiUrl );
+    public ProxyConfigurationExample(String apiKey, String apiUrl) {
+        super(apiKey, apiUrl);
 
         httpProxyConfiguration = newProxyConfiguration()
-                                    .withHttpHost(proxyHost)
-                                    .withHttpPort(proxyPort)
-                                    .build();
+                .withHttpHost(proxyHost)
+                .withHttpPort(proxyPort)
+                .build();
 
         httpProxyWithCredentialsConfiguration = newProxyConfiguration()
-                                    .withHttpHost(proxyWithCredentialsHost)
-                                    .withHttpPort(proxyWithCredentialsPort)
-                                    .withCredentials(proxyUserName, proxyPassword)
-                                    .build();
+                .withHttpHost(proxyWithCredentialsHost)
+                .withHttpPort(proxyWithCredentialsPort)
+                .withCredentials(proxyUserName, proxyPassword)
+                .build();
 
         eslClientWithHttpProxy = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyConfiguration);
         eslClientWithHttpProxyHasCredentials = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyWithCredentialsConfiguration);
@@ -66,13 +66,13 @@ public class ProxyConfigurationExample extends SDKSample {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
-                                    .withFirstName("John")
-                                    .withLastName("Smith"))
+                        .withFirstName("John")
+                        .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document pdf")
-                                      .fromStream(documentInputStream1, DocumentType.PDF)
-                                      .withSignature(signatureFor(email1)
-                                                             .onPage(0)
-                                                             .atPosition(100, 100)))
+                        .fromStream(documentInputStream1, DocumentType.PDF)
+                        .withSignature(signatureFor(email1)
+                                .onPage(0)
+                                .atPosition(100, 100)))
                 .build();
 
         PackageId packageId1 = eslClientWithHttpProxy.createAndSendPackage(package1);
@@ -87,13 +87,13 @@ public class ProxyConfigurationExample extends SDKSample {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
-                                    .withFirstName("John")
-                                    .withLastName("Smith"))
+                        .withFirstName("John")
+                        .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document pdf")
-                                      .fromStream(documentInputStream2, DocumentType.PDF)
-                                      .withSignature(signatureFor(email1)
-                                                             .onPage(0)
-                                                             .atPosition(100, 100)))
+                        .fromStream(documentInputStream2, DocumentType.PDF)
+                        .withSignature(signatureFor(email1)
+                                .onPage(0)
+                                .atPosition(100, 100)))
                 .build();
 
         PackageId packageId2 = eslClientWithHttpProxyHasCredentials.createAndSendPackage(package2);
@@ -105,17 +105,17 @@ public class ProxyConfigurationExample extends SDKSample {
     private HttpProxyServer startHttpProxyWithCredentials(int port, final String acceptedUsername, final String acceptedPassword) {
         final HttpProxyServer httpProxyServer = bootstrap().
                 withPort(port).withProxyAuthenticator(new ProxyAuthenticator() {
-                  @Override
-                  public boolean authenticate(String s1, String s2) {
-                      return acceptedUsername.equals(s1) && acceptedPassword.equals(s2);
-                  }
+            @Override
+            public boolean authenticate(String s1, String s2) {
+                return acceptedUsername.equals(s1) && acceptedPassword.equals(s2);
+            }
 
             @Override
             public String getRealm() {
                 return null;
             }
         }).
-              start();
+                start();
         return httpProxyServer;
     }
 }

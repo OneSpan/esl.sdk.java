@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.notNullValue;
 public class ProxyConfigurationExampleTest {
 
     @Test
-    public void verifyResult() throws Exception {
+    public void verifyResult() {
         ProxyConfigurationExample example = new ProxyConfigurationExample(Props.get());
         example.run();
 

@@ -20,6 +20,7 @@ import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,9 @@ public class EslClient {
     private SigningService signingService;
     private SignerVerificationService signerVerificationService;
 
+    public static final String API_KEY = "apiKey";
+    public static final String BASE_URL = "baseURL";
+
     /**
      * The constructor of the EslClient class
      *
@@ -66,8 +70,8 @@ public class EslClient {
      * @param baseURL the eSignLive base url
      */
     public EslClient(String apiKey, String baseURL) {
-        Asserts.notNullOrEmpty(apiKey, "apiKey");
-        Asserts.notNullOrEmpty(baseURL, "baseURL");
+        Asserts.notNullOrEmpty(apiKey, API_KEY);
+        Asserts.notNullOrEmpty(baseURL, BASE_URL);
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey);
@@ -86,8 +90,8 @@ public class EslClient {
     }
 
     public EslClient(String apiKey, String baseURL, String webpageURL, boolean allowAllSSLCertificates) {
-        Asserts.notNullOrEmpty(apiKey, "apiKey");
-        Asserts.notNullOrEmpty(baseURL, "baseURL");
+        Asserts.notNullOrEmpty(apiKey, API_KEY);
+        Asserts.notNullOrEmpty(baseURL, BASE_URL);
         Asserts.notNullOrEmpty(webpageURL, "webpageURL");
         setBaseURL(baseURL);
         this.webpageURL = webpageURL;
@@ -104,11 +108,16 @@ public class EslClient {
     }
 
     public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
-        Asserts.notNullOrEmpty(apiKey, "apiKey");
-        Asserts.notNullOrEmpty(baseURL, "baseURL");
+        this(apiKey, baseURL, allowAllSSLCertificates, proxyConfiguration, false, new HashMap<String, String>());
+    }
+
+    public EslClient(String apiKey, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration,
+                     boolean useSystemProperties, Map<String, String> headers) {
+        Asserts.notNullOrEmpty(apiKey, API_KEY);
+        Asserts.notNullOrEmpty(baseURL, BASE_URL);
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
-        RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration);
+        RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
         init(client);
     }
 
@@ -282,7 +291,7 @@ public class EslClient {
      * <p>Configure the document visibility.</p>
      *
      * @param packageId
-     * @param visibility	the document visibility
+     * @param visibility the document visibility
      */
     public void configureDocumentVisibility(PackageId packageId, DocumentVisibility visibility) {
         packageService.configureDocumentVisibility(packageId, visibility);
@@ -320,9 +329,7 @@ public class EslClient {
         }
         Collection<Document> documents = documentPackage.getDocuments();
 
-        PackageId id = packageService.createPackageOneStep(packageToCreate, documents);
-
-        return id;
+        return packageService.createPackageOneStep(packageToCreate, documents);
     }
 
     /**
@@ -520,7 +527,7 @@ public class EslClient {
      * @deprecated Use the {@link com.silanis.esl.sdk.service.AuthenticationTokensService#createSignerAuthenticationToken}.
      */
     @Deprecated
-    public SessionToken createSignerSessionToken(PackageId packageId, String signerId) throws EslException {
+    public SessionToken createSignerSessionToken(PackageId packageId, String signerId) {
         return sessionService.createSessionToken(packageId.getId(), signerId);
     }
 
@@ -531,12 +538,12 @@ public class EslClient {
      *
      * @param packageId the package ID
      * @param signerId  the signer ID
-     * @throws EslException
      * @return the session token
+     * @throws EslException
      * @deprecated Use the {@link com.silanis.esl.sdk.service.AuthenticationTokensService#createSignerAuthenticationToken}.
      */
     @Deprecated
-    public SessionToken createSessionToken(PackageId packageId, String signerId) throws EslException {
+    public SessionToken createSessionToken(PackageId packageId, String signerId) {
         return sessionService.createSessionToken(packageId.getId(), signerId);
     }
 
@@ -550,19 +557,19 @@ public class EslClient {
 
     /**
      * @param packageId The document package identifier
-     * @param signerId	the signer ID
+     * @param signerId  the signer ID
      * @return the document list based on document visibility for the specific signer
      */
-    public List<Document> getDocuments( PackageId packageId, String signerId ) {
+    public List<Document> getDocuments(PackageId packageId, String signerId) {
         return packageService.getDocuments(packageId, signerId);
     }
 
     /**
-     * @param packageId The document package identifier
-     * @param documentId	the document ID
+     * @param packageId  The document package identifier
+     * @param documentId the document ID
      * @return the signer list based on document visibility for the specific document
      */
-    public List<Signer> getSigners( PackageId packageId, String documentId ) {
+    public List<Signer> getSigners(PackageId packageId, String documentId) {
         return packageService.getSigners(packageId, documentId);
     }
 
@@ -629,7 +636,7 @@ public class EslClient {
     }
 
     public List<Document> uploadDocuments(PackageId packageId, List<Document> documents) {
-        if(documents.isEmpty()) {
+        if (documents.isEmpty()) {
             return Collections.emptyList();
         } else {
             return packageService.uploadDocuments(packageId.getId(), documents);
@@ -668,8 +675,7 @@ public class EslClient {
     public SignerVerification getSignerVerification(PackageId packageId, String roleId) {
         Verification verification = signerVerificationService.getSignerVerification(packageId.getId(), roleId);
 
-        SignerVerification signerVerification = new SignerVerificationConverter().toSDKSignerVerification(verification);
-        return signerVerification;
+        return new SignerVerificationConverter().toSDKSignerVerification(verification);
     }
 
     public void updateSignerVerification(PackageId packageId, String roleId, SignerVerification signerVerification) {
