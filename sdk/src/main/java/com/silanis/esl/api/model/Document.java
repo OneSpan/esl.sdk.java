@@ -1,18 +1,20 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.Sets;
+import com.silanis.esl.api.util.SchemaSanitizer;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
-import com.silanis.esl.api.util.SchemaSanitizer;
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Document extends Entity
-      implements java.io.Serializable
-{
-    
+        implements java.io.Serializable {
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_APPROVALS = "approvals";
@@ -39,11 +41,20 @@ public class Document extends Entity
     @JsonIgnore
     public static final String FIELD_SIZE = "size";
     @JsonIgnore
+    public static final String FIELD_STATUS = "status";
+    @JsonIgnore
+    public static final String FIELD_SIGNED_HASH = "signedHash";
+    @JsonIgnore
+    public static final String FIELD_SIGNER_VERIFICATION_TOKEN = "signerVerificationToken";
+    @JsonIgnore
     public static final String FIELD_TAGGED = "tagged";
-    
+
     // Empty Constructor
-    public Document ( ) {}
-    
+    public Document() {
+    }
+
+    private String status = "";
+
     // Fields
     protected List<Approval> _approvals = new ArrayList<Approval>();
     protected String _description = "";
@@ -54,54 +65,76 @@ public class Document extends Entity
     protected Integer _index = 0;
     protected List<Page> _pages = new ArrayList<Page>();
     protected Integer _size = 0;
+    protected String _signedHash;
+    protected String _signerVerificationToken;
     protected Boolean _tagged = false;
-    
+
     // Accessors
-        
-    
-    public Document setApprovals( List<Approval> value ){
-        SchemaSanitizer.throwOnNull(FIELD_APPROVALS,value);
+
+
+    public Document setStatus(String value) {
+        value = SchemaSanitizer.trim(value);
+        this.status = value;
+        setDirty(FIELD_STATUS);
+        return this;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+
+    public Document setApprovals(List<Approval> value) {
+        SchemaSanitizer.throwOnNull(FIELD_APPROVALS, value);
         // TODO With proper compare
         // if ( this._approvals == value ) return this;
         this._approvals = value;
         setDirty(FIELD_APPROVALS);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetApprovals( List<Approval> value ){
-        if ( value != null ) { this.setApprovals( value ); }
+    public Document safeSetApprovals(List<Approval> value) {
+        if (value != null) {
+            this.setApprovals(value);
+        }
         return this;
     }
-    public List<Approval> getApprovals(){
+
+    public List<Approval> getApprovals() {
         return _approvals;
     }
+
     // List adder
-    public Document addApproval( Approval value ){
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+    public Document addApproval(Approval value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
         this._approvals.add(value);
         setDirty(FIELD_APPROVALS);
         return this;
     }
-    
-        
-    
+
+
     @Override
-    public Document setData( Map<String, Object> value ){
+    public Document setData(Map<String, Object> value) {
         super.setData(value);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetData( Map<String, Object> value ){
-        if ( value != null ) { this.setData( value ); }
+    public Document safeSetData(Map<String, Object> value) {
+        if (value != null) {
+            this.setData(value);
+        }
         return this;
     }
-    
-        
-    
-    public Document setDescription( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_DESCRIPTION,value);
+
+
+    public Document setDescription(String value) {
+        SchemaSanitizer.throwOnNull(FIELD_DESCRIPTION, value);
         value = SchemaSanitizer.sanitize(value);
         value = SchemaSanitizer.trim(value);
         // TODO With proper compare
@@ -110,59 +143,69 @@ public class Document extends Entity
         setDirty(FIELD_DESCRIPTION);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetDescription( String value ){
-        if ( value != null ) { this.setDescription( value ); }
+    public Document safeSetDescription(String value) {
+        if (value != null) {
+            this.setDescription(value);
+        }
         return this;
     }
-    public String getDescription(){
+
+    public String getDescription() {
         return _description;
     }
-    
-        
-    
-    public Document setExternal( External value ){
+
+
+    public Document setExternal(External value) {
         // TODO With proper compare
         // if ( this._external == value ) return this;
         this._external = value;
         setDirty(FIELD_EXTERNAL);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetExternal( External value ){
-        if ( value != null ) { this.setExternal( value ); }
+    public Document safeSetExternal(External value) {
+        if (value != null) {
+            this.setExternal(value);
+        }
         return this;
     }
-    public External getExternal(){
+
+    public External getExternal() {
         return _external;
     }
-    
-        
-    
-    public Document setExtract( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_EXTRACT,value);
+
+
+    public Document setExtract(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_EXTRACT, value);
         // TODO With proper compare
         // if ( this._extract == value ) return this;
         this._extract = value;
         setDirty(FIELD_EXTRACT);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetExtract( Boolean value ){
-        if ( value != null ) { this.setExtract( value ); }
+    public Document safeSetExtract(Boolean value) {
+        if (value != null) {
+            this.setExtract(value);
+        }
         return this;
     }
-    public Boolean getExtract(){
+
+    public Boolean getExtract() {
         return _extract;
     }
+
     @JsonIgnore
-    public boolean evalExtract(){
+    public boolean evalExtract() {
         return _extract == null ? false : _extract.booleanValue();
     }
-
 
 
     public Document setExtractionTypes(Set<String> value) {
@@ -188,128 +231,188 @@ public class Document extends Entity
     }
 
 
-
-    public Document setFields( List<Field> value ){
-        SchemaSanitizer.throwOnNull(FIELD_FIELDS,value);
+    public Document setFields(List<Field> value) {
+        SchemaSanitizer.throwOnNull(FIELD_FIELDS, value);
         // TODO With proper compare
         // if ( this._fields == value ) return this;
         this._fields = value;
         setDirty(FIELD_FIELDS);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetFields( List<Field> value ){
-        if ( value != null ) { this.setFields( value ); }
+    public Document safeSetFields(List<Field> value) {
+        if (value != null) {
+            this.setFields(value);
+        }
         return this;
     }
-    public List<Field> getFields(){
+
+    public List<Field> getFields() {
         return _fields;
     }
+
     // List adder
-    public Document addField( Field value ){
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+    public Document addField(Field value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
         this._fields.add(value);
         setDirty(FIELD_FIELDS);
         return this;
     }
-    
-        
-    
+
+
     @Override
-    public Document setId( String value ){
+    public Document setId(String value) {
         super.setId(value);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetId( String value ){
-        if ( value != null ) { this.setId( value ); }
+    public Document safeSetId(String value) {
+        if (value != null) {
+            this.setId(value);
+        }
         return this;
     }
-    
-        
-    
-    public Document setIndex( Integer value ){
-        SchemaSanitizer.throwOnNull(FIELD_INDEX,value);
+
+
+    public Document setIndex(Integer value) {
+        SchemaSanitizer.throwOnNull(FIELD_INDEX, value);
         // TODO With proper compare
         // if ( this._index == value ) return this;
         this._index = value;
         setDirty(FIELD_INDEX);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetIndex( Integer value ){
-        if ( value != null ) { this.setIndex( value ); }
+    public Document safeSetIndex(Integer value) {
+        if (value != null) {
+            this.setIndex(value);
+        }
         return this;
     }
-    public Integer getIndex(){
+
+    public Integer getIndex() {
         return _index;
     }
-    
-        
-    
+
+
     @Override
-    public Document setName( String value ){
+    public Document setName(String value) {
         super.setName(value);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetName( String value ){
-        if ( value != null ) { this.setName( value ); }
+    public Document safeSetName(String value) {
+        if (value != null) {
+            this.setName(value);
+        }
         return this;
     }
-    
-        
-    
-    public Document setPages( List<Page> value ){
-        SchemaSanitizer.throwOnNull(FIELD_PAGES,value);
+
+
+    public Document setPages(List<Page> value) {
+        SchemaSanitizer.throwOnNull(FIELD_PAGES, value);
         // TODO With proper compare
         // if ( this._pages == value ) return this;
         this._pages = value;
         setDirty(FIELD_PAGES);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetPages( List<Page> value ){
-        if ( value != null ) { this.setPages( value ); }
+    public Document safeSetPages(List<Page> value) {
+        if (value != null) {
+            this.setPages(value);
+        }
         return this;
     }
-    public List<Page> getPages(){
+
+    public List<Page> getPages() {
         return _pages;
     }
+
     // List adder
-    public Document addPage( Page value ){
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
+    public Document addPage(Page value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
         this._pages.add(value);
         setDirty(FIELD_PAGES);
         return this;
     }
-    
-        
-    
-    public Document setSize( Integer value ){
-        SchemaSanitizer.throwOnNull(FIELD_SIZE,value);
+
+
+    public Document setSize(Integer value) {
+        SchemaSanitizer.throwOnNull(FIELD_SIZE, value);
         // TODO With proper compare
         // if ( this._size == value ) return this;
         this._size = value;
         setDirty(FIELD_SIZE);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Document safeSetSize( Integer value ){
-        if ( value != null ) { this.setSize( value ); }
+    public Document safeSetSize(Integer value) {
+        if (value != null) {
+            this.setSize(value);
+        }
         return this;
     }
-    public Integer getSize(){
+
+    public Integer getSize() {
         return _size;
     }
 
 
+    public Document setSignedHash(String value) {
+        this._signedHash = value;
+        setDirty(FIELD_SIGNED_HASH);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Document safeSetSignedHash(String value) {
+        if (value != null) {
+            this.setSignedHash(value);
+        }
+        return this;
+    }
+
+    public String getSignedHash() {
+        return _signedHash;
+    }
+
+
+    public Document setSignerVerificationToken(String value) {
+        this._signerVerificationToken = value;
+        setDirty(FIELD_SIGNER_VERIFICATION_TOKEN);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Document safeSetSignerVerificationToken(String value) {
+        if (value != null) {
+            this.setSignerVerificationToken(value);
+        }
+        return this;
+    }
+
+    public String getSignerVerificationToken() {
+        return _signerVerificationToken;
+    }
 
 
     public Document setTagged(Boolean value) {

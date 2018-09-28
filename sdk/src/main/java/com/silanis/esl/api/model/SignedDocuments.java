@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class SignedDocuments {
     private List<Document> documents = new ArrayList<Document>();
+    private String handdrawn = "";
 
     public List<Document> getDocuments() {
         return documents;
@@ -21,5 +22,13 @@ public class SignedDocuments {
     public SignedDocuments addDocument(Document document) {
         documents.add(document);
         return this;
+    }
+
+    public String getHanddrawn() {
+        return handdrawn;
+    }
+
+    public void setHanddrawn(String handdrawn) {
+        this.handdrawn = handdrawn;
     }
 }

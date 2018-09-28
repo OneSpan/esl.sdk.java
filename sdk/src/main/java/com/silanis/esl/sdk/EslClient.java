@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import com.silanis.esl.api.model.Package;
+import com.silanis.esl.api.model.SignedDocument;
 import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.api.model.Verification;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -339,11 +340,24 @@ public class EslClient {
      * @param documentName the document name of the document to sign
      */
     public void signDocument(PackageId packageId, String documentName) {
+        signDocument(packageId, documentName, new CapturedSignature(""));
+    }
+
+    /**
+     * Sign a document using current api key
+     *
+     * @param packageId         the package id
+     * @param documentName      the document name of the document to sign
+     * @param capturedSignature the captured signature string to use when signing
+     */
+    public void signDocument(PackageId packageId, String documentName, CapturedSignature capturedSignature) {
         com.silanis.esl.api.model.Package aPackage = packageService.getApiPackage(packageId.getId());
         for (com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
             if (document.getName().equals(documentName)) {
                 document.getApprovals().clear();
-                signingService.signDocument(packageId, document);
+                SignedDocument signedDocument = signingService.convertToSignedDocument(document);
+                signedDocument.setHanddrawn(capturedSignature.getHanddrawn());
+                signingService.signDocument(packageId, signedDocument);
             }
         }
     }
@@ -354,7 +368,18 @@ public class EslClient {
      * @param packageId the package id
      */
     public void signDocuments(PackageId packageId) {
+        signDocuments(packageId, new CapturedSignature(""));
+    }
+
+    /**
+     * Sign documents using current api key
+     *
+     * @param packageId         the package id
+     * @param capturedSignature the captured signature string to use when signing
+     */
+    public void signDocuments(PackageId packageId, CapturedSignature capturedSignature) {
         SignedDocuments signedDocuments = new SignedDocuments();
+        signedDocuments.setHanddrawn(capturedSignature.getHanddrawn());
         Package aPackage = packageService.getApiPackage(packageId.getId());
         for (com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
             document.getApprovals().clear();
@@ -370,6 +395,17 @@ public class EslClient {
      * @param signerId  the signer id
      */
     public void signDocuments(PackageId packageId, String signerId) {
+        signDocuments(packageId, signerId, new CapturedSignature(""));
+    }
+
+    /**
+     * Sign documents using signer id
+     *
+     * @param packageId         the package id
+     * @param signerId          the signer id
+     * @param capturedSignature the captured signature string to use when signing
+     */
+    public void signDocuments(PackageId packageId, String signerId, CapturedSignature capturedSignature) {
         String bulkSigningKey = "Bulk Signing on behalf of";
         Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
         signerSessionFields.put(bulkSigningKey, signerId);
@@ -379,6 +415,8 @@ public class EslClient {
         SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
         SignedDocuments signedDocuments = new SignedDocuments();
+        signedDocuments.setHanddrawn(capturedSignature.getHanddrawn());
+
         Package aPackage = packageService.getApiPackage(packageId.getId());
         for (com.silanis.esl.api.model.Document document : aPackage.getDocuments()) {
             document.getApprovals().clear();
