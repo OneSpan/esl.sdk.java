@@ -15,6 +15,7 @@ public class SenderInfoBuilder {
     private String lastName = null;
     private String company = null;
     private String title = null;
+    private String timezoneId = null;
 
     /**
      * Defines a new sender and uniquely identify him using his email address.
@@ -66,6 +67,11 @@ public class SenderInfoBuilder {
         return this;
     }
 
+    public SenderInfoBuilder withTimezoneId(String timezoneId ) {
+        this.timezoneId = timezoneId;
+        return this;
+    }
+
     /**
      * Builds the actual SenderInfo with the specified values
      *
@@ -78,6 +84,7 @@ public class SenderInfoBuilder {
         result.setLastName( lastName );
         result.setCompany( company );
         result.setTitle( title );
+        result.setTimezoneId( timezoneId );
 
         return result;
     }

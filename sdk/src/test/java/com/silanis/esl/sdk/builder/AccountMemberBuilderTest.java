@@ -22,7 +22,8 @@ public class AccountMemberBuilderTest {
                 .withCompany( "company" )
                 .withLanguage( "language" )
                 .withStatus(SenderStatus.ACTIVE)
-                .withPhoneNumber("phoneNumber");
+                .withPhoneNumber("phoneNumber")
+                .withTimezoneId( "Canada/Mountain" );
 
         AccountMember result = builder.build();
 
@@ -37,5 +38,6 @@ public class AccountMemberBuilderTest {
         assertThat( "phoneNumber was not set correctly", result.getPhoneNumber(), is( equalTo( "phoneNumber" ) ) );
         assertThat( "sender status was not set", result.getStatus().isPresent(), is (true));
         assertThat( "sender status was not set correctly", result.getStatus().get(), is( equalTo( SenderStatus.ACTIVE)));
+        assertThat( "timezone id was not set correctly", result.getTimezoneId(), is( equalTo( "Canada/Mountain" ) ) );
     }
 }

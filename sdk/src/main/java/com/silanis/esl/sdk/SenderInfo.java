@@ -6,6 +6,7 @@ public class SenderInfo {
     private String company;
     private String title;
     private String email;
+    private String timezoneId;
 
     public String getFirstName() {
         return firstName;
@@ -46,4 +47,8 @@ public class SenderInfo {
     public String getEmail() {
         return email;
     }
+
+    public String getTimezoneId() { return timezoneId; }
+
+    public void setTimezoneId(String timezoneId) { this.timezoneId = timezoneId; }
 }

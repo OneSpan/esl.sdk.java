@@ -26,6 +26,7 @@ public class PackageBuilder {
     private SenderInfo senderInfo = null;
     private DocumentPackageAttributes attributes;
     private Visibility visibility;
+    private String timezoneId;
 
     private static final String ORIGIN_KEY = "origin";
 
@@ -122,6 +123,11 @@ public class PackageBuilder {
         return this;
     }
 
+    public PackageBuilder withTimezoneId( String timezoneId ) {
+        this.timezoneId = timezoneId;
+        return this;
+    }
+
     /**
      * Builds the actual document package.
      *
@@ -162,6 +168,10 @@ public class PackageBuilder {
 
         if ( visibility != null ) {
             documentPackage.setVisibility(visibility);
+        }
+
+        if ( timezoneId != null ) {
+            documentPackage.setTimezoneId(timezoneId);
         }
 
         return documentPackage;

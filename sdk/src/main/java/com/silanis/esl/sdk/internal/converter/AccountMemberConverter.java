@@ -35,6 +35,9 @@ public class AccountMemberConverter {
             result.setTitle( optionalAccountMember.get().getTitle() );
             result.setLanguage( optionalAccountMember.get().getLanguage() );
             result.setPhone( optionalAccountMember.get().getPhoneNumber() );
+            if ( optionalAccountMember.get().getTimezoneId() != null ) {
+                result.setTimezoneId(optionalAccountMember.get().getTimezoneId());
+            }
             if (optionalAccountMember.get().getStatus().isPresent()) {
                 result.setStatus( new SenderStatusConverter(optionalAccountMember.get().getStatus().get()).toAPISenderStatus() );
             }
@@ -59,6 +62,7 @@ public class AccountMemberConverter {
             result.setTitle( optionalSender.get().getTitle() );
             result.setLanguage( optionalSender.get().getLanguage() );
             result.setPhoneNumber( optionalSender.get().getPhone() );
+            result.setTimezoneId( optionalSender.get().getTimezoneId() );
             result.setStatus( new SenderStatusConverter( optionalSender.get().getStatus() ).toSDKSenderStatus() );
 
             return result;

@@ -58,6 +58,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( sender.getLastName() ) ) );
         assertThat( "was not correctly set", result.getTitle(), is( equalTo( sender.getTitle() ) ) );
         assertThat( "status was not set", result.getStatus().isPresent(), is(true) );
+        assertThat( "timezone id was not correctly set", result.getTimezoneId(), is( equalTo( sender.getTimezoneId() ) ) );
         assertThat( "status was not correclty set", result.getStatus().get(), is (equalTo( com.silanis.esl.sdk.SenderStatus.ACTIVE )));
     }
 
@@ -74,6 +75,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         assertThat( "first name was not correctly set", result.getFirstName(), is( equalTo( member.getFirstName() ) ) );
         assertThat( "last name was not correctly set", result.getLastName(), is( equalTo( member.getLastName() ) ) );
         assertThat( "title was not correctly set", result.getTitle(), is( equalTo( member.getTitle() ) ) );
+        assertThat( "timezone id was not correctly set", result.getTimezoneId(), is( equalTo( member.getTimezoneId() ) ) );
         assertThat( "status was not correctly set", result.getStatus(), is( equalTo("ACTIVE")));
     }
 
@@ -86,6 +88,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         result.setFirstName( "first" );
         result.setLastName( "last" );
         result.setTitle( "title" );
+        result.setTimezoneId( "Canada/Mountain" );
         result.setStatus(com.silanis.esl.sdk.SenderStatus.ACTIVE);
         return result;
     }
@@ -99,6 +102,7 @@ public class AccountMemberConverterTest implements ConverterTest{
         result.setFirstName( "first" );
         result.setLastName( "last" );
         result.setTitle( "title" );
+        result.setTimezoneId( "Canada/Mountain" );
         result.setStatus("ACTIVE");
         return result;
     }

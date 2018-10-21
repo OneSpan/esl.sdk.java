@@ -37,6 +37,8 @@ public class Package extends BasePackage
     @JsonIgnore
     public static final String FIELD_LANGUAGE = "language";
     @JsonIgnore
+    public static final String FIELD_TIMEZONE_ID = "timezoneId";
+    @JsonIgnore
     public static final String FIELD_LIMITS = "limits";
     @JsonIgnore
     public static final String FIELD_MESSAGES = "messages";
@@ -228,7 +230,19 @@ public class Package extends BasePackage
         if ( value != null ) { this.setLanguage( value ); }
         return this;
     }
-    
+
+
+    @Override
+    public Package setTimezoneId( String value ){
+        super.setTimezoneId(value);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Package safeSetTimezoneId( String value ){
+        if ( value != null ) { this.setTimezoneId( value ); }
+        return this;
+    }
         
     
     @Override

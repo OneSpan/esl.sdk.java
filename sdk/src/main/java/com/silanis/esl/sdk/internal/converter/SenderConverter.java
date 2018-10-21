@@ -58,6 +58,9 @@ public class SenderConverter {
         if ( sdkSenderInfo.getTitle() != null ) {
             result.setTitle( sdkSenderInfo.getTitle() );
         }
+        if ( sdkSenderInfo.getTimezoneId() != null ) {
+            result.setTimezoneId( sdkSenderInfo.getTimezoneId() );
+        }
         return result;
     }
 
@@ -78,6 +81,7 @@ public class SenderConverter {
         result.setLastName(apiSender.getLastName());
         result.setCompany(apiSender.getCompany());
         result.setTitle(apiSender.getTitle());
+        result.setTimezoneId(apiSender.getTimezoneId());
 
         return result;
     }
@@ -107,6 +111,7 @@ public class SenderConverter {
         result.setTitle(apiSender.getTitle());
         result.setUpdated(apiSender.getUpdated());
         result.setExternal(new ExternalConverter(apiSender.getExternal()).toSDKExternal());
+        result.setTimezoneId(apiSender.getTimezoneId());
 
         return result;
     }

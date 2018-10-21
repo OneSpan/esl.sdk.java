@@ -19,6 +19,7 @@ public class AccountMemberBuilder {
     private String language;
     private String phoneNumber;
     private String title;
+    private String timezoneId;
     private Optional<SenderStatus> status = Optional.absent();
 
     private AccountMemberBuilder( String email ) {
@@ -122,6 +123,11 @@ public class AccountMemberBuilder {
         return this;
     }
 
+    public AccountMemberBuilder withTimezoneId( String timezoneId ) {
+        this.timezoneId = timezoneId;
+        return this;
+    }
+
     /**
      * Build the actual SenderInfo with the specified values
      *
@@ -138,6 +144,7 @@ public class AccountMemberBuilder {
         result.setLanguage(language);
         result.setPhoneNumber(phoneNumber);
         result.setTitle(title);
+        result.setTimezoneId(timezoneId);
         if ( status.isPresent() ) {
             result.setStatus(status.get());
         }

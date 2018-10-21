@@ -12,6 +12,7 @@ public class AccountMember {
     private String phoneNumber;
     private String title;
     private Optional<SenderStatus> status = Optional.absent();
+    private String timezoneId;
 
     public void setAddress( Address address ) {
         this.address = address;
@@ -84,4 +85,8 @@ public class AccountMember {
     public void setStatus(SenderStatus status) {
         this.status = Optional.of( status );
     }
+
+    public String getTimezoneId() { return timezoneId; }
+
+    public void setTimezoneId(String timezoneId) { this.timezoneId = timezoneId; }
 }

@@ -40,6 +40,7 @@ public class SenderManipulationExample extends SDKSample {
                     .withTitle( "title1" )
                     .withLanguage( "language1" )
                     .withPhoneNumber( "phoneNumber1" )
+                    .withTimezoneId( "GMT" )
                     .build();
 
         accountMember2 = AccountMemberBuilder.newAccountMember(email2)
@@ -76,6 +77,7 @@ public class SenderManipulationExample extends SDKSample {
                 .withName( "updatedFirstName", "updatedLastName" )
                 .withTitle( "updatedTitle" )
                 .withCompany("updatedCompany")
+                .withTimezoneId("Canada/Mountain")
                 .build();
 
         eslClient.getAccountService().updateSender(updatedSenderInfo, createdSender3.getId());

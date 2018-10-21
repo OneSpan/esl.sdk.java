@@ -49,6 +49,7 @@ public class BasicPackageCreationExampleTest {
         assertThat("Package description was not set correctly.", documentPackage.getDescription(), is(PACKAGE_DESC));
         assertThat( "Package expiry date was not set correctly.", documentPackage.getExpiryDate(), is(PACKAGE_EXPIRY) );
         assertThat( "Package message was not set correctly.", documentPackage.getPackageMessage(), is(PACKAGE_EMAIL_MSG) );
+        assertThat( "Package timezone id was not set correctly.", documentPackage.getTimezoneId(), is(PACKAGE_TIMEZONE_ID) );
 
         // Verify if the sdk version is set correctly
         assertThat("Package attributes are null", documentPackage.getAttributes(), notNullValue());

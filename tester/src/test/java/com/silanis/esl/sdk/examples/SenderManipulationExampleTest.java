@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Map;
 
 import static com.silanis.esl.sdk.Direction.ASCENDING;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -24,6 +25,7 @@ public class SenderManipulationExampleTest {
 
         // Invite three senders
         assertThat("Sender1's email was not set correctly.", example.retrievedSender1.getEmail(), is(example.email1));
+        assertThat("Sender1's timezone id was not set correctly.", example.retrievedSender1.getTimezoneId(), is(equalTo("GMT")));
         assertThat("Sender2's email was not set correctly.", example.retrievedSender2.getEmail(), is(example.email2));
         assertThat("Sender3's email was not set correctly.", example.retrievedSender3.getEmail(), is(example.email3));
 
@@ -37,6 +39,7 @@ public class SenderManipulationExampleTest {
         assertThat("Sender's last name was not updated properly", updateInfo.getLastName(), is(sender.getLastName()));
         assertThat("Sender's company was not updated properly", updateInfo.getCompany(), is(sender.getCompany()));
         assertThat("Sender's title was not updated properly", updateInfo.getTitle(), is(sender.getTitle()));
+        assertThat( "Sender's timezone id was not updated properly", updateInfo.getTimezoneId(), is(sender.getTimezoneId()));
     }
 
     private boolean assertSenderWasDeleted(String senderEmail) {

@@ -70,7 +70,8 @@ public class DocumentPackageConverter {
                 .safeSetDue(sdkPackage.getExpiryDate())
                 .safeSetAutocomplete(sdkPackage.getAutocomplete())
                 .safeSetNotarized(sdkPackage.getNotarized())
-                .safeSetTrashed(sdkPackage.getTrashed());
+                .safeSetTrashed(sdkPackage.getTrashed())
+                .safeSetTimezoneId(sdkPackage.getTimezoneId());
 
         if ( sdkPackage.getId() != null ) {
             result.setId(sdkPackage.getId().toString());
@@ -205,6 +206,10 @@ public class DocumentPackageConverter {
 
         if (apiPackage.getVisibility() != null) {
             packageBuilder.withVisibility(new VisibilityConverter(apiPackage.getVisibility()).toSDKVisibility());
+        }
+
+        if (apiPackage.getTimezoneId() != null) {
+            packageBuilder.withTimezoneId(apiPackage.getTimezoneId());
         }
         packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 

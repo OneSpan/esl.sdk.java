@@ -20,6 +20,7 @@ public class Sender {
     private String id;
     private String name;
     private External external;
+    private String timezoneId;
 
     public SenderStatus getStatus() {
         return status;
@@ -132,4 +133,8 @@ public class Sender {
     public void setExternal(External external) {
         this.external = external;
     }
+
+    public String getTimezoneId() { return timezoneId; }
+
+    public void setTimezoneId(String timezoneId) { this.timezoneId = timezoneId; }
 }

@@ -34,11 +34,13 @@ public class PackageBuilderTest {
                         .withAttribute( "age", "29" )
                         .withAttribute( "name", "first name" )
                         .build() )
+                .withTimezoneId( "Canada/Mountain" )
                 .build();
 
         assertThat( documentPackage.getName(), is( equalTo( "testing package" ) ) );
         assertThat( documentPackage.getSigner( "john.doe@acme.com" ), is( notNullValue() ) );
         assertThat( documentPackage.getDocument( "first doc" ), is( notNullValue() ) );
+        assertThat( documentPackage.getTimezoneId(), is( equalTo("Canada/Mountain" ) ) );
     }
 
     @Test

@@ -48,11 +48,18 @@ public class SenderInfoTest {
     }
 
     @Test
+    public void testTimezoneId() {
+        senderInfo.setTimezoneId( "Canada/Mountain" );
+        assertThat( "timezone id was not properly set or retrieved", senderInfo.getTimezoneId(), is( equalTo( "Canada/Mountain" ) ) );
+    }
+
+    @Test
     public void testToAPI() {
         senderInfo.setTitle( "title" );
         senderInfo.setCompany( "company" );
         senderInfo.setFirstName( "firstName" );
         senderInfo.setLastName( "lastName" );
+        senderInfo.setTimezoneId( "Canada/Mountain" );
 
         Sender sender = new SenderConverter(senderInfo).toAPISender();
 
@@ -60,5 +67,6 @@ public class SenderInfoTest {
         assertThat( "last name was not properly set or retrieved", sender.getLastName(), is( equalTo( "lastName" ) ) );
         assertThat( "company was not properly set or retrieved", sender.getCompany(), is( equalTo( "company" ) ) );
         assertThat( "title was not properly set or retrieved", sender.getTitle(), is( equalTo( "title" ) ) );
+        assertThat( "timezone id was not properly set or retrieved", sender.getTimezoneId(), is( equalTo( "Canada/Mountain" ) ) );
     }
 }
