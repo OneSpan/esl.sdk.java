@@ -26,6 +26,8 @@ public class Sender extends User
     @JsonIgnore
     public static final String FIELD_COMPANY = "company";
     @JsonIgnore
+    public static final String FIELD_TIMEZONE_ID = "timezoneId";
+    @JsonIgnore
     public static final String FIELD_CREATED = "created";
     @JsonIgnore
     public static final String FIELD_DATA = "data";
@@ -457,7 +459,19 @@ public class Sender extends User
         if ( value != null ) { this.setUpdated( value ); }
         return this;
     }
-    
+
+    @Override
+    public Sender setTimezoneId(String id) {
+        super.setTimezoneId(id);
+        return this;
+    }
+
+    @JsonIgnore
+    @Override
+    public Sender safeSetTimezoneId(String id) {
+        if ( id != null ) { this.setTimezoneId(id); }
+        return this;
+    }
         
     
     @Override

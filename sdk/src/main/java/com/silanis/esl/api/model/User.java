@@ -20,6 +20,8 @@ public class User extends Entity
     @JsonIgnore
     public static final String FIELD_COMPANY = "company";
     @JsonIgnore
+    public static final String FIELD_TIMEZONE_ID = "timezoneId";
+    @JsonIgnore
     public static final String FIELD_CREATED = "created";
     @JsonIgnore
     public static final String FIELD_DATA = "data";
@@ -58,6 +60,7 @@ public class User extends Entity
     // Fields
     protected Address _address = null;
     protected String _company = "";
+    protected String _timezoneId = "GMT";
     protected java.util.Date _created;
     protected String _email = "";
     protected External _external = null;
@@ -113,8 +116,28 @@ public class User extends Entity
     public String getCompany(){
         return _company;
     }
-    
-        
+
+    public User setTimezoneId(String value) {
+        SchemaSanitizer.throwOnNull(FIELD_TIMEZONE_ID, value);
+        value = SchemaSanitizer.sanitize(value);
+        value = SchemaSanitizer.trim(value);
+        this._timezoneId = value;
+        setDirty(FIELD_TIMEZONE_ID);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public User safeSetTimezoneId(String value) {
+        if (value != null) {
+            this.setTimezoneId(value);
+        }
+        return this;
+    }
+
+    public String getTimezoneId() {
+        return _timezoneId;
+    }
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public User setCreated( java.util.Date value ){

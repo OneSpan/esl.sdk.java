@@ -108,6 +108,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getContent())));
         assertThat("Sender email address was not correctly set", apiPackage1.getSender().getEmail(), is(equalTo(sdkDocumentPackage1.getSenderInfo().getEmail())));
         assertThat("Creation date was not correctly set", apiPackage1.getCreated(), is(sdkDocumentPackage1.getCreatedDate()));
+        assertThat("Timezone ID was not correctly set", apiPackage1.getTimezoneId(), is(sdkDocumentPackage1.getTimezoneId()));
     }
 
     @Override
@@ -126,6 +127,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Message was not correctly set", apiPackage1.getEmailMessage(), is( equalTo(sdkDocumentPackage1.getPackageMessage()) ));
         assertThat("Name was not correctly set", apiPackage1.getName(), is( equalTo(sdkDocumentPackage1.getName() ) ));
         assertThat("Status was not correctly set", apiPackage1.getStatus(), is( equalTo(sdkDocumentPackage1.getStatus().getApiValue() ) ));
+        assertThat("Timezone ID was not correctly set", apiPackage1.getTimezoneId(), is( equalTo(sdkDocumentPackage1.getTimezoneId() ) ));
     }
 
     /**
@@ -140,6 +142,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
                 .describedAs("typical description")
                 .withEmailMessage("typical email message")
                 .withLanguage(Locale.ENGLISH)
+                .withTimezoneId("Canada/Mountain")
                 .build();
         return sdkDocumentPackage;
     }
@@ -161,6 +164,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiDocumentPackage.setName("API package name");
         apiDocumentPackage.setStatus(PackageStatus.DRAFT.getApiValue());
         apiDocumentPackage.setCreated(new Date());
+        apiDocumentPackage.setTimezoneId("Canada/Mountain");
 
         Message apiMessage = new Message();
         apiMessage.setContent("opt-out reason");

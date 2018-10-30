@@ -12,7 +12,8 @@ public class SenderInfoBuilderTest {
         SenderInfoBuilder builder = SenderInfoBuilder.newSenderInfo( "abc@email.com" )
                 .withCompany( "company" )
                 .withTitle( "title" )
-                .withName( "firstName", "lastName" );
+                .withName( "firstName", "lastName" )
+                .withTimezoneId( "Canada/Mountain" );
 
         SenderInfo senderInfo = builder.build();
 
@@ -22,6 +23,7 @@ public class SenderInfoBuilderTest {
         assertThat( "first name was not set correctly", senderInfo.getFirstName(), is( equalTo( "firstName" ) ) );
         assertThat( "last name was not set correctly", senderInfo.getLastName(), is( equalTo( "lastName" ) ) );
         assertThat( "email was not set correctly", senderInfo.getEmail(), is( equalTo( "abc@email.com" ) ) );
+        assertThat( "timezone id was not set correctly", senderInfo.getTimezoneId(), is( equalTo( "Canada/Mountain")));
     }
 
     @Test (expected=NullPointerException.class)

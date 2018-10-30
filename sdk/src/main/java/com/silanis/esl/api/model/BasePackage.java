@@ -63,6 +63,8 @@ public class BasePackage extends Entity
     public static final String FIELD_VISIBILITY = "visibility";
     @JsonIgnore
     public static final String FIELD_CREATED = "created";
+    @JsonIgnore
+    public static final String FIELD_TIMEZONE_ID = "timezoneId";
     
     // Empty Constructor
     public BasePackage ( ) {}
@@ -88,6 +90,7 @@ public class BasePackage extends Entity
     protected java.util.Date _updated;
     protected String _visibility = "ACCOUNT";
     protected java.util.Date _created;
+    protected String _timezoneId;
     
     // Accessors
         
@@ -561,4 +564,19 @@ public class BasePackage extends Entity
         return _created;
     }
 
+    public BasePackage setTimezoneId( String value ){
+        this._timezoneId = value;
+        setDirty(FIELD_TIMEZONE_ID);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public BasePackage safeSetTimezoneId( String value ){
+        if ( value != null ) { this.setTimezoneId( value ); }
+        return this;
+    }
+
+    public String getTimezoneId(){
+        return _timezoneId;
+    }
 }

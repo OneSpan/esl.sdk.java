@@ -89,6 +89,7 @@ public class SenderConverterTest implements ConverterTest{
         assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getLastName())));
         assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getCompany())));
         assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTitle())));
+        assertThat( "timezone id was not properly set or retrieved", apiSender1.getTimezoneId(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTimezoneId())));
     }
 
     @Override
@@ -103,6 +104,7 @@ public class SenderConverterTest implements ConverterTest{
         assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getLastName())));
         assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getCompany())));
         assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTitle())));
+        assertThat( "timezone id was not properly set or retrieved", apiSender1.getTimezoneId(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTimezoneId())));
     }
 
     @Test
@@ -126,6 +128,7 @@ public class SenderConverterTest implements ConverterTest{
         assertThat("Sender external id is incorrect.", sdkSender.getExternal().getId(), is(apiSender1.getExternal().getId()));
         assertThat("Sender external provider is incorrect.", sdkSender.getExternal().getProvider(), is(apiSender1.getExternal().getProvider()));
         assertThat("Sender external provider name is incorrect.", sdkSender.getExternal().getProviderName(), is(apiSender1.getExternal().getProviderName()));
+        assertThat("Sender timezone id is incorrect.", sdkSender.getTimezoneId(), is(apiSender1.getTimezoneId()));
     }
 
     /**
@@ -140,6 +143,7 @@ public class SenderConverterTest implements ConverterTest{
         sdkSender.setCompany( "company" );
         sdkSender.setFirstName( "firstName" );
         sdkSender.setLastName( "lastName" );
+        sdkSender.setTimezoneId( "Canada/Mountain" );
 
         return sdkSender;
     }
@@ -156,6 +160,7 @@ public class SenderConverterTest implements ConverterTest{
         apiSender.setCompany("Sender company");
         apiSender.setFirstName("Sender first name");
         apiSender.setLastName("Sender last name");
+        apiSender.setTimezoneId("Canada/Mountain");
         apiSender.setExternal(new External().setId("externalId").setProvider("provider").setProviderName("providerName"));
 
         return apiSender;

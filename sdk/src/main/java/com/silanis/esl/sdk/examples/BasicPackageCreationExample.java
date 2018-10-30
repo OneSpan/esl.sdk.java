@@ -24,6 +24,7 @@ public class BasicPackageCreationExample extends SDKSample {
     public static final String PACKAGE_DESC = "This is a package created using the eSignLive SDK";
     public static final Date PACKAGE_EXPIRY = now().plusMonths(1).toDate();
     public static final String PACKAGE_EMAIL_MSG = "This message should be delivered to all signers";
+    public static final String PACKAGE_TIMEZONE_ID = "Canada/Mountain";
 
     public static final String SIGNER1_CUSTOM_ID = "Client1";
     public static final String SIGNER1_FIRST_NAME = "John";
@@ -47,6 +48,7 @@ public class BasicPackageCreationExample extends SDKSample {
         email2 = "CapitalLetters@email.com";
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
+                .withTimezoneId(PACKAGE_TIMEZONE_ID)
                 .describedAs(PACKAGE_DESC)
                 .expiresAt(PACKAGE_EXPIRY)
                 .withEmailMessage(PACKAGE_EMAIL_MSG)
