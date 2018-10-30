@@ -37,8 +37,6 @@ public class Package extends BasePackage
     @JsonIgnore
     public static final String FIELD_LANGUAGE = "language";
     @JsonIgnore
-    public static final String FIELD_TIMEZONE_ID = "timezoneId";
-    @JsonIgnore
     public static final String FIELD_LIMITS = "limits";
     @JsonIgnore
     public static final String FIELD_MESSAGES = "messages";
@@ -68,17 +66,17 @@ public class Package extends BasePackage
     public static final String FIELD_VISIBILITY = "visibility";
     @JsonIgnore
     public static final String FIELD_CREATED = "created";
-    
+
     // Empty Constructor
     public Package ( ) {}
-    
+
     // Fields
     protected java.util.Date _completed = null;
     protected Boolean _trashed = false;
-    
+
     // Accessors
-        
-    
+
+
     @Override
     public Package setAutocomplete( Boolean value ){
         super.setAutocomplete(value);
@@ -90,9 +88,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setAutocomplete( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Package setCompleted( java.util.Date value ){
         // TODO With proper compare
@@ -111,9 +109,9 @@ public class Package extends BasePackage
     public java.util.Date getCompleted(){
         return _completed;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setConsent( String value ){
         super.setConsent(value);
@@ -125,9 +123,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setConsent( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setData( Map<String, Object> value ){
         super.setData(value);
@@ -139,9 +137,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setData( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setDescription( String value ){
         super.setDescription(value);
@@ -153,9 +151,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setDescription( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setDocuments( List<Document> value ){
         super.setDocuments(value);
@@ -173,9 +171,9 @@ public class Package extends BasePackage
         super.addDocument(value);
         return this;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @Override
     public Package setDue( java.util.Date value ){
@@ -188,9 +186,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setDue( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setEmailMessage( String value ){
         super.setEmailMessage(value);
@@ -202,9 +200,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setEmailMessage( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setId( String value ){
         super.setId(value);
@@ -216,9 +214,9 @@ public class Package extends BasePackage
         if ( value != null ) { this.setId( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Package setLanguage( String value ){
         super.setLanguage(value);
@@ -231,18 +229,6 @@ public class Package extends BasePackage
         return this;
     }
 
-
-    @Override
-    public Package setTimezoneId( String value ){
-        super.setTimezoneId(value);
-        return this;
-    }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public Package safeSetTimezoneId( String value ){
-        if ( value != null ) { this.setTimezoneId( value ); }
-        return this;
-    }
         
     
     @Override

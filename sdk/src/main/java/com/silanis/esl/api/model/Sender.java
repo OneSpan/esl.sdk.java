@@ -26,8 +26,6 @@ public class Sender extends User
     @JsonIgnore
     public static final String FIELD_COMPANY = "company";
     @JsonIgnore
-    public static final String FIELD_TIMEZONE_ID = "timezoneId";
-    @JsonIgnore
     public static final String FIELD_CREATED = "created";
     @JsonIgnore
     public static final String FIELD_DATA = "data";
@@ -67,10 +65,10 @@ public class Sender extends User
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
-    
+
     // Empty Constructor
     public Sender ( ) {}
-    
+
     // Fields
     protected Account _account = null;
     protected java.util.Date _activated = null;
@@ -78,10 +76,10 @@ public class Sender extends User
     protected List<GroupMembership> _memberships = new ArrayList<GroupMembership>();
     protected String _status = "INVITED";
     protected String _type = "REGULAR";
-    
+
     // Accessors
-        
-    
+
+
     public Sender setAccount( Account value ){
         // TODO With proper compare
         // if ( this._account == value ) return this;
@@ -98,9 +96,9 @@ public class Sender extends User
     public Account getAccount(){
         return _account;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Sender setActivated( java.util.Date value ){
         // TODO With proper compare
@@ -119,9 +117,9 @@ public class Sender extends User
     public java.util.Date getActivated(){
         return _activated;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setAddress( Address value ){
         super.setAddress(value);
@@ -133,9 +131,9 @@ public class Sender extends User
         if ( value != null ) { this.setAddress( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setCompany( String value ){
         super.setCompany(value);
@@ -147,9 +145,9 @@ public class Sender extends User
         if ( value != null ) { this.setCompany( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @Override
     public Sender setCreated( java.util.Date value ){
@@ -162,9 +160,9 @@ public class Sender extends User
         if ( value != null ) { this.setCreated( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setData( Map<String, Object> value ){
         super.setData(value);
@@ -176,9 +174,9 @@ public class Sender extends User
         if ( value != null ) { this.setData( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setEmail( String value ){
         super.setEmail(value);
@@ -190,9 +188,9 @@ public class Sender extends User
         if ( value != null ) { this.setEmail( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setExternal( External value ){
         super.setExternal(value);
@@ -204,9 +202,9 @@ public class Sender extends User
         if ( value != null ) { this.setExternal( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setFirstName( String value ){
         super.setFirstName(value);
@@ -218,9 +216,9 @@ public class Sender extends User
         if ( value != null ) { this.setFirstName( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setId( String value ){
         super.setId(value);
@@ -232,9 +230,9 @@ public class Sender extends User
         if ( value != null ) { this.setId( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setLanguage( String value ){
         super.setLanguage(value);
@@ -246,9 +244,9 @@ public class Sender extends User
         if ( value != null ) { this.setLanguage( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setLastName( String value ){
         super.setLastName(value);
@@ -260,9 +258,9 @@ public class Sender extends User
         if ( value != null ) { this.setLastName( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Sender setLocked( java.util.Date value ){
         // TODO With proper compare
@@ -281,9 +279,9 @@ public class Sender extends User
     public java.util.Date getLocked(){
         return _locked;
     }
-    
-        
-    
+
+
+
     public Sender setMemberships( List<GroupMembership> value ){
         SchemaSanitizer.throwOnNull(FIELD_MEMBERSHIPS,value);
         // TODO With proper compare
@@ -308,9 +306,9 @@ public class Sender extends User
         setDirty(FIELD_MEMBERSHIPS);
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setName( String value ){
         super.setName(value);
@@ -322,9 +320,9 @@ public class Sender extends User
         if ( value != null ) { this.setName( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setPhone( String value ){
         super.setPhone(value);
@@ -336,9 +334,9 @@ public class Sender extends User
         if ( value != null ) { this.setPhone( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setProfessionalIdentityFields( List<ProfessionalIdentityField> value ){
         super.setProfessionalIdentityFields(value);
@@ -356,9 +354,9 @@ public class Sender extends User
         super.addProfessionalIdentityField(value);
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setSignature( SignatureStyle value ){
         super.setSignature(value);
@@ -370,9 +368,9 @@ public class Sender extends User
         if ( value != null ) { this.setSignature( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setSpecialTypes( List<String> value ){
         super.setSpecialTypes(value);
@@ -390,9 +388,9 @@ public class Sender extends User
         super.addSpecialType(value);
         return this;
     }
-    
-        
-    
+
+
+
     public Sender setStatus( String value ){
         SchemaSanitizer.throwOnNull(FIELD_STATUS,value);
         // TODO With proper compare
@@ -410,9 +408,9 @@ public class Sender extends User
     public String getStatus(){
         return _status;
     }
-    
-        
-    
+
+
+
     @Override
     public Sender setTitle( String value ){
         super.setTitle(value);
@@ -424,9 +422,9 @@ public class Sender extends User
         if ( value != null ) { this.setTitle( value ); }
         return this;
     }
-    
-        
-    
+
+
+
     public Sender setType( String value ){
         SchemaSanitizer.throwOnNull(FIELD_TYPE,value);
         // TODO With proper compare
@@ -444,9 +442,9 @@ public class Sender extends User
     public String getType(){
         return _type;
     }
-    
-        
-    
+
+
+
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @Override
     public Sender setUpdated( java.util.Date value ){
@@ -460,18 +458,6 @@ public class Sender extends User
         return this;
     }
 
-    @Override
-    public Sender setTimezoneId(String id) {
-        super.setTimezoneId(id);
-        return this;
-    }
-
-    @JsonIgnore
-    @Override
-    public Sender safeSetTimezoneId(String id) {
-        if ( id != null ) { this.setTimezoneId(id); }
-        return this;
-    }
         
     
     @Override

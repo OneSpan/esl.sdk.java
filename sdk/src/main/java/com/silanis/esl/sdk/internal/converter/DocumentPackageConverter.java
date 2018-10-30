@@ -30,7 +30,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
  * User: jessica
  * Date: 26/11/13
  * Time: 3:39 PM
- *
+ * <p>
  * Converter between SDK and API Document Package.
  */
 public class DocumentPackageConverter {
@@ -40,6 +40,7 @@ public class DocumentPackageConverter {
 
     /**
      * Construct with API object involved in conversion.
+     *
      * @param apiPackage
      */
     public DocumentPackageConverter(com.silanis.esl.api.model.Package apiPackage) {
@@ -70,86 +71,86 @@ public class DocumentPackageConverter {
                 .safeSetDue(sdkPackage.getExpiryDate())
                 .safeSetAutocomplete(sdkPackage.getAutocomplete())
                 .safeSetNotarized(sdkPackage.getNotarized())
-                .safeSetTrashed(sdkPackage.getTrashed())
-                .safeSetTimezoneId(sdkPackage.getTimezoneId());
+                .safeSetTrashed(sdkPackage.getTrashed());
 
-        if ( sdkPackage.getId() != null ) {
+        if (sdkPackage.getId() != null) {
             result.setId(sdkPackage.getId().toString());
         }
 
-        if ( sdkPackage.getDescription() != null && !sdkPackage.getDescription().isEmpty() ) {
+        if (sdkPackage.getDescription() != null && !sdkPackage.getDescription().isEmpty()) {
             result.setDescription(sdkPackage.getDescription());
         }
 
-        if ( sdkPackage.getPackageMessage() != null && !sdkPackage.getPackageMessage().isEmpty() ) {
+        if (sdkPackage.getPackageMessage() != null && !sdkPackage.getPackageMessage().isEmpty()) {
             result.setEmailMessage(sdkPackage.getPackageMessage());
         }
 
-        if ( sdkPackage.getAttributes() != null ) {
+        if (sdkPackage.getAttributes() != null) {
             result.setData(sdkPackage.getAttributes().toMap());
         }
 
-        if ( sdkPackage.getLanguage() != null ) {
+        if (sdkPackage.getLanguage() != null) {
             String languageCountry = sdkPackage.getLanguage().getCountry();
             result.setLanguage(sdkPackage.getLanguage().getLanguage() + (isNotBlank(languageCountry) ? "-" + languageCountry : EMPTY));
         }
 
-        if ( sdkPackage.getSettings() != null ) {
+        if (sdkPackage.getSettings() != null) {
             result.setSettings(new DocumentPackageSettingsConverter(sdkPackage.getSettings()).toAPIPackageSettings());
         }
 
-        if ( sdkPackage.getSenderInfo() != null ) {
+        if (sdkPackage.getSenderInfo() != null) {
             result.setSender(new SenderConverter(sdkPackage.getSenderInfo()).toAPISender());
         }
 
-        if ( sdkPackage.getVisibility() != null ) {
+        if (sdkPackage.getVisibility() != null) {
             result.setVisibility(new VisibilityConverter(sdkPackage.getVisibility()).toAPIVisibility());
         }
 
-        if ( sdkPackage.getStatus() != null ) {
+        if (sdkPackage.getStatus() != null) {
             result.setStatus(new PackageStatusConverter(sdkPackage.getStatus()).toAPIPackageStatus());
         }
 
+        result.safeSetTimezoneId(sdkPackage.getTimezoneId());
+
         List<Role> roles =
-            Lists.newArrayList(Iterables.transform(sdkPackage.getSigners(), new Function<Signer, Role>() {
-                int signerCount = 1;
-                @Override
-                public Role apply(final Signer input) {
-                    String id;
-                    if(input.getId() != null ) {
-                        id = input.getId();
-                    }
-                    else if(input.getGroupId() == null){
-                        id = "role" + signerCount;
-                    }
-                    else{
-                        id = input.getGroupId().getId();
-                    }
+                Lists.newArrayList(Iterables.transform(sdkPackage.getSigners(), new Function<Signer, Role>() {
+                    int signerCount = 1;
 
-                    Role role = new Role()
-                        .setName( input.getId() == null ? "signer" + signerCount : input.getId() )
-                        .addSigner( new SignerConverter(input).toAPISigner() )
-                        .setIndex( input.getSigningOrder() )
-                        .setReassign( input.canChangeSigner() )
-                        .setLocked(input.isLocked())
-                        .setId( id );
+                    @Override
+                    public Role apply(final Signer input) {
+                        String id;
+                        if (input.getId() != null) {
+                            id = input.getId();
+                        } else if (input.getGroupId() == null) {
+                            id = "role" + signerCount;
+                        } else {
+                            id = input.getGroupId().getId();
+                        }
 
-                    signerCount++;
+                        Role role = new Role()
+                                .setName(input.getId() == null ? "signer" + signerCount : input.getId())
+                                .addSigner(new SignerConverter(input).toAPISigner())
+                                .setIndex(input.getSigningOrder())
+                                .setReassign(input.canChangeSigner())
+                                .setLocked(input.isLocked())
+                                .setId(id);
 
-                    if ( input.getMessage() != null ) {
-                        role.setEmailMessage( new BaseMessage().setContent( input.getMessage() ) );
+                        signerCount++;
+
+                        if (input.getMessage() != null) {
+                            role.setEmailMessage(new BaseMessage().setContent(input.getMessage()));
+                        }
+
+                        for (AttachmentRequirement attachmentRequirement : input.getAttachmentRequirements()) {
+                            role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
+                        }
+                        return role;
                     }
-
-                    for (AttachmentRequirement attachmentRequirement : input.getAttachmentRequirements()) {
-                        role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
-                    }
-                    return role;
-                }
-            }));
+                }));
 
         result.safeSetRoles(roles);
 
-        for ( Signer signer : sdkPackage.getPlaceholders() ) {
+        for (Signer signer : sdkPackage.getPlaceholders()) {
             Role role = new SignerConverter(signer).toAPIRole(signer.getId(), signer.getPlaceholderName());
             role.setIndex(signer.getSigningOrder());
             result.addRole(role);
@@ -173,8 +174,8 @@ public class DocumentPackageConverter {
 
         packageBuilder.withID(new PackageId(apiPackage.getId()));
         packageBuilder.autocomplete(apiPackage.evalAutocomplete());
-        packageBuilder.expiresAt( apiPackage.getDue());
-        packageBuilder.withStatus( new PackageStatusConverter(apiPackage.getStatus()).toSDKPackageStatus() );
+        packageBuilder.expiresAt(apiPackage.getDue());
+        packageBuilder.withStatus(new PackageStatusConverter(apiPackage.getStatus()).toSDKPackageStatus());
 
         if (apiPackage.getDescription() != null) {
             packageBuilder.describedAs(apiPackage.getDescription());
@@ -211,17 +212,16 @@ public class DocumentPackageConverter {
         if (apiPackage.getTimezoneId() != null) {
             packageBuilder.withTimezoneId(apiPackage.getTimezoneId());
         }
-        packageBuilder.withAttributes( new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
+        packageBuilder.withAttributes(new DocumentPackageAttributesBuilder(apiPackage.getData()).build());
 
-        for ( Role role : apiPackage.getRoles() ) {
+        for (Role role : apiPackage.getRoles()) {
 
-            if(role.getSigners().isEmpty()){
+            if (role.getSigners().isEmpty()) {
                 packageBuilder.withSigner(newSignerPlaceholder(new Placeholder(role.getId(), role.getName(), role.getIndex())));
-            }
-            else if ( role.getSigners().get( 0 ).getGroup() != null ) {
+            } else if (role.getSigners().get(0).getGroup() != null) {
                 packageBuilder.withSigner(newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
             } else {
-                packageBuilder.withSigner( new SignerConverter(role).toSDKSigner() );
+                packageBuilder.withSigner(new SignerConverter(role).toSDKSigner());
 
                 // The custom sender information is stored in the role.signer object.
                 if ("SENDER".equals(role.getType())) {
@@ -240,9 +240,9 @@ public class DocumentPackageConverter {
             }
         }
 
-        for ( com.silanis.esl.api.model.Document apiDocument : apiPackage.getDocuments() ) {
+        for (com.silanis.esl.api.model.Document apiDocument : apiPackage.getDocuments()) {
             Document document = new DocumentConverter(apiDocument, apiPackage).toSDKDocument();
-            packageBuilder.withDocument( document );
+            packageBuilder.withDocument(document);
         }
 
         DocumentPackage documentPackage = packageBuilder.build();
@@ -263,12 +263,12 @@ public class DocumentPackageConverter {
     }
 
     private Locale toSdkLanguage(String apiLanguage) {
-        if(apiLanguage == null)
+        if (apiLanguage == null)
             return null;
 
         String[] strArray = apiLanguage.split("-");
 
-        if(strArray.length == 2) {
+        if (strArray.length == 2) {
             return new Locale(strArray[0], strArray[1]);
         } else {
             return new Locale(strArray[0]);
