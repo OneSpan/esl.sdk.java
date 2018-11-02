@@ -38,6 +38,8 @@ public class AdaPackageExample extends SDKSample {
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .enableExtraction()
                         .withSignature(signatureFor(email1)
+                                // For signatures and fields in ADA transactions, both the Id
+                                // and the name MUST match the field name in the PDF.
                                 .withId(new SignatureId("CustomerSignature"))
                                 .withName("CustomerSignature")
                                 .withStyle(SignatureStyle.FULL_NAME)
