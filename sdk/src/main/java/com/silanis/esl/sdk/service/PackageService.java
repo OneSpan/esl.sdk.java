@@ -47,15 +47,7 @@ import com.silanis.esl.sdk.internal.converter.SupportConfigurationConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * The PackageService class provides methods to help create packages and download documents after the
@@ -412,6 +404,33 @@ public class PackageService {
             throw new EslServerException("Could not delete document from package.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete document from package.", e);
+        }
+    }
+
+    /**
+     * Deletes the documents from the package.
+     *
+     * @param packageId
+     * @param documentIds
+     * @throws EslException
+     */
+    public void deleteDocuments(PackageId packageId, DocumentId... documentIds) throws EslException {
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", packageId.getId())
+                .build();
+        try {
+            String json = Serialization.toJson(Lists.transform(Arrays.asList(documentIds),
+                    new Function<DocumentId, String>() {
+                        @Override
+                        public String apply(DocumentId documentId) {
+                            return documentId.getId();
+                        }
+                    }));
+            client.delete(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete documents from package.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete documents from package.", e);
         }
     }
 
