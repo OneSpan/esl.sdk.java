@@ -415,6 +415,27 @@ public class PackageService {
         }
     }
 
+    /**
+     * Deletes the documents from the package.
+     *
+     * @param packageId
+     * @param documentIds
+     * @throws EslException
+     */
+    public void deleteDocuments(PackageId packageId, List<String> documentIds) throws EslException {
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", packageId.getId())
+                .build();
+        try {
+            String json = Serialization.toJson(documentIds);
+            client.delete(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete documents from package.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete documents from package.", e);
+        }
+    }
+
 
     /**
      * Get the document's metadata from the package.

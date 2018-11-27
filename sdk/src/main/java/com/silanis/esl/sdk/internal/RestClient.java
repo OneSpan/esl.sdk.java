@@ -356,6 +356,18 @@ public class RestClient {
         return execute(delete, jsonHandler);
     }
 
+    public String delete(String path, String jsonPayload) throws IOException, RequestException {
+        support.logRequest("DELETE", path);
+        HttpDeleteWithBody delete = new HttpDeleteWithBody(path);
+        delete.addHeader(buildAcceptHeaderForEslApi());
+        StringEntity body = new StringEntity(jsonPayload, Charset.forName(CHARSET_UTF_8));
+
+        body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
+        delete.setEntity(body);
+
+        return execute(delete, jsonHandler);
+    }
+
     private static interface ResponseHandler<T> {
         T extract(InputStream input);
     }
