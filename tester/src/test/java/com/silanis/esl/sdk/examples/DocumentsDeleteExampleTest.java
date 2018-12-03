@@ -22,7 +22,7 @@ public class DocumentsDeleteExampleTest {
 
         assertThat("Document was not uploaded correctly.", documentPackage.getDocument(DOCUMENT1_NAME), notNullValue());
         assertThat("Document was not uploaded correctly.", documentPackage.getDocument(DOCUMENT2_NAME), notNullValue());
-        assertThat("Documents were not uploaded correctly.", documentPackage.getDocuments().size(), is(3));
+        assertThat("Documents were not uploaded correctly.", documentPackage.getDocuments(), hasSize(3));
 
         documentPackage = example.getRetrievedPackageWithDeletedDocuments();
 
@@ -30,6 +30,6 @@ public class DocumentsDeleteExampleTest {
 
         assertThat("Document was not deleted correctly.", documentPackage.getDocument(DOCUMENT1_NAME), nullValue());
         assertThat("Document was not deleted correctly.", documentPackage.getDocument(DOCUMENT2_NAME), nullValue());
-        assertThat("Documents were not deleted correctly.", documentPackage.getDocuments().size(), is(1));
+        assertThat("Documents were not deleted correctly.", documentPackage.getDocuments(), hasSize(1));
     }
 }
