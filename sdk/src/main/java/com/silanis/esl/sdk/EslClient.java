@@ -259,7 +259,12 @@ public class EslClient {
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
 
-        uploadDocuments(id, documentPackage.getDocuments());
+        try {
+            uploadDocuments(id, documentPackage.getDocuments());
+        } catch (Exception e) {
+            packageService.deletePackage(id);
+            throw new EslException("Could not create a new package.", e);
+        }
 
         return id;
     }

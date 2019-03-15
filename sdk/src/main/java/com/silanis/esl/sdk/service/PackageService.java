@@ -380,9 +380,9 @@ public class PackageService {
             }));
 
         } catch (RequestException e) {
-            throw new EslServerException("Could not upload multiple documents to package.", e);
+            throw new EslServerException("Could not upload documents to package.", e);
         } catch (Exception e) {
-            throw new EslException("Could not upload multiple documents to package.", e);
+            throw new EslException("Could not upload documents to package.", e);
         }
     }
 
