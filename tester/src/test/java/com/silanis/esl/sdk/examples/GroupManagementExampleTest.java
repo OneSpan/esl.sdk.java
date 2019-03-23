@@ -29,6 +29,8 @@ public class GroupManagementExampleTest {
         assertThat("Group 1 was not added properly", example.createdGroup1.getId(), is(example.retrievedGroup1.getId()));
         assertThat("Group 2 was not added properly", example.createdGroup2.getId(), is(example.retrievedGroup2.getId()));
         assertThat("Group 3 was not added properly", example.createdGroup3.getId(), is(example.retrievedGroup3.getId()));
+        assertThat("Group retrieval by name failed", example.createdGroup1.getName(), is(example.retrievedGroupByName1.get(0).getName()));
+        assertThat("Group retrieval by name prefix failed", example.retrievedByNamePrefix.get(0).getName().startsWith(GroupManagementExample.GROUP_NAME_PREFIX));
 
         exception.expect(EslServerException.class);
         example.getEslClient().getGroupService().getGroup(example.createdGroup2.getId());

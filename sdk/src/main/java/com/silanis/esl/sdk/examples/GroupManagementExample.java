@@ -22,6 +22,9 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
 public class GroupManagementExample extends SDKSample {
     public List<String> groupMemberEmailsAfterUpdate;
 
+    public static final String GROUP_NAME_PREFIX = "GROUP_";
+    public static final String EMAIL = "bob@aol.com";
+
     public Group createdGroup1;
     public Group retrievedGroup1;
     public Group createdGroup2;
@@ -29,6 +32,9 @@ public class GroupManagementExample extends SDKSample {
     public Group createdGroup3;
     public Group retrievedGroup3;
     public Group createdGroup3Updated;
+
+    public List<Group> retrievedGroupByName1;
+    public List<Group> retrievedByNamePrefix;
 
     public static void main( String... args ) {
         new GroupManagementExample().run();
@@ -84,15 +90,18 @@ public class GroupManagementExample extends SDKSample {
         inviteAccountMember( email4 );
 
         // Let's create and manage some groups
-        Group group1 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
+        String groupName = UUID.randomUUID().toString();
+        Group group1 = GroupBuilder.newGroup( GROUP_NAME_PREFIX + groupName )
                 .withId( new GroupId( UUID.randomUUID().toString() ) )
                 .withMember( GroupMemberBuilder.newGroupMember( email1 )
                         .as( GroupMemberType.MANAGER ) )
-                .withEmail( "bob@aol.com" )
+                .withEmail( EMAIL )
                 .withIndividualMemberEmailing()
                 .build();
         createdGroup1 = eslClient.getGroupService().createGroup( group1 );
         retrievedGroup1 = eslClient.getGroupService().getGroup(createdGroup1.getId());
+        // Retrieve by group name
+        retrievedGroupByName1 = eslClient.getGroupService().getMyGroups(groupName);
 
         // Inviting members with the two different calls
         // addMember returns the group member while inviteMember returns the group itself
@@ -103,28 +112,29 @@ public class GroupManagementExample extends SDKSample {
                 .as(GroupMemberType.MANAGER)
                 .build());
 
-        Group group2 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
+        groupName = UUID.randomUUID().toString();
+        Group group2 = GroupBuilder.newGroup( GROUP_NAME_PREFIX + groupName )
                 .withMember( GroupMemberBuilder.newGroupMember( email2 )
                         .as( GroupMemberType.MANAGER ) )
-                .withEmail( "bob@aol.com" )
+                .withEmail( EMAIL )
                 .withIndividualMemberEmailing()
                 .build();
 
         createdGroup2 = eslClient.getGroupService().createGroup( group2 );
         retrievedGroup2 = eslClient.getGroupService().getGroup(createdGroup2.getId());
 
-        Group group3 = GroupBuilder.newGroup( UUID.randomUUID().toString() )
+        groupName = UUID.randomUUID().toString();
+        Group group3 = GroupBuilder.newGroup( GROUP_NAME_PREFIX + groupName )
                 .withMember( GroupMemberBuilder.newGroupMember( email3 )
                         .as( GroupMemberType.MANAGER ) )
-                .withEmail( "bob@aol.com" )
+                .withEmail( EMAIL )
                 .withIndividualMemberEmailing()
                 .build();
 
         createdGroup3 = eslClient.getGroupService().createGroup( group3 );
         retrievedGroup3 = eslClient.getGroupService().getGroup(createdGroup3.getId());
+        retrievedByNamePrefix  = eslClient.getGroupService().getMyGroups(GROUP_NAME_PREFIX);
 
-        // Here is how we delete group 2
-        eslClient.getGroupService().deleteGroup( createdGroup2.getId() );
 
         // This shows up how to update group 3
         Group groupUpdated = GroupBuilder.newGroup( UUID.randomUUID().toString() )
@@ -134,7 +144,7 @@ public class GroupManagementExample extends SDKSample {
                         .as( GroupMemberType.REGULAR ))
                 .withMember( GroupMemberBuilder.newGroupMember( email4 )
                         .as( GroupMemberType.REGULAR ))
-                .withEmail( "bob@aol.com" )
+                .withEmail( EMAIL )
                 .withIndividualMemberEmailing()
                 .build();
 
@@ -160,5 +170,10 @@ public class GroupManagementExample extends SDKSample {
         eslClient.getPackageService().notifySigner( packageId, createdGroup1.getId() );
 
         DocumentPackage result = eslClient.getPackage( packageId );
+
+        // Here is how to delete groups
+        eslClient.getGroupService().deleteGroup(createdGroup1.getId());
+        eslClient.getGroupService().deleteGroup(createdGroup2.getId());
+        eslClient.getGroupService().deleteGroup(createdGroup3.getId());
     }
 }
