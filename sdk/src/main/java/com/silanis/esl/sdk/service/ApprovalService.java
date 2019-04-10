@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.internal.converter.ConditionalFieldConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.FieldConverter;
 import com.silanis.esl.sdk.internal.converter.SignatureConverter;
@@ -173,6 +174,19 @@ public class ApprovalService {
     public void updateField(PackageId packageId, String documentId, SignatureId signatureId, Field field) {
         com.silanis.esl.api.model.Field apiField = new FieldConverter(field).toAPIField();
         apiClient.updateField(packageId.getId(), documentId, signatureId.getId(), apiField);
+    }
+
+    /**
+     * Update a conditional field from a signature
+     *
+     * @param packageId   The package Id
+     * @param documentId  The document Id
+     * @param signatureId The approval Id
+     * @param conditionalField       The SDK Conditional Field to be updated
+     */
+    public void updateConditionalField(PackageId packageId, String documentId, SignatureId signatureId, ConditionalField conditionalField) {
+        com.silanis.esl.api.model.ConditionalField apiField = new ConditionalFieldConverter(conditionalField).toAPIConditionalField();
+        apiClient.updateConditionalField(packageId.getId(), documentId, signatureId.getId(), apiField);
     }
 
     /**

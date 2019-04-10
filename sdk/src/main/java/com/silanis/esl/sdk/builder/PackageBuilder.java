@@ -27,6 +27,7 @@ public class PackageBuilder {
     private DocumentPackageAttributes attributes;
     private Visibility visibility;
     private String timezoneId;
+    private final List<FieldCondition> conditions = new ArrayList<FieldCondition>();
 
     private static final String ORIGIN_KEY = "origin";
 
@@ -172,6 +173,10 @@ public class PackageBuilder {
 
         if ( timezoneId != null ) {
             documentPackage.setTimezoneId(timezoneId);
+        }
+
+        if (!conditions.isEmpty()) {
+            documentPackage.setConditions(conditions);
         }
 
         return documentPackage;
@@ -345,6 +350,17 @@ public class PackageBuilder {
             this.attributes = new DocumentPackageAttributes();
         }
         this.attributes.append(ORIGIN_KEY, origin);
+        return this;
+    }
+
+    /**
+     * Sets the condition for the package field.
+     *
+     * @param condition field condition
+     * @return the package builder itself
+     */
+    public PackageBuilder withCondition( FieldCondition condition) {
+        this.conditions.add(condition);
         return this;
     }
 }
