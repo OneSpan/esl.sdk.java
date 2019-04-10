@@ -65,6 +65,8 @@ public class BasePackage extends Entity
     public static final String FIELD_CREATED = "created";
     @JsonIgnore
     public static final String FIELD_TIMEZONE_ID = "timezoneId";
+    @JsonIgnore
+    private static final String FIELD_CONDITIONS = "conditions";
     
     // Empty Constructor
     public BasePackage ( ) {}
@@ -91,6 +93,7 @@ public class BasePackage extends Entity
     protected String _visibility = "ACCOUNT";
     protected java.util.Date _created;
     protected String _timezoneId;
+    protected List<FieldCondition> conditions;
     
     // Accessors
         
@@ -578,5 +581,16 @@ public class BasePackage extends Entity
 
     public String getTimezoneId(){
         return _timezoneId;
+    }
+
+    public BasePackage setConditions(List<FieldCondition> value) {
+
+        this.conditions = value;
+        setDirty(FIELD_CONDITIONS);
+        return this;
+    }
+
+    public List<FieldCondition> getConditions() {
+        return conditions;
     }
 }

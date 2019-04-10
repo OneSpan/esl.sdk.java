@@ -8,6 +8,7 @@ import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.AttachmentRequirement;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.FieldCondition;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Message;
 import com.silanis.esl.sdk.PackageId;
@@ -156,6 +157,14 @@ public class DocumentPackageConverter {
             result.addRole(role);
         }
 
+        if(sdkPackage.getConditions() != null) {
+            ArrayList<com.silanis.esl.api.model.FieldCondition> conditions = new ArrayList<com.silanis.esl.api.model.FieldCondition>();
+            for (FieldCondition condition : sdkPackage.getConditions()) {
+                conditions.add(new FieldConditionConverter(condition).toAPIFieldCondition());
+            }
+            result.setConditions(conditions);
+        }
+
         return result;
     }
 
@@ -257,6 +266,13 @@ public class DocumentPackageConverter {
         }
         if (apiPackage.getCreated() != null) {
             documentPackage.setCreatedDate(apiPackage.getCreated());
+        }
+        if(apiPackage.getConditions() != null) {
+            ArrayList<FieldCondition> conditions = new ArrayList<FieldCondition>();
+            for (com.silanis.esl.api.model.FieldCondition condition : apiPackage.getConditions()) {
+                conditions.add(new FieldConditionConverter(condition).toSDKFieldCondition());
+            }
+            documentPackage.setConditions(conditions);
         }
 
         return documentPackage;

@@ -33,6 +33,7 @@ public class DocumentPackage implements Serializable {
     private List<Message> messages;
     private Visibility visibility;
     private String timezoneId;
+    private List<FieldCondition> conditions;
 
     /**
      * @param name         the name of the package
@@ -320,4 +321,8 @@ public class DocumentPackage implements Serializable {
     public String getTimezoneId() { return timezoneId; }
 
     public void setTimezoneId(String timezoneId) { this.timezoneId = timezoneId; }
+
+    public List<FieldCondition> getConditions() { return conditions; }
+
+    public void setConditions(List<FieldCondition> conditions) { this.conditions = conditions; }
 }

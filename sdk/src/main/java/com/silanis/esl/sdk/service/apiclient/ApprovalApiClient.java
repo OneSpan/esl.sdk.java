@@ -140,6 +140,24 @@ public class ApprovalApiClient {
         }
     }
 
+    public void updateConditionalField(String packageId, String documentId, String signatureId, com.silanis.esl.api.model.ConditionalField field) {
+        String path = template.urlFor(UrlTemplate.CONDITIONAL_FIELD_PATH)
+                .replace("{packageId}", packageId)
+                .replace("{documentId}", documentId)
+                .replace("{approvalId}", signatureId)
+                .replace("{fieldId}", field.getId())
+                .build();
+
+        try {
+            String json = Serialization.toJson(field);
+            restClient.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update conditional field from signature.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update conditional field from signature.", e);
+        }
+    }
+
     public void deleteField(String packageId, String documentId, String approvalId, String fieldId) {
         String path = template.urlFor(UrlTemplate.FIELD_ID_PATH)
                 .replace("{packageId}", packageId)
