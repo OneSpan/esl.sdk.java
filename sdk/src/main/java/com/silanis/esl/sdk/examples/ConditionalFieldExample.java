@@ -15,11 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
-import static com.silanis.esl.sdk.builder.FieldBuilder.checkBox;
-import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
+import static com.silanis.esl.sdk.builder.FieldBuilder.*;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 
-public class ConditionalFieldUpdateExample extends SDKSample {
+public class ConditionalFieldExample extends SDKSample {
 
     private final String documentId = "DocumentId";
     private final SignatureId signatureId = new SignatureId("signatureId");
@@ -27,14 +26,18 @@ public class ConditionalFieldUpdateExample extends SDKSample {
     private final  FieldId fieldId2 = new FieldId("fieldId2");
 
     public DocumentPackage retrievedPackageWithoutConditions;
-    public DocumentPackage retrievedPackageWithConditions;
+    public DocumentPackage retrievedPackageWithUpdatedConditions;
 
     public static void main(String... args) {
-        new ConditionalFieldUpdateExample().run();
+        new ConditionalFieldExample().run();
     }
 
     @Override
     protected void execute() {
+        FieldCondition condition = new FieldCondition();
+        condition.setId("ConditionId");
+        condition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
+        condition.setAction("document['DocumentId'].field['fieldId1'].enabled = true");
 
         DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed(getPackageName())
                 .describedAs("Description")
@@ -56,18 +59,18 @@ public class ConditionalFieldUpdateExample extends SDKSample {
                                         .withId(fieldId2)
                                         .onPage(0)
                                         .atPosition(0, 0))))
+                .withCondition(condition)
                 .build();
 
         PackageId packageId = eslClient.createPackageOneStep(superDuperPackage);
         retrievedPackage = eslClient.getPackage(packageId);
 
-        //Update field and add condition to it
-        FieldCondition condition = new FieldCondition();
-        condition.setId("ConditionId");
-        condition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        condition.setAction("document['DocumentId'].field['fieldId1'].enabled = true");
+        FieldCondition newCondition = new FieldCondition();
+        newCondition.setId("ConditionId");
+        newCondition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
+        newCondition.setAction("document['DocumentId'].field['fieldId1'].enabled = false");
         List<FieldCondition> conditions = new ArrayList<FieldCondition>();
-        conditions.add(condition);
+        conditions.add(newCondition);
 
         ConditionalField conditionalField = new ConditionalField();
         conditionalField.setId(fieldId2);
@@ -75,9 +78,8 @@ public class ConditionalFieldUpdateExample extends SDKSample {
         conditionalField.setStyle(FieldStyle.UNBOUND_CHECK_BOX);
 
         eslClient.getApprovalService().updateConditionalField(packageId, documentId, signatureId, conditionalField);
-        retrievedPackageWithConditions = eslClient.getPackage(packageId);
+        retrievedPackageWithUpdatedConditions = eslClient.getPackage(packageId);
 
-        //Update field and remove condition from it
         conditions.clear();
         conditionalField.setConditions(conditions);
         eslClient.getApprovalService().updateConditionalField(packageId, documentId, signatureId, conditionalField);

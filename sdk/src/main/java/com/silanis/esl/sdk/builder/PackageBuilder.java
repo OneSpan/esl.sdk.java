@@ -175,7 +175,7 @@ public class PackageBuilder {
             documentPackage.setTimezoneId(timezoneId);
         }
 
-        if (!conditions.isEmpty()) {
+        if (conditions != null && !conditions.isEmpty()) {
             documentPackage.setConditions(conditions);
         }
 
