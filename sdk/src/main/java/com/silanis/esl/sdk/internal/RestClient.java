@@ -54,7 +54,7 @@ public class RestClient {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
-    public static final String ESL_API_VERSION = "11.20";
+    public static final String ESL_API_VERSION = "11.25";
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -352,6 +352,18 @@ public class RestClient {
         support.logRequest("DELETE", path);
         HttpDelete delete = new HttpDelete(path);
         delete.addHeader(buildAcceptHeaderForEslApi());
+
+        return execute(delete, jsonHandler);
+    }
+
+    public String delete(String path, String jsonPayload) throws IOException, RequestException {
+        support.logRequest("DELETE", path);
+        HttpDeleteWithBody delete = new HttpDeleteWithBody(path);
+        delete.addHeader(buildAcceptHeaderForEslApi());
+        StringEntity body = new StringEntity(jsonPayload, Charset.forName(CHARSET_UTF_8));
+
+        body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
+        delete.setEntity(body);
 
         return execute(delete, jsonHandler);
     }

@@ -3,10 +3,7 @@ package com.silanis.esl.sdk.service;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.util.JacksonUtil;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.Group;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.GroupMember;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.GroupConverter;
 import com.silanis.esl.sdk.internal.converter.GroupMemberConverter;
@@ -31,6 +28,21 @@ public class GroupService {
      */
     public List<Group> getMyGroups() {
         String path = template.urlFor( UrlTemplate.GROUPS_PATH ).build();
+        return getGroups(path);
+    }
+
+    /**
+     * Retrieve group(s) belonging to the account by specifying complete (or part of) GroupName.
+     *
+     * @param groupName
+     * @return
+     */
+    public List<Group> getMyGroups( String groupName ) {
+        String path = template.urlFor( UrlTemplate.GROUPS_PATH).addParam("name", groupName ).build();
+        return getGroups(path);
+    }
+
+    private List<Group> getGroups(String path) {
         try {
             String stringResponse = client.get( path );
             Result<com.silanis.esl.api.model.Group> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.Group>>() {
