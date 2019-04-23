@@ -66,6 +66,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
+                        .withCustomId("signer1")
                         .withFirstName("John")
                         .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document pdf")
@@ -76,6 +77,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 .build();
 
         PackageId packageId1 = eslClientWithHttpProxy.createAndSendPackage(package1);
+        eslClientWithHttpProxy.signDocuments(packageId1, "signer1");
 
         retrievedPackage1 = eslClientWithHttpProxy.getPackage(packageId1);
         httpProxyServer.stop();
@@ -87,6 +89,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
+                        .withCustomId("signer2")
                         .withFirstName("John")
                         .withLastName("Smith"))
                 .withDocument(newDocumentWithName("First Document pdf")
@@ -97,6 +100,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 .build();
 
         PackageId packageId2 = eslClientWithHttpProxyHasCredentials.createAndSendPackage(package2);
+        eslClientWithHttpProxyHasCredentials.signDocuments(packageId2, "signer2");
 
         retrievedPackage2 = eslClientWithHttpProxyHasCredentials.getPackage(packageId2);
         httpProxyWithCredentialsServer.stop();
