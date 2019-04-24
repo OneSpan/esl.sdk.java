@@ -86,14 +86,14 @@ public class FieldConverterTest implements ConverterTest{
 
         assertThat("Converter returned a null api object for a non null sdk object", apiField1, is( notNullValue() ) );
         assertThat("Left coordinate was not correctly set", apiField1.getLeft(), is( equalTo(sdkField1.getX()) ) );
-        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(equalTo(sdkField1.getY())));
-        assertThat("Width was not correctly set", apiField1.getWidth(), is(equalTo(sdkField1.getWidth())));
-        assertThat("Height was not correctly set",apiField1.getHeight(), is(equalTo(sdkField1.getHeight())));
-        assertThat("Page was not correctly set",apiField1.getPage(), is(equalTo(sdkField1.getPage())));
-        assertThat("Extract was not correctly set",apiField1.getExtract(), is(equalTo(sdkField1.isExtraction())));
-        assertThat("Value was not correctly set",apiField1.getValue(), is(equalTo(sdkField1.getValue())));
-        assertThat("ID was not correctly set", apiField1.getId(), is(equalTo(sdkField1.getId().toString())));
-        assertThat("Name was not correctly set", apiField1.getName(), is(equalTo(sdkField1.getName())));
+        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(sdkField1.getY()));
+        assertThat("Width was not correctly set", apiField1.getWidth(), is(sdkField1.getWidth()));
+        assertThat("Height was not correctly set",apiField1.getHeight(), is(sdkField1.getHeight()));
+        assertThat("Page was not correctly set",apiField1.getPage(), is(sdkField1.getPage()));
+        assertThat("Extract was not correctly set",apiField1.getExtract(), is(sdkField1.isExtraction()));
+        assertThat("Value was not correctly set",apiField1.getValue(), is(sdkField1.getValue()));
+        assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
+        assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
     }
 
     @Override
@@ -105,14 +105,14 @@ public class FieldConverterTest implements ConverterTest{
 
         assertThat("Converter returned a null api object for a non null sdk object", apiField1, is( notNullValue() ) );
         assertThat("Left coordinate was not correctly set", apiField1.getLeft(), is( equalTo(sdkField1.getX()) ) );
-        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(equalTo(sdkField1.getY())));
-        assertThat("Width was not correctly set", apiField1.getWidth(), is(equalTo(sdkField1.getWidth())));
-        assertThat("Height was not correctly set",apiField1.getHeight(), is(equalTo(sdkField1.getHeight())));
-        assertThat("Page was not correctly set",apiField1.getPage(), is(equalTo(sdkField1.getPage())));
-        assertThat("Extract was not correctly set",apiField1.getExtract(), is(equalTo(sdkField1.isExtraction())));
-        assertThat("Value was not correctly set",apiField1.getValue(), is(equalTo(sdkField1.getValue())));
-        assertThat("ID was not correctly set", apiField1.getId(), is(equalTo(sdkField1.getId().toString())));
-        assertThat("Name was not correctly set", apiField1.getName(), is(equalTo(sdkField1.getName())));
+        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(sdkField1.getY()));
+        assertThat("Width was not correctly set", apiField1.getWidth(), is(sdkField1.getWidth()));
+        assertThat("Height was not correctly set",apiField1.getHeight(), is(sdkField1.getHeight()));
+        assertThat("Page was not correctly set",apiField1.getPage(), is(sdkField1.getPage()));
+        assertThat("Extract was not correctly set",apiField1.getExtract(), is(sdkField1.isExtraction()));
+        assertThat("Value was not correctly set",apiField1.getValue(), is(sdkField1.getValue()));
+        assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
+        assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
     }
 
     /**

@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 9/11/14.
@@ -22,28 +21,28 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
     public void convertNullSDKToAPI() {
         sdkKnowledgeBasedAuthenticationStatus = null;
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIKnowledgeBasedAuthenticationStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIKnowledgeBasedAuthenticationStatus(), nullValue());
     }
 
     @Test
     public void convertNullAPIToSDK() {
         apiKnowledgeBasedAuthenticationStatus = null;
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKKnowledgeBasedAuthenticationStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKKnowledgeBasedAuthenticationStatus(), nullValue());
     }
 
     @Test
     public void convertNullSDKToSDK() {
         sdkKnowledgeBasedAuthenticationStatus = null;
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKKnowledgeBasedAuthenticationStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKKnowledgeBasedAuthenticationStatus(), nullValue());
     }
 
     @Test
     public void convertNullAPIToAPI() {
         apiKnowledgeBasedAuthenticationStatus = null;
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIKnowledgeBasedAuthenticationStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIKnowledgeBasedAuthenticationStatus(), nullValue());
     }
 
     @Test
@@ -52,8 +51,8 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus result = converter.toSDKKnowledgeBasedAuthenticationStatus();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", result, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", result, is(equalTo(sdkKnowledgeBasedAuthenticationStatus)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", result, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", result, is(sdkKnowledgeBasedAuthenticationStatus));
     }
 
     @Test
@@ -62,8 +61,8 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
         String result = converter.toAPIKnowledgeBasedAuthenticationStatus();
 
-        assertThat("Converter returned a null api object for a non null api object", result, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", result, is(equalTo(apiKnowledgeBasedAuthenticationStatus)));
+        assertThat("Converter returned a null api object for a non null api object", result, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", result, is(apiKnowledgeBasedAuthenticationStatus));
     }
 
     @Test

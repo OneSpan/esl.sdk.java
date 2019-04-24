@@ -30,7 +30,7 @@ public class CustomFieldConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkCustomField1 = null;
         converter = new CustomFieldConverter(sdkCustomField1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPICustomField(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPICustomField(), nullValue());
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CustomFieldConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiCustomField1 = null;
         converter = new CustomFieldConverter(apiCustomField1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKCustomField(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKCustomField(), nullValue());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CustomFieldConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkCustomField1 = null;
         converter = new CustomFieldConverter(sdkCustomField1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKCustomField(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKCustomField(), nullValue());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class CustomFieldConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiCustomField1 = null;
         converter = new CustomFieldConverter(apiCustomField1);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPICustomField(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPICustomField(), nullValue());
     }
 
     @Override
@@ -63,8 +63,8 @@ public class CustomFieldConverterTest implements ConverterTest {
 
         sdkCustomField1 = createTypicalSDKCustomField();
         sdkCustomField2 = new CustomFieldConverter(sdkCustomField1).toSDKCustomField();
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkCustomField2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkCustomField2, is(equalTo(sdkCustomField1)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkCustomField2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkCustomField2, is(sdkCustomField1));
     }
 
     @Override
@@ -74,8 +74,8 @@ public class CustomFieldConverterTest implements ConverterTest {
         apiCustomField1 = createTypicalAPICustomField();
         apiCustomField2 = new CustomFieldConverter(apiCustomField1).toAPICustomField();
 
-        assertThat("Converter returned a null api object for a non null api object", apiCustomField2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiCustomField2, is(equalTo(apiCustomField1)));
+        assertThat("Converter returned a null api object for a non null api object", apiCustomField2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiCustomField2, is(apiCustomField1));
     }
 
     @Override
@@ -84,10 +84,10 @@ public class CustomFieldConverterTest implements ConverterTest {
         apiCustomField1 = createTypicalAPICustomField();
         sdkCustomField1 = new CustomFieldConverter(apiCustomField1).toSDKCustomField();
 
-        assertThat("Converter returned a null api object for a non null sdk object", sdkCustomField1, is(notNullValue()));
-        assertThat("ID was not correctly set", apiCustomField1.getId(), is(equalTo(sdkCustomField1.getId())));
-        assertThat("Value was not correctly set", apiCustomField1.getValue(), is(equalTo(sdkCustomField1.getValue())));
-        assertThat("Required was not correctly set", apiCustomField1.getRequired(), is(equalTo(sdkCustomField1.getRequired())));
+        assertThat("Converter returned a null api object for a non null sdk object", sdkCustomField1, notNullValue());
+        assertThat("ID was not correctly set", apiCustomField1.getId(), is(sdkCustomField1.getId()));
+        assertThat("Value was not correctly set", apiCustomField1.getValue(), is(sdkCustomField1.getValue()));
+        assertThat("Required was not correctly set", apiCustomField1.getRequired(), is(sdkCustomField1.getRequired()));
     }
 
     @Override
@@ -97,11 +97,11 @@ public class CustomFieldConverterTest implements ConverterTest {
         sdkCustomField1 = createTypicalSDKCustomField();
         apiCustomField1 = new CustomFieldConverter(sdkCustomField1).toAPICustomField();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiCustomField1, is(notNullValue()));
-        assertThat("Converter returned a null api object for a non null sdk object", apiCustomField1, is(notNullValue()));
-        assertThat("ID was not correctly set", apiCustomField1.getId(), is(equalTo(sdkCustomField1.getId())));
-        assertThat("Value was not correctly set", apiCustomField1.getValue(), is(equalTo(sdkCustomField1.getValue())));
-        assertThat("Required was not correctly set", apiCustomField1.getRequired(), is(equalTo(sdkCustomField1.getRequired())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiCustomField1, notNullValue());
+        assertThat("Converter returned a null api object for a non null sdk object", apiCustomField1, notNullValue());
+        assertThat("ID was not correctly set", apiCustomField1.getId(), is(sdkCustomField1.getId()));
+        assertThat("Value was not correctly set", apiCustomField1.getValue(), is(sdkCustomField1.getValue()));
+        assertThat("Required was not correctly set", apiCustomField1.getRequired(), is(sdkCustomField1.getRequired()));
     }
 
     /**

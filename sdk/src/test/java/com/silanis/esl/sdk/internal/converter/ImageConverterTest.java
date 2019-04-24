@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 7/14/16.
@@ -23,7 +22,7 @@ public class ImageConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkImage = null;
         converter = new ImageConverter(sdkImage);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIImage(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIImage(), nullValue());
     }
 
     @Override
@@ -31,7 +30,7 @@ public class ImageConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiImage = null;
         converter = new ImageConverter(apiImage);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKImage(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKImage(), nullValue());
     }
 
     @Override
@@ -39,7 +38,7 @@ public class ImageConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkImage = null;
         converter = new ImageConverter(sdkImage);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKImage(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKImage(), nullValue());
     }
 
     @Override
@@ -47,7 +46,7 @@ public class ImageConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiImage = null;
         converter = new ImageConverter(apiImage);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIImage(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIImage(), nullValue());
     }
 
     @Override
@@ -56,8 +55,8 @@ public class ImageConverterTest implements ConverterTest {
         sdkImage = createTypicalSDKImage();
         sdkImage = new ImageConverter(sdkImage).toSDKImage();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkImage, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkImage, is(equalTo(sdkImage)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkImage, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkImage, is(sdkImage));
     }
 
     @Override
@@ -66,8 +65,8 @@ public class ImageConverterTest implements ConverterTest {
         apiImage = createTypicalAPIAuthImage();
         apiImage = new ImageConverter(apiImage).toAPIImage();
 
-        assertThat("Converter returned a null api object for a non null api object", apiImage, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiImage, is(equalTo(apiImage)));
+        assertThat("Converter returned a null api object for a non null api object", apiImage, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiImage, is(apiImage));
     }
 
     @Override
@@ -76,7 +75,7 @@ public class ImageConverterTest implements ConverterTest {
         apiImage = createTypicalAPIAuthImage();
         sdkImage = new ImageConverter(apiImage).toSDKImage();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkImage, is(notNullValue()));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkImage, notNullValue());
         assertThat("Link was not correctly set", sdkImage.getLink(), is(apiImage.getLink()));
         assertThat("Src was not correctly set", sdkImage.getSrc(), is(apiImage.getSrc()));
     }
@@ -87,7 +86,7 @@ public class ImageConverterTest implements ConverterTest {
         sdkImage = createTypicalSDKImage();
         apiImage = new ImageConverter(sdkImage).toAPIImage();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiImage, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", apiImage, notNullValue());
         assertThat("Link was not correctly set", apiImage.getLink(), is(sdkImage.getLink()));
         assertThat("Src was not correctly set", apiImage.getSrc(), is(sdkImage.getSrc()));
     }

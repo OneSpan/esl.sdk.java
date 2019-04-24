@@ -22,9 +22,9 @@ public class TemplateExampleTest {
 
         DocumentPackage retrievedPackage = example.getRetrievedTemplate();
 
-        Document document = retrievedPackage.getDocument( DOCUMENT_NAME );
+        Document document = retrievedPackage.getDocument(DOCUMENT_NAME);
 
-        assertThat("Document name is incorrectly returned.", document.getName().toString(), is(DOCUMENT_NAME));
+        assertThat("Document name is incorrectly returned.", document.getName(), is(DOCUMENT_NAME));
         assertThat("Document ID is incorrectly returned.", document.getId().toString(), is(DOCUMENT_ID));
 
         assertThat("Template name is incorrectly returned.", retrievedPackage.getName(), is(UPDATED_TEMPLATE_NAME));

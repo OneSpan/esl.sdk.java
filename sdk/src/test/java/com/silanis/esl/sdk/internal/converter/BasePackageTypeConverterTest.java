@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 12/16/14.
@@ -25,7 +24,7 @@ public class BasePackageTypeConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkBasePackageType1 = null;
         converter = new BasePackageTypeConverter(sdkBasePackageType1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIBasePackageType(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIBasePackageType(), nullValue());
     }
 
     @Override
@@ -33,7 +32,7 @@ public class BasePackageTypeConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiBasePackageType1 = null;
         converter = new BasePackageTypeConverter(apiBasePackageType1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKBasePackageType(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKBasePackageType(), nullValue());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class BasePackageTypeConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkBasePackageType1 = null;
         converter = new BasePackageTypeConverter(sdkBasePackageType1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKBasePackageType(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKBasePackageType(), nullValue());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class BasePackageTypeConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiBasePackageType1 = null;
         converter = new BasePackageTypeConverter(apiBasePackageType1);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIBasePackageType(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIBasePackageType(), nullValue());
     }
 
     @Override
@@ -58,8 +57,8 @@ public class BasePackageTypeConverterTest implements ConverterTest {
         sdkBasePackageType1 = BasePackageType.PACKAGE;
         sdkBasePackageType2 = new BasePackageTypeConverter(sdkBasePackageType1).toSDKBasePackageType();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkBasePackageType2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkBasePackageType2, is(equalTo(sdkBasePackageType1)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkBasePackageType2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkBasePackageType2, is(sdkBasePackageType1));
     }
 
     @Override
@@ -68,8 +67,8 @@ public class BasePackageTypeConverterTest implements ConverterTest {
         apiBasePackageType1 = "PACKAGE";
         apiBasePackageType2 = new BasePackageTypeConverter(apiBasePackageType1).toAPIBasePackageType();
 
-        assertThat("Converter returned a null api object for a non null api object", apiBasePackageType2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiBasePackageType2, is(equalTo(apiBasePackageType1)));
+        assertThat("Converter returned a null api object for a non null api object", apiBasePackageType2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiBasePackageType2, is(apiBasePackageType1));
     }
 
     @Override

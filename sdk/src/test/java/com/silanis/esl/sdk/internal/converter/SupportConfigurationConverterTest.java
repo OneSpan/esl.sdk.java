@@ -9,7 +9,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 7/14/16.
@@ -25,7 +24,7 @@ public class SupportConfigurationConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkSupportConfiguration = null;
         converter = new SupportConfigurationConverter(sdkSupportConfiguration);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISupportConfiguration(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISupportConfiguration(), nullValue());
     }
 
     @Override
@@ -33,7 +32,7 @@ public class SupportConfigurationConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiSupportConfiguration = null;
         converter = new SupportConfigurationConverter(apiSupportConfiguration);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSupportConfiguration(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSupportConfiguration(), nullValue());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class SupportConfigurationConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkSupportConfiguration = null;
         converter = new SupportConfigurationConverter(sdkSupportConfiguration);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSupportConfiguration(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSupportConfiguration(), nullValue());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class SupportConfigurationConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiSupportConfiguration = null;
         converter = new SupportConfigurationConverter(apiSupportConfiguration);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISupportConfiguration(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISupportConfiguration(), nullValue());
     }
 
     @Override
@@ -58,8 +57,8 @@ public class SupportConfigurationConverterTest implements ConverterTest {
         sdkSupportConfiguration = createTypicalSDKSupportConfiguration();
         sdkSupportConfiguration = new SupportConfigurationConverter(sdkSupportConfiguration).toSDKSupportConfiguration();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkSupportConfiguration, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkSupportConfiguration, is(equalTo(sdkSupportConfiguration)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkSupportConfiguration, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkSupportConfiguration, is(sdkSupportConfiguration));
     }
 
     @Override
@@ -68,8 +67,8 @@ public class SupportConfigurationConverterTest implements ConverterTest {
         apiSupportConfiguration = createTypicalAPISupportConfiguration();
         apiSupportConfiguration = new SupportConfigurationConverter(apiSupportConfiguration).toAPISupportConfiguration();
 
-        assertThat("Converter returned a null api object for a non null api object", apiSupportConfiguration, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiSupportConfiguration, is(equalTo(apiSupportConfiguration)));
+        assertThat("Converter returned a null api object for a non null api object", apiSupportConfiguration, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiSupportConfiguration, is(apiSupportConfiguration));
     }
 
     @Override
@@ -78,7 +77,7 @@ public class SupportConfigurationConverterTest implements ConverterTest {
         apiSupportConfiguration = createTypicalAPISupportConfiguration();
         sdkSupportConfiguration = new SupportConfigurationConverter(apiSupportConfiguration).toSDKSupportConfiguration();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkSupportConfiguration, is(notNullValue()));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkSupportConfiguration, notNullValue());
         assertThat("Email was not correctly set", sdkSupportConfiguration.getEmail(), is(apiSupportConfiguration.getEmail()));
         assertThat("Phone was not correctly set", sdkSupportConfiguration.getPhone(), is(apiSupportConfiguration.getPhone()));
     }
@@ -89,7 +88,7 @@ public class SupportConfigurationConverterTest implements ConverterTest {
         sdkSupportConfiguration = createTypicalSDKSupportConfiguration();
         apiSupportConfiguration = new SupportConfigurationConverter(sdkSupportConfiguration).toAPISupportConfiguration();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiSupportConfiguration, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", apiSupportConfiguration, notNullValue());
         assertThat("Email was not correctly set", apiSupportConfiguration.getEmail(), is(apiSupportConfiguration.getEmail()));
         assertThat("Phone was not correctly set", apiSupportConfiguration.getPhone(), is(apiSupportConfiguration.getPhone()));
     }

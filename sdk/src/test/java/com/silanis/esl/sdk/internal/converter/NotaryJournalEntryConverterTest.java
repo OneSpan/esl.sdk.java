@@ -8,7 +8,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 7/14/16.
@@ -24,7 +23,7 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkNotaryJournalEntry = null;
         converter = new NotaryJournalEntryConverter(sdkNotaryJournalEntry);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPINotaryJournalEntry(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPINotaryJournalEntry(), nullValue());
     }
 
     @Override
@@ -32,7 +31,7 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiNotaryJournalEntry = null;
         converter = new NotaryJournalEntryConverter(apiNotaryJournalEntry);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKNotaryJournalEntry(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKNotaryJournalEntry(), nullValue());
     }
 
     @Override
@@ -40,7 +39,7 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkNotaryJournalEntry = null;
         converter = new NotaryJournalEntryConverter(sdkNotaryJournalEntry);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKNotaryJournalEntry(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKNotaryJournalEntry(), nullValue());
     }
 
     @Override
@@ -48,7 +47,7 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiNotaryJournalEntry = null;
         converter = new NotaryJournalEntryConverter(apiNotaryJournalEntry);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPINotaryJournalEntry(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPINotaryJournalEntry(), nullValue());
     }
 
     @Override
@@ -57,8 +56,8 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
         sdkNotaryJournalEntry = createTypicalSDKNotaryJournalEntry();
         sdkNotaryJournalEntry = new NotaryJournalEntryConverter(sdkNotaryJournalEntry).toSDKNotaryJournalEntry();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkNotaryJournalEntry, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkNotaryJournalEntry, is(equalTo(sdkNotaryJournalEntry)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkNotaryJournalEntry, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkNotaryJournalEntry, is(sdkNotaryJournalEntry));
     }
 
     @Override
@@ -67,8 +66,8 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
         apiNotaryJournalEntry = createTypicalAPINotaryJournalEntry();
         apiNotaryJournalEntry = new NotaryJournalEntryConverter(apiNotaryJournalEntry).toAPINotaryJournalEntry();
 
-        assertThat("Converter returned a null api object for a non null api object", apiNotaryJournalEntry, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiNotaryJournalEntry, is(equalTo(apiNotaryJournalEntry)));
+        assertThat("Converter returned a null api object for a non null api object", apiNotaryJournalEntry, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiNotaryJournalEntry, is(apiNotaryJournalEntry));
     }
 
     @Override
@@ -77,7 +76,7 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
         apiNotaryJournalEntry = createTypicalAPINotaryJournalEntry();
         sdkNotaryJournalEntry = new NotaryJournalEntryConverter(apiNotaryJournalEntry).toSDKNotaryJournalEntry();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkNotaryJournalEntry, is(notNullValue()));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkNotaryJournalEntry, notNullValue());
         assertThat("Comment was not correctly set", sdkNotaryJournalEntry.getComment(), is(apiNotaryJournalEntry.getComment()));
         assertThat("CreationDate was not correctly set", sdkNotaryJournalEntry.getCreationDate(), is(apiNotaryJournalEntry.getCreationDate()));
         assertThat("DocumentName was not correctly set", sdkNotaryJournalEntry.getDocumentName(), is(apiNotaryJournalEntry.getDocumentName()));
@@ -96,7 +95,7 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
         sdkNotaryJournalEntry = createTypicalSDKNotaryJournalEntry();
         apiNotaryJournalEntry = new NotaryJournalEntryConverter(sdkNotaryJournalEntry).toAPINotaryJournalEntry();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiNotaryJournalEntry, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", apiNotaryJournalEntry, notNullValue());
         assertThat("Comment was not correctly set", apiNotaryJournalEntry.getComment(), is(sdkNotaryJournalEntry.getComment()));
         assertThat("CreationDate was not correctly set", apiNotaryJournalEntry.getCreationDate(), is(sdkNotaryJournalEntry.getCreationDate()));
         assertThat("DocumentName was not correctly set", apiNotaryJournalEntry.getDocumentName(), is(sdkNotaryJournalEntry.getDocumentName()));
@@ -111,17 +110,17 @@ public class NotaryJournalEntryConverterTest implements ConverterTest {
 
     private com.silanis.esl.sdk.NotaryJournalEntry createTypicalSDKNotaryJournalEntry() {
         return NotaryJournalEntryBuilder.newNotaryJournalEntry()
-                                        .withSequenceNumber(3)
-                                        .withCreationDate(new DateTime().minusDays(7).toDate())
-                                        .withDocumentType("sdkDocumentType")
-                                        .withDocumentName("sdkDocumentName")
-                                        .withSignerName("sdkSignerName")
-                                        .withSignatureType("sdkSignatureType")
-                                        .withIdType("sdkIdType")
-                                        .withIdValue("sdkIdValue")
-                                        .withJurisdiction("sdkJurisdiction")
-                                        .withComment("sdkComment")
-                                        .build();
+                .withSequenceNumber(3)
+                .withCreationDate(new DateTime().minusDays(7).toDate())
+                .withDocumentType("sdkDocumentType")
+                .withDocumentName("sdkDocumentName")
+                .withSignerName("sdkSignerName")
+                .withSignatureType("sdkSignatureType")
+                .withIdType("sdkIdType")
+                .withIdValue("sdkIdValue")
+                .withJurisdiction("sdkJurisdiction")
+                .withComment("sdkComment")
+                .build();
     }
 
     private com.silanis.esl.api.model.NotaryJournalEntry createTypicalAPINotaryJournalEntry() {

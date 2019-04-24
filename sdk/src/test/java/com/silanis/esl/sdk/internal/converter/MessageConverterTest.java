@@ -6,13 +6,16 @@ import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by lena on 2014-07-03.
@@ -30,7 +33,7 @@ public class MessageConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkMessage1 = null;
         converter = new MessageConverter(sdkMessage1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIMessage(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIMessage(), nullValue());
     }
 
     @Override
@@ -38,7 +41,7 @@ public class MessageConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiMessage1 = null;
         converter = new MessageConverter(apiMessage1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKMessage(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKMessage(), nullValue());
     }
 
     @Override
@@ -46,7 +49,7 @@ public class MessageConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkMessage1 = null;
         converter = new MessageConverter(sdkMessage1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKMessage(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKMessage(), nullValue());
     }
 
     @Override
@@ -54,7 +57,7 @@ public class MessageConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiMessage1 = null;
         converter = new MessageConverter(apiMessage1);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIMessage(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIMessage(), nullValue());
     }
 
     @Override
@@ -63,8 +66,8 @@ public class MessageConverterTest implements ConverterTest {
         sdkMessage1 = createTypicalSDKMessage();
         sdkMessage2 = new MessageConverter(sdkMessage1).toSDKMessage();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkMessage2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkMessage2, is(equalTo(sdkMessage1)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkMessage2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkMessage2, is(sdkMessage1));
     }
 
     @Override
@@ -73,8 +76,8 @@ public class MessageConverterTest implements ConverterTest {
         apiMessage1 = createTypicalAPIMessage();
         apiMessage2 = new MessageConverter(apiMessage1).toAPIMessage();
 
-        assertThat("Converter returned a null api object for a non null api object", apiMessage2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiMessage2, is(equalTo(apiMessage1)));
+        assertThat("Converter returned a null api object for a non null api object", apiMessage2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiMessage2, is(apiMessage1));
     }
 
     @Override
@@ -83,16 +86,16 @@ public class MessageConverterTest implements ConverterTest {
         apiMessage1 = createTypicalAPIMessage();
         sdkMessage1 = new MessageConverter(apiMessage1).toSDKMessage();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkMessage1, is(notNullValue()));
-        assertThat("Message status was not correctly set", sdkMessage1.getStatus().toString(), is(equalTo(apiMessage1.getStatus().toString())));
-        assertThat("Message content was not correctly set", sdkMessage1.getContent(), is(equalTo(apiMessage1.getContent())));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkMessage1, notNullValue());
+        assertThat("Message status was not correctly set", sdkMessage1.getStatus().toString(), is(apiMessage1.getStatus()));
+        assertThat("Message content was not correctly set", sdkMessage1.getContent(), is(apiMessage1.getContent()));
         assertThat("Message created date was not correctly set", sdkMessage1.getCreated(), is(apiMessage1.getCreated()));
-        assertThat("Message from signer first name was not correctly set", sdkMessage1.getFrom().getFirstName(), is(equalTo(apiMessage1.getFrom().getFirstName())));
-        assertThat("Message from signer last name was not correctly set", sdkMessage1.getFrom().getLastName(), is(equalTo(apiMessage1.getFrom().getLastName())));
-        assertThat("Message from signer email was not correctly set", sdkMessage1.getFrom().getEmail(), is(equalTo(apiMessage1.getFrom().getEmail())));
-        assertThat("Message to signer first name was not correctly set", sdkMessage1.getTo().get("email2@email.com").getFirstName(), is(equalTo(apiMessage1.getTo().get(0).getFirstName())));
-        assertThat("Message to signer last name was not correctly set", sdkMessage1.getTo().get("email2@email.com").getLastName(), is(equalTo(apiMessage1.getTo().get(0).getLastName())));
-        assertThat("Message to signer email was not correctly set", sdkMessage1.getTo().get("email2@email.com").getEmail(), is(equalTo(apiMessage1.getTo().get(0).getEmail())));
+        assertThat("Message from signer first name was not correctly set", sdkMessage1.getFrom().getFirstName(), is(apiMessage1.getFrom().getFirstName()));
+        assertThat("Message from signer last name was not correctly set", sdkMessage1.getFrom().getLastName(), is(apiMessage1.getFrom().getLastName()));
+        assertThat("Message from signer email was not correctly set", sdkMessage1.getFrom().getEmail(), is(apiMessage1.getFrom().getEmail()));
+        assertThat("Message to signer first name was not correctly set", sdkMessage1.getTo().get("email2@email.com").getFirstName(), is(apiMessage1.getTo().get(0).getFirstName()));
+        assertThat("Message to signer last name was not correctly set", sdkMessage1.getTo().get("email2@email.com").getLastName(), is(apiMessage1.getTo().get(0).getLastName()));
+        assertThat("Message to signer email was not correctly set", sdkMessage1.getTo().get("email2@email.com").getEmail(), is(apiMessage1.getTo().get(0).getEmail()));
     }
 
     @Override
@@ -101,16 +104,16 @@ public class MessageConverterTest implements ConverterTest {
         sdkMessage1 = createTypicalSDKMessage();
         apiMessage1 = new MessageConverter(sdkMessage1).toAPIMessage();
 
-        assertThat("Converter returned a null sdk object for a non null api object", apiMessage1, is(notNullValue()));
-        assertThat("Message status was not correctly set", apiMessage1.getStatus().toString(), is(equalTo(sdkMessage1.getStatus().toString())));
-        assertThat("Message content was not correctly set", apiMessage1.getContent(), is(equalTo(sdkMessage1.getContent())));
+        assertThat("Converter returned a null sdk object for a non null api object", apiMessage1, notNullValue());
+        assertThat("Message status was not correctly set", apiMessage1.getStatus(), is(sdkMessage1.getStatus().toString()));
+        assertThat("Message content was not correctly set", apiMessage1.getContent(), is(sdkMessage1.getContent()));
         assertThat("Message created date was not correctly set", apiMessage1.getCreated(), is(sdkMessage1.getCreated()));
-        assertThat("Message from signer first name was not correctly set", apiMessage1.getFrom().getFirstName(), is(equalTo(sdkMessage1.getFrom().getFirstName())));
-        assertThat("Message from signer last name was not correctly set", apiMessage1.getFrom().getLastName(), is(equalTo(sdkMessage1.getFrom().getLastName())));
-        assertThat("Message from signer email was not correctly set", apiMessage1.getFrom().getEmail(), is(equalTo(sdkMessage1.getFrom().getEmail())));
-        assertThat("Message to signer first name was not correctly set", apiMessage1.getTo().get(0).getFirstName(), is(equalTo(sdkMessage1.getTo().get("email2@email.com").getFirstName())));
-        assertThat("Message to signer last name was not correctly set", apiMessage1.getTo().get(0).getLastName(), is(equalTo(sdkMessage1.getTo().get("email2@email.com").getLastName())));
-        assertThat("Message to signer email was not correctly set", apiMessage1.getTo().get(0).getEmail(), is(equalTo(sdkMessage1.getTo().get("email2@email.com").getEmail())));
+        assertThat("Message from signer first name was not correctly set", apiMessage1.getFrom().getFirstName(), is(sdkMessage1.getFrom().getFirstName()));
+        assertThat("Message from signer last name was not correctly set", apiMessage1.getFrom().getLastName(), is(sdkMessage1.getFrom().getLastName()));
+        assertThat("Message from signer email was not correctly set", apiMessage1.getFrom().getEmail(), is(sdkMessage1.getFrom().getEmail()));
+        assertThat("Message to signer first name was not correctly set", apiMessage1.getTo().get(0).getFirstName(), is(sdkMessage1.getTo().get("email2@email.com").getFirstName()));
+        assertThat("Message to signer last name was not correctly set", apiMessage1.getTo().get(0).getLastName(), is(sdkMessage1.getTo().get("email2@email.com").getLastName()));
+        assertThat("Message to signer email was not correctly set", apiMessage1.getTo().get(0).getEmail(), is(sdkMessage1.getTo().get("email2@email.com").getEmail()));
     }
 
     private com.silanis.esl.sdk.Message createTypicalSDKMessage() {

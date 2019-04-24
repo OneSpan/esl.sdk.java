@@ -1,6 +1,11 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.FieldStyle;
+import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.SignatureStyle;
 import org.apache.commons.lang3.ObjectUtils;
 import org.junit.Test;
 
@@ -19,9 +24,8 @@ import static org.hamcrest.Matchers.notNullValue;
  * User: jessica
  * Date: 10/01/14
  * Time: 3:15 PM
- *
+ * <p>
  * Test DocumentExtractionExample.
- *
  */
 public class DocumentExtractionExampleTest {
 
@@ -92,7 +96,7 @@ public class DocumentExtractionExampleTest {
         if (signatures != null) {
             for (Signature signature : signatures) {
                 if (areClose(signature.getX(), left) &&
-                    areClose(signature.getY(), top)) {
+                        areClose(signature.getY(), top)) {
                     return signature;
                 }
             }
@@ -152,11 +156,9 @@ public class DocumentExtractionExampleTest {
         assertThat("Wrong number of fields for signature.", signature.getFields().size(), is(numbOfFields));
     }
 
-    private <T> ArrayList<T> convertList(Collection<T> collection){
+    private <T> ArrayList<T> convertList(Collection<T> collection) {
         ArrayList<T> list = new ArrayList<T>();
-        for (T type : collection){
-            list.add(type);
-        }
+        list.addAll(collection);
         return list;
     }
 }

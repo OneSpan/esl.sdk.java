@@ -5,7 +5,6 @@ import com.silanis.esl.sdk.EslException;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.newAttachmentRequirementWithName;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -25,8 +24,8 @@ public class AttachmentRequirementBuilderTest {
                 .isRequiredAttachment()
                 .build();
 
-        assertThat("Attachment's name was not set correctly.", attachmentRequirement.getName(), is(equalTo(name)));
-        assertThat("Attachment's description was not set correctly.", attachmentRequirement.getDescription(), is(equalTo(description)));
+        assertThat("Attachment's name was not set correctly.", attachmentRequirement.getName(), is(name));
+        assertThat("Attachment's description was not set correctly.", attachmentRequirement.getDescription(), is(description));
         assertThat("Attachment's required property was not set correctly", attachmentRequirement.isRequired(), is(isRequired));
     }
 

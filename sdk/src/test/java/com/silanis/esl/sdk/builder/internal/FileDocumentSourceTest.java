@@ -6,7 +6,6 @@ import java.io.File;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 public class FileDocumentSourceTest {
@@ -17,7 +16,7 @@ public class FileDocumentSourceTest {
         FileDocumentSource source = new FileDocumentSource(file);
         byte[] content = source.content();
 
-        assertThat(content, is(notNullValue()));
+        assertThat(content, notNullValue());
         assertThat(content.length, greaterThan(0));
     }
 

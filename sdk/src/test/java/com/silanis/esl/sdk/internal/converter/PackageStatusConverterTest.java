@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by lena on 2014-06-02.
@@ -25,7 +24,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkPackageStatus1 = null;
         converter = new PackageStatusConverter(sdkPackageStatus1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIPackageStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIPackageStatus(), nullValue());
     }
 
     @Override
@@ -33,7 +32,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiPackageStatus1 = null;
         converter = new PackageStatusConverter(apiPackageStatus1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKPackageStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKPackageStatus(), nullValue());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkPackageStatus1 = null;
         converter = new PackageStatusConverter(sdkPackageStatus1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKPackageStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKPackageStatus(), nullValue());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class PackageStatusConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiPackageStatus1 = null;
         converter = new PackageStatusConverter(apiPackageStatus1);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIPackageStatus(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIPackageStatus(), nullValue());
     }
 
     @Override
@@ -58,8 +57,8 @@ public class PackageStatusConverterTest implements ConverterTest {
         sdkPackageStatus1 = com.silanis.esl.sdk.PackageStatus.DRAFT;
         sdkPackageStatus2 = new PackageStatusConverter(sdkPackageStatus1).toSDKPackageStatus();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkPackageStatus2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkPackageStatus2, is(equalTo(sdkPackageStatus1)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkPackageStatus2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkPackageStatus2, is(sdkPackageStatus1));
     }
 
     @Override
@@ -68,8 +67,8 @@ public class PackageStatusConverterTest implements ConverterTest {
         apiPackageStatus1 = "COMPLETED";
         apiPackageStatus2 = new PackageStatusConverter(apiPackageStatus1).toAPIPackageStatus();
 
-        assertThat("Converter returned a null api object for a non null api object", apiPackageStatus2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiPackageStatus2, is(equalTo(apiPackageStatus1)));
+        assertThat("Converter returned a null api object for a non null api object", apiPackageStatus2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiPackageStatus2, is(apiPackageStatus1));
     }
 
     @Override

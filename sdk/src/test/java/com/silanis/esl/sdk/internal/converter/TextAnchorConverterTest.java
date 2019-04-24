@@ -15,7 +15,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
  * User: jessica
  * Date: 19/11/13
  * Time: 4:44 PM
- *
+ * <p>
  * Test TextAnchorConverter.
  */
 public class TextAnchorConverterTest implements ConverterTest {
@@ -31,7 +31,7 @@ public class TextAnchorConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkTextAnchor1 = null;
         TextAnchorConverter converter = new TextAnchorConverter(sdkTextAnchor1);
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIExtractAnchor(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIExtractAnchor(), is(nullValue()));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TextAnchorConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiExtractAnchor1 = null;
         TextAnchorConverter converter = new TextAnchorConverter(apiExtractAnchor1);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKTextAnchor(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKTextAnchor(), is(nullValue()));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class TextAnchorConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkTextAnchor1 = null;
         TextAnchorConverter converter = new TextAnchorConverter(sdkTextAnchor1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKTextAnchor(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKTextAnchor(), is(nullValue()));
     }
 
     @Override
@@ -55,16 +55,16 @@ public class TextAnchorConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiExtractAnchor1 = null;
         TextAnchorConverter converter = new TextAnchorConverter(apiExtractAnchor1);
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIExtractAnchor(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIExtractAnchor(), is(nullValue()));
     }
 
     @Override
     @Test
     public void convertSDKToSDK() {
-    sdkTextAnchor1 = createTypicalSDKTextAnchor();
+        sdkTextAnchor1 = createTypicalSDKTextAnchor();
         sdkTextAnchor2 = new TextAnchorConverter(sdkTextAnchor1).toSDKTextAnchor();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkTextAnchor2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkTextAnchor2, is( equalTo( sdkTextAnchor1 ) ) );
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkTextAnchor2, is(notNullValue()));
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkTextAnchor2, is(equalTo(sdkTextAnchor1)));
     }
 
     @Override
@@ -72,17 +72,17 @@ public class TextAnchorConverterTest implements ConverterTest {
     public void convertAPIToAPI() {
         apiExtractAnchor1 = createTypicalAPITextAnchor();
         apiExtractAnchor2 = new TextAnchorConverter(apiExtractAnchor1).toAPIExtractAnchor();
-        assertThat( "Converter returned a null api object for a non null api object", apiExtractAnchor2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiExtractAnchor2, is( equalTo( apiExtractAnchor1 ) ) );
+        assertThat("Converter returned a null api object for a non null api object", apiExtractAnchor2, is(notNullValue()));
+        assertThat("Converter didn't return the same non-null api object it was given", apiExtractAnchor2, is(equalTo(apiExtractAnchor1)));
     }
 
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiExtractAnchor1 =  createTypicalAPITextAnchor();
+        apiExtractAnchor1 = createTypicalAPITextAnchor();
         sdkTextAnchor1 = new TextAnchorConverter(apiExtractAnchor1).toSDKTextAnchor();
-        assertThat( "Converter returned a null sdk object for a non null api object", sdkTextAnchor1, is( notNullValue() ) );
-        compareTextAnchors( sdkTextAnchor1,  apiExtractAnchor1);
+        assertThat("Converter returned a null sdk object for a non null api object", sdkTextAnchor1, is(notNullValue()));
+        compareTextAnchors(sdkTextAnchor1, apiExtractAnchor1);
     }
 
     @Override
@@ -91,9 +91,9 @@ public class TextAnchorConverterTest implements ConverterTest {
 
         sdkTextAnchor1 = createTypicalSDKTextAnchor();
         apiExtractAnchor1 = new TextAnchorConverter(sdkTextAnchor1).toAPIExtractAnchor();
-        assertThat( "Converter returned a null api object for a non null sdk object", apiExtractAnchor1, is( notNullValue() ) );
+        assertThat("Converter returned a null api object for a non null sdk object", apiExtractAnchor1, is(notNullValue()));
 
-        compareTextAnchors( sdkTextAnchor1,  apiExtractAnchor1);
+        compareTextAnchors(sdkTextAnchor1, apiExtractAnchor1);
     }
 
     /**
@@ -143,13 +143,13 @@ public class TextAnchorConverterTest implements ConverterTest {
     }
 
     private void compareTextAnchors(com.silanis.esl.sdk.TextAnchor sdkTextAnchor, com.silanis.esl.api.model.ExtractAnchor apiExtractAnchor) {
-        assertThat( "Character index was not set correctly", apiExtractAnchor.getCharacterIndex(), is( equalTo( sdkTextAnchor.getCharacter()) ) );
-        assertThat( " Height was not set correctly.", apiExtractAnchor.getHeight(), is( equalTo( sdkTextAnchor.getHeight() ) ) );
-        assertThat( " Top offset was not set correctly.", apiExtractAnchor.getTopOffset(), is(equalTo(sdkTextAnchor.getYOffset())) );
-        assertThat( " Left offset was not set correctly.", apiExtractAnchor.getLeftOffset(), is( equalTo( sdkTextAnchor.getXOffset() ) ) );
-        assertThat( " Width was not set correctly.", apiExtractAnchor.getWidth(), is(equalTo(sdkTextAnchor.getWidth())) );
-        assertThat( " Text was not set correctly.", apiExtractAnchor.getText(), is( equalTo( sdkTextAnchor.getAnchorText() ) ) );
-        assertThat( " Anchor point was not set correctly.", apiExtractAnchor.getAnchorPoint(), is( equalTo( sdkTextAnchor.getPosition().toString() ) ) );
+        assertThat("Character index was not set correctly", apiExtractAnchor.getCharacterIndex(), is(equalTo(sdkTextAnchor.getCharacter())));
+        assertThat(" Height was not set correctly.", apiExtractAnchor.getHeight(), is(equalTo(sdkTextAnchor.getHeight())));
+        assertThat(" Top offset was not set correctly.", apiExtractAnchor.getTopOffset(), is(sdkTextAnchor.getYOffset()));
+        assertThat(" Left offset was not set correctly.", apiExtractAnchor.getLeftOffset(), is(equalTo(sdkTextAnchor.getXOffset())));
+        assertThat(" Width was not set correctly.", apiExtractAnchor.getWidth(), is(sdkTextAnchor.getWidth()));
+        assertThat(" Text was not set correctly.", apiExtractAnchor.getText(), is(equalTo(sdkTextAnchor.getAnchorText())));
+        assertThat(" Anchor point was not set correctly.", apiExtractAnchor.getAnchorPoint(), is(equalTo(sdkTextAnchor.getPosition().toString())));
     }
 
 }

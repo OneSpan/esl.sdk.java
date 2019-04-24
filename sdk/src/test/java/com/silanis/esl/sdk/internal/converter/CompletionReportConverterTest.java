@@ -30,7 +30,7 @@ public class CompletionReportConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiCompletionReport1 = null;
         converter = new CompletionReportConverter(apiCompletionReport1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKCompletionReport(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKCompletionReport(), nullValue());
     }
 
     @Override
@@ -74,7 +74,7 @@ public class CompletionReportConverterTest implements ConverterTest {
         com.silanis.esl.sdk.PackageCompletionReport sdkPackageCompletionReport = sdkCompletionReport1.getSenders().get(0).getPackages().get(0);
         assertThat("Package completion report has the wrong id.", sdkPackageCompletionReport.getId(), is(apiPackageCompletionReport.getId()));
         assertThat("Package completion report has the wrong name.", sdkPackageCompletionReport.getName(), is(apiPackageCompletionReport.getName()));
-        assertThat("Package completion report has the wrong package status.", sdkPackageCompletionReport.getPackageStatus().toString(), is(apiPackageCompletionReport.getStatus().toString()));
+        assertThat("Package completion report has the wrong package status.", sdkPackageCompletionReport.getPackageStatus().toString(), is(apiPackageCompletionReport.getStatus()));
         assertThat("Package completion report has the wrong created date.", sdkPackageCompletionReport.getCreated(), is(apiPackageCompletionReport.getCreated()));
         assertThat("Package completion report should have 1 document completion report.", sdkPackageCompletionReport.getDocuments().size(), is(1));
         assertThat("Package completion report should have 1 signer completion report.", sdkPackageCompletionReport.getSigners().size(), is(1));

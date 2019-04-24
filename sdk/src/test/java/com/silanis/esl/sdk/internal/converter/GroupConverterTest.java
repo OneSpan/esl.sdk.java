@@ -87,10 +87,10 @@ public class GroupConverterTest implements ConverterTest{
         sdkGroup1 = new GroupConverter(apiGroup1).toSDKGroup();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiGroup1, is( notNullValue() ) );
-        assertThat("ID was not correctly set", apiGroup1.getId(), is(equalTo(sdkGroup1.getId().toString())));
-        assertThat("Name was not correctly set", apiGroup1.getName(), is(equalTo(sdkGroup1.getName())));
-        assertThat("Email was not correctly set", apiGroup1.getEmail(), is(equalTo(sdkGroup1.getEmail())));
-        assertThat("Email member flag was not correctly set", apiGroup1.getEmailMembers(), is(equalTo(sdkGroup1.getEmailMembers())));
+        assertThat("ID was not correctly set", apiGroup1.getId(), is(sdkGroup1.getId().toString()));
+        assertThat("Name was not correctly set", apiGroup1.getName(), is(sdkGroup1.getName()));
+        assertThat("Email was not correctly set", apiGroup1.getEmail(), is(sdkGroup1.getEmail()));
+        assertThat("Email member flag was not correctly set", apiGroup1.getEmailMembers(), is(sdkGroup1.getEmailMembers()));
     }
 
     @Override
@@ -101,12 +101,12 @@ public class GroupConverterTest implements ConverterTest{
         apiGroup1 = new GroupConverter(sdkGroup1).toAPIGroup();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiGroup1, is( notNullValue() ) );
-        assertThat("ID was not correctly set", apiGroup1.getId(), is(equalTo(sdkGroup1.getId().toString())));
-        assertThat("Name was not correctly set", apiGroup1.getName(), is(equalTo(sdkGroup1.getName())));
-        assertThat("Create date was not correctly set", apiGroup1.getCreated(), is(equalTo(sdkGroup1.getCreated())));
-        assertThat("Update date was not correctly set", apiGroup1.getUpdated(), is(equalTo(sdkGroup1.getUpdated())));
-        assertThat("Email was not correctly set", apiGroup1.getEmail(), is(equalTo(sdkGroup1.getEmail())));
-        assertThat("Email member flag was not correctly set", apiGroup1.getEmailMembers(), is(equalTo(sdkGroup1.getEmailMembers())));
+        assertThat("ID was not correctly set", apiGroup1.getId(), is(sdkGroup1.getId().toString()));
+        assertThat("Name was not correctly set", apiGroup1.getName(), is(sdkGroup1.getName()));
+        assertThat("Create date was not correctly set", apiGroup1.getCreated(), is(sdkGroup1.getCreated()));
+        assertThat("Update date was not correctly set", apiGroup1.getUpdated(), is(sdkGroup1.getUpdated()));
+        assertThat("Email was not correctly set", apiGroup1.getEmail(), is(sdkGroup1.getEmail()));
+        assertThat("Email member flag was not correctly set", apiGroup1.getEmailMembers(), is(sdkGroup1.getEmailMembers()));
     }
 
     /**

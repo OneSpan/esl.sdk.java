@@ -26,7 +26,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkGroupSummary = null;
         converter = new GroupSummaryConverter(sdkGroupSummary);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIGroupSummary(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIGroupSummary(), nullValue());
     }
 
     @Override
@@ -34,7 +34,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiGroupSummary = null;
         converter = new GroupSummaryConverter(apiGroupSummary);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKGroupSummary(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKGroupSummary(), nullValue());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkGroupSummary = null;
         converter = new GroupSummaryConverter(sdkGroupSummary);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKGroupSummary(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKGroupSummary(), nullValue());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiGroupSummary = null;
         converter = new GroupSummaryConverter(apiGroupSummary);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIGroupSummary(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIGroupSummary(), nullValue());
     }
 
     @Override
@@ -59,8 +59,8 @@ public class GroupSummaryConverterTest implements ConverterTest {
         sdkGroupSummary = createTypicalSDKGroupSummary();
         sdkGroupSummary = new GroupSummaryConverter(sdkGroupSummary).toSDKGroupSummary();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkGroupSummary, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkGroupSummary, is(equalTo(sdkGroupSummary)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkGroupSummary, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkGroupSummary, is(sdkGroupSummary));
     }
 
     @Override
@@ -69,8 +69,8 @@ public class GroupSummaryConverterTest implements ConverterTest {
         apiGroupSummary = createTypicalAPIGroupSummary();
         apiGroupSummary = new GroupSummaryConverter(apiGroupSummary).toAPIGroupSummary();
 
-        assertThat("Converter returned a null api object for a non null api object", apiGroupSummary, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiGroupSummary, is(equalTo(apiGroupSummary)));
+        assertThat("Converter returned a null api object for a non null api object", apiGroupSummary, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiGroupSummary, is(apiGroupSummary));
     }
 
     @Override
@@ -79,7 +79,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
         apiGroupSummary = createTypicalAPIGroupSummary();
         sdkGroupSummary = new GroupSummaryConverter(apiGroupSummary).toSDKGroupSummary();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkGroupSummary, is(notNullValue()));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkGroupSummary, notNullValue());
         assertThat("Id was not correctly set", sdkGroupSummary.getId(), is(apiGroupSummary.getId()));
         assertThat("Name was not correctly set", sdkGroupSummary.getName(), is(apiGroupSummary.getName()));
         assertThat("Email was not correctly set", sdkGroupSummary.getEmail(), is(apiGroupSummary.getEmail()));
@@ -92,7 +92,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
         sdkGroupSummary = createTypicalSDKGroupSummary();
         apiGroupSummary = new GroupSummaryConverter(sdkGroupSummary).toAPIGroupSummary();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiGroupSummary, is(notNullValue()));
+        assertThat("Converter returned a null api object for a non null sdk object", apiGroupSummary, notNullValue());
         assertThat("Id was not correctly set", apiGroupSummary.getId(), is(sdkGroupSummary.getId()));
         assertThat("Name was not correctly set", apiGroupSummary.getName(), is(sdkGroupSummary.getName()));
         assertThat("Email was not correctly set", apiGroupSummary.getEmail(), is(sdkGroupSummary.getEmail()));

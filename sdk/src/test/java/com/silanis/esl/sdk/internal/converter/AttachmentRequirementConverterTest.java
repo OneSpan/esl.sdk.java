@@ -2,14 +2,12 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.sdk.AttachmentRequirement;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by lena on 2014-05-09.
@@ -28,7 +26,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkAttachmentRequirement1 = null;
         converter = new AttachmentRequirementConverter(sdkAttachmentRequirement1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIAttachmentRequirement(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIAttachmentRequirement(), nullValue());
     }
 
     @Override
@@ -36,7 +34,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiAttachmentRequirement1 = null;
         converter = new AttachmentRequirementConverter(apiAttachmentRequirement1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKAttachmentRequirement(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKAttachmentRequirement(), nullValue());
     }
 
     @Override
@@ -44,7 +42,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkAttachmentRequirement1 = null;
         converter = new AttachmentRequirementConverter(sdkAttachmentRequirement1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKAttachmentRequirement(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKAttachmentRequirement(), nullValue());
     }
 
     @Override
@@ -52,7 +50,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiAttachmentRequirement1 = null;
         converter = new AttachmentRequirementConverter(apiAttachmentRequirement1);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIAttachmentRequirement(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIAttachmentRequirement(), nullValue());
     }
 
     @Override
@@ -61,8 +59,8 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         sdkAttachmentRequirement1 = createTypicalSDKAttachmentRequirement();
         sdkAttachmentRequirement2 = new AttachmentRequirementConverter(sdkAttachmentRequirement1).toSDKAttachmentRequirement();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkAttachmentRequirement2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkAttachmentRequirement2, is(equalTo(sdkAttachmentRequirement1)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkAttachmentRequirement2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkAttachmentRequirement2, is(sdkAttachmentRequirement1));
     }
 
     @Override
@@ -71,8 +69,8 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         apiAttachmentRequirement1 = createTypicalAPIAttachmentRequirement();
         apiAttachmentRequirement2 = new AttachmentRequirementConverter(apiAttachmentRequirement1).toAPIAttachmentRequirement();
 
-        assertThat("Converter returned a null api object for a non null api object", apiAttachmentRequirement2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiAttachmentRequirement2, is(equalTo(apiAttachmentRequirement1)));
+        assertThat("Converter returned a null api object for a non null api object", apiAttachmentRequirement2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiAttachmentRequirement2, is(apiAttachmentRequirement1));
     }
 
     @Override
@@ -81,12 +79,12 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         apiAttachmentRequirement1 = createTypicalAPIAttachmentRequirement();
         sdkAttachmentRequirement1 = new AttachmentRequirementConverter(apiAttachmentRequirement1).toSDKAttachmentRequirement();
 
-        assertThat("Attachment's name was not set correctly", sdkAttachmentRequirement1.getName(), is(equalTo(apiAttachmentRequirement1.getName())));
-        assertThat("Attachment's description was not set correctly", sdkAttachmentRequirement1.getDescription(), is(equalTo(apiAttachmentRequirement1.getDescription())));
-        assertThat("Attachment's ID was not set correctly", sdkAttachmentRequirement1.getId(), is(equalTo(apiAttachmentRequirement1.getId())));
+        assertThat("Attachment's name was not set correctly", sdkAttachmentRequirement1.getName(), is(apiAttachmentRequirement1.getName()));
+        assertThat("Attachment's description was not set correctly", sdkAttachmentRequirement1.getDescription(), is(apiAttachmentRequirement1.getDescription()));
+        assertThat("Attachment's ID was not set correctly", sdkAttachmentRequirement1.getId(), is(apiAttachmentRequirement1.getId()));
         assertThat("Attachment's required property was not set correctly", sdkAttachmentRequirement1.isRequired(), is(apiAttachmentRequirement1.getRequired()));
-        assertThat("Attachment's status was not set correctly", sdkAttachmentRequirement1.getStatus().toString(), is(equalTo(apiAttachmentRequirement1.getStatus().toString())));
-        assertThat("Attachment's comments was not set correctly", sdkAttachmentRequirement1.getSenderComment(), is(equalTo(apiAttachmentRequirement1.getComment())));
+        assertThat("Attachment's status was not set correctly", sdkAttachmentRequirement1.getStatus().toString(), is(apiAttachmentRequirement1.getStatus()));
+        assertThat("Attachment's comments was not set correctly", sdkAttachmentRequirement1.getSenderComment(), is(apiAttachmentRequirement1.getComment()));
     }
 
     @Override
@@ -95,12 +93,12 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         sdkAttachmentRequirement1 = createTypicalSDKAttachmentRequirement();
         apiAttachmentRequirement1 = new AttachmentRequirementConverter(sdkAttachmentRequirement1).toAPIAttachmentRequirement();
 
-        assertThat("Attachment's name was not set correctly", apiAttachmentRequirement1.getName(), is(equalTo(sdkAttachmentRequirement1.getName())));
-        assertThat("Attachment's description was not set correctly", apiAttachmentRequirement1.getDescription(), is(equalTo(sdkAttachmentRequirement1.getDescription())));
+        assertThat("Attachment's name was not set correctly", apiAttachmentRequirement1.getName(), is(sdkAttachmentRequirement1.getName()));
+        assertThat("Attachment's description was not set correctly", apiAttachmentRequirement1.getDescription(), is(sdkAttachmentRequirement1.getDescription()));
         assertThat("Attachment's required property was not set correctly", apiAttachmentRequirement1.getRequired(), is(sdkAttachmentRequirement1.isRequired()));
-        assertThat("Attachment's ID was not set correctly", apiAttachmentRequirement1.getId(), is(equalTo(sdkAttachmentRequirement1.getId())));
-        assertThat("Attachment's status was not set correctly", apiAttachmentRequirement1.getStatus().toString(), is(equalTo(sdkAttachmentRequirement1.getStatus().toString())));
-        assertThat("Attachment's comments was not set correctly", apiAttachmentRequirement1.getComment(), is(equalTo(sdkAttachmentRequirement1.getSenderComment())));
+        assertThat("Attachment's ID was not set correctly", apiAttachmentRequirement1.getId(), is(sdkAttachmentRequirement1.getId()));
+        assertThat("Attachment's status was not set correctly", apiAttachmentRequirement1.getStatus(), is(sdkAttachmentRequirement1.getStatus().toString()));
+        assertThat("Attachment's comments was not set correctly", apiAttachmentRequirement1.getComment(), is(sdkAttachmentRequirement1.getSenderComment()));
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.AttachmentRequirement;
+import com.silanis.esl.api.model.BaseMessage;
+import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,11 +14,9 @@ import java.util.Locale;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * User: jessica
@@ -111,7 +111,7 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Attachment's name was not set correctly", attachmentName, is(sdkSigner1.getAttachmentRequirement(attachmentName).getName()));
         assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription()));
         assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
-        assertThat("Attachment's status was not set correctly", apiRole.getAttachmentRequirements().get(0).getStatus().toString(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getStatus().toString()));
+        assertThat("Attachment's status was not set correctly", apiRole.getAttachmentRequirements().get(0).getStatus(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getStatus().toString()));
         assertThat("Attachment's comments was not set correctly", apiRole.getAttachmentRequirements().get(0).getComment(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getSenderComment()));
     }
 
@@ -151,8 +151,8 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
                 is(sdkSigner1.getLanguage().getLanguage()));
 
-        assertThat("ID was not set correctly", apiRole.getId().toString(), is(sdkSigner1.getId()));
-        assertThat("Name was not set correctly", apiRole.getName().toString(), is(sdkSigner1.getId()));
+        assertThat("ID was not set correctly", apiRole.getId(), is(sdkSigner1.getId()));
+        assertThat("Name was not set correctly", apiRole.getName(), is(sdkSigner1.getId()));
         assertThat("Message was not set correctly", apiRole.getEmailMessage().getContent(), is(sdkSigner1.getMessage()));
 
         String attachmentName = apiRole.getAttachmentRequirements().get(0).getName();
@@ -191,8 +191,8 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
                 is(sdkSigner1.getLanguage().getLanguage()));
 
-        assertThat("ID was not set correctly", apiRole.getId().toString(), is(roleId));
-        assertThat("Name was not set correctly", apiRole.getName().toString(), is(roleId));
+        assertThat("ID was not set correctly", apiRole.getId(), is(roleId));
+        assertThat("Name was not set correctly", apiRole.getName(), is(roleId));
         assertThat("Message was not set correctly", apiRole.getEmailMessage(), nullValue());
     }
 

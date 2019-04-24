@@ -63,7 +63,7 @@ public class SenderInfoTest {
 
         Sender sender = new SenderConverter(senderInfo).toAPISender();
 
-        assertThat("first name was not properly set or retrieved", sender.getFirstName(), is(equalTo("firstName")));
+        assertThat("first name was not properly set or retrieved", sender.getFirstName(), is("firstName"));
         assertThat( "last name was not properly set or retrieved", sender.getLastName(), is( equalTo( "lastName" ) ) );
         assertThat( "company was not properly set or retrieved", sender.getCompany(), is( equalTo( "company" ) ) );
         assertThat( "title was not properly set or retrieved", sender.getTitle(), is( equalTo( "title" ) ) );

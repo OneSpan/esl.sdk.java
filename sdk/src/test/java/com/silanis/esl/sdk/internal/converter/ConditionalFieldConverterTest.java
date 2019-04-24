@@ -27,7 +27,7 @@ public class ConditionalFieldConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkField1 = null;
         converter = new ConditionalFieldConverter(sdkField1);
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIConditionalField(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIConditionalField(), is(nullValue()));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ConditionalFieldConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiField1 = null;
         converter = new ConditionalFieldConverter(apiField1);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKConditionalField(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKConditionalField(), is(nullValue()));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ConditionalFieldConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkField1 = null;
         converter = new ConditionalFieldConverter(sdkField1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKConditionalField(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKConditionalField(), is(nullValue()));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ConditionalFieldConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiField1 = null;
         converter = new ConditionalFieldConverter(apiField1);
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIConditionalField(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIConditionalField(), is(nullValue()));
     }
 
     @Override
@@ -60,8 +60,8 @@ public class ConditionalFieldConverterTest implements ConverterTest {
 
         sdkField1 = createTypicalSDKConditionalField();
         sdkField2 = new ConditionalFieldConverter(sdkField1).toSDKConditionalField();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkField2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkField2, is( equalTo( sdkField1 ) ) );
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkField2, is(notNullValue()));
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkField2, is(equalTo(sdkField1)));
     }
 
     @Override
@@ -71,8 +71,8 @@ public class ConditionalFieldConverterTest implements ConverterTest {
         apiField1 = createTypicalAPIConditionalField();
         apiField2 = new ConditionalFieldConverter(apiField1).toAPIConditionalField();
 
-        assertThat( "Converter returned a null api object for a non null api object", apiField2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiField2, is( equalTo( apiField1 ) ) );
+        assertThat("Converter returned a null api object for a non null api object", apiField2, is(notNullValue()));
+        assertThat("Converter didn't return the same non-null api object it was given", apiField2, is(equalTo(apiField1)));
     }
 
     @Override
@@ -81,17 +81,17 @@ public class ConditionalFieldConverterTest implements ConverterTest {
         apiField1 = createTypicalAPIConditionalField();
         sdkField1 = new ConditionalFieldConverter(apiField1).toSDKConditionalField();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiField1, is( notNullValue() ) );
-        assertThat("Left coordinate was not correctly set", apiField1.getLeft(), is( equalTo(sdkField1.getX()) ) );
-        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(equalTo(sdkField1.getY())));
-        assertThat("Width was not correctly set", apiField1.getWidth(), is(equalTo(sdkField1.getWidth())));
-        assertThat("Height was not correctly set",apiField1.getHeight(), is(equalTo(sdkField1.getHeight())));
-        assertThat("Page was not correctly set",apiField1.getPage(), is(equalTo(sdkField1.getPage())));
-        assertThat("Extract was not correctly set",apiField1.getExtract(), is(equalTo(sdkField1.isExtraction())));
-        assertThat("Value was not correctly set",apiField1.getValue(), is(equalTo(sdkField1.getValue())));
-        assertThat("ID was not correctly set", apiField1.getId(), is(equalTo(sdkField1.getId().toString())));
-        assertThat("Name was not correctly set", apiField1.getName(), is(equalTo(sdkField1.getName())));
-        assertThat("Conditions was not correctly set", apiField1.getConditions().size(), is(equalTo(sdkField1.getConditions().size())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiField1, is(notNullValue()));
+        assertThat("Left coordinate was not correctly set", apiField1.getLeft(), is(equalTo(sdkField1.getX())));
+        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(sdkField1.getY()));
+        assertThat("Width was not correctly set", apiField1.getWidth(), is(sdkField1.getWidth()));
+        assertThat("Height was not correctly set", apiField1.getHeight(), is(sdkField1.getHeight()));
+        assertThat("Page was not correctly set", apiField1.getPage(), is(sdkField1.getPage()));
+        assertThat("Extract was not correctly set", apiField1.getExtract(), is(sdkField1.isExtraction()));
+        assertThat("Value was not correctly set", apiField1.getValue(), is(sdkField1.getValue()));
+        assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
+        assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
+        assertThat("Conditions was not correctly set", apiField1.getConditions().size(), is(sdkField1.getConditions().size()));
     }
 
     @Override
@@ -101,17 +101,18 @@ public class ConditionalFieldConverterTest implements ConverterTest {
         sdkField1 = createTypicalSDKConditionalField();
         apiField1 = new ConditionalFieldConverter(sdkField1).toAPIConditionalField();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiField1, is( notNullValue() ) );
-        assertThat("Left coordinate was not correctly set", apiField1.getLeft(), is( equalTo(sdkField1.getX()) ) );
-        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(equalTo(sdkField1.getY())));
-        assertThat("Width was not correctly set", apiField1.getWidth(), is(equalTo(sdkField1.getWidth())));
-        assertThat("Height was not correctly set",apiField1.getHeight(), is(equalTo(sdkField1.getHeight())));
-        assertThat("Page was not correctly set",apiField1.getPage(), is(equalTo(sdkField1.getPage())));
-        assertThat("Extract was not correctly set",apiField1.getExtract(), is(equalTo(sdkField1.isExtraction())));
-        assertThat("Value was not correctly set",apiField1.getValue(), is(equalTo(sdkField1.getValue())));
-        assertThat("ID was not correctly set", apiField1.getId(), is(equalTo(sdkField1.getId().toString())));
-        assertThat("Name was not correctly set", apiField1.getName(), is(equalTo(sdkField1.getName())));
-        assertThat("Conditions was not correctly set", apiField1.getConditions().size(), is(equalTo(sdkField1.getConditions().size())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiField1, is(notNullValue()));
+        assertThat("Left coordinate was not correctly set", apiField1.getLeft(), is(equalTo(sdkField1.getX())));
+        assertThat("Top coordinate was not correctly set", apiField1.getTop(), is(sdkField1.getY()));
+        assertThat("Width was not correctly set", apiField1.getWidth(), is(sdkField1.getWidth()));
+        assertThat("Height was not correctly set", apiField1.getHeight(), is(sdkField1.getHeight()));
+        assertThat("Page was not correctly set", apiField1.getPage(), is(sdkField1.getPage()));
+        assertThat("Extract was not correctly set", apiField1.getExtract(), is(sdkField1.isExtraction()));
+        assertThat("Value was not correctly set", apiField1.getValue(), is(sdkField1.getValue()));
+        assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
+        assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
+        assertThat("Conditions was not correctly set", apiField1.getConditions().size(), is(sdkField1.getConditions().size()));
+        assertThat("Conditions was not correctly set", apiField1.getConditions().size(), is(sdkField1.getConditions().size()));
     }
 
     /**

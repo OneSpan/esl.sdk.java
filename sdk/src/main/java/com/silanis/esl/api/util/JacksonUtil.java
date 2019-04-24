@@ -146,9 +146,7 @@ public class JacksonUtil {
                 if ( baseMap.containsKey(key) ) {
                     // Concat the delta list onto the base list
                     List<Object> resultList = (List<Object>) resultMap.get(key);
-                    for ( Object object : (List<Object>)value ) {
-                        resultList.add(object);
-                    }
+                    resultList.addAll((List<Object>) value);
                 } else {
                     resultMap.put(key, value);
                 }

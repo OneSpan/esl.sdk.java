@@ -37,36 +37,36 @@ public class DocumentConverterTest {
     public void convertNullSDKToAPI() {
         sdkDocument1 = null;
         converter = new DocumentConverter(sdkDocument1);
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIDocument(apiPackage), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIDocument(apiPackage), is(nullValue()));
     }
 
     @Test
     public void convertNullAPIToSDK() {
         apiDocument1 = null;
         converter = new DocumentConverter(apiDocument1, apiPackage);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toAPIDocument(apiPackage), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toAPIDocument(apiPackage), is(nullValue()));
     }
 
     @Test
     public void convertNullSDKToSDK() {
         sdkDocument1 = null;
         converter = new DocumentConverter(sdkDocument1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKDocument(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKDocument(), is(nullValue()));
     }
 
     @Test
     public void convertNullAPIToAPI() {
         apiDocument1 = null;
         converter = new DocumentConverter(apiDocument1, apiPackage);
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIDocument(apiPackage), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIDocument(apiPackage), is(nullValue()));
     }
 
     @Test
     public void convertSDKToSDK() {
         sdkDocument1 = createTypicalSDKDocument();
         sdkDocument2 = new DocumentConverter(sdkDocument1).toSDKDocument();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkDocument2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkDocument2, is( equalTo( sdkDocument1 ) ) );
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkDocument2, is(notNullValue()));
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkDocument2, is(equalTo(sdkDocument1)));
     }
 
     @Test
@@ -74,45 +74,45 @@ public class DocumentConverterTest {
         apiDocument1 = createTypicalAPIDocument();
         apiDocument2 = new DocumentConverter(apiDocument1, apiPackage).toAPIDocument(apiPackage);
 
-        assertThat( "Converter returned a null api object for a non null api object", apiDocument2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiDocument2, is( equalTo( apiDocument1 ) ) );
+        assertThat("Converter returned a null api object for a non null api object", apiDocument2, is(notNullValue()));
+        assertThat("Converter didn't return the same non-null api object it was given", apiDocument2, is(equalTo(apiDocument1)));
     }
 
     @Test
-    public void convertAPIToSDK(){
+    public void convertAPIToSDK() {
         apiDocument1 = createTypicalAPIDocument();
         sdkDocument1 = new DocumentConverter(apiDocument1, apiPackage).toSDKDocument();
 
-        assertThat("Converter returned a null api object for a non null sdk object", sdkDocument1, is( notNullValue() ) );
-        assertThat("Description was not correctly set", sdkDocument1.getDescription(), is(equalTo(apiDocument1.getDescription())));
-        assertThat("Name was not correctly set", sdkDocument1.getName(), is(equalTo(apiDocument1.getName())));
-        assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(equalTo(apiDocument1.getId())));
-        assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(equalTo(apiDocument1.getIndex())));
+        assertThat("Converter returned a null api object for a non null sdk object", sdkDocument1, is(notNullValue()));
+        assertThat("Description was not correctly set", sdkDocument1.getDescription(), is(apiDocument1.getDescription()));
+        assertThat("Name was not correctly set", sdkDocument1.getName(), is(apiDocument1.getName()));
+        assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(apiDocument1.getId()));
+        assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(apiDocument1.getIndex()));
         assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionTypes(), is(apiDocument1.getExtractionTypes()));
     }
 
     @Test
-    public void convertSDKToAPI(){
+    public void convertSDKToAPI() {
         sdkDocument1 = createTypicalSDKDocument();
         apiDocument1 = new DocumentConverter(sdkDocument1).toAPIDocumentMetadata();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiDocument1, is( notNullValue() ) );
-        assertThat("Description was not correctly set", sdkDocument1.getDescription(), is(equalTo(apiDocument1.getDescription())));
-        assertThat("Name was not correctly set", sdkDocument1.getName(), is(equalTo(apiDocument1.getName())));
-        assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(equalTo(apiDocument1.getId())));
-        assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(equalTo(apiDocument1.getIndex())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiDocument1, is(notNullValue()));
+        assertThat("Description was not correctly set", sdkDocument1.getDescription(), is(apiDocument1.getDescription()));
+        assertThat("Name was not correctly set", sdkDocument1.getName(), is(apiDocument1.getName()));
+        assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(apiDocument1.getId()));
+        assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(apiDocument1.getIndex()));
         assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionTypes(), is(apiDocument1.getExtractionTypes()));
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void convertNullSDKtoAPIMetadata(){
+    @Test(expected = IllegalArgumentException.class)
+    public void convertNullSDKtoAPIMetadata() {
         sdkDocument1 = null;
         converter = new DocumentConverter(sdkDocument1);
         converter.toAPIDocumentMetadata();
     }
 
     @Test
-    public void convertSDKtoAPIMetadataWithNullId(){
+    public void convertSDKtoAPIMetadataWithNullId() {
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         sdkDocument1 = newDocumentWithName("sdkDocument")
                 .fromStream(documentInputStream, DocumentType.PDF)
@@ -121,11 +121,11 @@ public class DocumentConverterTest {
                 .withDescription("Unit test null id")
                 .build();
 
-        assertThat("SDK document id is not null", sdkDocument1.getId(), is(nullValue()));
+        assertThat("SDK document id is not null", sdkDocument1.getId(), nullValue());
     }
 
     @Test
-    public void convertSDKtoAPIMetadataWithNullDescription(){
+    public void convertSDKtoAPIMetadataWithNullDescription() {
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
         sdkDocument1 = newDocumentWithName("sdkDocument")
                 .fromStream(documentInputStream, DocumentType.PDF)
@@ -134,11 +134,11 @@ public class DocumentConverterTest {
                         .onPage(0))
                 .build();
 
-        assertThat("SDK document id is not null", sdkDocument1.getDescription(), is(nullValue()));
+        assertThat("SDK document id is not null", sdkDocument1.getDescription(), nullValue());
     }
 
     @Test
-    public void convertSDKtoAPIWithExternal(){
+    public void convertSDKtoAPIWithExternal() {
         String expectedProvider = "dummyprovider";
         String expectedExternalId = "dummyid";
         String expectedProviderName = "dummyProviderName";
@@ -147,15 +147,15 @@ public class DocumentConverterTest {
 
         apiDocument1 = new DocumentConverter(sdkDocument1).toAPIDocument(apiPackage);
 
-        assertThat("API document External is null", apiDocument1.getExternal(), is(notNullValue()));
-        assertThat("API document External provider name is not set", apiDocument1.getExternal().getProviderName(), is(equalTo(expectedProviderName)));
-        assertThat("API document External id is not set", apiDocument1.getExternal().getId(), is(equalTo(expectedExternalId)));
-        assertThat("API document External provider is not set", apiDocument1.getExternal().getProvider(), is(equalTo(expectedProvider)));
+        assertThat("API document External is null", apiDocument1.getExternal(), notNullValue());
+        assertThat("API document External provider name is not set", apiDocument1.getExternal().getProviderName(), is(expectedProviderName));
+        assertThat("API document External id is not set", apiDocument1.getExternal().getId(), is(expectedExternalId));
+        assertThat("API document External provider is not set", apiDocument1.getExternal().getProvider(), is(expectedProvider));
 
     }
 
     @Test
-    public void convertSDKtoAPIWithData(){
+    public void convertSDKtoAPIWithData() {
         String attributeName = "name";
         String attributeValue = "value";
 
@@ -177,7 +177,7 @@ public class DocumentConverterTest {
         sdkDocument = newDocumentWithName("sdkDocument")
                 .fromStream(documentInputStream, DocumentType.PDF)
                 .withId("sdkDocumentId")
-                .withData((Map)new HashMap<String, String>() {{
+                .withData((Map) new HashMap<String, String>() {{
                     put(name, value);
                 }})
                 .build();
@@ -188,7 +188,7 @@ public class DocumentConverterTest {
     private com.silanis.esl.sdk.Document createDocumentWithExternal(String expectedProvider, String expectedExternalId, String expectedProviderName) {
         com.silanis.esl.sdk.Document sdkDocument;
         documentInputStream = this.getClass().getClassLoader()
-                                  .getResourceAsStream("document.pdf");
+                .getResourceAsStream("document.pdf");
 
         sdkDocument = newDocumentWithName("sdkDocument")
                 .fromStream(documentInputStream, DocumentType.PDF)

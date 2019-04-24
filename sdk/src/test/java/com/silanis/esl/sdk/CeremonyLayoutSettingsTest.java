@@ -125,7 +125,7 @@ public class CeremonyLayoutSettingsTest {
         settings.setShowGlobalConfirmButton( true );
         settings.setShowGlobalDownloadButton( true );
         settings.setShowGlobalSaveAsLayoutButton( true );
-        LayoutOptions layoutOptions = layoutOptions = new CeremonyLayoutSettingsConverter(settings).toAPILayoutOptions();
+        LayoutOptions layoutOptions = new CeremonyLayoutSettingsConverter(settings).toAPILayoutOptions();
         assertThat( "", layoutOptions.getBrandingBar().getLogo().getLink(), is( equalTo( settings.getLogoImageLink() ) ) );
     }
 

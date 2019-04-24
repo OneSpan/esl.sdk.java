@@ -1,23 +1,21 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.External;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * User: jessica
  * Date: 03/12/13
  * Time: 9:39 AM
- * 
+ * <p>
  * Test SenderConverter.
  */
-public class SenderConverterTest implements ConverterTest{
+public class SenderConverterTest implements ConverterTest {
     private com.silanis.esl.sdk.SenderInfo sdkSenderInfo1 = null;
     private com.silanis.esl.sdk.SenderInfo sdkSenderInfo2 = null;
     private com.silanis.esl.sdk.Sender sdkSender = null;
@@ -30,7 +28,7 @@ public class SenderConverterTest implements ConverterTest{
     public void convertNullSDKToAPI() {
         sdkSenderInfo1 = null;
         converter = new SenderConverter(sdkSenderInfo1);
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPISender(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISender(), nullValue());
     }
 
     @Override
@@ -38,7 +36,7 @@ public class SenderConverterTest implements ConverterTest{
     public void convertNullAPIToSDK() {
         apiSender1 = null;
         converter = new SenderConverter(apiSender1);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKSenderInfo(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSenderInfo(), nullValue());
     }
 
     @Override
@@ -46,7 +44,7 @@ public class SenderConverterTest implements ConverterTest{
     public void convertNullSDKToSDK() {
         sdkSenderInfo1 = null;
         converter = new SenderConverter(sdkSenderInfo1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKSenderInfo(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSenderInfo(), nullValue());
     }
 
     @Override
@@ -54,7 +52,7 @@ public class SenderConverterTest implements ConverterTest{
     public void convertNullAPIToAPI() {
         apiSender1 = null;
         converter = new SenderConverter(apiSender1);
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPISender(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISender(), nullValue());
     }
 
     @Override
@@ -63,8 +61,8 @@ public class SenderConverterTest implements ConverterTest{
 
         sdkSenderInfo1 = createTypicalSDKSender();
         sdkSenderInfo2 = new SenderConverter(sdkSenderInfo1).toSDKSenderInfo();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkSenderInfo2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkSenderInfo2, is( equalTo(sdkSenderInfo1) ) );
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkSenderInfo2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkSenderInfo2, is(sdkSenderInfo1));
     }
 
     @Override
@@ -74,8 +72,8 @@ public class SenderConverterTest implements ConverterTest{
         apiSender1 = createTypicalAPISender();
         apiSender2 = new SenderConverter(apiSender1).toAPISender();
 
-        assertThat( "Converter returned a null api object for a non null api object", apiSender2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiSender2, is( equalTo( apiSender1 ) ) );
+        assertThat("Converter returned a null api object for a non null api object", apiSender2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiSender2, is(apiSender1));
     }
 
     @Override
@@ -84,12 +82,12 @@ public class SenderConverterTest implements ConverterTest{
         apiSender1 = createTypicalAPISender();
         sdkSenderInfo1 = new SenderConverter(apiSender1).toSDKSenderInfo();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiSender1, is(notNullValue()));
-        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getFirstName())));
-        assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getLastName())));
-        assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getCompany())));
-        assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTitle())));
-        assertThat( "timezone id was not properly set or retrieved", apiSender1.getTimezoneId(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTimezoneId())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiSender1, notNullValue());
+        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), is(sdkSenderInfo1.getFirstName()));
+        assertThat("last name was not properly set or retrieved", apiSender1.getLastName(), is(sdkSenderInfo1.getLastName()));
+        assertThat("company was not properly set or retrieved", apiSender1.getCompany(), is(sdkSenderInfo1.getCompany()));
+        assertThat("title was not properly set or retrieved", apiSender1.getTitle(), is(sdkSenderInfo1.getTitle()));
+        assertThat("timezone id was not properly set or retrieved", apiSender1.getTimezoneId(), is(sdkSenderInfo1.getTimezoneId()));
     }
 
     @Override
@@ -99,12 +97,12 @@ public class SenderConverterTest implements ConverterTest{
         sdkSenderInfo1 = createTypicalSDKSender();
         apiSender1 = new SenderConverter(sdkSenderInfo1).toAPISender();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiSender1, is( notNullValue() ) );
-        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getFirstName())));
-        assertThat( "last name was not properly set or retrieved", apiSender1.getLastName(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getLastName())));
-        assertThat( "company was not properly set or retrieved", apiSender1.getCompany(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getCompany())));
-        assertThat( "title was not properly set or retrieved", apiSender1.getTitle(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTitle())));
-        assertThat( "timezone id was not properly set or retrieved", apiSender1.getTimezoneId(), Matchers.is(Matchers.equalTo(sdkSenderInfo1.getTimezoneId())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiSender1, notNullValue());
+        assertThat("first name was not properly set or retrieved", apiSender1.getFirstName(), is(sdkSenderInfo1.getFirstName()));
+        assertThat("last name was not properly set or retrieved", apiSender1.getLastName(), is(sdkSenderInfo1.getLastName()));
+        assertThat("company was not properly set or retrieved", apiSender1.getCompany(), is(sdkSenderInfo1.getCompany()));
+        assertThat("title was not properly set or retrieved", apiSender1.getTitle(), is(sdkSenderInfo1.getTitle()));
+        assertThat("timezone id was not properly set or retrieved", apiSender1.getTimezoneId(), is(sdkSenderInfo1.getTimezoneId()));
     }
 
     @Test
@@ -112,7 +110,7 @@ public class SenderConverterTest implements ConverterTest{
         apiSender1 = createTypicalAPISender();
         sdkSender = new SenderConverter(apiSender1).toSDKSender();
 
-        assertThat("Sender status is incorrect.", sdkSender.getStatus().toString(), is(apiSender1.getStatus().toString()));
+        assertThat("Sender status is incorrect.", sdkSender.getStatus().toString(), is(apiSender1.getStatus()));
         assertThat("Sender last name is incorrect.", sdkSender.getLastName(), is(apiSender1.getLastName()));
         assertThat("Sender first name is incorrect.", sdkSender.getFirstName(), is(apiSender1.getFirstName()));
         assertThat("Sender company is incorrect.", sdkSender.getCompany(), is(apiSender1.getCompany()));
@@ -122,7 +120,7 @@ public class SenderConverterTest implements ConverterTest{
         assertThat("Sender phone number is incorrect.", sdkSender.getPhone(), is(apiSender1.getPhone()));
         assertThat("Sender name is incorrect.", sdkSender.getName(), is(apiSender1.getName()));
         assertThat("Sender title is incorrect.", sdkSender.getTitle(), is(apiSender1.getTitle()));
-        assertThat("Sender type is incorrect.", sdkSender.getType().toString(), is(apiSender1.getType().toString()));
+        assertThat("Sender type is incorrect.", sdkSender.getType().toString(), is(apiSender1.getType()));
         assertThat("Sender updated date is incorrect.", sdkSender.getUpdated(), is(apiSender1.getUpdated()));
         assertThat("Sender id is incorrect.", sdkSender.getId(), is(apiSender1.getId()));
         assertThat("Sender external id is incorrect.", sdkSender.getExternal().getId(), is(apiSender1.getExternal().getId()));
@@ -139,11 +137,11 @@ public class SenderConverterTest implements ConverterTest{
     private com.silanis.esl.sdk.SenderInfo createTypicalSDKSender() {
 
         com.silanis.esl.sdk.SenderInfo sdkSender = new com.silanis.esl.sdk.SenderInfo();
-        sdkSender.setTitle( "title" );
-        sdkSender.setCompany( "company" );
-        sdkSender.setFirstName( "firstName" );
-        sdkSender.setLastName( "lastName" );
-        sdkSender.setTimezoneId( "Canada/Mountain" );
+        sdkSender.setTitle("title");
+        sdkSender.setCompany("company");
+        sdkSender.setFirstName("firstName");
+        sdkSender.setLastName("lastName");
+        sdkSender.setTimezoneId("Canada/Mountain");
 
         return sdkSender;
     }
@@ -164,5 +162,5 @@ public class SenderConverterTest implements ConverterTest{
         apiSender.setExternal(new External().setId("externalId").setProvider("provider").setProviderName("providerName"));
 
         return apiSender;
-    }    
+    }
 }

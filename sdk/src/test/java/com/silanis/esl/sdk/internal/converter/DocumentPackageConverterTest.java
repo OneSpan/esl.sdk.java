@@ -10,7 +10,7 @@ import com.silanis.esl.sdk.builder.PackageBuilder;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -18,15 +18,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * User: jessica
  * Date: 26/11/13
  * Time: 3:16 PM
- *
+ * <p>
  * Test DocumentPackageConverter.
- *
  */
 public class DocumentPackageConverterTest implements ConverterTest {
 
@@ -41,7 +39,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkDocumentPackage1 = null;
         converter = new DocumentPackageConverter(sdkDocumentPackage1);
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIPackage(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIPackage(), nullValue());
     }
 
     @Override
@@ -49,7 +47,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiPackage1 = null;
         converter = new DocumentPackageConverter(apiPackage1);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKPackage(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKPackage(), nullValue());
     }
 
     @Override
@@ -57,7 +55,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkDocumentPackage1 = null;
         converter = new DocumentPackageConverter(sdkDocumentPackage1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKPackage(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKPackage(), nullValue());
     }
 
     @Override
@@ -65,7 +63,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiPackage1 = null;
         converter = new DocumentPackageConverter(apiPackage1);
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIPackage(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIPackage(), nullValue());
     }
 
     @Override
@@ -74,8 +72,8 @@ public class DocumentPackageConverterTest implements ConverterTest {
 
         sdkDocumentPackage1 = createTypicalSDKDocumentPackage();
         sdkDocumentPackage2 = new DocumentPackageConverter(sdkDocumentPackage1).toSDKPackage();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkDocumentPackage2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkDocumentPackage2, is( equalTo( sdkDocumentPackage1 ) ) );
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkDocumentPackage2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkDocumentPackage2, is(sdkDocumentPackage1));
     }
 
     @Override
@@ -85,8 +83,8 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiPackage1 = createTypicalAPIDocumentPackage();
         apiPackage2 = new DocumentPackageConverter(apiPackage1).toAPIPackage();
 
-        assertThat( "Converter returned a null api object for a non null api object", apiPackage2, is( notNullValue() ) );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiPackage2, is( equalTo( apiPackage1 ) ) );
+        assertThat("Converter returned a null api object for a non null api object", apiPackage2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiPackage2, is(apiPackage1));
     }
 
     @Override
@@ -95,18 +93,18 @@ public class DocumentPackageConverterTest implements ConverterTest {
         apiPackage1 = createTypicalAPIDocumentPackage();
         sdkDocumentPackage1 = new DocumentPackageConverter(apiPackage1).toSDKPackage();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkDocumentPackage1, is( notNullValue() ) );
-        assertThat("ID was not correctly set", apiPackage1.getId(), is( equalTo(sdkDocumentPackage1.getId().toString()) ));
-        assertThat("Language was not correctly set", apiPackage1.getLanguage(), is( equalTo(sdkDocumentPackage1.getLanguage().getLanguage()) ));
-        assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is( equalTo(sdkDocumentPackage1.getAutocomplete()) ));
-        assertThat("Description was not correctly set", apiPackage1.getDescription(), is( equalTo(sdkDocumentPackage1.getDescription()) ));
-        assertThat("Due date was not correctly set", apiPackage1.getDue(), is( equalTo(sdkDocumentPackage1.getExpiryDate()) ));
-        assertThat("Message was not correctly set", apiPackage1.getEmailMessage(), is( equalTo(sdkDocumentPackage1.getPackageMessage()) ));
-        assertThat("Name was not correctly set", apiPackage1.getName(), is( equalTo(sdkDocumentPackage1.getName()) ));
-        assertThat("Status was not correctly set", apiPackage1.getStatus(), is(equalTo(sdkDocumentPackage1.getStatus().getApiValue())));
-        assertThat("Message status was not correctly set", apiPackage1.getMessages().get(0).getStatus().toString(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getStatus().toString())));
-        assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(equalTo(sdkDocumentPackage1.getMessages().get(0).getContent())));
-        assertThat("Sender email address was not correctly set", apiPackage1.getSender().getEmail(), is(equalTo(sdkDocumentPackage1.getSenderInfo().getEmail())));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkDocumentPackage1, notNullValue());
+        assertThat("ID was not correctly set", apiPackage1.getId(), is(sdkDocumentPackage1.getId().toString()));
+        assertThat("Language was not correctly set", apiPackage1.getLanguage(), is(sdkDocumentPackage1.getLanguage().getLanguage()));
+        assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is(sdkDocumentPackage1.getAutocomplete()));
+        assertThat("Description was not correctly set", apiPackage1.getDescription(), is(sdkDocumentPackage1.getDescription()));
+        assertThat("Due date was not correctly set", apiPackage1.getDue(), is(sdkDocumentPackage1.getExpiryDate()));
+        assertThat("Message was not correctly set", apiPackage1.getEmailMessage(), is(sdkDocumentPackage1.getPackageMessage()));
+        assertThat("Name was not correctly set", apiPackage1.getName(), is(sdkDocumentPackage1.getName()));
+        assertThat("Status was not correctly set", apiPackage1.getStatus(), is(sdkDocumentPackage1.getStatus().getApiValue()));
+        assertThat("Message status was not correctly set", apiPackage1.getMessages().get(0).getStatus(), is(sdkDocumentPackage1.getMessages().get(0).getStatus().toString()));
+        assertThat("Message content was not correctly set", apiPackage1.getMessages().get(0).getContent(), is(sdkDocumentPackage1.getMessages().get(0).getContent()));
+        assertThat("Sender email address was not correctly set", apiPackage1.getSender().getEmail(), is(sdkDocumentPackage1.getSenderInfo().getEmail()));
         assertThat("Creation date was not correctly set", apiPackage1.getCreated(), is(sdkDocumentPackage1.getCreatedDate()));
         assertThat("Timezone ID was not correctly set", apiPackage1.getTimezoneId(), is(sdkDocumentPackage1.getTimezoneId()));
     }
@@ -118,16 +116,16 @@ public class DocumentPackageConverterTest implements ConverterTest {
         sdkDocumentPackage1 = createTypicalSDKDocumentPackage();
         apiPackage1 = new DocumentPackageConverter(sdkDocumentPackage1).toAPIPackage();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiPackage1, is( notNullValue() ) );
-        assertThat("ID was not correctly set", apiPackage1.getId(), is( equalTo(sdkDocumentPackage1.getId().toString()) ));
-        assertThat("Language was not correctly set", apiPackage1.getLanguage(), is( equalTo(sdkDocumentPackage1.getLanguage().getLanguage() ) ));
-        assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is( equalTo(sdkDocumentPackage1.getAutocomplete() ) ));
-        assertThat("Description was not correctly set", apiPackage1.getDescription(), is( equalTo(sdkDocumentPackage1.getDescription() ) ));
-        assertThat("Due date was not correctly set", apiPackage1.getDue(), is( equalTo(sdkDocumentPackage1.getExpiryDate() ) ));
-        assertThat("Message was not correctly set", apiPackage1.getEmailMessage(), is( equalTo(sdkDocumentPackage1.getPackageMessage()) ));
-        assertThat("Name was not correctly set", apiPackage1.getName(), is( equalTo(sdkDocumentPackage1.getName() ) ));
-        assertThat("Status was not correctly set", apiPackage1.getStatus(), is( equalTo(sdkDocumentPackage1.getStatus().getApiValue() ) ));
-        assertThat("Timezone ID was not correctly set", apiPackage1.getTimezoneId(), is( equalTo(sdkDocumentPackage1.getTimezoneId() ) ));
+        assertThat("Converter returned a null api object for a non null sdk object", apiPackage1, notNullValue());
+        assertThat("ID was not correctly set", apiPackage1.getId(), is(sdkDocumentPackage1.getId().toString()));
+        assertThat("Language was not correctly set", apiPackage1.getLanguage(), is(sdkDocumentPackage1.getLanguage().getLanguage()));
+        assertThat("Auto complete was not correctly set", apiPackage1.getAutocomplete(), is(sdkDocumentPackage1.getAutocomplete()));
+        assertThat("Description was not correctly set", apiPackage1.getDescription(), is(sdkDocumentPackage1.getDescription()));
+        assertThat("Due date was not correctly set", apiPackage1.getDue(), is(sdkDocumentPackage1.getExpiryDate()));
+        assertThat("Message was not correctly set", apiPackage1.getEmailMessage(), is(sdkDocumentPackage1.getPackageMessage()));
+        assertThat("Name was not correctly set", apiPackage1.getName(), is(sdkDocumentPackage1.getName()));
+        assertThat("Status was not correctly set", apiPackage1.getStatus(), is(sdkDocumentPackage1.getStatus().getApiValue()));
+        assertThat("Timezone ID was not correctly set", apiPackage1.getTimezoneId(), is(sdkDocumentPackage1.getTimezoneId()));
     }
 
     /**
@@ -174,7 +172,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
         fromUser.setLastName("Smith");
         fromUser.setEmail("email@email.com");
         apiMessage.setFrom(fromUser);
-        apiDocumentPackage.setMessages(new ArrayList<Message>(Arrays.asList(apiMessage)));
+        apiDocumentPackage.setMessages(new ArrayList<Message>(Collections.singletonList(apiMessage)));
 
         Sender sender = new Sender();
         sender.setEmail("sender@email.com");

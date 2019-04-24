@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by lena on 2014-06-17.
@@ -25,7 +24,7 @@ public class EventNotificationConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkNotificationEvent1 = null;
         converter = new EventNotificationConverter(sdkNotificationEvent1);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPICallbackEvent(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPICallbackEvent(), nullValue());
     }
 
     @Override
@@ -33,7 +32,7 @@ public class EventNotificationConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiCallbackEvent1 = null;
         converter = new EventNotificationConverter(apiCallbackEvent1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKNotificationEvent(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKNotificationEvent(), nullValue());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class EventNotificationConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkNotificationEvent1 = null;
         converter = new EventNotificationConverter(sdkNotificationEvent1);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKNotificationEvent(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKNotificationEvent(), nullValue());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class EventNotificationConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiCallbackEvent1 = null;
         converter = new EventNotificationConverter(apiCallbackEvent1);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPICallbackEvent(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPICallbackEvent(), nullValue());
     }
 
     @Override
@@ -58,8 +57,8 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = NotificationEvent.PACKAGE_DECLINE;
         sdkNotificationEvent2 = new EventNotificationConverter(sdkNotificationEvent1).toSDKNotificationEvent();
 
-        assertThat("Converter returned a null sdk object for  a non null sdk object", sdkNotificationEvent2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkNotificationEvent2, is(equalTo(sdkNotificationEvent1)));
+        assertThat("Converter returned a null sdk object for  a non null sdk object", sdkNotificationEvent2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkNotificationEvent2, is(sdkNotificationEvent1));
     }
 
     @Override
@@ -68,8 +67,8 @@ public class EventNotificationConverterTest implements ConverterTest {
         apiCallbackEvent1 = "PACKAGE_COMPLETE";
         apiCallbackEvent2 = new EventNotificationConverter(apiCallbackEvent1).toAPICallbackEvent();
 
-        assertThat("Converter returned a null api object for a non null api object", apiCallbackEvent2, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiCallbackEvent2, is(equalTo(apiCallbackEvent1)));
+        assertThat("Converter returned a null api object for a non null api object", apiCallbackEvent2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiCallbackEvent2, is(apiCallbackEvent1));
     }
 
     @Override

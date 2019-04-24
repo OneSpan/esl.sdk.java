@@ -7,7 +7,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 12/15/14.
@@ -22,28 +21,28 @@ public class AuthenticationMethodConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkAuthenticationMethod = null;
         converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIAuthMethod(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIAuthMethod(), nullValue());
     }
 
     @Test
     public void convertNullAPIToSDK() {
         apiAuthenticationMethod = null;
         converter = new AuthenticationMethodConverter(apiAuthenticationMethod);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKAuthMethod(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKAuthMethod(), nullValue());
     }
 
     @Test
     public void convertNullSDKToSDK() {
         sdkAuthenticationMethod = null;
         converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKAuthMethod(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKAuthMethod(), nullValue());
     }
 
     @Test
     public void convertNullAPIToAPI() {
         apiAuthenticationMethod = null;
         converter = new AuthenticationMethodConverter(apiAuthenticationMethod);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIAuthMethod(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIAuthMethod(), nullValue());
     }
 
     @Test
@@ -52,8 +51,8 @@ public class AuthenticationMethodConverterTest implements ConverterTest {
         converter = new AuthenticationMethodConverter(sdkAuthenticationMethod);
         AuthenticationMethod result = converter.toSDKAuthMethod();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", result, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", result, is(equalTo(sdkAuthenticationMethod)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", result, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", result, is(sdkAuthenticationMethod));
     }
 
     @Test
@@ -62,8 +61,8 @@ public class AuthenticationMethodConverterTest implements ConverterTest {
         converter = new AuthenticationMethodConverter(apiAuthenticationMethod);
         String result = converter.toAPIAuthMethod();
 
-        assertThat("Converter returned a null api object for a non null api object", result, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", result, is(equalTo(apiAuthenticationMethod)));
+        assertThat("Converter returned a null api object for a non null api object", result, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", result, is(apiAuthenticationMethod));
     }
 
     @Test

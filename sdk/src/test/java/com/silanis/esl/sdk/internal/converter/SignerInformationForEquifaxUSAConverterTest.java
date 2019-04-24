@@ -20,28 +20,28 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
     public void convertNullSDKToAPI() {
         sdkSignerInformationUSA = null;
         converter = new SignerInformationForEquifaxUSAConverter(sdkSignerInformationUSA);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISignerInformationForEquifaxUSA(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPISignerInformationForEquifaxUSA(), nullValue());
     }
 
     @Test
     public void convertNullAPIToSDK() {
         apiSignerInformationUSA = null;
         converter = new SignerInformationForEquifaxUSAConverter(apiSignerInformationUSA);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSignerInformationForEquifaxUSA(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKSignerInformationForEquifaxUSA(), nullValue());
     }
 
     @Test
     public void convertNullSDKToSDK() {
         sdkSignerInformationUSA = null;
         converter = new SignerInformationForEquifaxUSAConverter(sdkSignerInformationUSA);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSignerInformationForEquifaxUSA(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKSignerInformationForEquifaxUSA(), nullValue());
     }
 
     @Test
     public void convertNullAPIToAPI() {
         apiSignerInformationUSA = null;
         converter = new SignerInformationForEquifaxUSAConverter(apiSignerInformationUSA);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISignerInformationForEquifaxUSA(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPISignerInformationForEquifaxUSA(), nullValue());
     }
 
     @Test
@@ -49,8 +49,8 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         sdkSignerInformationUSA = new SignerInformationForEquifaxUSA();
         converter = new SignerInformationForEquifaxUSAConverter(sdkSignerInformationUSA);
         SignerInformationForEquifaxUSA result = converter.toSDKSignerInformationForEquifaxUSA();
-        assertThat("Converter returned a null sdk object for a non null sdk object", result, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", result, is(equalTo(sdkSignerInformationUSA)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", result, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", result, is(sdkSignerInformationUSA));
     }
 
     @Test
@@ -58,8 +58,8 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         apiSignerInformationUSA = new com.silanis.esl.api.model.SignerInformationForEquifaxUSA();
         converter = new SignerInformationForEquifaxUSAConverter(apiSignerInformationUSA);
         com.silanis.esl.api.model.SignerInformationForEquifaxUSA result = converter.toAPISignerInformationForEquifaxUSA();
-        assertThat("Converter returned a null api object for a non null api object", result, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", result, is(equalTo(apiSignerInformationUSA)));
+        assertThat("Converter returned a null api object for a non null api object", result, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", result, is(apiSignerInformationUSA));
     }
 
     @Test
@@ -67,18 +67,18 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         apiSignerInformationUSA = createTypicalAPISignerInformationForEquifaxUSA();
         sdkSignerInformationUSA = new SignerInformationForEquifaxUSAConverter(apiSignerInformationUSA).toSDKSignerInformationForEquifaxUSA();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiSignerInformationUSA, is(notNullValue()));
-        assertThat("First name was not properly set or retrieved", apiSignerInformationUSA.getFirstName(), is(equalTo(sdkSignerInformationUSA.getFirstName())));
-        assertThat("Last name was not properly set or retrieved", apiSignerInformationUSA.getLastName(), is(equalTo(sdkSignerInformationUSA.getLastName())));
-        assertThat("Address was not properly set or retrieved", apiSignerInformationUSA.getStreetAddress(), is(equalTo(sdkSignerInformationUSA.getStreetAddress())));
-        assertThat("City was not properly set or retrieved", apiSignerInformationUSA.getCity(), is(equalTo(sdkSignerInformationUSA.getCity())));
-        assertThat("Zip Code was not properly set or retrieved", apiSignerInformationUSA.getZip(), is(equalTo(sdkSignerInformationUSA.getZip())));
-        assertThat("State was not properly set or retrieved", apiSignerInformationUSA.getState(), is(equalTo(sdkSignerInformationUSA.getState())));
-        assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getSocialSecurityNumber(), is(equalTo(sdkSignerInformationUSA.getSocialSecurityNumber())));
-        assertThat("Date of birth was not properly set or retrieved", apiSignerInformationUSA.getDateOfBirth(), is(equalTo(sdkSignerInformationUSA.getDateOfBirth())));
-        assertThat("Home phone number was not properly set or retrieved", apiSignerInformationUSA.getHomePhoneNumber(), is(equalTo(sdkSignerInformationUSA.getHomePhoneNumber())));
-        assertThat("Driver's license was not properly set or retrieved", apiSignerInformationUSA.getDriversLicenseNumber(), is(equalTo(sdkSignerInformationUSA.getDriversLicenseNumber())));
-        assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getTimeAtAddress(), is(equalTo(sdkSignerInformationUSA.getTimeAtAddress())));
+        assertThat("Converter returned a null api object for a non null sdk object", apiSignerInformationUSA, notNullValue());
+        assertThat("First name was not properly set or retrieved", apiSignerInformationUSA.getFirstName(), is(sdkSignerInformationUSA.getFirstName()));
+        assertThat("Last name was not properly set or retrieved", apiSignerInformationUSA.getLastName(), is(sdkSignerInformationUSA.getLastName()));
+        assertThat("Address was not properly set or retrieved", apiSignerInformationUSA.getStreetAddress(), is(sdkSignerInformationUSA.getStreetAddress()));
+        assertThat("City was not properly set or retrieved", apiSignerInformationUSA.getCity(), is(sdkSignerInformationUSA.getCity()));
+        assertThat("Zip Code was not properly set or retrieved", apiSignerInformationUSA.getZip(), is(sdkSignerInformationUSA.getZip()));
+        assertThat("State was not properly set or retrieved", apiSignerInformationUSA.getState(), is(sdkSignerInformationUSA.getState()));
+        assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getSocialSecurityNumber(), is(sdkSignerInformationUSA.getSocialSecurityNumber()));
+        assertThat("Date of birth was not properly set or retrieved", apiSignerInformationUSA.getDateOfBirth(), is(sdkSignerInformationUSA.getDateOfBirth()));
+        assertThat("Home phone number was not properly set or retrieved", apiSignerInformationUSA.getHomePhoneNumber(), is(sdkSignerInformationUSA.getHomePhoneNumber()));
+        assertThat("Driver's license was not properly set or retrieved", apiSignerInformationUSA.getDriversLicenseNumber(), is(sdkSignerInformationUSA.getDriversLicenseNumber()));
+        assertThat("Time at address was not properly set or retrieved", apiSignerInformationUSA.getTimeAtAddress(), is(sdkSignerInformationUSA.getTimeAtAddress()));
     }
 
     @Test
@@ -86,18 +86,18 @@ public class SignerInformationForEquifaxUSAConverterTest implements ConverterTes
         sdkSignerInformationUSA = createTypicalSDKSignerInformationForEquifaxUSA();
         apiSignerInformationUSA = new SignerInformationForEquifaxUSAConverter(sdkSignerInformationUSA).toAPISignerInformationForEquifaxUSA();
 
-        assertThat("Converter returned a null api object for a non null api object", sdkSignerInformationUSA, is(notNullValue()));
-        assertThat("First name was not properly set or retrieved", sdkSignerInformationUSA.getFirstName(), is(equalTo(apiSignerInformationUSA.getFirstName())));
-        assertThat("Last name was not properly set or retrieved", sdkSignerInformationUSA.getLastName(), is(equalTo(apiSignerInformationUSA.getLastName())));
-        assertThat("Address was not properly set or retrieved", sdkSignerInformationUSA.getStreetAddress(), is(equalTo(apiSignerInformationUSA.getStreetAddress())));
-        assertThat("City was not properly set or retrieved", sdkSignerInformationUSA.getCity(), is(equalTo(apiSignerInformationUSA.getCity())));
-        assertThat("Zip Code was not properly set or retrieved", sdkSignerInformationUSA.getZip(), is(equalTo(apiSignerInformationUSA.getZip())));
-        assertThat("State was not properly set or retrieved", sdkSignerInformationUSA.getState(), is(equalTo(apiSignerInformationUSA.getState())));
-        assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getSocialSecurityNumber(), is(equalTo(apiSignerInformationUSA.getSocialSecurityNumber())));
-        assertThat("Date of birth was not properly set or retrieved", sdkSignerInformationUSA.getDateOfBirth(), is(equalTo(apiSignerInformationUSA.getDateOfBirth())));
-        assertThat("Home phone number was not properly set or retrieved", sdkSignerInformationUSA.getHomePhoneNumber(), is(equalTo(apiSignerInformationUSA.getHomePhoneNumber())));
-        assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationUSA.getDriversLicenseNumber(), is(equalTo(apiSignerInformationUSA.getDriversLicenseNumber())));
-        assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getTimeAtAddress(), is(equalTo(apiSignerInformationUSA.getTimeAtAddress())));
+        assertThat("Converter returned a null api object for a non null api object", sdkSignerInformationUSA, notNullValue());
+        assertThat("First name was not properly set or retrieved", sdkSignerInformationUSA.getFirstName(), is(apiSignerInformationUSA.getFirstName()));
+        assertThat("Last name was not properly set or retrieved", sdkSignerInformationUSA.getLastName(), is(apiSignerInformationUSA.getLastName()));
+        assertThat("Address was not properly set or retrieved", sdkSignerInformationUSA.getStreetAddress(), is(apiSignerInformationUSA.getStreetAddress()));
+        assertThat("City was not properly set or retrieved", sdkSignerInformationUSA.getCity(), is(apiSignerInformationUSA.getCity()));
+        assertThat("Zip Code was not properly set or retrieved", sdkSignerInformationUSA.getZip(), is(apiSignerInformationUSA.getZip()));
+        assertThat("State was not properly set or retrieved", sdkSignerInformationUSA.getState(), is(apiSignerInformationUSA.getState()));
+        assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getSocialSecurityNumber(), is(apiSignerInformationUSA.getSocialSecurityNumber()));
+        assertThat("Date of birth was not properly set or retrieved", sdkSignerInformationUSA.getDateOfBirth(), is(apiSignerInformationUSA.getDateOfBirth()));
+        assertThat("Home phone number was not properly set or retrieved", sdkSignerInformationUSA.getHomePhoneNumber(), is(apiSignerInformationUSA.getHomePhoneNumber()));
+        assertThat("Driver's license was not properly set or retrieved", sdkSignerInformationUSA.getDriversLicenseNumber(), is(apiSignerInformationUSA.getDriversLicenseNumber()));
+        assertThat("Time at address was not properly set or retrieved", sdkSignerInformationUSA.getTimeAtAddress(), is(apiSignerInformationUSA.getTimeAtAddress()));
     }
 
     /**

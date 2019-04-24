@@ -1,9 +1,10 @@
 package com.silanis.esl.sdk.internal;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpUriRequest;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Support {
 
@@ -15,23 +16,23 @@ public class Support {
     }
 
     private String formatHeaders(Header[] allHeaders) {
-        if(allHeaders != null){
-            String formattedHeaders = "{";
+        if (allHeaders != null) {
+            StringBuilder formattedHeaders = new StringBuilder("{");
             for (Header allHeader : allHeaders) {
-                formattedHeaders += "[";
+                formattedHeaders.append("[");
                 final String name = allHeader.getName();
-                if(name != null){
-                    formattedHeaders += name;
+                if (name != null) {
+                    formattedHeaders.append(name);
                 }
-                formattedHeaders += "=";
+                formattedHeaders.append("=");
                 final String value = allHeader.getValue();
-                if(value != null){
-                    formattedHeaders += value;
+                if (value != null) {
+                    formattedHeaders.append(value);
                 }
-                formattedHeaders += "]";
+                formattedHeaders.append("]");
             }
-            formattedHeaders += "}";
-            return formattedHeaders;
+            formattedHeaders.append("}");
+            return formattedHeaders.toString();
         }
         return "";
     }
@@ -39,6 +40,7 @@ public class Support {
     public void logRequest(String httpVerb, String path, String jsonPayload) {
         LOG.log(Level.FINE, "{0} on {1}\n {2}", new Object[]{httpVerb, path, jsonPayload});
     }
+
     public void logRequest(String httpVerb, String path) {
         LOG.log(Level.FINE, "{0} on {1}", new Object[]{httpVerb, path});
     }
@@ -47,7 +49,7 @@ public class Support {
         LOG.fine("RESPONSE: \n" + response);
     }
 
-    public void logError( com.silanis.esl.api.model.Error errorMessage){
+    public void logError(com.silanis.esl.api.model.Error errorMessage) {
         LOG.severe("message:" + errorMessage.getMessage() + ", http code:" + errorMessage.getCode());
     }
 

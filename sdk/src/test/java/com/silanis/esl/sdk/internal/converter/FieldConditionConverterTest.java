@@ -77,8 +77,8 @@ public class FieldConditionConverterTest implements ConverterTest {
 
         assertThat("Converter returned a null api object for a non null sdk object", apiFieldCondition1, is( notNullValue() ) );
         assertThat("Id was not correctly set", apiFieldCondition1.getId(), is( equalTo(sdkFieldCondition1.getId()) ) );
-        assertThat("Condition was not correctly set", apiFieldCondition1.getCondition(), is(equalTo(sdkFieldCondition1.getCondition())));
-        assertThat("Action not correctly set", apiFieldCondition1.getAction(), is(equalTo(sdkFieldCondition1.getAction())));
+        assertThat("Condition was not correctly set", apiFieldCondition1.getCondition(), is(sdkFieldCondition1.getCondition()));
+        assertThat("Action not correctly set", apiFieldCondition1.getAction(), is(sdkFieldCondition1.getAction()));
    }
 
     @Override
@@ -90,8 +90,8 @@ public class FieldConditionConverterTest implements ConverterTest {
 
         assertThat("Converter returned a null api object for a non null sdk object", apiFieldCondition1, is( notNullValue() ) );
         assertThat("Id coordinate was not correctly set", apiFieldCondition1.getId(), is( equalTo(sdkFieldCondition1.getId()) ) );
-        assertThat("Condition coordinate was not correctly set", apiFieldCondition1.getCondition(), is(equalTo(sdkFieldCondition1.getCondition())));
-        assertThat("Action was not correctly set", apiFieldCondition1.getAction(), is(equalTo(sdkFieldCondition1.getAction())));
+        assertThat("Condition coordinate was not correctly set", apiFieldCondition1.getCondition(), is(sdkFieldCondition1.getCondition()));
+        assertThat("Action was not correctly set", apiFieldCondition1.getAction(), is(sdkFieldCondition1.getAction()));
   }
 
     /**

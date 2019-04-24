@@ -179,23 +179,23 @@ public class UrlTemplate {
     }
 
     public String build() {
-        String url = baseUrl + path;
+        StringBuilder url = new StringBuilder(baseUrl + path);
 
         boolean isFirstParam = true;
         for (Map.Entry<String, String> param : params.entrySet()) {
             final String paramValue = param.getValue();
             if (isNotBlank(paramValue)) {
                 if (isFirstParam) {
-                    url += "?";
+                    url.append("?");
                     isFirstParam = false;
                 } else {
-                    url += "&";
+                    url.append("&");
                 }
-                url += param.getKey() + "=" + paramValue;
+                url.append(param.getKey()).append("=").append(paramValue);
             }
         }
 
-        return url;
+        return url.toString();
     }
 
 }

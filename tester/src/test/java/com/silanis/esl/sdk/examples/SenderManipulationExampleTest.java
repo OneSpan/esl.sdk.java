@@ -25,7 +25,7 @@ public class SenderManipulationExampleTest {
 
         // Invite three senders
         assertThat("Sender1's email was not set correctly.", example.retrievedSender1.getEmail(), is(example.email1));
-        assertThat("Sender1's timezone id was not set correctly.", example.retrievedSender1.getTimezoneId(), is(equalTo("GMT")));
+        assertThat("Sender1's timezone id was not set correctly.", example.retrievedSender1.getTimezoneId(), is("GMT"));
         assertThat("Sender2's email was not set correctly.", example.retrievedSender2.getEmail(), is(example.email2));
         assertThat("Sender3's email was not set correctly.", example.retrievedSender3.getEmail(), is(example.email3));
 

@@ -27,7 +27,7 @@ public class EventNotificationRegistrationExampleTest {
 
         EventNotificationConfig config = example.config;
 
-        assertThat("EventNotificationConfig is null", config, is(notNullValue()));
+        assertThat("EventNotificationConfig is null", config, notNullValue());
         assertThat("EventNotificationConfig's url is not set correctly", config.getUrl(), is(URL));
         assertThat("EventNotificationConfig's key is not set correctly", config.getKey(), is(KEY));
         assertThat("EventNotificationConfig should have 18 events", config.getEvents().size(), is(20));
@@ -36,7 +36,7 @@ public class EventNotificationRegistrationExampleTest {
 
         EventNotificationConfig connectorsConfig = example.connectorsConfig;
 
-        assertThat("EventNotificationConfig is null", connectorsConfig, is(notNullValue()));
+        assertThat("EventNotificationConfig is null", connectorsConfig, notNullValue());
         assertThat("EventNotificationConfig's url is not set correctly", connectorsConfig.getUrl(), is(CONNECTORS_URL));
         assertThat("EventNotificationConfig's key is not set correctly", connectorsConfig.getKey(), is(CONNECTORS_KEY));
         assertThat("EventNotificationConfig should have 18 events", connectorsConfig.getEvents().size(), is(9));

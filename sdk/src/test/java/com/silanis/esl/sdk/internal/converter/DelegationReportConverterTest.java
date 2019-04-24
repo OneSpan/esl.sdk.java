@@ -14,7 +14,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
  * Created by schoi on 7/14/16.
@@ -33,7 +32,7 @@ public class DelegationReportConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkDelegationReport = null;
         converter = new DelegationReportConverter(sdkDelegationReport);
-        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIDelegationReport(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIDelegationReport(), nullValue());
     }
 
     @Override
@@ -41,7 +40,7 @@ public class DelegationReportConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiDelegationReport = null;
         converter = new DelegationReportConverter(apiDelegationReport);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKDelegationReport(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKDelegationReport(), nullValue());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class DelegationReportConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkDelegationReport = null;
         converter = new DelegationReportConverter(sdkDelegationReport);
-        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKDelegationReport(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKDelegationReport(), nullValue());
     }
 
     @Override
@@ -57,7 +56,7 @@ public class DelegationReportConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiDelegationReport = null;
         converter = new DelegationReportConverter(apiDelegationReport);
-        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIDelegationReport(), is(nullValue()));
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIDelegationReport(), nullValue());
     }
 
     @Override
@@ -66,8 +65,8 @@ public class DelegationReportConverterTest implements ConverterTest {
         sdkDelegationReport = createTypicalSDKDelegationReport();
         sdkDelegationReport = new DelegationReportConverter(sdkDelegationReport).toSDKDelegationReport();
 
-        assertThat("Converter returned a null sdk object for a non null sdk object", sdkDelegationReport, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null sdk object it was given", sdkDelegationReport, is(equalTo(sdkDelegationReport)));
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkDelegationReport, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkDelegationReport, is(sdkDelegationReport));
     }
 
     @Override
@@ -76,8 +75,8 @@ public class DelegationReportConverterTest implements ConverterTest {
         apiDelegationReport = createTypicalAPIDelegationReport();
         apiDelegationReport = new DelegationReportConverter(apiDelegationReport).toAPIDelegationReport();
 
-        assertThat("Converter returned a null api object for a non null api object", apiDelegationReport, is(notNullValue()));
-        assertThat("Converter didn't return the same non-null api object it was given", apiDelegationReport, is(equalTo(apiDelegationReport)));
+        assertThat("Converter returned a null api object for a non null api object", apiDelegationReport, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiDelegationReport, is(apiDelegationReport));
     }
 
     @Override
@@ -86,13 +85,13 @@ public class DelegationReportConverterTest implements ConverterTest {
         apiDelegationReport = createTypicalAPIDelegationReport();
         sdkDelegationReport = new DelegationReportConverter(apiDelegationReport).toSDKDelegationReport();
 
-        assertThat("Converter returned a null sdk object for a non null api object", sdkDelegationReport, is(notNullValue()));
-        assertThat("DelegationEventReports was not correctly set", sdkDelegationReport.getDelegationEventReports(), is(notNullValue()));
-        assertThat("DelegationEventReports was not correctly set", sdkDelegationReport.getDelegationEventReports().get(API_DELEGATION_EVENT_REPORTS_KEY), is(notNullValue()));
+        assertThat("Converter returned a null sdk object for a non null api object", sdkDelegationReport, notNullValue());
+        assertThat("DelegationEventReports was not correctly set", sdkDelegationReport.getDelegationEventReports(), notNullValue());
+        assertThat("DelegationEventReports was not correctly set", sdkDelegationReport.getDelegationEventReports().get(API_DELEGATION_EVENT_REPORTS_KEY), notNullValue());
 
         DelegationEventReport sdkDelegationEventReport = sdkDelegationReport.getDelegationEventReports().get(API_DELEGATION_EVENT_REPORTS_KEY).get(0);
         com.silanis.esl.api.model.DelegationEventReport apiDelegationEventReport =
-            ((List<com.silanis.esl.api.model.DelegationEventReport>) apiDelegationReport.getDelegationEvents().get(API_DELEGATION_EVENT_REPORTS_KEY)).get(0);
+                ((List<com.silanis.esl.api.model.DelegationEventReport>) apiDelegationReport.getDelegationEvents().get(API_DELEGATION_EVENT_REPORTS_KEY)).get(0);
 
         assertThat("EventDate was not correctly set", sdkDelegationEventReport.getEventDate(), is(apiDelegationEventReport.getEventDate()));
         assertThat("EventDescription was not correctly set", sdkDelegationEventReport.getEventDescription(), is(apiDelegationEventReport.getEventDescription()));
@@ -109,12 +108,12 @@ public class DelegationReportConverterTest implements ConverterTest {
         sdkDelegationReport = createTypicalSDKDelegationReport();
         apiDelegationReport = new DelegationReportConverter(sdkDelegationReport).toAPIDelegationReport();
 
-        assertThat("Converter returned a null sdk object for a non null api object", apiDelegationReport, is(notNullValue()));
-        assertThat("DelegationEventReports was not correctly set", apiDelegationReport.getDelegationEvents(), is(notNullValue()));
-        assertThat("DelegationEventReports was not correctly set", apiDelegationReport.getDelegationEvents().get(SDK_DELEGATION_EVENT_REPORTS_KEY), is(notNullValue()));
+        assertThat("Converter returned a null sdk object for a non null api object", apiDelegationReport, notNullValue());
+        assertThat("DelegationEventReports was not correctly set", apiDelegationReport.getDelegationEvents(), notNullValue());
+        assertThat("DelegationEventReports was not correctly set", apiDelegationReport.getDelegationEvents().get(SDK_DELEGATION_EVENT_REPORTS_KEY), notNullValue());
 
         com.silanis.esl.api.model.DelegationEventReport apiDelegationEventReport =
-            ((List<com.silanis.esl.api.model.DelegationEventReport>) apiDelegationReport.getDelegationEvents().get(SDK_DELEGATION_EVENT_REPORTS_KEY)).get(0);
+                ((List<com.silanis.esl.api.model.DelegationEventReport>) apiDelegationReport.getDelegationEvents().get(SDK_DELEGATION_EVENT_REPORTS_KEY)).get(0);
         DelegationEventReport sdkDelegationEventReport = sdkDelegationReport.getDelegationEventReports().get(SDK_DELEGATION_EVENT_REPORTS_KEY).get(0);
 
         assertThat("EventDate was not correctly set", apiDelegationEventReport.getEventDate(), is(sdkDelegationEventReport.getEventDate()));

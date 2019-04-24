@@ -3,7 +3,12 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.sdk.UsageReportCategory;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -29,7 +34,7 @@ public class UsageReportConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiUsageReport1 = null;
         converter = new UsageReportConverter(apiUsageReport1);
-        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKUsageReport(), is(nullValue()));
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKUsageReport(), nullValue());
     }
 
     @Override
