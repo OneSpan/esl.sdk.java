@@ -2,6 +2,8 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.PackageStatus.COMPLETED;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -16,6 +18,8 @@ public class ProxyConfigurationExampleTest {
         example.run();
 
         assertThat(example.retrievedPackage1, notNullValue());
+        assertThat(example.retrievedPackage1.getStatus(), is(COMPLETED));
         assertThat(example.retrievedPackage2, notNullValue());
+        assertThat(example.retrievedPackage2.getStatus(), is(COMPLETED));
     }
 }

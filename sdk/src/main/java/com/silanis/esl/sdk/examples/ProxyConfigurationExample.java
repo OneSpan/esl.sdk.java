@@ -77,6 +77,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 .build();
 
         PackageId packageId1 = eslClientWithHttpProxy.createAndSendPackage(package1);
+        eslClientWithHttpProxy.signDocuments(packageId1);
         eslClientWithHttpProxy.signDocuments(packageId1, "signer1");
 
         retrievedPackage1 = eslClientWithHttpProxy.getPackage(packageId1);
@@ -100,6 +101,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 .build();
 
         PackageId packageId2 = eslClientWithHttpProxyHasCredentials.createAndSendPackage(package2);
+        eslClientWithHttpProxyHasCredentials.signDocuments(packageId2);
         eslClientWithHttpProxyHasCredentials.signDocuments(packageId2, "signer2");
 
         retrievedPackage2 = eslClientWithHttpProxyHasCredentials.getPackage(packageId2);

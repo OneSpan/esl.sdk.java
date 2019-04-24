@@ -61,6 +61,8 @@ public class EslClient {
     private SigningService signingService;
     private SignerVerificationService signerVerificationService;
 
+    private ProxyConfiguration proxyConfiguration;
+
     public static final String API_KEY = "apiKey";
     public static final String BASE_URL = "baseURL";
 
@@ -119,6 +121,7 @@ public class EslClient {
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
+        this.proxyConfiguration = proxyConfiguration;
         init(client);
     }
 
@@ -142,7 +145,7 @@ public class EslClient {
         attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL), client, this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
-        authenticationService = new AuthenticationService(this.webpageURL);
+        authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
         signerVerificationService = new SignerVerificationService(client, baseURL);
     }
 
@@ -417,7 +420,7 @@ public class EslClient {
         final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
 
         String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
-        SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId, true, proxyConfiguration);
 
         SignedDocuments signedDocuments = new SignedDocuments();
         signedDocuments.setHanddrawn(capturedSignature.getHanddrawn());

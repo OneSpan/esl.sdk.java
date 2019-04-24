@@ -1,48 +1,30 @@
 package com.silanis.esl.sdk.internal;
 
 import com.silanis.esl.sdk.Document;
-import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +32,7 @@ import java.util.Map;
 import static com.silanis.esl.sdk.internal.HttpUtil.percentDecode;
 import static com.silanis.esl.sdk.internal.MimeTypeUtils.getContentTypeByFileName;
 
-public class RestClient {
+public class RestClient extends Client {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
@@ -73,12 +55,7 @@ public class RestClient {
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
     private final String apiToken;
-    private final Support support = new Support();
-    private final boolean allowAllSSLCertificates;
-    private final boolean useSystemProperties;
     private Map<String, String> additionalHeaders = new HashMap<String, String>();
-
-    private ProxyConfiguration proxyConfiguration;
 
     public RestClient(String apiToken) {
         this(apiToken, false);
@@ -192,7 +169,7 @@ public class RestClient {
 
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
 
-        CloseableHttpClient client = null;
+        CloseableHttpClient client;
         try {
             client = buildHttpClient();
         } catch (HttpException e) {
@@ -249,69 +226,6 @@ public class RestClient {
         return "";
     }
 
-    private CloseableHttpClient buildHttpClient() throws HttpException {
-        final HttpClientBuilder httpClientBuilder = HttpClients.custom();
-        if (allowAllSSLCertificates) {
-            httpClientBuilder.setSSLSocketFactory(buildSSLSocketFactory());
-        }
-
-        if (useSystemProperties) {
-            httpClientBuilder.useSystemProperties();
-        }
-
-        if (proxyConfiguration != null) {
-            if (proxyConfiguration.hasCredentials()) {
-                httpClientBuilder.setDefaultCredentialsProvider(buildCredentialsConfiguration(proxyConfiguration));
-            }
-            httpClientBuilder.setDefaultRequestConfig(buildProxyConfiguration(proxyConfiguration));
-            return httpClientBuilder.build();
-        } else {
-            return httpClientBuilder.build();
-        }
-    }
-
-    private SSLConnectionSocketFactory buildSSLSocketFactory() throws HttpException {
-
-        //Disabling all checks that SSL certificate is valid. We are actually calling eSignLive anyways.
-        //Our client library should implicitly trust our eSignLive server. This also allows testing against
-        //server with Self-signed certificates.
-        try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null,
-                    new TrustManager[]{new X509TrustManager() {
-                        public X509Certificate[] getAcceptedIssuers() {
-                            return null;
-                        }
-
-                        public void checkClientTrusted(
-                                X509Certificate[] certs, String authType) {
-                        }
-
-                        public void checkServerTrusted(
-                                X509Certificate[] certs, String authType) {
-                        }
-                    }}, new SecureRandom());
-            return new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-        } catch (KeyManagementException e) {
-            throw new HttpException("Problem configuring SSL Socket factory", e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new HttpException("Problem configuring SSL Socket factory", e);
-        }
-    }
-
-    private RequestConfig buildProxyConfiguration(ProxyConfiguration proxyConfiguration) {
-        return RequestConfig.custom()
-                .setProxy(new HttpHost(proxyConfiguration.getHost(), proxyConfiguration.getPort(), proxyConfiguration.getScheme()))
-                .build();
-    }
-
-    private CredentialsProvider buildCredentialsConfiguration(ProxyConfiguration proxyConfiguration) {
-        CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(new AuthScope(proxyConfiguration.getHost(), proxyConfiguration.getPort()),
-                new UsernamePasswordCredentials(proxyConfiguration.getUserName(), proxyConfiguration.getPassword()));
-        return credentialsProvider;
-    }
-
     public String get(String path) throws IOException, RequestException {
         return get(path, ESL_ACCEPT_TYPE_APPLICATION_JSON);
     }
@@ -366,31 +280,5 @@ public class RestClient {
         delete.setEntity(body);
 
         return execute(delete, jsonHandler);
-    }
-
-    private static interface ResponseHandler<T> {
-        T extract(InputStream input);
-    }
-
-    private class BytesHandler implements ResponseHandler<DownloadedFile> {
-
-        public DownloadedFile extract(InputStream input) {
-            return new DownloadedFile("", Streams.toByteArray(input));
-        }
-    }
-
-    private class JsonHandler implements ResponseHandler<String> {
-
-        public String extract(InputStream input) {
-            try {
-
-                String responseBody = Streams.toString(input);
-
-                support.logResponse(responseBody);
-                return responseBody;
-            } catch (UnsupportedEncodingException e) {
-                throw new EslException("", e);
-            }
-        }
     }
 }
