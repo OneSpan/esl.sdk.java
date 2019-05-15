@@ -21,6 +21,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
     public static final String HAND_OVER_LINK_HREF = "http://www.google.ca";
     public static final String HAND_OVER_LINK_TEXT = "click here";
     public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
+    public static final Integer FONT_SIZE = 28;
 
     public static void main(String... args) {
         new DocumentPackageSettingsExample().run();
@@ -50,6 +51,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                 .withHandOverLinkHref(HAND_OVER_LINK_HREF)
                                 .withHandOverLinkText(HAND_OVER_LINK_TEXT)
                                 .withHandOverLinkTooltip(HAND_OVER_LINK_TOOLTIP)
+                                .withFontSize(FONT_SIZE)
                                 .withDialogOnComplete()
                                 .withoutDeclineOther()
                                 .withoutOptOutOther()

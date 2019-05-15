@@ -1,9 +1,12 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.FieldId;
+import com.silanis.esl.sdk.FieldStyle;
+import com.silanis.esl.sdk.FieldValidator;
+import com.silanis.esl.sdk.TextAnchor;
 
 /**
- * 
  * FieldBuilder is a convenient class used to create fields.
  */
 public class FieldBuilder {
@@ -27,10 +30,12 @@ public class FieldBuilder {
     private String value;
     private FieldId fieldId;
     private TextAnchor textAnchor;
+    private Integer fontSize;
 
     /**
      * Creates a field builder
-     * @return	a field builder
+     *
+     * @return a field builder
      */
     public static FieldBuilder newField() {
         return new FieldBuilder();
@@ -41,8 +46,8 @@ public class FieldBuilder {
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
-     * @see FieldStyle
      * @return a BOUND_DATE styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder signatureDate() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_DATE);
@@ -53,8 +58,8 @@ public class FieldBuilder {
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
-     * @see FieldStyle
      * @return a BOUND_NAME styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder signerName() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_NAME);
@@ -65,19 +70,20 @@ public class FieldBuilder {
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
+     * @return a BOUND_TITLE styled field builder
      * @see FieldStyle
-     * @return	a BOUND_TITLE styled field builder
      */
     public static FieldBuilder signerTitle() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_TITLE);
     }
+
     /**
      * Creates a field builder having set the style to BOUND_COMPANY. The signer's company string
      * will be displayed at the location defined for the field when the signer
      * signs the associated signature field.
      *
+     * @return a BOUND_COMPANY styled field builder
      * @see FieldStyle
-     * @return	a BOUND_COMPANY styled field builder
      */
     public static FieldBuilder signerCompany() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_COMPANY);
@@ -88,23 +94,24 @@ public class FieldBuilder {
      * defines a text field at the location defined that the signer may be
      * required to fill prior to signing the its associated signature.
      *
-     * @see FieldStyle
      * @return a UNBOUND_TEXT_FIELD styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder textField() {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_TEXT_FIELD );
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_TEXT_FIELD);
     }
 
     /**
      * Creates a field builder having set the style to UNBOUND_CUSTOM_FIELD
      * It defines a user defined form field that may be stamped on  the document.
-     *
+     * <p>
      * E.g.: user's pharmacist license number.
-     * @see FieldStyle
+     *
      * @return a UNBOUND_CUSTOM_FIELD styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder customField(String name) {
-        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD ).withName(name);
+        return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CUSTOM_FIELD).withName(name);
     }
 
     /**
@@ -112,8 +119,8 @@ public class FieldBuilder {
      * defines a checkbox field at the location defined that the signer may be
      * required to check prior to signing the its associated signature.
      *
+     * @return a UNBOUND_CHECK_BOX styled field builder
      * @see FieldStyle
-     * @return	a UNBOUND_CHECK_BOX styled field builder
      */
     public static FieldBuilder checkBox() {
         return new FieldBuilder().withStyle(FieldStyle.UNBOUND_CHECK_BOX);
@@ -124,9 +131,9 @@ public class FieldBuilder {
      * a radio button field in a group specified by the user. Only one radio button from
      * a group can be selected at a time.
      *
-     * @see FieldStyle
      * @param group the radio button group
      * @return a UNBOUND_RADIO_BUTTON styled field builder
+     * @see FieldStyle
      */
 
     public static FieldBuilder radioButton(String group) {
@@ -138,7 +145,7 @@ public class FieldBuilder {
         return new FieldBuilder()
                 .withStyle(FieldStyle.UNBOUND_RADIO_BUTTON)
                 .withValidation(FieldValidatorBuilder.basic()
-                                                     .withOption(group));
+                        .withOption(group));
     }
 
     /**
@@ -146,8 +153,8 @@ public class FieldBuilder {
      * a drop list field at the location defined that the signer may be
      * required to select prior to signing the its associated signature
      *
-     * @see FieldStyle
      * @return a DROP_LIST styled field builder
+     * @see FieldStyle
      */
 
     public static FieldBuilder dropList() {
@@ -159,8 +166,8 @@ public class FieldBuilder {
      * a text area field at the location defined that the signer may be
      * required to fill prior to signing the its associated signature
      *
-     * @see FieldStyle
      * @return a TEXT_AREA styled field builder
+     * @see FieldStyle
      */
 
     public static FieldBuilder textArea() {
@@ -171,8 +178,8 @@ public class FieldBuilder {
      * Every bound field (Date, Title, Name) is a label.
      * The user should not have to set a field style to label.
      *
-     * @see FieldStyle
      * @return a LABEL styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder label() {
         return new FieldBuilder().withStyle(FieldStyle.LABEL);
@@ -183,8 +190,8 @@ public class FieldBuilder {
      * a datepicker field at the location defined that the signer may be
      * required to fill prior to signing the its associated signature
      *
-     * @see FieldStyle
      * @return a DATEPICKER styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder datepicker() {
         return new FieldBuilder().withStyle(FieldStyle.DATEPICKER);
@@ -195,8 +202,8 @@ public class FieldBuilder {
      * A QR code field will be displayed at the location defined with a
      * default size of width=77 and height=77.
      *
-     * @see FieldStyle
      * @return a BOUND_QRCODE styled field builder
+     * @see FieldStyle
      */
     public static FieldBuilder qrCode() {
         return new FieldBuilder().withStyle(FieldStyle.BOUND_QRCODE)
@@ -205,8 +212,9 @@ public class FieldBuilder {
 
     /**
      * Sets the page on which the field is located.
-     * @param pageNumber	the page number
-     * @return	the field builder itself
+     *
+     * @param pageNumber the page number
+     * @return the field builder itself
      */
     public FieldBuilder onPage(int pageNumber) {
         this.pageNumber = pageNumber;
@@ -215,9 +223,10 @@ public class FieldBuilder {
 
     /**
      * Sets the field at the position in pixel relative to the original document, specified by x and y coordinates
-     * @param x	the x coordinate of the top-left corner @min="0"
-     * @param y	the y coordinate of the top-left corner @min="0"
-     * @return	the field builder itself
+     *
+     * @param x the x coordinate of the top-left corner @min="0"
+     * @param y the y coordinate of the top-left corner @min="0"
+     * @return the field builder itself
      */
     public FieldBuilder atPosition(double x, double y) {
         this.x = x;
@@ -227,11 +236,12 @@ public class FieldBuilder {
 
     /**
      * Sets the size, in pixel, of the field
-     * @param width	the width of the field @min="0"
+     *
+     * @param width  the width of the field @min="0"
      * @param height the height of the field @min="0"
-     * @return	the field builder itself
+     * @return the field builder itself
      */
-    public FieldBuilder withSize( double width, double height ) {
+    public FieldBuilder withSize(double width, double height) {
         this.width = width;
         this.height = height;
         return this;
@@ -239,11 +249,12 @@ public class FieldBuilder {
 
     /**
      * Sets the style of the field
+     *
+     * @param style the style of the field
+     * @return the field builder itself
      * @see FieldStyle
-     * @param style	the style of the field
-     * @return	the field builder itself
      */
-    public FieldBuilder withStyle( FieldStyle style ) {
+    public FieldBuilder withStyle(FieldStyle style) {
         this.style = style;
         return this;
     }
@@ -256,7 +267,7 @@ public class FieldBuilder {
      * @param name the name of the field @size(max="64")
      * @return the field builder itself
      */
-    public FieldBuilder withName( String name ) {
+    public FieldBuilder withName(String name) {
         this.name = name;
         return this;
     }
@@ -282,11 +293,12 @@ public class FieldBuilder {
      * <p>
      * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
      * {@link #withSize(double, double)}.
+     *
      * @param builder
      * @return the field builder itself
      */
     public FieldBuilder withPositionAnchor(TextAnchorBuilder builder) {
-        return withPositionAnchor( builder.build() );
+        return withPositionAnchor(builder.build());
     }
 
     /**
@@ -296,9 +308,9 @@ public class FieldBuilder {
      * When using {@link #withPositionAnchor(TextAnchorBuilder)} you must not use
      * {@link #withSize(double, double)}.
      *
-     * @see #withPositionAnchor(TextAnchorBuilder)
      * @param textAnchor
      * @return the field builder itself
+     * @see #withPositionAnchor(TextAnchorBuilder)
      */
     public FieldBuilder withPositionAnchor(TextAnchor textAnchor) {
         this.textAnchor = textAnchor;
@@ -311,34 +323,35 @@ public class FieldBuilder {
      * It is up to the user to decide which validators they want to set to put constrains on the field.
      * Leave blank otherwise.
      *
-     * @param fieldValidator	the field validator
-     * @return	the field builder itself
+     * @param fieldValidator the field validator
+     * @return the field builder itself
      */
-    public FieldBuilder withValidation( FieldValidator fieldValidator ) {
+    public FieldBuilder withValidation(FieldValidator fieldValidator) {
         mergeValidation(fieldValidator);
         return this;
     }
 
     /**
      * Sets a validator on the field that could be easily customized by the field validator builder provided as parameter.
-     * @param builder	the field validator builder
-     * @return	the field builder itself
+     *
+     * @param builder the field validator builder
+     * @return the field builder itself
      */
-    public FieldBuilder withValidation( FieldValidatorBuilder builder ) {
-        return withValidation( builder.build() );
+    public FieldBuilder withValidation(FieldValidatorBuilder builder) {
+        return withValidation(builder.build());
     }
 
     private void mergeValidation(FieldValidator fieldValidator) {
         if (null != this.fieldValidator) {
-            if(null != fieldValidator.getErrorMessage())
+            if (null != fieldValidator.getErrorMessage())
                 this.fieldValidator.setErrorMessage(fieldValidator.getErrorMessage());
-            if(null != fieldValidator.getMaxLength())
+            if (null != fieldValidator.getMaxLength())
                 this.fieldValidator.setMaxLength(fieldValidator.getMaxLength());
-            if(null != fieldValidator.getMinLength())
+            if (null != fieldValidator.getMinLength())
                 this.fieldValidator.setMinLength(fieldValidator.getMinLength());
-            if(null != fieldValidator.getRegex())
+            if (null != fieldValidator.getRegex())
                 this.fieldValidator.setRegex(fieldValidator.getRegex());
-            if(null != fieldValidator.getOptions() && fieldValidator.getOptions().size() > 0)
+            if (null != fieldValidator.getOptions() && fieldValidator.getOptions().size() > 0)
                 this.fieldValidator.setOptions(fieldValidator.getOptions());
 
             this.fieldValidator.setRequired(fieldValidator.isRequired());
@@ -349,18 +362,20 @@ public class FieldBuilder {
 
     /**
      * Set a field's value for a radio button or a checkbox
+     *
      * @param value true for checked and false for unchecked
      * @return the field builder itself
      */
     public FieldBuilder withValue(boolean value) {
-        if ( style == FieldStyle.UNBOUND_CHECK_BOX || style == FieldStyle.UNBOUND_RADIO_BUTTON) {
-            this.value = value?SELECTED_VALUE:"";
+        if (style == FieldStyle.UNBOUND_CHECK_BOX || style == FieldStyle.UNBOUND_RADIO_BUTTON) {
+            this.value = value ? SELECTED_VALUE : "";
         }
         return this;
     }
 
     /**
      * Set a field's value.
+     *
      * @param value String value of the field @size(max="255")
      * @return the field builder itself
      */
@@ -371,13 +386,25 @@ public class FieldBuilder {
     }
 
     /**
+     * Set a field's fontSize.
+     *
+     * @param fontSize Integer fontSize of the field)
+     * @return the field builder itself
+     */
+
+    public FieldBuilder withFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
+        return this;
+    }
+
+    /**
      * Set a field's unique ID. This id allows the field value to be retrieved
      * when querying a package for information.
      *
      * @param fieldId
      * @return the field builder itself
      */
-    public FieldBuilder withId( FieldId fieldId ) {
+    public FieldBuilder withId(FieldId fieldId) {
         this.fieldId = fieldId;
         return this;
     }
@@ -385,25 +412,26 @@ public class FieldBuilder {
     /**
      * Builds the actual Field with the values specified.
      *
-     * @return	the built Field
+     * @return the built Field
      */
     public Field build() {
         Field field = new Field();
-        field.setPage( pageNumber );
-        field.setX( x );
-        field.setY( y );
-        field.setStyle( style );
-        field.setWidth( width );
-        field.setHeight( height );
-        field.setName( name );
-        field.setExtraction( extract );
-        field.setFieldValidator( fieldValidator );
-        field.setValue( value );
-        if ( fieldId != null ) {
-            field.setId( fieldId );
+        field.setPage(pageNumber);
+        field.setX(x);
+        field.setY(y);
+        field.setStyle(style);
+        field.setWidth(width);
+        field.setHeight(height);
+        field.setName(name);
+        field.setExtraction(extract);
+        field.setFieldValidator(fieldValidator);
+        field.setValue(value);
+        field.setFontSize(fontSize);
+        if (fieldId != null) {
+            field.setId(fieldId);
         }
-        if ( textAnchor != null ) {
-            field.setTextAnchor( textAnchor );
+        if (textAnchor != null) {
+            field.setTextAnchor(textAnchor);
         }
 
         return field;

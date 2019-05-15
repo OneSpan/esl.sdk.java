@@ -41,6 +41,8 @@ public class Field extends Entity
     public static final String FIELD_VALUE = "value";
     @JsonIgnore
     public static final String FIELD_WIDTH = "width";
+    @JsonIgnore
+    public static final String FIELD_FONT_SIZE = "fontSize";
     
     // Empty Constructor
     public Field ( ) {}
@@ -58,6 +60,7 @@ public class Field extends Entity
     protected FieldValidation _validation = null;
     protected String _value = "";
     protected Double _width = 0.0;
+    protected Integer _fontSize = null;
     
     // Accessors
         
@@ -340,6 +343,21 @@ public class Field extends Entity
     public Double getWidth(){
         return _width;
     }
-    
-    
+
+
+
+    public Field setFontSize( Integer value ){
+        this._fontSize = value;
+        setDirty(FIELD_FONT_SIZE);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Field safeSetFontSize( Integer value ){
+        if ( value != null ) { this.setFontSize( value ); }
+        return this;
+    }
+    public Integer getFontSize(){
+        return _fontSize;
+    }
 }

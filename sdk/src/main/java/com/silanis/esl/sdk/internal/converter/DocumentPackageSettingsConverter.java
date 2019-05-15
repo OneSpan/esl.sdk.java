@@ -62,6 +62,7 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetDisableOptOutOther(sdkPackageSettings.getDisableOptOutOther());
         ceremonySettings.safeSetEnforceCaptureSignature(sdkPackageSettings.getEnforceCaptureSignature());
         ceremonySettings.safeSetAda(sdkPackageSettings.getAda());
+        ceremonySettings.safeSetFontSize(sdkPackageSettings.getFontSize());
 
         if (sdkPackageSettings.getEnableFirstAffidavit() != null) {
             ceremonySettings.safeSetDisableFirstInPersonAffidavit(!sdkPackageSettings.getEnableFirstAffidavit());
@@ -178,9 +179,11 @@ public class DocumentPackageSettingsConverter {
             result.setEnforceCaptureSignature(apiPackageSettings.getCeremony().getEnforceCaptureSignature());
         }
 
-        if (apiPackageSettings.getCeremony().getAda() != null) {
+        if (apiPackageSettings.getCeremony().getAda() != null)
             result.setAda(apiPackageSettings.getCeremony().getAda());
-        }
+
+        if (apiPackageSettings.getCeremony().getFontSize() != null)
+            result.setFontSize(apiPackageSettings.getCeremony().getFontSize());
 
         result.setCeremonyLayoutSettings(new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings());
 

@@ -80,6 +80,8 @@ public class FieldConverter {
             result.setExtractAnchor( new TextAnchorConverter( sdkField.getTextAnchor() ).toAPIExtractAnchor() );
         }
 
+        result.setFontSize( sdkField.getFontSize() );
+
         return result;
 
     }
@@ -120,6 +122,7 @@ public class FieldConverter {
             result.setWidth(apiField.getWidth());
         if ( apiField.getHeight() != null )
             result.setHeight(apiField.getHeight());
+        result.setFontSize(apiField.getFontSize());
 
         return result;
     }

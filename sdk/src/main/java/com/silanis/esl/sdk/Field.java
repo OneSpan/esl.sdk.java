@@ -22,6 +22,7 @@ public class Field implements Serializable {
     private FieldValidator fieldValidator;
     private FieldId id;
     private TextAnchor textAnchor;
+    private Integer fontSize;
 
     public Field() {}
 
@@ -147,5 +148,13 @@ public class Field implements Serializable {
 
     public void setTextAnchor( TextAnchor textAnchor ) {
         this.textAnchor = textAnchor;
+    }
+
+    public Integer getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
     }
 }

@@ -22,9 +22,8 @@ import static org.hamcrest.core.Is.is;
  * User: jessica
  * Date: 27/11/13
  * Time: 4:46 PM
- * 
+ * <p>
  * Test DocumentPackageSettingsConverter.
- * 
  */
 public class DocumentPackageSettingsConverterTest implements ConverterTest {
 
@@ -39,7 +38,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkPackageSettings1 = null;
         converter = new DocumentPackageSettingsConverter(sdkPackageSettings1);
-        assertThat( "Converter didn't return a null api object for a null sdk object", converter.toAPIPackageSettings(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null sdk object", converter.toAPIPackageSettings(), is(nullValue()));
     }
 
     @Override
@@ -47,7 +46,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
     public void convertNullAPIToSDK() {
         apiPackageSettings1 = null;
         converter = new DocumentPackageSettingsConverter(apiPackageSettings1);
-        assertThat( "Converter didn't return a null sdk object for a null api object", converter.toSDKPackageSettings(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null api object", converter.toSDKPackageSettings(), is(nullValue()));
     }
 
     @Override
@@ -55,7 +54,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
     public void convertNullSDKToSDK() {
         sdkPackageSettings1 = null;
         converter = new DocumentPackageSettingsConverter(sdkPackageSettings1);
-        assertThat( "Converter didn't return a null sdk object for a null sdk object", converter.toSDKPackageSettings(), is( nullValue() ) );
+        assertThat("Converter didn't return a null sdk object for a null sdk object", converter.toSDKPackageSettings(), is(nullValue()));
     }
 
     @Override
@@ -63,7 +62,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
     public void convertNullAPIToAPI() {
         apiPackageSettings1 = null;
         converter = new DocumentPackageSettingsConverter(apiPackageSettings1);
-        assertThat( "Converter didn't return a null api object for a null api object", converter.toAPIPackageSettings(), is( nullValue() ) );
+        assertThat("Converter didn't return a null api object for a null api object", converter.toAPIPackageSettings(), is(nullValue()));
     }
 
     @Override
@@ -72,8 +71,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
 
         sdkPackageSettings1 = createTypicalSDKPackageSettings();
         sdkPackageSettings2 = new DocumentPackageSettingsConverter(sdkPackageSettings1).toSDKPackageSettings();
-        assertThat( "Converter returned a null sdk object for a non null sdk object", sdkPackageSettings2, notNullValue() );
-        assertThat( "Converter didn't return the same non-null sdk object it was given", sdkPackageSettings2, is( sdkPackageSettings1 ) );
+        assertThat("Converter returned a null sdk object for a non null sdk object", sdkPackageSettings2, notNullValue());
+        assertThat("Converter didn't return the same non-null sdk object it was given", sdkPackageSettings2, is(sdkPackageSettings1));
     }
 
     @Override
@@ -83,8 +82,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiPackageSettings1 = createTypicalAPIPackageSettings();
         apiPackageSettings2 = new DocumentPackageSettingsConverter(apiPackageSettings1).toAPIPackageSettings();
 
-        assertThat( "Converter returned a null api object for a non null api object", apiPackageSettings2, notNullValue() );
-        assertThat( "Converter didn't return the same non-null api object it was given", apiPackageSettings2, is( apiPackageSettings1 ) );
+        assertThat("Converter returned a null api object for a non null api object", apiPackageSettings2, notNullValue());
+        assertThat("Converter didn't return the same non-null api object it was given", apiPackageSettings2, is(apiPackageSettings1));
     }
 
     @Override
@@ -105,18 +104,17 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(sdkPackageSettings1.getOptOutReasons().get(1)));
         assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(sdkPackageSettings1.getOptOutReasons().get(2)));
         assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(sdkPackageSettings1.getDisableOptOutOther()));
-        assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
-        assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
-        assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
-        assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
-        assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
-        assertThat("Max auth fails allowed was not correctly set",apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(sdkPackageSettings1.getMaxAuthAttempts()));
-        assertThat("Enforce capture signature flag was not correctly set",apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
-
-        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
-        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
-        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton()));
-
+        assertThat("Handover link was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
+        assertThat("Handover text was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
+        assertThat("Handover title was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
+        assertThat("Hide capture text flag was not correctly set", apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
+        assertThat("Hide water mark flag was not correctly set", apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
+        assertThat("Max auth fails allowed was not correctly set", apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(sdkPackageSettings1.getMaxAuthAttempts()));
+        assertThat("Enforce capture signature flag was not correctly set", apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
+        assertThat("Font size was not correctly set", apiPackageSettings1.getCeremony().getFontSize(), is(sdkPackageSettings1.getFontSize()));
+        assertThat("Download button flag was not correctly set", apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
+        assertThat("Confirm button flag was not correctly set", apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
+        assertThat("Save as layout button flag was not correctly set", apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton()));
         assertThat("Hide Language Drop Down was not correctly set", sdkPackageSettings1.getShowLanguageDropDown(), is(!apiPackageSettings1.getCeremony().getHideLanguageDropdown()));
         assertThat("Hide package owner from in person drop down was not correctly set", sdkPackageSettings1.getShowPackageOwnerInPerson(), is(!apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson()));
         assertThat("Hide first affidavit was not correctly set", sdkPackageSettings1.getEnableFirstAffidavit(), is(!apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit()));
@@ -130,9 +128,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         sdkPackageSettings1 = createTypicalSDKPackageSettings();
         apiPackageSettings1 = new DocumentPackageSettingsConverter(sdkPackageSettings1).toAPIPackageSettings();
 
-        assertThat("Converter returned a null api object for a non null sdk object", apiPackageSettings1, is( notNullValue() ) );
-        assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is(sdkPackageSettings1.getEnableInPerson()) );
-        assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is(sdkPackageSettings1.getEnableDecline()) );
+        assertThat("Converter returned a null api object for a non null sdk object", apiPackageSettings1, is(notNullValue()));
+        assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is(sdkPackageSettings1.getEnableInPerson()));
+        assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is(sdkPackageSettings1.getEnableDecline()));
         assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(sdkPackageSettings1.getEnableOptOut()));
         assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(sdkPackageSettings1.getDeclineReasons().get(0)));
         assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(sdkPackageSettings1.getDeclineReasons().get(1)));
@@ -142,16 +140,16 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Second opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(1), is(sdkPackageSettings1.getOptOutReasons().get(1)));
         assertThat("Third opt out reason was not correctly set", apiPackageSettings1.getCeremony().getOptOutReasons().get(2), is(sdkPackageSettings1.getOptOutReasons().get(2)));
         assertThat("Disable OptOutOther was not correctly set", apiPackageSettings1.getCeremony().getDisableOptOutOther(), is(sdkPackageSettings1.getDisableOptOutOther()));
-        assertThat("Handover link was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
-        assertThat("Handover text was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
-        assertThat("Handover title was not correctly set",apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
-        assertThat("Hide capture text flag was not correctly set",apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
-        assertThat("Enforce capture signature flag was not correctly set",apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
-        assertThat("Hide water mark flag was not correctly set",apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
-        assertThat("Download button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
-        assertThat("Confirm button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
-        assertThat("Save as layout button flag was not correctly set",apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton()));
-
+        assertThat("Handover link was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
+        assertThat("Handover text was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
+        assertThat("Handover title was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
+        assertThat("Hide capture text flag was not correctly set", apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
+        assertThat("Enforce capture signature flag was not correctly set", apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
+        assertThat("Font size was not correctly set", apiPackageSettings1.getCeremony().getFontSize(), is(sdkPackageSettings1.getFontSize()));
+        assertThat("Hide water mark flag was not correctly set", apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
+        assertThat("Download button flag was not correctly set", apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getDownload(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalDownloadButton()));
+        assertThat("Confirm button flag was not correctly set", apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getConfirm(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalConfirmButton()));
+        assertThat("Save as layout button flag was not correctly set", apiPackageSettings1.getCeremony().getLayout().getHeader().getGlobalActions().getSaveAsLayout(), is(sdkPackageSettings1.getCeremonyLayoutSettings().getShowGlobalSaveAsLayoutButton()));
         assertThat("Hide Language Drop Down was not correctly set", apiPackageSettings1.getCeremony().getHideLanguageDropdown(), is(!sdkPackageSettings1.getShowLanguageDropDown()));
         assertThat("Hide package owner from in person drop down was not correctly set", apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson(), is(!sdkPackageSettings1.getShowPackageOwnerInPerson()));
         assertThat("Hide first affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit(), is(!sdkPackageSettings1.getEnableFirstAffidavit()));
@@ -175,19 +173,20 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .hideOwnerInPersonDropDown()
                 .withoutLanguageDropDown()
                 .withDeclineReason("Decline reason One")
-                .withDeclineReason( "Decline reason Two" )
-                .withDeclineReason( "Decline reason Three" )
+                .withDeclineReason("Decline reason Two")
+                .withDeclineReason("Decline reason Three")
                 .withoutDeclineOther()
                 .withOptOutReason("Reason One")
-                .withOptOutReason( "Reason Two" )
-                .withOptOutReason( "Reason Three" )
+                .withOptOutReason("Reason Two")
+                .withOptOutReason("Reason Three")
                 .withoutOptOutOther()
                 .withHandOverLinkHref("http://www.google.ca")
-                .withHandOverLinkText( "click here" )
-                .withHandOverLinkTooltip( "link tooltip" )
+                .withHandOverLinkText("click here")
+                .withHandOverLinkTooltip("link tooltip")
                 .withDialogOnComplete()
                 .withEnforceCaptureSignature()
-                .withCeremonyLayoutSettings( newCeremonyLayoutSettings()
+                .withFontSize(20)
+                .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
                         .withoutGlobalDownloadButton()
                         .withoutGlobalConfirmButton()
                         .withoutGlobalSaveAsLayoutButton()
@@ -228,11 +227,12 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setHideWatermark(true);
         apiCeremonySettings.setMaxAuthFailsAllowed(3);
 
-        apiCeremonySettings.setDisableFirstInPersonAffidavit( true);
-        apiCeremonySettings.setDisableSecondInPersonAffidavit( true);
+        apiCeremonySettings.setDisableFirstInPersonAffidavit(true);
+        apiCeremonySettings.setDisableSecondInPersonAffidavit(true);
         apiCeremonySettings.setHideLanguageDropdown(true);
         apiCeremonySettings.setHidePackageOwnerInPerson(true);
         apiCeremonySettings.setEnforceCaptureSignature(true);
+        apiCeremonySettings.setFontSize(10);
 
         Style style = new Style();
         style.setBackgroundColor("white");
@@ -265,5 +265,5 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiPackageSettings.setCeremony(apiCeremonySettings);
 
         return apiPackageSettings;
-    }    
+    }
 }

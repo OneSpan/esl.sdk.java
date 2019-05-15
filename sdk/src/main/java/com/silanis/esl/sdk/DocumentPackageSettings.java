@@ -23,6 +23,7 @@ public class DocumentPackageSettings {
     private Boolean disableOptOutOther = null;
     private Boolean enforceCaptureSignature = null;
     private Boolean ada = null;
+    private Integer fontSize = null;
 
     private String linkText;
     private String linkTooltip;
@@ -204,5 +205,13 @@ public class DocumentPackageSettings {
 
     public void setAda(Boolean ada) {
         this.ada = ada;
+    }
+
+    public Integer getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
     }
 }

@@ -31,6 +31,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean disableOptOutOther = null;
     private Boolean enforceCaptureSignature = null;
     private Boolean ada = null;
+    private Integer fontSize = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -261,6 +262,7 @@ public class DocumentPackageSettingsBuilder {
         return this;
     }
 
+
     /**
      * Disables the option for a signer to sign ADA documents.
      * <p>
@@ -271,6 +273,19 @@ public class DocumentPackageSettingsBuilder {
      */
     public DocumentPackageSettingsBuilder withoutAda() {
         ada = false;
+        return this;
+    }
+
+    /**
+     * Sets the default font size for the package..
+     * <p>
+     * DEFAULT: null
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
         return this;
     }
 
@@ -383,6 +398,7 @@ public class DocumentPackageSettingsBuilder {
         result.setDisableOptOutOther(disableOptOutOther);
         result.setEnforceCaptureSignature(enforceCaptureSignature);
         result.setAda(ada);
+        result.setFontSize(fontSize);
 
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
 

@@ -8,6 +8,7 @@ import java.util.List;
 
 import static com.silanis.esl.sdk.examples.DocumentPackageSettingsExample.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -53,5 +54,6 @@ public class DocumentPackageSettingsExampleTest {
         assertTrue("Disable OptOutOther was not set correctly.", documentPackageSettings.getDisableOptOutOther());
         assertTrue("EnforceCaptureSignature was not set correctly.", documentPackageSettings.getEnforceCaptureSignature());
         assertTrue("ADA was not set correctly.", documentPackageSettings.getAda());
+        assertThat("Font size was not set correctly.", documentPackageSettings.getFontSize(), is(FONT_SIZE));
     }
 }

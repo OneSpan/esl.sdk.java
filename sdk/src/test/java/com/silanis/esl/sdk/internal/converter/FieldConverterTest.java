@@ -92,6 +92,7 @@ public class FieldConverterTest implements ConverterTest{
         assertThat("Page was not correctly set",apiField1.getPage(), is(sdkField1.getPage()));
         assertThat("Extract was not correctly set",apiField1.getExtract(), is(sdkField1.isExtraction()));
         assertThat("Value was not correctly set",apiField1.getValue(), is(sdkField1.getValue()));
+        assertThat("FontSize was not correctly set", apiField1.getFontSize(), is(sdkField1.getFontSize()));
         assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
         assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
     }
@@ -111,6 +112,7 @@ public class FieldConverterTest implements ConverterTest{
         assertThat("Page was not correctly set",apiField1.getPage(), is(sdkField1.getPage()));
         assertThat("Extract was not correctly set",apiField1.getExtract(), is(sdkField1.isExtraction()));
         assertThat("Value was not correctly set",apiField1.getValue(), is(sdkField1.getValue()));
+        assertThat("FontSize was not correctly set",apiField1.getFontSize(), is(sdkField1.getFontSize()));
         assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
         assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
     }
@@ -148,6 +150,7 @@ public class FieldConverterTest implements ConverterTest{
                         .withErrorMessage("Error message for validation.")
                         .build())
                 .withValue("value")
+                .withFontSize(10)
                 .build();
         return sdkField;
     }
@@ -171,6 +174,7 @@ public class FieldConverterTest implements ConverterTest{
         apiField.setType("INPUT");
         apiField.setValue("field value");
         apiField.setWidth(102.0);
+        apiField.setFontSize(12);
 
         return apiField;
     }

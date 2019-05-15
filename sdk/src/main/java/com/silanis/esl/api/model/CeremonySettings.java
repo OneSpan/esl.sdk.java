@@ -58,6 +58,8 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public static final String FIELD_ADA = "ada";
     @JsonIgnore
+    public static final String FIELD_FONT_SIZE = "fontSize";
+    @JsonIgnore
     public static final String FIELD_STYLE = "style";
 
     // Empty Constructor
@@ -86,6 +88,7 @@ public class CeremonySettings extends ViewSettings
     protected Boolean _enforceCaptureSignature = false;
     protected List<String> _optOutReasons = new ArrayList<String>();
     protected Boolean _ada = false;
+    protected Integer _fontSize = null;
 
     // Accessors
 
@@ -674,6 +677,27 @@ public class CeremonySettings extends ViewSettings
     public boolean evalAda() {
         return _ada == null ? false : _ada.booleanValue();
     }
+
+
+
+    public CeremonySettings setFontSize(Integer value) {
+        this._fontSize = value;
+        setDirty(FIELD_FONT_SIZE);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public CeremonySettings safeSetFontSize(Integer value) {
+        if (value != null)
+            this.setFontSize(value);
+        return this;
+    }
+
+    public Integer getFontSize() {
+        return _fontSize;
+    }
+
 
 
     @Override
