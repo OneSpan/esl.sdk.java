@@ -14,6 +14,7 @@ public class UrlTemplate {
     // Package Service
     public static final String PACKAGE_PATH = "/packages";
     public static final String PACKAGE_LIST_PATH = "/packages?query={status}&from={from}&to={to}";
+    public static final String PACKAGE_FIELDS_LIST_PATH = "/packages?query={status}&from={from}&to={to}&fields={fields}";
     public static final String PACKAGE_LIST_STATUS_DATE_RANGE_PATH = "/packages?query={status}&from={from}&to={to}&lastUpdatedStartDate={lastUpdatedStartDate}&lastUpdatedEndDate={lastUpdatedEndDate}";
     public static final String PACKAGE_ID_PATH = "/packages/{packageId}";
     public static final String DOCUMENT_PATH = "/packages/{packageId}/documents";
