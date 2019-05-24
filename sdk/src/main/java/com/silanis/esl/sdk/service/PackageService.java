@@ -830,6 +830,34 @@ public class PackageService {
     }
 
     /**
+     * Returns a Page of Map, which represents a paginated query response which contains package fields and their values.
+     *
+     * @param status  Packages must have their status set to this value to be included in the result set
+     * @param request Identifying which page of results to return
+     * @param fields Identifying which package fields to return
+     * @return List of Map<String, String> that populate the specified page which contains fields and their values
+     */
+    public com.silanis.esl.sdk.Page<Map<String, String>> getPackagesFields(PackageStatus status, PageRequest request, Set<String> fields) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_FIELDS_LIST_PATH)
+                .replace("{status}", new PackageStatusConverter(status).toAPIPackageStatus())
+                .replace("{from}", Integer.toString(request.getFrom()))
+                .replace("{to}", Integer.toString(request.to()))
+                .replace("{fields}", StringUtils.join(fields, ","))
+                .build();
+        try {
+            String response = client.get(path);
+            Result<Map<String, String>> results = JacksonUtil.deserialize(response, new TypeReference<Result<Map<String, String>>>() {
+            });
+            return new com.silanis.esl.sdk.Page<Map<String, String>>(results.getResults(), results.getCount(), request);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get package list.", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new EslException("Could not get package list. Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Returns a Page of DocumentPackages, that last updated in time range, which represents a paginated query response.  Important once you have many DocumentPackages.
      *
      * @param status  Returned DocumentPackages must have their status set to this value to be included in the result set
