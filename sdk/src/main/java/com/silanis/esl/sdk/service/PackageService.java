@@ -837,9 +837,9 @@ public class PackageService {
      * @param fields Identifying which package fields to return
      * @return List of Map<String, String> that populate the specified page which contains fields and their values
      */
-    public com.silanis.esl.sdk.Page<Map<String, String>> getPackagesFields(String status, PageRequest request, List<String> fields) {
+    public com.silanis.esl.sdk.Page<Map<String, String>> getPackagesFields(PackageStatus status, PageRequest request, Set<String> fields) {
         String path = template.urlFor(UrlTemplate.PACKAGE_FIELDS_LIST_PATH)
-                .replace("{status}", status)
+                .replace("{status}", new PackageStatusConverter(status).toAPIPackageStatus())
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
                 .replace("{fields}", StringUtils.join(fields, ","))

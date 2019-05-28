@@ -1,15 +1,12 @@
 package com.silanis.esl.sdk.examples;
 
+import com.google.common.collect.Sets;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.builder.FieldBuilder;
-import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -49,9 +46,6 @@ public class GetPackageFieldsListExample  extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage( superDuperPackage );
-
-        List<String> fields = new ArrayList<>();
-        fields.add("id");
-        packages = eslClient.getPackageService().getPackagesFields( new PackageStatusConverter(PackageStatus.DRAFT).toAPIPackageStatus(), new PageRequest( 1 ), fields);
+        packages = eslClient.getPackageService().getPackagesFields(PackageStatus.DRAFT, new PageRequest( 1 ), Sets.newHashSet("id"));
     }
 }
