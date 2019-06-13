@@ -25,6 +25,7 @@ import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
+import com.silanis.esl.sdk.ReferencedConditions;
 import com.silanis.esl.sdk.RoleList;
 import com.silanis.esl.sdk.SignerId;
 import com.silanis.esl.sdk.SigningStatus;
@@ -42,6 +43,7 @@ import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentVisibilityConverter;
 import com.silanis.esl.sdk.internal.converter.NotaryJournalEntryConverter;
 import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
+import com.silanis.esl.sdk.internal.converter.ReferencedConditionsConverter;
 import com.silanis.esl.sdk.internal.converter.SignerConverter;
 import com.silanis.esl.sdk.internal.converter.SupportConfigurationConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
@@ -1523,5 +1525,49 @@ public class PackageService {
         } catch (Exception e) {
             throw new EslException("Could not get support configuration." + " Exception: " + e.getMessage());
         }
+    }
+
+    /**
+     * @param packageId Package ID
+     * @return Conditions referenced to the provided packageId.
+     */
+    public ReferencedConditions getReferencedConditions(String packageId) {
+        return this.getReferencedConditions(packageId, null, null);
+    }
+
+    /**
+     * @param packageId Package ID
+     * @param documentId document to be filtered by
+     * @return Conditions referenced to the provided packageId filtered by documentId.
+     */
+    public ReferencedConditions getReferencedConditions(String packageId, String documentId) {
+        return this.getReferencedConditions(packageId, documentId, null);
+    }
+
+    /**
+     * @param packageId Package ID
+     * @param documentId document to be filtered by
+     * @param fieldId field to be filtered by
+     * @return Conditions referenced to the provided packageId filtered by document and field ID.
+     */
+    public ReferencedConditions getReferencedConditions(String packageId, String documentId, String fieldId) {
+        String path = template.urlFor(UrlTemplate.PACKAGE_REFERENCED_CONDITIONS_PATH)
+            .replace("{packageId}", packageId)
+            .addParam("documentId", documentId)
+            .addParam("fieldId", fieldId)
+            .build();
+
+        String stringResponse;
+        try {
+            stringResponse = client.get(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get referenced conditions.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get referenced conditions.", e);
+        }
+
+        com.silanis.esl.api.model.ReferencedConditions apiReferencedConditions = Serialization
+            .fromJson(stringResponse, com.silanis.esl.api.model.ReferencedConditions.class);
+        return ReferencedConditionsConverter.toSDK(apiReferencedConditions);
     }
 }
