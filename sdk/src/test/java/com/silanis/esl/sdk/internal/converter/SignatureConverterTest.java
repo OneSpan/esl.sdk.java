@@ -81,7 +81,6 @@ public class SignatureConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertSDKToAPI() {
-
         sdkSignature1 = createTypicalSDKSignature();
         apiApproval1 = new SignatureConverter(sdkSignature1).toAPIApproval();
 
@@ -93,6 +92,7 @@ public class SignatureConverterTest implements ConverterTest {
         assertThat("Page was not correctly set", apiApproval1.getFields().get(0).getPage(), is(sdkSignature1.getPage()));
         assertThat("Left position was not correctly set", apiApproval1.getFields().get(0).getLeft(), is(sdkSignature1.getX()));
         assertThat("Top position was not correctly set", apiApproval1.getFields().get(0).getTop(), is(sdkSignature1.getY()));
+        assertThat("Font size was not correctly set", apiApproval1.getFields().get(0).getFontSize(), is(sdkSignature1.getFontSize()));
     }
 
     private Signature createTypicalSDKSignature() {
@@ -100,6 +100,7 @@ public class SignatureConverterTest implements ConverterTest {
                 .atPosition(100, 100)
                 .withName("signature")
                 .withSize(100, 100)
+                .withFontSize(10)
                 .enableEnforceCaptureSignature()
                 .onPage(0)
                 .build();
@@ -115,6 +116,7 @@ public class SignatureConverterTest implements ConverterTest {
         apiSignature.setHeight(200.0);
         apiSignature.setWidth(100.0);
         apiSignature.setPage(0);
+        apiSignature.setFontSize(20);
 
         apiApproval.addField(apiSignature);
         apiApproval.setEnforceCaptureSignature(true);

@@ -138,6 +138,7 @@ public class SignatureBuilderTest {
         double width = 3;
         double height = 4;
         int page = 5;
+        Integer fontSize = 20;
         SignatureStyle style = SignatureStyle.HAND_DRAWN;
 
         Collection<Field> fields = new ArrayList<Field>();
@@ -148,7 +149,8 @@ public class SignatureBuilderTest {
                 .withStyle(style)
                 .atPosition(x, y)
                 .onPage(page)
-                .withSize(width, height);
+                .withSize(width, height)
+                .withFontSize(fontSize);
 
         for (Field field : fields)
             builder.withField(field);
@@ -162,6 +164,7 @@ public class SignatureBuilderTest {
         assertEquals(height, signature.getHeight(), DEFAULT_DOUBLE_TOLERANCE);
         assertEquals(page, signature.getPage());
         assertEquals(style, signature.getStyle());
+        assertEquals(fontSize, signature.getFontSize());
 
         assertEquals(fields.size(), signature.getFields().size());
         for (Field field : fields)

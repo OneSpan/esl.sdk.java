@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.FieldBuilder.*;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -39,7 +40,10 @@ public class BasicPackageCreationExample extends SDKSample {
     public static final String DOCUMENT1_NAME = "First Document";
     public static final String DOCUMENT2_NAME = "Second Document";
 
-    public static void main( String... args ) {
+    public static final Integer SIGNATURE_FONT_SIZE = 10;
+    public static final Integer AUTO_FIELD_FONT_SIZE = 9;
+
+    public static void main(String... args) {
         new BasicPackageCreationExample().run();
     }
 
@@ -65,47 +69,52 @@ public class BasicPackageCreationExample extends SDKSample {
                 .withDocument(newDocumentWithName(DOCUMENT1_NAME)
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
+                                .withFontSize(SIGNATURE_FONT_SIZE)
                                 .onPage(0)
-                                .withField(FieldBuilder.checkBox()
+                                .withField(checkBox()
                                         .onPage(0)
                                         .atPosition(50, 50)
                                         .withValue(FieldBuilder.RADIO_SELECTED))
+                                .withField(signerName()
+                                        .onPage(0)
+                                        .atPosition(150, 50)
+                                        .withFontSize(AUTO_FIELD_FONT_SIZE))
                                 .atPosition(100, 100)))
                 .withDocument(newDocumentWithName(DOCUMENT2_NAME)
-                                .fromStream(documentInputStream2, DocumentType.PDF)
-                                .withSignature(signatureFor(email2)
-                                                .onPage(0)
-                                                .withField(FieldBuilder.radioButton(group1)
-                                                        .withName("firstField")
-                                                        .onPage(0)
-                                                        .atPosition(400, 300)
-                                                        .withSize(20, 20)
-                                                        .withValue(false))
-                                                .withField(FieldBuilder.radioButton(group1)
-                                                        .withName("secondField")
-                                                        .onPage(0)
-                                                        .atPosition(400, 400)
-                                                        .withSize(20, 20)
-                                                        .withValue(true))
-                                                .withField(FieldBuilder.radioButton(group2)
-                                                        .withName("thirdField")
-                                                        .onPage(0)
-                                                        .atPosition(400, 500)
-                                                        .withSize(20, 20)
-                                                        .withValue(true))
-                                                .withField(FieldBuilder.radioButton(group2)
-                                                        .withName("fourthField")
-                                                        .onPage(0)
-                                                        .atPosition(400, 600)
-                                                        .withSize(20, 20)
-                                                        .withValue(false))
-                                                .atPosition(100, 200)
-                                )
+                        .fromStream(documentInputStream2, DocumentType.PDF)
+                        .withSignature(signatureFor(email2)
+                                .onPage(0)
+                                .withField(radioButton(group1)
+                                        .withName("firstField")
+                                        .onPage(0)
+                                        .atPosition(400, 300)
+                                        .withSize(20, 20)
+                                        .withValue(false))
+                                .withField(radioButton(group1)
+                                        .withName("secondField")
+                                        .onPage(0)
+                                        .atPosition(400, 400)
+                                        .withSize(20, 20)
+                                        .withValue(true))
+                                .withField(radioButton(group2)
+                                        .withName("thirdField")
+                                        .onPage(0)
+                                        .atPosition(400, 500)
+                                        .withSize(20, 20)
+                                        .withValue(true))
+                                .withField(radioButton(group2)
+                                        .withName("fourthField")
+                                        .onPage(0)
+                                        .atPosition(400, 600)
+                                        .withSize(20, 20)
+                                        .withValue(false))
+                                .atPosition(100, 200)
+                        )
                 )
                 .build();
 
-        packageId = eslClient.createPackageOneStep( superDuperPackage );
-        eslClient.sendPackage( packageId );
-        retrievedPackage = eslClient.getPackage( packageId );
+        packageId = eslClient.createPackageOneStep(superDuperPackage);
+        eslClient.sendPackage(packageId);
+        retrievedPackage = eslClient.getPackage(packageId);
     }
 }

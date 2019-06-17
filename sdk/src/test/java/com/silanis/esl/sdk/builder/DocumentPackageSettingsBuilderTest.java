@@ -122,5 +122,9 @@ public class DocumentPackageSettingsBuilderTest {
         documentPackageSettings = newDocumentPackageSettings().withAda().build();
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
         assertTrue("ada was not set correctly", documentPackageSettings.getAda());
+
+        documentPackageSettings = newDocumentPackageSettings().withFontSize(10).build();
+        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat("fontSize was not set correctly", documentPackageSettings.getFontSize(), is(10));
     }
 }

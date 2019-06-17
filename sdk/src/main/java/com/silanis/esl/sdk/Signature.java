@@ -23,6 +23,7 @@ public class Signature implements Serializable {
     private SignatureStyle style;
     private double width;
     private double height;
+    private Integer fontSize;
 
     private Collection<Field> fields = new ArrayList<Field>();
     private String name;
@@ -115,6 +116,14 @@ public class Signature implements Serializable {
 
     public void setHeight( double height ) {
         this.height = height;
+    }
+
+    public Integer getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
     }
 
     public Collection<Field> getFields() {
