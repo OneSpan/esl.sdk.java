@@ -98,6 +98,10 @@ public class SignatureConverter {
             if (apiSignatureField.evalExtract()) {
                 signatureBuilder.withPositionExtracted();
             }
+
+            if (apiSignatureField.getFontSize() != null) {
+                signatureBuilder.withFontSize(apiSignatureField.getFontSize());
+            }
         }
 
         if (apiApproval.getOptional())
@@ -191,6 +195,7 @@ public class SignatureConverter {
             result.setExtractAnchor(new TextAnchorConverter(sdkSignature.getTextAnchor()).toAPIExtractAnchor());
         }
 
+        result.safeSetFontSize(sdkSignature.getFontSize());
         result.setType(FieldType.SIGNATURE.getApiValue());
         result.setSubtype(getSignatureSubtype());
 

@@ -1,6 +1,12 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.Field;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signature;
+import com.silanis.esl.sdk.SignatureId;
+import com.silanis.esl.sdk.SignatureStyle;
+import com.silanis.esl.sdk.TextAnchor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +30,7 @@ final public class SignatureBuilder {
     private double y;
     private double width = DEFAULT_WIDTH;
     private double height = DEFAULT_HEIGHT;
+    private Integer fontSize = null;
     private SignatureStyle style = DEFAULT_STYLE;
     private Collection<Field> fields = new ArrayList<Field>();
     private boolean extract;
@@ -36,7 +43,7 @@ final public class SignatureBuilder {
      *
      * @param email the signer's email address @size(min="6", max="255", valid email address)
      */
-    private SignatureBuilder( String email ) {
+    private SignatureBuilder(String email) {
         this.signerEmail = email;
         this.groupId = null;
         this.roleId = null;
@@ -47,7 +54,7 @@ final public class SignatureBuilder {
      *
      * @param groupId the group signer id
      */
-    private SignatureBuilder( GroupId groupId ) {
+    private SignatureBuilder(GroupId groupId) {
         this.groupId = groupId;
         this.signerEmail = null;
         this.roleId = null;
@@ -58,7 +65,7 @@ final public class SignatureBuilder {
      *
      * @param roleId the placeholder's id
      */
-    private SignatureBuilder( Placeholder roleId ) {
+    private SignatureBuilder(Placeholder roleId) {
         this.groupId = null;
         this.signerEmail = null;
         this.roleId = roleId;
@@ -70,8 +77,8 @@ final public class SignatureBuilder {
      * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
      * @return the signature builder itself
      */
-    public static SignatureBuilder signatureFor( String signerEmail ) {
-        return new SignatureBuilder( signerEmail );
+    public static SignatureBuilder signatureFor(String signerEmail) {
+        return new SignatureBuilder(signerEmail);
     }
 
     /**
@@ -80,8 +87,8 @@ final public class SignatureBuilder {
      * @param groupId id of the group for which any of its members can sign.
      * @return the signature builder itself
      */
-    public static SignatureBuilder signatureFor( GroupId groupId ) {
-        return new SignatureBuilder( groupId );
+    public static SignatureBuilder signatureFor(GroupId groupId) {
+        return new SignatureBuilder(groupId);
     }
 
     /**
@@ -90,7 +97,9 @@ final public class SignatureBuilder {
      * @param roleId the placeholder's id
      * @return the signature builder itself
      */
-    public static SignatureBuilder signatureFor( Placeholder roleId ) { return new SignatureBuilder( roleId );}
+    public static SignatureBuilder signatureFor(Placeholder roleId) {
+        return new SignatureBuilder(roleId);
+    }
 
     /**
      * Creates an acceptance consent for the signer having the email address provided.
@@ -98,12 +107,12 @@ final public class SignatureBuilder {
      * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
      * @return the signature builder itself
      */
-    public static SignatureBuilder acceptanceFor( String signerEmail ) {
-        SignatureBuilder builder = signatureFor( signerEmail )
-                .withStyle( SignatureStyle.ACCEPTANCE )
-                .atPosition( 0, 0 )
-                .withSize( 0, 0 )
-                .onPage( 0 );
+    public static SignatureBuilder acceptanceFor(String signerEmail) {
+        SignatureBuilder builder = signatureFor(signerEmail)
+                .withStyle(SignatureStyle.ACCEPTANCE)
+                .atPosition(0, 0)
+                .withSize(0, 0)
+                .onPage(0);
         return builder;
     }
 
@@ -113,12 +122,12 @@ final public class SignatureBuilder {
      * @param groupId id of the group for which any of its members can sign.
      * @return the signature builder itself
      */
-    public static SignatureBuilder acceptanceFor( GroupId groupId ) {
-        SignatureBuilder builder = signatureFor( groupId )
-                .withStyle( SignatureStyle.ACCEPTANCE )
-                .atPosition( 0, 0 )
-                .withSize( 0, 0 )
-                .onPage( 0 );
+    public static SignatureBuilder acceptanceFor(GroupId groupId) {
+        SignatureBuilder builder = signatureFor(groupId)
+                .withStyle(SignatureStyle.ACCEPTANCE)
+                .atPosition(0, 0)
+                .withSize(0, 0)
+                .onPage(0);
         return builder;
     }
 
@@ -128,12 +137,12 @@ final public class SignatureBuilder {
      * @param roleId the placeholder's id
      * @return the signature builder itself
      */
-    public static SignatureBuilder acceptanceFor( Placeholder roleId ) {
-        SignatureBuilder builder = signatureFor( roleId )
-                .withStyle( SignatureStyle.ACCEPTANCE )
-                .atPosition( 0, 0 )
-                .withSize( 0, 0 )
-                .onPage( 0 );
+    public static SignatureBuilder acceptanceFor(Placeholder roleId) {
+        SignatureBuilder builder = signatureFor(roleId)
+                .withStyle(SignatureStyle.ACCEPTANCE)
+                .atPosition(0, 0)
+                .withSize(0, 0)
+                .onPage(0);
         return builder;
     }
 
@@ -144,19 +153,19 @@ final public class SignatureBuilder {
      * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
      * @return the signature builder itself
      */
-    public static SignatureBuilder initialsFor( String signerEmail ) {
-        return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.INITIALS );
+    public static SignatureBuilder initialsFor(String signerEmail) {
+        return new SignatureBuilder(signerEmail).withStyle(SignatureStyle.INITIALS);
     }
 
     /**
      * Creates a SignatureBuilder instance for any members of the group provided as parameter.
      * The signature style will be also set toSignatureStyle.INITIALS
-     * 
+     *
      * @param groupId id of the group for which any of its members can sign.
      * @return the signature builder itself
      */
-    public static SignatureBuilder initialsFor( GroupId groupId ) {
-        return new SignatureBuilder( groupId ).withStyle( SignatureStyle.INITIALS );
+    public static SignatureBuilder initialsFor(GroupId groupId) {
+        return new SignatureBuilder(groupId).withStyle(SignatureStyle.INITIALS);
     }
 
     /**
@@ -166,8 +175,8 @@ final public class SignatureBuilder {
      * @param roleId the placeholder's id
      * @return the signature builder itself
      */
-    public static SignatureBuilder initialsFor( Placeholder roleId ) {
-        return new SignatureBuilder( roleId ).withStyle( SignatureStyle.INITIALS );
+    public static SignatureBuilder initialsFor(Placeholder roleId) {
+        return new SignatureBuilder(roleId).withStyle(SignatureStyle.INITIALS);
     }
 
     /**
@@ -177,8 +186,8 @@ final public class SignatureBuilder {
      * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
      * @return the signature builder itself
      */
-    public static SignatureBuilder captureFor( String signerEmail ) {
-        return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.HAND_DRAWN );
+    public static SignatureBuilder captureFor(String signerEmail) {
+        return new SignatureBuilder(signerEmail).withStyle(SignatureStyle.HAND_DRAWN);
     }
 
     /**
@@ -188,8 +197,8 @@ final public class SignatureBuilder {
      * @param groupId id of the group for which any of its members can sign.
      * @return the signature builder itself
      */
-    public static SignatureBuilder captureFor( GroupId groupId ) {
-        return new SignatureBuilder( groupId ).withStyle( SignatureStyle.HAND_DRAWN );
+    public static SignatureBuilder captureFor(GroupId groupId) {
+        return new SignatureBuilder(groupId).withStyle(SignatureStyle.HAND_DRAWN);
     }
 
     /**
@@ -199,8 +208,8 @@ final public class SignatureBuilder {
      * @param roleId the placeholder's id
      * @return the signature builder itself
      */
-    public static SignatureBuilder captureFor( Placeholder roleId ) {
-        return new SignatureBuilder( roleId ).withStyle( SignatureStyle.HAND_DRAWN );
+    public static SignatureBuilder captureFor(Placeholder roleId) {
+        return new SignatureBuilder(roleId).withStyle(SignatureStyle.HAND_DRAWN);
     }
 
     /**
@@ -210,8 +219,8 @@ final public class SignatureBuilder {
      * @param signerEmail the signer's email address @size(min="6", max="255", valid email address)
      * @return the signature builder itself
      */
-    public static SignatureBuilder mobileCaptureFor( String signerEmail ) {
-        return new SignatureBuilder( signerEmail ).withStyle( SignatureStyle.MOBILE_CAPTURE );
+    public static SignatureBuilder mobileCaptureFor(String signerEmail) {
+        return new SignatureBuilder(signerEmail).withStyle(SignatureStyle.MOBILE_CAPTURE);
     }
 
     /**
@@ -221,8 +230,8 @@ final public class SignatureBuilder {
      * @param groupId id of the group for which any of its members can sign.
      * @return the signature builder itself
      */
-    public static SignatureBuilder mobileCaptureFor( GroupId groupId ) {
-        return new SignatureBuilder( groupId ).withStyle( SignatureStyle.MOBILE_CAPTURE );
+    public static SignatureBuilder mobileCaptureFor(GroupId groupId) {
+        return new SignatureBuilder(groupId).withStyle(SignatureStyle.MOBILE_CAPTURE);
     }
 
     /**
@@ -232,8 +241,8 @@ final public class SignatureBuilder {
      * @param roleId the placeholder's id
      * @return the signature builder itself
      */
-    public static SignatureBuilder mobileCaptureFor( Placeholder roleId ) {
-        return new SignatureBuilder( roleId ).withStyle( SignatureStyle.MOBILE_CAPTURE );
+    public static SignatureBuilder mobileCaptureFor(Placeholder roleId) {
+        return new SignatureBuilder(roleId).withStyle(SignatureStyle.MOBILE_CAPTURE);
     }
 
     /**
@@ -243,7 +252,7 @@ final public class SignatureBuilder {
      * @param id the signature ID @size(min="1", max="64")
      * @return
      */
-    public SignatureBuilder withId( SignatureId id ){
+    public SignatureBuilder withId(SignatureId id) {
         this.id = id;
         return this;
     }
@@ -254,7 +263,7 @@ final public class SignatureBuilder {
      * @param pageNumber the page number the signature will be placed on @min="0"
      * @return the signature builder itself
      */
-    public SignatureBuilder onPage( int pageNumber ) {
+    public SignatureBuilder onPage(int pageNumber) {
         this.pageNumber = pageNumber;
         return this;
     }
@@ -266,7 +275,7 @@ final public class SignatureBuilder {
      * @param y y-coordinate of the signature's top-;eft corner @min="0"
      * @return the signature builder itself
      */
-    public SignatureBuilder atPosition( double x, double y ) {
+    public SignatureBuilder atPosition(double x, double y) {
         this.x = x;
         this.y = y;
         return this;
@@ -279,9 +288,20 @@ final public class SignatureBuilder {
      * @param height the height of the signature @min="0"
      * @return the signature builder itself
      */
-    public SignatureBuilder withSize( double width, double height ) {
+    public SignatureBuilder withSize(double width, double height) {
         this.width = width;
         this.height = height;
+        return this;
+    }
+
+    /**
+     * Set a fontSize.
+     *
+     * @param fontSize Integer fontSize of the field)
+     * @return the field builder itself
+     */
+    public SignatureBuilder withFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
         return this;
     }
 
@@ -291,7 +311,7 @@ final public class SignatureBuilder {
      * @param style the style of the signature
      * @return the signature builder itself
      */
-    public SignatureBuilder withStyle( SignatureStyle style ) {
+    public SignatureBuilder withStyle(SignatureStyle style) {
         this.style = style;
         return this;
     }
@@ -302,8 +322,8 @@ final public class SignatureBuilder {
      * @param builder a convenient field builder
      * @return the signature builder itself
      */
-    public SignatureBuilder withField( FieldBuilder builder ) {
-        return withField( builder.build() );
+    public SignatureBuilder withField(FieldBuilder builder) {
+        return withField(builder.build());
     }
 
     /**
@@ -312,8 +332,8 @@ final public class SignatureBuilder {
      * @param field the field
      * @return the signature builder itself
      */
-    public SignatureBuilder withField( Field field ) {
-        fields.add( field );
+    public SignatureBuilder withField(Field field) {
+        fields.add(field);
         return this;
     }
 
@@ -324,7 +344,7 @@ final public class SignatureBuilder {
      * @param name the signature's name @size(min="1", max="255")
      * @return the signature builder itself
      */
-    public SignatureBuilder withName( String name ) {
+    public SignatureBuilder withName(String name) {
         this.name = name;
         return this;
     }
@@ -353,8 +373,8 @@ final public class SignatureBuilder {
      * @param builder the text anchor builder
      * @return the signature builder itself
      */
-    public SignatureBuilder withPositionAnchor( TextAnchorBuilder builder ) {
-        return withPositionAnchor( builder.build() );
+    public SignatureBuilder withPositionAnchor(TextAnchorBuilder builder) {
+        return withPositionAnchor(builder.build());
     }
 
 
@@ -366,7 +386,7 @@ final public class SignatureBuilder {
      * @param textAnchor the text anchor
      * @return the signature builder itself
      */
-    public SignatureBuilder withPositionAnchor( TextAnchor textAnchor ) {
+    public SignatureBuilder withPositionAnchor(TextAnchor textAnchor) {
         this.textAnchor = textAnchor;
         return this;
     }
@@ -399,25 +419,25 @@ final public class SignatureBuilder {
      */
     public Signature build() {
         Signature signature;
-        if ( roleId != null){
-            signature = new Signature( roleId, pageNumber, x, y );
-        }
-        else if ( signerEmail != null ) {
-            signature = new Signature( signerEmail, pageNumber, x, y );
+        if (roleId != null) {
+            signature = new Signature(roleId, pageNumber, x, y);
+        } else if (signerEmail != null) {
+            signature = new Signature(signerEmail, pageNumber, x, y);
         } else {
-            signature = new Signature( groupId, pageNumber, x, y );
+            signature = new Signature(groupId, pageNumber, x, y);
         }
 
-        signature.setId( id );
-        signature.setName( name );
-        signature.setStyle( style );
-        signature.setWidth( width );
-        signature.setHeight( height );
-        signature.addFields( fields );
-        signature.setExtraction( extract );
-        signature.setTextAnchor( textAnchor );
-        signature.setOptional( optional );
-        signature.setEnforceCaptureSignature( enforceCaptureSignature );
+        signature.setId(id);
+        signature.setName(name);
+        signature.setStyle(style);
+        signature.setWidth(width);
+        signature.setHeight(height);
+        signature.setFontSize(fontSize);
+        signature.addFields(fields);
+        signature.setExtraction(extract);
+        signature.setTextAnchor(textAnchor);
+        signature.setOptional(optional);
+        signature.setEnforceCaptureSignature(enforceCaptureSignature);
 
         return signature;
     }
