@@ -32,6 +32,8 @@ public class DocumentPackageSettingsBuilder {
     private Boolean enforceCaptureSignature = null;
     private Boolean ada = null;
     private Integer fontSize = null;
+    private Boolean defaultTimeBasedExpiry = null;
+    private Integer remainingDays = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -331,6 +333,44 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Use time based Expiry of package. If enabled, set the number
+     * of days #withRemainingDays since pacakge creation date the package should expire.
+     *
+     * @return This
+     * @see #withDefaultTimeBasedExpiry()
+     */
+
+    public DocumentPackageSettingsBuilder withDefaultTimeBasedExpiry() {
+        this.defaultTimeBasedExpiry = true;
+        return this;
+    }
+
+    /**
+     * Do not use time based Expiry of package.
+     *
+     * @return This
+     * @see #withoutDefaultTimeBasedExpiry()
+     */
+
+    public DocumentPackageSettingsBuilder withoutDefaultTimeBasedExpiry() {
+        this.defaultTimeBasedExpiry = false;
+        return this;
+    }
+
+    /**
+     * Set the number of days since Creation date the package should expire
+     *
+     * @param expireInDays Number of Days from Package Creation Date. @size(max="999")
+     * @return This
+     * @see #withDefaultTimeBasedExpiry()
+     */
+
+    public DocumentPackageSettingsBuilder withRemainingDays(Integer expireInDays) {
+        this.remainingDays = expireInDays;
+        return this;
+    }
+
+    /**
      * Set the text to be displayed for the @see
      * #withHandOverLinkHref tool tip when the user over with the mouse over the
      * handoverlink href.
@@ -399,6 +439,8 @@ public class DocumentPackageSettingsBuilder {
         result.setEnforceCaptureSignature(enforceCaptureSignature);
         result.setAda(ada);
         result.setFontSize(fontSize);
+        result.setDefaultTimeBasedExpiry(defaultTimeBasedExpiry);
+        result.setRemainingDays(remainingDays);
 
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
 

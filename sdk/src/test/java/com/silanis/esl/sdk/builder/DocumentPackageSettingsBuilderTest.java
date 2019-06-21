@@ -14,113 +14,125 @@ import static org.junit.Assert.assertTrue;
  */
 public class DocumentPackageSettingsBuilderTest {
 
+    private static final String NULL_ERROR_MSG = "Builder returned a null object";
+    private static final String STR_REASON = "reason";
+
     @Test
     public void buildWithSpecifiedValues() {
 
         DocumentPackageSettings documentPackageSettings = newDocumentPackageSettings().showOwnerInPersonDropDown().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("showOwnerInPersonDropDown was not set correctly", documentPackageSettings.getShowPackageOwnerInPerson());
 
         documentPackageSettings = newDocumentPackageSettings().withDocumentToolbarDownloadButton().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("showDocumentToolbarDownloadButton was not set correctly", documentPackageSettings.getShowDocumentToolbarDownloadButton());
 
         documentPackageSettings = newDocumentPackageSettings().withoutDocumentToolbarDownloadButton().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("showDocumentToolbarDownloadButton was not set correctly", documentPackageSettings.getShowDocumentToolbarDownloadButton());
 
         documentPackageSettings = newDocumentPackageSettings().disableFirstAffidavit().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("enableFirstAffidavit was not set correctly", documentPackageSettings.getEnableFirstAffidavit());
 
         documentPackageSettings = newDocumentPackageSettings().disableSecondAffidavit().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("enableSecondAffidavit was not set correctly", documentPackageSettings.getEnableSecondAffidavit());
 
         documentPackageSettings = newDocumentPackageSettings().enableFirstAffidavit().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("enableFirstAffidavit was not set correctly", documentPackageSettings.getEnableFirstAffidavit());
 
         documentPackageSettings = newDocumentPackageSettings().enableSecondAffidavit().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("enableSecondAffidavit was not set correctly", documentPackageSettings.getEnableSecondAffidavit());
 
         documentPackageSettings = newDocumentPackageSettings().hideOwnerInPersonDropDown().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("showPackageOwnerInPerson was not set correctly", documentPackageSettings.getShowPackageOwnerInPerson());
 
         documentPackageSettings = newDocumentPackageSettings().showOwnerInPersonDropDown().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("showPackageOwnerInPerson was not set correctly", documentPackageSettings.getShowPackageOwnerInPerson());
 
         documentPackageSettings = newDocumentPackageSettings().withCaptureText().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("hideCaptureText was not set correctly", documentPackageSettings.getHideCaptureText());
 
         documentPackageSettings = newDocumentPackageSettings().withDecline().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("enableDecline was not set correctly", documentPackageSettings.getEnableDecline());
 
         documentPackageSettings = newDocumentPackageSettings().withDeclineOther().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("disableDeclineOther was not set correctly", documentPackageSettings.getDisableDeclineOther());
 
-        documentPackageSettings = newDocumentPackageSettings().withDeclineReason("reason").build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        documentPackageSettings = newDocumentPackageSettings().withDeclineReason(STR_REASON).build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("declineReasons was not set correctly", documentPackageSettings.getDeclineReasons(), hasSize(1));
-        assertThat("declineReasons was not set correctly", documentPackageSettings.getDeclineReasons().get(0), is("reason"));
+        assertThat("declineReasons was not set correctly", documentPackageSettings.getDeclineReasons().get(0), is(STR_REASON));
 
         documentPackageSettings = newDocumentPackageSettings().withDialogOnComplete().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("showDialogOnComplete was not set correctly", documentPackageSettings.getShowDialogOnComplete());
 
         documentPackageSettings = newDocumentPackageSettings().withHandOverLinkHref("href").build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("linkHref was not set correctly", documentPackageSettings.getLinkHref(), is("https://href"));
 
         documentPackageSettings = newDocumentPackageSettings().withHandOverLinkText("text").build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("linkText was not set correctly", documentPackageSettings.getLinkText(), is("text"));
 
         documentPackageSettings = newDocumentPackageSettings().withHandOverLinkTooltip("tooltip").build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("linkTooltip was not set correctly", documentPackageSettings.getLinkTooltip(), is("tooltip"));
 
         documentPackageSettings = newDocumentPackageSettings().withInPerson().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("enableInPerson was not set correctly", documentPackageSettings.getEnableInPerson());
 
         documentPackageSettings = newDocumentPackageSettings().withLanguageDropDown().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("showLanguageDropDown was not set correctly", documentPackageSettings.getShowLanguageDropDown());
 
         documentPackageSettings = newDocumentPackageSettings().withoutOptOut().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("enableOptOut was not set correctly", documentPackageSettings.getEnableOptOut());
 
         documentPackageSettings = newDocumentPackageSettings().withOptOutOther().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("disableOptOutOther was not set correctly", documentPackageSettings.getDisableOptOutOther());
 
-        documentPackageSettings = newDocumentPackageSettings().withOptOutReason("reason").build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        documentPackageSettings = newDocumentPackageSettings().withOptOutReason(STR_REASON).build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("optOutReasons was not set correctly", documentPackageSettings.getOptOutReasons(), hasSize(1));
-        assertThat("optOutReasons was not set correctly", documentPackageSettings.getOptOutReasons().get(0), is("reason"));
+        assertThat("optOutReasons was not set correctly", documentPackageSettings.getOptOutReasons().get(0), is(STR_REASON));
 
         documentPackageSettings = newDocumentPackageSettings().withoutWatermark().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("hideWatermark was not set correctly", documentPackageSettings.getHideWatermark());
 
         documentPackageSettings = newDocumentPackageSettings().withWatermark().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertFalse("hideWatermark was not set correctly", documentPackageSettings.getHideWatermark());
 
         documentPackageSettings = newDocumentPackageSettings().withEnforceCaptureSignature().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("enforceCaptureSignature was not set correctly", documentPackageSettings.getEnforceCaptureSignature());
 
         documentPackageSettings = newDocumentPackageSettings().withAda().build();
-        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("ada was not set correctly", documentPackageSettings.getAda());
+
+        documentPackageSettings = newDocumentPackageSettings().withDefaultTimeBasedExpiry().build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
+        assertTrue("Time base expiry was could not be enabled..", documentPackageSettings.getDefaultTimeBasedExpiry());
+
+        documentPackageSettings = newDocumentPackageSettings().withRemainingDays(10).build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
+        assertThat("Expiry days was not set correctly", documentPackageSettings.getRemainingDays(), is(10));
+
     }
 }
