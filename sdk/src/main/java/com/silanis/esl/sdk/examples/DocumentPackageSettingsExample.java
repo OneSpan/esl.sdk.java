@@ -22,6 +22,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
     public static final String HAND_OVER_LINK_TEXT = "click here";
     public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
     public static final Integer FONT_SIZE = 28;
+    public static final Integer EXPIRE_IN_DAYS = 12;
 
     public static void main(String... args) {
         new DocumentPackageSettingsExample().run();
@@ -55,6 +56,8 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                 .withDialogOnComplete()
                                 .withoutDeclineOther()
                                 .withoutOptOutOther()
+                                .withDefaultTimeBasedExpiry()
+                                .withRemainingDays(EXPIRE_IN_DAYS)
 
                                 .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
 //                                .withoutGlobalDownloadButton()

@@ -1,5 +1,4 @@
 package com.silanis.esl.api.model;
-//
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -61,6 +60,10 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_FONT_SIZE = "fontSize";
     @JsonIgnore
     public static final String FIELD_STYLE = "style";
+    @JsonIgnore
+    public static final String FIELD_DEFAULT_TIME_BASED_EXPIRY = "defaultTimeBasedExpiry";
+    @JsonIgnore
+    public static final String FIELD_REMAINING_DAYS = "remainingDays";
 
     // Empty Constructor
     public CeremonySettings() {
@@ -89,6 +92,8 @@ public class CeremonySettings extends ViewSettings
     protected List<String> _optOutReasons = new ArrayList<String>();
     protected Boolean _ada = false;
     protected Integer _fontSize = null;
+    protected Boolean _defaultTimeBasedExpiry = false;
+    protected Integer _remainingDays = 0;
 
     // Accessors
 
@@ -678,7 +683,45 @@ public class CeremonySettings extends ViewSettings
         return _ada == null ? false : _ada.booleanValue();
     }
 
+    public Boolean getDefaultTimeBasedExpiry() {
+        return _defaultTimeBasedExpiry;
+    }
 
+    public CeremonySettings setDefaultTimeBasedExpiry(Boolean _defaultTimeBasedExpiry) {
+        SchemaSanitizer.throwOnNull(FIELD_DEFAULT_TIME_BASED_EXPIRY, _defaultTimeBasedExpiry);
+        this._defaultTimeBasedExpiry = _defaultTimeBasedExpiry;
+        setDirty(FIELD_DEFAULT_TIME_BASED_EXPIRY);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetDefaultTimeBasedExpiry(Boolean value) {
+        if (value != null)
+            this.setDefaultTimeBasedExpiry(value);
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalDefaultTimeBasedExpiry() {
+        return _defaultTimeBasedExpiry == null ? false : _defaultTimeBasedExpiry.booleanValue();
+    }
+
+    public Integer getRemainingDays() {
+        return _remainingDays;
+    }
+
+    public CeremonySettings setRemainingDays(Integer _remainingDays) {
+        this._remainingDays = _remainingDays;
+        setDirty(FIELD_REMAINING_DAYS);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetRemainingDays(Integer value) {
+        if (value != null)
+            this.setRemainingDays(value);
+        return this;
+    }
 
     public CeremonySettings setFontSize(Integer value) {
         this._fontSize = value;
@@ -698,8 +741,6 @@ public class CeremonySettings extends ViewSettings
         return _fontSize;
     }
 
-
-
     @Override
     public CeremonySettings setStyle(LayoutStyle value) {
         super.setStyle(value);
@@ -714,6 +755,5 @@ public class CeremonySettings extends ViewSettings
         }
         return this;
     }
-
 
 }

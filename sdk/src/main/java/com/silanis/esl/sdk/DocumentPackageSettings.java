@@ -24,6 +24,8 @@ public class DocumentPackageSettings {
     private Boolean enforceCaptureSignature = null;
     private Boolean ada = null;
     private Integer fontSize = null;
+    private Boolean defaultTimeBasedExpiry = null;
+    private Integer remainingDays = null;
 
     private String linkText;
     private String linkTooltip;
@@ -214,4 +216,15 @@ public class DocumentPackageSettings {
     public void setFontSize(Integer fontSize) {
         this.fontSize = fontSize;
     }
+
+    public Boolean getDefaultTimeBasedExpiry() { return defaultTimeBasedExpiry; }
+
+    public void setDefaultTimeBasedExpiry(Boolean enable) {
+        this.defaultTimeBasedExpiry = enable;
+    }
+
+    public Integer getRemainingDays() { return remainingDays; }
+
+    public void setRemainingDays(Integer remainingDays) { this.remainingDays = remainingDays; }
+
 }

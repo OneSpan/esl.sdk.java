@@ -1,11 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.GlobalActionsOptions;
-import com.silanis.esl.api.model.HeaderOptions;
-import com.silanis.esl.api.model.LayoutOptions;
-import com.silanis.esl.api.model.LayoutStyle;
-import com.silanis.esl.api.model.Link;
-import com.silanis.esl.api.model.Style;
+import com.silanis.esl.api.model.*;
+import com.silanis.esl.sdk.DocumentPackageSettings;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,9 +24,7 @@ import static org.hamcrest.core.Is.is;
 public class DocumentPackageSettingsConverterTest implements ConverterTest {
 
     private com.silanis.esl.sdk.DocumentPackageSettings sdkPackageSettings1 = null;
-    private com.silanis.esl.sdk.DocumentPackageSettings sdkPackageSettings2 = null;
     private com.silanis.esl.api.model.PackageSettings apiPackageSettings1 = null;
-    private com.silanis.esl.api.model.PackageSettings apiPackageSettings2 = null;
     private DocumentPackageSettingsConverter converter = null;
 
     @Override
@@ -70,7 +64,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
     public void convertSDKToSDK() {
 
         sdkPackageSettings1 = createTypicalSDKPackageSettings();
-        sdkPackageSettings2 = new DocumentPackageSettingsConverter(sdkPackageSettings1).toSDKPackageSettings();
+        DocumentPackageSettings sdkPackageSettings2 = new DocumentPackageSettingsConverter(sdkPackageSettings1).toSDKPackageSettings();
         assertThat("Converter returned a null sdk object for a non null sdk object", sdkPackageSettings2, notNullValue());
         assertThat("Converter didn't return the same non-null sdk object it was given", sdkPackageSettings2, is(sdkPackageSettings1));
     }
@@ -80,7 +74,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
     public void convertAPIToAPI() {
 
         apiPackageSettings1 = createTypicalAPIPackageSettings();
-        apiPackageSettings2 = new DocumentPackageSettingsConverter(apiPackageSettings1).toAPIPackageSettings();
+        PackageSettings apiPackageSettings2 = new DocumentPackageSettingsConverter(apiPackageSettings1).toAPIPackageSettings();
 
         assertThat("Converter returned a null api object for a non null api object", apiPackageSettings2, notNullValue());
         assertThat("Converter didn't return the same non-null api object it was given", apiPackageSettings2, is(apiPackageSettings1));
@@ -119,6 +113,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Hide package owner from in person drop down was not correctly set", sdkPackageSettings1.getShowPackageOwnerInPerson(), is(!apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson()));
         assertThat("Hide first affidavit was not correctly set", sdkPackageSettings1.getEnableFirstAffidavit(), is(!apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit()));
         assertThat("Hide second affidavit was not correctly set", sdkPackageSettings1.getEnableSecondAffidavit(), is(!apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit()));
+        assertThat("Default time based expiry flag was not correctly set", sdkPackageSettings1.getDefaultTimeBasedExpiry(), is(apiPackageSettings1.getCeremony().getDefaultTimeBasedExpiry()));
+        assertThat("Remaining Days was not correctly set", sdkPackageSettings1.getRemainingDays(), is(apiPackageSettings1.getCeremony().getRemainingDays()));
     }
 
     @Override
@@ -154,6 +150,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Hide package owner from in person drop down was not correctly set", apiPackageSettings1.getCeremony().getHidePackageOwnerInPerson(), is(!sdkPackageSettings1.getShowPackageOwnerInPerson()));
         assertThat("Hide first affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableFirstInPersonAffidavit(), is(!sdkPackageSettings1.getEnableFirstAffidavit()));
         assertThat("Hide second affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit(), is(!sdkPackageSettings1.getEnableSecondAffidavit()));
+        assertThat("Default time based expiry flag was not correctly set", apiPackageSettings1.getCeremony().getDefaultTimeBasedExpiry(), is(sdkPackageSettings1.getDefaultTimeBasedExpiry()));
+        assertThat("Remaining Days was not correctly set", apiPackageSettings1.getCeremony().getRemainingDays(), is(sdkPackageSettings1.getRemainingDays()));
     }
 
     /**
@@ -186,6 +184,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withDialogOnComplete()
                 .withEnforceCaptureSignature()
                 .withFontSize(20)
+                .withDefaultTimeBasedExpiry()
+                .withRemainingDays(12)
                 .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
                         .withoutGlobalDownloadButton()
                         .withoutGlobalConfirmButton()
@@ -233,6 +233,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setHidePackageOwnerInPerson(true);
         apiCeremonySettings.setEnforceCaptureSignature(true);
         apiCeremonySettings.setFontSize(10);
+
+        apiCeremonySettings.setDefaultTimeBasedExpiry(true);
+        apiCeremonySettings.setRemainingDays(12);
 
         Style style = new Style();
         style.setBackgroundColor("white");
