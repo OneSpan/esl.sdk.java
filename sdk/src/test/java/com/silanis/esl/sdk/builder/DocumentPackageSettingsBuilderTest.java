@@ -134,5 +134,8 @@ public class DocumentPackageSettingsBuilderTest {
         assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("Expiry days was not set correctly", documentPackageSettings.getRemainingDays(), is(10));
 
+        documentPackageSettings = newDocumentPackageSettings().withFontSize(10).build();
+        assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
+        assertThat("fontSize was not set correctly", documentPackageSettings.getFontSize(), is(10));
     }
 }
