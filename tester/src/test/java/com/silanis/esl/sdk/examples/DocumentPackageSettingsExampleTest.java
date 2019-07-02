@@ -57,6 +57,6 @@ public class DocumentPackageSettingsExampleTest {
         assertTrue("ADA was not set correctly.", documentPackageSettings.getAda());
         assertThat("Font size was not set correctly.", documentPackageSettings.getFontSize(), is(FONT_SIZE));
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
-        assertThat("Expiry days was not set correctly", DocumentPackageSettingsExample.EXPIRE_IN_DAYS.equals(documentPackageSettings.getRemainingDays()));
+        assertThat("Expiry days was not set correctly", DocumentPackageSettingsExample.EXPIRE_IN_DAYS, is(documentPackageSettings.getRemainingDays()));
     }
 }
