@@ -11,13 +11,7 @@ import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerVerificationConverter;
 import com.silanis.esl.sdk.service.*;
-import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
-import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
-import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
-import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
-import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
-import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
-import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
+import com.silanis.esl.sdk.service.apiclient.*;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -60,6 +54,7 @@ public class EslClient {
     private SignatureImageService signatureImageService;
     private SigningService signingService;
     private SignerVerificationService signerVerificationService;
+    private SigningStyleService signingStyleService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -147,6 +142,7 @@ public class EslClient {
         qrCodeService = new QRCodeService(client, this.baseURL);
         authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
         signerVerificationService = new SignerVerificationService(client, baseURL);
+        signingStyleService = new SigningStyleService(client,baseURL);
     }
 
     /**
@@ -233,6 +229,16 @@ public class EslClient {
      */
     public CustomFieldService getCustomFieldService() {
         return customFieldService;
+    }
+
+
+    /**
+     * Facilitates access to the service that could be used to add signing style
+     *
+     * @return the signing style service
+     */
+    public SigningStyleService getSigningStyleService() {
+        return signingStyleService;
     }
 
     /**

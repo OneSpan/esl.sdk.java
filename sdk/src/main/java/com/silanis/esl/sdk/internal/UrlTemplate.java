@@ -161,6 +161,9 @@ public class UrlTemplate {
     public static final String SIGNATURE_IMAGE_FOR_SENDER_PATH = "/account/senders/{senderId}/signatureImage";
     public static final String SIGNATURE_IMAGE_FOR_PACKAGE_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/signatureImage";
 
+    // Account Signing Themes Service
+    public static final String ACCOUNT_SIGNING_THEME_PATH = "/account/signingThemes";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }
