@@ -164,6 +164,9 @@ public class UrlTemplate {
     // Account Signing Themes Service
     public static final String ACCOUNT_SIGNING_THEME_PATH = "/account/signingThemes";
 
+    // Account Signing Logos Service
+    public static final String ACCOUNT_SIGNING_LOGO_PATH = "/account/admin/signingLogos";
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }
