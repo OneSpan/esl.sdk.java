@@ -140,7 +140,7 @@ public class UrlTemplate {
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
     public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
-    public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
+    public static final String SIGNING_REDIRECT_PATH = "/transaction/{packageId}/sign";
 
     // AttachmentRequirement Service
     public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
