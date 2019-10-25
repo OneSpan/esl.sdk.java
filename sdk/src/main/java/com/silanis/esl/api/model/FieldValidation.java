@@ -24,6 +24,8 @@ public class FieldValidation extends Model
     public static final String FIELD_PATTERN = "pattern";
     @JsonIgnore
     public static final String FIELD_REQUIRED = "required";
+    @JsonIgnore
+    public static final String FIELD_DISABLED = "disabled";
     
     // Empty Constructor
     public FieldValidation ( ) {}
@@ -36,6 +38,7 @@ public class FieldValidation extends Model
     protected Integer _minLength = null;
     protected String _pattern = "";
     protected Boolean _required = false;
+    protected Boolean _disabled = false;
     
     // Accessors
         
@@ -184,6 +187,29 @@ public class FieldValidation extends Model
     public boolean evalRequired(){
         return _required == null ? false : _required.booleanValue();
     }
-    
-    
+
+    public FieldValidation setDisabled(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_DISABLED, value);
+        this._disabled = value;
+        setDirty(FIELD_DISABLED);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public FieldValidation safeSetDisabled(Boolean value) {
+        if (value != null) {
+            this.setDisabled(value);
+        }
+        return this;
+    }
+
+    public Boolean getDisabled() {
+        return _disabled;
+    }
+
+    @JsonIgnore
+    public boolean evalDisabled() {
+        return _disabled != null && _disabled;
+    }
 }

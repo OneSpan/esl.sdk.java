@@ -107,6 +107,9 @@ public class SignatureConverter {
         if (apiApproval.getOptional())
             signatureBuilder.makeOptional();
 
+        if (apiApproval.getDisabled())
+            signatureBuilder.disabled();
+
         if (apiApproval.getEnforceCaptureSignature())
             signatureBuilder.enableEnforceCaptureSignature();
 
@@ -140,6 +143,7 @@ public class SignatureConverter {
         }
 
         result.setOptional(sdkSignature.isOptional());
+        result.setDisabled(sdkSignature.isDisabled());
         result.setEnforceCaptureSignature(sdkSignature.isEnforceCaptureSignature());
 
         result.addField(getAPIFieldFromSignature());

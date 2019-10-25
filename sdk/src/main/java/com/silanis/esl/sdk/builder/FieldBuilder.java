@@ -355,6 +355,7 @@ public class FieldBuilder {
                 this.fieldValidator.setOptions(fieldValidator.getOptions());
 
             this.fieldValidator.setRequired(fieldValidator.isRequired());
+            this.fieldValidator.setDisabled(fieldValidator.isDisabled());
         } else {
             this.fieldValidator = fieldValidator;
         }

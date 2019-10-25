@@ -74,6 +74,7 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getStyle(), is(TEXT_AREA));
                     assertThat(field.getValue(), is(TEXT_AREA_VALUE));
                     assertThat(field.getFontSize(), is(TEXT_AREA_FONT_SIZE));
+                    assertTrue(field.getFieldValidator().isDisabled());
                 }
                 if (field.getId().toString().equals(LABEL_ID)) {
                     assertThat(field.getPage(), is(LABEL_PAGE));
