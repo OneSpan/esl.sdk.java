@@ -34,9 +34,9 @@ import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEven
 public class EventNotificationRegistrationExample extends SDKSample {
 
     public EventNotificationConfig config, connectorsConfig;
-    public static final String URL = "http://my.url.com";
+    public static final String URL = "http://my.url.onespan.com";
     public static final String KEY = "abc";
-    public static final String CONNECTORS_URL = "http://connectors.url.com";
+    public static final String CONNECTORS_URL = "http://connectors.url.onespan.com";
     public static final String CONNECTORS_KEY = "1234";
     public static final String ORIGIN = "dynamics2013";
 

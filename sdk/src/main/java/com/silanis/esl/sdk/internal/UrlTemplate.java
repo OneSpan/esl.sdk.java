@@ -140,7 +140,7 @@ public class UrlTemplate {
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
     public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
-    public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
+    public static final String SIGNING_REDIRECT_PATH = "/transaction/{packageId}/sign";
 
     // AttachmentRequirement Service
     public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
@@ -160,6 +160,9 @@ public class UrlTemplate {
     // Signature Image Service
     public static final String SIGNATURE_IMAGE_FOR_SENDER_PATH = "/account/senders/{senderId}/signatureImage";
     public static final String SIGNATURE_IMAGE_FOR_PACKAGE_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/signatureImage";
+
+    // Account Signing Themes Service
+    public static final String ACCOUNT_SIGNING_THEME_PATH = "/account/signingThemes";
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
