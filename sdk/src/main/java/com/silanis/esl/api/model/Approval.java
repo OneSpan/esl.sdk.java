@@ -32,6 +32,8 @@ public class Approval extends Entity
     @JsonIgnore
     public static final String FIELD_OPTIONAL = "optional";
     @JsonIgnore
+    public static final String FIELD_DISABLED = "disabled";
+    @JsonIgnore
     public static final String FIELD_ENFORCE_CAPTURE_SIGNATURE = "enforceCaptureSignature";
     
     // Empty Constructor
@@ -43,6 +45,7 @@ public class Approval extends Entity
     protected String _role = "";
     protected java.util.Date _signed = null;
     protected Boolean _optional = false;
+    protected Boolean _disabled = false;
     protected Boolean _enforceCaptureSignature = false;
 
     // Accessors
@@ -190,7 +193,17 @@ public class Approval extends Entity
     }
     public Boolean getOptional() { return _optional; }
 
-
+    public Approval setDisabled(Boolean value){
+        this._disabled = value;
+        setDirty(FIELD_DISABLED);
+        return this;
+    }
+    @JsonIgnore
+    public Approval safeSetDisabled(Boolean value){
+        if ( value != null ) { this.setDisabled(value); }
+        return this;
+    }
+    public Boolean getDisabled() { return _disabled; }
 
     public Approval setEnforceCaptureSignature(Boolean value) {
         this._enforceCaptureSignature = value;

@@ -211,6 +211,14 @@ public class SignatureBuilderTest {
     }
 
     @Test
+    public void creatingDisabledSignature() {
+        SignatureBuilder builder = signatureFor("test@test.com").disabled();
+        Signature signature = builder.build();
+
+        assertTrue(signature.isDisabled());
+    }
+
+    @Test
     public void creatingCaptureWithEnforceCaptureSignatureSetting() {
         Signature signature = captureFor("test@test.com").enableEnforceCaptureSignature().build();
 

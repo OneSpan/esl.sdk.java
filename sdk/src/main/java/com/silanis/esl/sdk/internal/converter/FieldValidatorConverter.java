@@ -55,6 +55,8 @@ public class FieldValidatorConverter {
         }
 
         fieldValidation.setRequired( fieldValidator.isRequired() );
+        fieldValidation.setDisabled( fieldValidator.isDisabled() );
+
         if ( fieldValidator.getErrorMessage() != null ) {
             fieldValidation.setErrorMessage( fieldValidator.getErrorMessage() );
         }
@@ -91,6 +93,10 @@ public class FieldValidatorConverter {
 
         if (fieldValidation.getRequired()) {
             fieldValidator.setRequired(fieldValidation.getRequired());
+        }
+
+        if (fieldValidation.getDisabled()) {
+            fieldValidator.setDisabled(fieldValidation.getDisabled());
         }
 
         if(fieldValidation.getEnum()!=null){

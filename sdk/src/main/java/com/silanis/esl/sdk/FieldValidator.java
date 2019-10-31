@@ -13,6 +13,7 @@ public class FieldValidator {
     private String regex;
     private List<String> options;
     private boolean required;
+    private boolean disabled;
     private String errorMessage;
 
     public FieldValidator() {
@@ -64,6 +65,14 @@ public class FieldValidator {
 
     public boolean isRequired() {
         return required;
+    }
+
+    public void setDisabled( boolean disabled ) {
+        this.disabled = disabled;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
     }
 
     public void setErrorMessage( String errorMessage ) {

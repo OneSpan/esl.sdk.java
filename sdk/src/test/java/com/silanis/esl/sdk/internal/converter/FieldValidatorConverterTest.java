@@ -85,6 +85,7 @@ public class FieldValidatorConverterTest implements ConverterTest {
         assertThat( "Max length was not set correctly",apiFieldValidation1.getMaxLength(), is( equalTo( sdkFieldValidator1.getMaxLength()) ) );
         assertThat( "Min length was not set correctly", apiFieldValidation1.getMinLength(), is( equalTo( sdkFieldValidator1.getMinLength()) ) );
         assertThat( "Required was not set correctly",apiFieldValidation1.getRequired(), is( equalTo( sdkFieldValidator1.isRequired()) ) );
+        assertThat( "Disabled was not set correctly",apiFieldValidation1.getDisabled(), is( equalTo( sdkFieldValidator1.isDisabled()) ) );
     }
 
     @Override
@@ -98,6 +99,7 @@ public class FieldValidatorConverterTest implements ConverterTest {
         assertThat( "Max length was not set correctly",apiFieldValidation1.getMaxLength(), is( equalTo( sdkFieldValidator1.getMaxLength()) ) );
         assertThat( "Min length was not set correctly", apiFieldValidation1.getMinLength(), is( equalTo( sdkFieldValidator1.getMinLength()) ) );
         assertThat( "Required was not set correctly",apiFieldValidation1.getRequired(), is( equalTo( sdkFieldValidator1.isRequired()) ) );
+        assertThat( "Disabled was not set correctly",apiFieldValidation1.getDisabled(), is( equalTo( sdkFieldValidator1.isDisabled()) ) );
         assertThat( "Pattern was not set correctly", apiFieldValidation1.getPattern(), is( equalTo( sdkFieldValidator1.getRegex()) ) );
     }
 
@@ -114,6 +116,7 @@ public class FieldValidatorConverterTest implements ConverterTest {
         apiFieldValidation.setMinLength(10);
         apiFieldValidation.setPattern("*pattern*");
         apiFieldValidation.setRequired(true);
+        apiFieldValidation.setDisabled(false);
         return apiFieldValidation;
     }
 

@@ -47,6 +47,7 @@ public class FieldValidatorsExampleTest {
                     assertThat(field.getFieldValidator().getRegex(), is(DEFAULT_REGEX));
                     assertTrue(field.getFieldValidator().getOptions().contains(FIELD_BASIC_OPTION_1));
                     assertTrue(field.getFieldValidator().getOptions().contains(FIELD_BASIC_OPTION_2));
+                    assertTrue(field.getFieldValidator().isDisabled());
                 }
                 if (fieldId.getId().equals(FIELD_EMAIL_ID)) {
                     assertThat(field.getFieldValidator().getRegex(), is(EMAIL_REGEX));

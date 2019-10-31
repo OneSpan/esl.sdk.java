@@ -30,6 +30,7 @@ public class Signature implements Serializable {
     private boolean extraction;
     private TextAnchor textAnchor;
     private boolean optional;
+    private boolean disabled;
     private boolean enforceCaptureSignature;
 
     private GroupId groupId;
@@ -177,8 +178,21 @@ public class Signature implements Serializable {
         this.signatureId = signatureId;
     }
 
-    public boolean isOptional() { return optional; }
-    public void setOptional(boolean value) { this.optional = value; }
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean value) {
+        this.optional = value;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean value) {
+        this.disabled = value;
+    }
 
     public boolean isEnforceCaptureSignature() {
         return enforceCaptureSignature;

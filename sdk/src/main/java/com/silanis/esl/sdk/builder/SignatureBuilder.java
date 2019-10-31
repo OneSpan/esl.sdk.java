@@ -36,6 +36,7 @@ final public class SignatureBuilder {
     private boolean extract;
     private TextAnchor textAnchor;
     private boolean optional = false;
+    private boolean disabled = false;
     private boolean enforceCaptureSignature = false;
 
     /**
@@ -403,6 +404,17 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Marks the signature as disabled. Disabled signatures cannot
+     * be signed and will be left empty.
+     *
+     * @return the signature builder itself
+     */
+    public SignatureBuilder disabled() {
+        this.disabled = true;
+        return this;
+    }
+
+    /**
      * Enables the signature level enforceCaptureSignature setting.
      *
      * @return the signature builder itself
@@ -437,6 +449,7 @@ final public class SignatureBuilder {
         signature.setExtraction(extract);
         signature.setTextAnchor(textAnchor);
         signature.setOptional(optional);
+        signature.setDisabled(disabled);
         signature.setEnforceCaptureSignature(enforceCaptureSignature);
 
         return signature;

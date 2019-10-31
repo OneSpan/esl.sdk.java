@@ -33,6 +33,7 @@ public class FieldValidatorBuilder {
     private int maxLength = DEFAULT_MAX_LENGTH;
     private String regex;
     private boolean required;
+    private boolean disabled;
     private String errorMessage;
 
     private FieldValidatorBuilder( String regex ) {
@@ -177,6 +178,16 @@ public class FieldValidatorBuilder {
     }
 
     /**
+     * Set that the field is disabled, signer is not allowed to modify a field value.
+     *
+     * @return
+     */
+    public FieldValidatorBuilder disabled() {
+        this.disabled = true;
+        return this;
+    }
+
+    /**
      * Builds the actual FieldValidator with the values specified.
      *
      * @return
@@ -197,6 +208,7 @@ public class FieldValidatorBuilder {
         result.setRegex( regex );
         result.getOptions().addAll( options );
         result.setRequired(required);
+        result.setDisabled(disabled);
         result.setErrorMessage( errorMessage );
         return result;
     }
