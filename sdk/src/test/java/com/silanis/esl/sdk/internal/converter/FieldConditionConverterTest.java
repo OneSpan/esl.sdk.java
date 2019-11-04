@@ -104,7 +104,7 @@ public class FieldConditionConverterTest implements ConverterTest {
 
         sdkFieldCondition.setId("ConditionId");
         sdkFieldCondition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        sdkFieldCondition.setAction("document['DocumentId'].field['fieldId1'].enabled = false");
+        sdkFieldCondition.setAction("document['DocumentId'].field['fieldId1'].disabled = true");
 
         return sdkFieldCondition;
     }
@@ -119,7 +119,7 @@ public class FieldConditionConverterTest implements ConverterTest {
 
         apiFieldCondition.setId("ConditionId");
         apiFieldCondition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        apiFieldCondition.setAction("document['DocumentId'].field['fieldId1'].enabled = false");
+        apiFieldCondition.setAction("document['DocumentId'].field['fieldId1'].disabled = true");
 
         return apiFieldCondition;
     }

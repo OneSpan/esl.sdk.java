@@ -122,7 +122,7 @@ public class PackageReferencedConditionsExample extends SDKSample {
         return FieldConditionBuilder.newFieldCondition()
             .withId(id)
             .withCondition(String.format("document['%s'].field['%s'].empty == true", conditionDocId, conditionFieldId))
-            .withAction(String.format("document['%s'].field['%s'].enabled = true", actionDocId, actionFieldId))
+            .withAction(String.format("document['%s'].field['%s'].disabled = false", actionDocId, actionFieldId))
             .build();
     }
 }
