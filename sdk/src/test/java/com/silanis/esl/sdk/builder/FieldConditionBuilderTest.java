@@ -9,7 +9,7 @@ public class FieldConditionBuilderTest {
 
     private static final String ID = "Condition1";
     private static final String CONDITION = "document['doc1'].field['field1'].empty == true";
-    private static final String ACTION = "document['doc1'].field['field2'].enabled = true";
+    private static final String ACTION = "document['doc1'].field['field2'].dislabed = false";
 
     @Test
     public void buildApiTest() {

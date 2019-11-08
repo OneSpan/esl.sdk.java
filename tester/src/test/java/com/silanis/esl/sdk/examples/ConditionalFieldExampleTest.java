@@ -16,7 +16,7 @@ public class ConditionalFieldExampleTest {
 
         assertThat("Package doesn't have conditional fields.", example.retrievedPackageWithUpdatedConditions.getConditions(), hasSize(1));
         assertThat("Package doesn't updated properly.", example.retrievedPackageWithUpdatedConditions.getConditions().get(0).getAction(),
-                is("document['DocumentId'].field['fieldId1'].enabled = false"));
+                is("document['DocumentId'].field['fieldId1'].disabled = true"));
 
         assertThat("Package have conditional fields.", example.retrievedPackageWithoutConditions.getConditions(), empty());
     }

@@ -30,7 +30,7 @@ public class ReferencedConditionsConverterTest implements StaticConverterTest {
     static final String CONDITION_2_ID = "Condition2";
     static final String CONDITION = "document['document1'].field['%s'].empty == true";
 
-    static final String ACTION = "document['document1'].field['%s'].enabled = true";
+    static final String ACTION = "document['document1'].field['%s'].disabled = false";
 
     @Override
     @Test

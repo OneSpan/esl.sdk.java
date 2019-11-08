@@ -37,7 +37,7 @@ public class ConditionalFieldExample extends SDKSample {
         FieldCondition condition = new FieldCondition();
         condition.setId("ConditionId");
         condition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        condition.setAction("document['DocumentId'].field['fieldId1'].enabled = true");
+        condition.setAction("document['DocumentId'].field['fieldId1'].disabled = false");
 
         DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed(getPackageName())
                 .describedAs("Description")
@@ -68,7 +68,7 @@ public class ConditionalFieldExample extends SDKSample {
         FieldCondition newCondition = new FieldCondition();
         newCondition.setId("ConditionId");
         newCondition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        newCondition.setAction("document['DocumentId'].field['fieldId1'].enabled = false");
+        newCondition.setAction("document['DocumentId'].field['fieldId1'].disabled = true");
         List<FieldCondition> conditions = new ArrayList<FieldCondition>();
         conditions.add(newCondition);
 
