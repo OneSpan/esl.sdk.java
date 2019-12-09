@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
+import java.util.Collections;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
@@ -110,18 +111,24 @@ public class RestClient extends Client {
         return execute(put, jsonHandler);
     }
 
-    public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
+    public String postMultipartFile(String path, Map<String, byte[]> files, String jsonPayload) throws IOException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
         final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
-        multipartEntityBuilder.addPart("file", buildPartForFile(fileBytes, fileName));
+        for (Map.Entry<String, byte[]> file : files.entrySet()) {
+            multipartEntityBuilder.addPart("file", buildPartForFile(file.getValue(), file.getKey()));
+        }
 
         HttpPost post = new HttpPost(path);
 
         post.setEntity(multipartEntityBuilder.build());
 
         return execute(post, jsonHandler);
+    }
+
+    public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
+        return postMultipartFile(path, Collections.singletonMap(fileName, fileBytes), jsonPayload);
     }
 
     public String postMultipartPackage(String path, Collection<Document> documents, String jsonPayload) throws IOException, RequestException {

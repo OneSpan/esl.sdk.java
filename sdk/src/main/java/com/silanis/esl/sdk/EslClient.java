@@ -708,6 +708,10 @@ public class EslClient {
     }
 
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {
+        uploadAttachment(packageId, attachmentId, Collections.singletonMap(filename, fileContent), signerId);
+    }
+
+    public void uploadAttachment(PackageId packageId, String attachmentId, Map<String, byte[]> files, String signerId) {
         String signerSessionFieldKey = "Upload Attachment on behalf of";
 
         Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
@@ -716,7 +720,7 @@ public class EslClient {
 
         String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
 
-        attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
+        attachmentRequirementService.uploadAttachment(packageId, attachmentId, files, signerSessionId);
     }
 
     public void createSignerVerification(PackageId packageId, String roleId, SignerVerification signerVerification) {

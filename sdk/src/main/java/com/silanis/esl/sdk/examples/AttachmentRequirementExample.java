@@ -15,7 +15,9 @@ import com.silanis.esl.sdk.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipFile;
 
 import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.newAttachmentRequirementWithName;
@@ -23,7 +25,7 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
 public class AttachmentRequirementExample extends SDKSample {
 
-    private InputStream attachmentInputStream1, attachmentInputStream2, attachmentInputStream3;
+    private InputStream attachmentInputStream1, attachmentInputStream2, attachmentInputStream3, attachmentInputStream4;
 
     private Signer signer1;
     private String attachment1Id;
@@ -41,6 +43,7 @@ public class AttachmentRequirementExample extends SDKSample {
     public static final String ATTACHMENT_FILE_NAME1 = "The attachment1 for signer1.pdf";
     public static final String ATTACHMENT_FILE_NAME2 = DocumentType.PDF.normalizeName("The attachment1 for signer2");
     public static final String ATTACHMENT_FILE_NAME3 = "The attachment2 for signer2.pdf";
+    public static final String ATTACHMENT_FILE_NAME4 = "The attachment3 for signer2.pdf";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_PACKAGE_ZIP = "downloadedAllAttachmentsForPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER1_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner1InPackage.zip";
     public static final String DOWNLOADED_ALL_ATTACHMENTS_FOR_SIGNER2_IN_PACKAGE_ZIP = "downloadedAllAttachmentsForSigner2InPackage.zip";
@@ -68,6 +71,7 @@ public class AttachmentRequirementExample extends SDKSample {
         this.attachmentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-for-anchor-extraction.pdf");
         this.attachmentInputStream2 = this.getClass().getClassLoader().getResourceAsStream("document-with-fields.pdf");
         this.attachmentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("extract_document.pdf");
+        this.attachmentInputStream4 = this.getClass().getClassLoader().getResourceAsStream("document_with_text_tag_and_form_field.pdf");
     }
 
     @Override
@@ -135,8 +139,11 @@ public class AttachmentRequirementExample extends SDKSample {
 
         eslClient.uploadAttachment(packageId, signer2Att1.getId(), ATTACHMENT_FILE_NAME2,
                                    new StreamDocumentSource(attachmentInputStream2).content(), SIGNER2_ID);
-        eslClient.uploadAttachment(packageId, signer2Att2.getId(), ATTACHMENT_FILE_NAME3,
-                                   new StreamDocumentSource(attachmentInputStream3).content(), SIGNER2_ID);
+
+        Map<String, byte[]> signer2att2files = new HashMap<String, byte[]>();
+        signer2att2files.put(ATTACHMENT_FILE_NAME3, new StreamDocumentSource(attachmentInputStream3).content());
+        signer2att2files.put(ATTACHMENT_FILE_NAME4, new StreamDocumentSource(attachmentInputStream4).content());
+        eslClient.uploadAttachment(packageId, signer2Att2.getId(), signer2att2files, SIGNER2_ID);
 
         // Sender rejects Signer1's uploaded attachment
         eslClient.getAttachmentRequirementService().rejectAttachment(packageId, signer1, NAME1, REJECTION_COMMENT);
