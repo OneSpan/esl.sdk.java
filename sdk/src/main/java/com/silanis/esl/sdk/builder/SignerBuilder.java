@@ -44,6 +44,7 @@ final public class SignerBuilder {
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
+    private String localLanguage;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -179,7 +180,7 @@ final public class SignerBuilder {
         result.setMessage(message);
         result.setId(id);
         result.setAttachmentRequirements(attachments);
-
+        result.setLocalLanguage(localLanguage);
         return result;
     }
 
@@ -192,6 +193,7 @@ final public class SignerBuilder {
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
         result.setAttachmentRequirements(attachments);
+        result.setLocalLanguage(localLanguage);
         return result;
     }
 
@@ -216,7 +218,7 @@ final public class SignerBuilder {
         result.setId(id);
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
-
+        result.setLocalLanguage(localLanguage);
         return result;
     }
 
@@ -375,6 +377,11 @@ final public class SignerBuilder {
     @Deprecated
     public SignerBuilder withRoleId(String roleId) {
         return withCustomId(roleId);
+    }
+
+    public SignerBuilder withLocalLanguage() {
+        this.localLanguage = "local";
+        return this;
     }
 
     /**

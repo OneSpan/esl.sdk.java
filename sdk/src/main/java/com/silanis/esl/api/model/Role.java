@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Role extends Entity
-      implements java.io.Serializable
-{
-    
+public class Role extends Entity implements java.io.Serializable {
+
+    @JsonIgnore
+    public static final String LOCAL_LANGUAGE_DATA_KEY = "localLanguage";
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_ATTACHMENTREQUIREMENTS = "attachmentRequirements";
@@ -91,7 +93,13 @@ public class Role extends Entity
         return this;
     }
     
-        
+    public Role putData(String key, Object value) {
+        if (_data == null) {
+            super.setData(new HashMap<String, Object>());
+        }
+        _data.put(key, value);
+        return this;
+    }
     
     public Role setEmailMessage( BaseMessage value ){
         // TODO With proper compare
