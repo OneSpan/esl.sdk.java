@@ -139,6 +139,10 @@ public class SignerConverter {
             signer.setLocked(true);
         }
 
+        if (apiRole.getData() != null && apiRole.getData().containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
+            signer.setLocalLanguage(apiRole.getData().get(Role.LOCAL_LANGUAGE_DATA_KEY).toString());
+        }
+
         return signer;
     }
 
@@ -171,6 +175,10 @@ public class SignerConverter {
 
         if (apiRole.getLocked()) {
             signer.setLocked(true);
+        }
+
+        if (apiRole.getData() != null && apiRole.getData().containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
+            signer.setLocalLanguage(apiRole.getData().get(Role.LOCAL_LANGUAGE_DATA_KEY).toString());
         }
 
         return signer;
@@ -231,6 +239,7 @@ public class SignerConverter {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }
 
+        role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, sdkSigner.getLocalLanguage());
         return role;
     }
 
@@ -276,6 +285,7 @@ public class SignerConverter {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }
 
+        role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, sdkSigner.getLocalLanguage());
         return role;
     }
 }
