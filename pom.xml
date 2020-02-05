@@ -249,11 +249,11 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:silanis/esl.model.git</connection>
-        <developerConnection>scm:git:git@github.com:silanis/esl.sdk.java.git</developerConnection>
-        <url>git@github.com:silanis/esl.sdk.java.git</url>
+        <connection>scm:git:git@github.com:OneSpan/esl.model.git</connection>
+        <developerConnection>scm:git:git@github.com:OneSpan/esl.sdk.java.git</developerConnection>
+        <url>git@github.com:OneSpan/esl.sdk.java.git</url>
         <tag>version ${project.version}</tag>
-  </scm>
+    </scm>
 
     <developers>
         <developer>
