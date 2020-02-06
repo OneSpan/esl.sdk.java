@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.Signature;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.FieldStyle.*;
@@ -52,7 +53,7 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getPage(), is(RADIO_1_PAGE));
                     assertThat(field.getStyle(), is(UNBOUND_RADIO_BUTTON));
                     assertThat(field.getFieldValidator().getOptions().get(0), is(RADIO_1_GROUP));
-                    assertThat(field.getValue(), nullValue());
+                    assertThat(field.getValue(), is(StringUtils.EMPTY));
                 }
                 if (field.getId().toString().equals(RADIO_2_ID)) {
                     assertThat(field.getPage(), is(RADIO_2_PAGE));
