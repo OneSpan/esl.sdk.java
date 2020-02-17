@@ -55,6 +55,7 @@ public class EslClient {
     private SigningService signingService;
     private SignerVerificationService signerVerificationService;
     private SigningStyleService signingStyleService;
+    private DataRetentionSettingsService dataRetentionSettingsService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -143,6 +144,7 @@ public class EslClient {
         authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
         signerVerificationService = new SignerVerificationService(client, baseURL);
         signingStyleService = new SigningStyleService(client,baseURL);
+        dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
     }
 
     /**
@@ -172,6 +174,15 @@ public class EslClient {
      */
     public PackageService getPackageService() {
         return packageService;
+    }
+
+    /**
+     * Gets the data retention settings service
+     *
+     * @return the data retention settings service
+     */
+    public DataRetentionSettingsService getDataRetentionSettingsService() {
+        return dataRetentionSettingsService;
     }
 
     /**
