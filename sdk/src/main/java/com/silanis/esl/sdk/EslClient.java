@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.Package;
 import com.silanis.esl.api.model.SignedDocument;
 import com.silanis.esl.api.model.SignedDocuments;
 import com.silanis.esl.api.model.Verification;
+import com.silanis.esl.sdk.apitoken.ApiTokenConfig;
 import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.SignerRestClient;
@@ -60,6 +61,7 @@ public class EslClient {
 
     public static final String API_KEY = "apiKey";
     public static final String BASE_URL = "baseURL";
+    public static final String API_TOKEN_CONFIG = "apiTokenConfig";
 
     /**
      * The constructor of the EslClient class
@@ -116,6 +118,17 @@ public class EslClient {
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
         RestClient client = new RestClient(apiKey, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
+        this.proxyConfiguration = proxyConfiguration;
+        init(client);
+    }
+
+    public EslClient(ApiTokenConfig apiTokenConfig, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration,
+                     boolean useSystemProperties, Map<String, String> headers) {
+        Asserts.notNull(apiTokenConfig, API_TOKEN_CONFIG);
+        Asserts.notNullOrEmpty(baseURL, BASE_URL);
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
+        RestClient client = new RestClient(apiTokenConfig, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
         this.proxyConfiguration = proxyConfiguration;
         init(client);
     }
