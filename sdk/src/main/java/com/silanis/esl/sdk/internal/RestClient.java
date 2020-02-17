@@ -1,13 +1,24 @@
 package com.silanis.esl.sdk.internal;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.silanis.esl.sdk.apitoken.ApiToken;
+import com.silanis.esl.sdk.apitoken.ApiTokenAccessRequest;
+import com.silanis.esl.sdk.apitoken.ApiTokenConfig;
 import com.silanis.esl.sdk.Document;
+import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
+
 import java.util.Collections;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -54,28 +65,41 @@ public class RestClient extends Client {
 
     private final ResponseHandler<DownloadedFile> bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private final String apiToken;
-    private Map<String, String> additionalHeaders = new HashMap<String, String>();
+    private final String apiKey;
+    private final ApiTokenConfig apiTokenConfig;
+    private ApiToken apiToken = null;
+    private Map<String, String> additionalHeaders;
 
-    public RestClient(String apiToken) {
-        this(apiToken, false);
+    public RestClient(String apiKey) {
+        this(apiKey, false);
     }
 
-    public RestClient(String apiToken, boolean allowAllSSLCertificates) {
-        this(apiToken, allowAllSSLCertificates, null);
+    public RestClient(String apiKey, boolean allowAllSSLCertificates) {
+        this(apiKey, allowAllSSLCertificates, null);
     }
 
-    public RestClient(String apiToken, ProxyConfiguration proxyConfiguration) {
-        this(apiToken, false, proxyConfiguration);
+    public RestClient(String apiKey, ProxyConfiguration proxyConfiguration) {
+        this(apiKey, false, proxyConfiguration);
     }
 
-    public RestClient(String apiToken, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
-        this(apiToken, allowAllSSLCertificates, proxyConfiguration, false, new HashMap<String, String>());
+    public RestClient(String apiKey, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration) {
+        this(apiKey, allowAllSSLCertificates, proxyConfiguration, false, new HashMap<String, String>());
     }
 
-    public RestClient(String apiToken, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties, Map<String, String> headers) {
-        this.apiToken = apiToken;
+    public RestClient(String apiKey, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties, Map<String, String> headers) {
+        this.apiKey = apiKey;
+        this.apiTokenConfig = null;
+        this.allowAllSSLCertificates = allowAllSSLCertificates;
+        this.proxyConfiguration = proxyConfiguration;
+        this.useSystemProperties = useSystemProperties;
+        this.additionalHeaders = headers;
+    }
+
+    public RestClient(ApiTokenConfig apiTokenConfig, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties, Map<String, String> headers) {
+        this.apiKey = null;
+        this.apiTokenConfig = apiTokenConfig;
         this.allowAllSSLCertificates = allowAllSSLCertificates;
         this.proxyConfiguration = proxyConfiguration;
         this.useSystemProperties = useSystemProperties;
@@ -171,21 +195,46 @@ public class RestClient extends Client {
     }
 
     protected void addAuthorizationHeader(HttpUriRequest request) {
-        request.setHeader("Authorization", "Basic " + apiToken);
+        if (StringUtils.isNotEmpty(apiKey)) {
+            request.setHeader("Authorization", "Basic " + apiKey);
+        } else {
+            try {
+                request.setHeader("Authorization", "Bearer " + getBearerToken());
+            } catch (Exception x) {
+                throw new RuntimeException(x);
+            }
+        }
+    }
+
+    private String getBearerToken() throws RequestException, IOException {
+        //token has to have more than 1mn to live
+        if (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000) {
+            String url = apiTokenConfig.getBaseUrl() + ApiTokenConfig.ACCESS_TOKEN_URL;
+            HttpPost request = new HttpPost(url);
+            request.setEntity(new StringEntity(getApiTokenPayload()));
+            CloseableHttpClient client = getHttpClient(request);
+            HttpResponse httpResponse = client.execute(request);
+            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                throw new EslException("Unable to create access token for "+apiTokenConfig);
+            }
+            apiToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), ApiToken.class);
+        }
+        return apiToken.getAccessToken();
+    }
+
+    private String getApiTokenPayload() throws JsonProcessingException {
+        ApiTokenAccessRequest apiTokenAccessRequest = ApiTokenAccessRequest.newBuilder()
+            .clientId(apiTokenConfig.getClientAppId())
+            .secret(apiTokenConfig.getClientAppSecret())
+            .type(apiTokenConfig.getTokenType())
+            .email(apiTokenConfig.getTokenType() == ApiTokenConfig.TokenType.SENDER ? apiTokenConfig.getSenderEmail() : null)
+            .build();
+        return OBJECT_MAPPER.writeValueAsString(apiTokenAccessRequest);
     }
 
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
 
-        CloseableHttpClient client;
-        try {
-            client = buildHttpClient();
-        } catch (HttpException e) {
-            throw new RequestException(request.getRequestLine().getMethod(),
-                    request.getRequestLine().getUri(),
-                    500,
-                    "No SSL Socket Factory",
-                    "Could not build request because of SSL socket Factory");
-        }
+        CloseableHttpClient client = getHttpClient(request);
 
         try {
             addAdditionalHeaders(request);
@@ -217,6 +266,20 @@ public class RestClient extends Client {
                 client.close();
             }
         }
+    }
+
+    private CloseableHttpClient getHttpClient(HttpUriRequest request) throws RequestException {
+        CloseableHttpClient client;
+        try {
+            client = buildHttpClient();
+        } catch (HttpException e) {
+            throw new RequestException(request.getRequestLine().getMethod(),
+                    request.getRequestLine().getUri(),
+                    500,
+                    "No SSL Socket Factory",
+                    "Could not build request because of SSL socket Factory");
+        }
+        return client;
     }
 
     private String getFilename(String disposition) {
