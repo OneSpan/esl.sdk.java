@@ -163,7 +163,9 @@ public class RestClient extends Client {
         multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
 
         for (com.silanis.esl.sdk.Document document : documents) {
-            multipartEntityBuilder.addPart("file", buildPartForFile(document));
+		if (document.getExternal() == null) {
+            		multipartEntityBuilder.addPart("file", buildPartForFile(document));
+		}
         }
 
         HttpPost post = new HttpPost(path);
