@@ -51,6 +51,7 @@ public class RestClient extends Client {
     public static final String ESL_API_VERSION = "11.31";
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
     public static final String ESL_CONTENT_TYPE_APPLICATION_JSON = CONTENT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
 
@@ -211,6 +212,7 @@ public class RestClient extends Client {
         if (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000) {
             String url = apiTokenConfig.getBaseUrl() + ApiTokenConfig.ACCESS_TOKEN_URL;
             HttpPost request = new HttpPost(url);
+            request.addHeader(HEADER_CONTENT_TYPE, ESL_CONTENT_TYPE_APPLICATION_JSON);
             request.setEntity(new StringEntity(getApiTokenPayload()));
             CloseableHttpClient client = getHttpClient(request);
             HttpResponse httpResponse = client.execute(request);
