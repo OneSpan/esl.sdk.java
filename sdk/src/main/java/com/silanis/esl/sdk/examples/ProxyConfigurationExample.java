@@ -9,8 +9,8 @@ import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.ProxyAuthenticator;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Properties;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -25,37 +25,24 @@ import static org.littleshoot.proxy.impl.DefaultHttpProxyServer.bootstrap;
  */
 public class ProxyConfigurationExample extends SDKSample {
 
-    private boolean allowAllSSLCertificates = true;
-
     private EslClient eslClientWithHttpProxy, eslClientWithHttpProxyHasCredentials;
-    private ProxyConfiguration httpProxyConfiguration, httpProxyWithCredentialsConfiguration;
     public DocumentPackage retrievedPackage1, retrievedPackage2;
 
     public static void main(String... args) {
-        new ProxyConfigurationExample(Props.get()).run();
+        new ProxyConfigurationExample().run();
     }
 
-    public ProxyConfigurationExample(Properties props) {
-        this(props.getProperty("api.key"),
-                props.getProperty("api.url"));
-    }
+    public ProxyConfigurationExample() {
+        ProxyConfiguration httpProxyConfiguration = newProxyConfiguration().withHttpHost(proxyHost)
+            .withHttpPort(proxyPort).build();
 
-    public ProxyConfigurationExample(String apiKey, String apiUrl) {
-        super(apiKey, apiUrl);
+        ProxyConfiguration httpProxyWithCredentialsConfiguration = newProxyConfiguration()
+            .withHttpHost(proxyWithCredentialsHost).withHttpPort(proxyWithCredentialsPort)
+            .withCredentials(proxyUserName, proxyPassword).build();
 
-        httpProxyConfiguration = newProxyConfiguration()
-                .withHttpHost(proxyHost)
-                .withHttpPort(proxyPort)
-                .build();
-
-        httpProxyWithCredentialsConfiguration = newProxyConfiguration()
-                .withHttpHost(proxyWithCredentialsHost)
-                .withHttpPort(proxyWithCredentialsPort)
-                .withCredentials(proxyUserName, proxyPassword)
-                .build();
-
-        eslClientWithHttpProxy = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyConfiguration);
-        eslClientWithHttpProxyHasCredentials = new EslClient(apiKey, apiUrl, allowAllSSLCertificates, httpProxyWithCredentialsConfiguration);
+        eslClientWithHttpProxy = setupEslClientFromProps(Collections.<String, String>emptyMap(), httpProxyConfiguration);
+        eslClientWithHttpProxyHasCredentials = setupEslClientFromProps(Collections.<String, String>emptyMap(),
+            httpProxyWithCredentialsConfiguration);
     }
 
     public void execute() {
@@ -83,7 +70,7 @@ public class ProxyConfigurationExample extends SDKSample {
         retrievedPackage1 = eslClientWithHttpProxy.getPackage(packageId1);
         httpProxyServer.stop();
 
-        HttpProxyServer httpProxyWithCredentialsServer = startHttpProxyWithCredentials(proxyWithCredentialsPort, "httpUser", "httpPwd");
+        HttpProxyServer httpProxyWithCredentialsServer = startHttpProxyWithCredentials(proxyWithCredentialsPort);
 
         DocumentPackage package2 = newPackageNamed("ProxyConfigurationExample2 " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
                 .describedAs("This is a package created using the eSignLive SDK")
@@ -108,20 +95,18 @@ public class ProxyConfigurationExample extends SDKSample {
         httpProxyWithCredentialsServer.stop();
     }
 
-    private HttpProxyServer startHttpProxyWithCredentials(int port, final String acceptedUsername, final String acceptedPassword) {
-        final HttpProxyServer httpProxyServer = bootstrap().
+    private HttpProxyServer startHttpProxyWithCredentials(int port) {
+        return bootstrap().
                 withPort(port).withProxyAuthenticator(new ProxyAuthenticator() {
             @Override
             public boolean authenticate(String s1, String s2) {
-                return acceptedUsername.equals(s1) && acceptedPassword.equals(s2);
+                return "httpUser".equals(s1) && "httpPwd".equals(s2);
             }
 
             @Override
             public String getRealm() {
                 return null;
             }
-        }).
-                start();
-        return httpProxyServer;
+        }).start();
     }
 }

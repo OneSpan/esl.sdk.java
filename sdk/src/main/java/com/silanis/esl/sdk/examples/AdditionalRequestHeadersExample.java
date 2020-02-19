@@ -28,7 +28,7 @@ public class AdditionalRequestHeadersExample extends SDKSample {
         additionalRequestHeaders.put("customHeader3", "value3");
         additionalRequestHeaders.put("customHeader4", "value4");
 
-        eslClient = setupEslClientFromProps(additionalRequestHeaders);
+        eslClient = setupEslClientFromProps(additionalRequestHeaders, null);
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the eSignLive SDK")

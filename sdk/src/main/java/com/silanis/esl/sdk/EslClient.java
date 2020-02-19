@@ -171,11 +171,12 @@ public class EslClient {
         this.baseURL = baseURL;
     }
 
-    private void setWebpageURL(String baseURL) {
+    public EslClient setWebpageURL(String baseURL) {
         webpageURL = baseURL;
         if (webpageURL.endsWith("/api")) {
             webpageURL = webpageURL.replaceFirst("/api", "");
         }
+        return this;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
+import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.apitoken.ApiTokenConfig;
 import com.silanis.esl.sdk.internal.Converter;
 
@@ -30,7 +31,7 @@ public abstract class SDKSample {
     public int proxyPort, proxyWithCredentialsPort;
 
     public SDKSample() {
-        setupEslClientFromProps(Collections.<String,String>emptyMap());
+        setupEslClientFromProps(Collections.<String,String>emptyMap(), null);
         setProperties();
     }
 
@@ -39,9 +40,9 @@ public abstract class SDKSample {
         setProperties();
     }
 
-    public EslClient setupEslClientFromProps(Map<String,String> additionalHeaders) {
+    public EslClient setupEslClientFromProps(Map<String,String> additionalHeaders, ProxyConfiguration proxyConfiguration) {
         if (props.getProperty("api.clientId") == null) {
-            eslClient = new EslClient(props.getProperty("api.key"), props.getProperty("api.url"), props.getProperty("webpage.url"), true);
+            eslClient = new EslClient(props.getProperty("api.key"), props.getProperty("api.url"), true, proxyConfiguration).setWebpageURL(props.getProperty("webpage.url"));
         } else {
             ApiTokenConfig apiTokenConfig = ApiTokenConfig.newBuilder()
                 .clientAppId(props.getProperty("api.clientId"))
@@ -49,7 +50,7 @@ public abstract class SDKSample {
                 .tokenType(ApiTokenConfig.TokenType.OWNER)
                 .baseUrl(props.getProperty("webpage.url"))
                 .build();
-            eslClient = new EslClient(apiTokenConfig,  props.getProperty("api.url"), true, null, true, additionalHeaders);
+            eslClient = new EslClient(apiTokenConfig,  props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
         }
         return eslClient;
     }
