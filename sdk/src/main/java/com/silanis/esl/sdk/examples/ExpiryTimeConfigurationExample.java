@@ -6,7 +6,7 @@ import static com.silanis.esl.sdk.builder.ExpiryTimeConfigurationBuilder.newExpi
 
 public class ExpiryTimeConfigurationExample extends SDKSample  {
 
-    private ExpiryTimeConfiguration expiryTimeConfigurationAfterUpdate;
+    public ExpiryTimeConfiguration expiryTimeConfigurationAfterUpdate;
 
     public static void main( String... args ) {
         new ExpiryTimeConfigurationExample().run();
@@ -22,9 +22,5 @@ public class ExpiryTimeConfigurationExample extends SDKSample  {
 
         eslClient.getDataRetentionSettingsService().setExpiryTimeConfiguration(expiryTimeConfiguration);
         expiryTimeConfigurationAfterUpdate = eslClient.getDataRetentionSettingsService().getExpiryTimeConfiguration();
-    }
-
-    public ExpiryTimeConfiguration getExpiryTimeConfigurationAfterUpdate() {
-        return expiryTimeConfigurationAfterUpdate;
     }
 }

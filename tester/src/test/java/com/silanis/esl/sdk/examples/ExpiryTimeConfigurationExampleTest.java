@@ -13,10 +13,8 @@ public class ExpiryTimeConfigurationExampleTest {
         ExpiryTimeConfigurationExample example = new ExpiryTimeConfigurationExample();
         example.run();
 
-        ExpiryTimeConfiguration expiryTimeConfiguration = example.getExpiryTimeConfigurationAfterUpdate();
-
         // Verify if the ExpiryTimeConfiguration was updated correctly.
-        assertThat(expiryTimeConfiguration.getMaximumRemainingDays(), is(60));
-        assertThat(expiryTimeConfiguration.getRemainingDays(), is(60));
+        assertThat(example.expiryTimeConfigurationAfterUpdate.getMaximumRemainingDays(), is(60));
+        assertThat(example.expiryTimeConfigurationAfterUpdate.getRemainingDays(), is(60));
     }
 }
