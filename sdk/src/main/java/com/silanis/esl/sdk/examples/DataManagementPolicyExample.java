@@ -7,7 +7,7 @@ import static com.silanis.esl.sdk.builder.TransactionRetentionBuilder.newTransac
 
 public class DataManagementPolicyExample extends SDKSample {
 
-    private DataManagementPolicy dataManagementPolicyAfterUpdate;
+    public DataManagementPolicy dataManagementPolicyAfterUpdate;
 
     public static void main(String... args) {
         new DataManagementPolicyExample().run();
@@ -30,9 +30,5 @@ public class DataManagementPolicyExample extends SDKSample {
 
         eslClient.getDataRetentionSettingsService().setDataManagementPolicy(dataManagementPolicy);
         dataManagementPolicyAfterUpdate = eslClient.getDataRetentionSettingsService().getDataManagementPolicy();
-    }
-
-    public DataManagementPolicy getDataManagementPolicyAfterUpdate() {
-        return dataManagementPolicyAfterUpdate;
     }
 }

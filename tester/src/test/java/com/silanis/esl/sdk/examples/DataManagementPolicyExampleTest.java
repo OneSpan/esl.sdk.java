@@ -14,15 +14,13 @@ public class DataManagementPolicyExampleTest {
         DataManagementPolicyExample example = new DataManagementPolicyExample();
         example.run();
 
-        DataManagementPolicy dataManagementPolicy = example.getDataManagementPolicyAfterUpdate();
-
         // Verify if the DataManagementPolicy was updated correctly.
-        assertThat(dataManagementPolicy.getTransactionRetention(), is(notNullValue()));
-        assertThat(dataManagementPolicy.getTransactionRetention().getArchived(), is(60));
-        assertThat(dataManagementPolicy.getTransactionRetention().getCompleted(), is(60));
-        assertThat(dataManagementPolicy.getTransactionRetention().getDeclined(), is(60));
-        assertThat(dataManagementPolicy.getTransactionRetention().getDraft(), is(60));
-        assertThat(dataManagementPolicy.getTransactionRetention().getExpired(), is(60));
-        assertThat(dataManagementPolicy.getTransactionRetention().getOptedOut(), is(60));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention(), is(notNullValue()));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention().getArchived(), is(60));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention().getCompleted(), is(60));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention().getDeclined(), is(60));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention().getDraft(), is(60));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention().getExpired(), is(60));
+        assertThat(example.dataManagementPolicyAfterUpdate.getTransactionRetention().getOptedOut(), is(60));
     }
 }
