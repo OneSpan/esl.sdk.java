@@ -24,6 +24,9 @@ public class DataManagementPolicyConverter {
     }
 
     public com.silanis.esl.sdk.DataManagementPolicy toSDKDataManagementPolicy() {
+        if (apiDataManagementPolicy == null) {
+            return sdkDataManagementPolicy;
+        }
         com.silanis.esl.sdk.DataManagementPolicy sdkDataManagementPolicy = new com.silanis.esl.sdk.DataManagementPolicy();
         if(apiDataManagementPolicy.getTransactionRetention() != null) {
             TransactionRetentionConverter converter = new TransactionRetentionConverter(apiDataManagementPolicy.getTransactionRetention());
@@ -33,6 +36,9 @@ public class DataManagementPolicyConverter {
     }
 
     public com.silanis.esl.api.model.DataManagementPolicy toAPIDataManagementPolicy() {
+        if (sdkDataManagementPolicy == null) {
+            return apiDataManagementPolicy;
+        }
         com.silanis.esl.api.model.DataManagementPolicy apiDataManagementPolicy = new com.silanis.esl.api.model.DataManagementPolicy();
         if(sdkDataManagementPolicy.getTransactionRetention() != null) {
             TransactionRetentionConverter converter = new TransactionRetentionConverter(sdkDataManagementPolicy.getTransactionRetention());

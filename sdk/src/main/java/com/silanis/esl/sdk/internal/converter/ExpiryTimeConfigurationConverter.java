@@ -24,6 +24,9 @@ public class ExpiryTimeConfigurationConverter {
     }
 
     public com.silanis.esl.sdk.ExpiryTimeConfiguration toSDKExpiryTimeConfiguration() {
+        if(apiExpiryTimeConfiguration == null) {
+            return sdkExpiryTimeConfiguration;
+        }
         com.silanis.esl.sdk.ExpiryTimeConfiguration sdkExpiryTimeConfiguration = new com.silanis.esl.sdk.ExpiryTimeConfiguration();
         sdkExpiryTimeConfiguration.setMaximumRemainingDays(apiExpiryTimeConfiguration.getMaximumRemainingDays());
         sdkExpiryTimeConfiguration.setRemainingDays(apiExpiryTimeConfiguration.getRemainingDays());
@@ -31,6 +34,9 @@ public class ExpiryTimeConfigurationConverter {
     }
 
     public com.silanis.esl.api.model.ExpiryTimeConfiguration toAPIExpiryTimeConfiguration() {
+        if(sdkExpiryTimeConfiguration == null) {
+            return apiExpiryTimeConfiguration;
+        }
         com.silanis.esl.api.model.ExpiryTimeConfiguration apiExpiryTimeConfiguration = new com.silanis.esl.api.model.ExpiryTimeConfiguration();
         apiExpiryTimeConfiguration.setMaximumRemainingDays(sdkExpiryTimeConfiguration.getMaximumRemainingDays());
         apiExpiryTimeConfiguration.setRemainingDays(sdkExpiryTimeConfiguration.getRemainingDays());
