@@ -24,6 +24,9 @@ public class TransactionRetentionConverter {
     }
 
     public com.silanis.esl.sdk.TransactionRetention toSDKTransactionRetention() {
+        if (apiTransactionRetention == null) {
+            return sdkTransactionRetention;
+        }
         com.silanis.esl.sdk.TransactionRetention sdkTransactionRetention = new com.silanis.esl.sdk.TransactionRetention();
         sdkTransactionRetention.setArchived(apiTransactionRetention.getArchived());
         sdkTransactionRetention.setCompleted(apiTransactionRetention.getCompleted());
@@ -37,6 +40,9 @@ public class TransactionRetentionConverter {
     }
 
     public com.silanis.esl.api.model.TransactionRetention toAPITransactionRetention() {
+        if (sdkTransactionRetention == null) {
+            return apiTransactionRetention;
+        }
         com.silanis.esl.api.model.TransactionRetention apiTransactionRetention = new com.silanis.esl.api.model.TransactionRetention();
         apiTransactionRetention.setArchived(sdkTransactionRetention.getArchived());
         apiTransactionRetention.setCompleted(sdkTransactionRetention.getCompleted());
