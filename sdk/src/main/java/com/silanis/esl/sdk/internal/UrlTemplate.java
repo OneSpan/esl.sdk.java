@@ -153,6 +153,10 @@ public class UrlTemplate {
     public static final String APPLY_LAYOUT_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutId={layoutId}";
     public static final String APPLY_LAYOUT_BY_NAME_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutName={layoutName}";
 
+    //DataRetentionSettingsService
+    public static final String EXPIRY_TIME_CONFIGURATION_PATH = "/dataRetentionSettings/expiryTimeConfiguration";
+    public static final String DATA_MANAGEMENT_POLICY_PATH = "/dataRetentionSettings/dataManagementPolicy";
+
     // QR Code Service
     public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";
     public static final String QRCODE_ID_PATH = "/packages/{packageId}/documents/{documentId}/fields/{fieldId}";
