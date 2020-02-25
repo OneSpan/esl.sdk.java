@@ -6,6 +6,8 @@ import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
+
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -170,6 +172,24 @@ public class AttachmentRequirementService {
             throw new EslServerException("Could not upload attachment for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload attachment for signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    public void deleteAttachmentFile(PackageId packageId, String attachmentId, Integer fileId, String signerSessionId) {
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
+
+        String path = template.urlFor(UrlTemplate.DELETE_ATTACHMENT_FILE_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{attachmentId}", attachmentId)
+                .replace("{fileId}", String.valueOf(fileId))
+                .build();
+
+        try {
+            signerClient.delete(path);
+        } catch (IOException e) {
+            throw new EslException("Could not upload attachment for signer. Exception: " + e.getMessage());
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete attachment file for signer", e);
         }
     }
 }

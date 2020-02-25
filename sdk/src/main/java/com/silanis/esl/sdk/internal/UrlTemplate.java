@@ -146,6 +146,7 @@ public class UrlTemplate {
     public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
     public static final String ALL_ATTACHMENTS_PATH = "/packages/{packageId}/attachment/zip";
     public static final String ALL_ATTACHMENTS_FOR_ROLE_PATH = "/packages/{packageId}/attachment/zip/{roleId}";
+    public static final String DELETE_ATTACHMENT_FILE_PATH = "/packages/{packageId}/attachment/{attachmentId}/file/{fileId}";
 
     // Layout Service
     public static final String LAYOUT_PATH = "/layouts";

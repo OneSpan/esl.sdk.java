@@ -1,5 +1,12 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.silanis.esl.sdk.AttachmentFile;
+
+import java.util.List;
+
 /**
  * Created by lena on 2014-05-09.
  * <p/>
@@ -49,6 +56,7 @@ public class AttachmentRequirementConverter {
         result.setData(sdkAttachmentRequirement.getData());
         result.setDescription(sdkAttachmentRequirement.getDescription());
         result.setRequired(sdkAttachmentRequirement.isRequired());
+        result.setFiles(getApiAttachmentFiles());
 
         if (sdkAttachmentRequirement.getStatus() == null) {
             result.setStatus("INCOMPLETE");
@@ -78,11 +86,32 @@ public class AttachmentRequirementConverter {
             result.setId(apiAttachmentRequirement.getId());
             result.setRequired(apiAttachmentRequirement.getRequired());
             result.setStatus(new RequirementStatusConverter(apiAttachmentRequirement.getStatus()).toSDKRequirementStatus());
+            result.setFiles(getSdkAttachmentFiles());
 
             return result;
         }
 
         return sdkAttachmentRequirement;
+    }
+
+    private List<AttachmentFile> getSdkAttachmentFiles() {
+        return Lists.newArrayList(Iterables.transform(apiAttachmentRequirement.getFiles(),
+                new Function<com.silanis.esl.api.model.AttachmentFile, AttachmentFile>() {
+                    @Override
+                    public AttachmentFile apply(com.silanis.esl.api.model.AttachmentFile attachmentFile) {
+                        return new AttachmentFileConverter(attachmentFile).toSDKAttachmentFile();
+                    }
+                }));
+    }
+
+    private List<com.silanis.esl.api.model.AttachmentFile> getApiAttachmentFiles() {
+        return Lists.newArrayList(Iterables.transform(sdkAttachmentRequirement.getFiles(),
+                new Function<AttachmentFile, com.silanis.esl.api.model.AttachmentFile>() {
+                    @Override
+                    public com.silanis.esl.api.model.AttachmentFile apply(AttachmentFile attachmentFile) {
+                        return new AttachmentFileConverter(attachmentFile).toApiAttachmentFile();
+                    }
+                }));
     }
 
 }
