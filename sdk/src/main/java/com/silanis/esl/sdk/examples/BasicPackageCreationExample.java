@@ -1,7 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentPackageSettings;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
 import java.util.Date;
@@ -51,9 +53,14 @@ public class BasicPackageCreationExample extends SDKSample {
         documentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document_with_text_tag_and_form_field.pdf");
         email2 = "CapitalLetters@email.com";
 
+        DocumentPackageSettings packageSettings = DocumentPackageSettingsBuilder.newDocumentPackageSettings()
+                .withoutDefaultTimeBasedExpiry()
+                .build();
+        
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .withTimezoneId(PACKAGE_TIMEZONE_ID)
                 .describedAs(PACKAGE_DESC)
+                .withSettings(packageSettings)
                 .expiresAt(PACKAGE_EXPIRY)
                 .withEmailMessage(PACKAGE_EMAIL_MSG)
                 .withSigner(newSignerWithEmail(email1)
