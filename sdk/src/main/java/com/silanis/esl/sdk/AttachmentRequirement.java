@@ -1,6 +1,8 @@
 package com.silanis.esl.sdk;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +19,7 @@ public class AttachmentRequirement implements Serializable {
     private final String name;
     private boolean isRequired;
     private com.silanis.esl.sdk.RequirementStatus status;
+    private List<AttachmentFile> files = new ArrayList<AttachmentFile>();
 
     /**
      * <p>The constructor of the AttachmentRequirement class.</p>
@@ -77,5 +80,13 @@ public class AttachmentRequirement implements Serializable {
 
     public void setStatus(com.silanis.esl.sdk.RequirementStatus status) {
         this.status = status;
+    }
+
+    public List<AttachmentFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<AttachmentFile> files) {
+        this.files = files;
     }
 }
