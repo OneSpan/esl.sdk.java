@@ -1,15 +1,18 @@
 package com.silanis.esl.sdk.service;
 
 
+import com.silanis.esl.sdk.SigningLogo;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.converter.SigningLogoConverter;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * The SigningThemeService class provides methods to create
- * account signing themes
+ * The SigningStyleService class provides methods to customize the New Signer Experience
+ * Signing Themes and Signing Logos
  */
 public class SigningStyleService {
 
@@ -94,6 +97,39 @@ public class SigningStyleService {
             throw new EslServerException("Could not update the signing themes to account.", e);
         } catch (Exception e) {
             throw new EslException("Could not update the signing themes to account.", e);
+        }
+    }
+
+    /**
+     * Save account signing logos.
+     *
+     * @param signingLogos
+     */
+    public void saveSigningLogos(List<SigningLogo> signingLogos) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_LOGO_PATH).build();
+        String payload = JacksonUtil.serialize(signingLogos);
+        try {
+            client.post(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the signing logos for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the signing logos for account.", e);
+        }
+    }
+
+    /**
+     * Get account signing logos.
+     *
+     */
+    public List getSigningLogos() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_LOGO_PATH).build();
+        try {
+            String stringResponse = client.get(path);
+            return SigningLogoConverter.converToSDKSigningLogoList(Serialization.fromJsonToList(stringResponse, com.silanis.esl.api.model.SigningLogo.class));
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the signing logos from account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the signing logos from account.", e);
         }
     }
 }

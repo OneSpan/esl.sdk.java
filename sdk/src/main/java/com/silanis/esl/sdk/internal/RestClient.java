@@ -4,6 +4,7 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
+import java.util.Collections;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
@@ -36,7 +37,7 @@ public class RestClient extends Client {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
-    public static final String ESL_API_VERSION = "11.28";
+    public static final String ESL_API_VERSION = "11.31";
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
     public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
@@ -110,18 +111,24 @@ public class RestClient extends Client {
         return execute(put, jsonHandler);
     }
 
-    public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
+    public String postMultipartFile(String path, Map<String, byte[]> files, String jsonPayload) throws IOException, RequestException {
         support.logRequest("POST", path, jsonPayload);
 
         final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
-        multipartEntityBuilder.addPart("file", buildPartForFile(fileBytes, fileName));
+        for (Map.Entry<String, byte[]> file : files.entrySet()) {
+            multipartEntityBuilder.addPart("file", buildPartForFile(file.getValue(), file.getKey()));
+        }
 
         HttpPost post = new HttpPost(path);
 
         post.setEntity(multipartEntityBuilder.build());
 
         return execute(post, jsonHandler);
+    }
+
+    public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
+        return postMultipartFile(path, Collections.singletonMap(fileName, fileBytes), jsonPayload);
     }
 
     public String postMultipartPackage(String path, Collection<Document> documents, String jsonPayload) throws IOException, RequestException {
@@ -131,7 +138,9 @@ public class RestClient extends Client {
         multipartEntityBuilder.addPart("payload", buildPartForPayload(jsonPayload));
 
         for (com.silanis.esl.sdk.Document document : documents) {
-            multipartEntityBuilder.addPart("file", buildPartForFile(document));
+		if (document.getExternal() == null) {
+            		multipartEntityBuilder.addPart("file", buildPartForFile(document));
+		}
         }
 
         HttpPost post = new HttpPost(path);

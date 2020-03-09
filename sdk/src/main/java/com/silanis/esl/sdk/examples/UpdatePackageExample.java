@@ -106,6 +106,7 @@ public class UpdatePackageExample extends SDKSample {
                  .withOptOutReason(OLD_OPT_OUT_REASON_3)
                  .withWatermark()
                  .withCeremonyLayoutSettings(layoutSettingsToCreate)
+                 .withoutDefaultTimeBasedExpiry()
                  .build();
 
         packageToCreate = PackageBuilder.newPackageNamed(OLD_PACKAGE_NAME)
@@ -165,12 +166,13 @@ public class UpdatePackageExample extends SDKSample {
             .withOptOutReason(NEW_OPT_OUT_REASON_3)
             .withoutWatermark()
             .withCeremonyLayoutSettings(layoutSettingsToUpdate)
+            .withoutDefaultTimeBasedExpiry()
             .build();
 
         packageToUpdate = PackageBuilder.newPackageNamed(NEW_PACKAGE_NAME)
                 .describedAs(NEW_DESCRIPTION)
                 .withEmailMessage(NEW_EMAIL_MESSAGE)
-                .expiresAt(now().plusMonths(2).toDate())
+                .expiresAt(now().plusMonths(1).toDate())
                 .withLanguage(Locale.FRENCH)
                 .withVisibility(NEW_VISIBILITY)
                 .withNotarized(NEW_NOTARIZED)

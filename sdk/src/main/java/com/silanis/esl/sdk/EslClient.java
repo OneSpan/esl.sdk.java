@@ -55,6 +55,7 @@ public class EslClient {
     private SigningService signingService;
     private SignerVerificationService signerVerificationService;
     private SigningStyleService signingStyleService;
+    private DataRetentionSettingsService dataRetentionSettingsService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -143,6 +144,7 @@ public class EslClient {
         authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
         signerVerificationService = new SignerVerificationService(client, baseURL);
         signingStyleService = new SigningStyleService(client,baseURL);
+        dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
     }
 
     /**
@@ -172,6 +174,15 @@ public class EslClient {
      */
     public PackageService getPackageService() {
         return packageService;
+    }
+
+    /**
+     * Gets the data retention settings service
+     *
+     * @return the data retention settings service
+     */
+    public DataRetentionSettingsService getDataRetentionSettingsService() {
+        return dataRetentionSettingsService;
     }
 
     /**
@@ -421,11 +432,7 @@ public class EslClient {
      */
     public void signDocuments(PackageId packageId, String signerId, CapturedSignature capturedSignature) {
         String bulkSigningKey = "Bulk Signing on behalf of";
-        Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
-        signerSessionFields.put(bulkSigningKey, signerId);
-        final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
-
-        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
+        String signerSessionId = getSignerSessionId(packageId, signerId, bulkSigningKey);
         SignerRestClient signerClient = new SignerRestClient(signerSessionId, true, proxyConfiguration);
 
         SignedDocuments signedDocuments = new SignedDocuments();
@@ -708,15 +715,23 @@ public class EslClient {
     }
 
     public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileContent, String signerId) {
+        uploadAttachment(packageId, attachmentId, Collections.singletonMap(filename, fileContent), signerId);
+    }
+
+    public void uploadAttachment(PackageId packageId, String attachmentId, Map<String, byte[]> files, String signerId) {
         String signerSessionFieldKey = "Upload Attachment on behalf of";
 
+        String signerSessionId = getSignerSessionId(packageId, signerId, signerSessionFieldKey);
+
+        attachmentRequirementService.uploadAttachment(packageId, attachmentId, files, signerSessionId);
+    }
+
+    private String getSignerSessionId(PackageId packageId, String signerId, String signerSessionFieldKey) {
         Map<String, String> signerSessionFields = new LinkedHashMap<String, String>();
         signerSessionFields.put(signerSessionFieldKey, signerId);
         final String signerAuthenticationToken = authenticationTokensService.createSignerAuthenticationToken(packageId.getId(), signerId, signerSessionFields);
 
-        String signerSessionId = authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
-
-        attachmentRequirementService.uploadAttachment(packageId, attachmentId, filename, fileContent, signerSessionId);
+        return authenticationService.getSessionIdForSignerAuthenticationToken(signerAuthenticationToken);
     }
 
     public void createSignerVerification(PackageId packageId, String roleId, SignerVerification signerVerification) {
@@ -737,6 +752,13 @@ public class EslClient {
 
     public void deleteSignerVerification(PackageId packageId, String roleId) {
         signerVerificationService.deleteSignerVerification(packageId.getId(), roleId);
+    }
+
+    public void deleteAttachmentFile(PackageId packageId, String attachmentId, Integer fileId, String signerId) {
+        String signerSessionFieldKey = "Delete Attachment file on behalf of";
+
+        String signerSessionId = getSignerSessionId(packageId, signerId, signerSessionFieldKey);
+        attachmentRequirementService.deleteAttachmentFile(packageId, attachmentId, fileId, signerSessionId);
     }
 
     public GroupService getGroupService() {

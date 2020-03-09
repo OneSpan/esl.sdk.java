@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class AttachmentRequirement extends Entity
@@ -25,6 +27,8 @@ public class AttachmentRequirement extends Entity
     public static final String FIELD_REQUIRED = "required";
     @JsonIgnore
     public static final String FIELD_STATUS = "status";
+    @JsonIgnore
+    public static final String FIELD_FILES = "files";
     
     // Empty Constructor
     public AttachmentRequirement ( ) {}
@@ -34,6 +38,7 @@ public class AttachmentRequirement extends Entity
     protected String _description = "";
     protected Boolean _required = true;
     protected String _status = "INCOMPLETE";
+    protected List<AttachmentFile> files = new ArrayList<AttachmentFile>();
     
     // Accessors
         
@@ -163,6 +168,16 @@ public class AttachmentRequirement extends Entity
     public String getStatus(){
         return _status;
     }
-    
-    
+
+
+    public AttachmentRequirement setFiles(List<AttachmentFile> value) {
+        SchemaSanitizer.throwOnNull(FIELD_FILES,value);
+        this.files = value;
+        setDirty(FIELD_FILES);
+        return this;
+    }
+
+    public List<AttachmentFile> getFiles() {
+        return files;
+    }
 }

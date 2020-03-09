@@ -11,6 +11,7 @@ import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.Locale;
 
+import java.util.Map;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -139,6 +140,14 @@ public class SignerConverter {
             signer.setLocked(true);
         }
 
+        Map<String, Object> apiRoleData = apiRole.getData();
+        if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
+            Object localLanguage = apiRoleData.get(Role.LOCAL_LANGUAGE_DATA_KEY);
+            if (localLanguage != null) {
+                signer.setLocalLanguage(localLanguage.toString());
+            }
+        }
+
         return signer;
     }
 
@@ -173,6 +182,14 @@ public class SignerConverter {
             signer.setLocked(true);
         }
 
+        Map<String, Object> apiRoleData = apiRole.getData();
+        if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
+            Object localLanguage = apiRoleData.get(Role.LOCAL_LANGUAGE_DATA_KEY);
+            if (localLanguage != null) {
+                signer.setLocalLanguage(localLanguage.toString());
+            }
+        }
+
         return signer;
     }
 
@@ -187,7 +204,7 @@ public class SignerConverter {
             return sdkSigner;
         }
 
-        if (apiRole.getSigners() == null || apiRole.getSigners().size() == 0) {
+        if (apiRole.getSigners() == null || apiRole.getSigners().isEmpty()) {
             return newSignerPlaceholderFromAPIRole();
         } else {
             return newRegularSignerFromAPIRole();
@@ -231,6 +248,7 @@ public class SignerConverter {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }
 
+        role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, sdkSigner.getLocalLanguage());
         return role;
     }
 
@@ -276,6 +294,7 @@ public class SignerConverter {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
         }
 
+        role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, sdkSigner.getLocalLanguage());
         return role;
     }
 }

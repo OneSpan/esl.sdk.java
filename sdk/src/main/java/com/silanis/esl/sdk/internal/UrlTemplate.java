@@ -140,18 +140,23 @@ public class UrlTemplate {
     // Webpage redirect urls
     public static final String DESIGNER_REDIRECT_PATH = "/designer/{packageId}";
     public static final String PACKAGE_VIEW_REDIRECT_PATH = "/packages/{packageId}";
-    public static final String SIGNING_REDIRECT_PATH = "/packages/{packageId}/sign";
+    public static final String SIGNING_REDIRECT_PATH = "/transaction/{packageId}/sign";
 
     // AttachmentRequirement Service
     public static final String ATTACHMENT_REQUIREMENT_PATH = "/packages/{packageId}/attachment/{attachmentId}";
     public static final String ALL_ATTACHMENTS_PATH = "/packages/{packageId}/attachment/zip";
     public static final String ALL_ATTACHMENTS_FOR_ROLE_PATH = "/packages/{packageId}/attachment/zip/{roleId}";
+    public static final String DELETE_ATTACHMENT_FILE_PATH = "/packages/{packageId}/attachment/{attachmentId}/file/{fileId}";
 
     // Layout Service
     public static final String LAYOUT_PATH = "/layouts";
     public static final String LAYOUT_LIST_PATH = "/layouts?to={to}&from={from}&dir={dir}";
     public static final String APPLY_LAYOUT_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutId={layoutId}";
     public static final String APPLY_LAYOUT_BY_NAME_PATH = "/packages/{packageId}/documents/{documentId}/layout?layoutName={layoutName}";
+
+    //DataRetentionSettingsService
+    public static final String EXPIRY_TIME_CONFIGURATION_PATH = "/dataRetentionSettings/expiryTimeConfiguration";
+    public static final String DATA_MANAGEMENT_POLICY_PATH = "/dataRetentionSettings/dataManagementPolicy";
 
     // QR Code Service
     public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";
@@ -163,6 +168,9 @@ public class UrlTemplate {
 
     // Account Signing Themes Service
     public static final String ACCOUNT_SIGNING_THEME_PATH = "/account/signingThemes";
+
+    // Account Signing Logos Service
+    public static final String ACCOUNT_SIGNING_LOGO_PATH = "/account/admin/signingLogos";
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;

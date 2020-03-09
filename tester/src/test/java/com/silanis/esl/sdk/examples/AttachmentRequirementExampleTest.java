@@ -61,8 +61,8 @@ public class AttachmentRequirementExampleTest {
         assertThat("Signer1's attachment1 was not downloaded correctly.", example.downloadedAttachemnt1.getName(), is(ATTACHMENT_FILE_NAME1));
         assertThat("Signer1's attachment1 was not downloaded correctly.", example.downloadedAttachemnt1.length(), is(example.attachment1ForSigner1FileSize));
 
-        assertThat("All package attachments were not downloaded correctly.", example.downloadedAllAttachmentsForPackageZip.size(), is(3));
+        assertThat("All package attachments were not downloaded correctly.", example.downloadedAllAttachmentsForPackageZip.size(), is(4));
         assertThat("All signer1 attachments were not downloaded correctly.", example.downloadedAllAttachmentsForSigner1InPackageZip.size(), is(1));
-        assertThat("All signer2 attachments were not downloaded correctly.", example.downloadedAllAttachmentsForSigner2InPackageZip.size(), is(2));
+        assertThat("All signer2 attachments were not downloaded correctly.", example.downloadedAllAttachmentsForSigner2InPackageZip.size(), is(3));
     }
 }

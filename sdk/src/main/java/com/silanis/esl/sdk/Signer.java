@@ -29,6 +29,7 @@ public class Signer implements Serializable {
     private boolean locked;
     private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
+    private String localLanguage;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -342,5 +343,13 @@ public class Signer implements Serializable {
 
     public void setKnowledgeBasedAuthentication(KnowledgeBasedAuthentication knowledgeBasedAuthentication) {
         this.knowledgeBasedAuthentication = knowledgeBasedAuthentication;
+    }
+
+    public String getLocalLanguage() {
+        return localLanguage;
+    }
+
+    public void setLocalLanguage(String localLanguage) {
+        this.localLanguage = localLanguage;
     }
 }

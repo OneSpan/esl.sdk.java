@@ -7,6 +7,9 @@ import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * The AttachmentRequirementService class provides methods to help create attachments for signers.
  */
@@ -155,7 +158,7 @@ public class AttachmentRequirementService {
         }
     }
 
-    public void uploadAttachment(PackageId packageId, String attachmentId, String filename, byte[] fileBytes, String signerSessionId) {
+    public void uploadAttachment(PackageId packageId, String attachmentId, Map<String, byte[]> files, String signerSessionId) {
         SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
         String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
@@ -164,11 +167,29 @@ public class AttachmentRequirementService {
                               .build();
 
         try {
-            signerClient.postMultipartFile(path, filename, fileBytes, "");
+            signerClient.postMultipartFile(path, files, "");
         } catch (RequestException e) {
             throw new EslServerException("Could not upload attachment for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload attachment for signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    public void deleteAttachmentFile(PackageId packageId, String attachmentId, Integer fileId, String signerSessionId) {
+        SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
+
+        String path = template.urlFor(UrlTemplate.DELETE_ATTACHMENT_FILE_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{attachmentId}", attachmentId)
+                .replace("{fileId}", String.valueOf(fileId))
+                .build();
+
+        try {
+            signerClient.delete(path);
+        } catch (IOException e) {
+            throw new EslException("Could not upload attachment for signer. Exception: " + e.getMessage());
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete attachment file for signer", e);
         }
     }
 }

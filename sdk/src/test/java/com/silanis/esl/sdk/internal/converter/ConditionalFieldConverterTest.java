@@ -136,7 +136,7 @@ public class ConditionalFieldConverterTest implements ConverterTest {
         com.silanis.esl.sdk.FieldCondition condition = new com.silanis.esl.sdk.FieldCondition();
         condition.setId("ConditionId");
         condition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        condition.setAction("document['DocumentId'].field['fieldId1'].enabled = false");
+        condition.setAction("document['DocumentId'].field['fieldId1'].disabled = true");
         List<com.silanis.esl.sdk.FieldCondition> conditions = new ArrayList<com.silanis.esl.sdk.FieldCondition>();
         conditions.add(condition);
         sdkField.setConditions(conditions);
@@ -166,7 +166,7 @@ public class ConditionalFieldConverterTest implements ConverterTest {
         com.silanis.esl.api.model.FieldCondition condition = new com.silanis.esl.api.model.FieldCondition();
         condition.setId("ConditionId");
         condition.setCondition("document['DocumentId'].field['fieldId2'].value == 'X'");
-        condition.setAction("document['DocumentId'].field['fieldId1'].enabled = false");
+        condition.setAction("document['DocumentId'].field['fieldId1'].disabled = true");
         List<FieldCondition> conditions = new ArrayList<FieldCondition>();
         conditions.add(condition);
         apiField.setConditions(conditions);
