@@ -146,7 +146,11 @@ public class DocumentPackageConverter {
                             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
                         }
 
-                        role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, input.getLocalLanguage());
+                        String localLanguage = input.getLocalLanguage();
+                        if (localLanguage != null) {
+                            role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, localLanguage);
+                        }
+
                         return role;
                     }
                 }));
