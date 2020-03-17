@@ -12,7 +12,8 @@ public class AttachmentFileExampleTest {
         AttachmentFileExample example = new AttachmentFileExample();
         example.run();
 
-        assertThat(example.filesAfterUpload.size(), is(1));
-        assertThat(example.filesAfterDelete.size(), is(0));
+        assertThat(example.filesAfterUpload.size(), is(2));
+        assertThat(example.filesAfterDelete.size(), is(1));
+        assertThat(example.exception.getServerError().getMessageKey(), is("error.validation.attachments.delete.completedTransaction"));
     }
 }

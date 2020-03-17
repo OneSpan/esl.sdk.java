@@ -9,6 +9,7 @@ import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
+import com.silanis.esl.sdk.internal.EslServerException;
 
 import java.io.InputStream;
 import java.util.List;
@@ -27,8 +28,11 @@ public class AttachmentFileExample extends SDKSample {
     private List<AttachmentRequirement> signer1Attachments;
     private AttachmentRequirement signer1Att1;
     public static final String ATTACHMENT_FILE_NAME1 = "The attachment1 for signer1.pdf";
+    public static final String ATTACHMENT_FILE_NAME2 = "The attachment1 for signer2.pdf";
     public List<AttachmentFile> filesAfterUpload;
     public List<AttachmentFile> filesAfterDelete;
+    public DocumentPackage completedPackage;
+    public EslServerException exception;
 
     public static void main(String... args) {
         new AttachmentFileExample().run();
@@ -73,6 +77,9 @@ public class AttachmentFileExample extends SDKSample {
         eslClient.uploadAttachment(packageId, signer1Att1.getId(), ATTACHMENT_FILE_NAME1,
                 attachment1ForSigner1FileContent, SIGNER1_ID);
 
+        eslClient.uploadAttachment(packageId, signer1Att1.getId(), ATTACHMENT_FILE_NAME2,
+                attachment1ForSigner1FileContent, SIGNER1_ID);
+
         retrievedPackage = eslClient.getPackage(packageId);
         signer1Attachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
         signer1Att1 = signer1Attachments.get(0);
@@ -87,5 +94,16 @@ public class AttachmentFileExample extends SDKSample {
         signer1Att1 = signer1Attachments.get(0);
 
         filesAfterDelete = signer1Att1.getFiles();
+
+        eslClient.signDocuments(packageId, SIGNER1_ID);
+        eslClient.getPackageService().markComplete(packageId);
+        completedPackage = eslClient.getPackage(packageId);
+
+        try {
+            eslClient.deleteAttachmentFile(packageId, signer1Att1.getId(), filesAfterUpload.get(1).getId(), SIGNER1_ID);
+        } catch (EslServerException excp) {
+            exception = excp;
+        }
+
     }
 }
