@@ -8,16 +8,9 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
-
-import java.util.Locale;
-
-import java.util.Map;
-import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import java.util.Map;
 
 /**
  * User: jessica
@@ -79,8 +72,7 @@ public class SignerConverter {
         }
 
         if (sdkSigner.getLanguage() != null) {
-            String languageCountry = sdkSigner.getLanguage().getCountry();
-            result.setLanguage(sdkSigner.getLanguage().getLanguage() + (isNotBlank(languageCountry) ? "-" + languageCountry : EMPTY));
+            result.setLanguage(LocaleConverter.convertToString(sdkSigner.getLanguage()));
         }
 
         if (sdkSigner.getId() != null) {
@@ -100,7 +92,7 @@ public class SignerConverter {
                     .withFirstName(apiSigner.getFirstName())
                     .withLastName(apiSigner.getLastName())
                     .withCompany(apiSigner.getCompany())
-                    .withLanguage(convertToLocale(apiSigner.getLanguage()))
+                    .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
                     .withTitle(apiSigner.getTitle())
                     .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
@@ -149,13 +141,6 @@ public class SignerConverter {
         }
 
         return signer;
-    }
-
-    private Locale convertToLocale(String lang) {
-        if (isBlank(lang))
-            return new Locale("");
-
-        return LocaleUtils.toLocale(apiSigner.getLanguage().replaceAll("-", "_"));
     }
 
     private Signer newSignerPlaceholderFromAPIRole() {

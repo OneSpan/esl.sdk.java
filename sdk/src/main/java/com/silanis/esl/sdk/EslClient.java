@@ -12,7 +12,14 @@ import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerVerificationConverter;
 import com.silanis.esl.sdk.service.*;
-import com.silanis.esl.sdk.service.apiclient.*;
+import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
+import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
+import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
+import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
+import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
+import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
+import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
+import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -54,6 +61,7 @@ public class EslClient {
     private SystemService systemService;
     private SignatureImageService signatureImageService;
     private SigningService signingService;
+    private AccountConfigService accountConfigService;
     private SignerVerificationService signerVerificationService;
     private SigningStyleService signingStyleService;
     private DataRetentionSettingsService dataRetentionSettingsService;
@@ -148,6 +156,7 @@ public class EslClient {
         groupService = new GroupService(client, this.baseURL);
         customFieldService = new CustomFieldService(new CustomFieldApiClient(client, this.baseURL));
         accountService = new AccountService(new AccountApiClient(client, this.baseURL));
+        accountConfigService = new AccountConfigService(new AccountConfigClient(client, this.baseURL));
         approvalService = new ApprovalService(new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService(client, this.baseURL);
         templateService = new TemplateService(client, this.baseURL, packageService);
@@ -156,7 +165,7 @@ public class EslClient {
         qrCodeService = new QRCodeService(client, this.baseURL);
         authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
         signerVerificationService = new SignerVerificationService(client, baseURL);
-        signingStyleService = new SigningStyleService(client,baseURL);
+        signingStyleService = new SigningStyleService(client, baseURL);
         dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
     }
 
@@ -781,6 +790,10 @@ public class EslClient {
 
     public AccountService getAccountService() {
         return accountService;
+    }
+
+    public AccountConfigService getAccountConfigService() {
+        return accountConfigService;
     }
 
     public ApprovalService getApprovalService() {

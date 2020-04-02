@@ -24,8 +24,6 @@ import java.util.Locale;
 
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerFromGroup;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * User: jessica
@@ -91,8 +89,7 @@ public class DocumentPackageConverter {
         }
 
         if (sdkPackage.getLanguage() != null) {
-            String languageCountry = sdkPackage.getLanguage().getCountry();
-            result.setLanguage(sdkPackage.getLanguage().getLanguage() + (isNotBlank(languageCountry) ? "-" + languageCountry : EMPTY));
+            result.setLanguage(LocaleConverter.convertToString(sdkPackage.getLanguage()));
         }
 
         if (sdkPackage.getSettings() != null) {
@@ -163,7 +160,7 @@ public class DocumentPackageConverter {
             result.addRole(role);
         }
 
-        if(sdkPackage.getConditions() != null) {
+        if (sdkPackage.getConditions() != null) {
             ArrayList<com.silanis.esl.api.model.FieldCondition> conditions = new ArrayList<com.silanis.esl.api.model.FieldCondition>();
             for (FieldCondition condition : sdkPackage.getConditions()) {
                 conditions.add(new FieldConditionConverter(condition).toAPIFieldCondition());
@@ -273,7 +270,7 @@ public class DocumentPackageConverter {
         if (apiPackage.getCreated() != null) {
             documentPackage.setCreatedDate(apiPackage.getCreated());
         }
-        if(apiPackage.getConditions() != null) {
+        if (apiPackage.getConditions() != null) {
             ArrayList<FieldCondition> conditions = new ArrayList<FieldCondition>();
             for (com.silanis.esl.api.model.FieldCondition condition : apiPackage.getConditions()) {
                 conditions.add(new FieldConditionConverter(condition).toSDKFieldCondition());
