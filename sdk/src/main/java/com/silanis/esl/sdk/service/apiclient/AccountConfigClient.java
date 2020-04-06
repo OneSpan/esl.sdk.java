@@ -8,6 +8,9 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
  * Created by schoi on 2020-04-01.
  */
@@ -27,8 +30,7 @@ public class AccountConfigClient {
         try {
             String stringResponse = restClient.get(path);
 
-            Link apiResponse = Serialization.fromJson(stringResponse, Link.class);
-            return apiResponse;
+            return Serialization.fromJson(stringResponse, Link.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get handover url.", e);
         } catch (Exception e) {
@@ -44,8 +46,7 @@ public class AccountConfigClient {
             String json = Serialization.toJson(link);
             String stringResponse = restClient.post(path, json);
 
-            Link apiResponse = Serialization.fromJson(stringResponse, Link.class);
-            return apiResponse;
+            return Serialization.fromJson(stringResponse, Link.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create handover url.", e);
         } catch (Exception e) {
@@ -61,8 +62,7 @@ public class AccountConfigClient {
             String json = Serialization.toJson(link);
             String stringResponse = restClient.put(path, json);
 
-            Link apiResponse = Serialization.fromJson(stringResponse, Link.class);
-            return apiResponse;
+            return Serialization.fromJson(stringResponse, Link.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not update handover url.", e);
         } catch (Exception e) {
@@ -80,6 +80,67 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete handover url.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete handover url.", e);
+        }
+    }
+
+    public List<String> createDeclineReasons(String language, List<String> declineReasons) {
+        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+                .replace("{language}", language)
+                .build();
+        String json = Serialization.toJson(declineReasons);
+
+        try {
+            String stringResponse = restClient.post(path, json);
+            return Serialization.fromJsonToList(stringResponse, String.class);
+
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create decline reasons.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create decline reasons.", e);
+        }
+    }
+
+    public List<String> updateDeclineReasons(String language, List<String> declineReasons) {
+        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+                .replace("{language}", language)
+                .build();
+        String json = Serialization.toJson(declineReasons);
+
+        try {
+            String stringResponse = restClient.put(path, json);
+            return Serialization.fromJsonToList(stringResponse, String.class);
+
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update decline reasons.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update decline reasons.", e);
+        }
+    }
+
+    public List<String> getDeclineReasons(String language) {
+        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+                .replace("{language}", language)
+                .build();
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, String.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get decline reasons.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get decline reasons.", e);
+        }
+    }
+
+    public void deleteDeclineReasons(String language) {
+        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+                .replace("{language}", language)
+                .build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete decline reasons.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete decline reasons.", e);
         }
     }
 }
