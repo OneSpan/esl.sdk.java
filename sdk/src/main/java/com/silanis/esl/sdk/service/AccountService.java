@@ -1,6 +1,8 @@
 package com.silanis.esl.sdk.service;
 
+import com.silanis.esl.api.model.Account;
 import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.SubAccount;
 import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
@@ -168,6 +170,36 @@ public class AccountService {
 
     public List<VerificationType> getVerificationTypes() {
         return apiClient.getVerificationTypes();
+    }
+
+
+    /**
+     * Get a list of subAccounts from the account base on page request
+     *
+     * @return A list of all the subAccounts of the account.
+     */
+    public List<Account> getSubAccounts() {
+        return apiClient.getSubAccounts();
+    }
+
+
+    /**
+     * Create new subAccount for the account base on page request
+     *
+     * @param subAccount The created info of the subAccount
+     */
+    public Account createSubAccount(SubAccount subAccount) {
+        return apiClient.createSubAccount(subAccount);
+    }
+
+    /**
+     * Update the information of a subAccount
+     *
+     * @param subAccount The updated info of the subAccount
+     * @param accountId The subAccount Id
+     */
+    public void updateSubAccount(SubAccount subAccount, String accountId) {
+        apiClient.updateSubAccount(subAccount, accountId);
     }
 
 
