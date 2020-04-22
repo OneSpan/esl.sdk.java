@@ -180,6 +180,7 @@ public class UrlTemplate {
     // Account SubAccount Service
     public static final String ACCOUNT_SUBACCOUNTS_PATH="/account/subaccounts";
     public static final String ACCOUNT_SUBACCOUNTS_ID_PATH="/account/subaccounts/{accountId}";
+    public static final String ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH="/account/accessibleaccounts";
 
 
     public UrlTemplate(String baseUrl) {

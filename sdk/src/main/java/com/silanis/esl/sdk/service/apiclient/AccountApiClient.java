@@ -229,6 +229,18 @@ public class AccountApiClient {
         }
     }
 
+    public List<AccessibleAccountResponse> getAccessibleAccounts() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, AccessibleAccountResponse.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get accessibleAccounts.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get accessibleAccounts." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
     public Account createSubAccount(SubAccount subAccount) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
         try {

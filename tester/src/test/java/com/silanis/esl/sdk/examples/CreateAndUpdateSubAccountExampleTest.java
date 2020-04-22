@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.api.model.AccessibleAccountResponse;
 import com.silanis.esl.api.model.Account;
 import com.silanis.esl.sdk.internal.EslServerException;
 import org.hamcrest.Matchers;
@@ -22,6 +23,7 @@ public class CreateAndUpdateSubAccountExampleTest {
     public void verifyResult() {
         CreateAndUpdateSubAccountExample example = new CreateAndUpdateSubAccountExample();
         List<Account> subAccountList;
+        List<AccessibleAccountResponse> accessibleAccountList;
 
         try {
             example.run();
@@ -31,9 +33,11 @@ public class CreateAndUpdateSubAccountExampleTest {
             throw e;
         } finally {
             subAccountList = example.subAccounts;
+            accessibleAccountList = example.accessibleAccounts;
         }
 
         assertThat(subAccountList.size(), greaterThanOrEqualTo(1));
         assertThat(subAccountList, hasItem(anyOf(Matchers.<Account>hasProperty("name", is(NAME)))));
+        assertThat(accessibleAccountList.size(), greaterThanOrEqualTo(1));
     }
 }

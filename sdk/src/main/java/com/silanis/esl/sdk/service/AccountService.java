@@ -1,10 +1,8 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.Account;
-import com.silanis.esl.api.model.Result;
-import com.silanis.esl.api.model.SubAccount;
-import com.silanis.esl.api.model.VerificationType;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.DelegationUser;
 import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
 import com.silanis.esl.sdk.internal.converter.DelegationUserConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
@@ -180,6 +178,15 @@ public class AccountService {
      */
     public List<Account> getSubAccounts() {
         return apiClient.getSubAccounts();
+    }
+
+    /**
+     * Get a list of accessible subAccounts from the account base on page request
+     *
+     * @return A list of accessible subAccounts of the account.
+     */
+    public List<AccessibleAccountResponse> getAccessibleAccounts() {
+        return apiClient.getAccessibleAccounts();
     }
 
 

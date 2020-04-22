@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.api.model.AccessibleAccountResponse;
 import com.silanis.esl.api.model.Account;
 import com.silanis.esl.api.model.SubAccount;
 import com.silanis.esl.sdk.builder.SubAccountBuilder;
@@ -12,6 +13,7 @@ import java.util.List;
 public class CreateAndUpdateSubAccountExample extends SDKSample {
 
     public List<Account> subAccounts;
+    public List<AccessibleAccountResponse> accessibleAccounts;
 
     private static final String PARENT_ACCOUNT_ID = "dummyAccountId";
     public static final String NAME = "SubAccount_" + new SimpleDateFormat("HH:mm:ss").format(new Date());
@@ -29,6 +31,7 @@ public class CreateAndUpdateSubAccountExample extends SDKSample {
                 .withParentAccountId(PARENT_ACCOUNT_ID)
                 .withLanguage(LANGUAGE)
                 .withTimezoneId(TIMEZONE_ID).build();
+
         //Creates subAccount
         Account account = eslClient.getAccountService().createSubAccount(subAccount);
 
@@ -38,6 +41,9 @@ public class CreateAndUpdateSubAccountExample extends SDKSample {
 
         //Updates subAccount
         eslClient.getAccountService().updateSubAccount(updateSubAccount, account.getId());
+
+        //Lists accessibleAccounts
+        accessibleAccounts = eslClient.getAccountService().getAccessibleAccounts();
 
         //Lists subAccounts
         subAccounts = eslClient.getAccountService().getSubAccounts();
