@@ -2,8 +2,6 @@ package com.silanis.esl.sdk.internal;
 
 import com.silanis.esl.sdk.EslException;
 
-import static java.lang.String.format;
-
 public class Asserts {
 
     private Asserts() {}
@@ -16,6 +14,10 @@ public class Asserts {
     }
 
     public static void notNullOrEmpty(String assertedValue, String fieldName) {
-        genericAssert( !(assertedValue == null || assertedValue.trim().isEmpty()), fieldName + "cannot be null or empty" );
+        genericAssert( !(assertedValue == null || assertedValue.trim().isEmpty()), fieldName + " cannot be null or empty" );
+    }
+
+    public static void notNull(Object assertedValue, String fieldName) {
+        genericAssert( !(assertedValue == null), fieldName + "cannot be null" );
     }
 }

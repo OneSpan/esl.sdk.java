@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>11.33-SNAPSHOT</version>
+    <version>11.34-SNAPSHOT</version>
 
     <modules>
         <module>tester</module>
@@ -236,6 +236,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.8.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>1.51</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
