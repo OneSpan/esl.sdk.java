@@ -9,7 +9,10 @@ import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.builder.internal.StreamDocumentSource;
+import com.silanis.esl.sdk.io.DownloadedFile;
+import com.silanis.esl.sdk.io.Files;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -18,36 +21,38 @@ import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
 public class AttachmentFileExample extends SDKSample {
 
-    private InputStream attachmentInputStream1;
-    private Signer signer1;
-    public static final String NAME1 = "Driver's license";
-    public static final String DESCRIPTION1 = "Please upload a scanned copy of your driver's license.";
-    public static final String SIGNER1_ID = "signer1Id";
-    private String attachment1Id;
-    private List<AttachmentRequirement> signer1Attachments;
-    private AttachmentRequirement signer1Att1;
-    public static final String ATTACHMENT_FILE_NAME1 = "The attachment1 for signer1.pdf";
+    private InputStream attachmentInputStream;
+    private Signer signer;
+    public static final String NAME = "Driver's license";
+    public static final String DESCRIPTION = "Please upload a scanned copy of your driver's license.";
+    public static final String SIGNER1_ID = "signerId";
+    private List<AttachmentRequirement> signerAttachments;
+    private AttachmentRequirement signerAtt;
+    public static final String ATTACHMENT_FILE_NAME = "The attachment for signer.pdf";
     public List<AttachmentFile> filesAfterUpload;
     public List<AttachmentFile> filesAfterDelete;
+
+    public File downloadedAttachmentFile;
+    public long signerAttachmentFileSize;
 
     public static void main(String... args) {
         new AttachmentFileExample().run();
     }
 
     public AttachmentFileExample() {
-        this.attachmentInputStream1 = this.getClass().getClassLoader().getResourceAsStream("document-for-anchor-extraction.pdf");
+        this.attachmentInputStream = this.getClass().getClassLoader().getResourceAsStream("document-for-anchor-extraction.pdf");
     }
 
     @Override
     protected void execute() {
 
-        // Signer1 with 1 attachment requirement
-        signer1 = SignerBuilder.newSignerWithEmail(email1)
+        // Signer with 1 attachment requirement
+        signer = SignerBuilder.newSignerWithEmail(email1)
                 .withFirstName("John")
                 .withLastName("Smith")
                 .withCustomId(SIGNER1_ID)
-                .withAttachmentRequirement(newAttachmentRequirementWithName(NAME1)
-                        .withDescription(DESCRIPTION1)
+                .withAttachmentRequirement(newAttachmentRequirementWithName(NAME)
+                        .withDescription(DESCRIPTION)
                         .isRequiredAttachment()
                         .build())
                 .build();
@@ -55,7 +60,7 @@ public class AttachmentFileExample extends SDKSample {
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This is a package created using the eSignLive SDK")
-                .withSigner(signer1)
+                .withSigner(signer)
                 .withDocument(DocumentBuilder.newDocumentWithName("test document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(SignatureBuilder.signatureFor(email1)
@@ -66,26 +71,32 @@ public class AttachmentFileExample extends SDKSample {
         packageId = eslClient.createAndSendPackage(superDuperPackage);
 
         retrievedPackage = eslClient.getPackage(packageId);
-        signer1Attachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
-        signer1Att1 = signer1Attachments.get(0);
+        signerAttachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
+        signerAtt = signerAttachments.get(0);
 
-        byte[] attachment1ForSigner1FileContent = new StreamDocumentSource(attachmentInputStream1).content();
-        eslClient.uploadAttachment(packageId, signer1Att1.getId(), ATTACHMENT_FILE_NAME1,
-                attachment1ForSigner1FileContent, SIGNER1_ID);
+        byte[] attachmentForSignerFileContent = new StreamDocumentSource(attachmentInputStream).content();
+        eslClient.uploadAttachment(packageId, signerAtt.getId(), ATTACHMENT_FILE_NAME,
+                attachmentForSignerFileContent, SIGNER1_ID);
+        signerAttachmentFileSize = attachmentForSignerFileContent.length;
 
         retrievedPackage = eslClient.getPackage(packageId);
-        signer1Attachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
-        signer1Att1 = signer1Attachments.get(0);
+        signerAttachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
+        signerAtt = signerAttachments.get(0);
 
-        filesAfterUpload = signer1Att1.getFiles();
+        filesAfterUpload = signerAtt.getFiles();
         AttachmentFile attachmentFile = filesAfterUpload.get(0);
 
-        eslClient.deleteAttachmentFile(packageId, signer1Att1.getId(), attachmentFile.getId(), SIGNER1_ID);
+        // Download signer attachment file
+        DownloadedFile downloadedAttachment = eslClient.getAttachmentRequirementService().downloadAttachmentFile(packageId, signerAtt.getId(), attachmentFile.getId());
+        Files.saveTo(downloadedAttachment.getContents(), downloadedAttachment.getFilename());
+        downloadedAttachmentFile = new File(downloadedAttachment.getFilename());
+
+        eslClient.deleteAttachmentFile(packageId, signerAtt.getId(), attachmentFile.getId(), SIGNER1_ID);
 
         retrievedPackage = eslClient.getPackage(packageId);
-        signer1Attachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
-        signer1Att1 = signer1Attachments.get(0);
+        signerAttachments = retrievedPackage.getSigner(email1).getAttachmentRequirements();
+        signerAtt = signerAttachments.get(0);
 
-        filesAfterDelete = signer1Att1.getFiles();
+        filesAfterDelete = signerAtt.getFiles();
     }
 }

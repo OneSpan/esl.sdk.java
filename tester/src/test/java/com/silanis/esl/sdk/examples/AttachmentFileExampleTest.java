@@ -14,5 +14,8 @@ public class AttachmentFileExampleTest {
 
         assertThat(example.filesAfterUpload.size(), is(1));
         assertThat(example.filesAfterDelete.size(), is(0));
+
+        assertThat("Signer attachment file was not downloaded correctly.", example.downloadedAttachmentFile.getName(), is(example.ATTACHMENT_FILE_NAME));
+        assertThat("Signer attachment file was not downloaded correctly.", example.downloadedAttachmentFile.length(), is(example.signerAttachmentFileSize));
     }
 }

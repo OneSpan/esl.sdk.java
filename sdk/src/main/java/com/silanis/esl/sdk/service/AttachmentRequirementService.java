@@ -85,6 +85,30 @@ public class AttachmentRequirementService {
     }
 
     /**
+     * Sender downloads the attachmentFile with file name.
+     *
+     * @param packageId    the package ID
+     * @param attachmentId the attachment's ID
+     * @param fileId the attachment file ID
+     * @return
+     */
+    public DownloadedFile downloadAttachmentFile(PackageId packageId, String attachmentId, Integer fileId) {
+        String path = template.urlFor(UrlTemplate.ATTACHMENT_FILE_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{attachmentId}", attachmentId)
+                .replace("{fileId}", String.valueOf(fileId))
+                .build();
+
+        try {
+            return client.getBytes(path);
+        } catch (RequestException e){
+            throw new EslServerException( "Could not download the attachment file.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not download the attachment file." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * @deprecated  This method was replaced by {@link #downloadAllAttachmentFilesForPackage}
      */
     @Deprecated
@@ -178,7 +202,7 @@ public class AttachmentRequirementService {
     public void deleteAttachmentFile(PackageId packageId, String attachmentId, Integer fileId, String signerSessionId) {
         SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
-        String path = template.urlFor(UrlTemplate.DELETE_ATTACHMENT_FILE_PATH)
+        String path = template.urlFor(UrlTemplate.ATTACHMENT_FILE_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{attachmentId}", attachmentId)
                 .replace("{fileId}", String.valueOf(fileId))
