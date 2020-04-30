@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.model.SubAccount;
+import com.silanis.esl.sdk.SubAccount;
 
 public class SubAccountBuilder {
 
@@ -93,10 +93,10 @@ public class SubAccountBuilder {
      */
     public SubAccount build() {
         SubAccount subAccount = new SubAccount();
-        subAccount.safeSetName(name);
-        subAccount.safeSetLanguage(language);
-        subAccount.safeSetTimezoneId(timezoneId);
-        subAccount.safeSetParentAccountId(parentAccountId);
+        subAccount.setName(name);
+        subAccount.setLanguage(language);
+        subAccount.setTimezoneId(timezoneId);
+        subAccount.setParentAccountId(parentAccountId);
         return subAccount;
     }
 }
