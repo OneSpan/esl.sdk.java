@@ -10,12 +10,12 @@ public class AccountRoleConverter {
     private final Optional<com.silanis.esl.api.model.AccountRole> apiAccountRoleOptional;
 
     public AccountRoleConverter(AccountRole sdkAccountRoleOptional) {
-        this.sdkAccountRoleOptional = Optional.of(sdkAccountRoleOptional);
+        this.sdkAccountRoleOptional = Optional.fromNullable(sdkAccountRoleOptional);
         this.apiAccountRoleOptional = Optional.absent();
     }
 
     public AccountRoleConverter(com.silanis.esl.api.model.AccountRole apiAccountRoleOptional) {
-        this.apiAccountRoleOptional = Optional.of(apiAccountRoleOptional);
+        this.apiAccountRoleOptional = Optional.fromNullable(apiAccountRoleOptional);
         this.sdkAccountRoleOptional = Optional.absent();
     }
 
