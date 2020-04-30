@@ -3,12 +3,15 @@ package com.silanis.esl.sdk.service;
 import com.silanis.esl.api.model.AccountRole;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.VerificationType;
-import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.AccessibleAccountResponse;
 import com.silanis.esl.sdk.Account;
 import com.silanis.esl.sdk.DelegationUser;
 import com.silanis.esl.sdk.internal.converter.*;
+import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
+import com.silanis.esl.sdk.internal.converter.AccountRoleConverter;
+import com.silanis.esl.sdk.internal.converter.DelegationUserConverter;
+import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 
 import java.util.ArrayList;
@@ -22,7 +25,7 @@ import java.util.Map;
  */
 public class AccountService {
 
-    private AccountApiClient apiClient;
+    private final AccountApiClient apiClient;
 
     public AccountService(AccountApiClient apiClient) {
         this.apiClient = apiClient;
@@ -173,13 +176,21 @@ public class AccountService {
         return apiClient.getVerificationTypes();
     }
 
-    public Result<AccountRole> getAccountRoles() { return apiClient.getAccountRoles(); }
+    public List<com.silanis.esl.sdk.AccountRole> getAccountRoles() {
+        List<com.silanis.esl.sdk.AccountRole> roles = new ArrayList<com.silanis.esl.sdk.AccountRole>();
+        for (AccountRole accountRole : apiClient.getAccountRoles()) {
+            roles.add(new AccountRoleConverter(accountRole).toSdkAccountRole());
+        }
+        return roles;
+    }
 
-    public void addAccountRole(AccountRole accountRole) { apiClient.addAccountRole(accountRole); }
+    public void addAccountRole(com.silanis.esl.sdk.AccountRole accountRole) { apiClient.addAccountRole(new AccountRoleConverter(accountRole).toApiAccountRole()); }
 
-    public void updateAccountRole(String accountRoleId, AccountRole accountRole) { apiClient.updateAccountRole(accountRoleId, accountRole); }
+    public void updateAccountRole(String accountRoleId, com.silanis.esl.sdk.AccountRole accountRole) { apiClient.updateAccountRole(accountRoleId, new AccountRoleConverter(accountRole).toApiAccountRole()); }
 
-    public AccountRole getAccountRole(String accountRoleId) { return apiClient.getAccountRole(accountRoleId); }
+    public com.silanis.esl.sdk.AccountRole getAccountRole(String accountRoleId) {
+        return new AccountRoleConverter(apiClient.getAccountRole(accountRoleId)).toSdkAccountRole();
+    }
 
     /**
      * Get a list of subAccounts from the account base on page request

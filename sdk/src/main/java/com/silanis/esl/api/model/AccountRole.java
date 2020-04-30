@@ -28,6 +28,17 @@ public class AccountRole extends Model implements Serializable {
     protected String description;
     protected boolean enabled;
 
+    public AccountRole() {
+    }
+
+    public AccountRole(String id, String name, List<String> permissions, String description, Boolean enabled) {
+        setId(id);
+        setName(name);
+        setPermissions(permissions);
+        setDescription(description);
+        setEnabled(enabled);
+    }
+
     public String getId() {
         return id;
     }

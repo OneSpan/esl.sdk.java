@@ -1,18 +1,17 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.AccountRole;
-import com.silanis.esl.api.model.Result;
+import com.silanis.esl.sdk.builder.AccountRoleBuilder;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public class AccountRolesExample extends SDKSample {
-    Result<AccountRole> result = null;
-    Result<AccountRole> result2 = null;
-    Result<AccountRole> result3 = null;
+    List<com.silanis.esl.sdk.AccountRole> result = null;
+    List<com.silanis.esl.sdk.AccountRole> result2 = null;
+    List<com.silanis.esl.sdk.AccountRole> result3 = null;
     String newAccountRoleId = null;
-    AccountRole newAccountRole = null;
+    com.silanis.esl.sdk.AccountRole newAccountRole = null;
     List<String> newAccountUsers = null;
 
     public static void main(String... args) {
@@ -22,13 +21,16 @@ public class AccountRolesExample extends SDKSample {
     public void execute() {
         result = eslClient.getAccountService().getAccountRoles();
         String newAccountRoleName = UUID.randomUUID().toString();
-        AccountRole accountRole = new AccountRole().setName(newAccountRoleName)
-            .setDescription("DESCRIPTION").setEnabled(true)
-            .setPermissions(Collections.singletonList(UUID.randomUUID().toString()));
+        com.silanis.esl.sdk.AccountRole accountRole = AccountRoleBuilder.newAccountRole()
+            .withName(newAccountRoleName)
+            .withPermissions(Collections.singletonList(UUID.randomUUID().toString()))
+            .withDescription("DESCRIPTION")
+            .withEnabled(true)
+            .build();
 
         eslClient.getAccountService().addAccountRole(accountRole);
 
-        for (AccountRole forAccountRole : result2.getResults()) {
+        for (com.silanis.esl.sdk.AccountRole forAccountRole : result2) {
             if (forAccountRole.getName().equals(newAccountRoleName)) {
                 newAccountRoleId = forAccountRole.getId();
             }

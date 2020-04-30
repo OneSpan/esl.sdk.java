@@ -6,7 +6,6 @@ import com.silanis.esl.api.model.DelegationUser;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.VerificationType;
-import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.EslException;
@@ -269,10 +268,11 @@ public class AccountApiClient {
     }
 
     public Result<AccountRole> getAccountRoles() {
+    public List<AccountRole> getAccountRoles() {
         String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
 
         try {
-            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<AccountRole>>() {});
+            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<AccountRole>>() {}).getResults();
         } catch (RequestException e) {
             throw new EslServerException("Could not get roles.", e);
         } catch (Exception e) {
