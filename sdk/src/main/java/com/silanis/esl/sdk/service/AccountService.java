@@ -1,5 +1,8 @@
 package com.silanis.esl.sdk.service;
 
+import com.silanis.esl.api.model.AccountRole;
+import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.AccessibleAccountResponse;
@@ -170,6 +173,13 @@ public class AccountService {
         return apiClient.getVerificationTypes();
     }
 
+    public Result<AccountRole> getAccountRoles() { return apiClient.getAccountRoles(); }
+
+    public void addAccountRole(AccountRole accountRole) { apiClient.addAccountRole(accountRole); }
+
+    public void updateAccountRole(String accountRoleId, AccountRole accountRole) { apiClient.updateAccountRole(accountRoleId, accountRole); }
+
+    public AccountRole getAccountRole(String accountRoleId) { return apiClient.getAccountRole(accountRoleId); }
 
     /**
      * Get a list of subAccounts from the account base on page request
@@ -224,4 +234,7 @@ public class AccountService {
     }
 
 
+    public void deleteAccountRole(String accountRoleId) { apiClient.deleteAccountRole(accountRoleId); }
+
+    public List<String> getAccountRoleUsers(String accountRoleId) { return apiClient.getAccountRoleUsers(accountRoleId); }
 }
