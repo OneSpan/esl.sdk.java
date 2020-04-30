@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.AccountRole;
+import com.silanis.esl.sdk.AccountRole;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,9 +13,9 @@ public class AccountRolesExampleTest {
 
         Assert.assertNotNull(example.result);
         Assert.assertNotNull(example.result2);
-        Assert.assertEquals(example.result.getCount() + 1, example.result2.getCount().intValue());
+        Assert.assertEquals(example.result.size() + 1, example.result2.size());
         AccountRole newAccountRole = null;
-        for (AccountRole forAccountRole : example.result2.getResults()) {
+        for (AccountRole forAccountRole : example.result2) {
             if (forAccountRole.getId().equals(example.newAccountRoleId)) {
                 newAccountRole = forAccountRole;
             }
@@ -25,7 +25,7 @@ public class AccountRolesExampleTest {
         Assert.assertNotNull(example.newAccountRole);
 
         newAccountRole = null;
-        for (AccountRole forAccountRole : example.result3.getResults()) {
+        for (AccountRole forAccountRole : example.result3) {
             if (forAccountRole.getId().equals(example.newAccountRoleId)) {
                 newAccountRole = forAccountRole;
             }
