@@ -34,7 +34,7 @@ public class PlanBuilder {
         return new PlanBuilder();
     }
 
-    public static PlanBuilder NewPlan(String name)
+    public static PlanBuilder newPlan(String name)
     {
         return new PlanBuilder().withName(name);
     }

@@ -16,7 +16,7 @@ public class CreateAndUpdateSubAccountExample extends SDKSample {
     public List<AccessibleAccountResponse> accessibleAccounts;
 
     private static final String PARENT_ACCOUNT_ID = "dummyAccountId";
-    public static final String NAME = "yw00h" + new SimpleDateFormat("HH:mm:ss").format(new Date());
+    public static final String NAME = "SubAccount_" + new SimpleDateFormat("HH:mm:ss").format(new Date());
     private static final String TIMEZONE_ID = "GMT";
     private static final String LANGUAGE = "en";
     private static final String UPDATE_TIMEZONE_ID = "Europe/Prague";

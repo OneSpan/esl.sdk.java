@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,9 @@ public class LicenseBuilder {
     private String status;
     private List<Transaction> transactions;
 
-    private LicenseBuilder() {}
+    private LicenseBuilder() {
+        transactions = new ArrayList<Transaction>();
+    }
 
     public static LicenseBuilder newLicense() {
         return new LicenseBuilder();
@@ -51,7 +54,7 @@ public class LicenseBuilder {
         return this;
     }
 
-    public LicenseBuilder WithTransaction(Date created, CreditCard creditCard, Price price)
+    public LicenseBuilder withTransaction(Date created, CreditCard creditCard, Price price)
     {
         Transaction transaction = new Transaction();
         transaction.setCreated(created);

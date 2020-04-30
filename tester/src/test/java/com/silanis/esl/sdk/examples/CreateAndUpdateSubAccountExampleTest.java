@@ -12,6 +12,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static com.silanis.esl.sdk.examples.CreateAndUpdateSubAccountExample.NAME;
 
+/*
+ * Since a fake AccountID is used in example class, a try catch statement is used to cover the "accountNotFound" exception. once a real account ID is used, the test will skip catch statement and assert response.
+ */
 public class CreateAndUpdateSubAccountExampleTest {
 
     @Test
