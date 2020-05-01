@@ -1,10 +1,13 @@
 package com.silanis.esl.sdk.service.apiclient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.silanis.esl.api.model.AccessibleAccountResponse;
+import com.silanis.esl.api.model.Account;
 import com.silanis.esl.api.model.AccountRole;
 import com.silanis.esl.api.model.DelegationUser;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
+import com.silanis.esl.api.model.SubAccount;
 import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
@@ -267,7 +270,6 @@ public class AccountApiClient {
         }
     }
 
-    public Result<AccountRole> getAccountRoles() {
     public List<AccountRole> getAccountRoles() {
         String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
 
