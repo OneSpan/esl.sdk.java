@@ -10,13 +10,13 @@ public class CreditCardConverter {
     private Optional<com.silanis.esl.sdk.CreditCard> sdkCreditCardOptional;
 
     public CreditCardConverter(CreditCard apiCreditCard ) {
-        apiCreditCardOptional = Optional.of( apiCreditCard );
+        apiCreditCardOptional = Optional.fromNullable( apiCreditCard );
         sdkCreditCardOptional = Optional.absent();
     }
 
     public CreditCardConverter(com.silanis.esl.sdk.CreditCard sdkCreditCard ) {
         apiCreditCardOptional = Optional.absent();
-        sdkCreditCardOptional = Optional.of( sdkCreditCard );
+        sdkCreditCardOptional = Optional.fromNullable( sdkCreditCard );
     }
 
     public CreditCard toAPICreditCard() {
@@ -35,7 +35,7 @@ public class CreditCardConverter {
             }
             return apiCreditCard;
         } else {
-            return apiCreditCardOptional.get();
+            return apiCreditCardOptional.orNull();
         }
     }
 
@@ -55,7 +55,7 @@ public class CreditCardConverter {
             }
             return sdkCreditCard;
         } else {
-            return sdkCreditCardOptional.get();
+            return sdkCreditCardOptional.orNull();
         }
     }
 }

@@ -11,13 +11,13 @@ public class PlanConverter {
     private Optional<com.silanis.esl.sdk.Plan> sdkPlanOptional;
 
     public PlanConverter(Plan apiPlan ) {
-        apiPlanOptional = Optional.of( apiPlan );
+        apiPlanOptional = Optional.fromNullable( apiPlan );
         sdkPlanOptional = Optional.absent();
     }
 
     public PlanConverter(com.silanis.esl.sdk.Plan sdkPlan ) {
         apiPlanOptional = Optional.absent();
-        sdkPlanOptional = Optional.of( sdkPlan );
+        sdkPlanOptional = Optional.fromNullable( sdkPlan );
     }
 
     public Plan toAPIPlan() {
@@ -54,7 +54,7 @@ public class PlanConverter {
             }
             return apiPlan;
         } else {
-            return apiPlanOptional.get();
+            return apiPlanOptional.orNull();
         }
     }
 
@@ -92,7 +92,7 @@ public class PlanConverter {
             }
             return sdkPlan;
         } else {
-            return sdkPlanOptional.get();
+            return sdkPlanOptional.orNull();
         }
     }
 }

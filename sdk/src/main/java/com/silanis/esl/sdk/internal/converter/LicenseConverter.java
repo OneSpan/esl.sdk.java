@@ -10,13 +10,13 @@ public class LicenseConverter {
     private Optional<com.silanis.esl.sdk.License> sdkLicenseOptional;
 
     public LicenseConverter(License apiLicense ) {
-        apiLicenseOptional = Optional.of( apiLicense );
+        apiLicenseOptional = Optional.fromNullable( apiLicense );
         sdkLicenseOptional = Optional.absent();
     }
 
     public LicenseConverter(com.silanis.esl.sdk.License sdkLicense ) {
         apiLicenseOptional = Optional.absent();
-        sdkLicenseOptional = Optional.of( sdkLicense );
+        sdkLicenseOptional = Optional.fromNullable( sdkLicense );
     }
 
     public License toAPILicense() {
@@ -37,7 +37,7 @@ public class LicenseConverter {
 
             return apiLicense;
         } else {
-            return apiLicenseOptional.get();
+            return apiLicenseOptional.orNull();
         }
     }
 
@@ -58,7 +58,7 @@ public class LicenseConverter {
             }
             return sdkLicense;
         } else {
-            return sdkLicenseOptional.get();
+            return sdkLicenseOptional.orNull();
         }
     }
 }

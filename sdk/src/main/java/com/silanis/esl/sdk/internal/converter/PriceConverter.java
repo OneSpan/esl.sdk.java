@@ -10,13 +10,13 @@ public class PriceConverter {
     private Optional<com.silanis.esl.sdk.Price> sdkPriceOptional;
 
     public PriceConverter(Price apiPrice ) {
-        apiPriceOptional = Optional.of( apiPrice );
+        apiPriceOptional = Optional.fromNullable( apiPrice );
         sdkPriceOptional = Optional.absent();
     }
 
     public PriceConverter(com.silanis.esl.sdk.Price sdkPrice ) {
         apiPriceOptional = Optional.absent();
-        sdkPriceOptional = Optional.of( sdkPrice );
+        sdkPriceOptional = Optional.fromNullable( sdkPrice );
     }
 
     public Price toAPIPrice() {
@@ -33,7 +33,7 @@ public class PriceConverter {
             }
             return apiPrice;
         } else {
-            return apiPriceOptional.get();
+            return apiPriceOptional.orNull();
         }
     }
 
@@ -51,7 +51,7 @@ public class PriceConverter {
             }
             return sdkPrice;
         } else {
-            return sdkPriceOptional.get();
+            return sdkPriceOptional.orNull();
         }
     }
 }

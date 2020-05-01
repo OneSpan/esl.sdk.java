@@ -11,13 +11,13 @@ public class AccountConverter {
     private Optional<com.silanis.esl.sdk.Account> sdkAccountOptional;
 
     public AccountConverter(Account apiAccount ) {
-        apiAccountOptional = Optional.of( apiAccount );
+        apiAccountOptional = Optional.fromNullable( apiAccount );
         sdkAccountOptional = Optional.absent();
     }
 
     public AccountConverter(com.silanis.esl.sdk.Account sdkAccount ) {
         apiAccountOptional = Optional.absent();
-        sdkAccountOptional = Optional.of( sdkAccount );
+        sdkAccountOptional = Optional.fromNullable( sdkAccount );
     }
 
     public Account toAPIAccount() {
@@ -45,7 +45,7 @@ public class AccountConverter {
             }
             return apiAccount;
         } else {
-            return apiAccountOptional.get();
+            return apiAccountOptional.orNull();
         }
     }
 
@@ -75,7 +75,7 @@ public class AccountConverter {
 
             return sdkAccount;
         } else {
-            return sdkAccountOptional.get();
+            return sdkAccountOptional.orNull();
         }
     }
 }

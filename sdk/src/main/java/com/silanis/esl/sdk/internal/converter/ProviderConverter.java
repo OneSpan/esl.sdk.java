@@ -9,13 +9,13 @@ public class ProviderConverter {
     private Optional<com.silanis.esl.sdk.Provider> sdkProviderOptional;
 
     public ProviderConverter(Provider apiProvider ) {
-        apiProviderOptional = Optional.of( apiProvider );
+        apiProviderOptional = Optional.fromNullable( apiProvider );
         sdkProviderOptional = Optional.absent();
     }
 
     public ProviderConverter(com.silanis.esl.sdk.Provider sdkProvider ) {
         apiProviderOptional = Optional.absent();
-        sdkProviderOptional = Optional.of( sdkProvider );
+        sdkProviderOptional = Optional.fromNullable( sdkProvider );
     }
 
     public Provider toAPIProvider() {
@@ -29,7 +29,7 @@ public class ProviderConverter {
 
             return apiProvider;
         } else {
-            return apiProviderOptional.get();
+            return apiProviderOptional.orNull();
         }
     }
 
@@ -44,7 +44,7 @@ public class ProviderConverter {
 
             return sdkProvider;
         } else {
-            return sdkProviderOptional.get();
+            return sdkProviderOptional.orNull();
         }
     }
 }

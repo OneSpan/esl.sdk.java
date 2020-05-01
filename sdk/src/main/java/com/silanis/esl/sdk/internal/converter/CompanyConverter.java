@@ -9,13 +9,13 @@ public class CompanyConverter {
     private Optional<com.silanis.esl.sdk.Company> sdkCompanyOptional;
 
     public CompanyConverter(Company apiCompany ) {
-        apiCompanyOptional = Optional.of( apiCompany );
+        apiCompanyOptional = Optional.fromNullable( apiCompany );
         sdkCompanyOptional = Optional.absent();
     }
 
     public CompanyConverter(com.silanis.esl.sdk.Company sdkCompany ) {
         apiCompanyOptional = Optional.absent();
-        sdkCompanyOptional = Optional.of( sdkCompany );
+        sdkCompanyOptional = Optional.fromNullable( sdkCompany );
     }
 
     public Company toAPICompany() {
@@ -31,7 +31,7 @@ public class CompanyConverter {
 
             return apiCompany;
         } else {
-            return apiCompanyOptional.get();
+            return apiCompanyOptional.orNull();
         }
     }
 
@@ -48,7 +48,7 @@ public class CompanyConverter {
 
             return sdkCompany;
         } else {
-            return sdkCompanyOptional.get();
+            return sdkCompanyOptional.orNull();
         }
     }
 }

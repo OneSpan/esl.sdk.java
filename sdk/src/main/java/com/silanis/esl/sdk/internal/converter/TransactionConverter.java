@@ -9,13 +9,13 @@ public class TransactionConverter {
     private Optional<com.silanis.esl.sdk.Transaction> sdkTransactionOptional;
 
     public TransactionConverter(Transaction apiTransaction ) {
-        apiTransactionOptional = Optional.of( apiTransaction );
+        apiTransactionOptional = Optional.fromNullable( apiTransaction );
         sdkTransactionOptional = Optional.absent();
     }
 
     public TransactionConverter(com.silanis.esl.sdk.Transaction sdkTransaction ) {
         apiTransactionOptional = Optional.absent();
-        sdkTransactionOptional = Optional.of( sdkTransaction );
+        sdkTransactionOptional = Optional.fromNullable( sdkTransaction );
     }
 
     public Transaction toAPITransaction() {
@@ -31,7 +31,7 @@ public class TransactionConverter {
             }
             return apiTransaction;
         } else {
-            return apiTransactionOptional.get();
+            return apiTransactionOptional.orNull();
         }
     }
 
@@ -48,7 +48,7 @@ public class TransactionConverter {
             }
             return sdkTransaction;
         } else {
-            return sdkTransactionOptional.get();
+            return sdkTransactionOptional.orNull();
         }
     }
 }

@@ -9,13 +9,13 @@ public class SubAccountConverter {
     private Optional<com.silanis.esl.sdk.SubAccount> sdkSubAccountOptional;
 
     public SubAccountConverter(SubAccount apiSubAccount ) {
-        apiSubAccountOptional = Optional.of( apiSubAccount );
+        apiSubAccountOptional = Optional.fromNullable( apiSubAccount );
         sdkSubAccountOptional = Optional.absent();
     }
 
     public SubAccountConverter(com.silanis.esl.sdk.SubAccount sdkSubAccount ) {
         apiSubAccountOptional = Optional.absent();
-        sdkSubAccountOptional = Optional.of( sdkSubAccount );
+        sdkSubAccountOptional = Optional.fromNullable( sdkSubAccount );
     }
 
     public SubAccount toAPISubAccount() {
@@ -29,7 +29,7 @@ public class SubAccountConverter {
 
             return apiSubAccount;
         } else {
-            return apiSubAccountOptional.get();
+            return apiSubAccountOptional.orNull();
         }
     }
 
@@ -44,7 +44,7 @@ public class SubAccountConverter {
 
             return sdkSubAccount;
         } else {
-            return sdkSubAccountOptional.get();
+            return sdkSubAccountOptional.orNull();
         }
     }
 }
