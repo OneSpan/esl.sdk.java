@@ -22,13 +22,16 @@ public class AccountRolesExample extends SDKSample {
         result = eslClient.getAccountService().getAccountRoles();
         String newAccountRoleName = UUID.randomUUID().toString();
         com.silanis.esl.sdk.AccountRole accountRole = AccountRoleBuilder.newAccountRole()
+            .withId("")
             .withName(newAccountRoleName)
-            .withPermissions(Collections.singletonList(UUID.randomUUID().toString()))
+            .withPermissions(Collections.singletonList("sender_admin.users"))
             .withDescription("DESCRIPTION")
             .withEnabled(true)
             .build();
 
         eslClient.getAccountService().addAccountRole(accountRole);
+
+        result2 = eslClient.getAccountService().getAccountRoles();
 
         for (com.silanis.esl.sdk.AccountRole forAccountRole : result2) {
             if (forAccountRole.getName().equals(newAccountRoleName)) {

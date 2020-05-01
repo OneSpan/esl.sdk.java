@@ -321,7 +321,9 @@ public class AccountApiClient {
     }
 
     public void deleteAccountRole(String accountRoleId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH).build();
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+            .replace("{accountRoleId}", accountRoleId)
+            .build();
 
         try {
             restClient.delete(path);
@@ -338,7 +340,7 @@ public class AccountApiClient {
             .build();
 
         try {
-            return JacksonUtil.deserializeList(restClient.get(path), String.class);
+            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<String>>() {}).getResults();
         } catch (RequestException e) {
             throw new EslServerException("Could not get account role users.", e);
         } catch (Exception e) {
