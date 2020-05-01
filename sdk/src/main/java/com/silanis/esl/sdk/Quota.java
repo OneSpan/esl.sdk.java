@@ -7,27 +7,35 @@ public class Quota {
     private String scope = "SENDER";
     private String target = "SIGNER";
 
-    public void setCycle(String value) { cycle = value; }
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
 
     public String getCycle(){
         return cycle;
     }
 
-    public void setLimit(Integer value) { limit = value; }
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
 
     public Integer getLimit(){
         return limit;
     }
 
-    public void setScope(String value) { scope = value; }
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
 
     public String getScope(){
         return scope;
     }
 
-    public void setTarget(String value) { target = value; }
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-    public String getTarget(){
+    public String getTarget() {
         return target;
     }
 }

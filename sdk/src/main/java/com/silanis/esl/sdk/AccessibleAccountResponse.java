@@ -9,15 +9,15 @@ public class AccessibleAccountResponse {
         return accountUid;
     }
 
-    public void setAccountUid(String value) {
-        this.accountUid = value;
+    public void setAccountUid(String accountUid) {
+        this.accountUid = accountUid;
     }
 
     public String getAccountName() {
         return accountName;
     }
 
-    public void setAccountName(String value) {
-        this.accountName = value;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 }

@@ -24,38 +24,37 @@ public class LicenseBuilder {
         return new LicenseBuilder();
     }
 
-    public LicenseBuilder withCreated(Date value) {
-        created = value;
+    public LicenseBuilder withCreated(Date created) {
+        this.created = created;
         return this;
     }
 
-    public LicenseBuilder withPaidUntil(Date value ) {
-        paidUntil = value;
+    public LicenseBuilder withPaidUntil(Date paidUntil) {
+        this.paidUntil = paidUntil;
         return this;
     }
 
-    public LicenseBuilder withStatus(String value) {
-        status = value;
+    public LicenseBuilder withStatus(String status) {
+        this.status = status;
         return this;
     }
 
-    public LicenseBuilder withPlan(Plan value) {
-        plan = value;
+    public LicenseBuilder withPlan(Plan plan) {
+        this.plan = plan;
         return this;
     }
 
-    public LicenseBuilder withTransactions(List<Transaction> value) {
-        transactions = value;
+    public LicenseBuilder withTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
         return this;
     }
 
-    public LicenseBuilder withTransaction(Transaction value) {
-        transactions.add(value);
+    public LicenseBuilder withTransaction(Transaction transaction) {
+        transactions.add(transaction);
         return this;
     }
 
-    public LicenseBuilder withTransaction(Date created, CreditCard creditCard, Price price)
-    {
+    public LicenseBuilder withTransaction(Date created, CreditCard creditCard, Price price) {
         Transaction transaction = new Transaction();
         transaction.setCreated(created);
         transaction.setCreditCard(creditCard);

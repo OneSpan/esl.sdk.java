@@ -5,13 +5,17 @@ public class CycleCount {
     private Integer count = 0;
     private String cycle = "DAY";
     
-    public void setCount(Integer value) { count = value; }
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 
     public Integer getCount(){
         return count;
     }
 
-    public void setCycle(String value) { cycle = value; }
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
 
     public String getCycle(){
         return cycle;

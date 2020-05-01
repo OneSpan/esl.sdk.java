@@ -5,36 +5,36 @@ import com.silanis.esl.sdk.Company;
 
 import java.util.Map;
 
-
 public class CompanyBuilder {
     private Address address;
     private String name;
     private String id;
     private Map<String, Object> data;
 
-    private CompanyBuilder() {}
+    private CompanyBuilder() {
+    }
 
     public static CompanyBuilder newCompany() {
         return new CompanyBuilder();
     }
 
-    public CompanyBuilder withAddress(Address value) {
-        address = value;
+    public CompanyBuilder withAddress(Address address) {
+        this.address = address;
         return this;
     }
 
-    public CompanyBuilder withId(String value ) {
-        id = value;
+    public CompanyBuilder withId(String id) {
+        this.id = id;
         return this;
     }
 
-    public CompanyBuilder withName(String value) {
-        name = value;
+    public CompanyBuilder withName(String name) {
+        this.name = name;
         return this;
     }
 
-    public CompanyBuilder withData(Map<String, Object> value) {
-        data = value;
+    public CompanyBuilder withData(Map<String, Object> data) {
+        this.data = data;
         return this;
     }
 

@@ -9,18 +9,20 @@ public class PriceBuilder {
     private Integer amount = 0;
     private Currency currency;
 
-    private PriceBuilder() {}
+    private PriceBuilder() {
+    }
 
     public static PriceBuilder newPrice() {
         return new PriceBuilder();
     }
-    public PriceBuilder withAmount(Integer value) {
-        amount = value;
+
+    public PriceBuilder withAmount(Integer amount) {
+        this.amount = amount;
         return this;
     }
 
-    public PriceBuilder withCurrency(Currency value) {
-        currency = value;
+    public PriceBuilder withCurrency(Currency currency) {
+        this.currency = currency;
         return this;
     }
 

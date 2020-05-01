@@ -1,15 +1,23 @@
 package com.silanis.esl.sdk;
 
-public class CcExpiration{
+public class CcExpiration {
 
     private Integer month;
     private Integer year;
-    
-    public void setMonth(Integer value) { month = value; }
 
-    public Integer getMonth() { return month; }
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
 
-    public void setYear(Integer value) { year = value; }
+    public Integer getMonth() {
+        return month;
+    }
 
-    public Integer getYear() { return year; }
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
 }

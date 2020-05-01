@@ -9,23 +9,35 @@ public class AccountProviders {
     private List<Provider> documents = new ArrayList<Provider>();
     private List<Provider> users = new ArrayList<Provider>();
 
-    public void setDocuments(List<Provider> value) { documents = value; }
-
-    public List<Provider> getDocuments() { return documents; }
-
-    public void addDocument(Provider value) {
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
-        documents.add(value);
+    public void setDocuments(List<Provider> providers) {
+        documents = providers;
     }
 
-    public void setUsers(List<Provider> value) { users = value; }
-
-    public List<Provider> getUsers() { return users; }
-
-    public void addUser(Provider value) {
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
-        users.add(value);
+    public List<Provider> getDocuments() {
+        return documents;
     }
-    
-    
+
+    public void addDocument(Provider provider) {
+        if (provider == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+        documents.add(provider);
+    }
+
+    public void setUsers(List<Provider> providers) {
+        users = providers;
+    }
+
+    public List<Provider> getUsers() {
+        return users;
+    }
+
+    public void addUser(Provider provider) {
+        if (provider == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+        users.add(provider);
+    }
+
+
 }

@@ -34,47 +34,47 @@ public class PlanBuilder {
         return new PlanBuilder();
     }
 
-    public static PlanBuilder newPlan(String name)
-    {
+    public static PlanBuilder newPlan(String name) {
         return new PlanBuilder().withName(name);
     }
-    public PlanBuilder withName(String value) {
-        name = value;
+
+    public PlanBuilder withName(String name) {
+        this.name = name;
         return this;
     }
 
-    public PlanBuilder withId(String value) {
-        id = value;
+    public PlanBuilder withId(String id) {
+        this.id = id;
         return this;
     }
 
-    public PlanBuilder withContract(String value) {
-        contract = value;
+    public PlanBuilder withContract(String contract) {
+        this.contract = contract;
         return this;
     }
 
-    public PlanBuilder withCycle(String value) {
-        cycle = value;
+    public PlanBuilder withCycle(String cycle) {
+        this.cycle = cycle;
         return this;
     }
 
-    public PlanBuilder withData(Map<String, Object> value) {
-        data = value;
+    public PlanBuilder withData(Map<String, Object> data) {
+        this.data = data;
         return this;
     }
 
-    public PlanBuilder withDescription(String value) {
-        description = value;
+    public PlanBuilder withDescription(String description) {
+        this.description = description;
         return this;
     }
 
-    public PlanBuilder withFeatures(Map<String, Object> value) {
-        features = value;
+    public PlanBuilder withFeatures(Map<String, Object> features) {
+        this.features = features;
         return this;
     }
 
-    public PlanBuilder withFreeCycles(CycleCount value) {
-        freeCycles = value;
+    public PlanBuilder withFreeCycles(CycleCount cycleCount) {
+        this.freeCycles = cycleCount;
         return this;
     }
 
@@ -85,28 +85,27 @@ public class PlanBuilder {
         return this;
     }
 
-    public PlanBuilder withGroup(String value) {
-        group = value;
+    public PlanBuilder withGroup(String group) {
+        this.group = group;
         return this;
     }
 
-    public PlanBuilder withOriginal(String value) {
-        original = value;
+    public PlanBuilder withOriginal(String original) {
+        this.original = original;
         return this;
     }
 
-    public PlanBuilder withPrice(Price value) {
-        price = value;
+    public PlanBuilder withPrice(Price price) {
+        this.price = price;
         return this;
     }
 
-    public PlanBuilder withQuota(Quota value) {
-        quotas.add(value);
+    public PlanBuilder withQuota(Quota quota) {
+        quotas.add(quota);
         return this;
     }
 
-    public PlanBuilder withQuota(String cycle, Integer limit, String scope, String target)
-    {
+    public PlanBuilder withQuota(String cycle, Integer limit, String scope, String target) {
         Quota quota = new Quota();
         quota.setCycle(cycle);
         quota.setLimit(limit);
@@ -129,8 +128,7 @@ public class PlanBuilder {
         plan.setFreeCycles(freeCycles);
         plan.setOriginal(original);
         plan.setGroup(group);
-        for (Quota quota : quotas)
-        {
+        for (Quota quota : quotas) {
             plan.addQuota(quota);
         }
         return plan;

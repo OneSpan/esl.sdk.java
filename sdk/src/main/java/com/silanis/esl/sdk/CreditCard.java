@@ -9,24 +9,44 @@ public class CreditCard {
     private String number;
     private String type;
 
-    public void setCvv(String value){ cvv = value; }
+    public void setCvv(String cvv){
+        this.cvv = cvv;
+    }
 
-    public String getCvv() { return cvv; }
+    public String getCvv() {
+        return cvv;
+    }
 
-    public void setExpiration(CcExpiration value) { expiration = value; }
+    public void setExpiration(CcExpiration expiration) {
+        this.expiration = expiration;
+    }
 
-    public CcExpiration getExpiration() { return expiration; }
+    public CcExpiration getExpiration() {
+        return expiration;
+    }
     
-    public void setName(String value){ name = value; }
+    public void setName(String name){
+        this.name = name;
+    }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setNumber(String value) { number = value; }
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-    public String getNumber() { return number; }
+    public String getNumber() {
+        return number;
+    }
 
-    public void setType(String value) { type = value; }
+    public void setType(String type) {
+        this.type = type;
+    }
 
-    public String getType() { return type; }
+    public String getType() {
+        return type;
+    }
 
 }

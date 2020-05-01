@@ -19,62 +19,106 @@ public class Account {
     private AccountProviders providers = null;
 
 
-    public void setCompany(Company value){
-       company = value;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
-    public Company getCompany(){
+    public Company getCompany() {
         return company;
     }
 
-    public java.util.Date getCreated(){ return created; }
-
-    public void setCreated(java.util.Date value){ created = value; }
-
-    public java.util.Date getUpdated() { return updated; }
-
-    public void setUpdated(java.util.Date value) { updated = value; }
-
-    public void setCustomFields(List<CustomField> value){ customFields = value; }
-
-    public List<CustomField> getCustomFields(){ return customFields; }
-
-    public void addCustomField(CustomField value){
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
-        customFields.add(value);
+    public java.util.Date getCreated() {
+        return created;
     }
 
-    public Map<String, Object> getData() { return data; }
-
-    public void setData(Map<String, Object> value) { data = value; }
-
-    public void setId(String value) { id = value; }
-
-    public String getId(){ return id; }
-
-    public void setName(String value) { name = value; }
-
-    public String getName() { return name; }
-
-    public void setLicenses(List<License> value) { licenses = value; }
-
-    public List<License> getLicenses() { return licenses; }
-
-    public void addLicense(License value) {
-        if (value == null) { throw new IllegalArgumentException("Argument cannot be null"); }
-        licenses.add(value);
+    public void setCreated(java.util.Date created) {
+        this.created = created;
     }
 
-    public void setLogoUrl(String value) { logoUrl = value; }
+    public java.util.Date getUpdated() {
+        return updated;
+    }
 
-    public String getLogoUrl() { return logoUrl; }
-    
-    public void setOwner(String value) { owner = value; }
+    public void setUpdated(java.util.Date updated) {
+        this.updated = updated;
+    }
 
-    public String getOwner() { return owner; }
+    public void setCustomFields(List<CustomField> customFields) {
+        this.customFields = customFields;
+    }
 
-    public void setProviders(AccountProviders value) { providers = value; }
+    public List<CustomField> getCustomFields() {
+        return customFields;
+    }
 
-    public AccountProviders getProviders() { return providers; }
+    public void addCustomField(CustomField customField) {
+        if (customField == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+        customFields.add(customField);
+    }
+
+    public Map<String, Object> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, Object> data) {
+        this.data = data;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setLicenses(List<License> licenses) {
+        this.licenses = licenses;
+    }
+
+    public List<License> getLicenses() {
+        return licenses;
+    }
+
+    public void addLicense(License license) {
+        if (license == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+        licenses.add(license);
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setProviders(AccountProviders providers) {
+        this.providers = providers;
+    }
+
+    public AccountProviders getProviders() {
+        return providers;
+    }
 
 }

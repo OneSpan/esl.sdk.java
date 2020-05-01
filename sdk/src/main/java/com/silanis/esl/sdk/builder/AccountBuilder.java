@@ -28,59 +28,58 @@ public class AccountBuilder {
         return new AccountBuilder();
     }
 
-    public AccountBuilder withName( String value ) {
-        name = value;
+    public AccountBuilder withName(String name) {
+        this.name = name;
         return this;
     }
 
-    public AccountBuilder withOwner( String value ) {
-        owner = value;
+    public AccountBuilder withOwner(String owner) {
+        this.owner = owner;
         return this;
     }
 
-    public AccountBuilder withLogoUrl( String value ) {
-        logoUrl = value;
+    public AccountBuilder withLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
         return this;
     }
 
-    public AccountBuilder withId( String value ) {
-        id = value;
+    public AccountBuilder withId(String id) {
+        this.id = id;
         return this;
     }
 
-    public AccountBuilder withCompany(Company value) {
-        company = value;
+    public AccountBuilder withCompany(Company company) {
+        this.company = company;
         return this;
     }
 
-    public AccountBuilder withCreated( Date value ) {
-        created = value;
+    public AccountBuilder withCreated(Date created) {
+        this.created = created;
         return this;
     }
 
-    public AccountBuilder withUpdated( Date value ) {
-        updated = value;
+    public AccountBuilder withUpdated(Date updated) {
+        this.updated = updated;
         return this;
     }
 
-    public AccountBuilder withCustomField( CustomField value ) {
-        customFields.add(value);
+    public AccountBuilder withCustomField(CustomField customField) {
+        this.customFields.add(customField);
         return this;
     }
 
 
-    public AccountBuilder withLicense(License value) {
-        licenses.add(value);
+    public AccountBuilder withLicense(License license) {
+        this.licenses.add(license);
         return this;
     }
 
-    public AccountBuilder withAccountProviders(AccountProviders value) {
-        providers = value;
+    public AccountBuilder withAccountProviders(AccountProviders accountProviders) {
+        this.providers = accountProviders;
         return this;
     }
 
-    public AccountBuilder withAccountProviders(List<Provider> documents, List<Provider> users)
-    {
+    public AccountBuilder withAccountProviders(List<Provider> documents, List<Provider> users) {
         providers = new AccountProviders();
         for (Provider provider : documents) {
             providers.addDocument(provider);
@@ -92,9 +91,8 @@ public class AccountBuilder {
         return this;
     }
 
-    public AccountBuilder withData(Map<String, Object> value)
-    {
-        data = value;
+    public AccountBuilder withData(Map<String, Object> data) {
+        this.data = data;
         return this;
     }
 
@@ -103,13 +101,12 @@ public class AccountBuilder {
         account.setCompany(company);
         account.setCreated(created);
         account.setUpdated(updated);
-        for( CustomField field : customFields ) {
+        for (CustomField field : customFields) {
             account.addCustomField(field);
         }
         account.setData(data);
         account.setId(id);
-        for (License license : licenses)
-        {
+        for (License license : licenses) {
             account.addLicense(license);
         }
         account.setLogoUrl(logoUrl);

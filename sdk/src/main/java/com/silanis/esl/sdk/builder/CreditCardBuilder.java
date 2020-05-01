@@ -10,32 +10,35 @@ public class CreditCardBuilder {
     private String number;
     private String type;
 
-    private CreditCardBuilder(){}
+    private CreditCardBuilder() {
+    }
 
-    public static CreditCardBuilder newCreditCard() { return new CreditCardBuilder(); }
+    public static CreditCardBuilder newCreditCard() {
+        return new CreditCardBuilder();
+    }
 
-    public CreditCardBuilder withCvv(String value) {
-        cvv = value;
+    public CreditCardBuilder withCvv(String cvv) {
+        this.cvv = cvv;
         return this;
     }
 
-    public CreditCardBuilder withName(String value) {
-        name = value;
+    public CreditCardBuilder withName(String name) {
+        this.name = name;
         return this;
     }
 
-    public CreditCardBuilder withType(String value) {
-        type = value;
+    public CreditCardBuilder withType(String type) {
+        this.type = type;
         return this;
     }
 
-    public CreditCardBuilder withNumber(String value) {
-        number = value;
+    public CreditCardBuilder withNumber(String number) {
+        this.number = number;
         return this;
     }
 
-    public CreditCardBuilder withExpiration(CcExpiration value) {
-        expiration = value;
+    public CreditCardBuilder withExpiration(CcExpiration expiration) {
+        this.expiration = expiration;
         return this;
     }
 

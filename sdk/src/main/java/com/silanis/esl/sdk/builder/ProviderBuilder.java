@@ -10,29 +10,30 @@ public class ProviderBuilder {
     private String id;
     private String name;
 
-    private ProviderBuilder() {}
+    private ProviderBuilder() {
+    }
 
     public static ProviderBuilder newProvider() {
         return new ProviderBuilder();
     }
-    
-    public ProviderBuilder withId(String value ) {
-        id = value;
+
+    public ProviderBuilder withId(String id) {
+        this.id = id;
         return this;
     }
 
-    public ProviderBuilder withName(String value) {
-        name = value;
+    public ProviderBuilder withName(String name) {
+        this.name = name;
         return this;
     }
 
-    public ProviderBuilder withData(Map<String, Object> value) {
-        data = value;
+    public ProviderBuilder withData(Map<String, Object> data) {
+        this.data = data;
         return this;
     }
 
-    public ProviderBuilder withProvides(String value) {
-        provides = value;
+    public ProviderBuilder withProvides(String provides) {
+        this.provides = provides;
         return this;
     }
 
