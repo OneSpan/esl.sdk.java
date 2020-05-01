@@ -19,7 +19,7 @@ public class AccountRoleConverter {
         this.sdkAccountRoleOptional = Optional.absent();
     }
 
-    public AccountRole toSdkAccountRole() {
+    public AccountRole toSDKAccountRole() {
         if (apiAccountRoleOptional.isPresent()) {
             com.silanis.esl.api.model.AccountRole role = apiAccountRoleOptional.get();
             return new AccountRole(role.getId(), role.getName(), role.getPermissions(), role.getDescription(), role.isEnabled());
@@ -27,7 +27,7 @@ public class AccountRoleConverter {
         return sdkAccountRoleOptional.isPresent() ? sdkAccountRoleOptional.get() : null;
     }
 
-    public com.silanis.esl.api.model.AccountRole toApiAccountRole() {
+    public com.silanis.esl.api.model.AccountRole toAPIAccountRole() {
         if (sdkAccountRoleOptional.isPresent()) {
             AccountRole role = sdkAccountRoleOptional.get();
             return new com.silanis.esl.api.model.AccountRole(role.getId(), role.getName(), role.getPermissions(), role.getDescription(), role.isEnabled());

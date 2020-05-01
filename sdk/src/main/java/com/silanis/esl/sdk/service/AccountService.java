@@ -179,17 +179,17 @@ public class AccountService {
     public List<com.silanis.esl.sdk.AccountRole> getAccountRoles() {
         List<com.silanis.esl.sdk.AccountRole> roles = new ArrayList<com.silanis.esl.sdk.AccountRole>();
         for (AccountRole accountRole : apiClient.getAccountRoles()) {
-            roles.add(new AccountRoleConverter(accountRole).toSdkAccountRole());
+            roles.add(new AccountRoleConverter(accountRole).toSDKAccountRole());
         }
         return roles;
     }
 
-    public void addAccountRole(com.silanis.esl.sdk.AccountRole accountRole) { apiClient.addAccountRole(new AccountRoleConverter(accountRole).toApiAccountRole()); }
+    public void addAccountRole(com.silanis.esl.sdk.AccountRole accountRole) { apiClient.addAccountRole(new AccountRoleConverter(accountRole).toAPIAccountRole()); }
 
-    public void updateAccountRole(String accountRoleId, com.silanis.esl.sdk.AccountRole accountRole) { apiClient.updateAccountRole(accountRoleId, new AccountRoleConverter(accountRole).toApiAccountRole()); }
+    public void updateAccountRole(String accountRoleId, com.silanis.esl.sdk.AccountRole accountRole) { apiClient.updateAccountRole(accountRoleId, new AccountRoleConverter(accountRole).toAPIAccountRole()); }
 
     public com.silanis.esl.sdk.AccountRole getAccountRole(String accountRoleId) {
-        return new AccountRoleConverter(apiClient.getAccountRole(accountRoleId)).toSdkAccountRole();
+        return new AccountRoleConverter(apiClient.getAccountRole(accountRoleId)).toSDKAccountRole();
     }
 
     /**
