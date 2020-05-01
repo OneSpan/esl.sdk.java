@@ -1,7 +1,14 @@
 package com.silanis.esl.sdk.service.apiclient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.model.AccessibleAccountResponse;
+import com.silanis.esl.api.model.Account;
+import com.silanis.esl.api.model.AccountRole;
+import com.silanis.esl.api.model.DelegationUser;
+import com.silanis.esl.api.model.Result;
+import com.silanis.esl.api.model.Sender;
+import com.silanis.esl.api.model.SubAccount;
+import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.EslException;
@@ -18,20 +25,19 @@ import java.util.List;
  */
 public class AccountApiClient {
 
-    private UrlTemplate template;
-    private RestClient restClient;
+    private final UrlTemplate template;
+    private final RestClient restClient;
 
     public AccountApiClient(RestClient restClient, String apiUrl) {
         this.restClient = restClient;
-        template = new UrlTemplate(apiUrl);
+        this.template = new UrlTemplate(apiUrl);
     }
 
     public Sender inviteUser(Sender sender) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_PATH).build();
         try {
             String stringResponse = restClient.post(path, Serialization.toJson(sender));
-            Sender apiResponse = Serialization.fromJson(stringResponse, Sender.class);
-            return apiResponse;
+            return Serialization.fromJson(stringResponse, Sender.class);
         } catch (RequestException e) {
             throw new EslServerException("Unable to invite member to account.", e);
         } catch (Exception e) {
@@ -61,9 +67,7 @@ public class AccountApiClient {
 
         try {
             String stringResponse = restClient.get(path);
-            Result<Sender> apiResponse = JacksonUtil.deserialize(stringResponse, new TypeReference<Result<Sender>>() {
-            });
-            return apiResponse;
+            return JacksonUtil.deserialize(stringResponse, new TypeReference<Result<Sender>>() {});
         } catch (RequestException e) {
             throw new EslServerException("Failed to retrieve Account Members List.", e);
         } catch (Exception e) {
@@ -205,11 +209,9 @@ public class AccountApiClient {
 
         try {
             String stringResponse = restClient.get(path);
-            Result result = Serialization.fromJson(stringResponse, Result.class);
+            Result<?> result = Serialization.fromJson(stringResponse, Result.class);
 
-            List<VerificationType> verificationTypes = Serialization.fromJsonToList(Serialization.toJson(result.getResults()), VerificationType.class);
-
-            return verificationTypes;
+            return Serialization.fromJsonToList(Serialization.toJson(result.getResults()), VerificationType.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get verification types.", e);
         } catch (Exception e) {
@@ -265,6 +267,86 @@ public class AccountApiClient {
             throw new EslServerException("Could not update subAccount.", e);
         } catch (Exception e) {
             throw new EslException("Could not update subAccount." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<AccountRole> getAccountRoles() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
+
+        try {
+            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<AccountRole>>() {}).getResults();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get roles.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get roles." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void addAccountRole(AccountRole accountRole) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
+
+        try {
+            restClient.post(path, JacksonUtil.serialize(accountRole));
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add account role.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not add account role." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void updateAccountRole(String accountRoleId, AccountRole accountRole) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+            .replace("{accountRoleId}", accountRoleId)
+            .build();
+
+        try {
+            restClient.put(path, JacksonUtil.serialize(accountRole));
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update account role.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update account role." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public AccountRole getAccountRole(String accountRoleId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+            .replace("{accountRoleId}", accountRoleId)
+            .build();
+
+        try {
+            return JacksonUtil.deserialize(restClient.get(path), AccountRole.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get account role.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get account role." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void deleteAccountRole(String accountRoleId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+            .replace("{accountRoleId}", accountRoleId)
+            .build();
+
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete account role.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete account role." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<String> getAccountRoleUsers(String accountRoleId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_USERS_PATH)
+            .replace("{accountRoleId}", accountRoleId)
+            .build();
+
+        try {
+            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<String>>() {}).getResults();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get account role users.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get account role users." + " Exception: " + e.getMessage(), e);
         }
     }
 }
