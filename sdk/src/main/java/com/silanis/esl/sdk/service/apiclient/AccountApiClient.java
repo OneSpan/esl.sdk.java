@@ -1,10 +1,7 @@
 package com.silanis.esl.sdk.service.apiclient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.silanis.esl.api.model.DelegationUser;
-import com.silanis.esl.api.model.Result;
-import com.silanis.esl.api.model.Sender;
-import com.silanis.esl.api.model.VerificationType;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.EslException;
@@ -217,6 +214,57 @@ public class AccountApiClient {
             throw new EslServerException("Could not get verification types.", e);
         } catch (Exception e) {
             throw new EslException("Could not get verification types." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<Account> getSubAccounts() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, Account.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get subAccounts.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get subAccounts." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<AccessibleAccountResponse> getAccessibleAccounts() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, AccessibleAccountResponse.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get accessibleAccounts.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get accessibleAccounts." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public Account createSubAccount(SubAccount subAccount) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
+        try {
+            String json = Serialization.toJson(subAccount);
+            String stringResponse = restClient.post(path, json);
+            return Serialization.fromJson(stringResponse, Account.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not create subAccount.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not create subAccount." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void updateSubAccount(SubAccount subAccount, String accountId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ID_PATH)
+                .replace("{accountId}", accountId)
+                .build();
+        try {
+            String json = Serialization.toJson(subAccount);
+            restClient.put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update subAccount.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update subAccount." + " Exception: " + e.getMessage(), e);
         }
     }
 }

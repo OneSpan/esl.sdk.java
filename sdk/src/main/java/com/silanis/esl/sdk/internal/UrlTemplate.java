@@ -177,6 +177,12 @@ public class UrlTemplate {
     public static final String HANDOVER_URL_PATH = "/accountConfig/handoverUrl/{language}";
     public static final String DECLINE_REASONS_URL_PATH = "/accountConfig/declineReasons/{language}";
 
+    // Account SubAccount Service
+    public static final String ACCOUNT_SUBACCOUNTS_PATH="/account/subaccounts";
+    public static final String ACCOUNT_SUBACCOUNTS_ID_PATH="/account/subaccounts/{accountId}";
+    public static final String ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH="/account/accessibleaccounts";
+
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }

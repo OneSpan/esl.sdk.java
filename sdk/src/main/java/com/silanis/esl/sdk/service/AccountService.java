@@ -1,11 +1,11 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.Result;
-import com.silanis.esl.api.model.VerificationType;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.converter.AccountMemberConverter;
-import com.silanis.esl.sdk.internal.converter.DelegationUserConverter;
-import com.silanis.esl.sdk.internal.converter.SenderConverter;
+import com.silanis.esl.sdk.AccessibleAccountResponse;
+import com.silanis.esl.sdk.Account;
+import com.silanis.esl.sdk.DelegationUser;
+import com.silanis.esl.sdk.internal.converter.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 
 import java.util.ArrayList;
@@ -168,6 +168,59 @@ public class AccountService {
 
     public List<VerificationType> getVerificationTypes() {
         return apiClient.getVerificationTypes();
+    }
+
+
+    /**
+     * Get a list of subAccounts from the account base on page request
+     *
+     * @return A list of all the subAccounts of the account.
+     */
+    public List<com.silanis.esl.sdk.Account> getSubAccounts() {
+        List<com.silanis.esl.api.model.Account> apiAccounts = apiClient.getSubAccounts();
+        List<com.silanis.esl.sdk.Account> accounts = new ArrayList<Account>();
+        for (com.silanis.esl.api.model.Account account : apiAccounts) {
+            accounts.add(new AccountConverter(account).toSDKAccount());
+        }
+        return accounts;
+
+    }
+
+    /**
+     * Get a list of accessible subAccounts from the account base on page request
+     *
+     * @return A list of accessible subAccounts of the account.
+     */
+    public List<com.silanis.esl.sdk.AccessibleAccountResponse> getAccessibleAccounts() {
+        List<com.silanis.esl.api.model.AccessibleAccountResponse> apiAccessibleAccounts = apiClient.getAccessibleAccounts();
+        List<com.silanis.esl.sdk.AccessibleAccountResponse> accountResponses = new ArrayList<AccessibleAccountResponse>();
+        for (com.silanis.esl.api.model.AccessibleAccountResponse accountResponse : apiAccessibleAccounts) {
+            accountResponses.add(new AccessibleAccountResponseConverter(accountResponse).toSDKAccessibleAccountResponse());
+        }
+        return accountResponses;
+    }
+
+
+    /**
+     * Create new subAccount for the account base on page request
+     *
+     * @param subAccount The created info of the subAccount
+     */
+    public com.silanis.esl.sdk.Account createSubAccount(com.silanis.esl.sdk.SubAccount subAccount) {
+        com.silanis.esl.api.model.SubAccount apiSubAccount = new SubAccountConverter(subAccount).toAPISubAccount();
+        com.silanis.esl.api.model.Account apiAccount = apiClient.createSubAccount(apiSubAccount);
+        return new AccountConverter(apiAccount).toSDKAccount();
+    }
+
+    /**
+     * Update the information of a subAccount
+     *
+     * @param subAccount The updated info of the subAccount
+     * @param accountId The subAccount Id
+     */
+    public void updateSubAccount(com.silanis.esl.sdk.SubAccount subAccount, String accountId) {
+        com.silanis.esl.api.model.SubAccount apiSubAccount = new SubAccountConverter(subAccount).toAPISubAccount();
+        apiClient.updateSubAccount(apiSubAccount, accountId);
     }
 
 
