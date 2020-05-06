@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import java.util.Date;
+
 /**
  * Created by schoi on 3/23/15.
  */
@@ -10,6 +12,7 @@ public class DelegationUser {
     private String id;
     private String lastName;
     private String name;
+    private Date expiryDate;
 
     public String getEmail() {
         return email;
@@ -50,4 +53,8 @@ public class DelegationUser {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Date getExpiryDate() { return expiryDate; }
+
+    public void setExpiryDate(Date expiryDate) { this.expiryDate = expiryDate; }
 }

@@ -2,7 +2,14 @@ package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.silanis.esl.api.util.JsonDateDeserializer;
+import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.Date;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class DelegationUser extends Model
       implements java.io.Serializable
@@ -19,9 +26,15 @@ public class DelegationUser extends Model
     public static final String FIELD_LASTNAME = "lastName";
     @JsonIgnore
     public static final String FIELD_NAME = "name";
+    @JsonIgnore
+    public static final String FIELD_EXPIRY_DATE = "expiryDate";
     
     // Empty Constructor
     public DelegationUser ( ) {}
+
+    public DelegationUser(String id) {
+        this.setId(id);
+    }
     
     // Fields
     protected String _email = "";
@@ -29,6 +42,7 @@ public class DelegationUser extends Model
     protected String _id = "";
     protected String _lastName = "";
     protected String _name = "";
+    private Date _expiryDate;
     
     // Accessors
         
@@ -135,6 +149,17 @@ public class DelegationUser extends Model
     public String getName(){
         return _name;
     }
-    
+
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    public DelegationUser setExpiryDate(Date _expiryDate) {
+        this._expiryDate = _expiryDate;
+        setDirty(FIELD_EXPIRY_DATE);
+        return this;
+    }
+
+    @JsonSerialize(using = JsonDateSerializer.class)
+    public Date getExpiryDate() {
+        return _expiryDate;
+    }
     
 }

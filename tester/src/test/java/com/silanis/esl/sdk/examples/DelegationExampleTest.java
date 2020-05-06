@@ -43,6 +43,9 @@ public class DelegationExampleTest {
         assertTrue("Delegation users were not updated correctly.", assertContainDelegationUser(example.delegationUserListAfterUpdating, example.delegationUser9));
 
         assertThat("Delegation users were not cleared correctly.", example.delegationUserListAfterClearing.size(), is(0));
+
+        assertThat("Delegation users were not updated correctly.", assertContainDelegationUser(example.delegationUserListAfterUpdatingWithObjects, example.delegationUser10));
+        assertThat("Delegation users were not updated correctly.", assertContainDelegationUser(example.delegationUserListAfterUpdatingWithObjects, example.delegationUser11));
     }
 
     private boolean assertContainDelegationUser(List<DelegationUser> delegationUserList, DelegationUser delegationUser) {

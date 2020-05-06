@@ -131,8 +131,22 @@ public class AccountService {
      * @param senderId Id of the sender who's delegation users we are to update.
      * @param delegateIds The delegate Ids to be updated.
      */
-    public void updateDelegates(String senderId, List<String> delegateIds) {
+    public  void updateDelegates(String senderId, List<String> delegateIds) {
         apiClient.updateDelegates(senderId, delegateIds);
+    }
+
+    /**
+     * Update the information of delegates
+     *
+     * @param senderId Id of the sender who's delegation users we are to update.
+     * @param delegates The delegates to be updated.
+     */
+    public void updateDelegationWithDelegationUsers(String senderId, List<DelegationUser> delegates) {
+        List<com.silanis.esl.api.model.DelegationUser> apiDelegates = new ArrayList<com.silanis.esl.api.model.DelegationUser>();
+        for(DelegationUser delegate : delegates) {
+            apiDelegates.add(new DelegationUserConverter(delegate).toAPIDelegationUser());
+        }
+        apiClient.updateDelegates(senderId, apiDelegates);
     }
 
     /**

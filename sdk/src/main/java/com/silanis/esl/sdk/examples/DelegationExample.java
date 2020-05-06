@@ -7,20 +7,24 @@ import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.DelegationUserBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by schoi on 3/23/15.
  */
 public class DelegationExample extends SDKSample {
-    public String email7, email8, email9;
+    public String email7, email8, email9, email10, email11;
 
     public Sender retrievedOwner, retrievedSender1, retrievedSender2, retrievedSender3,
-            retrievedSender4, retrievedSender5, retrievedSender6, retrievedSender7, retrievedSender8, retrievedSender9;
+            retrievedSender4, retrievedSender5, retrievedSender6, retrievedSender7, retrievedSender8, retrievedSender9,
+            retrievedSender10, retrievedSender11;
     public DelegationUser delegationUser1, delegationUser2, delegationUser3,
-            delegationUser4, delegationUser5, delegationUser6, delegationUser7, delegationUser8, delegationUser9;;
+            delegationUser4, delegationUser5, delegationUser6, delegationUser7, delegationUser8, delegationUser9,
+            delegationUser10, delegationUser11;
     public List<DelegationUser> delegationUserListAfterAdding, delegationUserListAfterRemoving, delegationUserListAfterUpdating
-            ,delegationUserListAfterClearing;
+            ,delegationUserListAfterClearing, delegationUserListAfterUpdatingWithObjects;
 
     public static void main( String... args ) {
         new DelegationExample().run();
@@ -36,6 +40,8 @@ public class DelegationExample extends SDKSample {
         this.email7 = getRandomEmail();
         this.email8 = getRandomEmail();
         this.email9 = getRandomEmail();
+        this.email10 = getRandomEmail();
+        this.email11 = getRandomEmail();
     }
 
     public void execute() {
@@ -49,6 +55,8 @@ public class DelegationExample extends SDKSample {
         AccountMember accountMember7 = getAccountMember(email7, "firstName7", "lastName7", "company7", "title7", "language7", "phoneNumber7");
         AccountMember accountMember8 = getAccountMember(email8, "firstName8", "lastName8", "company8", "title8", "language8", "phoneNumber8");
         AccountMember accountMember9 = getAccountMember(email9, "firstName9", "lastName9", "company9", "title9", "language9", "phoneNumber9");
+        AccountMember accountMember10 = getAccountMember(email10, "firstName10", "lastName10", "company10", "title10", "language10", "phoneNumber10");
+        AccountMember accountMember11 = getAccountMember(email11, "firstName11", "lastNam11", "company11", "title11", "language11", "phoneNumber11");
 
         Sender createdOwnerMember = eslClient.getAccountService().inviteUser(ownerMember);
         Sender createdSender1 = eslClient.getAccountService().inviteUser(accountMember1);
@@ -60,6 +68,8 @@ public class DelegationExample extends SDKSample {
         Sender createdSender7 = eslClient.getAccountService().inviteUser(accountMember7);
         Sender createdSender8 = eslClient.getAccountService().inviteUser(accountMember8);
         Sender createdSender9 = eslClient.getAccountService().inviteUser(accountMember9);
+        Sender createdSender10 = eslClient.getAccountService().inviteUser(accountMember10);
+        Sender createdSender11 = eslClient.getAccountService().inviteUser(accountMember11);
 
         retrievedOwner = eslClient.getAccountService().getSender(createdOwnerMember.getId());
         retrievedSender1 = eslClient.getAccountService().getSender(createdSender1.getId());
@@ -71,6 +81,8 @@ public class DelegationExample extends SDKSample {
         retrievedSender7 = eslClient.getAccountService().getSender(createdSender7.getId());
         retrievedSender8 = eslClient.getAccountService().getSender(createdSender8.getId());
         retrievedSender9 = eslClient.getAccountService().getSender(createdSender9.getId());
+        retrievedSender10 = eslClient.getAccountService().getSender(createdSender10.getId());
+        retrievedSender11 = eslClient.getAccountService().getSender(createdSender11.getId());
 
         delegationUser1 = DelegationUserBuilder.newDelegationUser(retrievedSender1).build();
         delegationUser2 = DelegationUserBuilder.newDelegationUser(retrievedSender2).build();
@@ -105,6 +117,19 @@ public class DelegationExample extends SDKSample {
 
         eslClient.getAccountService().clearDelegates(createdOwnerMember.getId());
         delegationUserListAfterClearing = eslClient.getAccountService().getDelegates(createdOwnerMember.getId());
+
+        delegationUser10 = DelegationUserBuilder.newDelegationUser(retrievedSender10).withExpiryDate(new Date()).build();
+        delegationUser11 = DelegationUserBuilder.newDelegationUser(retrievedSender11).withExpiryDate(new Date()).build();
+
+        List<DelegationUser> delegates = new ArrayList<DelegationUser>();
+        delegates.add(delegationUser10);
+        delegates.add(delegationUser11);
+
+        eslClient.getAccountService().updateDelegationWithDelegationUsers(createdOwnerMember.getId(), delegates);
+
+        delegationUserListAfterUpdatingWithObjects = eslClient.getAccountService().getDelegates(createdOwnerMember.getId());
+
+
     }
 
     private AccountMember getAccountMember(String email, String firstName, String lastName, String company, String title, String language, String phoneNumber) {
