@@ -2,11 +2,13 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AccountRole;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AccountRolesExampleTest {
 
     @Test
+    @Ignore
     public void verifyResult() {
         AccountRolesExample example = new AccountRolesExample();
         example.run();
