@@ -6,6 +6,9 @@ import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.*;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
@@ -51,8 +54,8 @@ public class GenericFieldsExample extends SDKSample {
     public static final String DATEPICKER_ID = "datepickerId";
     public static final String DATEPICKER_NAME = "datepickerName";
     public static final int DATEPICKER_PAGE = 0;
-    public static final String DATEPICKER_VALUE = "datepickerValue";
     public static final String DATEPICKER_FORMAT = "MM-dd-YYYY";
+    public static final String DATEPICKER_VALUE = new SimpleDateFormat(DATEPICKER_FORMAT).format(new Date());
     public static final Integer DATEPICKER_FIELD_FONT_SIZE = null;
 
     private int textfieldPositionX = 400;
