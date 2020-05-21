@@ -131,7 +131,7 @@ public class AccountApiClient {
         }
     }
 
-    public void updateDelegates(String senderId, List<String> delegateIds) {
+    public <T> void updateDelegates(String senderId, List<T> delegateIds) {
         String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
                               .replace("{senderId}", senderId)
                               .build();

@@ -44,6 +44,7 @@ public class DelegationUserConverter {
         result.setId(sdkDelegationUser.getId());
         result.setLastName(sdkDelegationUser.getLastName());
         result.setName(sdkDelegationUser.getName());
+        result.setExpiryDate(sdkDelegationUser.getExpiryDate());
         return result;
     }
 
@@ -63,6 +64,7 @@ public class DelegationUserConverter {
             .withId( apiDelegationUser.getId() )
             .withLastName(apiDelegationUser.getLastName() )
             .withName(apiDelegationUser.getName() )
+            .withExpiryDate(apiDelegationUser.getExpiryDate() )
             .build();
     }
 }

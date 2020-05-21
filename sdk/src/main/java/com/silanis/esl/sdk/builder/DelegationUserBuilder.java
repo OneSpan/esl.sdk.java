@@ -2,6 +2,8 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.Sender;
 
+import java.util.Date;
+
 /**
  * Created by schoi on 3/23/15.
  */
@@ -11,6 +13,7 @@ public class DelegationUserBuilder {
     private String id;
     private String lastName;
     private String name;
+    private Date expiryDate;
 
     private DelegationUserBuilder( String email ) {
         this.email = email;
@@ -81,6 +84,17 @@ public class DelegationUserBuilder {
      */
     public DelegationUserBuilder withName( String name ) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     * Sets the delegation user's expiry date
+     *
+     * @param expiryDate - delegation expiration date
+     * @return the delegation user builder itself
+     */
+    public DelegationUserBuilder withExpiryDate( Date expiryDate ) {
+        this.expiryDate = expiryDate;
         return this;
     }
 
