@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-public class AccountRolesExample extends SDKSample {
+public class AccountRolesExample extends SDKSampleWithRolesAndPermission {
     List<com.silanis.esl.sdk.AccountRole> result = null;
     List<com.silanis.esl.sdk.AccountRole> result2 = null;
     List<com.silanis.esl.sdk.AccountRole> result3 = null;
