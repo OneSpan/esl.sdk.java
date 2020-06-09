@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.builder.AccountRoleBuilder;
+import com.silanis.esl.sdk.EslClient;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,13 +14,14 @@ public class AccountRolesExample extends SDKSampleWithRolesAndPermission {
     String newAccountRoleId = null;
     com.silanis.esl.sdk.AccountRole newAccountRole = null;
     List<String> newAccountUsers = null;
+    private EslClient client = eslClientForRolesAndPermission;
 
     public static void main(String... args) {
         new AccountRolesExample().run();
     }
 
     public void execute() {
-        result = eslClient.getAccountService().getAccountRoles();
+        result = client.getAccountService().getAccountRoles();
         String newAccountRoleName = UUID.randomUUID().toString();
         com.silanis.esl.sdk.AccountRole accountRole = AccountRoleBuilder.newAccountRole()
             .withId("")
@@ -29,9 +31,9 @@ public class AccountRolesExample extends SDKSampleWithRolesAndPermission {
             .withEnabled(true)
             .build();
 
-        eslClient.getAccountService().addAccountRole(accountRole);
+        client.getAccountService().addAccountRole(accountRole);
 
-        result2 = eslClient.getAccountService().getAccountRoles();
+        result2 = client.getAccountService().getAccountRoles();
 
         for (com.silanis.esl.sdk.AccountRole forAccountRole : result2) {
             if (forAccountRole.getName().equals(newAccountRoleName)) {
@@ -40,15 +42,15 @@ public class AccountRolesExample extends SDKSampleWithRolesAndPermission {
         }
 
         accountRole.setDescription("NEW - DESCRIPTION");
-        eslClient.getAccountService().updateAccountRole(newAccountRoleId, accountRole);
+        client.getAccountService().updateAccountRole(newAccountRoleId, accountRole);
 
-        result2 = eslClient.getAccountService().getAccountRoles();
+        result2 = client.getAccountService().getAccountRoles();
 
-        newAccountRole = eslClient.getAccountService().getAccountRole(newAccountRoleId);
+        newAccountRole = client.getAccountService().getAccountRole(newAccountRoleId);
 
-        newAccountUsers = eslClient.getAccountService().getAccountRoleUsers(newAccountRoleId);
+        newAccountUsers = client.getAccountService().getAccountRoleUsers(newAccountRoleId);
 
-        eslClient.getAccountService().deleteAccountRole(newAccountRoleId);
-        result3 = eslClient.getAccountService().getAccountRoles();
+        client.getAccountService().deleteAccountRole(newAccountRoleId);
+        result3 = client.getAccountService().getAccountRoles();
     }
 }
