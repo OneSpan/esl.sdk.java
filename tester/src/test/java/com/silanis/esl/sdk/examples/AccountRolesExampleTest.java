@@ -8,6 +8,7 @@ import org.junit.Test;
 public class AccountRolesExampleTest {
 
     @Test
+    @Ignore
     public void verifyResult() {
         AccountRolesExample example = new AccountRolesExample();
         example.run();
