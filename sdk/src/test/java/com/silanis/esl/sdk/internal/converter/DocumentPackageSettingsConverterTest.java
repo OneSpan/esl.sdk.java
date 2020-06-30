@@ -115,6 +115,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Hide second affidavit was not correctly set", sdkPackageSettings1.getEnableSecondAffidavit(), is(!apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit()));
         assertThat("Default time based expiry flag was not correctly set", sdkPackageSettings1.getDefaultTimeBasedExpiry(), is(apiPackageSettings1.getCeremony().getDefaultTimeBasedExpiry()));
         assertThat("Remaining Days was not correctly set", sdkPackageSettings1.getRemainingDays(), is(apiPackageSettings1.getCeremony().getRemainingDays()));
+        assertThat("Show NSE help was not correctly set", sdkPackageSettings1.getShowNseHelp(), is(apiPackageSettings1.getCeremony().getShowNseHelp()));
     }
 
     @Override
@@ -152,6 +153,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Hide second affidavit was not correctly set", apiPackageSettings1.getCeremony().getDisableSecondInPersonAffidavit(), is(!sdkPackageSettings1.getEnableSecondAffidavit()));
         assertThat("Default time based expiry flag was not correctly set", apiPackageSettings1.getCeremony().getDefaultTimeBasedExpiry(), is(sdkPackageSettings1.getDefaultTimeBasedExpiry()));
         assertThat("Remaining Days was not correctly set", apiPackageSettings1.getCeremony().getRemainingDays(), is(sdkPackageSettings1.getRemainingDays()));
+        assertThat("Show NSE help was not correctly set", apiPackageSettings1.getCeremony().getShowNseHelp(), is(sdkPackageSettings1.getShowNseHelp()));
     }
 
     /**
@@ -186,6 +188,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withFontSize(20)
                 .withDefaultTimeBasedExpiry()
                 .withRemainingDays(12)
+                .withShowNseHelp()
                 .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
                         .withoutGlobalDownloadButton()
                         .withoutGlobalConfirmButton()
@@ -236,6 +239,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
 
         apiCeremonySettings.setDefaultTimeBasedExpiry(true);
         apiCeremonySettings.setRemainingDays(12);
+        apiCeremonySettings.setShowNseHelp(true);
 
         Style style = new Style();
         style.setBackgroundColor("white");

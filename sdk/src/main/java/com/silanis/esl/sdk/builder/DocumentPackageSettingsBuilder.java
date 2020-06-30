@@ -34,6 +34,7 @@ public class DocumentPackageSettingsBuilder {
     private Integer fontSize = null;
     private Boolean defaultTimeBasedExpiry = null;
     private Integer remainingDays = null;
+    private Boolean showNseHelp = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -371,6 +372,28 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Show NSE help.
+     *
+     * @return This
+     */
+
+    public DocumentPackageSettingsBuilder withShowNseHelp() {
+        this.showNseHelp = true;
+        return this;
+    }
+
+    /**
+     * Do not show NSE help.
+     *
+     * @return This
+     */
+
+    public DocumentPackageSettingsBuilder withoutShowNseHelp() {
+        this.showNseHelp = false;
+        return this;
+    }
+
+    /**
      * Set the text to be displayed for the @see
      * #withHandOverLinkHref tool tip when the user over with the mouse over the
      * handoverlink href.
@@ -441,7 +464,7 @@ public class DocumentPackageSettingsBuilder {
         result.setFontSize(fontSize);
         result.setDefaultTimeBasedExpiry(defaultTimeBasedExpiry);
         result.setRemainingDays(remainingDays);
-
+        result.setShowNseHelp(showNseHelp);
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
 
         return result;
