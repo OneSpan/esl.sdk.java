@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.DataManagementPolicy;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

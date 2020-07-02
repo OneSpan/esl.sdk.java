@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class TransactionRetention implements Serializable {
 
+    private static final long serialVersionUID = 2088031049767010920L;
     private Integer draft;
     private Integer sent;
     private Integer completed;
@@ -11,6 +12,8 @@ public class TransactionRetention implements Serializable {
     private Integer declined;
     private Integer optedOut;
     private Integer expired;
+    private Integer lifetimeTotal;
+    private Integer lifetimeUntilCompletion;
 
     public TransactionRetention() {}
 
@@ -82,5 +85,20 @@ public class TransactionRetention implements Serializable {
         this.expired = expired;
     }
 
+    public Integer getLifetimeTotal() {
+        return lifetimeTotal;
+    }
 
+    public void setLifetimeTotal(Integer lifetimeTotal) {
+        this.lifetimeTotal = lifetimeTotal;
+    }
+
+    public Integer getLifetimeUntilCompletion() {
+        return lifetimeUntilCompletion;
+    }
+    
+    public void setLifetimeUntilCompletion(Integer lifetimeUntilCompletion) {
+        this.lifetimeUntilCompletion = lifetimeUntilCompletion;
+    }
+    
 }

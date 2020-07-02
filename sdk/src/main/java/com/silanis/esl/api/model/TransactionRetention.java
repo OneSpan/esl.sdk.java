@@ -22,6 +22,10 @@ public class TransactionRetention extends Model {
     private static final String FIELD_OPTEDOUT = "optedOut";
     @JsonIgnore
     private static final String FIELD_EXPIRED = "expired";
+    @JsonIgnore
+    private static final String FIELD_LIFETIMETOTAL = "lifetimeTotal";
+    @JsonIgnore
+    private static final String FIELD_LIFETIMEUNTILCOMPLETION = "lifetimeUntilCompletion";
 
     private Integer draft;
     private Integer sent;
@@ -30,7 +34,9 @@ public class TransactionRetention extends Model {
     private Integer declined;
     private Integer optedOut;
     private Integer expired;
-
+    private Integer lifetimeTotal;
+    private Integer lifetimeUntilCompletion;
+    
     public TransactionRetention() {}
 
     public TransactionRetention(Integer draft, Integer sent, Integer completed, Integer archived,
@@ -122,5 +128,25 @@ public class TransactionRetention extends Model {
         return this;
     }
 
+    public Integer getLifetimeTotal() {
+        return lifetimeTotal;
+    }
 
+    public TransactionRetention setLifetimeTotal(Integer lifetimeTotal) {
+        throwOnNull(FIELD_LIFETIMETOTAL, lifetimeTotal);
+        this.lifetimeTotal = lifetimeTotal;
+        setDirty(FIELD_LIFETIMETOTAL);
+        return this;
+    }
+
+    public Integer getLifetimeUntilCompletion() {
+        return lifetimeUntilCompletion;
+    }
+
+    public TransactionRetention setLifetimeUntilCompletion(Integer lifetimeUntilCompletion) {
+        throwOnNull(FIELD_LIFETIMEUNTILCOMPLETION, lifetimeUntilCompletion);
+        this.lifetimeUntilCompletion = lifetimeUntilCompletion;
+        setDirty(FIELD_LIFETIMEUNTILCOMPLETION);
+        return this;
+    }
 }

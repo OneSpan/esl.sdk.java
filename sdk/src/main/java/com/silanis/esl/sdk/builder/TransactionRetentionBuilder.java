@@ -11,6 +11,8 @@ public class TransactionRetentionBuilder {
     private Integer declined;
     private Integer optedOut;
     private Integer expired;
+    private Integer lifetimeTotal;
+    private Integer lifetimeUntilCompletion;
 
     private TransactionRetentionBuilder() {
     }
@@ -100,6 +102,28 @@ public class TransactionRetentionBuilder {
         this.expired = expired;
         return this;
     }
+    
+    /**
+     * Set total life time in days
+     * 
+     * @param lifetimeTotal
+     * @return
+     */
+    public TransactionRetentionBuilder withLifetimeTotal(int lifetimeTotal) {
+        this.lifetimeTotal = lifetimeTotal;
+        return this;
+    }
+    
+    /**
+     * Set life time until completion in days
+     * 
+     * @param lifetimeUntilCompletion
+     * @return
+     */
+    public TransactionRetentionBuilder withLifetimeUntilCompletion(int lifetimeUntilCompletion) {
+        this.lifetimeUntilCompletion = lifetimeUntilCompletion;
+        return this;
+    }
 
     /**
      * Builds the actual ExpiryTimeConfiguration with the specified values
@@ -115,6 +139,12 @@ public class TransactionRetentionBuilder {
         result.setDeclined(declined);
         result.setCompleted(completed);
         result.setArchived(archived);
+        if (lifetimeTotal != null) {
+            result.setLifetimeTotal(lifetimeTotal);
+        }
+        if (lifetimeUntilCompletion != null) {
+            result.setLifetimeUntilCompletion(lifetimeUntilCompletion);
+        }
         return result;
     }
 }
