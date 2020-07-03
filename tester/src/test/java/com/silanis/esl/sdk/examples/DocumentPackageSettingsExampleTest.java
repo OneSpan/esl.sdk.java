@@ -58,5 +58,6 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("Font size was not set correctly.", documentPackageSettings.getFontSize(), is(FONT_SIZE));
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
         assertThat("Expiry days was not set correctly", DocumentPackageSettingsExample.EXPIRE_IN_DAYS, is(documentPackageSettings.getRemainingDays()));
+        assertTrue("Show NSE help was not set correctly.", documentPackageSettings.getShowNseHelp());
     }
 }

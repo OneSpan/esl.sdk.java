@@ -26,7 +26,7 @@ public class DocumentPackageSettings {
     private Integer fontSize = null;
     private Boolean defaultTimeBasedExpiry = null;
     private Integer remainingDays = null;
-
+    private Boolean showNseHelp = null;
     private String linkText;
     private String linkTooltip;
     private String linkHref;
@@ -227,4 +227,9 @@ public class DocumentPackageSettings {
 
     public void setRemainingDays(Integer remainingDays) { this.remainingDays = remainingDays; }
 
+    public Boolean getShowNseHelp() { return showNseHelp; }
+
+    public void setShowNseHelp(Boolean enable) {
+        this.showNseHelp = enable;
+    }
 }

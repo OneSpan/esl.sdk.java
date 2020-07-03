@@ -138,5 +138,9 @@ public class DocumentPackageSettingsBuilderTest {
         assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertThat("Expiry days was not set correctly", documentPackageSettings.getRemainingDays(), is(10));
 
+        documentPackageSettings = newDocumentPackageSettings().withShowNseHelp().build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
+        assertTrue("Show NSE help was not be enabled..", documentPackageSettings.getShowNseHelp());
+
     }
 }

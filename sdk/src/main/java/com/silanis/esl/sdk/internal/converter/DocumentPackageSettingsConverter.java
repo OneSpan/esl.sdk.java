@@ -65,6 +65,7 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetFontSize(sdkPackageSettings.getFontSize());
         ceremonySettings.safeSetDefaultTimeBasedExpiry(sdkPackageSettings.getDefaultTimeBasedExpiry());
         ceremonySettings.safeSetRemainingDays(sdkPackageSettings.getRemainingDays());
+        ceremonySettings.safeSetShowNseHelp(sdkPackageSettings.getShowNseHelp());
 
         if (sdkPackageSettings.getEnableFirstAffidavit() != null) {
             ceremonySettings.safeSetDisableFirstInPersonAffidavit(!sdkPackageSettings.getEnableFirstAffidavit());
@@ -192,6 +193,9 @@ public class DocumentPackageSettingsConverter {
 
         if (apiPackageSettings.getCeremony().getRemainingDays() != null)
             result.setRemainingDays(apiPackageSettings.getCeremony().getRemainingDays());
+
+        if (apiPackageSettings.getCeremony().getShowNseHelp() != null)
+            result.setShowNseHelp(apiPackageSettings.getCeremony().getShowNseHelp());
 
         result.setCeremonyLayoutSettings(new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings());
 

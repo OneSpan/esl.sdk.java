@@ -64,6 +64,8 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_DEFAULT_TIME_BASED_EXPIRY = "defaultTimeBasedExpiry";
     @JsonIgnore
     public static final String FIELD_REMAINING_DAYS = "remainingDays";
+    @JsonIgnore
+    public static final String FIELD_SHOW_NSE_HELP = "showNseHelp";
 
     // Empty Constructor
     public CeremonySettings() {
@@ -94,6 +96,7 @@ public class CeremonySettings extends ViewSettings
     protected Integer _fontSize = null;
     protected Boolean _defaultTimeBasedExpiry = false;
     protected Integer _remainingDays = 0;
+    protected Boolean _showNseHelp = false;
 
     // Accessors
 
@@ -754,6 +757,29 @@ public class CeremonySettings extends ViewSettings
             this.setStyle(value);
         }
         return this;
+    }
+
+    public Boolean getShowNseHelp() {
+        return _showNseHelp;
+    }
+
+    public CeremonySettings setShowNseHelp(Boolean _showNseHelp) {
+        SchemaSanitizer.throwOnNull(FIELD_SHOW_NSE_HELP, _showNseHelp);
+        this._showNseHelp = _showNseHelp;
+        setDirty(FIELD_SHOW_NSE_HELP);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetShowNseHelp(Boolean value) {
+        if (value != null)
+            this.setShowNseHelp(value);
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalShowNseHelp() {
+        return _showNseHelp == null ? false : _showNseHelp.booleanValue();
     }
 
 }
