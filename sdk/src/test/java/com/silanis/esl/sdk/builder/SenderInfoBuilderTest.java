@@ -26,48 +26,6 @@ public class SenderInfoBuilderTest {
         assertThat( "timezone id was not set correctly", senderInfo.getTimezoneId(), is( equalTo( "Canada/Mountain")));
     }
 
-    @Test (expected=NullPointerException.class)
-    public void nullEmail() {
-        String email = null;
-        SenderInfoBuilder.newSenderInfo( email );
-    }
-
-    @Test (expected=IllegalArgumentException.class)
-    public void emptyEmail() {
-        String email = "";
-        SenderInfoBuilder.newSenderInfo( email );
-    }
-
-    @Test (expected=IllegalArgumentException.class)
-    public void invalidEmailNoHost() {
-        String email = "abc";
-        SenderInfoBuilder.newSenderInfo(email);
-    }
-
-    @Test (expected=IllegalArgumentException.class)
-    public void invalidEmailInvalidHost() {
-        String email = "abc@eee";
-        SenderInfoBuilder.newSenderInfo(email);
-    }
-
-    @Test (expected=IllegalArgumentException.class)
-    public void invalidEmailTooManyHost() {
-        String email = "abc@eee@fff";
-        SenderInfoBuilder.newSenderInfo(email);
-    }
-
-    @Test (expected=IllegalArgumentException.class)
-    public void invalidEmailEndedWithPeriod() {
-        String email = "abc@eee.";
-        SenderInfoBuilder.newSenderInfo(email);
-    }
-
-    @Test (expected=IllegalArgumentException.class)
-    public void invalidEmailEndedWithTooManyPeriod() {
-        String email = "abc@eee.com.";
-        SenderInfoBuilder.newSenderInfo(email);
-    }
-
     @Test
     public void validEmail() {
         String email = "abc@email.com";
