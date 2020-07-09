@@ -1,16 +1,12 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.api.util.EmailValidator;
 import com.silanis.esl.sdk.SenderInfo;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * <p>The SenderInfoBuilder class is a convenient class used to create and customize a sender.</p>
  */
 public class SenderInfoBuilder {
-    private String email = null;
+    private String email;
     private String firstName = null;
     private String lastName = null;
     private String company = null;
@@ -27,10 +23,7 @@ public class SenderInfoBuilder {
     }
 
     private SenderInfoBuilder(String email) {
-        String checkedEmail = checkNotNull(email, "email cannot be null.");
-        checkArgument(!checkedEmail.isEmpty());
-        checkArgument(new EmailValidator().valid(checkedEmail));
-        this.email = checkedEmail;
+        this.email = email;
     }
 
     /**
