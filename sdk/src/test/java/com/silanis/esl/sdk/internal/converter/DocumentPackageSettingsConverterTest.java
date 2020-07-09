@@ -89,6 +89,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Converter returned a null api object for a non null sdk object", apiPackageSettings1, notNullValue());
         assertThat("Enable in-person flag was not correctly set", apiPackageSettings1.getCeremony().getInPerson(), is(sdkPackageSettings1.getEnableInPerson()));
         assertThat("Decline button was not correctly set", apiPackageSettings1.getCeremony().getDeclineButton(), is(sdkPackageSettings1.getEnableDecline()));
+        assertThat("Enalbe left menu expand was not correctly set", apiPackageSettings1.getCeremony().getLeftMenuExpand(), is(sdkPackageSettings1.getExpandLeftMenu()));
         assertThat("Opt out button was not correctly set", apiPackageSettings1.getCeremony().getOptOutButton(), is(sdkPackageSettings1.getEnableOptOut()));
         assertThat("First decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(0), is(sdkPackageSettings1.getDeclineReasons().get(0)));
         assertThat("Second decline reason was not correctly set", apiPackageSettings1.getCeremony().getDeclineReasons().get(1), is(sdkPackageSettings1.getDeclineReasons().get(1)));
@@ -165,6 +166,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         return newDocumentPackageSettings()
                 .withInPerson()
                 .withoutDecline()
+                .withoutLeftMenuExpand()
                 .withOptOut()
                 .withoutWatermark()
                 .withoutCaptureText()
@@ -208,6 +210,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setInPerson(false);
         apiCeremonySettings.setDeclineButton(true);
         apiCeremonySettings.setOptOutButton(true);
+        apiCeremonySettings.setLeftMenuExpand(true);
 
         List<String> declineReasons = new ArrayList<String>();
         declineReasons.add("Decline reason one");

@@ -59,6 +59,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                 .withDefaultTimeBasedExpiry()
                                 .withRemainingDays(EXPIRE_IN_DAYS)
                                 .withShowNseHelp()
+                                .withLeftMenuExpand()
 
                                 .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
 //                                .withoutGlobalDownloadButton()

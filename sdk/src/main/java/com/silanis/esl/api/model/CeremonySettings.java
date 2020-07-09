@@ -66,6 +66,8 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_REMAINING_DAYS = "remainingDays";
     @JsonIgnore
     public static final String FIELD_SHOW_NSE_HELP = "showNseHelp";
+    @JsonIgnore
+    public static final String FIELD_LEFT_MENU_EXPAND = "leftMenuExpand";
 
     // Empty Constructor
     public CeremonySettings() {
@@ -97,9 +99,32 @@ public class CeremonySettings extends ViewSettings
     protected Boolean _defaultTimeBasedExpiry = false;
     protected Integer _remainingDays = 0;
     protected Boolean _showNseHelp = false;
+    protected Boolean _leftMenuExpand = false;
 
     // Accessors
 
+    public CeremonySettings setLeftMenuExpand(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_LEFT_MENU_EXPAND, value);
+        this._leftMenuExpand = value;
+        setDirty(FIELD_LEFT_MENU_EXPAND);
+        return this;
+    }
+
+    public CeremonySettings safeSetLeftMenuExpand(Boolean value) {
+        if(value != null) {
+            setLeftMenuExpand(value);
+        }
+        return this;
+    }
+
+    public Boolean getLeftMenuExpand() {
+        return _leftMenuExpand;
+    }
+
+    @JsonIgnore
+    public boolean evalLeftMenuExpand() {
+        return _leftMenuExpand == null ? false : _leftMenuExpand.booleanValue();
+    }
 
     public CeremonySettings setDeclineButton(Boolean value) {
         SchemaSanitizer.throwOnNull(FIELD_DECLINEBUTTON, value);

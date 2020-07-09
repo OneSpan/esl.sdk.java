@@ -66,6 +66,7 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetDefaultTimeBasedExpiry(sdkPackageSettings.getDefaultTimeBasedExpiry());
         ceremonySettings.safeSetRemainingDays(sdkPackageSettings.getRemainingDays());
         ceremonySettings.safeSetShowNseHelp(sdkPackageSettings.getShowNseHelp());
+        ceremonySettings.safeSetLeftMenuExpand(sdkPackageSettings.getExpandLeftMenu());
 
         if (sdkPackageSettings.getEnableFirstAffidavit() != null) {
             ceremonySettings.safeSetDisableFirstInPersonAffidavit(!sdkPackageSettings.getEnableFirstAffidavit());
@@ -132,6 +133,7 @@ public class DocumentPackageSettingsConverter {
 
         result.setEnableOptOut(apiPackageSettings.getCeremony().evalOptOutButton());
         result.setEnableDecline(apiPackageSettings.getCeremony().evalDeclineButton());
+        result.setExpandLeftMenu(apiPackageSettings.getCeremony().evalLeftMenuExpand());
         result.setHideWatermark(apiPackageSettings.getCeremony().evalHideWatermark());
         result.setHideCaptureText(apiPackageSettings.getCeremony().getHideCaptureText());
         result.getDeclineReasons().addAll(apiPackageSettings.getCeremony().getDeclineReasons());
