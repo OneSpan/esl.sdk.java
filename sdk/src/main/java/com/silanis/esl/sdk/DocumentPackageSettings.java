@@ -30,6 +30,7 @@ public class DocumentPackageSettings {
     private String linkText;
     private String linkTooltip;
     private String linkHref;
+    private Boolean expandLeftMenu = null;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
@@ -231,5 +232,13 @@ public class DocumentPackageSettings {
 
     public void setShowNseHelp(Boolean enable) {
         this.showNseHelp = enable;
+    }
+
+    public Boolean getExpandLeftMenu() {
+        return expandLeftMenu;
+    }
+
+    public void setExpandLeftMenu(Boolean expandLeftMenu) {
+        this.expandLeftMenu = expandLeftMenu;
     }
 }

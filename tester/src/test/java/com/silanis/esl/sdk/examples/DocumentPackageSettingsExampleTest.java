@@ -59,5 +59,6 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("Builder returned a null object", documentPackageSettings, notNullValue());
         assertThat("Expiry days was not set correctly", DocumentPackageSettingsExample.EXPIRE_IN_DAYS, is(documentPackageSettings.getRemainingDays()));
         assertTrue("Show NSE help was not set correctly.", documentPackageSettings.getShowNseHelp());
+        assertTrue("Expand left menu was not set correctly.", documentPackageSettings.getExpandLeftMenu());
     }
 }

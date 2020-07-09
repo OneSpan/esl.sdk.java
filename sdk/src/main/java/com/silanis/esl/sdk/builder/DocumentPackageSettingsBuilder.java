@@ -40,6 +40,8 @@ public class DocumentPackageSettingsBuilder {
     private String linkTooltip = null;
     private String linkHref = null;
 
+    private Boolean expandLeftMenu = null;
+
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
     private DocumentPackageSettingsBuilder() {
@@ -198,6 +200,30 @@ public class DocumentPackageSettingsBuilder {
      */
     public DocumentPackageSettingsBuilder withoutDecline() {
         enableDecline = false;
+        return this;
+    }
+
+    /**
+     * Enables the option to expand the left menu.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withLeftMenuExpand() {
+        expandLeftMenu = true;
+        return this;
+    }
+
+    /**
+     * Disables the option to expand the left menu.
+     *
+     * @return This
+     * @see #withLeftMenuExpand()
+     */
+    public DocumentPackageSettingsBuilder withoutLeftMenuExpand() {
+        expandLeftMenu = false;
         return this;
     }
 
@@ -466,6 +492,7 @@ public class DocumentPackageSettingsBuilder {
         result.setRemainingDays(remainingDays);
         result.setShowNseHelp(showNseHelp);
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
+        result.setExpandLeftMenu(expandLeftMenu);
 
         return result;
     }

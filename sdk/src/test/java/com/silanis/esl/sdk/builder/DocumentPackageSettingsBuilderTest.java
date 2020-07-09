@@ -142,5 +142,9 @@ public class DocumentPackageSettingsBuilderTest {
         assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
         assertTrue("Show NSE help was not be enabled..", documentPackageSettings.getShowNseHelp());
 
+        documentPackageSettings = newDocumentPackageSettings().withLeftMenuExpand().build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
+        assertTrue("Let menu was not expanded.", documentPackageSettings.getExpandLeftMenu());
+
     }
 }
