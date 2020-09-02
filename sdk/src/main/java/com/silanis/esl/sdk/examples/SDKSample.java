@@ -24,14 +24,13 @@ public abstract class SDKSample {
 
     protected Properties props = Props.get();
 
-    public String email1, email2, email3, email4, email5, email6, senderEmail,
-            sms1, sms2, sms3, sms4, sms5, sms6, senderSms, webpageUrl, senderUID,
+    public String email1, email2, email3, email4, email5, email6, senderEmail, webpageUrl, senderUID,
             proxyHost, proxyWithCredentialsHost, proxyUserName, proxyPassword;
 
     public int proxyPort, proxyWithCredentialsPort;
 
     public SDKSample() {
-        setupEslClientFromProps(Collections.<String,String>emptyMap(), null);
+        setupEslClientFromProps(Collections.<String, String>emptyMap(), null);
         setProperties();
     }
 
@@ -40,17 +39,17 @@ public abstract class SDKSample {
         setProperties();
     }
 
-    public EslClient setupEslClientFromProps(Map<String,String> additionalHeaders, ProxyConfiguration proxyConfiguration) {
+    public EslClient setupEslClientFromProps(Map<String, String> additionalHeaders, ProxyConfiguration proxyConfiguration) {
         if (props.getProperty("api.clientId") == null) {
             eslClient = new EslClient(props.getProperty("api.key"), props.getProperty("api.url"), true, proxyConfiguration).setWebpageURL(props.getProperty("webpage.url"));
         } else {
             ApiTokenConfig apiTokenConfig = ApiTokenConfig.newBuilder()
-                .clientAppId(props.getProperty("api.clientId"))
-                .clientAppSecret(props.getProperty("api.secret"))
-                .tokenType(ApiTokenConfig.TokenType.OWNER)
-                .baseUrl(props.getProperty("webpage.url"))
-                .build();
-            eslClient = new EslClient(apiTokenConfig,  props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
+                    .clientAppId(props.getProperty("api.clientId"))
+                    .clientAppSecret(props.getProperty("api.secret"))
+                    .tokenType(ApiTokenConfig.TokenType.OWNER)
+                    .baseUrl(props.getProperty("webpage.url"))
+                    .build();
+            eslClient = new EslClient(apiTokenConfig, props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
         }
         return eslClient;
     }
@@ -69,13 +68,6 @@ public abstract class SDKSample {
         email5 = props.getProperty("5.email");
         email6 = props.getProperty("6.email");
         senderEmail = props.getProperty("sender.email");
-        sms1 = props.getProperty("1.sms");
-        sms2 = props.getProperty("2.sms");
-        sms3 = props.getProperty("3.sms");
-        sms4 = props.getProperty("4.sms");
-        sms5 = props.getProperty("5.sms");
-        sms6 = props.getProperty("6.sms");
-        senderSms = props.getProperty("sender.sms");
         webpageUrl = props.getProperty("webpage.url");
         proxyHost = props.getProperty("proxy.host");
         proxyPort = Integer.parseInt(props.getProperty("proxy.port"));

@@ -27,7 +27,7 @@ public class AuthenticationMethodsExampleTest {
 
         assertThat( "Signer 1 authentication method was not set correctly.", documentPackage.getSigner(example.email1).getAuthentication().getMethod(), is(EMAIL) );
         assertThat( "Signer 2 authentication method was not set correctly.", documentPackage.getSigner(example.email2).getAuthentication().getMethod(), is(CHALLENGE) );
-        assertThat( "Signer 3 authentication method was not set correctly.", documentPackage.getSigner(example.email3).getAuthentication().getMethod(), is(SMS) );
+        assertThat( "Signer 3 authentication method was not set correctly.", documentPackage.getSigner(example.email3).getAuthentication().getMethod(), is(EMAIL) );
     }
 
 }

@@ -66,7 +66,6 @@ public class UpdateSignerExample extends SDKSample {
         Signer signer4 = newSignerWithEmail(email2)
                 .withFirstName(SIGNER2_FIRST_NAME)
                 .withLastName(SIGNER2_LAST_NAME)
-                .withSmsSentTo(sms1)
                 .withLanguage(SIGNER2_UPDATE_LANGUAGE)
                 .withCustomId(SIGNER2_CUSTOM_ID).build();
 

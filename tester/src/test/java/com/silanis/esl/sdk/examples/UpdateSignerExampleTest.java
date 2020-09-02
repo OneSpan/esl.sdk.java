@@ -2,7 +2,8 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.AuthenticationMethod.*;
+import static com.silanis.esl.sdk.AuthenticationMethod.CHALLENGE;
+import static com.silanis.esl.sdk.AuthenticationMethod.EMAIL;
 import static com.silanis.esl.sdk.examples.UpdateSignerExample.*;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -34,8 +35,7 @@ public class UpdateSignerExampleTest {
         assertThat("Package signer1's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email3).getAuthentication().getChallenges().get(1).getAnswer(), is(SIGNER3_SECOND_ANSWER));
 
         assertNotNull("Package signer2 is not updated correctly.", example.updatedPackage.getSigner(example.email2));
-        assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getAuthentication().getMethod(), is(SMS));
-        assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getAuthentication().getPhoneNumber(), is(example.sms1));
+        assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getAuthentication().getMethod(), is(EMAIL));
         assertThat("Package signer2's authentication method is not updated correctly.", example.updatedPackage.getSigner(example.email2).getLanguage(), is(SIGNER2_UPDATE_LANGUAGE));
     }
 }
