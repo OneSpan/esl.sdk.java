@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
 import org.apache.http.HttpException;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -48,7 +50,8 @@ public class RestClient extends Client {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
-    public static final String ESL_API_VERSION = "11.34";
+    public static final String ESL_API_VERSION = "11.37";
+    public static final String ESL_API_USER_AGENT = "Java SDK v" + ESL_API_VERSION;
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
     public static final String HEADER_CONTENT_TYPE = "Content-Type";
@@ -64,14 +67,14 @@ public class RestClient extends Client {
     public static final String ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM = ACCEPT_TYPE_APPLICATION_OCTET_STREAM + "; " + ESL_API_VERSION_HEADER;
     public static final String ESL_ACCEPT_TYPE_APPLICATION = ACCEPT_TYPE_APPLICATION + "; " + ESL_API_VERSION_HEADER;
 
-    private final ResponseHandler<DownloadedFile> bytesHandler = new BytesHandler();
+    private final BytesHandler bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final String apiKey;
     private final ApiTokenConfig apiTokenConfig;
     private ApiToken apiToken = null;
-    private Map<String, String> additionalHeaders;
+    private final Map<String, String> additionalHeaders;
 
     public RestClient(String apiKey) {
         this(apiKey, false);
@@ -213,7 +216,7 @@ public class RestClient extends Client {
         //token has to have more than 1mn to live
         if (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000) {
             String url = apiTokenConfig.getBaseUrl() + ApiTokenConfig.ACCESS_TOKEN_URL;
-            HttpPost request = new HttpPost(url);
+            HttpPost request = withUserAgent(new HttpPost(url));
             request.addHeader(HEADER_CONTENT_TYPE, ESL_CONTENT_TYPE_APPLICATION_JSON);
             request.setEntity(new StringEntity(getApiTokenPayload()));
             CloseableHttpClient client = getHttpClient(request);
@@ -238,6 +241,7 @@ public class RestClient extends Client {
 
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
 
+        withUserAgent(request);
         CloseableHttpClient client = getHttpClient(request);
 
         try {
@@ -354,5 +358,10 @@ public class RestClient extends Client {
         delete.setEntity(body);
 
         return execute(delete, jsonHandler);
+    }
+
+    private <T extends HttpRequest> T withUserAgent(T request) {
+        request.addHeader(HttpHeaders.USER_AGENT, ESL_API_USER_AGENT);
+        return request;
     }
 }
