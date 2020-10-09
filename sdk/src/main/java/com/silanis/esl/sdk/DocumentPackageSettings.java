@@ -31,6 +31,7 @@ public class DocumentPackageSettings {
     private String linkTooltip;
     private String linkHref;
     private Boolean expandLeftMenu = null;
+    private Integer maxAttachmentFiles = null;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
@@ -240,5 +241,13 @@ public class DocumentPackageSettings {
 
     public void setExpandLeftMenu(Boolean expandLeftMenu) {
         this.expandLeftMenu = expandLeftMenu;
+    }
+
+    public Integer getMaxAttachmentFiles() {
+        return maxAttachmentFiles;
+    }
+
+    public void setMaxAttachmentFiles(Integer maxAttachmentFiles) {
+        this.maxAttachmentFiles = maxAttachmentFiles;
     }
 }

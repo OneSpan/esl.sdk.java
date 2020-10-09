@@ -117,6 +117,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Default time based expiry flag was not correctly set", sdkPackageSettings1.getDefaultTimeBasedExpiry(), is(apiPackageSettings1.getCeremony().getDefaultTimeBasedExpiry()));
         assertThat("Remaining Days was not correctly set", sdkPackageSettings1.getRemainingDays(), is(apiPackageSettings1.getCeremony().getRemainingDays()));
         assertThat("Show NSE help was not correctly set", sdkPackageSettings1.getShowNseHelp(), is(apiPackageSettings1.getCeremony().getShowNseHelp()));
+        assertThat("Max attachment files was not correctly set", sdkPackageSettings1.getMaxAttachmentFiles(), is(apiPackageSettings1.getCeremony().getMaxAttachmentFiles()));
     }
 
     @Override
@@ -155,6 +156,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Default time based expiry flag was not correctly set", apiPackageSettings1.getCeremony().getDefaultTimeBasedExpiry(), is(sdkPackageSettings1.getDefaultTimeBasedExpiry()));
         assertThat("Remaining Days was not correctly set", apiPackageSettings1.getCeremony().getRemainingDays(), is(sdkPackageSettings1.getRemainingDays()));
         assertThat("Show NSE help was not correctly set", apiPackageSettings1.getCeremony().getShowNseHelp(), is(sdkPackageSettings1.getShowNseHelp()));
+        assertThat("Max attachment files was not correctly set", apiPackageSettings1.getCeremony().getMaxAttachmentFiles(), is(sdkPackageSettings1.getMaxAttachmentFiles()));
     }
 
     /**
@@ -190,6 +192,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withFontSize(20)
                 .withDefaultTimeBasedExpiry()
                 .withRemainingDays(12)
+                .withMaxAttachmentFiles(2)
                 .withShowNseHelp()
                 .withCeremonyLayoutSettings(newCeremonyLayoutSettings()
                         .withoutGlobalDownloadButton()
@@ -243,6 +246,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setDefaultTimeBasedExpiry(true);
         apiCeremonySettings.setRemainingDays(12);
         apiCeremonySettings.setShowNseHelp(true);
+
+        apiCeremonySettings.setMaxAttachmentFiles(2);
 
         Style style = new Style();
         style.setBackgroundColor("white");

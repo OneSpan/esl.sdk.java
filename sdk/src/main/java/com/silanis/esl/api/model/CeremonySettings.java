@@ -68,6 +68,8 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_SHOW_NSE_HELP = "showNseHelp";
     @JsonIgnore
     public static final String FIELD_LEFT_MENU_EXPAND = "leftMenuExpand";
+    @JsonIgnore
+    public static final String FIELD_MAX_ATTACHMENT_FILES = "maxAttachmentFiles";
 
     // Empty Constructor
     public CeremonySettings() {
@@ -100,6 +102,7 @@ public class CeremonySettings extends ViewSettings
     protected Integer _remainingDays = 0;
     protected Boolean _showNseHelp = false;
     protected Boolean _leftMenuExpand = false;
+    protected Integer _maxAttachmentFiles = 0;
 
     // Accessors
 
@@ -807,4 +810,21 @@ public class CeremonySettings extends ViewSettings
         return _showNseHelp == null ? false : _showNseHelp.booleanValue();
     }
 
+    public Integer getMaxAttachmentFiles() {
+        return _maxAttachmentFiles;
+    }
+
+    public CeremonySettings setMaxAttachmentFiles(Integer value) {
+        this._maxAttachmentFiles = value;
+        setDirty(FIELD_MAX_ATTACHMENT_FILES);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetMaxAttachmentFiles(Integer value) {
+        if (value != null) {
+            this.setMaxAttachmentFiles(value);
+        }
+        return this;
+    }
 }

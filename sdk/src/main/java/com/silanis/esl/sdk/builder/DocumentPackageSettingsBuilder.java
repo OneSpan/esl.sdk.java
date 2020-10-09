@@ -35,6 +35,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean defaultTimeBasedExpiry = null;
     private Integer remainingDays = null;
     private Boolean showNseHelp = null;
+    private Integer maxAttachmentFiles = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -459,6 +460,19 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Sets the maximum number of uploads per attachment
+     * <p>
+     * DEFAULT: null
+     * <p>
+     *
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withMaxAttachmentFiles(Integer maxAttachmentFiles) {
+        this.maxAttachmentFiles = maxAttachmentFiles;
+        return this;
+    }
+
+    /**
      * Builds the actual Field with the values specified.
      *
      * @return the built DocumentPackageSettings
@@ -490,6 +504,7 @@ public class DocumentPackageSettingsBuilder {
         result.setFontSize(fontSize);
         result.setDefaultTimeBasedExpiry(defaultTimeBasedExpiry);
         result.setRemainingDays(remainingDays);
+        result.setMaxAttachmentFiles(maxAttachmentFiles);
         result.setShowNseHelp(showNseHelp);
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
         result.setExpandLeftMenu(expandLeftMenu);
