@@ -36,6 +36,7 @@ public class DocumentPackageSettingsBuilder {
     private Integer remainingDays = null;
     private Boolean showNseHelp = null;
     private Integer maxAttachmentFiles = null;
+    private Boolean showNseOverview = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -473,6 +474,27 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Show NSE Overview.
+     *
+     * @return This
+     */
+
+    public DocumentPackageSettingsBuilder withShowNseOverview() {
+        this.showNseOverview = true;
+        return this;
+    }
+
+    /**
+     * Do not show NSE help.
+     *
+     * @return This
+     */
+
+    public DocumentPackageSettingsBuilder withoutShowNseOverview() {
+        this.showNseOverview = false;
+        return this;
+    }
+    /**
      * Builds the actual Field with the values specified.
      *
      * @return the built DocumentPackageSettings
@@ -508,6 +530,7 @@ public class DocumentPackageSettingsBuilder {
         result.setShowNseHelp(showNseHelp);
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
         result.setExpandLeftMenu(expandLeftMenu);
+        result.setShowNseOverview(showNseOverview);
 
         return result;
     }

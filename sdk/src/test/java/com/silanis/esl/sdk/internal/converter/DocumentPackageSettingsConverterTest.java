@@ -118,6 +118,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Remaining Days was not correctly set", sdkPackageSettings1.getRemainingDays(), is(apiPackageSettings1.getCeremony().getRemainingDays()));
         assertThat("Show NSE help was not correctly set", sdkPackageSettings1.getShowNseHelp(), is(apiPackageSettings1.getCeremony().getShowNseHelp()));
         assertThat("Max attachment files was not correctly set", sdkPackageSettings1.getMaxAttachmentFiles(), is(apiPackageSettings1.getCeremony().getMaxAttachmentFiles()));
+        assertThat("Show NSE Overview was not correctly set", sdkPackageSettings1.getShowNseOverview(), is(apiPackageSettings1.getCeremony().getShowNseOverview()));
     }
 
     @Override
@@ -157,6 +158,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Remaining Days was not correctly set", apiPackageSettings1.getCeremony().getRemainingDays(), is(sdkPackageSettings1.getRemainingDays()));
         assertThat("Show NSE help was not correctly set", apiPackageSettings1.getCeremony().getShowNseHelp(), is(sdkPackageSettings1.getShowNseHelp()));
         assertThat("Max attachment files was not correctly set", apiPackageSettings1.getCeremony().getMaxAttachmentFiles(), is(sdkPackageSettings1.getMaxAttachmentFiles()));
+        assertThat("Show NSE Overview was not correctly set", apiPackageSettings1.getCeremony().getShowNseOverview(), is(sdkPackageSettings1.getShowNseOverview()));
     }
 
     /**
@@ -198,7 +200,9 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                         .withoutGlobalDownloadButton()
                         .withoutGlobalConfirmButton()
                         .withoutGlobalSaveAsLayoutButton()
-                ).build();
+                )
+                .withShowNseOverview()
+                .build();
     }
 
     /**
@@ -246,6 +250,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setDefaultTimeBasedExpiry(true);
         apiCeremonySettings.setRemainingDays(12);
         apiCeremonySettings.setShowNseHelp(true);
+        apiCeremonySettings.setShowNseOverview(false);
 
         apiCeremonySettings.setMaxAttachmentFiles(2);
 
