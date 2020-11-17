@@ -32,6 +32,7 @@ public class DocumentPackageSettings {
     private String linkHref;
     private Boolean expandLeftMenu = null;
     private Integer maxAttachmentFiles = null;
+    private Boolean showNseOverview = null;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
@@ -249,5 +250,11 @@ public class DocumentPackageSettings {
 
     public void setMaxAttachmentFiles(Integer maxAttachmentFiles) {
         this.maxAttachmentFiles = maxAttachmentFiles;
+    }
+
+    public Boolean getShowNseOverview() { return showNseOverview; }
+
+    public void setShowNseOverview(Boolean disable) {
+        this.showNseOverview = disable;
     }
 }
