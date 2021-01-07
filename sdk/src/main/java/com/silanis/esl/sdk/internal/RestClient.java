@@ -21,12 +21,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -137,6 +132,19 @@ public class RestClient extends Client {
         put.setEntity(body);
 
         return execute(put, jsonHandler);
+    }
+
+    public String patch(String path, String jsonPayload) throws IOException, RequestException {
+        support.logRequest("PATCH", path, jsonPayload);
+
+        HttpPatch patch = new HttpPatch(path);
+        patch.addHeader(buildAcceptHeaderForEslApi());
+        StringEntity body = new StringEntity(jsonPayload, Charset.forName(CHARSET_UTF_8));
+
+        body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
+        patch.setEntity(body);
+
+        return execute(patch, jsonHandler);
     }
 
     public String postMultipartFile(String path, Map<String, byte[]> files, String jsonPayload) throws IOException, RequestException {

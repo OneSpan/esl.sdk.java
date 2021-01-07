@@ -1,7 +1,11 @@
 package com.silanis.esl.sdk.examples;
 
+import com.silanis.esl.sdk.SigningUiOptions;
 import com.silanis.esl.sdk.SigningLogo;
+import com.silanis.esl.sdk.builder.CompleteSummaryOptionsBuilder;
+import com.silanis.esl.sdk.builder.OverviewOptionsBuilder;
 import com.silanis.esl.sdk.builder.SigningLogoBuilder;
+import com.silanis.esl.sdk.builder.SigningUiOptionsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +18,7 @@ public class SigningStyleExample extends SDKSample {
     public String signingThemesStringToCreate = "{\"default\":{\"color\":{\"primary\":\"#5940C3\"}}}";
     public String signingThemesStringToUpdate = "{\"default\":{\"color\":{\"primary\":\"#5940C3\",\"secondary\": \"#F31C8B\"}}}";
     public List<SigningLogo> createdSigningLogos, updatedSigningLogos, removedSigningLogos;
+    public SigningUiOptions defaultSigningUiOptions, patchedSigningUiOptions, deletedSigningUiOptions;
 
     public static void main(String... args) {
         new SigningStyleExample().run();
@@ -62,5 +67,27 @@ public class SigningStyleExample extends SDKSample {
         // Delete signing logos
         eslClient.getSigningStyleService().saveSigningLogos(new ArrayList<SigningLogo>());
         removedSigningLogos = eslClient.getSigningStyleService().getSigningLogos();
+
+        //Get signing ui options
+        defaultSigningUiOptions = eslClient.getSigningStyleService().getSigningUiOptions();
+
+        SigningUiOptions signingUiOptions = SigningUiOptionsBuilder.newSigningUiOptions()
+                .withCompleteSummaryOptions(CompleteSummaryOptionsBuilder.newCompleteSummaryOptions()
+                        .withoutFrom()
+                        .withoutTitle()
+                        .build())
+                .withOverviewOptions(OverviewOptionsBuilder.newOverviewOptions()
+                        .withoutTitle()
+                        .withoutBody()
+                        .build())
+                .build();
+        //Save signing ui options
+        eslClient.getSigningStyleService().saveSigningUiOptions(signingUiOptions);
+        patchedSigningUiOptions = eslClient.getSigningStyleService().getSigningUiOptions();
+
+        //Delete signing ui options
+        eslClient.getSigningStyleService().deleteSigningUiOptions();
+        deletedSigningUiOptions = eslClient.getSigningStyleService().getSigningUiOptions();
+
     }
 }
