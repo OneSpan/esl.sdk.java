@@ -60,5 +60,6 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("Expiry days was not set correctly", DocumentPackageSettingsExample.EXPIRE_IN_DAYS, is(documentPackageSettings.getRemainingDays()));
         assertTrue("Show NSE help was not set correctly.", documentPackageSettings.getShowNseHelp());
         assertTrue("Expand left menu was not set correctly.", documentPackageSettings.getExpandLeftMenu());
+        assertThat("Max attachment files was not set correctly", DocumentPackageSettingsExample.MAX_ATTACHMENT_FILES, is(documentPackageSettings.getMaxAttachmentFiles()));
     }
 }
