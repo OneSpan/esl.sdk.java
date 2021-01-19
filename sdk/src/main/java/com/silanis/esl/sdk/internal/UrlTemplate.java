@@ -172,6 +172,9 @@ public class UrlTemplate {
     // Account Signing Logos Service
     public static final String ACCOUNT_SIGNING_LOGO_PATH = "/account/admin/signingLogos";
 
+    // Account Signing Ui Options Service
+    public static final String ACCOUNT_SIGNING_UI_OPTIONS_PATH = "/account/admin/signingUiOptions";
+
     // Account Config Service
     public static final String ACCOUNT_CONFIG_PATH = "/accountConfig";
     public static final String HANDOVER_URL_PATH = "/accountConfig/handoverUrl/{language}";
