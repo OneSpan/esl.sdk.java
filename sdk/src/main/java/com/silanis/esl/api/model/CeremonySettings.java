@@ -68,6 +68,10 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_SHOW_NSE_HELP = "showNseHelp";
     @JsonIgnore
     public static final String FIELD_LEFT_MENU_EXPAND = "leftMenuExpand";
+    @JsonIgnore
+    public static final String FIELD_MAX_ATTACHMENT_FILES = "maxAttachmentFiles";
+    @JsonIgnore
+    public static final String FIELD_SHOW_NSE_OVERVIEW = "showNseOverview";
 
     // Empty Constructor
     public CeremonySettings() {
@@ -100,6 +104,8 @@ public class CeremonySettings extends ViewSettings
     protected Integer _remainingDays = 0;
     protected Boolean _showNseHelp = false;
     protected Boolean _leftMenuExpand = false;
+    protected Integer _maxAttachmentFiles = 0;
+    protected Boolean _showNseOverview = true;
 
     // Accessors
 
@@ -807,4 +813,44 @@ public class CeremonySettings extends ViewSettings
         return _showNseHelp == null ? false : _showNseHelp.booleanValue();
     }
 
+    public Integer getMaxAttachmentFiles() {
+        return _maxAttachmentFiles;
+    }
+
+    public CeremonySettings setMaxAttachmentFiles(Integer value) {
+        this._maxAttachmentFiles = value;
+        setDirty(FIELD_MAX_ATTACHMENT_FILES);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetMaxAttachmentFiles(Integer value) {
+        if (value != null) {
+            this.setMaxAttachmentFiles(value);
+        }
+        return this;
+    }
+
+    public Boolean getShowNseOverview() {
+        return _showNseOverview;
+    }
+
+    public CeremonySettings setShowNseOverview(Boolean _showNseOverview) {
+        SchemaSanitizer.throwOnNull(FIELD_SHOW_NSE_OVERVIEW, _showNseOverview);
+        this._showNseOverview = _showNseOverview;
+        setDirty(FIELD_SHOW_NSE_OVERVIEW);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetShowNseOverview(Boolean value) {
+        if (value != null)
+            this.setShowNseOverview(value);
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalShowNseOverview() {
+        return _showNseOverview == null ? true : _showNseOverview.booleanValue();
+    }
 }

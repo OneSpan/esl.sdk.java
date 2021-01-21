@@ -67,6 +67,8 @@ public class DocumentPackageSettingsConverter {
         ceremonySettings.safeSetRemainingDays(sdkPackageSettings.getRemainingDays());
         ceremonySettings.safeSetShowNseHelp(sdkPackageSettings.getShowNseHelp());
         ceremonySettings.safeSetLeftMenuExpand(sdkPackageSettings.getExpandLeftMenu());
+        ceremonySettings.safeSetMaxAttachmentFiles(sdkPackageSettings.getMaxAttachmentFiles());
+        ceremonySettings.safeSetShowNseOverview(sdkPackageSettings.getShowNseOverview());
 
         if (sdkPackageSettings.getEnableFirstAffidavit() != null) {
             ceremonySettings.safeSetDisableFirstInPersonAffidavit(!sdkPackageSettings.getEnableFirstAffidavit());
@@ -198,6 +200,12 @@ public class DocumentPackageSettingsConverter {
 
         if (apiPackageSettings.getCeremony().getShowNseHelp() != null)
             result.setShowNseHelp(apiPackageSettings.getCeremony().getShowNseHelp());
+
+        if (apiPackageSettings.getCeremony().getMaxAttachmentFiles() != null)
+            result.setMaxAttachmentFiles(apiPackageSettings.getCeremony().getMaxAttachmentFiles());
+
+        if (apiPackageSettings.getCeremony().getShowNseOverview() != null)
+            result.setShowNseOverview(apiPackageSettings.getCeremony().getShowNseOverview());
 
         result.setCeremonyLayoutSettings(new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings());
 

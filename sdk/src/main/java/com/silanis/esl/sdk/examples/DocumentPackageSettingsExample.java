@@ -23,6 +23,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
     public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
     public static final Integer FONT_SIZE = 28;
     public static final Integer EXPIRE_IN_DAYS = 12;
+    public static final Integer MAX_ATTACHMENT_FILES = 2;
 
     public static void main(String... args) {
         new DocumentPackageSettingsExample().run();
@@ -58,6 +59,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                 .withoutOptOutOther()
                                 .withDefaultTimeBasedExpiry()
                                 .withRemainingDays(EXPIRE_IN_DAYS)
+                                .withMaxAttachmentFiles(MAX_ATTACHMENT_FILES)
                                 .withShowNseHelp()
                                 .withLeftMenuExpand()
 
@@ -66,6 +68,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                                 .withoutGlobalConfirmButton()
                                                 .withoutGlobalSaveAsLayoutButton()
                                 )
+                                .withShowNseOverview()
                 )
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
