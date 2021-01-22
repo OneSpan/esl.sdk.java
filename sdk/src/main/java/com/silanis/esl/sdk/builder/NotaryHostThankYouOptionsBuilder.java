@@ -11,15 +11,15 @@ import com.silanis.esl.sdk.NotaryHostThankYouOptions;
  */
 public class NotaryHostThankYouOptionsBuilder {
 
-    private Boolean title = true;
-    private Boolean body = true;
-    private Boolean recipientName = true;
-    private Boolean recipientEmail = true;
-    private Boolean recipientRole = true;
-    private Boolean notaryTag = true;
-    private Boolean recipientStatus = true;
-    private Boolean downloadButton = true;
-    private Boolean reviewDocumentsButton = true;
+    private Boolean title = null;
+    private Boolean body = null;
+    private Boolean recipientName = null;
+    private Boolean recipientEmail = null;
+    private Boolean recipientRole = null;
+    private Boolean notaryTag = null;
+    private Boolean recipientStatus = null;
+    private Boolean downloadButton = null;
+    private Boolean reviewDocumentsButton = null;
 
 
     /**

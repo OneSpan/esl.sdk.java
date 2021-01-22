@@ -1,5 +1,8 @@
 package com.silanis.esl.sdk;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SigningUiOptions {
 
     private CompleteSummaryOptions completeSummaryOptions = new CompleteSummaryOptions();

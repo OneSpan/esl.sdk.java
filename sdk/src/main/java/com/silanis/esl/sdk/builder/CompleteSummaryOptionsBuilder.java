@@ -10,12 +10,12 @@ import com.silanis.esl.sdk.CompleteSummaryOptions;
  *
  */
 public class CompleteSummaryOptionsBuilder {
-    private Boolean from = true;
-    private Boolean title = true;
-    private Boolean message = true;
-    private Boolean download = true;
-    private Boolean review = true;
-    private Boolean _continue = true;
+    private Boolean from = null;
+    private Boolean title = null;
+    private Boolean message = null;
+    private Boolean download = null;
+    private Boolean review = null;
+    private Boolean _continue = null;
 
     /**
      * Creates a new Complete Summary Options builder.

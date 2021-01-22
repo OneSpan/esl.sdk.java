@@ -1,15 +1,18 @@
 package com.silanis.esl.sdk;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InpersonHostThankYouOptions {
 
-    private Boolean title = true;
-    private Boolean body = true;
-    private Boolean recipientName = true;
-    private Boolean recipientEmail = true;
-    private Boolean recipientRole = true;
-    private Boolean recipientStatus = true;
-    private Boolean downloadButton = true;
-    private Boolean reviewDocumentsButton = true;
+    private Boolean title;
+    private Boolean body;
+    private Boolean recipientName;
+    private Boolean recipientEmail;
+    private Boolean recipientRole;
+    private Boolean recipientStatus;
+    private Boolean downloadButton;
+    private Boolean reviewDocumentsButton;
 
     public Boolean getTitle() {
         return title;

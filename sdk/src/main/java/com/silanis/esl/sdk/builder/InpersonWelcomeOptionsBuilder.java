@@ -11,13 +11,13 @@ import com.silanis.esl.sdk.InpersonWelcomeOptions;
  */
 public class InpersonWelcomeOptionsBuilder {
 
-    private Boolean title = true;
-    private Boolean body = true;
-    private Boolean recipientName = true;
-    private Boolean recipientEmail = true;
-    private Boolean recipientActionRequired = true;
-    private Boolean recipientRole = true;
-    private Boolean recipientStatus = true;
+    private Boolean title = null;
+    private Boolean body = null;
+    private Boolean recipientName = null;
+    private Boolean recipientEmail = null;
+    private Boolean recipientActionRequired = null;
+    private Boolean recipientRole = null;
+    private Boolean recipientStatus = null;
 
     /**
      * Creates a new InPerson Welcome Options builder.
