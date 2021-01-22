@@ -1,11 +1,14 @@
 package com.silanis.esl.sdk;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OverviewOptions {
 
-    private Boolean title = true;
-    private Boolean body = true;
-    private Boolean documentSection = true;
-    private Boolean uploadSection = true;
+    private Boolean title;
+    private Boolean body;
+    private Boolean documentSection;
+    private Boolean uploadSection;
 
     public Boolean getTitle() {
         return title;

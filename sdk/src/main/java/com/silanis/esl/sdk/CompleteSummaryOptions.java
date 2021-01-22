@@ -1,14 +1,17 @@
 package com.silanis.esl.sdk;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CompleteSummaryOptions
 {
 
-    private Boolean from = true;
-    private Boolean title = true;
-    private Boolean message = true;
-    private Boolean download = true;
-    private Boolean review = true;
-    private Boolean _continue = true;
+    private Boolean from;
+    private Boolean title;
+    private Boolean message;
+    private Boolean download;
+    private Boolean review;
+    private Boolean _continue;
 
     public Boolean getFrom() {
         return from;

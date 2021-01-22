@@ -11,10 +11,10 @@ import com.silanis.esl.sdk.OverviewOptions;
  */
 public class OverviewOptionsBuilder {
 
-    private Boolean title = true;
-    private Boolean body = true;
-    private Boolean documentSection = true;
-    private Boolean uploadSection = true;
+    private Boolean title = null;
+    private Boolean body = null;
+    private Boolean documentSection = null;
+    private Boolean uploadSection = null;
 
     /**
      * Creates a new Overview Options builder.
