@@ -45,7 +45,7 @@ public class RestClient extends Client {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
-    public static final String ESL_API_VERSION = "11.38";
+    public static final String ESL_API_VERSION = "11.39";
     public static final String ESL_API_USER_AGENT = "Java SDK v" + ESL_API_VERSION;
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
@@ -134,7 +134,7 @@ public class RestClient extends Client {
         return execute(put, jsonHandler);
     }
 
-    public String patch(String path, String jsonPayload) throws IOException, RequestException {
+    public void patch(String path, String jsonPayload) throws IOException, RequestException {
         support.logRequest("PATCH", path, jsonPayload);
 
         HttpPatch patch = new HttpPatch(path);
@@ -144,7 +144,7 @@ public class RestClient extends Client {
         body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
         patch.setEntity(body);
 
-        return execute(patch, jsonHandler);
+        execute(patch, jsonHandler);
     }
 
     public String postMultipartFile(String path, Map<String, byte[]> files, String jsonPayload) throws IOException, RequestException {
@@ -222,7 +222,7 @@ public class RestClient extends Client {
 
     private String getBearerToken() throws RequestException, IOException {
         //token has to have more than 1mn to live
-        if (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000) {
+        if (apiTokenConfig != null && (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000)) {
             String url = apiTokenConfig.getBaseUrl() + ApiTokenConfig.ACCESS_TOKEN_URL;
             HttpPost request = withUserAgent(new HttpPost(url));
             request.addHeader(HEADER_CONTENT_TYPE, ESL_CONTENT_TYPE_APPLICATION_JSON);
@@ -238,15 +238,19 @@ public class RestClient extends Client {
     }
 
     private String getApiTokenPayload() throws JsonProcessingException {
-        ApiTokenAccessRequest apiTokenAccessRequest = ApiTokenAccessRequest.newBuilder()
-            .clientId(apiTokenConfig.getClientAppId())
-            .secret(apiTokenConfig.getClientAppSecret())
-            .type(apiTokenConfig.getTokenType())
-            .email(apiTokenConfig.getTokenType() == ApiTokenConfig.TokenType.SENDER ? apiTokenConfig.getSenderEmail() : null)
-            .build();
-        return OBJECT_MAPPER.writeValueAsString(apiTokenAccessRequest);
+        ApiTokenAccessRequest apiTokenAccessRequest = null;
+        if (apiTokenConfig != null) {
+            apiTokenAccessRequest = ApiTokenAccessRequest.newBuilder()
+                .clientId(apiTokenConfig.getClientAppId())
+                .secret(apiTokenConfig.getClientAppSecret())
+                .type(apiTokenConfig.getTokenType())
+                .email(apiTokenConfig.getTokenType() == ApiTokenConfig.TokenType.SENDER ? apiTokenConfig.getSenderEmail() : null)
+                .build();
+        }
+        return apiTokenAccessRequest != null ? OBJECT_MAPPER.writeValueAsString(apiTokenAccessRequest) : "";
     }
 
+    @SuppressWarnings("unchecked")
     private <T> T execute(HttpUriRequest request, ResponseHandler<T> handler) throws IOException, RequestException {
 
         withUserAgent(request);
@@ -271,7 +275,7 @@ public class RestClient extends Client {
                 InputStream bodyContent = response.getEntity().getContent();
                 if (null != response.getHeaders(HEADER_CONTENT_DISPOSITION) && response.getHeaders(HEADER_CONTENT_DISPOSITION).length > 0) {
                     String fileName = getFilename(response.getHeaders(HEADER_CONTENT_DISPOSITION)[0].getValue());
-                    DownloadedFile downloadedFile = (DownloadedFile) handler.extract(bodyContent);
+                    DownloadedFile<?> downloadedFile = (DownloadedFile<?>) handler.extract(bodyContent);
                     downloadedFile.setFilename(fileName);
                     return (T) downloadedFile;
                 }
@@ -305,7 +309,7 @@ public class RestClient extends Client {
         for (String part : parts) {
             int index = part.indexOf(fileNameTitle);
             if (index > 0) {
-                return percentDecode(part.substring(index + fileNameTitle.length(), part.length()));
+                return percentDecode(part.substring(index + fileNameTitle.length()));
             }
         }
 
@@ -332,11 +336,11 @@ public class RestClient extends Client {
         return new BasicHeader(HEADER_KEY_ACCEPT, acceptType);
     }
 
-    public DownloadedFile getBytes(String path) throws IOException, RequestException {
+    public DownloadedFile<?> getBytes(String path) throws IOException, RequestException {
         return getBytes(path, ESL_ACCEPT_TYPE_APPLICATION);
     }
 
-    public DownloadedFile getBytes(String path, String acceptType) throws IOException, RequestException {
+    public DownloadedFile<?> getBytes(String path, String acceptType) throws IOException, RequestException {
         support.logRequest("GET", path);
         HttpGet get = new HttpGet(path);
         get.addHeader(buildAcceptHeader(acceptType));
@@ -344,7 +348,7 @@ public class RestClient extends Client {
         return execute(get, bytesHandler);
     }
 
-    public DownloadedFile getBytesAsOctetStream(String path) throws IOException, RequestException {
+    public DownloadedFile<?> getBytesAsOctetStream(String path) throws IOException, RequestException {
         return getBytes(path, ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM);
     }
 
