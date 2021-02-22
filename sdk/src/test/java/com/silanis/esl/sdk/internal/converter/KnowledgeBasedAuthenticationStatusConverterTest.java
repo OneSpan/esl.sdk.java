@@ -82,6 +82,21 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
         assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.FAILED));
 
+        apiKnowledgeBasedAuthenticationStatus = "INVALID_SIGNER";
+        converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.INVALID_SIGNER));
+
+        apiKnowledgeBasedAuthenticationStatus = "UPDATED";
+        converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.UPDATED));
+
+        apiKnowledgeBasedAuthenticationStatus = "LOCKED";
+        converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
+        sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", sdkKnowledgeBasedAuthenticationStatus, is(KnowledgeBasedAuthenticationStatus.LOCKED));
+
         apiKnowledgeBasedAuthenticationStatus = "UNKNOWN";
         converter = new KnowledgeBasedAuthenticationStatusConverter(apiKnowledgeBasedAuthenticationStatus);
         sdkKnowledgeBasedAuthenticationStatus = converter.toSDKKnowledgeBasedAuthenticationStatus();
@@ -104,6 +119,21 @@ public class KnowledgeBasedAuthenticationStatusConverterTest implements Converte
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
         apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
         assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("FAILED"));
+
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.INVALID_SIGNER;
+        converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
+        apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("INVALID_SIGNER"));
+
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.UPDATED;
+        converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
+        apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("UPDATED"));
+
+        sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.LOCKED;
+        converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
+        apiKnowledgeBasedAuthenticationStatus = converter.toAPIKnowledgeBasedAuthenticationStatus();
+        assertThat("KnowledgeBasedAuthentication status was not set correctly", apiKnowledgeBasedAuthenticationStatus, is("LOCKED"));
 
         sdkKnowledgeBasedAuthenticationStatus = com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.UNRECOGNIZED("UNKNOWN");
         converter = new KnowledgeBasedAuthenticationStatusConverter(sdkKnowledgeBasedAuthenticationStatus);
