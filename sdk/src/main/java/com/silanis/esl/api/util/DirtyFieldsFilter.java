@@ -29,11 +29,7 @@ public class DirtyFieldsFilter implements PropertyFilter {
             }
 
             if (ser) {
-                try {
-                    paramPropertyWriter.serializeAsField(paramObject, paramJsonGenerator, paramSerializerProvider);
-                } catch (Exception x) {
-                    System.out.println(x);
-                }
+                paramPropertyWriter.serializeAsField(paramObject, paramJsonGenerator, paramSerializerProvider);
             }
         }
     }
