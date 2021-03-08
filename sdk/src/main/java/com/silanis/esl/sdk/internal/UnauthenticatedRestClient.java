@@ -16,6 +16,7 @@ import java.io.InputStream;
  * Created by mpoitras on 22/04/14.
  */
 public class UnauthenticatedRestClient extends Client {
+    private final static String ALLOW_INVALID_SSL_CERTS = "allowAllSSLCertificates";
 
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
 
@@ -23,7 +24,7 @@ public class UnauthenticatedRestClient extends Client {
     }
 
     public UnauthenticatedRestClient(ProxyConfiguration proxyConfiguration) {
-        this(false, proxyConfiguration, false);
+        this(Boolean.TRUE.toString().equalsIgnoreCase(System.getProperty(ALLOW_INVALID_SSL_CERTS)), proxyConfiguration, false);
     }
 
     public UnauthenticatedRestClient(boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties) {
