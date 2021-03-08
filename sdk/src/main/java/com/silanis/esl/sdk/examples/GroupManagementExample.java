@@ -170,6 +170,7 @@ public class GroupManagementExample extends SDKSample {
         eslClient.getPackageService().notifySigner( packageId, createdGroup1.getId() );
 
         DocumentPackage result = eslClient.getPackage( packageId );
+        eslClient.changePackageStatusToDraft(packageId);
 
         // Here is how to delete groups
         eslClient.getGroupService().deleteGroup(createdGroup1.getId());
