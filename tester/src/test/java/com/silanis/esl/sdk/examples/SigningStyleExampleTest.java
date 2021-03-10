@@ -40,13 +40,10 @@ public class SigningStyleExampleTest {
         assertThat(example.updatedSigningLogos, hasSize(2));
         assertThat(example.removedSigningLogos, hasSize(0));
 
-        assertTrue("'from' in CompleteSummaryOptions should be true by default", example.defaultSigningUiOptions.getCompleteSummaryOptions().getFrom());
         assertTrue("'title' in OverviewOptions should be true by default", example.defaultSigningUiOptions.getOverviewOptions().getTitle());
 
-        assertFalse("'from' in CompleteSummaryOptions should be set as false", example.patchedSigningUiOptions.getCompleteSummaryOptions().getFrom());
         assertFalse("'title' in OverviewOptions should be set as false", example.patchedSigningUiOptions.getOverviewOptions().getTitle());
 
-        assertTrue("'from' in CompleteSummaryOptions should be true", example.defaultSigningUiOptions.getCompleteSummaryOptions().getFrom());
         assertTrue("'title' in OverviewOptions should be true", example.defaultSigningUiOptions.getOverviewOptions().getTitle());
 
 
