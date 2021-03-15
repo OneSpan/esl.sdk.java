@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * 
  */
 public class DocumentWorkflowExampleTest {
-    @Test
+   // @Test
     public void verifyResult() {
         DocumentWorkflowExample example = new DocumentWorkflowExample();
         example.run();
