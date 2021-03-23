@@ -1,7 +1,5 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.Link;
-import com.silanis.esl.sdk.Handover;
 import com.silanis.esl.sdk.builder.HandoverBuilder;
 
 import java.util.Locale;
@@ -11,16 +9,16 @@ import java.util.Locale;
  */
 public class HandoverConverter {
 
-    private Link apiLink;
-    private Handover sdkHandover;
+    private com.silanis.esl.api.model.Handover apiHandover;
+    private com.silanis.esl.sdk.Handover sdkHandover;
 
     /**
      * Construct with API object involved in conversion.
      *
-     * @param apiLink
+     * @param apiHandover
      */
-    public HandoverConverter(Link apiLink) {
-        this.apiLink = apiLink;
+    public HandoverConverter(com.silanis.esl.api.model.Handover apiHandover) {
+        this.apiHandover = apiHandover;
     }
 
     /**
@@ -28,7 +26,7 @@ public class HandoverConverter {
      *
      * @param sdkHandover
      */
-    public HandoverConverter(Handover sdkHandover) {
+    public HandoverConverter(com.silanis.esl.sdk.Handover sdkHandover) {
         this.sdkHandover = sdkHandover;
     }
 
@@ -37,12 +35,12 @@ public class HandoverConverter {
      *
      * @return
      */
-    public Link toAPILink() {
+    public com.silanis.esl.api.model.Handover toAPIHandover() {
         if (sdkHandover == null) {
-            return apiLink;
+            return apiHandover;
         }
 
-        return new Link()
+        return new com.silanis.esl.api.model.Handover()
                 .safeSetHref(sdkHandover.getHref())
                 .safeSetText(sdkHandover.getText())
                 .safeSetTitle(sdkHandover.getTitle());
@@ -53,16 +51,16 @@ public class HandoverConverter {
      *
      * @return
      */
-    public Handover toSDKHandover(Locale language) {
-        if (apiLink == null) {
+    public com.silanis.esl.sdk.Handover toSDKHandover(Locale language) {
+        if (apiHandover == null) {
             return sdkHandover;
         }
 
         return HandoverBuilder
                 .newHandover(language)
-                .withHref(apiLink.getHref())
-                .withText(apiLink.getText())
-                .withTitle(apiLink.getTitle())
+                .withHref(apiHandover.getHref())
+                .withText(apiHandover.getText())
+                .withTitle(apiHandover.getTitle())
                 .build();
     }
 

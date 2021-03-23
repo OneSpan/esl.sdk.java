@@ -1,92 +1,59 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
-import com.silanis.esl.api.util.SchemaSanitizer;
+
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Arrays;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class Link extends Model
+public class Link extends Handover
       implements java.io.Serializable
 {
     
     // Dirty Flag Constants
     @JsonIgnore
-    public static final String FIELD_HREF = "href";
+    public static final String FIELD_AUTO_REDIRECT = "autoRedirect";
     @JsonIgnore
-    public static final String FIELD_TEXT = "text";
-    @JsonIgnore
-    public static final String FIELD_TITLE = "title";
+    public static final String FIELD_PARAMETERS = "parameters";
     
     // Empty Constructor
     public Link ( ) {}
     
     // Fields
-    protected String _href = "";
-    protected String _text = "";
-    protected String _title = "";
-    
-    // Accessors
-        
-    
-    public Link setHref( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_HREF,value);
-        value = SchemaSanitizer.trim(value);
-        // TODO With proper compare
-        // if ( this._href == value ) return this;
-        this._href = value;
-        setDirty(FIELD_HREF);
+    protected boolean autoRedirect = false;
+    protected Set<String> parameters = new HashSet<String>(Arrays.asList(UrlParameter.PACKAGE.name(), UrlParameter.SIGNER.name(), UrlParameter.STATUS.name()));
+
+
+    public Link setAutoRedirect(boolean value) {
+        this.autoRedirect = value;
+        setDirty(FIELD_AUTO_REDIRECT);
         return this;
     }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+
+    public boolean getAutoRedirect() {
+        return autoRedirect;
+    }
+
+    public Link setParameters(Set<String> value) {
+        this.parameters = value;
+        setDirty(FIELD_PARAMETERS);
+        return this;
+    }
+
     @JsonIgnore
-    public Link safeSetHref( String value ){
-        if ( value != null ) { this.setHref( value ); }
+    public Link safeSetParameters(Set<String> value) {
+        if (value != null) {
+            this.setParameters(value);
+        }
         return this;
     }
-    public String getHref(){
-        return _href;
+
+    public Set<String> getParameters() {
+        return parameters;
     }
-    
-        
-    
-    public Link setText( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_TEXT,value);
-        value = SchemaSanitizer.trim(value);
-        // TODO With proper compare
-        // if ( this._text == value ) return this;
-        this._text = value;
-        setDirty(FIELD_TEXT);
-        return this;
+
+    public enum UrlParameter {
+        PACKAGE,SIGNER,STATUS
     }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public Link safeSetText( String value ){
-        if ( value != null ) { this.setText( value ); }
-        return this;
-    }
-    public String getText(){
-        return _text;
-    }
-    
-        
-    
-    public Link setTitle( String value ){
-        value = SchemaSanitizer.trim(value);
-        // TODO With proper compare
-        // if ( this._title == value ) return this;
-        this._title = value;
-        setDirty(FIELD_TITLE);
-        return this;
-    }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public Link safeSetTitle( String value ){
-        if ( value != null ) { this.setTitle( value ); }
-        return this;
-    }
-    public String getTitle(){
-        return _title;
-    }
-    
-    
 }

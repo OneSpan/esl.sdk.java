@@ -2,10 +2,14 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
+import com.silanis.esl.sdk.Link;
 import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Builder object used to customize the signing ceremony.
@@ -41,6 +45,8 @@ public class DocumentPackageSettingsBuilder {
     private String linkText = null;
     private String linkTooltip = null;
     private String linkHref = null;
+    private Boolean linkAutoRedirect = null;
+    private Set<String> linkParameters = new HashSet<String>(Arrays.asList(Link.UrlParameter.PACKAGE.name(), Link.UrlParameter.SIGNER.name(), Link.UrlParameter.STATUS.name()));;
 
     private Boolean expandLeftMenu = null;
 
@@ -440,6 +446,48 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
+     * Set linkAutoredirect @see
+     * #withHandOverLinkHref the signer will be automatically redirected to
+     * the handover URL once signing is complete.
+     *
+     * @return This
+     * @see #withHandOverLinkHref(String)
+     */
+    public DocumentPackageSettingsBuilder withHandOverLinkAutoRedirect() {
+        linkAutoRedirect = true;
+        return this;
+    }
+
+    /**
+     * Set linkAutoredirect @see
+     * #withHandOverLinkHref the signer will not be automatically redirected to
+     * the handover URL.
+     *
+     * @return This
+     * @see #withHandOverLinkHref(String)
+     */
+    public DocumentPackageSettingsBuilder withoutHandOverLinkAutoRedirect() {
+        linkAutoRedirect = false;
+        return this;
+    }
+
+    /**
+     * Set linkParameters @see
+     * #withHandOverLinkHref defines which parameters to include in the handover URL
+     * If left empty, it means no parameters will be appended to the URL
+     * By default the 3 supported parameters will be appended:
+     * ["PACKAGE", "SIGNER", "STATUS"]
+     *
+     * @param parameters
+     * @return This
+     * @see #withHandOverLinkHref(String)
+     */
+    public DocumentPackageSettingsBuilder withHandOverLinkParameters(Set<String> parameters) {
+        linkParameters = parameters;
+        return this;
+    }
+
+    /**
      * Set eSignLive signing ceremony branding and customization options.
      *
      * @param ceremonyLayoutSettingsBuilder
@@ -519,6 +567,9 @@ public class DocumentPackageSettingsBuilder {
         result.setLinkHref(linkHref);
         result.setLinkText(linkText);
         result.setLinkTooltip(linkTooltip);
+        result.setLinkAutoRedirect(linkAutoRedirect);
+        result.setLinkParameters(linkParameters);
+
         result.setDisableDeclineOther(disableDeclineOther);
         result.setDisableOptOutOther(disableOptOutOther);
         result.setEnforceCaptureSignature(enforceCaptureSignature);

@@ -14,10 +14,10 @@ import static org.hamcrest.Matchers.*;
  * Created by schoi on 2020-04-02.
  */
 public class HandoverConverterTest implements ConverterTest {
-    private Link apiLink1 = null;
-    private Link apiLink2 = null;
-    private Handover sdkHandover1 = null;
-    private Handover sdkHandover2 = null;
+    private com.silanis.esl.api.model.Handover apiHandover1 = null;
+    private com.silanis.esl.api.model.Handover apiHandover2 = null;
+    private com.silanis.esl.sdk.Handover sdkHandover1 = null;
+    private com.silanis.esl.sdk.Handover sdkHandover2 = null;
     private HandoverConverter converter = null;
     private Locale lang = Locale.ENGLISH;
 
@@ -26,14 +26,14 @@ public class HandoverConverterTest implements ConverterTest {
     public void convertNullSDKToAPI() {
         sdkHandover1 = null;
         converter = new HandoverConverter(sdkHandover1);
-        assertThat(converter.toAPILink(), nullValue());
+        assertThat(converter.toAPIHandover(), nullValue());
     }
 
     @Override
     @Test
     public void convertNullAPIToSDK() {
-        apiLink1 = null;
-        converter = new HandoverConverter(apiLink1);
+        apiHandover1 = null;
+        converter = new HandoverConverter(apiHandover1);
         assertThat(converter.toSDKHandover(Locale.KOREAN), nullValue());
     }
 
@@ -48,9 +48,9 @@ public class HandoverConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertNullAPIToAPI() {
-        apiLink1 = null;
-        converter = new HandoverConverter(apiLink1);
-        assertThat(converter.toAPILink(), nullValue());
+        apiHandover1 = null;
+        converter = new HandoverConverter(apiHandover1);
+        assertThat(converter.toAPIHandover(), nullValue());
     }
 
     @Override
@@ -68,38 +68,38 @@ public class HandoverConverterTest implements ConverterTest {
     @Override
     @Test
     public void convertAPIToAPI() {
-        apiLink1 = createTypicalAPILink();
-        apiLink2 = new HandoverConverter(apiLink1).toAPILink();
+        apiHandover1 = createTypicalAPILink();
+        apiHandover2 = new HandoverConverter(apiHandover1).toAPIHandover();
 
-        assertThat(apiLink2, notNullValue());
-        assertThat(apiLink2.getHref(), is(apiLink1.getHref()));
-        assertThat(apiLink2.getText(), is(apiLink1.getText()));
-        assertThat(apiLink2.getTitle(), is(apiLink1.getTitle()));
+        assertThat(apiHandover2, notNullValue());
+        assertThat(apiHandover2.getHref(), is(apiHandover1.getHref()));
+        assertThat(apiHandover2.getText(), is(apiHandover1.getText()));
+        assertThat(apiHandover2.getTitle(), is(apiHandover1.getTitle()));
     }
 
     @Override
     @Test
     public void convertAPIToSDK() {
-        apiLink1 = createTypicalAPILink();
-        sdkHandover1 = new HandoverConverter(apiLink1).toSDKHandover(lang);
+        apiHandover1 = createTypicalAPILink();
+        sdkHandover1 = new HandoverConverter(apiHandover1).toSDKHandover(lang);
 
         assertThat(sdkHandover1, notNullValue());
         assertThat(sdkHandover1.getLanguage(), is(lang));
-        assertThat(sdkHandover1.getHref(), is(apiLink1.getHref()));
-        assertThat(sdkHandover1.getText(), is(apiLink1.getText()));
-        assertThat(sdkHandover1.getTitle(), is(apiLink1.getTitle()));
+        assertThat(sdkHandover1.getHref(), is(apiHandover1.getHref()));
+        assertThat(sdkHandover1.getText(), is(apiHandover1.getText()));
+        assertThat(sdkHandover1.getTitle(), is(apiHandover1.getTitle()));
     }
 
     @Override
     @Test
     public void convertSDKToAPI() {
         sdkHandover1 = createTypicalSDKHandover();
-        apiLink1 = new HandoverConverter(sdkHandover1).toAPILink();
+        apiHandover1 = new HandoverConverter(sdkHandover1).toAPIHandover();
 
-        assertThat(apiLink1, notNullValue());
-        assertThat(apiLink1.getHref(), is(sdkHandover1.getHref()));
-        assertThat(apiLink1.getText(), is(sdkHandover1.getText()));
-        assertThat(apiLink1.getTitle(), is(sdkHandover1.getTitle()));
+        assertThat(apiHandover1, notNullValue());
+        assertThat(apiHandover1.getHref(), is(sdkHandover1.getHref()));
+        assertThat(apiHandover1.getText(), is(sdkHandover1.getText()));
+        assertThat(apiHandover1.getTitle(), is(sdkHandover1.getTitle()));
     }
 
     private Handover createTypicalSDKHandover() {
