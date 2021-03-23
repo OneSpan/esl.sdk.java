@@ -76,7 +76,8 @@ public class SigningUiOptionsConverterTest implements ConverterTest {
         sdkSigningUiOptions = new SigningUiOptionsConverter(apiSigningUiOptions).toSDKSigningUiOptions();
 
         assertThat("Converter returned a null api object for a non null api object", apiSigningUiOptions, notNullValue());
-        assertThat("'from' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getFrom(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getFrom()));
+        assertThat("'documentSection' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getDocumentSection(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getDocumentSection()));
+        assertThat("'uploadSection' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getUploadSection(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getUploadSection()));
         assertThat("'title' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getTitle(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getTitle()));
         assertThat("'message' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getMessage(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getMessage()));
         assertThat("'download' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getDownload(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getDownload()));
@@ -129,7 +130,8 @@ public class SigningUiOptionsConverterTest implements ConverterTest {
         apiSigningUiOptions = new SigningUiOptionsConverter(sdkSigningUiOptions).toAPISigningUiOptions();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiSigningUiOptions, is(notNullValue()));
-        assertThat("'from' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getFrom(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getFrom()));
+        assertThat("'documentSection' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getDocumentSection(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getDocumentSection()));
+        assertThat("'uploadSection' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getUploadSection(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getUploadSection()));
         assertThat("'title' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getTitle(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getTitle()));
         assertThat("'message' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getMessage(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getMessage()));
         assertThat("'download' was not correctly set", apiSigningUiOptions.getCompleteSummaryOptions().getDownload(), is(sdkSigningUiOptions.getCompleteSummaryOptions().getDownload()));
@@ -182,12 +184,13 @@ public class SigningUiOptionsConverterTest implements ConverterTest {
     private com.silanis.esl.sdk.SigningUiOptions createTypicalSDKSigningUiOptions() {
         return newSigningUiOptions()
                 .withCompleteSummaryOptions(CompleteSummaryOptionsBuilder.newCompleteSummaryOptions()
-                        .withFrom()
                         .withTitle()
                         .withMessage()
                         .withDownload()
                         .withReview()
                         .withContinue()
+                        .withDocumentSection()
+                        .withUploadSection()
                         .build())
                 .withInpersonWelcomeOptions(InpersonWelcomeOptionsBuilder.newInpersonWelcomeOptions()
                         .withTitle()
@@ -249,11 +252,12 @@ public class SigningUiOptionsConverterTest implements ConverterTest {
 
         apiSigningUiOptions.setCompleteSummaryOptions(new CompleteSummaryOptions()
                 .setTitle(true)
-                .setFrom(true)
                 .setMessage(true)
                 .setDownload(true)
                 .setReview(true)
-                .setContinue(true));
+                .setContinue(true)
+                .setDocumentSection(true)
+                .setUploadSection(true));
         apiSigningUiOptions.setInpersonWelcomeOptions(new InpersonWelcomeOptions()
                 .setTitle(true)
                 .setBody(true)

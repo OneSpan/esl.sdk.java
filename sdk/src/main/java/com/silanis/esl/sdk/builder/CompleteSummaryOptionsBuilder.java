@@ -10,12 +10,13 @@ import com.silanis.esl.sdk.CompleteSummaryOptions;
  *
  */
 public class CompleteSummaryOptionsBuilder {
-    private Boolean from = null;
     private Boolean title = null;
     private Boolean message = null;
     private Boolean download = null;
     private Boolean review = null;
     private Boolean _continue = null;
+    private Boolean documentSection = null;
+    private Boolean uploadSection = null;
 
     /**
      * Creates a new Complete Summary Options builder.
@@ -27,30 +28,6 @@ public class CompleteSummaryOptionsBuilder {
     }
 
     private CompleteSummaryOptionsBuilder() {
-    }
-
-    /**
-     * Enables displaying the 'from' section on the Complete Summary page.
-     * <p>
-     * DEFAULT: ENABLED
-     * <p>
-     *
-     * @return This
-     */
-    public CompleteSummaryOptionsBuilder withFrom() {
-        from = true;
-        return this;
-    }
-
-    /**
-     * Disables displaying the 'from' section.
-     *
-     * @see #withFrom()
-     * @return This
-     */
-    public CompleteSummaryOptionsBuilder withoutFrom() {
-        from = false;
-        return this;
     }
 
     /**
@@ -174,18 +151,67 @@ public class CompleteSummaryOptionsBuilder {
     }
 
     /**
+     * Enables displaying the 'documentSection' section on the Complete Summary page.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public CompleteSummaryOptionsBuilder withDocumentSection() {
+        documentSection = true;
+        return this;
+    }
+
+    /**
+     * Disables displaying the 'documentSection' section.
+     *
+     * @see #withDocumentSection() ()
+     * @return This
+     */
+    public CompleteSummaryOptionsBuilder withoutDocumentSection() {
+        documentSection = false;
+        return this;
+    }
+
+    /**
+     * Enables displaying the 'uploadSection' section on the Complete Summary  page.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public CompleteSummaryOptionsBuilder withUploadSection() {
+        uploadSection = true;
+        return this;
+    }
+
+    /**
+     * Disables displaying the 'uploadSection' section.
+     *
+     * @see #withUploadSection()
+     * @return This
+     */
+    public CompleteSummaryOptionsBuilder withoutUploadSection() {
+        uploadSection = false;
+        return this;
+    }
+
+    /**
      * Builds the actual Complete Summary options.
      *
      * @return the Complete Summary options
      */
     public CompleteSummaryOptions build() {
         CompleteSummaryOptions result = new CompleteSummaryOptions();
-        result.setFrom( from );
         result.setTitle( title );
         result.setMessage( message );
         result.setDownload( download );
         result.setReview( review );
         result.setContinue( _continue );
+        result.setDocumentSection(documentSection);
+        result.setUploadSection(uploadSection);
         return result;
     }
 }

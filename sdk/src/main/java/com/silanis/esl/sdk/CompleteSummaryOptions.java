@@ -6,20 +6,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class CompleteSummaryOptions
 {
 
-    private Boolean from;
     private Boolean title;
     private Boolean message;
     private Boolean download;
     private Boolean review;
     private Boolean _continue;
-
-    public Boolean getFrom() {
-        return from;
-    }
-
-    public void setFrom(Boolean from) {
-        this.from = from;
-    }
+    private Boolean documentSection;
+    private Boolean uploadSection;
 
     public Boolean getTitle() {
         return title;
@@ -59,5 +52,21 @@ public class CompleteSummaryOptions
 
     public void setContinue(Boolean _continue) {
         this._continue = _continue;
+    }
+
+    public Boolean getDocumentSection() {
+        return documentSection;
+    }
+
+    public void setDocumentSection(Boolean documentSection) {
+        this.documentSection = documentSection;
+    }
+
+    public Boolean getUploadSection() {
+        return uploadSection;
+    }
+
+    public void setUploadSection(Boolean uploadSection) {
+        this.uploadSection = uploadSection;
     }
 }
