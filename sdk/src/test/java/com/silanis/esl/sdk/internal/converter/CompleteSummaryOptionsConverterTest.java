@@ -75,12 +75,13 @@ public class CompleteSummaryOptionsConverterTest implements ConverterTest {
         sdkCompleteSummaryOptions = new CompleteSummaryOptionsConverter(apiCompleteSummaryOptions).toSDKCompleteSummaryOptions();
 
         assertThat("Converter returned a null api object for a non null api object", apiCompleteSummaryOptions, notNullValue());
-        assertThat("'from' was not correctly set", apiCompleteSummaryOptions.getFrom(), is(sdkCompleteSummaryOptions.getFrom()));
         assertThat("'title' was not correctly set", apiCompleteSummaryOptions.getTitle(), is(sdkCompleteSummaryOptions.getTitle()));
         assertThat("'message' was not correctly set", apiCompleteSummaryOptions.getMessage(), is(sdkCompleteSummaryOptions.getMessage()));
         assertThat("'download' was not correctly set", apiCompleteSummaryOptions.getDownload(), is(sdkCompleteSummaryOptions.getDownload()));
         assertThat("'review' was not correctly set", apiCompleteSummaryOptions.getReview(), is(sdkCompleteSummaryOptions.getReview()));
         assertThat("'continue' was not correctly set", apiCompleteSummaryOptions.getContinue(), is(sdkCompleteSummaryOptions.getContinue()));
+        assertThat("'documentSection' was not correctly set", apiCompleteSummaryOptions.getDocumentSection(), is(sdkCompleteSummaryOptions.getDocumentSection()));
+        assertThat("'uploadSection' was not correctly set", apiCompleteSummaryOptions.getUploadSection(), is(sdkCompleteSummaryOptions.getUploadSection()));
 
     }
 
@@ -92,12 +93,14 @@ public class CompleteSummaryOptionsConverterTest implements ConverterTest {
         apiCompleteSummaryOptions = new CompleteSummaryOptionsConverter(sdkCompleteSummaryOptions).toAPICompleteSummaryOptions();
 
         assertThat("Converter returned a null api object for a non null sdk object", apiCompleteSummaryOptions, is(notNullValue()));
-        assertThat("'from' was not correctly set", apiCompleteSummaryOptions.getFrom(), is(sdkCompleteSummaryOptions.getFrom()));
         assertThat("'title' was not correctly set", apiCompleteSummaryOptions.getTitle(), is(sdkCompleteSummaryOptions.getTitle()));
         assertThat("'message' was not correctly set", apiCompleteSummaryOptions.getMessage(), is(sdkCompleteSummaryOptions.getMessage()));
         assertThat("'download' was not correctly set", apiCompleteSummaryOptions.getDownload(), is(sdkCompleteSummaryOptions.getDownload()));
         assertThat("'review' was not correctly set", apiCompleteSummaryOptions.getReview(), is(sdkCompleteSummaryOptions.getReview()));
         assertThat("'continue' was not correctly set", apiCompleteSummaryOptions.getContinue(), is(sdkCompleteSummaryOptions.getContinue()));
+        assertThat("'documentSection' was not correctly set", apiCompleteSummaryOptions.getDocumentSection(), is(sdkCompleteSummaryOptions.getDocumentSection()));
+        assertThat("'uploadSection' was not correctly set", apiCompleteSummaryOptions.getUploadSection(), is(sdkCompleteSummaryOptions.getUploadSection()));
+
     }
 
     /**
@@ -107,12 +110,13 @@ public class CompleteSummaryOptionsConverterTest implements ConverterTest {
      */
     private com.silanis.esl.sdk.CompleteSummaryOptions createTypicalSDKCompleteSummaryOptions() {
         return newCompleteSummaryOptions()
-                .withFrom()
                 .withTitle()
                 .withMessage()
                 .withDownload()
                 .withReview()
                 .withContinue()
+                .withDocumentSection()
+                .withUploadSection()
                 .build();
     }
 
@@ -125,12 +129,13 @@ public class CompleteSummaryOptionsConverterTest implements ConverterTest {
 
         com.silanis.esl.api.model.CompleteSummaryOptions apiCompleteSummaryOptions = new CompleteSummaryOptions();
 
-        apiCompleteSummaryOptions.setFrom(true);
         apiCompleteSummaryOptions.setTitle(true);
         apiCompleteSummaryOptions.setMessage(true);
         apiCompleteSummaryOptions.setDownload(true);
         apiCompleteSummaryOptions.setReview(true);
         apiCompleteSummaryOptions.setContinue(true);
+        apiCompleteSummaryOptions.setDocumentSection(true);
+        apiCompleteSummaryOptions.setUploadSection(true);
 
         return apiCompleteSummaryOptions;
     }

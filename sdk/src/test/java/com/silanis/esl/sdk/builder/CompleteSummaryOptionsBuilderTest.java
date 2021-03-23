@@ -12,21 +12,27 @@ public class CompleteSummaryOptionsBuilderTest {
     @Test
     public void buildWithSpecifiedValues() {
         CompleteSummaryOptionsBuilder builder = CompleteSummaryOptionsBuilder.newCompleteSummaryOptions();
-        builder.withFrom();
         builder.withTitle();
         builder.withMessage();
         builder.withDownload();
         builder.withReview();
         builder.withContinue();
+        builder.withDownload();
+        builder.withDocumentSection();
+        builder.withUploadSection();
 
         CompleteSummaryOptions result = builder.build();
         assertThat( "build returned a null object", result, is( notNullValue() ) );
-        assertTrue( "'from' was not set correctly", result.getFrom());
         assertTrue( "'title' was not set correctly", result.getTitle());
         assertTrue( "'message' was not set correctly", result.getMessage());
         assertTrue( "'download' was not set correctly", result.getDownload());
         assertTrue( "'review' was not set correctly", result.getReview());
         assertTrue( "'continue' was not set correctly", result.getContinue());
+        assertTrue( "'documentSection' was not set correctly", result.getDocumentSection());
+        assertTrue( "'uploadSection' was not set correctly", result.getUploadSection());
+
+
+
 
     }
 }

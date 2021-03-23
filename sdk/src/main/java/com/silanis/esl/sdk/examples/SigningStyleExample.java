@@ -73,7 +73,7 @@ public class SigningStyleExample extends SDKSample {
 
         SigningUiOptions signingUiOptions = SigningUiOptionsBuilder.newSigningUiOptions()
                 .withCompleteSummaryOptions(CompleteSummaryOptionsBuilder.newCompleteSummaryOptions()
-                        .withoutFrom()
+                        .withoutDocumentSection()
                         .withoutTitle()
                         .build())
                 .withOverviewOptions(OverviewOptionsBuilder.newOverviewOptions()
