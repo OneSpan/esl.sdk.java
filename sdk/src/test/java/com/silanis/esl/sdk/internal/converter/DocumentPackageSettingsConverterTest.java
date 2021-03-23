@@ -5,6 +5,8 @@ import com.silanis.esl.sdk.DocumentPackageSettings;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings;
@@ -102,6 +104,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Handover link was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
         assertThat("Handover text was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
         assertThat("Handover title was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
+        assertThat("Handover autoRedirect was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getAutoRedirect(), is(sdkPackageSettings1.getLinkAutoRedirect()));
+        assertThat("Handover parameters was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getParameters(), is(sdkPackageSettings1.getLinkParameters()));
         assertThat("Hide capture text flag was not correctly set", apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
         assertThat("Hide water mark flag was not correctly set", apiPackageSettings1.getCeremony().getHideWatermark(), is(sdkPackageSettings1.getHideWatermark()));
         assertThat("Max auth fails allowed was not correctly set", apiPackageSettings1.getCeremony().getMaxAuthFailsAllowed(), is(sdkPackageSettings1.getMaxAuthAttempts()));
@@ -143,6 +147,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Handover link was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getHref(), is(sdkPackageSettings1.getLinkHref()));
         assertThat("Handover text was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getText(), is(sdkPackageSettings1.getLinkText()));
         assertThat("Handover title was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getTitle(), is(sdkPackageSettings1.getLinkTooltip()));
+        assertThat("Handover autoRedirect was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getAutoRedirect(), is(sdkPackageSettings1.getLinkAutoRedirect()));
+        assertThat("Handover parameters was not correctly set", apiPackageSettings1.getCeremony().getHandOver().getParameters(), is(sdkPackageSettings1.getLinkParameters()));
         assertThat("Hide capture text flag was not correctly set", apiPackageSettings1.getCeremony().getHideCaptureText(), is(sdkPackageSettings1.getHideCaptureText()));
         assertThat("Enforce capture signature flag was not correctly set", apiPackageSettings1.getCeremony().getEnforceCaptureSignature(), is(sdkPackageSettings1.getEnforceCaptureSignature()));
         assertThat("Font size was not correctly set", apiPackageSettings1.getCeremony().getFontSize(), is(sdkPackageSettings1.getFontSize()));
@@ -189,6 +195,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 .withHandOverLinkHref("http://www.google.ca")
                 .withHandOverLinkText("click here")
                 .withHandOverLinkTooltip("link tooltip")
+                .withHandOverLinkAutoRedirect()
+                .withHandOverLinkParameters(new HashSet<String>(Arrays.asList("PACKAGE")))
                 .withDialogOnComplete()
                 .withEnforceCaptureSignature()
                 .withFontSize(20)
@@ -234,6 +242,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         Link link = new Link();
         link.setHref("http://www.google.ca");
         link.setText("click here");
+        link.setAutoRedirect(true);
+        link.setParameters(new HashSet<String>(Arrays.asList("PACKAGE")));
         apiCeremonySettings.setHandOver(link);
 
         apiCeremonySettings.setHideCaptureText(true);

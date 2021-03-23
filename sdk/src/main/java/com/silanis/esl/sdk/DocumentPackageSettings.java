@@ -2,6 +2,7 @@ package com.silanis.esl.sdk;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class DocumentPackageSettings {
 
@@ -30,6 +31,8 @@ public class DocumentPackageSettings {
     private String linkText;
     private String linkTooltip;
     private String linkHref;
+    private Boolean linkAutoRedirect = null;
+    private Set<String> linkParameters = null;
     private Boolean expandLeftMenu = null;
     private Integer maxAttachmentFiles = null;
     private Boolean showNseOverview = null;
@@ -138,6 +141,22 @@ public class DocumentPackageSettings {
 
     public void setLinkHref(String linkHref) {
         this.linkHref = linkHref;
+    }
+
+    public Boolean getLinkAutoRedirect() {
+        return linkAutoRedirect;
+    }
+
+    public void setLinkAutoRedirect(Boolean linkAutoRedirect) {
+        this.linkAutoRedirect = linkAutoRedirect;
+    }
+
+    public Set<String> getLinkParameters() {
+        return linkParameters;
+    }
+
+    public void setLinkParameters(Set<String> linkParameters) {
+        this.linkParameters = linkParameters;
     }
 
     public CeremonyLayoutSettings getCeremonyLayoutSettings() {

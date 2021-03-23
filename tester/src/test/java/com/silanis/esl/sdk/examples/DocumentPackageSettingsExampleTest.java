@@ -46,6 +46,8 @@ public class DocumentPackageSettingsExampleTest {
         assertThat("Hand over link ref not set correctly. ", documentPackageSettings.getLinkHref().equals(HAND_OVER_LINK_HREF));
         assertThat("Hand over link text not set correctly. ", documentPackageSettings.getLinkText().equals(HAND_OVER_LINK_TEXT));
         assertThat("Hand over link tool tip not set correctly. ", documentPackageSettings.getLinkTooltip().equals(HAND_OVER_LINK_TOOLTIP));
+        assertTrue("Hand over link autoredirect not set correctly. ", documentPackageSettings.getLinkAutoRedirect());
+        assertThat("Hand over link parameters not set correctly. ", documentPackageSettings.getLinkParameters().equals(HAND_OVER_LINK_PARAMETERS));
         assertTrue("Dialog on complete flag not set correctly. ", documentPackageSettings.getShowDialogOnComplete());
         assertFalse("Disable first affidavit was not set correctly. ", documentPackageSettings.getEnableFirstAffidavit());
         assertFalse("Disable second affidavit was not set correctly. ", documentPackageSettings.getEnableSecondAffidavit());

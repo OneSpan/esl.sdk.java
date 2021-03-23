@@ -2,6 +2,11 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Link;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
@@ -21,6 +26,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
     public static final String HAND_OVER_LINK_HREF = "http://www.google.ca";
     public static final String HAND_OVER_LINK_TEXT = "click here";
     public static final String HAND_OVER_LINK_TOOLTIP = "link tooltip";
+    public static final Set<String> HAND_OVER_LINK_PARAMETERS = new HashSet<String>(Arrays.asList(Link.UrlParameter.PACKAGE.name()));
     public static final Integer FONT_SIZE = 28;
     public static final Integer EXPIRE_IN_DAYS = 12;
     public static final Integer MAX_ATTACHMENT_FILES = 2;
@@ -53,6 +59,8 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                 .withHandOverLinkHref(HAND_OVER_LINK_HREF)
                                 .withHandOverLinkText(HAND_OVER_LINK_TEXT)
                                 .withHandOverLinkTooltip(HAND_OVER_LINK_TOOLTIP)
+                                .withHandOverLinkAutoRedirect()
+                                .withHandOverLinkParameters(HAND_OVER_LINK_PARAMETERS)
                                 .withFontSize(FONT_SIZE)
                                 .withDialogOnComplete()
                                 .withoutDeclineOther()
