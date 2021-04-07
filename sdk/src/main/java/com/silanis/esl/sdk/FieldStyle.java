@@ -50,10 +50,6 @@ public class FieldStyle extends EslEnumeration {
         sdkValues.put(MOBILE_CAPTURE.name(), MOBILE_CAPTURE);
         sdkValues.put(RAW_CAPTURE.name(), RAW_CAPTURE);
         sdkValues.put(DATEPICKER.name(), DATEPICKER);
-        sdkValues.put(BOUND_DATE.name(), BOUND_DATE);
-        sdkValues.put(BOUND_NAME.name(), BOUND_NAME);
-        sdkValues.put(BOUND_TITLE.name(), BOUND_TITLE);
-        sdkValues.put(BOUND_COMPANY.name(), BOUND_COMPANY);
     }
 
     private final String binding;
