@@ -36,10 +36,6 @@ public class EslEnumerationTest {
         }
         assertThat(FieldStyle.BOUND_NAME.ordinal(), is(1));
         assertThat(FieldStyle.DROP_LIST.name(), is("DROP_LIST"));
-        assertThat(FieldStyle.BOUND_COMPANY.name(), is("BOUND_COMPANY"));
-        assertThat(FieldStyle.BOUND_DATE.name(), is("BOUND_DATE"));
-        assertThat(FieldStyle.BOUND_TITLE.name(), is("BOUND_TITLE"));
-        assertThat(FieldStyle.BOUND_NAME.name(), is("BOUND_NAME"));
     }
 
     @Test
