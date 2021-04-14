@@ -65,6 +65,7 @@ public class EslClient {
     private SignerVerificationService signerVerificationService;
     private SigningStyleService signingStyleService;
     private DataRetentionSettingsService dataRetentionSettingsService;
+    private VirtualRoomService virtualRoomService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -167,6 +168,7 @@ public class EslClient {
         signerVerificationService = new SignerVerificationService(client, baseURL);
         signingStyleService = new SigningStyleService(client, baseURL);
         dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
+        virtualRoomService = new VirtualRoomService(client, baseURL);
     }
 
     /**
@@ -206,6 +208,15 @@ public class EslClient {
      */
     public DataRetentionSettingsService getDataRetentionSettingsService() {
         return dataRetentionSettingsService;
+    }
+
+    /**
+     * Gets the virtual room config service
+     *
+     * @return the virtual room config service
+     */
+    public VirtualRoomService getVirtualRoomService() {
+        return virtualRoomService;
     }
 
     /**
