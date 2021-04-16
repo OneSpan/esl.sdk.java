@@ -1,9 +1,6 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.Link;
-import com.silanis.esl.sdk.Handover;
 import com.silanis.esl.sdk.internal.converter.HandoverConverter;
-import com.silanis.esl.sdk.internal.converter.LocaleConverter;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
 
 import java.util.List;
@@ -22,21 +19,21 @@ public class AccountConfigService {
         this.apiClient = apiClient;
     }
 
-    public Handover getHandoverUrl(Locale language) {
-        Link link = apiClient.getHandoverUrl(convertToString(language));
-        return new HandoverConverter(link).toSDKHandover(language);
+    public com.silanis.esl.sdk.Handover getHandoverUrl(Locale language) {
+        com.silanis.esl.api.model.Handover handover = apiClient.getHandoverUrl(convertToString(language));
+        return new HandoverConverter(handover).toSDKHandover(language);
     }
 
-    public Handover createHandoverUrl(Handover handover) {
-        Link link = new HandoverConverter(handover).toAPILink();
-        link = apiClient.createHandoverUrl(convertToString(handover.getLanguage()), link);
-        return new HandoverConverter(link).toSDKHandover(handover.getLanguage());
+    public com.silanis.esl.sdk.Handover createHandoverUrl(com.silanis.esl.sdk.Handover sdkHandover) {
+        com.silanis.esl.api.model.Handover apiHandover = new HandoverConverter(sdkHandover).toAPIHandover();
+        apiHandover = apiClient.createHandoverUrl(convertToString(sdkHandover.getLanguage()), apiHandover);
+        return new HandoverConverter(apiHandover).toSDKHandover(sdkHandover.getLanguage());
     }
 
-    public Handover updateHandoverUrl(Handover handover) {
-        Link link = new HandoverConverter(handover).toAPILink();
-        link = apiClient.updateHandoverUrl(convertToString(handover.getLanguage()), link);
-        return new HandoverConverter(link).toSDKHandover(handover.getLanguage());
+    public com.silanis.esl.sdk.Handover updateHandoverUrl(com.silanis.esl.sdk.Handover handover) {
+        com.silanis.esl.api.model.Handover apiHandover = new HandoverConverter(handover).toAPIHandover();
+        apiHandover = apiClient.updateHandoverUrl(convertToString(handover.getLanguage()), apiHandover);
+        return new HandoverConverter(apiHandover).toSDKHandover(handover.getLanguage());
     }
 
     public void deleteHandoverUrl(Locale language) {

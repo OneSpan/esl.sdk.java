@@ -10,8 +10,6 @@ public class CompleteSummaryOptions extends Model
 {
 
     @JsonIgnore
-    public static final String FIELD_FROM = "from";
-    @JsonIgnore
     public static final String FIELD_TITLE = "title";
     @JsonIgnore
     public static final String FIELD_MESSAGE = "message";
@@ -21,35 +19,21 @@ public class CompleteSummaryOptions extends Model
     public static final String BUTTON_REVIEW = "review";
     @JsonIgnore
     public static final String BUTTON_CONTINUE = "continue";
+    @JsonIgnore
+    public static final String FIELD_DOCUMENTSECTION = "documentSection";
+    @JsonIgnore
+    public static final String FIELD_UPLOADSECTION = "uploadSection";
 
     // Empty Constructor
     public CompleteSummaryOptions() {}
 
-    protected Boolean _from = true;
     protected Boolean _title = true;
     protected Boolean _message = true;
     protected Boolean _download = true;
     protected Boolean _review = true;
     protected Boolean _continue = true;
-
-    public CompleteSummaryOptions setFrom( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_FROM, value);
-        this._from = value;
-        setDirty(FIELD_FROM);
-        return this;
-    }
-    @JsonIgnore
-    public CompleteSummaryOptions safeSetFrom( Boolean value ){
-        if ( value != null ) { this.setFrom( value ); }
-        return this;
-    }
-    public Boolean getFrom(){
-        return _from;
-    }
-    @JsonIgnore
-    public boolean evalFrom(){
-        return _from == null ? true : _from.booleanValue();
-    }
+    protected Boolean _documentSection = true;
+    protected Boolean _uploadSection = true;
 
     public CompleteSummaryOptions setTitle( Boolean value ){
         SchemaSanitizer.throwOnNull(FIELD_TITLE, value);
@@ -146,4 +130,51 @@ public class CompleteSummaryOptions extends Model
         return _continue == null ? true : _continue.booleanValue();
     }
 
+    @JsonIgnore
+    public CompleteSummaryOptions safeSetDocumentSection(Boolean value) {
+        if (value != null) {
+            this.setDocumentSection(value);
+        }
+        return this;
+    }
+
+    public Boolean getDocumentSection() {
+        return _documentSection;
+    }
+
+    public CompleteSummaryOptions setDocumentSection(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_DOCUMENTSECTION, value);
+        this._documentSection = value;
+        setDirty(FIELD_DOCUMENTSECTION);
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalDocumentSection() {
+        return _documentSection == null || _documentSection.booleanValue();
+    }
+
+    @JsonIgnore
+    public CompleteSummaryOptions safeSetUploadSection(Boolean value) {
+        if (value != null) {
+            this.setUploadSection(value);
+        }
+        return this;
+    }
+
+    public Boolean getUploadSection() {
+        return _uploadSection;
+    }
+
+    public CompleteSummaryOptions setUploadSection(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_UPLOADSECTION, value);
+        this._uploadSection = value;
+        setDirty(FIELD_UPLOADSECTION);
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalUploadSection() {
+        return _uploadSection == null || _uploadSection.booleanValue();
+    }
 }

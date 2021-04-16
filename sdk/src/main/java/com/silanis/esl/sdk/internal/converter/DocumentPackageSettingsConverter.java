@@ -91,6 +91,8 @@ public class DocumentPackageSettingsConverter {
             link.setHref(sdkPackageSettings.getLinkHref());
             link.setText(sdkPackageSettings.getLinkText() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkText());
             link.setTitle(sdkPackageSettings.getLinkTooltip() == null ? sdkPackageSettings.getLinkHref() : sdkPackageSettings.getLinkTooltip());
+            link.setAutoRedirect(sdkPackageSettings.getLinkAutoRedirect() == null? false : sdkPackageSettings.getLinkAutoRedirect());
+            link.setParameters(sdkPackageSettings.getLinkParameters());
             ceremonySettings.setHandOver(link);
         }
 
@@ -172,6 +174,8 @@ public class DocumentPackageSettingsConverter {
             result.setLinkText(apiPackageSettings.getCeremony().getHandOver().getText());
             result.setLinkTooltip(apiPackageSettings.getCeremony().getHandOver().getTitle());
             result.setLinkHref(apiPackageSettings.getCeremony().getHandOver().getHref());
+            result.setLinkAutoRedirect(apiPackageSettings.getCeremony().getHandOver().getAutoRedirect());
+            result.setLinkParameters(apiPackageSettings.getCeremony().getHandOver().getParameters());
         }
 
         if (apiPackageSettings.getCeremony().getDisableDeclineOther() != null) {

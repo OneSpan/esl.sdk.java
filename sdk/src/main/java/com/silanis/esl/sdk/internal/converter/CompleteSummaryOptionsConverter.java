@@ -35,12 +35,13 @@ public class CompleteSummaryOptionsConverter {
 
         com.silanis.esl.api.model.CompleteSummaryOptions result = new com.silanis.esl.api.model.CompleteSummaryOptions();
 
-        result.setFrom(sdkCompleteSummaryOptions.getFrom());
         result.setTitle(sdkCompleteSummaryOptions.getTitle());
         result.setMessage(sdkCompleteSummaryOptions.getMessage());
         result.setDownload(sdkCompleteSummaryOptions.getDownload());
         result.setReview(sdkCompleteSummaryOptions.getReview());
         result.setContinue(sdkCompleteSummaryOptions.getContinue());
+        result.setDocumentSection(sdkCompleteSummaryOptions.getDocumentSection());
+        result.setUploadSection(sdkCompleteSummaryOptions.getUploadSection());
 
         return result;
     }
@@ -57,12 +58,13 @@ public class CompleteSummaryOptionsConverter {
 
         com.silanis.esl.sdk.CompleteSummaryOptions result = new com.silanis.esl.sdk.CompleteSummaryOptions();
 
-        result.setFrom(apiCompleteSummaryOptions.getFrom());
         result.setTitle(apiCompleteSummaryOptions.getTitle());
         result.setMessage(apiCompleteSummaryOptions.getMessage());
         result.setDownload(apiCompleteSummaryOptions.getDownload());
         result.setReview(apiCompleteSummaryOptions.getReview());
         result.setContinue(apiCompleteSummaryOptions.getContinue());
+        result.setDocumentSection(apiCompleteSummaryOptions.getDocumentSection());
+        result.setUploadSection(apiCompleteSummaryOptions.getUploadSection());
 
         return result;
 

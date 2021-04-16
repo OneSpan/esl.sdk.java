@@ -158,6 +158,9 @@ public class UrlTemplate {
     public static final String EXPIRY_TIME_CONFIGURATION_PATH = "/dataRetentionSettings/expiryTimeConfiguration";
     public static final String DATA_MANAGEMENT_POLICY_PATH = "/dataRetentionSettings/dataManagementPolicy";
 
+    //VirtualRoomService
+    public static final String VIRTUAL_ROOM_CONFIG_PATH = "/packages/{packageId}/virtual-room/config";
+
     // QR Code Service
     public static final String QRCODE_PATH = "/packages/{packageId}/documents/{documentId}/fields";
     public static final String QRCODE_ID_PATH = "/packages/{packageId}/documents/{documentId}/fields/{fieldId}";

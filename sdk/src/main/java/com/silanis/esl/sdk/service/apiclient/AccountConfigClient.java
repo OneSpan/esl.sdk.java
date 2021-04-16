@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.service.apiclient;
 
-import com.silanis.esl.api.model.Link;
+import com.silanis.esl.api.model.Handover;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.internal.EslServerException;
 import com.silanis.esl.sdk.internal.RequestException;
@@ -8,7 +8,6 @@ import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,14 +22,14 @@ public class AccountConfigClient {
         this.template = new UrlTemplate(apiUrl);
     }
 
-    public Link getHandoverUrl(String language) {
+    public Handover getHandoverUrl(String language) {
         String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
             String stringResponse = restClient.get(path);
 
-            return Serialization.fromJson(stringResponse, Link.class);
+            return Serialization.fromJson(stringResponse, Handover.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get handover url.", e);
         } catch (Exception e) {
@@ -38,15 +37,15 @@ public class AccountConfigClient {
         }
     }
 
-    public Link createHandoverUrl(String language, Link link) {
+    public Handover createHandoverUrl(String language, Handover handover) {
         String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
-            String json = Serialization.toJson(link);
+            String json = Serialization.toJson(handover);
             String stringResponse = restClient.post(path, json);
 
-            return Serialization.fromJson(stringResponse, Link.class);
+            return Serialization.fromJson(stringResponse, Handover.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create handover url.", e);
         } catch (Exception e) {
@@ -54,15 +53,15 @@ public class AccountConfigClient {
         }
     }
 
-    public Link updateHandoverUrl(String language, Link link) {
+    public Handover updateHandoverUrl(String language, Handover handover) {
         String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
-            String json = Serialization.toJson(link);
+            String json = Serialization.toJson(handover);
             String stringResponse = restClient.put(path, json);
 
-            return Serialization.fromJson(stringResponse, Link.class);
+            return Serialization.fromJson(stringResponse, Handover.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not update handover url.", e);
         } catch (Exception e) {
