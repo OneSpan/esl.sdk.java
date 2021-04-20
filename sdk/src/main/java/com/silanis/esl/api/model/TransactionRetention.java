@@ -26,6 +26,8 @@ public class TransactionRetention extends Model {
     private static final String FIELD_LIFETIMETOTAL = "lifetimeTotal";
     @JsonIgnore
     private static final String FIELD_LIFETIMEUNTILCOMPLETION = "lifetimeUntilCompletion";
+    @JsonIgnore
+    private static final String FIELD_INCLUDESENT = "includeSent";
 
     private Integer draft;
     private Integer sent;
@@ -36,11 +38,12 @@ public class TransactionRetention extends Model {
     private Integer expired;
     private Integer lifetimeTotal;
     private Integer lifetimeUntilCompletion;
+    private Boolean includeSent;
     
     public TransactionRetention() {}
 
     public TransactionRetention(Integer draft, Integer sent, Integer completed, Integer archived,
-                                Integer declined, Integer optedOut, Integer expired) {
+                                Integer declined, Integer optedOut, Integer expired, Boolean includeSent) {
         this.draft = draft;
         this.sent = sent;
         this.completed = completed;
@@ -48,6 +51,7 @@ public class TransactionRetention extends Model {
         this.declined = declined;
         this.optedOut = optedOut;
         this.expired = expired;
+        this.includeSent = includeSent;
 
     }
 
@@ -147,6 +151,17 @@ public class TransactionRetention extends Model {
         throwOnNull(FIELD_LIFETIMEUNTILCOMPLETION, lifetimeUntilCompletion);
         this.lifetimeUntilCompletion = lifetimeUntilCompletion;
         setDirty(FIELD_LIFETIMEUNTILCOMPLETION);
+        return this;
+    }
+
+    public Boolean getIncludeSent() {
+        return includeSent;
+    }
+
+    public TransactionRetention setIncludeSent(Boolean includeSent) {
+        throwOnNull(FIELD_INCLUDESENT, includeSent);
+        this.includeSent = includeSent;
+        setDirty(FIELD_INCLUDESENT);
         return this;
     }
 }
