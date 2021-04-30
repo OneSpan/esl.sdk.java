@@ -7,8 +7,8 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import org.junit.Test;
 
-import static com.silanis.esl.sdk.AuthenticationMethod.SMS;
-import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
+import static com.silanis.esl.sdk.AuthenticationMethod.*;
+import static com.silanis.esl.sdk.builder.IdvWorkflowBuilder.newIdvWorkflow;
 import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQuestion;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -25,24 +25,24 @@ public class SignerBuilderTest {
         String lastName = "withLastName";
         int signingOrder = 1;
         Signer signer = newSignerWithEmail(email)
-                .withFirstName( firstName )
-                .withLastName( lastName )
-                .signingOrder( signingOrder )
+                .withFirstName(firstName)
+                .withLastName(lastName)
+                .signingOrder(signingOrder)
                 .build();
 
-        assertEquals( email, signer.getEmail() );
-        assertEquals( firstName, signer.getFirstName() );
-        assertEquals( lastName, signer.getLastName() );
-        assertEquals( signingOrder, signer.getSigningOrder() );
+        assertEquals(email, signer.getEmail());
+        assertEquals(firstName, signer.getFirstName());
+        assertEquals(lastName, signer.getLastName());
+        assertEquals(signingOrder, signer.getSigningOrder());
     }
 
     @Test
-    public void buildPlaceholder(){
+    public void buildPlaceholder() {
         String id = "placeholderId";
         Signer signer = newSignerPlaceholder(new Placeholder(id))
-                        .build();
+                .build();
 
-        assertEquals( id, signer.getId() );
+        assertEquals(id, signer.getId());
     }
 
     @Test(expected = EslException.class)
@@ -95,7 +95,7 @@ public class SignerBuilderTest {
 
     @Test
     public void authenticationDefaultsToEmail() {
-        Signer signer =  newSignerWithEmail("joe@blow.com")
+        Signer signer = newSignerWithEmail("joe@blow.com")
                 .withFirstName("Joe")
                 .withLastName("Blow")
                 .build();
@@ -159,6 +159,20 @@ public class SignerBuilderTest {
                 .build();
 
         assertThat(signer.getAuthenticationMethod(), is(SSO));
+    }
+
+    @Test
+    public void setsUpIDVAuthentication() {
+        Signer signer = newSignerWithEmail("joe@blow.com")
+                .withFirstName("Joe")
+                .withLastName("Blow")
+                .withIDVAuthentication(newIdvWorkflow("00000000-0000-0001-0000-200000000055")
+                        .withTenant("oss")
+                        .withType("DVF")
+                        .build())
+                .build();
+
+        assertThat(signer.getAuthenticationMethod(), is(IDV));
     }
 
     @Test(expected = EslException.class)

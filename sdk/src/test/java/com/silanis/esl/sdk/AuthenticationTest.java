@@ -47,7 +47,7 @@ public class AuthenticationTest {
 
     public Authentication newSMSAuthentication() {
         phoneNumber = "1234567890";
-        return new Authentication(phoneNumber);
+        return new Authentication(AuthenticationMethod.SMS, phoneNumber);
     }
 
     @Test
