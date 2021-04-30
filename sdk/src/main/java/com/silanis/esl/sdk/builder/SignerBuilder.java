@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.Challenge;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.IdvWorkflow;
 import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
+import static com.silanis.esl.sdk.AuthenticationMethod.*;
 import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
 
 /**
@@ -75,7 +76,7 @@ final public class SignerBuilder {
      *
      * @param placeholder the placeholder.
      */
-    private SignerBuilder(Placeholder placeholder){
+    private SignerBuilder(Placeholder placeholder) {
         this.email = null;
         this.groupId = null;
         this.id = placeholder.getId();
@@ -117,6 +118,7 @@ final public class SignerBuilder {
      * Sets the ID of the signer for this package.
      * <p>
      * E.g.: the signer's email makes for a good unique ID. john@do.com
+     *
      * @param id the signer's ID @size(min="1", max="64")
      * @return the signer builder itself
      */
@@ -127,10 +129,11 @@ final public class SignerBuilder {
 
     /**
      * Sets the signer's ID to the placeholder's ID.
+     *
      * @param placeholder
      * @return
      */
-    public SignerBuilder replacing(Placeholder placeholder){
+    public SignerBuilder replacing(Placeholder placeholder) {
         this.id = placeholder.getId();
         return this;
     }
@@ -164,15 +167,15 @@ final public class SignerBuilder {
      * <p>
      * E.g.: a signer with a signingOrder of 1 would be required to sign before a signer with a signingOrder of 2, for example.
      *
-     * @param signingOrder	a value greater than zero
-     * @return	the signer builder itself
+     * @param signingOrder a value greater than zero
+     * @return the signer builder itself
      */
     public SignerBuilder signingOrder(int signingOrder) {
         this.signingOrder = signingOrder;
         return this;
     }
 
-    private Signer buildGroupSigner(){
+    private Signer buildGroupSigner() {
         Signer result = new Signer(groupId);
 
         result.setSigningOrder(signingOrder);
@@ -184,11 +187,11 @@ final public class SignerBuilder {
         return result;
     }
 
-    private Signer buildPlaceholderSigner(){
+    private Signer buildPlaceholderSigner() {
         Signer result = new Signer(id);
         result.setPlaceholderName(placeholderName);
 
-        Asserts.notNullOrEmpty(id, "No placeholder set for this signer!" );
+        Asserts.notNullOrEmpty(id, "No placeholder set for this signer!");
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
@@ -197,7 +200,7 @@ final public class SignerBuilder {
         return result;
     }
 
-    private Signer buildRegularSigner(){
+    private Signer buildRegularSigner() {
         if (authentication == null) {
             authentication = authenticationBuilder.build();
         }
@@ -232,11 +235,9 @@ final public class SignerBuilder {
         Signer signer;
         if (isGroupSigner()) {
             signer = buildGroupSigner();
-        }
-        else if (isPlaceholder()){
+        } else if (isPlaceholder()) {
             signer = buildPlaceholderSigner();
-        }
-        else{
+        } else {
             signer = buildRegularSigner();
         }
         return signer;
@@ -250,9 +251,9 @@ final public class SignerBuilder {
      * The signer will be asked to authenticate, before accessing his signing
      * ceremony, by providing answers to authentication questions.
      *
-     * @see ChallengeBuilder
      * @param challengeBuilder the challenge builder
      * @return the signer builder object itself
+     * @see ChallengeBuilder
      */
     public SignerBuilder challengedWithQuestions(ChallengeBuilder challengeBuilder) {
         this.authenticationBuilder = challengeBuilder;
@@ -288,6 +289,33 @@ final public class SignerBuilder {
     }
 
     /**
+     * <p>
+     * Sets the signer's authentication type to SAA.
+     * </p>
+     *
+     * @param idvWorkflow
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withIDVAuthentication(IdvWorkflow idvWorkflow) {
+        this.authenticationBuilder = new IDVAuthenticationBuilder(idvWorkflow);
+        return this;
+    }
+
+    /**
+     * <p>
+     * Sets the signer's authentication type to SAA.
+     * </p>
+     *
+     * @param phoneNumber
+     * @param idvWorkflow
+     * @return the signer builder object itself
+     */
+    public SignerBuilder withIDVAuthentication(String phoneNumber, IdvWorkflow idvWorkflow) {
+        this.authenticationBuilder = new IDVAuthenticationBuilder(phoneNumber, idvWorkflow);
+        return this;
+    }
+
+    /**
      * Sets the Signer's authentication. The authentication types are email,
      * questions and answers (challenges) or SMS.
      *
@@ -304,7 +332,7 @@ final public class SignerBuilder {
      * E.g.: Mr., Mrs., Ms., etc...
      *
      * @param title the signer's title @size(min="0", max="64")
-     * @return	the signer builder object itself
+     * @return the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {
         Asserts.genericAssert(!isGroupSigner(), "title can not be set for a group signer");
@@ -316,7 +344,7 @@ final public class SignerBuilder {
      * <p>Sets the signer's company name.</p>
      *
      * @param company the signer's company name @size(max="255")
-     * @return	the signer builder object itself
+     * @return the signer builder object itself
      * @throws EslException throws an exception if signer is a group signer.
      */
     public SignerBuilder withCompany(String company) {
@@ -329,7 +357,7 @@ final public class SignerBuilder {
      * <p>Sets the signer's language.</p>
      *
      * @param language the signer's language
-     * @return	the signer builder object itself
+     * @return the signer builder object itself
      * @throws EslException throws an exception if signer is a group signer.
      */
     public SignerBuilder withLanguage(Locale language) {
@@ -341,6 +369,7 @@ final public class SignerBuilder {
     /**
      * The signer can assign someone else to sign the package.
      * <p>Sets the canChangeSigner property to true.</p>
+     *
      * @return the signer builder object itself
      */
     public SignerBuilder canChangeSigner() {
@@ -362,7 +391,8 @@ final public class SignerBuilder {
 
     /**
      * <p>Invoking this method results in documents being distributed back to the sender as an email attachments once the package is complete.</p>
-     * @return	the signer builder object itself
+     *
+     * @return the signer builder object itself
      */
     public SignerBuilder deliverSignedDocumentsByEmail() {
         deliverSignedDocumentsByEmail = true;
@@ -388,9 +418,9 @@ final public class SignerBuilder {
      * <p>Adds an attachment requirement for the signer. The attachment requirement is conveniently customized by the
      * builder provided as parameter.</p>
      *
-     * @see AttachmentRequirementBuilder
      * @param builder the attachment requirement builder
      * @return the signer builder object itself
+     * @see AttachmentRequirementBuilder
      */
     public SignerBuilder withAttachmentRequirement(AttachmentRequirementBuilder builder) {
         return withAttachmentRequirement(builder.build());
@@ -445,7 +475,7 @@ final public class SignerBuilder {
      * @return the signer builder itself
      */
     public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForEquifaxCanada signerInformationForEquifaxCanada) {
-        if(this.knowledgeBasedAuthentication == null) {
+        if (this.knowledgeBasedAuthentication == null) {
             this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
         }
         this.knowledgeBasedAuthentication.setSignerInformationForEquifaxCanada(signerInformationForEquifaxCanada);
@@ -469,7 +499,7 @@ final public class SignerBuilder {
      * @return the signer builder itself
      */
     public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
-        if(this.knowledgeBasedAuthentication == null) {
+        if (this.knowledgeBasedAuthentication == null) {
             this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
         }
         this.knowledgeBasedAuthentication.setSignerInformationForEquifaxUSA(signerInformationForEquifaxUSA);
@@ -479,6 +509,7 @@ final public class SignerBuilder {
     /**
      * Authentication builder is a convenient class used to create an Authentication object
      * with email defined as the authentication method.
+     *
      * @author admin
      */
     public static class AuthenticationBuilder {
@@ -505,7 +536,6 @@ final public class SignerBuilder {
      * Challenge builder is a convenient class used to create an Authentication
      * object. It is used to help define the authentication questions and
      * answers when the user logs on to eSignLive.
-     *
      */
     public static class ChallengeBuilder extends AuthenticationBuilder {
 
@@ -514,6 +544,7 @@ final public class SignerBuilder {
 
         /**
          * Challenge builder constructor.
+         *
          * @param question the question @size(min="1", max="255")
          */
         public ChallengeBuilder(String question) {
@@ -522,6 +553,7 @@ final public class SignerBuilder {
 
         /**
          * First question asked to the user when they log on to eSignLive.
+         *
          * @param question the first question @size(min="1", max="255")
          * @return This
          */
@@ -531,6 +563,7 @@ final public class SignerBuilder {
 
         /**
          * Second question asked to the user when they log on to eSignLive.
+         *
          * @param question the second question @size(min="1", max="255")
          * @return This
          */
@@ -547,10 +580,10 @@ final public class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @see #firstQuestion(String)
-         * @see #secondQuestion(String)
          * @param answer answer to the authentication questions @size(min="1", max="255")
          * @return This
+         * @see #firstQuestion(String)
+         * @see #secondQuestion(String)
          */
         public ChallengeBuilder answer(String answer) {
             challenges.add(new Challenge(question, answer));
@@ -565,11 +598,11 @@ final public class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @see #firstQuestion(String)
-         * @see #secondQuestion(String)
-         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @param answer     answer to the authentication questions @size(min="1", max="255")
          * @param maskOption enable/disable masking of challenge
          * @return This
+         * @see #firstQuestion(String)
+         * @see #secondQuestion(String)
          */
         @Deprecated
         public ChallengeBuilder answer(String answer, Challenge.MaskOptions maskOption) {
@@ -585,10 +618,10 @@ final public class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @see #firstQuestion(String)
-         * @see #secondQuestion(String)
          * @param answer answer to the authentication questions @size(min="1", max="255")
          * @return This
+         * @see #firstQuestion(String)
+         * @see #secondQuestion(String)
          */
         public ChallengeBuilder answerWithMaskInput(String answer) {
             challenges.add(new Challenge(question, answer, Challenge.MaskOptions.MaskInput));
@@ -627,7 +660,34 @@ final public class SignerBuilder {
         @Override
         public Authentication build() {
             Asserts.notNullOrEmpty(phoneNumber, "phone number");
-            return new Authentication(phoneNumber);
+            return new Authentication(SMS, phoneNumber);
+        }
+    }
+
+    public static class IDVAuthenticationBuilder extends AuthenticationBuilder {
+
+        private String phoneNumber;
+        private final IdvWorkflow idvWorkflow;
+
+        /**
+         * Builder used to define authentication with eSignLive by entering an
+         * SMS PIN number sent at the phone number defined below when the user
+         * attempts to log in.
+         *
+         * @param idvWorkflow
+         */
+        public IDVAuthenticationBuilder(IdvWorkflow idvWorkflow) {
+            this.idvWorkflow = idvWorkflow;
+        }
+
+        public IDVAuthenticationBuilder(String phoneNumber, IdvWorkflow idvWorkflow) {
+            this.phoneNumber = phoneNumber;
+            this.idvWorkflow = idvWorkflow;
+        }
+
+        @Override
+        public Authentication build() {
+            return new Authentication(IDV, phoneNumber, idvWorkflow);
         }
     }
 
@@ -635,7 +695,7 @@ final public class SignerBuilder {
         return groupId != null;
     }
 
-    private boolean isPlaceholder(){
+    private boolean isPlaceholder() {
         return groupId == null && email == null;
     }
 }

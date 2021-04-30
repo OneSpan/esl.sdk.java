@@ -8,6 +8,7 @@ public class Authentication {
     private final AuthenticationMethod method;
     private List<Challenge> challenges = new ArrayList<Challenge>();
     private String phoneNumber;
+    private IdvWorkflow idvWorkflow;
 
     public Authentication(AuthenticationMethod method) {
         this.method = method;
@@ -18,9 +19,15 @@ public class Authentication {
         this.challenges.addAll(challenges);
     }
 
-    public Authentication(String phoneNumber) {
-        this(AuthenticationMethod.SMS);
+    public Authentication(AuthenticationMethod method, String phoneNumber) {
+        this(method);
         this.phoneNumber = phoneNumber;
+    }
+
+    public Authentication(AuthenticationMethod method, String phoneNumber, IdvWorkflow idvWorkflow) {
+        this(method);
+        this.phoneNumber = phoneNumber;
+        this.idvWorkflow = idvWorkflow;
     }
 
     public AuthenticationMethod getMethod() {
@@ -33,5 +40,9 @@ public class Authentication {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public IdvWorkflow getIdvWorkflow() {
+        return idvWorkflow;
     }
 }

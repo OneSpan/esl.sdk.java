@@ -1,6 +1,8 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.AuthChallenge;
+import com.silanis.esl.sdk.Authentication;
+import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.Challenge;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
@@ -11,14 +13,14 @@ import java.util.List;
  * User: jessica
  * Date: 21/11/13
  * Time: 4:39 PM
- *
+ * <p>
  * Converter for SDK Authentication and API Authentication.
- *
  */
 public class AuthenticationConverter {
 
     com.silanis.esl.api.model.Auth apiAuth;
-    com.silanis.esl.sdk.Authentication sdkAuth;
+    Authentication sdkAuth;
+
     /**
      * Construct with API authentication.
      *
@@ -33,7 +35,7 @@ public class AuthenticationConverter {
      *
      * @param sdkAuth
      */
-    public AuthenticationConverter(com.silanis.esl.sdk.Authentication sdkAuth) {
+    public AuthenticationConverter(Authentication sdkAuth) {
         this.sdkAuth = sdkAuth;
     }
 
@@ -57,6 +59,10 @@ public class AuthenticationConverter {
             auth.addChallenge(new AuthChallenge().setQuestion(sdkAuth.getPhoneNumber()));
         }
 
+        if (sdkAuth.getIdvWorkflow() != null) {
+            auth.setIdvWorkflow(new IdvWorkflowConverter(sdkAuth.getIdvWorkflow()).toAPIIdvWorkflow());
+        }
+
         return auth;
     }
 
@@ -65,7 +71,7 @@ public class AuthenticationConverter {
      *
      * @return API auth
      */
-    public com.silanis.esl.sdk.Authentication toSDKAuthentication() {
+    public Authentication toSDKAuthentication() {
         if (apiAuth == null) {
             return sdkAuth;
         }
@@ -79,7 +85,7 @@ public class AuthenticationConverter {
 
         if (!apiAuth.getChallenges().isEmpty()) {
             List<Challenge> sdkChallenges = new ArrayList<Challenge>();
-            for (AuthChallenge apiChallenge: apiAuth.getChallenges()) {
+            for (AuthChallenge apiChallenge : apiAuth.getChallenges()) {
                 if ("CHALLENGE".equals(apiAuth.getScheme())) {
                     sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
                 } else {
@@ -89,9 +95,11 @@ public class AuthenticationConverter {
             }
 
             if ("CHALLENGE".equals(apiAuth.getScheme())) {
-                sdkAuth = new com.silanis.esl.sdk.Authentication(sdkChallenges);
+                sdkAuth = new Authentication(sdkChallenges);
             } else if ("SMS".equals(apiAuth.getScheme())) {
-                sdkAuth = new com.silanis.esl.sdk.Authentication(telephoneNumber);
+                sdkAuth = new Authentication(AuthenticationMethod.SMS, telephoneNumber);
+            } else if ("ID_VERIFICATION".equals(apiAuth.getScheme())) {
+                sdkAuth = new Authentication(AuthenticationMethod.IDV, telephoneNumber, new IdvWorkflowConverter(apiAuth.getIdvWorkflow()).toSDKIdvWorkflow());
             }
         }
 
