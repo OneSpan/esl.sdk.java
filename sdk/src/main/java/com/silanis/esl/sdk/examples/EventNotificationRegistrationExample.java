@@ -26,6 +26,7 @@ import static com.silanis.esl.sdk.NotificationEvent.SIGNER_COMPLETE;
 import static com.silanis.esl.sdk.NotificationEvent.SIGNER_LOCKED;
 import static com.silanis.esl.sdk.NotificationEvent.PACKAGE_ARCHIVE;
 import static com.silanis.esl.sdk.NotificationEvent.TEMPLATE_CREATE;
+import static com.silanis.esl.sdk.NotificationEvent.DOCUMENT_VIEWED;
 import static com.silanis.esl.sdk.builder.EventNotificationConfigBuilder.newEventNotificationConfig;
 
 /**
@@ -60,6 +61,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
     public static final NotificationEvent EVENT18 = SIGNER_LOCKED;
     public static final NotificationEvent EVENT19 = PACKAGE_ARCHIVE;
     public static final NotificationEvent EVENT20 = TEMPLATE_CREATE;
+    public static final NotificationEvent EVENT21 = DOCUMENT_VIEWED;
 
     public Set<NotificationEvent> events = new HashSet<NotificationEvent>();
     public Set<NotificationEvent> connectorsEvents = new HashSet<NotificationEvent>();
@@ -91,6 +93,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
         events.add(EVENT18);
         events.add(EVENT19);
         events.add(EVENT20);
+        events.add(EVENT21);
 
         eslClient.getEventNotificationService().register(newEventNotificationConfig(URL).withKey(KEY).setEvents(events));
 
@@ -107,6 +110,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
         connectorsEvents.add(EVENT14);
         connectorsEvents.add(EVENT17);
         connectorsEvents.add(EVENT18);
+        connectorsEvents.add(EVENT21);
 
         eslClient.getEventNotificationService().register(ORIGIN, newEventNotificationConfig(CONNECTORS_URL)
                 .withKey(CONNECTORS_KEY)

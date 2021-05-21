@@ -103,6 +103,10 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.DOCUMENT_SIGNED));
 
+        apiCallbackEvent1 = "DOCUMENT_VIEWED";
+        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.DOCUMENT_VIEWED));
+
         apiCallbackEvent1 = "ROLE_REASSIGN";
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.ROLE_REASSIGN));
@@ -191,6 +195,10 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = NotificationEvent.DOCUMENT_SIGNED;
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
         assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("DOCUMENT_SIGNED"));
+
+        sdkNotificationEvent1 = NotificationEvent.DOCUMENT_VIEWED;
+        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("DOCUMENT_VIEWED"));
 
         sdkNotificationEvent1 = NotificationEvent.ROLE_REASSIGN;
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
