@@ -82,7 +82,7 @@ public class EventNotificationConfigConverterTest implements ConverterTest {
 
         assertThat("Converter returned a null sdk object for a non null api object", sdkEventNotificationConfig1, notNullValue());
         assertThat("EventNotificationConfig's url was not set correctly", sdkEventNotificationConfig1.getUrl(), is(apiCallback1.getUrl()));
-        assertThat("EventNotificationConfig should have 3 events", sdkEventNotificationConfig1.getEvents().size(), is(3));
+        assertThat("EventNotificationConfig should have 4 events", sdkEventNotificationConfig1.getEvents().size(), is(4));
 
         for (String apiEvent : apiCallback1.getEvents()) {
             boolean found = false;
@@ -122,6 +122,7 @@ public class EventNotificationConfigConverterTest implements ConverterTest {
         Callback callback = new Callback();
         callback.setUrl("callback url");
         callback.addEvent("DOCUMENT_SIGNED");
+        callback.addEvent("DOCUMENT_VIEWED");
         callback.addEvent("PACKAGE_CREATE");
         callback.addEvent("PACKAGE_TRASH");
 

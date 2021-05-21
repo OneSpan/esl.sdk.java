@@ -27,6 +27,7 @@ public class NotificationEvent extends EslEnumeration {
     public static final NotificationEvent SIGNER_LOCKED = new NotificationEvent("SIGNER_LOCKED", "SIGNER_LOCKED", 17);
     public static final NotificationEvent PACKAGE_ARCHIVE = new NotificationEvent("PACKAGE_ARCHIVE", "PACKAGE_ARCHIVE", 18);
     public static final NotificationEvent TEMPLATE_CREATE = new NotificationEvent("TEMPLATE_CREATE", "TEMPLATE_CREATE", 19);
+    public static final NotificationEvent DOCUMENT_VIEWED = new NotificationEvent("DOCUMENT_VIEWED", "DOCUMENT_VIEWED", 20);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -62,6 +63,7 @@ public class NotificationEvent extends EslEnumeration {
         sdkValues.put(SIGNER_LOCKED.name(), SIGNER_LOCKED);
         sdkValues.put(PACKAGE_ARCHIVE.name(), PACKAGE_ARCHIVE);
         sdkValues.put(TEMPLATE_CREATE.name(), TEMPLATE_CREATE);
+        sdkValues.put(DOCUMENT_VIEWED.name(), DOCUMENT_VIEWED);
     }
 
     private NotificationEvent(String apiValue, String sdkValue, int index) {
