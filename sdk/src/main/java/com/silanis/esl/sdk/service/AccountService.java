@@ -101,6 +101,36 @@ public class AccountService {
     }
 
     /**
+     * Update the information of a sender image signature
+     *
+     * @param fileName uploaded image file name
+     * @param fileContent uploaded image file content
+     * @param senderId The sender Id
+     */
+    public void updateSenderImageSignature(String fileName, byte[] fileContent, String senderId) {
+        apiClient.updateSenderImageSignature(fileName, fileContent, senderId);
+    }
+
+    /**
+     * Get the information of a sender image signature
+     *
+     * @param senderId The sender Id
+     */
+    public SenderImageSignature getSenderImageSignature(String senderId) {
+        com.silanis.esl.api.model.SenderImageSignature apiResponse = apiClient.getSenderImageSignature(senderId);
+        return new SenderImageSignatureConverter(apiResponse).toSDKSenderImageSignature();
+    }
+
+    /**
+     * Delete the information of a sender image signature
+     *
+     * @param senderId The sender Id
+     */
+    public void deleteSenderImageSignature(String senderId) {
+        apiClient.deleteSenderImageSignature(senderId);
+    }
+
+    /**
      * Get the contacts from account
      *
      * @return the contacts (key=email, value=Sender)

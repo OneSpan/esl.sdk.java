@@ -163,6 +163,21 @@ public class RestClient extends Client {
         return execute(post, jsonHandler);
     }
 
+    public String postMultipartFile(String path, Map<String, byte[]> files) throws IOException, RequestException {
+        support.logRequest("POST", path);
+
+        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        for (Map.Entry<String, byte[]> file : files.entrySet()) {
+            multipartEntityBuilder.addPart("file", buildPartForFile(file.getValue(), file.getKey()));
+        }
+
+        HttpPost post = new HttpPost(path);
+
+        post.setEntity(multipartEntityBuilder.build());
+
+        return execute(post, jsonHandler);
+    }
+
     public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
         return postMultipartFile(path, Collections.singletonMap(fileName, fileBytes), jsonPayload);
     }

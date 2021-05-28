@@ -103,6 +103,7 @@ public class UrlTemplate {
     public static final String ACCOUNT_MEMBER_LIST_PATH = "/account/senders?to={to}&from={from}&dir={dir}";
     public static final String ACCOUNT_CONTACTS_PATH = "/users";
     public static final String ACCOUNT_VERIFICATION_TYPE_PATH = "/account/{accountId}/verificationTypes";
+    public static final String ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH = "/account/senders/{senderUid}/signature/image";
 
     // Approval Service
     public static final String APPROVAL_PATH = "/packages/{packageId}/documents/{documentId}/approvals";
