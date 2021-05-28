@@ -7,6 +7,7 @@ import com.silanis.esl.api.model.AccountRole;
 import com.silanis.esl.api.model.DelegationUser;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
+import com.silanis.esl.api.model.SenderImageSignature;
 import com.silanis.esl.api.model.SubAccount;
 import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.util.JacksonUtil;
@@ -18,6 +19,8 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -113,6 +116,46 @@ public class AccountApiClient {
             throw new EslServerException("Could not update sender.", e);
         } catch (Exception e) {
             throw new EslException("Could not update sender." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void updateSenderImageSignature(String fileName, byte[] fileContent, String senderId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
+                .replace("{senderUid}", senderId)
+                .build();
+        try {
+            restClient.postMultipartFile(path, Collections.singletonMap(fileName, fileContent));
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update sender signature image.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update sender signature image." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public SenderImageSignature getSenderImageSignature(String senderId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
+                .replace("{senderUid}", senderId)
+                .build();
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJson(stringResponse, SenderImageSignature.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get sender signature image.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get sender signature image." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public void deleteSenderImageSignature(String senderId) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
+                .replace("{senderUid}", senderId)
+                .build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete sender signature image.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete sender signature image." + " Exception: " + e.getMessage(), e);
         }
     }
 
