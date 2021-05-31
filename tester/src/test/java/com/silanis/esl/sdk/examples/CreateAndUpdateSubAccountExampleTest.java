@@ -2,8 +2,8 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AccessibleAccountResponse;
 import com.silanis.esl.sdk.Account;
+import com.silanis.esl.sdk.SubAccountApiKey;
 import com.silanis.esl.sdk.internal.EslServerException;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ public class CreateAndUpdateSubAccountExampleTest {
     public void verifyResult() {
         CreateAndUpdateSubAccountExample example = new CreateAndUpdateSubAccountExample();
         List<Account> subAccountList;
+        List<SubAccountApiKey> subAccountApiKeyList;
         List<AccessibleAccountResponse> accessibleAccountList;
 
         try {
@@ -35,6 +36,7 @@ public class CreateAndUpdateSubAccountExampleTest {
         } finally {
             subAccountList = example.subAccounts;
             accessibleAccountList = example.accessibleAccounts;
+            subAccountApiKeyList = example.subAccountApiKeys;
         }
 
         assertThat(subAccountList.size(), greaterThanOrEqualTo(1));
@@ -46,5 +48,7 @@ public class CreateAndUpdateSubAccountExampleTest {
         assertThat(accountNames, hasItem(NAME));
 
         assertThat(accessibleAccountList.size(), greaterThanOrEqualTo(1));
+
+        assertThat(subAccountApiKeyList.size(), greaterThanOrEqualTo(1));
     }
 }

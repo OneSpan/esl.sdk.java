@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.AccessibleAccountResponse;
 import com.silanis.esl.sdk.Account;
 import com.silanis.esl.sdk.SubAccount;
+import com.silanis.esl.sdk.SubAccountApiKey;
 import com.silanis.esl.sdk.builder.SubAccountBuilder;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import java.util.List;
 public class CreateAndUpdateSubAccountExample extends SDKSample {
 
     public List<Account> subAccounts;
+    public List<SubAccountApiKey> subAccountApiKeys;
     public List<AccessibleAccountResponse> accessibleAccounts;
 
     private static final String PARENT_ACCOUNT_ID = "dummyAccountId";
@@ -47,5 +49,8 @@ public class CreateAndUpdateSubAccountExample extends SDKSample {
 
         //Lists subAccounts
         subAccounts = eslClient.getAccountService().getSubAccounts();
+
+        //Lists subAccounts Api Key
+        subAccountApiKeys = eslClient.getAccountService().getSubAccountApiKeys();
     }
 }
