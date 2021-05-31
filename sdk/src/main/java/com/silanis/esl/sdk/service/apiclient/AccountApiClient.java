@@ -8,6 +8,7 @@ import com.silanis.esl.api.model.DelegationUser;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.SubAccount;
+import com.silanis.esl.api.model.SubAccountApiKey;
 import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
@@ -118,8 +119,8 @@ public class AccountApiClient {
 
     public List<DelegationUser> getDelegates(String senderId) {
         String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
-                              .replace("{senderId}", senderId)
-                              .build();
+                .replace("{senderId}", senderId)
+                .build();
 
         try {
             String stringResponse = restClient.get(path);
@@ -133,8 +134,8 @@ public class AccountApiClient {
 
     public <T> void updateDelegates(String senderId, List<T> delegateIds) {
         String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
-                              .replace("{senderId}", senderId)
-                              .build();
+                .replace("{senderId}", senderId)
+                .build();
         try {
             String json = Serialization.toJson(delegateIds);
             restClient.put(path, json);
@@ -147,9 +148,9 @@ public class AccountApiClient {
 
     public void addDelegate(String senderId, DelegationUser delegationUser) {
         String path = template.urlFor(UrlTemplate.DELEGATE_ID_PATH)
-                              .replace("{senderId}", senderId)
-                              .replace("{delegateId}", delegationUser.getId())
-                              .build();
+                .replace("{senderId}", senderId)
+                .replace("{delegateId}", delegationUser.getId())
+                .build();
         try {
             String json = Serialization.toJson(delegationUser);
             restClient.post(path, json);
@@ -162,9 +163,9 @@ public class AccountApiClient {
 
     public void removeDelegate(String senderId, String delegateId) {
         String path = template.urlFor(UrlTemplate.DELEGATE_ID_PATH)
-                              .replace("{senderId}", senderId)
-                              .replace("{delegateId}", delegateId)
-                              .build();
+                .replace("{senderId}", senderId)
+                .replace("{delegateId}", delegateId)
+                .build();
         try {
             restClient.delete(path);
         } catch (RequestException e) {
@@ -176,8 +177,8 @@ public class AccountApiClient {
 
     public void clearDelegates(String senderId) {
         String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
-                              .replace("{senderId}", senderId)
-                              .build();
+                .replace("{senderId}", senderId)
+                .build();
         try {
             restClient.delete(path);
         } catch (RequestException e) {
@@ -228,6 +229,18 @@ public class AccountApiClient {
             throw new EslServerException("Could not get subAccounts.", e);
         } catch (Exception e) {
             throw new EslException("Could not get subAccounts." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<SubAccountApiKey> getSubAccountApiKey() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_SUBACCOUNTAPIKEYS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return Serialization.fromJsonToList(stringResponse, SubAccountApiKey.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get subAccounts Api Key.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get subAccounts Api Key." + " Exception: " + e.getMessage(), e);
         }
     }
 
@@ -296,8 +309,8 @@ public class AccountApiClient {
 
     public void updateAccountRole(String accountRoleId, AccountRole accountRole) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
-            .replace("{accountRoleId}", accountRoleId)
-            .build();
+                .replace("{accountRoleId}", accountRoleId)
+                .build();
 
         try {
             restClient.put(path, JacksonUtil.serialize(accountRole));
@@ -310,8 +323,8 @@ public class AccountApiClient {
 
     public AccountRole getAccountRole(String accountRoleId) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
-            .replace("{accountRoleId}", accountRoleId)
-            .build();
+                .replace("{accountRoleId}", accountRoleId)
+                .build();
 
         try {
             return JacksonUtil.deserialize(restClient.get(path), AccountRole.class);
@@ -324,8 +337,8 @@ public class AccountApiClient {
 
     public void deleteAccountRole(String accountRoleId) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
-            .replace("{accountRoleId}", accountRoleId)
-            .build();
+                .replace("{accountRoleId}", accountRoleId)
+                .build();
 
         try {
             restClient.delete(path);
@@ -338,8 +351,8 @@ public class AccountApiClient {
 
     public List<String> getAccountRoleUsers(String accountRoleId) {
         String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_USERS_PATH)
-            .replace("{accountRoleId}", accountRoleId)
-            .build();
+                .replace("{accountRoleId}", accountRoleId)
+                .build();
 
         try {
             return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<String>>() {}).getResults();

@@ -222,6 +222,21 @@ public class AccountService {
     }
 
     /**
+     * Retrieves a list of API keys for this current user in the subaccounts
+     *
+     * @return A list of API keys for this current user in the subaccounts.
+     */
+    public List<com.silanis.esl.sdk.SubAccountApiKey> getSubAccountApiKeys() {
+        List<com.silanis.esl.api.model.SubAccountApiKey> subAccountApiKeyResponses = apiClient.getSubAccountApiKey();
+        List<com.silanis.esl.sdk.SubAccountApiKey> subAccountApiKeyList = new ArrayList<SubAccountApiKey>();
+        for (com.silanis.esl.api.model.SubAccountApiKey subAccountApiKey : subAccountApiKeyResponses) {
+            subAccountApiKeyList.add(new SubAccountApiKeyConverter(subAccountApiKey).toSDKSubAccountApiKey());
+        }
+        return subAccountApiKeyList;
+    }
+
+
+    /**
      * Get a list of accessible subAccounts from the account base on page request
      *
      * @return A list of accessible subAccounts of the account.
