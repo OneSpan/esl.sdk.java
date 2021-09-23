@@ -148,7 +148,10 @@ public class DocumentPackageSettingsBuilderTest {
 
         documentPackageSettings = newDocumentPackageSettings().withShowNseOverview().build();
         assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
-        assertTrue("Show NSE help was not be enabled..", documentPackageSettings.getShowNseOverview());
+        assertTrue("Show NSE Overview was not be enabled..", documentPackageSettings.getShowNseOverview());
 
+        documentPackageSettings = newDocumentPackageSettings().withShowNseLogoInIframe().build();
+        assertThat(NULL_ERROR_MSG, documentPackageSettings, notNullValue());
+        assertTrue("Show NSE Logo in iFrame was not be enabled..", documentPackageSettings.getShowNseLogoInIframe());
     }
 }

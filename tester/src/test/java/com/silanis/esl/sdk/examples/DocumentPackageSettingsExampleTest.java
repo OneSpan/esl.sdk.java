@@ -64,5 +64,6 @@ public class DocumentPackageSettingsExampleTest {
         assertTrue("Expand left menu was not set correctly.", documentPackageSettings.getExpandLeftMenu());
         assertThat("Max attachment files was not set correctly", DocumentPackageSettingsExample.MAX_ATTACHMENT_FILES, is(documentPackageSettings.getMaxAttachmentFiles()));
         assertTrue("Show NSE Overview was not set correctly.", documentPackageSettings.getShowNseOverview());
+        assertTrue("Show NSE Logo in iFrame was not set correctly.", documentPackageSettings.getShowNseLogoInIframe());
     }
 }
