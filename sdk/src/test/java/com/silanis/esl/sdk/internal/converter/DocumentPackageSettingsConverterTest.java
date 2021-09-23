@@ -123,6 +123,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Show NSE help was not correctly set", sdkPackageSettings1.getShowNseHelp(), is(apiPackageSettings1.getCeremony().getShowNseHelp()));
         assertThat("Max attachment files was not correctly set", sdkPackageSettings1.getMaxAttachmentFiles(), is(apiPackageSettings1.getCeremony().getMaxAttachmentFiles()));
         assertThat("Show NSE Overview was not correctly set", sdkPackageSettings1.getShowNseOverview(), is(apiPackageSettings1.getCeremony().getShowNseOverview()));
+        assertThat("Show NSE Logo in iFrame was not correctly set", sdkPackageSettings1.getShowNseLogoInIframe(), is(apiPackageSettings1.getCeremony().getShowNseLogoInIframe()));
     }
 
     @Override
@@ -165,6 +166,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Show NSE help was not correctly set", apiPackageSettings1.getCeremony().getShowNseHelp(), is(sdkPackageSettings1.getShowNseHelp()));
         assertThat("Max attachment files was not correctly set", apiPackageSettings1.getCeremony().getMaxAttachmentFiles(), is(sdkPackageSettings1.getMaxAttachmentFiles()));
         assertThat("Show NSE Overview was not correctly set", apiPackageSettings1.getCeremony().getShowNseOverview(), is(sdkPackageSettings1.getShowNseOverview()));
+        assertThat("Show NSE Logo in iFrame was not correctly set", apiPackageSettings1.getCeremony().getShowNseLogoInIframe(), is(sdkPackageSettings1.getShowNseLogoInIframe()));
     }
 
     /**
@@ -210,6 +212,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                         .withoutGlobalSaveAsLayoutButton()
                 )
                 .withShowNseOverview()
+                .withShowNseLogoInIframe()
                 .build();
     }
 
@@ -261,6 +264,7 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         apiCeremonySettings.setRemainingDays(12);
         apiCeremonySettings.setShowNseHelp(true);
         apiCeremonySettings.setShowNseOverview(false);
+        apiCeremonySettings.setShowNseLogoInIframe(true);
 
         apiCeremonySettings.setMaxAttachmentFiles(2);
 

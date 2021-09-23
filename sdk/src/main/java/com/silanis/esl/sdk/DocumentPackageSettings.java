@@ -36,6 +36,7 @@ public class DocumentPackageSettings {
     private Boolean expandLeftMenu = null;
     private Integer maxAttachmentFiles = null;
     private Boolean showNseOverview = null;
+    private Boolean showNseLogoInIframe = null;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
 
@@ -275,5 +276,11 @@ public class DocumentPackageSettings {
 
     public void setShowNseOverview(Boolean disable) {
         this.showNseOverview = disable;
+    }
+
+    public Boolean getShowNseLogoInIframe() { return showNseLogoInIframe; }
+
+    public void setShowNseLogoInIframe(Boolean enable) {
+        this.showNseLogoInIframe = enable;
     }
 }
