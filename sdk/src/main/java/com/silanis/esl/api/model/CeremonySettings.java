@@ -72,6 +72,8 @@ public class CeremonySettings extends ViewSettings
     public static final String FIELD_MAX_ATTACHMENT_FILES = "maxAttachmentFiles";
     @JsonIgnore
     public static final String FIELD_SHOW_NSE_OVERVIEW = "showNseOverview";
+    @JsonIgnore
+    public static final String FIELD_SHOW_NSE_LOGO_IN_IFRAME = "showNseLogoInIframe";
 
     // Empty Constructor
     public CeremonySettings() {
@@ -106,6 +108,7 @@ public class CeremonySettings extends ViewSettings
     protected Boolean _leftMenuExpand = false;
     protected Integer _maxAttachmentFiles = 0;
     protected Boolean _showNseOverview = true;
+    protected Boolean _showNseLogoInIframe = false;
 
     // Accessors
 
@@ -852,5 +855,26 @@ public class CeremonySettings extends ViewSettings
     @JsonIgnore
     public boolean evalShowNseOverview() {
         return _showNseOverview == null ? true : _showNseOverview.booleanValue();
+    }
+
+    public Boolean getShowNseLogoInIframe() {
+        return _showNseLogoInIframe;
+    }
+
+    public CeremonySettings setShowNseLogoInIframe(Boolean value) {
+        this._showNseLogoInIframe = value;
+        setDirty(FIELD_SHOW_NSE_LOGO_IN_IFRAME);
+        return this;
+    }
+
+    @JsonIgnore
+    public CeremonySettings safeSetShowNseLogoInIframe( Boolean value ){
+        if ( value != null ) { this.setShowNseLogoInIframe( value ); }
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalShowNseLogoInIframe(){
+        return _showNseLogoInIframe != null && _showNseLogoInIframe;
     }
 }

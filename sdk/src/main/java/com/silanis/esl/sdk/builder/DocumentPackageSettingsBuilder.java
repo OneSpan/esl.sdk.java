@@ -41,6 +41,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean showNseHelp = null;
     private Integer maxAttachmentFiles = null;
     private Boolean showNseOverview = null;
+    private Boolean showNseLogoInIframe = null;
 
     private String linkText = null;
     private String linkTooltip = null;
@@ -533,13 +534,35 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Do not show NSE help.
+     * Do not show NSE Overview.
      *
      * @return This
      */
 
     public DocumentPackageSettingsBuilder withoutShowNseOverview() {
         this.showNseOverview = false;
+        return this;
+    }
+
+    /**
+     * Show NSE Logo in iFrame Overview
+     *
+     * @return This
+     */
+
+    public DocumentPackageSettingsBuilder withShowNseLogoInIframe() {
+        this.showNseLogoInIframe = true;
+        return this;
+    }
+
+    /**
+     * Do not show NSE Logo in iFrame.
+     *
+     * @return This
+     */
+
+    public DocumentPackageSettingsBuilder withoutShowNseLogoInIframe() {
+        this.showNseLogoInIframe = false;
         return this;
     }
     /**
@@ -582,6 +605,7 @@ public class DocumentPackageSettingsBuilder {
         result.setCeremonyLayoutSettings(ceremonyLayoutSettings);
         result.setExpandLeftMenu(expandLeftMenu);
         result.setShowNseOverview(showNseOverview);
+        result.setShowNseLogoInIframe(showNseLogoInIframe);
 
         return result;
     }
