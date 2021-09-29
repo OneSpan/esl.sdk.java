@@ -48,6 +48,18 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getStyle(), is(UNBOUND_CHECK_BOX));
                     assertThat(field.getValue(), is(CHECKBOX_CHECKED));
                 }
+                if (field.getId().toString().equals(GROUPED_CHECKBOX_1_ID)) {
+                    assertThat(field.getPage(), is(GROUPED_CHECKBOX_1_PAGE));
+                    assertThat(field.getStyle(), is(UNBOUND_CHECK_BOX));
+                    assertThat(field.getFieldValidator().getGroup(), is(CHECKBOX_GROUP));
+                    assertThat(field.getFieldValidator().getMinimumRequired(), is(GROUPED_CHECKBOX_MINIMUM_REQUIRED));
+                }
+                if (field.getId().toString().equals(GROUPED_CHECKBOX_2_ID)) {
+                    assertThat(field.getPage(), is(GROUPED_CHECKBOX_2_PAGE));
+                    assertThat(field.getStyle(), is(UNBOUND_CHECK_BOX));
+                    assertThat(field.getFieldValidator().getGroup(), is(CHECKBOX_GROUP));
+                    assertThat(field.getFieldValidator().getMinimumRequired(), is(GROUPED_CHECKBOX_MINIMUM_REQUIRED));
+                }
                 if (field.getId().toString().equals(RADIO_1_ID)) {
                     assertThat(field.getPage(), is(RADIO_1_PAGE));
                     assertThat(field.getStyle(), is(UNBOUND_RADIO_BUTTON));

@@ -14,6 +14,8 @@ public class FieldValidator {
     private List<String> options;
     private boolean required;
     private boolean disabled;
+    private String group;
+    private Integer minimumRequired;
     private String errorMessage;
 
     public FieldValidator() {
@@ -73,6 +75,22 @@ public class FieldValidator {
 
     public boolean isDisabled() {
         return disabled;
+    }
+
+    public void setGroup( String group ){
+        this.group = group;
+    }
+
+    public String getGroup(){
+        return this.group;
+    }
+
+    public void setMinimumRequired( int minimumRequired ) {
+        this.minimumRequired = minimumRequired;
+    }
+
+    public Integer getMinimumRequired() {
+        return minimumRequired;
     }
 
     public void setErrorMessage( String errorMessage ) {
