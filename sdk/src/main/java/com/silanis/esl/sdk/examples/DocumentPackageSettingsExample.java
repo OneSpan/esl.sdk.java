@@ -77,7 +77,7 @@ public class DocumentPackageSettingsExample extends SDKSample {
                                                 .withoutGlobalSaveAsLayoutButton()
                                 )
                                 .withShowNseOverview()
-                                .withoutShowNseLogoInIframe()
+                                .withShowNseLogoInIframe()
                 )
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
