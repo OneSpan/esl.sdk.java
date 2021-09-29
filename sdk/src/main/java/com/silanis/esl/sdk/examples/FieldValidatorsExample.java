@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.FieldId;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.textField;
+import static com.silanis.esl.sdk.builder.FieldBuilder.checkBox;
 import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.EMAIL_REGEX;
 import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.alphabetic;
 import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.alphanumeric;
@@ -39,6 +40,9 @@ public class FieldValidatorsExample extends SDKSample {
     public static final String  FIELD_BASIC_OPTION_2 = "two";
     public static final FieldId FIELD_REGEX_ID = new FieldId("regex");
     public static final String  FIELD_REGEX_ERROR_MESSAGE = "This is not a valid email";
+    public static final String  FIELD_GROUP = "group";
+    public static final FieldId  FIELD_CHECKBOX_ID_1 = new FieldId("checkbox_one");
+    public static final FieldId  FIELD_CHECKBOX_ID_2 = new FieldId("checkbox_two");
 
     public static void main( String... args ) {
         new FieldValidatorsExample().run();
@@ -96,6 +100,16 @@ public class FieldValidatorsExample extends SDKSample {
                                         .atPosition( 500, 700 )
                                         .onPage( 0 )
                                         .withValidation(regex(EMAIL_REGEX).withErrorMessage(FIELD_REGEX_ERROR_MESSAGE)))
+                                .withField( checkBox()
+                                        .withId(FIELD_CHECKBOX_ID_1)
+                                        .atPosition( 500, 800 )
+                                        .onPage( 0 )
+                                        .withValidation(basic().setGroup(FIELD_GROUP).setMinimumRequired(1)))
+                                .withField( checkBox()
+                                        .withId(FIELD_CHECKBOX_ID_2)
+                                        .atPosition( 550, 800 )
+                                        .onPage( 0 )
+                                        .withValidation(basic().setGroup(FIELD_GROUP).setMinimumRequired(1)))
                         ) )
                 .build();
 
