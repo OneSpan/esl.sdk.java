@@ -26,6 +26,10 @@ public class FieldValidation extends Model
     public static final String FIELD_REQUIRED = "required";
     @JsonIgnore
     public static final String FIELD_DISABLED = "disabled";
+    @JsonIgnore
+    public static final String FIELD_GROUP = "group";
+    @JsonIgnore
+    public static final String FIELD_MINIMUMREQUIRED = "minimumRequired";
     
     // Empty Constructor
     public FieldValidation ( ) {}
@@ -39,6 +43,8 @@ public class FieldValidation extends Model
     protected String _pattern = "";
     protected Boolean _required = false;
     protected Boolean _disabled = false;
+    protected String _group = "";
+    protected Integer _minimumRequired = null;
     
     // Accessors
         
@@ -211,5 +217,36 @@ public class FieldValidation extends Model
     @JsonIgnore
     public boolean evalDisabled() {
         return _disabled != null && _disabled;
+    }
+
+    public FieldValidation setGroup( String value ){
+        value = SchemaSanitizer.trim(value);
+        this._group = value;
+        setDirty(FIELD_GROUP);
+        return this;
+    }
+
+    @JsonIgnore
+    public FieldValidation safeSetGroup( String value ){
+        if ( value != null ) { this.setGroup( value ); }
+        return this;
+    }
+    public String getGroup(){
+        return _group;
+    }
+
+    public FieldValidation setMinimumRequired( Integer value ){
+        this._minimumRequired = value;
+        setDirty(FIELD_MINIMUMREQUIRED);
+        return this;
+    }
+
+    @JsonIgnore
+    public FieldValidation safeSetMinimumRequired( Integer value ){
+        if ( value != null ) { this.setMinimumRequired( value ); }
+        return this;
+    }
+    public Integer getMinimumRequired(){
+        return _minimumRequired;
     }
 }

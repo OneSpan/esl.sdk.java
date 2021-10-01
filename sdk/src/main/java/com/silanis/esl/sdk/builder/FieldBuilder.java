@@ -353,6 +353,10 @@ public class FieldBuilder {
                 this.fieldValidator.setRegex(fieldValidator.getRegex());
             if (null != fieldValidator.getOptions() && fieldValidator.getOptions().size() > 0)
                 this.fieldValidator.setOptions(fieldValidator.getOptions());
+            if (null != fieldValidator.getGroup())
+                this.fieldValidator.setGroup(fieldValidator.getGroup());
+            if (null != fieldValidator.getMinimumRequired())
+                this.fieldValidator.setMinimumRequired(fieldValidator.getMinimumRequired());
 
             this.fieldValidator.setRequired(fieldValidator.isRequired());
             this.fieldValidator.setDisabled(fieldValidator.isDisabled());

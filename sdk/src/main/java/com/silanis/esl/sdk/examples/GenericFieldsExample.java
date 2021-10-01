@@ -29,6 +29,12 @@ public class GenericFieldsExample extends SDKSample {
     public static final String CHECKBOX_2_ID = "checkbox2Id";
     public static final int CHECKBOX_2_PAGE = 0;
     public static final boolean CHECKBOX_2_VALUE = true;
+    public static final String GROUPED_CHECKBOX_1_ID = "groupedCheckbox1Id";
+    public static final int GROUPED_CHECKBOX_1_PAGE = 0;
+    public static final String GROUPED_CHECKBOX_2_ID = "groupedCheckbox2Id";
+    public static final int GROUPED_CHECKBOX_2_PAGE = 0;
+    public static final String CHECKBOX_GROUP = "checkboxGroup";
+    public static final int GROUPED_CHECKBOX_MINIMUM_REQUIRED = 1; //0:optional  1:required
     public static final String RADIO_1_ID = "radio1Id";
     public static final int RADIO_1_PAGE = 0;
     public static final String RADIO_1_GROUP = "group";
@@ -68,6 +74,14 @@ public class GenericFieldsExample extends SDKSample {
     private double checkbox2Height = 20;
     private int checkbox2PositionX = 400;
     private int checkbox2PositionY = 350;
+    private double groupedCheckbox1Width = 20;
+    private double groupedCheckbox1Height = 20;
+    private int groupedCheckbox1PositionX = 500;
+    private int groupedCheckbox1PositionY = 300;
+    private double groupedCheckbox2Width = 20;
+    private double groupedCheckbox2Height = 20;
+    private int groupedCheckbox2PositionX = 500;
+    private int groupedCheckbox2PositionY = 350;
     private double radio1Width = 20;
     private double radio1Height = 20;
     private int radio1PositionX = 400;
@@ -174,7 +188,21 @@ public class GenericFieldsExample extends SDKSample {
                                         .withSize(datepickerFieldWidth, datepickerFieldHeight)
                                         .atPosition(datepickerFieldPositionX, datepickerFieldPositionY)
                                         .withValidation(FieldValidatorBuilder.datepickerFormat(DATEPICKER_FORMAT)
-                                                .required()))))
+                                                .required()))
+                                .withField(checkBox()
+                                        .withId(new FieldId(GROUPED_CHECKBOX_1_ID))
+                                        .onPage(GROUPED_CHECKBOX_1_PAGE)
+                                        .withSize(groupedCheckbox1Width, groupedCheckbox1Height)
+                                        .atPosition(groupedCheckbox1PositionX, groupedCheckbox1PositionY)
+                                        .withValidation(FieldValidatorBuilder.basic().setGroup(CHECKBOX_GROUP)
+                                                .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)))
+                                .withField(checkBox()
+                                        .withId(new FieldId(GROUPED_CHECKBOX_2_ID))
+                                        .onPage(GROUPED_CHECKBOX_2_PAGE)
+                                        .withSize(groupedCheckbox2Width, groupedCheckbox2Height)
+                                        .atPosition(groupedCheckbox2PositionX, groupedCheckbox2PositionY)
+                                        .withValidation(FieldValidatorBuilder.basic().setGroup(CHECKBOX_GROUP)
+                                                .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)))))
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);

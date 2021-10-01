@@ -34,6 +34,8 @@ public class FieldValidatorBuilder {
     private String regex;
     private boolean required;
     private boolean disabled;
+    private String group;
+    private int minimumRequired;
     private String errorMessage;
 
     private FieldValidatorBuilder( String regex ) {
@@ -188,6 +190,26 @@ public class FieldValidatorBuilder {
     }
 
     /**
+     * Set the group for the checkbox
+     * @param group string.
+     * @return field validator builder
+     */
+    public FieldValidatorBuilder setGroup( String group ) {
+        this.group = group;
+        return this;
+    }
+
+    /**
+     * Set the minimumRequired for the checkboxes group
+     * @param minimumRequired
+     * @return field validator builder
+     */
+    public FieldValidatorBuilder setMinimumRequired( int minimumRequired ) {
+        this.minimumRequired = minimumRequired;
+        return this;
+    }
+
+    /**
      * Builds the actual FieldValidator with the values specified.
      *
      * @return
@@ -209,6 +231,8 @@ public class FieldValidatorBuilder {
         result.getOptions().addAll( options );
         result.setRequired(required);
         result.setDisabled(disabled);
+        result.setGroup(group);
+        result.setMinimumRequired(minimumRequired);
         result.setErrorMessage( errorMessage );
         return result;
     }
