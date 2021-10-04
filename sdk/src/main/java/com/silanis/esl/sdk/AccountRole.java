@@ -63,4 +63,15 @@ public class AccountRole implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    @Override
+    public String toString() {
+        return "AccountRole{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", permissions=" + permissions +
+                ", description='" + description + '\'' +
+                ", enabled=" + enabled +
+                '}';
+    }
 }

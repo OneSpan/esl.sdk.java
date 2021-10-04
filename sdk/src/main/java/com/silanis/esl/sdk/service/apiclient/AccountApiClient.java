@@ -10,6 +10,7 @@ import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.SenderImageSignature;
 import com.silanis.esl.api.model.SubAccount;
 import com.silanis.esl.api.model.SubAccountApiKey;
+import com.silanis.esl.api.model.UserAccountRole;
 import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.Direction;
@@ -20,7 +21,9 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import io.netty.util.internal.StringUtil;
 
+import javax.xml.ws.Response;
 import java.util.Collections;
 import java.util.List;
 
@@ -399,6 +402,42 @@ public class AccountApiClient {
 
         try {
             return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<String>>() {}).getResults();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get account role users.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get account role users." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public List<UserAccountRole> getAssignedAccountRoles(String userId, String accountId) {
+        if (!StringUtil.isNullOrEmpty(accountId)){
+            template.addParam("accountId", accountId);
+        }
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH)
+                .replace("{userId}", userId)
+                .build();
+
+        System.out.println(path);
+        try {
+            String json = restClient.get(path);
+            return JacksonUtil.deserialize(json, new TypeReference<List<UserAccountRole>>() {});
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get account role users.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get account role users." + " Exception: " + e.getMessage(), e);
+        }
+    }
+
+    public UserAccountRole assignAccountRoleToUser(String userId, com.silanis.esl.api.model.UserAccountRole userAccountRole) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH)
+                .replace("{userId}", userId)
+                .build();
+        try {
+            String body =JacksonUtil.serialize(userAccountRole);
+            String response = restClient.post(path, body);
+            return JacksonUtil.deserialize(response, new TypeReference<UserAccountRole>() {});
+
+
         } catch (RequestException e) {
             throw new EslServerException("Could not get account role users.", e);
         } catch (Exception e) {

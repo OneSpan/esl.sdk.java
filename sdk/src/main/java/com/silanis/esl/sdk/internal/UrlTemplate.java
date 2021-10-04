@@ -196,6 +196,10 @@ public class UrlTemplate {
     public static final String ACCOUNT_ROLES_ROLE_PATH = "/account/roles/{accountRoleId}";
     public static final String ACCOUNT_ROLES_ROLE_USERS_PATH = "/account/roles/{accountRoleId}/users";
 
+    // User Account Roles
+    public static final String ACCOUNT_SENDERS_ROLES_PATH = "/account/senders/{userId}/roles";
+
+
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
     }
