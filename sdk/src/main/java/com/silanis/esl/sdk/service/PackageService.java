@@ -808,6 +808,8 @@ public class PackageService {
      * Returns a Page of DocumentPackages, which represents a paginated query response.  Important once you have many DocumentPackages.
      *
      * @param status  Returned DocumentPackages must have their status set to this value to be included in the result set
+     * @param ownerUserId
+     * @param ownerEmail
      * @param request Identifying which page of results to return
      * @return List of DocumentPackages that populate the specified page
      */

@@ -34,9 +34,16 @@ public class AccountRole extends Model implements Serializable {
     public AccountRole(String id, String name, List<String> permissions, String description, Boolean enabled) {
         setId(id);
         setName(name);
-        setPermissions(permissions);
-        setDescription(description);
-        setEnabled(enabled);
+
+        if (permissions != null){
+            setPermissions(permissions);
+        }
+        if (description != null){
+            setDescription(description);
+        }
+        if (enabled != null){
+            setEnabled(enabled);
+        }
     }
 
     public String getId() {
@@ -45,7 +52,6 @@ public class AccountRole extends Model implements Serializable {
 
     public AccountRole setId(String id) {
         SchemaSanitizer.throwOnNull(FIELD_ID, id);
-
         if (id.equals(this.id)) return this;
 
         this.id = id;

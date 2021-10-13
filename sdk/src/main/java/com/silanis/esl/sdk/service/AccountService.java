@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.service;
 
-import com.silanis.esl.api.model.AccountRole;
 import com.silanis.esl.api.model.Result;
 import com.silanis.esl.api.model.VerificationType;
 import com.silanis.esl.sdk.*;
@@ -13,12 +12,11 @@ import com.silanis.esl.sdk.internal.converter.AccountRoleConverter;
 import com.silanis.esl.sdk.internal.converter.DelegationUserConverter;
 import com.silanis.esl.sdk.internal.converter.SenderConverter;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import com.silanis.esl.api.model.AccountRole;
 
 /**
  * The AccountService provides methods to help create senders for an account
@@ -222,6 +220,7 @@ public class AccountService {
 
     public List<com.silanis.esl.sdk.AccountRole> getAccountRoles() {
         List<com.silanis.esl.sdk.AccountRole> roles = new ArrayList<com.silanis.esl.sdk.AccountRole>();
+
         for (AccountRole accountRole : apiClient.getAccountRoles()) {
             roles.add(new AccountRoleConverter(accountRole).toSDKAccountRole());
         }
@@ -307,4 +306,22 @@ public class AccountService {
     public void deleteAccountRole(String accountRoleId) { apiClient.deleteAccountRole(accountRoleId); }
 
     public List<String> getAccountRoleUsers(String accountRoleId) { return apiClient.getAccountRoleUsers(accountRoleId); }
+
+    public List<UserAccountRole> getAssignedAccountRoles(String userId) {
+        return this.getAssignedAccountRoles(userId, null);
+    }
+
+    public List<UserAccountRole> getAssignedAccountRoles(String userId, String accountId) {
+        List<com.silanis.esl.api.model.UserAccountRole> accountRole = apiClient.getAssignedAccountRoles(userId, accountId);
+        List<UserAccountRole> sdkUserAccountRoles = new ArrayList<UserAccountRole>();
+        for(com.silanis.esl.api.model.UserAccountRole userAccountRole: accountRole){
+           sdkUserAccountRoles.add((new UserAccountRoleConverter(userAccountRole)).toSDKUserAccountRole());
+        }
+        return sdkUserAccountRoles;
+    }
+
+    public UserAccountRole assignAccountRoleToUser(String userId, com.silanis.esl.sdk.UserAccountRole sdkUserAccountRole){
+        com.silanis.esl.api.model.UserAccountRole userAccountRole = apiClient.assignAccountRoleToUser(userId, new UserAccountRoleConverter(sdkUserAccountRole).toAPIUserAccountRole());
+        return new UserAccountRoleConverter(userAccountRole).toSDKUserAccountRole();
+    }
 }
