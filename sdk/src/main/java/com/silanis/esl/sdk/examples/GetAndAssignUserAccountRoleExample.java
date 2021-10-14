@@ -1,14 +1,17 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AccountRole;
+import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.UserAccountRole;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetAndAssignUserAccountRoleExample extends SDKSample {
+public class GetAndAssignUserAccountRoleExample extends SDKSampleWithRolesAndPermission {
     String userId = "dummyUserId";
     List<UserAccountRole> userAccountRoleList = new ArrayList<UserAccountRole>();
+    private EslClient eslClient = eslClientForRolesAndPermission;
+
     public static void main(String... args) {
         new GetAndAssignUserAccountRoleExample().run();
     }
