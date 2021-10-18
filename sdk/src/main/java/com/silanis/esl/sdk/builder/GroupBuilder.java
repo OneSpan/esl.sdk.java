@@ -28,7 +28,7 @@ public class GroupBuilder {
     /**
      * Instantiate a new Group of senders.
      *
-     * @param name name of the new group @size(max="64")
+     * @param name name of the new group @size(max="255")
      * @return the group builder itself
      */
     public static GroupBuilder newGroup( String name ) {

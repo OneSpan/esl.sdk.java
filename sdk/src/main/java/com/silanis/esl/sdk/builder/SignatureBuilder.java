@@ -250,7 +250,7 @@ final public class SignatureBuilder {
      * <p>Set a custom ID for the signature. If none is provided, the system will assign one by default.
      * This package id needs to be unique per document.</p>
      *
-     * @param id the signature ID @size(min="1", max="64")
+     * @param id the signature ID @size(min="1", max="255")
      * @return
      */
     public SignatureBuilder withId(SignatureId id) {

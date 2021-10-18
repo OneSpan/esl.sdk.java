@@ -41,7 +41,7 @@ public class DocumentBuilder {
     /**
      * <p>The constructor of this class.</p>
      *
-     * @param name the name of the document produced by the document builder. @size(max="64")
+     * @param name the name of the document produced by the document builder. @size(max="255")
      */
     public DocumentBuilder( String name ) {
         this();
@@ -51,7 +51,7 @@ public class DocumentBuilder {
     /**
      * <p>Creates the document.</p>
      *
-     * @param name the name of the document. @size(max="64")
+     * @param name the name of the document. @size(max="255")
      * @return a document builder
      */
     public static DocumentBuilder newDocumentWithName( String name ) {

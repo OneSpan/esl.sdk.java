@@ -34,7 +34,7 @@ public class PackageBuilder {
     /**
      * The constructor of the PackageBuilder class.
      *
-     * @param packageName the name of the package @size(min="1", max="64")
+     * @param packageName the name of the package @size(min="1", max="255")
      */
     public PackageBuilder( String packageName ) {
         this.packageName = packageName;
@@ -43,7 +43,7 @@ public class PackageBuilder {
     /**
      * Creates a package having the package name set to the value of the name parameter.
      *
-     * @param name the package name @size(min="1", max="64")
+     * @param name the package name @size(min="1", max="255")
      * @return a package builder
      */
     public static PackageBuilder newPackageNamed( String name ) {
