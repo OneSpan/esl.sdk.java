@@ -29,8 +29,8 @@ public class SenderInfoBuilder {
     /**
      * Set the Sender's first name and last name. 
      *
-     * @param firstName sender's first name @size(min="1", max="64")
-     * @param lastName sender's last name @size(min="1", max="64")
+     * @param firstName sender's first name @size(min="1", max="255")
+     * @param lastName sender's last name @size(min="1", max="255")
      * @return This
      */
     public SenderInfoBuilder withName( String firstName, String lastName ) {
@@ -52,7 +52,7 @@ public class SenderInfoBuilder {
 
     /**
      * Set the sender's title. E.g.: M. Mr. Ms. etc...
-     * @param title the sender's title. @size(min="0", max="64")
+     * @param title the sender's title. @size(min="0", max="255")
      * @return This
      */
     public SenderInfoBuilder withTitle( String title ) {

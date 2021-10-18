@@ -45,7 +45,7 @@ public class FastTrackSignerBuilder {
     /**
      * Sets the signer's first name.
      *
-     * @param firstName the signer's first name @size(min="1", max="64")
+     * @param firstName the signer's first name @size(min="1", max="255")
      * @return the FastTrackSignerBuilder itself
      */
     public FastTrackSignerBuilder withFirstName(String firstName) {
@@ -56,7 +56,7 @@ public class FastTrackSignerBuilder {
     /**
      * Sets the signer's last name.
      *
-     * @param lastName the signer's last name @size(min="1", max="64")
+     * @param lastName the signer's last name @size(min="1", max="255")
      * @return the FastTrackSignerBuilder itself
      */
     public FastTrackSignerBuilder withLastName(String lastName) {

@@ -90,7 +90,7 @@ public class AccountMemberBuilder {
      * Set the member's title.
      * <p>
      * E.g.: Mr. Ms. Mrs. etc...
-     * @param title (max 64, any characters)
+     * @param title (max 255, any characters)
      * @return This
      */
     public AccountMemberBuilder withTitle( String title ) {
