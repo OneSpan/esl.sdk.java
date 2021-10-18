@@ -38,7 +38,7 @@ public class AddressBuilder {
 
     /**
      * Set the address' city
-     * @param city (max 64, any characters)
+     * @param city (max 255, any characters)
      * @return This
      */
     public AddressBuilder withCity( String city ) {
@@ -49,7 +49,7 @@ public class AddressBuilder {
     /**
      * Set the address' country
      *
-     * @param country (max 64, any characters)
+     * @param country (max 255, any characters)
      * @return This
      */
     public AddressBuilder withCountry( String country ) {

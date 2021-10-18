@@ -36,7 +36,7 @@ public class TranslationBuilder {
     /**
      * Set the translation of a custom field name.
      *
-     * @param name custom field name translation @size(max="64")
+     * @param name custom field name translation @size(max="255")
      * @return This.
      */
     public TranslationBuilder withName( String name ) {

@@ -264,7 +264,7 @@ public class FieldBuilder {
      * corresponding acrobat form field. This name is used when positioning form
      * fields based on their original position on the PDF document.
      *
-     * @param name the name of the field @size(max="64")
+     * @param name the name of the field @size(max="255")
      * @return the field builder itself
      */
     public FieldBuilder withName(String name) {

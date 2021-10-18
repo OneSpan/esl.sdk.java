@@ -119,7 +119,7 @@ final public class SignerBuilder {
      * <p>
      * E.g.: the signer's email makes for a good unique ID. john@do.com
      *
-     * @param id the signer's ID @size(min="1", max="64")
+     * @param id the signer's ID @size(min="1", max="255")
      * @return the signer builder itself
      */
     public SignerBuilder withCustomId(String id) {
@@ -141,7 +141,7 @@ final public class SignerBuilder {
     /**
      * Sets the signer's first name.
      *
-     * @param firstName the signer's first name @size(min="1", max="64")
+     * @param firstName the signer's first name @size(min="1", max="255")
      * @return the signer builder itself
      */
     public SignerBuilder withFirstName(String firstName) {
@@ -153,7 +153,7 @@ final public class SignerBuilder {
     /**
      * Sets the signer's last name.
      *
-     * @param lastName the signer's last name @size(min="1", max="64")
+     * @param lastName the signer's last name @size(min="1", max="255")
      * @return the signer builder itself
      */
     public SignerBuilder withLastName(String lastName) {
@@ -331,7 +331,7 @@ final public class SignerBuilder {
      * <p>Sets the signer's title.</p>
      * E.g.: Mr., Mrs., Ms., etc...
      *
-     * @param title the signer's title @size(min="0", max="64")
+     * @param title the signer's title @size(min="0", max="255")
      * @return the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {

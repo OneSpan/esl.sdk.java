@@ -41,7 +41,7 @@ public class GroupMemberBuilder {
     /**
      * Set the group member's first name.
      *
-     * @param firstName the group member's first name @size(min="1", max="64")
+     * @param firstName the group member's first name @size(min="1", max="255")
      * @return the group member builder itself
      */
     public GroupMemberBuilder withFirstName( String firstName ) {
@@ -52,7 +52,7 @@ public class GroupMemberBuilder {
     /**
      * Set the group member's last name.
      *
-     * @param lastName the group member's last name @size(min="1", max="64")
+     * @param lastName the group member's last name @size(min="1", max="255")
      * @return the group member builder itself
      */
     public GroupMemberBuilder withLastName( String lastName ) {
