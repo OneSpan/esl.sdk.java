@@ -34,7 +34,8 @@ public class GenericFieldsExample extends SDKSample {
     public static final String GROUPED_CHECKBOX_2_ID = "groupedCheckbox2Id";
     public static final int GROUPED_CHECKBOX_2_PAGE = 0;
     public static final String CHECKBOX_GROUP = "checkboxGroup";
-    public static final int GROUPED_CHECKBOX_MINIMUM_REQUIRED = 1; //0:optional  1:required
+    public static final int GROUPED_CHECKBOX_MINIMUM_REQUIRED = 1;
+    public static final int GROUPED_CHECKBOX_MAXIMUM_REQUIRED = 2;
     public static final String RADIO_1_ID = "radio1Id";
     public static final int RADIO_1_PAGE = 0;
     public static final String RADIO_1_GROUP = "group";
@@ -195,14 +196,16 @@ public class GenericFieldsExample extends SDKSample {
                                         .withSize(groupedCheckbox1Width, groupedCheckbox1Height)
                                         .atPosition(groupedCheckbox1PositionX, groupedCheckbox1PositionY)
                                         .withValidation(FieldValidatorBuilder.basic().setGroup(CHECKBOX_GROUP)
-                                                .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)))
+                                                .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)
+                                                .setMaximumRequired(GROUPED_CHECKBOX_MAXIMUM_REQUIRED)))
                                 .withField(checkBox()
                                         .withId(new FieldId(GROUPED_CHECKBOX_2_ID))
                                         .onPage(GROUPED_CHECKBOX_2_PAGE)
                                         .withSize(groupedCheckbox2Width, groupedCheckbox2Height)
                                         .atPosition(groupedCheckbox2PositionX, groupedCheckbox2PositionY)
                                         .withValidation(FieldValidatorBuilder.basic().setGroup(CHECKBOX_GROUP)
-                                                .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)))))
+                                                .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)
+                                                .setMaximumRequired(GROUPED_CHECKBOX_MAXIMUM_REQUIRED)))))
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);

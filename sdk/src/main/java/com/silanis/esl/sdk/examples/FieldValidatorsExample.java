@@ -104,12 +104,12 @@ public class FieldValidatorsExample extends SDKSample {
                                         .withId(FIELD_CHECKBOX_ID_1)
                                         .atPosition( 500, 800 )
                                         .onPage( 0 )
-                                        .withValidation(basic().setGroup(FIELD_GROUP).setMinimumRequired(1)))
+                                        .withValidation(basic().setGroup(FIELD_GROUP).setMinimumRequired(1).setMaximumRequired(2)))
                                 .withField( checkBox()
                                         .withId(FIELD_CHECKBOX_ID_2)
                                         .atPosition( 550, 800 )
                                         .onPage( 0 )
-                                        .withValidation(basic().setGroup(FIELD_GROUP).setMinimumRequired(1)))
+                                        .withValidation(basic().setGroup(FIELD_GROUP).setMinimumRequired(1).setMaximumRequired(2)))
                         ) )
                 .build();
 
