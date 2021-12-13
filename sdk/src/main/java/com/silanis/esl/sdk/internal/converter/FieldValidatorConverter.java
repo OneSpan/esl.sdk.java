@@ -65,6 +65,10 @@ public class FieldValidatorConverter {
             fieldValidation.setMinimumRequired( fieldValidator.getMinimumRequired() );
         }
 
+        if ( fieldValidator.getMaximumRequired() != null ) {
+            fieldValidation.setMaximumRequired( fieldValidator.getMaximumRequired() );
+        }
+
         if ( fieldValidator.getErrorMessage() != null ) {
             fieldValidation.setErrorMessage( fieldValidator.getErrorMessage() );
         }
@@ -117,6 +121,10 @@ public class FieldValidatorConverter {
 
         if ( fieldValidation.getMinimumRequired() != null) {
             fieldValidator.setMinimumRequired(fieldValidation.getMinimumRequired());
+        }
+
+        if ( fieldValidation.getMaximumRequired() != null) {
+            fieldValidator.setMaximumRequired(fieldValidation.getMaximumRequired());
         }
 
         return fieldValidator;

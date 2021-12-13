@@ -30,6 +30,8 @@ public class FieldValidation extends Model
     public static final String FIELD_GROUP = "group";
     @JsonIgnore
     public static final String FIELD_MINIMUMREQUIRED = "minimumRequired";
+    @JsonIgnore
+    public static final String FIELD_MAXIMUMREQUIRED = "maximumRequired";
     
     // Empty Constructor
     public FieldValidation ( ) {}
@@ -45,6 +47,7 @@ public class FieldValidation extends Model
     protected Boolean _disabled = false;
     protected String _group = "";
     protected Integer _minimumRequired = null;
+    protected Integer _maximumRequired = null;
     
     // Accessors
         
@@ -248,5 +251,20 @@ public class FieldValidation extends Model
     }
     public Integer getMinimumRequired(){
         return _minimumRequired;
+    }
+
+    public FieldValidation setMaximumRequired( Integer value ){
+        this._maximumRequired = value;
+        setDirty(FIELD_MAXIMUMREQUIRED);
+        return this;
+    }
+
+    @JsonIgnore
+    public FieldValidation safeSetMaximumRequired( Integer value ){
+        if ( value != null ) { this.setMaximumRequired( value ); }
+        return this;
+    }
+    public Integer getMaximumRequired(){
+        return _maximumRequired;
     }
 }

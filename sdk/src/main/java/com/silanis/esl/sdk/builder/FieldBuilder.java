@@ -357,6 +357,8 @@ public class FieldBuilder {
                 this.fieldValidator.setGroup(fieldValidator.getGroup());
             if (null != fieldValidator.getMinimumRequired())
                 this.fieldValidator.setMinimumRequired(fieldValidator.getMinimumRequired());
+            if (null != fieldValidator.getMaximumRequired())
+                this.fieldValidator.setMaximumRequired(fieldValidator.getMaximumRequired());
 
             this.fieldValidator.setRequired(fieldValidator.isRequired());
             this.fieldValidator.setDisabled(fieldValidator.isDisabled());
