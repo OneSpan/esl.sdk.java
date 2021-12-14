@@ -36,6 +36,7 @@ public class FieldValidatorBuilder {
     private boolean disabled;
     private String group;
     private int minimumRequired;
+    private int maximumRequired;
     private String errorMessage;
 
     private FieldValidatorBuilder( String regex ) {
@@ -210,6 +211,16 @@ public class FieldValidatorBuilder {
     }
 
     /**
+     * Set the maximumRequired for the checkboxes group
+     * @param maximumRequired
+     * @return field validator builder
+     */
+    public FieldValidatorBuilder setMaximumRequired( int maximumRequired ) {
+        this.maximumRequired = maximumRequired;
+        return this;
+    }
+
+    /**
      * Builds the actual FieldValidator with the values specified.
      *
      * @return
@@ -233,6 +244,7 @@ public class FieldValidatorBuilder {
         result.setDisabled(disabled);
         result.setGroup(group);
         result.setMinimumRequired(minimumRequired);
+        result.setMaximumRequired(maximumRequired);
         result.setErrorMessage( errorMessage );
         return result;
     }

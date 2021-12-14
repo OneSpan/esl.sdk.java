@@ -16,6 +16,7 @@ public class FieldValidator {
     private boolean disabled;
     private String group;
     private Integer minimumRequired;
+    private Integer maximumRequired;
     private String errorMessage;
 
     public FieldValidator() {
@@ -91,6 +92,14 @@ public class FieldValidator {
 
     public Integer getMinimumRequired() {
         return minimumRequired;
+    }
+
+    public void setMaximumRequired( int maximumRequired ) {
+        this.maximumRequired = maximumRequired;
+    }
+
+    public Integer getMaximumRequired() {
+        return maximumRequired;
     }
 
     public void setErrorMessage( String errorMessage ) {
