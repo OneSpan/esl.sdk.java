@@ -38,6 +38,7 @@ final public class SignatureBuilder {
     private boolean optional = false;
     private boolean disabled = false;
     private boolean enforceCaptureSignature = false;
+    private boolean fromFile = false;
 
     /**
      * SignatureBuilder constructor for regular signature with email
@@ -393,6 +394,17 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Enable capture signature to be from file
+     *
+     * @param fromFile is from file data
+     * @return the signature builder itself
+     */
+    public SignatureBuilder setFromFile(boolean fromFile) {
+        this.fromFile = fromFile;
+        return this;
+    }
+
+    /**
      * Marks the signature as optional. Optional signatures don't have to
      * be signed and can be left empty if the user chooses to.
      *
@@ -451,6 +463,7 @@ final public class SignatureBuilder {
         signature.setOptional(optional);
         signature.setDisabled(disabled);
         signature.setEnforceCaptureSignature(enforceCaptureSignature);
+        signature.setFromFile(fromFile);
 
         return signature;
     }
