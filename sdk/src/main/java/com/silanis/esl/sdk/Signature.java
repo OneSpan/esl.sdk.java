@@ -34,6 +34,7 @@ public class Signature implements Serializable {
     private boolean enforceCaptureSignature;
 
     private GroupId groupId;
+    private boolean fromFile;
 
     /**
      * 
@@ -200,5 +201,13 @@ public class Signature implements Serializable {
 
     public void setEnforceCaptureSignature(boolean enforceCaptureSignature) {
         this.enforceCaptureSignature = enforceCaptureSignature;
+    }
+
+    public void setFromFile(boolean fromFile) {
+        this.fromFile = fromFile;
+    }
+
+    public boolean isFromFile() {
+        return fromFile;
     }
 }
