@@ -35,6 +35,8 @@ public class Approval extends Entity
     public static final String FIELD_DISABLED = "disabled";
     @JsonIgnore
     public static final String FIELD_ENFORCE_CAPTURE_SIGNATURE = "enforceCaptureSignature";
+    @JsonIgnore
+    public static final String FIELD_FROM_FILE = "fromFile";
     
     // Empty Constructor
     public Approval ( ) {}
@@ -47,6 +49,7 @@ public class Approval extends Entity
     protected Boolean _optional = false;
     protected Boolean _disabled = false;
     protected Boolean _enforceCaptureSignature = false;
+    protected Boolean fromFile = false;
 
     // Accessors
         
@@ -222,5 +225,15 @@ public class Approval extends Entity
 
     public Boolean getEnforceCaptureSignature() {
         return _enforceCaptureSignature;
+    }
+
+    public boolean getFromFile() {
+        return fromFile;
+    }
+
+    public Approval setFromFile(boolean value) {
+        this.fromFile = value;
+        setDirty(FIELD_FROM_FILE);
+        return this;
     }
 }
