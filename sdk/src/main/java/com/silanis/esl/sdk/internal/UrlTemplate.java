@@ -179,6 +179,13 @@ public class UrlTemplate {
     // Account Signing Ui Options Service
     public static final String ACCOUNT_SIGNING_UI_OPTIONS_PATH = "/account/admin/signingUiOptions";
 
+    // Account Settings Service
+    public static final String ACCOUNT_SETTINGS_PATH = "/account/admin/accountSettings";
+    // Account Package Settings Service
+    public static final String ACCOUNT_PACKAGE_SETTINGS_PATH = "/account/admin/accountSettings/packageSettings";
+    // Account Feature Settings Service
+    public static final String ACCOUNT_FEATURE_SETTINGS_PATH = "/account/admin/accountSettings/featureSettings";
+
     // Account Config Service
     public static final String ACCOUNT_CONFIG_PATH = "/accountConfig";
     public static final String HANDOVER_URL_PATH = "/accountConfig/handoverUrl/{language}";
