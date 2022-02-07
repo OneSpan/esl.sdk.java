@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -158,13 +159,21 @@ public class AttachmentRequirementService {
 
         for(Role role : apiPackage.getRoles()) {
             for(com.silanis.esl.api.model.Signer apiSigner : role.getSigners()) {
-                if(signer.getEmail().equals(apiSigner.getEmail())) {
+                if(isSameSigner(signer, apiSigner)) {
                     roleId = role.getId();
                 }
             }
         }
 
         return downloadAllAttachmentsForSignerInPackage(sdkPackage.getId(), roleId);
+    }
+
+    private boolean isSameSigner(Signer signer, com.silanis.esl.api.model.Signer apiSigner){
+        if (StringUtils.isNotEmpty(signer.getId()) ) {
+            return signer.getEmail().equalsIgnoreCase(apiSigner.getEmail()) && signer.getId().equals(apiSigner.getId());
+        } else {
+            return signer.getEmail().equalsIgnoreCase(apiSigner.getEmail());
+        }
     }
 
     private DownloadedFile downloadAllAttachmentsForSignerInPackage(PackageId packageId, String roleId) {

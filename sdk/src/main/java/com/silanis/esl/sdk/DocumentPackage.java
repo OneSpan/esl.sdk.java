@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -65,7 +67,7 @@ public class DocumentPackage implements Serializable {
      * Retrieves a signer by its email address
      *
      * @param email
-     * @return the signer who's email address matches the one provided as parameter
+     * @return the first signer who's email address matches the one provided as parameter
      */
     public Signer getSigner( String email ) {
         for(Signer signer : signers) {
@@ -77,6 +79,53 @@ public class DocumentPackage implements Serializable {
     }
 
     /**
+     * Retrieves a signer by its id
+     *
+     * @param signerId
+     * @return the signer whose id matches the one provided as parameter
+     */
+    public Signer getSignerById( String signerId ) {
+        for(Signer signer : signers) {
+            if(signer.getId().equalsIgnoreCase(signerId)) {
+                return signer;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves a signer by its email address and id
+     *
+     * @param email
+     * @param signerId
+     * @return the signer whose email address and id match provided as parameter
+     */
+    public Signer getSignerByEmailAndId( String email, String signerId ) {
+        for(Signer signer : signers) {
+            if(signer.getEmail().equalsIgnoreCase(email) && signer.getId().equalsIgnoreCase(signerId)) {
+                return signer;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Retrieves signers by email address
+     *
+     * @param email
+     * @return the signers whose email address matches the one provided as parameter
+     */
+    public List<Signer> getSignersByEmail( String email ) {
+        List<Signer> signers = new ArrayList();
+        for(Signer signer : signers) {
+            if(signer.getEmail().equalsIgnoreCase(email)) {
+                signers.add(signer);
+            }
+        }
+        return signers;
+    }
+
+    /**
      * Adds a signer
      *
      * @param signer the signer to add
@@ -85,15 +134,11 @@ public class DocumentPackage implements Serializable {
         if(!isExistingSigner(signer)) {
             signers.add(signer);
         } else {
-            throw new EslException("Another signer with same email or another placeholder with same id already exists.");
+            throw new EslException("Another signer with same id already exists.");
         }
     }
 
     private boolean isExistingSigner(Signer signer) {
-        for(Signer signerToCheck : signers) {
-            if(signerToCheck.getEmail().equalsIgnoreCase(signer.getEmail()))
-                return true;
-        }
         for(Signer signerToCheck : placeholders) {
             if(signerToCheck.getId().equalsIgnoreCase(signer.getId()))
                 return true;
@@ -108,12 +153,20 @@ public class DocumentPackage implements Serializable {
      */
     public void removeSigner(Signer signer) {
         for(Signer retrievedSigner : signers) {
-            if(retrievedSigner.getEmail().equalsIgnoreCase(signer.getEmail())) {
+            if(isSameSigner(retrievedSigner, signer)) {
                 signers.remove(retrievedSigner);
                 return;
             }
         }
         throw new EslException("Signer does not exist.");
+    }
+
+    private boolean isSameSigner(Signer retrievedSigner, Signer signer){
+        if(StringUtils.isNotEmpty(signer.getId())){
+            return retrievedSigner.getEmail().equalsIgnoreCase(signer.getEmail()) && retrievedSigner.getId().equalsIgnoreCase(signer.getId());
+        }else{
+            return retrievedSigner.getEmail().equalsIgnoreCase(signer.getEmail());
+        }
     }
 
     public List<Signer> getSigners() {
