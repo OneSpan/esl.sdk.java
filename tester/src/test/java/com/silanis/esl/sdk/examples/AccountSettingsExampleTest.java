@@ -2,8 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AccountSettingsExampleTest {
 
@@ -13,10 +12,10 @@ public class AccountSettingsExampleTest {
         AccountSettingsExample example = new AccountSettingsExample();
         example.run();
 
-        assertFalse("'ada' in AccountPackageSettings should be false by default", example.defaultAccountSettings.getAccountPackageSettings().getAda());
-        assertFalse("'declineButton' in AccountPackageSettings should be set as false by default", example.defaultAccountSettings.getAccountPackageSettings().getDeclineButton());
-        assertFalse("'defaultTimeBasedExpiry' in AccountPackageSettings should be false by default", example.defaultAccountSettings.getAccountPackageSettings().getDefaultTimeBasedExpiry());
-        assertFalse("'DisableDeclineOther' in AccountPackageSettings should be set as false by default", example.defaultAccountSettings.getAccountPackageSettings().getDisableDeclineOther());
+        assertNotNull("'ada' in AccountPackageSettings should be returned", example.defaultAccountSettings.getAccountPackageSettings().getAda());
+        assertNotNull("'inPerson' in AccountPackageSettings should be returned", example.defaultAccountSettings.getAccountPackageSettings().getInPerson());
+        assertNotNull("'defaultTimeBasedExpiry' in AccountPackageSettings should be returned", example.defaultAccountSettings.getAccountPackageSettings().getDefaultTimeBasedExpiry());
+        assertNotNull("'DisableDeclineOther' in AccountPackageSettings should be returned", example.defaultAccountSettings.getAccountPackageSettings().getDisableDeclineOther());
 
         assertTrue("'ada' in AccountPackageSettings should be updated correctly", example.patchedAccountSettings.getAccountPackageSettings().getAda());
         assertTrue("'declineButton' in AccountPackageSettings should be updated correctly", example.patchedAccountSettings.getAccountPackageSettings().getDeclineButton());
@@ -29,10 +28,10 @@ public class AccountSettingsExampleTest {
         assertFalse("'DisableDeclineOther' in AccountPackageSettings should be reset to default", example.deletedAccountSettings.getAccountPackageSettings().getDisableDeclineOther());
 
 
-        assertTrue("'allowCheckboxConsentApproval' in AccountFeatureSettings should be true by default", example.defaultAccountSettings.getAccountFeatureSettings().getAllowCheckboxConsentApproval());
-        assertFalse("'allowInPersonForAccountSenders' in AccountFeatureSettings should be false by default", example.defaultAccountSettings.getAccountFeatureSettings().getAllowInPersonForAccountSenders());
-        assertTrue("'Attachments' in AccountFeatureSettings should be true by default", example.defaultAccountSettings.getAccountFeatureSettings().getAttachments());
-        assertTrue("'ConditionalFields' in AccountFeatureSettings should be true by default", example.defaultAccountSettings.getAccountFeatureSettings().getConditionalFields());
+        assertNotNull("'allowCheckboxConsentApproval' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getAllowCheckboxConsentApproval());
+        assertNotNull("'allowInPersonForAccountSenders' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getAllowInPersonForAccountSenders());
+        assertNotNull("'Attachments' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getAttachments());
+        assertNotNull("'ConditionalFields' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getConditionalFields());
 
         assertFalse("'allowCheckboxConsentApproval' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getAllowCheckboxConsentApproval());
         assertTrue("'allowInPersonForAccountSenders' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getAllowInPersonForAccountSenders());
