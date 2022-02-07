@@ -4,10 +4,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.IdvWorkflowConfiguration;
-import com.silanis.esl.sdk.Handover;
-import com.silanis.esl.sdk.IdvWorkflowConfig;
-import com.silanis.esl.sdk.internal.converter.HandoverConverter;
-import com.silanis.esl.sdk.internal.converter.IdvWorkflowConfigConverter;
+import com.silanis.esl.sdk.*;
+import com.silanis.esl.sdk.internal.converter.*;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
 
 import java.util.List;
@@ -109,4 +107,75 @@ public class AccountConfigService {
         apiClient.deleteIdvWorkflowConfigs();
     }
 
+    /**
+     * Get account settings.
+     *
+     */
+    public AccountSettings getAccountSettings() {
+        return apiClient.getAccountSettings();
+    }
+
+    /**
+     * Save account settings.
+     *
+     */
+    public void saveAccountSettings(AccountSettings accountSettings) {
+        apiClient.saveAccountSettings(accountSettings);
+    }
+
+    /**
+     * Delete account settings.
+     *
+     */
+    public void deleteAccountSettings() {
+        apiClient.deleteAccountSettings();
+    }
+
+    /**
+     * Get account package settings.
+     *
+     */
+    public AccountPackageSettings getAccountPackageSettings() {
+        return apiClient.getAccountPackageSettings();
+    }
+
+    /**
+     * Save account package settings.
+     *
+     */
+    public void saveAccountPackageSettings(AccountPackageSettings accountPackageSettings) {
+        apiClient.saveAccountPackageSettings(accountPackageSettings);
+    }
+
+    /**
+     * Delete account package settings.
+     *
+     */
+    public void deleteAccountPackageSettings() {
+        apiClient.deleteAccountPackageSettings();
+    }
+
+    /**
+     * Get account feature settings.
+     *
+     */
+    public AccountFeatureSettings getAccountFeatureSettings() {
+        return apiClient.getAccountFeatureSettings();
+    }
+
+    /**
+     * Save account feature settings.
+     *
+     */
+    public void saveAccountFeatureSettings(AccountFeatureSettings accountFeatureSettings) {
+        apiClient.saveAccountFeatureSettings(accountFeatureSettings);
+    }
+
+    /**
+     * Delete account feature settings.
+     *
+     */
+    public void deleteAccountFeatureSettings() {
+        apiClient.deleteAccountFeatureSettings();
+    }
 }
