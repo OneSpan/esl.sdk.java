@@ -189,7 +189,7 @@ public class UrlTemplate {
     public static final String ACCOUNT_SUBACCOUNTS_PATH="/account/subaccounts";
     public static final String ACCOUNT_SUBACCOUNTS_ID_PATH="/account/subaccounts/{accountId}";
     public static final String ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH="/account/accessibleaccounts";
-    public static final String ACCOUNT_SUBACCOUNTS_SUBACCOUNTAPIKEYS_PATH="/account//api/account/subaccountApiKeys";
+    public static final String ACCOUNT_SUBACCOUNTS_SUBACCOUNTAPIKEYS_PATH="/account/subaccountApiKeys";
 
     // Account Roles
     public static final String ACCOUNT_ROLES_PATH = "/account/roles";
