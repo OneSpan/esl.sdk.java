@@ -4,7 +4,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.IdvWorkflow;
 import com.silanis.esl.sdk.IdvWorkflowConfig;
 import com.silanis.esl.sdk.Signer;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.ArrayList;
