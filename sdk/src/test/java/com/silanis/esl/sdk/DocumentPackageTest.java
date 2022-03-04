@@ -40,29 +40,6 @@ public class DocumentPackageTest {
     }
 
     @Test
-    public void addDuplicateSigner() {
-        Signer signer1 = SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
-                .withFirstName("John")
-                .withLastName("Smith")
-                .build();
-        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
-                .withSigner(signer1)
-                .build();
-
-        try {
-            documentPackage.addSigner(SignerBuilder.newSignerWithEmail(upperCaseEmail1)
-                    .withFirstName("Patty")
-                    .withLastName("Galant")
-                    .build());
-            fail("No exception thrown");
-        } catch (EslException e) {
-            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same email or another placeholder with same id already exists."));
-        }
-        assertThat("Document package should not add duplicate signers.", documentPackage.getSigners().size(), is(1));
-        assertThat("Document package is missing signer1", documentPackage.getSigners().get(0), is(signer1));
-    }
-
-    @Test
     public void addSignerWithUpperCaseEmail() {
         DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
                 .build();
@@ -158,11 +135,10 @@ public class DocumentPackageTest {
                 .build();
 
         try {
-            documentPackage.addSigner(SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1"))
-                                                   .build());
+            documentPackage.addSigner(SignerBuilder.newSignerPlaceholder(new Placeholder("placeholderId1")).build());
             fail("No exception thrown");
         } catch (EslException e) {
-            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same email or another placeholder with same id already exists."));
+            assertThat("Wrong exception thrown", e.getMessage(), is("Another signer with same id already exists."));
         }
         assertThat("Document package should have 1 placeholder.", documentPackage.getPlaceholders().size(), is(1));
         assertThat("Document package is missing placeholder1", documentPackage.getPlaceholders().contains(placeholder1));
