@@ -40,6 +40,27 @@ public class DocumentPackageTest {
     }
 
     @Test
+    public void addDuplicateSigner() {
+        Signer signer1 = SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .withSigner(signer1)
+                .build();
+        Signer signer2 = SignerBuilder.newSignerWithEmail(lowerCaseEmail1)
+                .withFirstName("Patty")
+                .withLastName("Galant")
+                .build();
+
+        documentPackage.addSigner(signer2);
+
+        assertThat("Document package should not add duplicate signers.", documentPackage.getSigners().size(), is(2));
+        assertThat("Document package is missing signer1", documentPackage.getSigners().get(0), is(signer1));
+        assertThat("Document package is missing signer2", documentPackage.getSigners().get(1), is(signer2));
+    }
+
+    @Test
     public void addSignerWithUpperCaseEmail() {
         DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
                 .build();
