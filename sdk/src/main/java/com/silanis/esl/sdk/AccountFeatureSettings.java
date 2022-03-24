@@ -31,6 +31,7 @@ public class AccountFeatureSettings {
     private Boolean qnaAuth;
     private Boolean sendToMobile;
     private Boolean uploadSignatureImage;
+    private Boolean overrideRecipientsPreferredLanguage;
 
     public Boolean getAllowCheckboxConsentApproval() {
         return allowCheckboxConsentApproval;
@@ -238,5 +239,13 @@ public class AccountFeatureSettings {
 
     public void setUploadSignatureImage(Boolean uploadSignatureImage) {
         this.uploadSignatureImage = uploadSignatureImage;
+    }
+
+    public Boolean getOverrideRecipientsPreferredLanguage() {
+        return overrideRecipientsPreferredLanguage;
+    }
+
+    public void setOverrideRecipientsPreferredLanguage(Boolean overrideRecipientsPreferredLanguage) {
+        this.overrideRecipientsPreferredLanguage = overrideRecipientsPreferredLanguage;
     }
 }

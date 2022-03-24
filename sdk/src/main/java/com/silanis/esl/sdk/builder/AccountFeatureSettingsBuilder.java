@@ -7,7 +7,6 @@ import com.silanis.esl.sdk.AccountFeatureSettings;
  * <p>
  * This object allows to customize the Account Feature Settings
  * be presented.
- *
  */
 public class AccountFeatureSettingsBuilder {
 
@@ -37,6 +36,7 @@ public class AccountFeatureSettingsBuilder {
     private Boolean qnaAuth = null;
     private Boolean sendToMobile = null;
     private Boolean uploadSignatureImage = null;
+    private Boolean overrideRecipientsPreferredLanguage = null;
 
     /**
      * Creates a new Account Feature Settings builder.
@@ -66,8 +66,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'allowCheckboxConsentApproval' feature.
      *
-     * @see #withAllowCheckboxConsentApproval()
      * @return This
+     * @see #withAllowCheckboxConsentApproval()
      */
     public AccountFeatureSettingsBuilder withoutAllowCheckboxConsentApproval() {
         allowCheckboxConsentApproval = false;
@@ -90,8 +90,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'allowInPersonForAccountSenders' feature.
      *
-     * @see #withAllowInPersonForAccountSenders()
      * @return This
+     * @see #withAllowInPersonForAccountSenders()
      */
     public AccountFeatureSettingsBuilder withoutAllowInPersonForAccountSenders() {
         allowInPersonForAccountSenders = false;
@@ -114,8 +114,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'attachments' feature.
      *
-     * @see #withAttachments()
      * @return This
+     * @see #withAttachments()
      */
     public AccountFeatureSettingsBuilder withoutAttachments() {
         attachments = false;
@@ -138,8 +138,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'conditionalFields' feature.
      *
-     * @see #withConditionalFields()
      * @return This
+     * @see #withConditionalFields()
      */
     public AccountFeatureSettingsBuilder withoutConditionalFields() {
         conditionalFields = false;
@@ -162,8 +162,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'customFields' feature.
      *
-     * @see #withCustomFields()
      * @return This
+     * @see #withCustomFields()
      */
     public AccountFeatureSettingsBuilder withoutCustomFields() {
         customFields = false;
@@ -186,8 +186,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'delegation' feature.
      *
-     * @see #withDelegation()
      * @return This
+     * @see #withDelegation()
      */
     public AccountFeatureSettingsBuilder withoutDelegation() {
         delegation = false;
@@ -210,8 +210,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'deliverDocumentsByEmail' feature.
      *
-     * @see #withDeliverDocumentsByEmail()
      * @return This
+     * @see #withDeliverDocumentsByEmail()
      */
     public AccountFeatureSettingsBuilder withoutDeliverDocumentsByEmail() {
         deliverDocumentsByEmail = false;
@@ -234,8 +234,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'disableFooter' feature.
      *
-     * @see #withDisableFooter()
      * @return This
+     * @see #withDisableFooter()
      */
     public AccountFeatureSettingsBuilder withoutDisableFooter() {
         disableFooter = false;
@@ -258,8 +258,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'disableInPersonActivationEmail' feature.
      *
-     * @see #withDisableInPersonActivationEmail()
      * @return This
+     * @see #withDisableInPersonActivationEmail()
      */
     public AccountFeatureSettingsBuilder withoutDisableInPersonActivationEmail() {
         disableInPersonActivationEmail = false;
@@ -282,8 +282,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'documentVisibility' feature.
      *
-     * @see #withDocumentVisibility()
      * @return This
+     * @see #withDocumentVisibility()
      */
     public AccountFeatureSettingsBuilder withoutDocumentVisibility() {
         documentVisibility = false;
@@ -306,8 +306,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'emailDocumentsAndEvidenceSummary' feature.
      *
-     * @see #withEmailDocumentsAndEvidenceSummary()
      * @return This
+     * @see #withEmailDocumentsAndEvidenceSummary()
      */
     public AccountFeatureSettingsBuilder withoutEmailDocumentsAndEvidenceSummary() {
         emailDocumentsAndEvidenceSummary = false;
@@ -330,8 +330,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'enforceAuth' feature.
      *
-     * @see #withEnforceAuth()
      * @return This
+     * @see #withEnforceAuth()
      */
     public AccountFeatureSettingsBuilder withoutEnforceAuth() {
         enforceAuth = false;
@@ -354,8 +354,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'evidenceSummary' feature.
      *
-     * @see #withEvidenceSummary()
      * @return This
+     * @see #withEvidenceSummary()
      */
     public AccountFeatureSettingsBuilder withoutEvidenceSummary() {
         evidenceSummary = false;
@@ -378,8 +378,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'flattenSignerDocuments' feature.
      *
-     * @see #withFlattenSignerDocuments()
      * @return This
+     * @see #withFlattenSignerDocuments()
      */
     public AccountFeatureSettingsBuilder withoutFlattenSignerDocuments() {
         flattenSignerDocuments = false;
@@ -402,8 +402,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'forceLogin' feature.
      *
-     * @see #withForceLogin()
      * @return This
+     * @see #withForceLogin()
      */
     public AccountFeatureSettingsBuilder withoutForceLogin() {
         forceLogin = false;
@@ -426,8 +426,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'forceTransactionOwnerLogin' feature.
      *
-     * @see #withForceTransactionOwnerLogin()
      * @return This
+     * @see #withForceTransactionOwnerLogin()
      */
     public AccountFeatureSettingsBuilder withoutForceTransactionOwnerLogin() {
         forceTransactionOwnerLogin = false;
@@ -450,8 +450,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'groups' feature.
      *
-     * @see #withGroups()
      * @return This
+     * @see #withGroups()
      */
     public AccountFeatureSettingsBuilder withoutGroups() {
         groups = false;
@@ -474,8 +474,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'inAppReports' feature.
      *
-     * @see #withInAppReports()
      * @return This
+     * @see #withInAppReports()
      */
     public AccountFeatureSettingsBuilder withoutInAppReports() {
         inAppReports = false;
@@ -498,8 +498,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'maskResponse' feature.
      *
-     * @see #withMaskResponse()
      * @return This
+     * @see #withMaskResponse()
      */
     public AccountFeatureSettingsBuilder withoutMaskResponse() {
         maskResponse = false;
@@ -522,8 +522,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'mobileCapture' feature.
      *
-     * @see #withMobileCapture()
      * @return This
+     * @see #withMobileCapture()
      */
     public AccountFeatureSettingsBuilder withoutMobileCapture() {
         mobileCapture = false;
@@ -546,8 +546,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'optionalSignature' feature.
      *
-     * @see #withOptionalSignature()
      * @return This
+     * @see #withOptionalSignature()
      */
     public AccountFeatureSettingsBuilder withoutOptionalSignature() {
         optionalSignature = false;
@@ -570,8 +570,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'passwordManagement' feature.
      *
-     * @see #withPasswordManagement()
      * @return This
+     * @see #withPasswordManagement()
      */
     public AccountFeatureSettingsBuilder withoutPasswordManagement() {
         passwordManagement = false;
@@ -594,8 +594,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'preventConsentRemoval' feature.
      *
-     * @see #withPreventConsentRemoval()
      * @return This
+     * @see #withPreventConsentRemoval()
      */
     public AccountFeatureSettingsBuilder withoutPreventConsentRemoval() {
         preventConsentRemoval = false;
@@ -618,8 +618,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'qnaAuth' feature.
      *
-     * @see #withQnaAuth()
      * @return This
+     * @see #withQnaAuth()
      */
     public AccountFeatureSettingsBuilder withoutQnaAuth() {
         qnaAuth = false;
@@ -642,8 +642,8 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'sendToMobile' feature.
      *
-     * @see #withSendToMobile()
      * @return This
+     * @see #withSendToMobile()
      */
     public AccountFeatureSettingsBuilder withoutSendToMobile() {
         sendToMobile = false;
@@ -666,11 +666,35 @@ public class AccountFeatureSettingsBuilder {
     /**
      * Disables the 'uploadSignatureImage' feature.
      *
-     * @see #withUploadSignatureImage()
      * @return This
+     * @see #withUploadSignatureImage()
      */
     public AccountFeatureSettingsBuilder withoutUploadSignatureImage() {
         uploadSignatureImage = false;
+        return this;
+    }
+
+    /**
+     * Enables the 'overrideRecipientsPreferredLanguage' feature.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountFeatureSettingsBuilder withOverrideRecipientsPreferredLanguage() {
+        overrideRecipientsPreferredLanguage = true;
+        return this;
+    }
+
+    /**
+     * Disables the 'overrideRecipientsPreferredLanguage' feature.
+     *
+     * @return This
+     * @see #withOverrideRecipientsPreferredLanguage()
+     */
+    public AccountFeatureSettingsBuilder withoutWithOverrideRecipientsPreferredLanguage() {
+        overrideRecipientsPreferredLanguage = false;
         return this;
     }
 
@@ -708,6 +732,7 @@ public class AccountFeatureSettingsBuilder {
         result.setQnaAuth(qnaAuth);
         result.setSendToMobile(sendToMobile);
         result.setUploadSignatureImage(uploadSignatureImage);
+        result.setOverrideRecipientsPreferredLanguage(overrideRecipientsPreferredLanguage);
 
         return result;
     }

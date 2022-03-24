@@ -61,6 +61,7 @@ public class AccountFeatureSettingsConverter {
         result.setQnaAuth(sdkAccountFeatureSettings.getQnaAuth());
         result.setSendToMobile(sdkAccountFeatureSettings.getSendToMobile());
         result.setUploadSignatureImage(sdkAccountFeatureSettings.getUploadSignatureImage());
+        result.setOverrideRecipientsPreferredLanguage(sdkAccountFeatureSettings.getOverrideRecipientsPreferredLanguage());
 
         return result;
     }
@@ -103,6 +104,7 @@ public class AccountFeatureSettingsConverter {
         result.setQnaAuth(apiAccountFeatureSettings.getQnaAuth());
         result.setSendToMobile(apiAccountFeatureSettings.getSendToMobile());
         result.setUploadSignatureImage(apiAccountFeatureSettings.getUploadSignatureImage());
+        result.setOverrideRecipientsPreferredLanguage(apiAccountFeatureSettings.getOverrideRecipientsPreferredLanguage());
 
         return result;
 

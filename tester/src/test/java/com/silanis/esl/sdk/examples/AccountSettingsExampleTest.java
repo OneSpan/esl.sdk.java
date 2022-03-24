@@ -31,6 +31,6 @@ public class AccountSettingsExampleTest {
         assertTrue("'allowInPersonForAccountSenders' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getAllowInPersonForAccountSenders());
         assertFalse("'Attachments' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getAttachments());
         assertFalse("'ConditionalFields' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getConditionalFields());
-
+        assertTrue("'overrideRecipientsPreferredLanguage' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getOverrideRecipientsPreferredLanguage());
     }
 }
