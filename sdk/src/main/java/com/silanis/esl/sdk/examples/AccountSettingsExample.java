@@ -29,14 +29,13 @@ public class AccountSettingsExample extends SDKSample {
                         .withAda()
                         .withDeclineButton()
                         .withDefaultTimeBasedExpiry()
-                        .withDisableDeclineOther()
-                        .build())
+                        .withDisableDeclineOther())
                 .withAccountFeatureSettings(AccountFeatureSettingsBuilder.newAccountFeatureSettings()
                         .withoutAllowCheckboxConsentApproval()
                         .withAllowInPersonForAccountSenders()
                         .withoutAttachments()
                         .withoutConditionalFields()
-                        .build())
+                        .withOverrideRecipientsPreferredLanguage())
                 .build();
 
         //Save account settings

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
 
+import static com.silanis.esl.api.util.SchemaSanitizer.throwOnNull;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountFeatureSettings extends Model
         implements java.io.Serializable {
@@ -60,6 +62,8 @@ public class AccountFeatureSettings extends Model
     public static final String FIELD_SENDTOMOBILE = "sendToMobile";
     @JsonIgnore
     public static final String FIELD_UPLOADSIGNATUREIMAGE = "uploadSignatureImage";
+    @JsonIgnore
+    public static final String FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE = "overrideRecipientsPreferredLanguage";
 
     protected Boolean _allowCheckboxConsentApproval = true;
     protected Boolean _allowInPersonForAccountSenders = true;
@@ -87,8 +91,10 @@ public class AccountFeatureSettings extends Model
     protected Boolean _qnaAuth = true;
     protected Boolean _sendToMobile = true;
     protected Boolean _uploadSignatureImage = false;
+    protected Boolean _overrideRecipientsPreferredLanguage = false;
 
-    public AccountFeatureSettings() {}
+    public AccountFeatureSettings() {
+    }
 
     @JsonIgnore
     public AccountFeatureSettings safeSetAllowCheckboxConsentApproval(Boolean value) {
@@ -152,7 +158,7 @@ public class AccountFeatureSettings extends Model
 
     public AccountFeatureSettings setAttachments(Boolean value) {
         SchemaSanitizer.throwOnNull(FIELD_ATTACHMENTS, value);
-        this._attachments  = value;
+        this._attachments = value;
         setDirty(FIELD_ATTACHMENTS);
         return this;
     }
@@ -713,6 +719,17 @@ public class AccountFeatureSettings extends Model
     @JsonIgnore
     public boolean evalUploadSignatureImage() {
         return _uploadSignatureImage == null || _uploadSignatureImage.booleanValue();
+    }
+
+    public AccountFeatureSettings setOverrideRecipientsPreferredLanguage(Boolean value) {
+        throwOnNull(FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE, value);
+        this._overrideRecipientsPreferredLanguage = value;
+        setDirty(FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE);
+        return this;
+    }
+
+    public Boolean getOverrideRecipientsPreferredLanguage() {
+        return _overrideRecipientsPreferredLanguage;
     }
 
 }

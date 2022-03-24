@@ -1,14 +1,17 @@
 package com.silanis.esl.api.model;
 //
-import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.silanis.esl.api.util.SchemaSanitizer;
-@JsonIgnoreProperties(ignoreUnknown=true)
+
+import static com.silanis.esl.api.util.SchemaSanitizer.throwOnNull;
+import static org.apache.commons.lang3.BooleanUtils.toBooleanDefaultIfNull;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Features extends Model
-      implements java.io.Serializable
-{
-    
+        implements java.io.Serializable {
+
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_ATTACHMENTS = "attachments";
@@ -38,10 +41,17 @@ public class Features extends Model
     public static final String FIELD_TAMPERSEALEVIDENCE = "tamperSealEvidence";
     @JsonIgnore
     public static final String FIELD_OPTIONAL = "optionalSignature";
-    
+    @JsonIgnore
+    public static final String FIELD_RATE_LIMITING = "rateLimiting";
+    @JsonIgnore
+    public static final String FIELD_RATE_LIMITING_REPORT_ONLY = "rateLimitingReportOnly";
+    @JsonIgnore
+    public static final String FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE = "overrideRecipientsPreferredLanguage";
+
     // Empty Constructor
-    public Features ( ) {}
-    
+    public Features() {
+    }
+
     // Fields
     protected Boolean _attachments = false;
     protected Boolean _authenticatedInbox = false;
@@ -57,336 +67,449 @@ public class Features extends Model
     protected Boolean _showDocumentsPreview = false;
     protected Boolean _tamperSealEvidence = false;
     protected Boolean _optionalSignature = false;
-    
+    protected Boolean _rateLimiting = false;
+    protected Boolean _rateLimitingReportOnly = false;
+    protected Boolean _overrideRecipientsPreferredLanguage = false;
+
     // Accessors
-        
-    
-    public Features setAttachments( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_ATTACHMENTS,value);
+
+
+    public Features setAttachments(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_ATTACHMENTS, value);
         // TODO With proper compare
         // if ( this._attachments == value ) return this;
         this._attachments = value;
         setDirty(FIELD_ATTACHMENTS);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetAttachments( Boolean value ){
-        if ( value != null ) { this.setAttachments( value ); }
+    public Features safeSetAttachments(Boolean value) {
+        if (value != null) {
+            this.setAttachments(value);
+        }
         return this;
     }
-    public Boolean getAttachments(){
+
+    public Boolean getAttachments() {
         return _attachments;
     }
+
     @JsonIgnore
-    public boolean evalAttachments(){
+    public boolean evalAttachments() {
         return _attachments == null ? false : _attachments.booleanValue();
     }
-    
-        
-    
-    public Features setAuthenticatedInbox( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_AUTHENTICATEDINBOX,value);
+
+
+    public Features setAuthenticatedInbox(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_AUTHENTICATEDINBOX, value);
         // TODO With proper compare
         // if ( this._authenticatedInbox == value ) return this;
         this._authenticatedInbox = value;
         setDirty(FIELD_AUTHENTICATEDINBOX);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetAuthenticatedInbox( Boolean value ){
-        if ( value != null ) { this.setAuthenticatedInbox( value ); }
+    public Features safeSetAuthenticatedInbox(Boolean value) {
+        if (value != null) {
+            this.setAuthenticatedInbox(value);
+        }
         return this;
     }
-    public Boolean getAuthenticatedInbox(){
+
+    public Boolean getAuthenticatedInbox() {
         return _authenticatedInbox;
     }
+
     @JsonIgnore
-    public boolean evalAuthenticatedInbox(){
+    public boolean evalAuthenticatedInbox() {
         return _authenticatedInbox == null ? false : _authenticatedInbox.booleanValue();
     }
-    
-        
-    
-    public Features setCustomFields( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_CUSTOMFIELDS,value);
+
+
+    public Features setCustomFields(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_CUSTOMFIELDS, value);
         // TODO With proper compare
         // if ( this._customFields == value ) return this;
         this._customFields = value;
         setDirty(FIELD_CUSTOMFIELDS);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetCustomFields( Boolean value ){
-        if ( value != null ) { this.setCustomFields( value ); }
+    public Features safeSetCustomFields(Boolean value) {
+        if (value != null) {
+            this.setCustomFields(value);
+        }
         return this;
     }
-    public Boolean getCustomFields(){
+
+    public Boolean getCustomFields() {
         return _customFields;
     }
+
     @JsonIgnore
-    public boolean evalCustomFields(){
+    public boolean evalCustomFields() {
         return _customFields == null ? false : _customFields.booleanValue();
     }
-    
-        
-    
-    public Features setEncryptDocuments( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_ENCRYPTDOCUMENTS,value);
+
+
+    public Features setEncryptDocuments(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_ENCRYPTDOCUMENTS, value);
         // TODO With proper compare
         // if ( this._encryptDocuments == value ) return this;
         this._encryptDocuments = value;
         setDirty(FIELD_ENCRYPTDOCUMENTS);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetEncryptDocuments( Boolean value ){
-        if ( value != null ) { this.setEncryptDocuments( value ); }
+    public Features safeSetEncryptDocuments(Boolean value) {
+        if (value != null) {
+            this.setEncryptDocuments(value);
+        }
         return this;
     }
-    public Boolean getEncryptDocuments(){
+
+    public Boolean getEncryptDocuments() {
         return _encryptDocuments;
     }
+
     @JsonIgnore
-    public boolean evalEncryptDocuments(){
+    public boolean evalEncryptDocuments() {
         return _encryptDocuments == null ? false : _encryptDocuments.booleanValue();
     }
-    
-        
-    
-    public Features setEvidenceSummary( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_EVIDENCESUMMARY,value);
+
+
+    public Features setEvidenceSummary(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_EVIDENCESUMMARY, value);
         // TODO With proper compare
         // if ( this._evidenceSummary == value ) return this;
         this._evidenceSummary = value;
         setDirty(FIELD_EVIDENCESUMMARY);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetEvidenceSummary( Boolean value ){
-        if ( value != null ) { this.setEvidenceSummary( value ); }
+    public Features safeSetEvidenceSummary(Boolean value) {
+        if (value != null) {
+            this.setEvidenceSummary(value);
+        }
         return this;
     }
-    public Boolean getEvidenceSummary(){
+
+    public Boolean getEvidenceSummary() {
         return _evidenceSummary;
     }
+
     @JsonIgnore
-    public boolean evalEvidenceSummary(){
+    public boolean evalEvidenceSummary() {
         return _evidenceSummary == null ? false : _evidenceSummary.booleanValue();
     }
-    
-        
-    
-    public Features setFastTrack( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_FASTTRACK,value);
+
+
+    public Features setFastTrack(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_FASTTRACK, value);
         // TODO With proper compare
         // if ( this._fastTrack == value ) return this;
         this._fastTrack = value;
         setDirty(FIELD_FASTTRACK);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetFastTrack( Boolean value ){
-        if ( value != null ) { this.setFastTrack( value ); }
+    public Features safeSetFastTrack(Boolean value) {
+        if (value != null) {
+            this.setFastTrack(value);
+        }
         return this;
     }
-    public Boolean getFastTrack(){
+
+    public Boolean getFastTrack() {
         return _fastTrack;
     }
+
     @JsonIgnore
-    public boolean evalFastTrack(){
+    public boolean evalFastTrack() {
         return _fastTrack == null ? false : _fastTrack.booleanValue();
     }
-    
-        
-    
-    public Features setForceLogin( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_FORCELOGIN,value);
+
+
+    public Features setForceLogin(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_FORCELOGIN, value);
         // TODO With proper compare
         // if ( this._forceLogin == value ) return this;
         this._forceLogin = value;
         setDirty(FIELD_FORCELOGIN);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetForceLogin( Boolean value ){
-        if ( value != null ) { this.setForceLogin( value ); }
+    public Features safeSetForceLogin(Boolean value) {
+        if (value != null) {
+            this.setForceLogin(value);
+        }
         return this;
     }
-    public Boolean getForceLogin(){
+
+    public Boolean getForceLogin() {
         return _forceLogin;
     }
+
     @JsonIgnore
-    public boolean evalForceLogin(){
+    public boolean evalForceLogin() {
         return _forceLogin == null ? false : _forceLogin.booleanValue();
     }
-    
-        
-    
-    public Features setGroups( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_GROUPS,value);
+
+
+    public Features setGroups(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_GROUPS, value);
         // TODO With proper compare
         // if ( this._groups == value ) return this;
         this._groups = value;
         setDirty(FIELD_GROUPS);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetGroups( Boolean value ){
-        if ( value != null ) { this.setGroups( value ); }
+    public Features safeSetGroups(Boolean value) {
+        if (value != null) {
+            this.setGroups(value);
+        }
         return this;
     }
-    public Boolean getGroups(){
+
+    public Boolean getGroups() {
         return _groups;
     }
+
     @JsonIgnore
-    public boolean evalGroups(){
+    public boolean evalGroups() {
         return _groups == null ? false : _groups.booleanValue();
     }
-    
-        
-    
-    public Features setInboxFiltering( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_INBOXFILTERING,value);
+
+
+    public Features setInboxFiltering(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_INBOXFILTERING, value);
         // TODO With proper compare
         // if ( this._inboxFiltering == value ) return this;
         this._inboxFiltering = value;
         setDirty(FIELD_INBOXFILTERING);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetInboxFiltering( Boolean value ){
-        if ( value != null ) { this.setInboxFiltering( value ); }
+    public Features safeSetInboxFiltering(Boolean value) {
+        if (value != null) {
+            this.setInboxFiltering(value);
+        }
         return this;
     }
-    public Boolean getInboxFiltering(){
+
+    public Boolean getInboxFiltering() {
         return _inboxFiltering;
     }
+
     @JsonIgnore
-    public boolean evalInboxFiltering(){
+    public boolean evalInboxFiltering() {
         return _inboxFiltering == null ? false : _inboxFiltering.booleanValue();
     }
-    
-        
-    
-    public Features setKBA( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_KBA,value);
+
+
+    public Features setKBA(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_KBA, value);
         // TODO With proper compare
         // if ( this._kBA == value ) return this;
         this._kBA = value;
         setDirty(FIELD_KBA);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetKBA( Boolean value ){
-        if ( value != null ) { this.setKBA( value ); }
+    public Features safeSetKBA(Boolean value) {
+        if (value != null) {
+            this.setKBA(value);
+        }
         return this;
     }
-    public Boolean getKBA(){
+
+    public Boolean getKBA() {
         return _kBA;
     }
+
     @JsonIgnore
-    public boolean evalKBA(){
+    public boolean evalKBA() {
         return _kBA == null ? false : _kBA.booleanValue();
     }
-    
-        
-    
-    public Features setNotarize( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_NOTARIZE,value);
+
+
+    public Features setNotarize(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_NOTARIZE, value);
         // TODO With proper compare
         // if ( this._notarize == value ) return this;
         this._notarize = value;
         setDirty(FIELD_NOTARIZE);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetNotarize( Boolean value ){
-        if ( value != null ) { this.setNotarize( value ); }
+    public Features safeSetNotarize(Boolean value) {
+        if (value != null) {
+            this.setNotarize(value);
+        }
         return this;
     }
-    public Boolean getNotarize(){
+
+    public Boolean getNotarize() {
         return _notarize;
     }
+
     @JsonIgnore
-    public boolean evalNotarize(){
+    public boolean evalNotarize() {
         return _notarize == null ? false : _notarize.booleanValue();
     }
-    
-        
-    
-    public Features setShowDocumentsPreview( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_SHOWDOCUMENTSPREVIEW,value);
+
+
+    public Features setShowDocumentsPreview(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_SHOWDOCUMENTSPREVIEW, value);
         // TODO With proper compare
         // if ( this._showDocumentsPreview == value ) return this;
         this._showDocumentsPreview = value;
         setDirty(FIELD_SHOWDOCUMENTSPREVIEW);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetShowDocumentsPreview( Boolean value ){
-        if ( value != null ) { this.setShowDocumentsPreview( value ); }
+    public Features safeSetShowDocumentsPreview(Boolean value) {
+        if (value != null) {
+            this.setShowDocumentsPreview(value);
+        }
         return this;
     }
-    public Boolean getShowDocumentsPreview(){
+
+    public Boolean getShowDocumentsPreview() {
         return _showDocumentsPreview;
     }
+
     @JsonIgnore
-    public boolean evalShowDocumentsPreview(){
+    public boolean evalShowDocumentsPreview() {
         return _showDocumentsPreview == null ? false : _showDocumentsPreview.booleanValue();
     }
-    
-        
-    
-    public Features setTamperSealEvidence( Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_TAMPERSEALEVIDENCE,value);
+
+
+    public Features setTamperSealEvidence(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_TAMPERSEALEVIDENCE, value);
         // TODO With proper compare
         // if ( this._tamperSealEvidence == value ) return this;
         this._tamperSealEvidence = value;
         setDirty(FIELD_TAMPERSEALEVIDENCE);
         return this;
     }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
-    public Features safeSetTamperSealEvidence( Boolean value ){
-        if ( value != null ) { this.setTamperSealEvidence( value ); }
+    public Features safeSetTamperSealEvidence(Boolean value) {
+        if (value != null) {
+            this.setTamperSealEvidence(value);
+        }
         return this;
     }
-    public Boolean getTamperSealEvidence(){
+
+    public Boolean getTamperSealEvidence() {
         return _tamperSealEvidence;
     }
+
     @JsonIgnore
-    public boolean evalTamperSealEvidence(){
+    public boolean evalTamperSealEvidence() {
         return _tamperSealEvidence == null ? false : _tamperSealEvidence.booleanValue();
     }
 
 
-    public Features setOptionalSignature( Boolean value ){
+    public Features setOptionalSignature(Boolean value) {
         SchemaSanitizer.throwOnNull(FIELD_OPTIONAL, value);
         this._optionalSignature = value;
         setDirty(FIELD_OPTIONAL);
         return this;
     }
+
     @JsonIgnore
-    public Features safeSetOptionalSignature( Boolean value ){
-        if (value != null) { this.setOptionalSignature(value); }
+    public Features safeSetOptionalSignature(Boolean value) {
+        if (value != null) {
+            this.setOptionalSignature(value);
+        }
         return this;
     }
-    public Boolean get_optionalSignature() { return _optionalSignature; }
+
+    public Boolean get_optionalSignature() {
+        return _optionalSignature;
+    }
+
     @JsonIgnore
-    public boolean evalOptionalSignature(){
+    public boolean evalOptionalSignature() {
         return _optionalSignature == null ? false : _optionalSignature.booleanValue();
     }
-    
+
+
+    public Features setRateLimiting(Boolean value) {
+        throwOnNull(FIELD_RATE_LIMITING, value);
+        this._rateLimiting = value;
+        setDirty(FIELD_RATE_LIMITING);
+        return this;
+    }
+
+    public Boolean getRateLimiting() {
+        return _rateLimiting;
+    }
+
+    @JsonIgnore
+    public boolean evalRateLimiting() {
+        return toBooleanDefaultIfNull(_rateLimiting, true);
+    }
+
+
+    public Features setRateLimitingReportOnly(Boolean value) {
+        throwOnNull(FIELD_RATE_LIMITING_REPORT_ONLY, value);
+        this._rateLimitingReportOnly = value;
+        setDirty(FIELD_RATE_LIMITING_REPORT_ONLY);
+        return this;
+    }
+
+    public Boolean getRateLimitingReportOnly() {
+        return _rateLimitingReportOnly;
+    }
+
+    @JsonIgnore
+    public boolean evalRateLimitingReportOnly() {
+        return toBooleanDefaultIfNull(_rateLimitingReportOnly, true);
+    }
+
+    public Features setOverrideRecipientsPreferredLanguage(Boolean value) {
+        throwOnNull(FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE, value);
+        this._overrideRecipientsPreferredLanguage = value;
+        setDirty(FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE);
+        return this;
+    }
+
+    public Boolean getOverrideRecipientsPreferredLanguage() {
+        return _overrideRecipientsPreferredLanguage;
+    }
+
+    @JsonIgnore
+    public boolean evalOverrideRecipientsPreferredLanguage() {
+        return toBooleanDefaultIfNull(_overrideRecipientsPreferredLanguage, false);
+    }
+
 }
