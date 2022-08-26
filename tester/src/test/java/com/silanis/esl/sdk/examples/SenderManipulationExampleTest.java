@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.Sender;
 import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.SenderStatus;
 import org.junit.Test;
 
 import java.util.Map;
@@ -40,6 +41,7 @@ public class SenderManipulationExampleTest {
         assertThat("Sender's company was not updated properly", updateInfo.getCompany(), is(sender.getCompany()));
         assertThat("Sender's title was not updated properly", updateInfo.getTitle(), is(sender.getTitle()));
         assertThat( "Sender's timezone id was not updated properly", updateInfo.getTimezoneId(), is(sender.getTimezoneId()));
+        assertThat("Status", sender.getStatus(), is(SenderStatus.ACTIVE));
     }
 
     private boolean assertSenderWasDeleted(String senderEmail) {

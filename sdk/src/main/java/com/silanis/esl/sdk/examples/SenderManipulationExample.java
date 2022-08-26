@@ -1,10 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.AccountMember;
-import com.silanis.esl.sdk.Direction;
-import com.silanis.esl.sdk.PageRequest;
-import com.silanis.esl.sdk.Sender;
-import com.silanis.esl.sdk.SenderInfo;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.AccountMemberBuilder;
 import com.silanis.esl.sdk.builder.SenderInfoBuilder;
 
@@ -41,6 +37,7 @@ public class SenderManipulationExample extends SDKSample {
                     .withLanguage( "language1" )
                     .withPhoneNumber( "phoneNumber1" )
                     .withTimezoneId( "GMT" )
+                    .withStatus(SenderStatus.ACTIVE)
                     .build();
 
         accountMember2 = AccountMemberBuilder.newAccountMember(email2)
@@ -50,6 +47,7 @@ public class SenderManipulationExample extends SDKSample {
                 .withTitle( "title2" )
                 .withLanguage( "language2" )
                 .withPhoneNumber( "phoneNumber2" )
+                .withStatus(SenderStatus.ACTIVE)
                 .build();
 
         accountMember3 = AccountMemberBuilder.newAccountMember(email3)
@@ -59,6 +57,7 @@ public class SenderManipulationExample extends SDKSample {
                 .withTitle( "title3" )
                 .withLanguage("language3")
                 .withPhoneNumber( "phoneNumber3" )
+                .withStatus(SenderStatus.ACTIVE)
                 .build();
 
         Sender createdSender1 = eslClient.getAccountService().inviteUser(accountMember1);
