@@ -51,7 +51,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
     public static final NotificationEvent EVENT8 = PACKAGE_DELETE;
     public static final NotificationEvent EVENT9 = PACKAGE_DECLINE;
     public static final NotificationEvent EVENT10 = PACKAGE_EXPIRE;
-    public static final NotificationEvent EVENT11 = PACKAGE_OPT_OUT;
+    //public static final NotificationEvent EVENT11 = PACKAGE_OPT_OUT;
     public static final NotificationEvent EVENT12 = DOCUMENT_SIGNED;
     public static final NotificationEvent EVENT13 = ROLE_REASSIGN;
     public static final NotificationEvent EVENT14 = SIGNER_COMPLETE;
@@ -83,7 +83,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
         events.add(EVENT8);
         events.add(EVENT9);
         events.add(EVENT10);
-        events.add(EVENT11);
+        //events.add(EVENT11);
         events.add(EVENT12);
         events.add(EVENT13);
         events.add(EVENT14);
@@ -105,7 +105,7 @@ public class EventNotificationRegistrationExample extends SDKSample {
         connectorsEvents.add(EVENT3);
         connectorsEvents.add(EVENT6);
         connectorsEvents.add(EVENT9);
-        connectorsEvents.add(EVENT11);
+        //connectorsEvents.add(EVENT11);
         connectorsEvents.add(EVENT12);
         connectorsEvents.add(EVENT14);
         connectorsEvents.add(EVENT17);

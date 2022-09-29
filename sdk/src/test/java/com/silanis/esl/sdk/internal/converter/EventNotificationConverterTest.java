@@ -87,9 +87,9 @@ public class EventNotificationConverterTest implements ConverterTest {
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
         assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.PACKAGE_EXPIRE));
 
-        apiCallbackEvent1 = "PACKAGE_OPT_OUT";
-        sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
-        assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.PACKAGE_OPT_OUT));
+        //apiCallbackEvent1 = "PACKAGE_OPT_OUT";
+        //sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
+        //assertThat("Callback event enum was not converted correctly", sdkNotificationEvent1, is(NotificationEvent.PACKAGE_OPT_OUT));
 
         apiCallbackEvent1 = "PACKAGE_DECLINE";
         sdkNotificationEvent1 = new EventNotificationConverter(apiCallbackEvent1).toSDKNotificationEvent();
@@ -180,9 +180,9 @@ public class EventNotificationConverterTest implements ConverterTest {
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
         assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("PACKAGE_EXPIRE"));
 
-        sdkNotificationEvent1 = NotificationEvent.PACKAGE_OPT_OUT;
-        apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
-        assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("PACKAGE_OPT_OUT"));
+        //sdkNotificationEvent1 = NotificationEvent.PACKAGE_OPT_OUT;
+        //apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
+        //assertThat("Notification event enum was not converted correctly", apiCallbackEvent1, is("PACKAGE_OPT_OUT"));
 
         sdkNotificationEvent1 = NotificationEvent.PACKAGE_DECLINE;
         apiCallbackEvent1 = new EventNotificationConverter(sdkNotificationEvent1).toAPICallbackEvent();
