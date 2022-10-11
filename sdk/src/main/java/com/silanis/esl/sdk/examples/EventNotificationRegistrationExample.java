@@ -51,17 +51,16 @@ public class EventNotificationRegistrationExample extends SDKSample {
     public static final NotificationEvent EVENT8 = PACKAGE_DELETE;
     public static final NotificationEvent EVENT9 = PACKAGE_DECLINE;
     public static final NotificationEvent EVENT10 = PACKAGE_EXPIRE;
-    public static final NotificationEvent EVENT11 = PACKAGE_OPT_OUT;
-    public static final NotificationEvent EVENT12 = DOCUMENT_SIGNED;
-    public static final NotificationEvent EVENT13 = ROLE_REASSIGN;
-    public static final NotificationEvent EVENT14 = SIGNER_COMPLETE;
-    public static final NotificationEvent EVENT15 = KBA_FAILURE;
-    public static final NotificationEvent EVENT16 = EMAIL_BOUNCE;
-    public static final NotificationEvent EVENT17 = PACKAGE_ATTACHMENT;
-    public static final NotificationEvent EVENT18 = SIGNER_LOCKED;
-    public static final NotificationEvent EVENT19 = PACKAGE_ARCHIVE;
-    public static final NotificationEvent EVENT20 = TEMPLATE_CREATE;
-    public static final NotificationEvent EVENT21 = DOCUMENT_VIEWED;
+    public static final NotificationEvent EVENT11 = DOCUMENT_SIGNED;
+    public static final NotificationEvent EVENT12 = ROLE_REASSIGN;
+    public static final NotificationEvent EVENT13 = SIGNER_COMPLETE;
+    public static final NotificationEvent EVENT14 = KBA_FAILURE;
+    public static final NotificationEvent EVENT15 = EMAIL_BOUNCE;
+    public static final NotificationEvent EVENT16 = PACKAGE_ATTACHMENT;
+    public static final NotificationEvent EVENT17 = SIGNER_LOCKED;
+    public static final NotificationEvent EVENT18 = PACKAGE_ARCHIVE;
+    public static final NotificationEvent EVENT19 = TEMPLATE_CREATE;
+    public static final NotificationEvent EVENT20 = DOCUMENT_VIEWED;
 
     public Set<NotificationEvent> events = new HashSet<NotificationEvent>();
     public Set<NotificationEvent> connectorsEvents = new HashSet<NotificationEvent>();
@@ -93,7 +92,6 @@ public class EventNotificationRegistrationExample extends SDKSample {
         events.add(EVENT18);
         events.add(EVENT19);
         events.add(EVENT20);
-        events.add(EVENT21);
 
         eslClient.getEventNotificationService().register(newEventNotificationConfig(URL).withKey(KEY).setEvents(events));
 
@@ -106,11 +104,10 @@ public class EventNotificationRegistrationExample extends SDKSample {
         connectorsEvents.add(EVENT6);
         connectorsEvents.add(EVENT9);
         connectorsEvents.add(EVENT11);
-        connectorsEvents.add(EVENT12);
-        connectorsEvents.add(EVENT14);
+        connectorsEvents.add(EVENT13);
+        connectorsEvents.add(EVENT16);
         connectorsEvents.add(EVENT17);
-        connectorsEvents.add(EVENT18);
-        connectorsEvents.add(EVENT21);
+        connectorsEvents.add(EVENT20);
 
         eslClient.getEventNotificationService().register(ORIGIN, newEventNotificationConfig(CONNECTORS_URL)
                 .withKey(CONNECTORS_KEY)
