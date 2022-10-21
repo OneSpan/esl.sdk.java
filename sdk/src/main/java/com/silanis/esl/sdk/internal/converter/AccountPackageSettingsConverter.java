@@ -48,7 +48,6 @@ public class AccountPackageSettingsConverter {
         result.setExtractTextTags(sdkAccountPackageSettings.getExtractTextTags());
         result.setGlobalActionsDownload(sdkAccountPackageSettings.getGlobalActionsDownload());
         result.setGlobalActionsHideEvidenceSummary(sdkAccountPackageSettings.getGlobalActionsHideEvidenceSummary());
-        result.setGlobalActionsSaveAsLayout(sdkAccountPackageSettings.getGlobalActionsSaveAsLayout());
         result.setHideCaptureText(sdkAccountPackageSettings.getHideCaptureText());
         result.setHideLanguageDropdown(sdkAccountPackageSettings.getHideLanguageDropdown());
         result.setHidePackageOwnerInPerson(sdkAccountPackageSettings.getHidePackageOwnerInPerson());
@@ -88,7 +87,6 @@ public class AccountPackageSettingsConverter {
         result.setExtractTextTags(apiAccountPackageSettings.getExtractTextTags());
         result.setGlobalActionsDownload(apiAccountPackageSettings.getGlobalActionsDownload());
         result.setGlobalActionsHideEvidenceSummary(apiAccountPackageSettings.getGlobalActionsHideEvidenceSummary());
-        result.setGlobalActionsSaveAsLayout(apiAccountPackageSettings.getGlobalActionsSaveAsLayout());
         result.setHideCaptureText(apiAccountPackageSettings.getHideCaptureText());
         result.setHideLanguageDropdown(apiAccountPackageSettings.getHideLanguageDropdown());
         result.setHidePackageOwnerInPerson(apiAccountPackageSettings.getHidePackageOwnerInPerson());
