@@ -22,7 +22,6 @@ public class AccountPackageSettingsBuilder {
     private Boolean extractTextTags = null;
     private Boolean globalActionsDownload = null;
     private Boolean globalActionsHideEvidenceSummary = null;
-    private Boolean globalActionsSaveAsLayout = null;
     private Boolean hideCaptureText = null;
     private Boolean hideLanguageDropdown = null;
     private Boolean hidePackageOwnerInPerson = null;
@@ -360,30 +359,6 @@ public class AccountPackageSettingsBuilder {
     }
 
     /**
-     * Enables globalActionsSaveAsLayout in AccountPackageSettings.
-     * <p>
-     * DEFAULT: ENABLED
-     * <p>
-     *
-     * @return This
-     */
-    public AccountPackageSettingsBuilder withGlobalActionsSaveAsLayout() {
-        globalActionsSaveAsLayout = true;
-        return this;
-    }
-
-    /**
-     * Disables globalActionsSaveAsLayout in AccountPackageSettings.
-     *
-     * @see #withGlobalActionsSaveAsLayout()
-     * @return This
-     */
-    public AccountPackageSettingsBuilder withoutGlobalActionsSaveAsLayout() {
-        globalActionsSaveAsLayout = false;
-        return this;
-    }
-
-    /**
      * Enables hideCaptureText in AccountPackageSettings.
      * <p>
      * DEFAULT: DISABLED
@@ -643,7 +618,6 @@ public class AccountPackageSettingsBuilder {
         result.setExtractTextTags(extractTextTags);
         result.setGlobalActionsDownload(globalActionsDownload);
         result.setGlobalActionsHideEvidenceSummary(globalActionsHideEvidenceSummary);
-        result.setGlobalActionsSaveAsLayout(globalActionsSaveAsLayout);
         result.setHideCaptureText(hideCaptureText);
         result.setHideLanguageDropdown(hideLanguageDropdown);
         result.setHidePackageOwnerInPerson(hidePackageOwnerInPerson);
