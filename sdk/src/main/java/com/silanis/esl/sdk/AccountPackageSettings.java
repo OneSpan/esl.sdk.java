@@ -19,7 +19,6 @@ public class AccountPackageSettings
     private Boolean extractTextTags;
     private Boolean globalActionsDownload;
     private Boolean globalActionsHideEvidenceSummary;
-    private Boolean globalActionsSaveAsLayout;
     private Boolean hideCaptureText;
     private Boolean hideLanguageDropdown;
     private Boolean hidePackageOwnerInPerson;
@@ -133,14 +132,6 @@ public class AccountPackageSettings
 
     public void setGlobalActionsHideEvidenceSummary(Boolean globalActionsHideEvidenceSummary) {
         this.globalActionsHideEvidenceSummary = globalActionsHideEvidenceSummary;
-    }
-
-    public Boolean getGlobalActionsSaveAsLayout() {
-        return globalActionsSaveAsLayout;
-    }
-
-    public void setGlobalActionsSaveAsLayout(Boolean globalActionsSaveAsLayout) {
-        this.globalActionsSaveAsLayout = globalActionsSaveAsLayout;
     }
 
     public Boolean getHideCaptureText() {

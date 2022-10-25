@@ -36,8 +36,6 @@ public class AccountPackageSettings extends Model
     @JsonIgnore
     public static final String FIELD_GLOBALACTIONSHIDEEVIDENCESUMMARY = "globalActionsHideEvidenceSummary";
     @JsonIgnore
-    public static final String FIELD_GLOBALACTIONSSAVEASLAYOUT = "globalActionsSaveAsLayout";
-    @JsonIgnore
     public static final String FIELD_HIDECAPTURETEXT = "hideCaptureText";
     @JsonIgnore
     public static final String FIELD_HIDELANGUAGEDROPDOWN = "hideLanguageDropdown";
@@ -71,7 +69,6 @@ public class AccountPackageSettings extends Model
     protected Boolean _extractTextTags = false;
     protected Boolean _globalActionsDownload = true;
     protected Boolean _globalActionsHideEvidenceSummary = false;
-    protected Boolean _globalActionsSaveAsLayout = true;
     protected Boolean _hideCaptureText = false;
     protected Boolean _hideLanguageDropdown = false;
     protected Boolean _hidePackageOwnerInPerson = false;
@@ -331,25 +328,6 @@ public class AccountPackageSettings extends Model
     @JsonIgnore
     public boolean evalGlobalActionsHideEvidenceSummary(){
         return _globalActionsHideEvidenceSummary == null ? true : _globalActionsHideEvidenceSummary.booleanValue();
-    }
-
-    public AccountPackageSettings setGlobalActionsSaveAsLayout(Boolean value ){
-        SchemaSanitizer.throwOnNull(FIELD_GLOBALACTIONSSAVEASLAYOUT, value);
-        this._globalActionsSaveAsLayout = value;
-        setDirty(FIELD_GLOBALACTIONSSAVEASLAYOUT);
-        return this;
-    }
-    @JsonIgnore
-    public AccountPackageSettings safeSetGlobalActionsSaveAsLayout(Boolean value ){
-        if ( value != null ) { this.setGlobalActionsSaveAsLayout( value ); }
-        return this;
-    }
-    public Boolean getGlobalActionsSaveAsLayout(){
-        return _globalActionsSaveAsLayout;
-    }
-    @JsonIgnore
-    public boolean evalGlobalActionsSaveAsLayout(){
-        return _globalActionsSaveAsLayout == null ? true : _globalActionsSaveAsLayout.booleanValue();
     }
 
     public AccountPackageSettings setHideCaptureText(Boolean value ){
