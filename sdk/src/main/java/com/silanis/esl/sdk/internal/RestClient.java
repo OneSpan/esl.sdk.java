@@ -45,7 +45,7 @@ public class RestClient extends Client {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
-    public static final String ESL_API_VERSION = "11.48";
+    public static final String ESL_API_VERSION = "11.49";
     public static final String ESL_API_USER_AGENT = "Java SDK v" + ESL_API_VERSION;
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
