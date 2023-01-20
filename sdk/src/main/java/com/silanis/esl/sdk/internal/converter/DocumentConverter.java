@@ -91,6 +91,10 @@ public class DocumentConverter {
             document.setTagged(apiDocument.getTagged());
         }
 
+        if ( apiDocument.isExternalSigned() != null ) {
+            document.setExternalSigned(apiDocument.isExternalSigned());
+        }
+
         return document;
     }
     /**
