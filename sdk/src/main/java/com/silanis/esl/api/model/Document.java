@@ -1,5 +1,4 @@
 package com.silanis.esl.api.model;
-//
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -48,6 +47,8 @@ public class Document extends Entity
     public static final String FIELD_SIGNER_VERIFICATION_TOKEN = "signerVerificationToken";
     @JsonIgnore
     public static final String FIELD_TAGGED = "tagged";
+    @JsonIgnore
+    public static final String FIELD_EXTERNAL_SIGNED = "externalSigned";
 
     // Empty Constructor
     public Document() {
@@ -68,6 +69,7 @@ public class Document extends Entity
     protected String _signedHash;
     protected String _signerVerificationToken;
     protected Boolean _tagged = false;
+    protected Boolean _externalSigned = false;
 
     // Accessors
 
@@ -439,5 +441,20 @@ public class Document extends Entity
         return _tagged == null ? false : _tagged.booleanValue();
     }
 
+    public Boolean isExternalSigned() { return _externalSigned; }
 
+    public Document setExternalSigned(Boolean externalSigned) {
+        SchemaSanitizer.throwOnNull(FIELD_EXTERNAL_SIGNED, externalSigned);
+        this._externalSigned = externalSigned;
+        setDirty(FIELD_EXTERNAL_SIGNED);
+        return this;
+    }
+
+    @JsonIgnore
+    public Document safeSetExternalSigned(Boolean externalSigned) {
+        if (externalSigned != null) {
+            this.setExternalSigned(externalSigned);
+        }
+        return this;
+    }
 }

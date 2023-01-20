@@ -31,6 +31,7 @@ public class Document implements Serializable {
     private String description;
     private External external;
     private Map<String, Object> data;
+    private Boolean externalSigned;
 
     /**
      * <p>Accessor method used to retrieve the file name</p>
@@ -230,4 +231,8 @@ public class Document implements Serializable {
     public void setData(Map<String, Object> data) {
         this.data = data;
     }
+
+    public Boolean isExternalSigned() { return externalSigned; }
+
+    public void setExternalSigned(Boolean externalSigned) { this.externalSigned = externalSigned; }
 }
