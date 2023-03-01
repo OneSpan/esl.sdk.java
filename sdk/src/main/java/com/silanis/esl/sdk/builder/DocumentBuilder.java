@@ -24,6 +24,7 @@ public class DocumentBuilder {
     private String fileName;
     private int index;
     private boolean extract;
+    private boolean externalSignedDocument;
     private Set<String> extractionTypes = Sets.newHashSet();
     private String id;
     private List<Field> injectedFields = new ArrayList<Field>();
@@ -69,6 +70,11 @@ public class DocumentBuilder {
      */
     public DocumentBuilder enableExtraction() {
         extract = true;
+        return this;
+    }
+
+    public DocumentBuilder withExternalSignedDocument() {
+        externalSignedDocument = true;
         return this;
     }
 
@@ -156,6 +162,7 @@ public class DocumentBuilder {
         document.addInjectedFields(injectedFields);
         document.addQRCodes(qrCodes);
         document.setData(data);
+        document.setExternalSigned(externalSignedDocument);
 
         return document;
     }

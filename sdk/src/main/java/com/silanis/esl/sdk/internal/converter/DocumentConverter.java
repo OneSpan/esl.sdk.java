@@ -120,6 +120,7 @@ public class DocumentConverter {
         }
         result.safeSetDescription(sdkDocument.getDescription());
         result.safeSetTagged(sdkDocument.isTagged());
+        result.safeSetExternalSigned(sdkDocument.isExternalSigned());
 
         if( sdkDocument.getExternal() != null){
             External external =  new ExternalConverter(sdkDocument.getExternal()).toAPIExternal();
