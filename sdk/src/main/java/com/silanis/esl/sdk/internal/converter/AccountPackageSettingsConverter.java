@@ -58,7 +58,11 @@ public class AccountPackageSettingsConverter {
         result.setShowNseHelp(sdkAccountPackageSettings.getShowNseHelp());
         result.setShowNseLogoInIframe(sdkAccountPackageSettings.getShowNseLogoInIframe());
         result.setShowNseOverview(sdkAccountPackageSettings.getShowNseOverview());
-
+        result.setTitle(sdkAccountPackageSettings.getTitle());
+        result.setProgressBar(sdkAccountPackageSettings.getProgressBar());
+        result.setNavigator(sdkAccountPackageSettings.getNavigator());
+        result.setMaxAttachmentFiles(sdkAccountPackageSettings.getMaxAttachmentFiles());
+        result.setFontSize(sdkAccountPackageSettings.getFontSize());
         return result;
     }
 
@@ -97,6 +101,11 @@ public class AccountPackageSettingsConverter {
         result.setShowNseHelp(apiAccountPackageSettings.getShowNseHelp());
         result.setShowNseLogoInIframe(apiAccountPackageSettings.getShowNseLogoInIframe());
         result.setShowNseOverview(apiAccountPackageSettings.getShowNseOverview());
+        result.setTitle(apiAccountPackageSettings.getTitle());
+        result.setProgressBar(apiAccountPackageSettings.getProgressBar());
+        result.setNavigator(apiAccountPackageSettings.getNavigator());
+        result.setMaxAttachmentFiles(apiAccountPackageSettings.getMaxAttachmentFiles());
+        result.setFontSize(apiAccountPackageSettings.getFontSize());
 
         return result;
 
