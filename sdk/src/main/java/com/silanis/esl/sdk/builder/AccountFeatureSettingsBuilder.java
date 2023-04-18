@@ -37,6 +37,7 @@ public class AccountFeatureSettingsBuilder {
     private Boolean sendToMobile = null;
     private Boolean uploadSignatureImage = null;
     private Boolean overrideRecipientsPreferredLanguage = null;
+    private Boolean enableRecipientHistory = null;
 
     /**
      * Creates a new Account Feature Settings builder.
@@ -699,6 +700,30 @@ public class AccountFeatureSettingsBuilder {
     }
 
     /**
+     * Enables the 'enableRecipientHistory' feature.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountFeatureSettingsBuilder withEnableRecipientHistory() {
+        enableRecipientHistory = true;
+        return this;
+    }
+
+    /**
+     * Disables the 'enableRecipientHistory' feature.
+     *
+     * @return This
+     * @see #withEnableRecipientHistory()
+     */
+    public AccountFeatureSettingsBuilder withoutEnableRecipientHistory() {
+        enableRecipientHistory = false;
+        return this;
+    }
+
+    /**
      * Builds the actual Account Feature Settings.
      *
      * @return the Account Feature Settings
@@ -733,6 +758,7 @@ public class AccountFeatureSettingsBuilder {
         result.setSendToMobile(sendToMobile);
         result.setUploadSignatureImage(uploadSignatureImage);
         result.setOverrideRecipientsPreferredLanguage(overrideRecipientsPreferredLanguage);
+        result.setEnableRecipientHistory(enableRecipientHistory);
 
         return result;
     }

@@ -32,6 +32,7 @@ public class AccountFeatureSettings {
     private Boolean sendToMobile;
     private Boolean uploadSignatureImage;
     private Boolean overrideRecipientsPreferredLanguage;
+    private Boolean enableRecipientHistory;
 
     public Boolean getAllowCheckboxConsentApproval() {
         return allowCheckboxConsentApproval;
@@ -247,5 +248,13 @@ public class AccountFeatureSettings {
 
     public void setOverrideRecipientsPreferredLanguage(Boolean overrideRecipientsPreferredLanguage) {
         this.overrideRecipientsPreferredLanguage = overrideRecipientsPreferredLanguage;
+    }
+
+    public Boolean getEnableRecipientHistory() {
+        return enableRecipientHistory;
+    }
+
+    public void setEnableRecipientHistory(Boolean enableRecipientHistory) {
+        this.enableRecipientHistory = enableRecipientHistory;
     }
 }
