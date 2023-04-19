@@ -1,9 +1,10 @@
 package com.silanis.esl.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import static com.silanis.esl.api.util.SchemaSanitizer.throwOnNull;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionRetention extends Model {
 
     private static final long serialVersionUID = 1L;
