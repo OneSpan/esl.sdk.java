@@ -1,7 +1,9 @@
 package com.silanis.esl.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DataManagementPolicy extends Model {
 
     private static final long serialVersionUID = 1L;
