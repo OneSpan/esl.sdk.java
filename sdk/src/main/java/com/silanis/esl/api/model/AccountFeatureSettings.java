@@ -64,6 +64,8 @@ public class AccountFeatureSettings extends Model
     public static final String FIELD_UPLOADSIGNATUREIMAGE = "uploadSignatureImage";
     @JsonIgnore
     public static final String FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE = "overrideRecipientsPreferredLanguage";
+    @JsonIgnore
+    public static final String FIELD_ENABLE_RECIPIENT_HISTORY = "enableRecipientHistory";
 
     protected Boolean _allowCheckboxConsentApproval = true;
     protected Boolean _allowInPersonForAccountSenders = true;
@@ -92,6 +94,7 @@ public class AccountFeatureSettings extends Model
     protected Boolean _sendToMobile = true;
     protected Boolean _uploadSignatureImage = false;
     protected Boolean _overrideRecipientsPreferredLanguage = false;
+    protected Boolean _enableRecipientHistory = true;
 
     public AccountFeatureSettings() {
     }
@@ -730,6 +733,17 @@ public class AccountFeatureSettings extends Model
 
     public Boolean getOverrideRecipientsPreferredLanguage() {
         return _overrideRecipientsPreferredLanguage;
+    }
+
+    public AccountFeatureSettings setEnableRecipientHistory(Boolean value) {
+        throwOnNull(FIELD_ENABLE_RECIPIENT_HISTORY, value);
+        this._enableRecipientHistory = value;
+        setDirty(FIELD_ENABLE_RECIPIENT_HISTORY);
+        return this;
+    }
+
+    public Boolean getEnableRecipientHistory() {
+        return _enableRecipientHistory;
     }
 
 }

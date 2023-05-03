@@ -55,6 +55,16 @@ public class AccountPackageSettings extends Model
     public static final String FIELD_SHOWNSELOGOINIFRAME = "showNseLogoInIframe";
     @JsonIgnore
     public static final String FIELD_SHOWNSEOVERVIEW = "showNseOverview";
+    @JsonIgnore
+    public static final String FIELD_TITLE = "title";
+    @JsonIgnore
+    public static final String FIELD_PROGRESSBAR = "progressBar";
+    @JsonIgnore
+    public static final String FIELD_NAVIGATOR = "navigator";
+    @JsonIgnore
+    public static final String FIELD_MAX_ATTACHMENT_FILES = "maxAttachmentFiles";
+    @JsonIgnore
+    public static final String FIELD_FONT_SIZE = "fontSize";
 
     protected Boolean _ada = false;
     protected Boolean _declineButton = true;
@@ -79,6 +89,11 @@ public class AccountPackageSettings extends Model
     protected Boolean _showNseHelp = false;
     protected Boolean _showNseLogoInIframe = false;
     protected Boolean _showNseOverview = false;
+    protected Boolean _title = false;
+    protected Boolean _progressBar = false;
+    protected Boolean _navigator = false;
+    protected Integer _maxAttachmentFiles = 0;
+    protected Integer _fontSize = 12;
 
     // Empty Constructor
     public AccountPackageSettings() {}
@@ -518,6 +533,61 @@ public class AccountPackageSettings extends Model
     @JsonIgnore
     public boolean evalShowNseOverview(){
         return _showNseOverview == null ? true : _showNseOverview.booleanValue();
+    }
+
+    public Boolean getTitle() {
+        return _title;
+    }
+
+    public AccountPackageSettings setTitle(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_TITLE, value);
+        this._title = value;
+        setDirty(FIELD_TITLE);
+        return this;
+    }
+
+    public Boolean getProgressBar() {
+        return _progressBar;
+    }
+
+    public AccountPackageSettings setProgressBar(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_PROGRESSBAR, value);
+        this._progressBar = value;
+        setDirty(FIELD_PROGRESSBAR);
+        return this;
+    }
+
+    public Boolean getNavigator() {
+        return _navigator;
+    }
+
+    public AccountPackageSettings setNavigator(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_NAVIGATOR, value);
+        this._navigator = value;
+        setDirty(FIELD_NAVIGATOR);
+        return this;
+    }
+
+    public Integer getMaxAttachmentFiles() {
+        return _maxAttachmentFiles;
+    }
+
+    public AccountPackageSettings setMaxAttachmentFiles(Integer value) {
+        SchemaSanitizer.throwOnNull(FIELD_MAX_ATTACHMENT_FILES, value);
+        this._maxAttachmentFiles = value;
+        setDirty(FIELD_MAX_ATTACHMENT_FILES);
+        return this;
+    }
+
+    public Integer getFontSize() {
+        return _fontSize;
+    }
+
+    public AccountPackageSettings setFontSize(Integer value) {
+        SchemaSanitizer.throwOnNull(FIELD_FONT_SIZE, value);
+        this._fontSize = value;
+        setDirty(FIELD_FONT_SIZE);
+        return this;
     }
 
 }

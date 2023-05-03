@@ -29,13 +29,19 @@ public class AccountSettingsExample extends SDKSample {
                         .withAda()
                         .withDeclineButton()
                         .withDefaultTimeBasedExpiry()
-                        .withDisableDeclineOther())
+                        .withDisableDeclineOther()
+                        .withTitle()
+                        .withProgressBar()
+                        .withNavigator()
+                        .withUnlimitedMaxAttachmentFiles()
+                        .withDefaultFontSize())
                 .withAccountFeatureSettings(AccountFeatureSettingsBuilder.newAccountFeatureSettings()
                         .withoutAllowCheckboxConsentApproval()
                         .withAllowInPersonForAccountSenders()
                         .withoutAttachments()
                         .withoutConditionalFields()
-                        .withOverrideRecipientsPreferredLanguage())
+                        .withOverrideRecipientsPreferredLanguage()
+                        .withEnableRecipientHistory())
                 .build();
 
         //Save account settings
@@ -54,6 +60,11 @@ public class AccountSettingsExample extends SDKSample {
                 .withDeclineButton()
                 .withDefaultTimeBasedExpiry()
                 .withDisableDeclineOther()
+                .withTitle()
+                .withProgressBar()
+                .withNavigator()
+                .withCustomMaxAttachmentFiles(10)
+                .withCustomFontSize(16)
                 .build();
 
         //Save account package settings
@@ -72,6 +83,8 @@ public class AccountSettingsExample extends SDKSample {
                 .withAllowInPersonForAccountSenders()
                 .withAttachments()
                 .withConditionalFields()
+                .withOverrideRecipientsPreferredLanguage()
+                .withEnableRecipientHistory()
                 .build();
 
         //Save account feature settings

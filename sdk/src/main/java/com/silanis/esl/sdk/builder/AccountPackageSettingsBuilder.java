@@ -32,6 +32,11 @@ public class AccountPackageSettingsBuilder {
     private Boolean showNseHelp = null;
     private Boolean showNseLogoInIframe = null;
     private Boolean showNseOverview = null;
+    private Boolean title = null;
+    private Boolean progressBar = null;
+    private Boolean navigator = null;
+    private Integer maxAttachmentFiles = null;
+    private Integer fontSize = null;
 
 
     /**
@@ -599,6 +604,119 @@ public class AccountPackageSettingsBuilder {
     }
 
     /**
+     * Enables title in AccountPackageSettings.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withTitle() {
+        title = true;
+        return this;
+    }
+
+    /**
+     * Disables title in AccountPackageSettings.
+     *
+     * @see #withTitle()
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withoutTitle() {
+        title = false;
+        return this;
+    }
+
+    /**
+     * Enables progressBar in AccountPackageSettings.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withProgressBar() {
+        progressBar = true;
+        return this;
+    }
+
+    /**
+     * Disables progressBar in AccountPackageSettings.
+     *
+     * @see #withProgressBar()
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withoutProgressBar() {
+        progressBar = false;
+        return this;
+    }
+
+    /**
+     * Enables navigator in AccountPackageSettings.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withNavigator() {
+        navigator = true;
+        return this;
+    }
+
+    /**
+     * Disables navigator in AccountPackageSettings.
+     *
+     * @see #withNavigator()
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withoutNavigator() {
+        navigator = false;
+        return this;
+    }
+
+    /**
+     * Sets maxAttachmentFiles in AccountPackageSettings to 0.
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withUnlimitedMaxAttachmentFiles() {
+        maxAttachmentFiles = 0;
+        return this;
+    }
+
+    /**
+     * Sets maxAttachmentFiles in AccountPackageSettings to custom.
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withCustomMaxAttachmentFiles(int maxAttachmentFiles) {
+        this.maxAttachmentFiles = maxAttachmentFiles;
+        return this;
+    }
+
+
+    /**
+     * Sets fontSize in AccountPackageSettings to 12.
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withDefaultFontSize() {
+        fontSize = 12;
+        return this;
+    }
+
+    /**
+     * Sets fontSize in AccountPackageSettings to custom.
+     *
+     * @return This
+     */
+    public AccountPackageSettingsBuilder withCustomFontSize(int fontSize) {
+        this.fontSize = fontSize;
+        return this;
+    }
+
+    /**
      * Builds the actual Account Package Settings.
      *
      * @return the Account Package Settings
@@ -628,6 +746,11 @@ public class AccountPackageSettingsBuilder {
         result.setShowNseHelp(showNseHelp);
         result.setShowNseLogoInIframe(showNseLogoInIframe);
         result.setShowNseOverview(showNseOverview);
+        result.setTitle(title);
+        result.setProgressBar(progressBar);
+        result.setNavigator(navigator);
+        result.setMaxAttachmentFiles(maxAttachmentFiles);
+        result.setFontSize(fontSize);
         return result;
     }
 }

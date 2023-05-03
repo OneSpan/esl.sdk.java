@@ -62,6 +62,7 @@ public class AccountFeatureSettingsConverter {
         result.setSendToMobile(sdkAccountFeatureSettings.getSendToMobile());
         result.setUploadSignatureImage(sdkAccountFeatureSettings.getUploadSignatureImage());
         result.setOverrideRecipientsPreferredLanguage(sdkAccountFeatureSettings.getOverrideRecipientsPreferredLanguage());
+        result.setEnableRecipientHistory(sdkAccountFeatureSettings.getEnableRecipientHistory());
 
         return result;
     }
@@ -105,7 +106,7 @@ public class AccountFeatureSettingsConverter {
         result.setSendToMobile(apiAccountFeatureSettings.getSendToMobile());
         result.setUploadSignatureImage(apiAccountFeatureSettings.getUploadSignatureImage());
         result.setOverrideRecipientsPreferredLanguage(apiAccountFeatureSettings.getOverrideRecipientsPreferredLanguage());
-
+        result.setEnableRecipientHistory(apiAccountFeatureSettings.getEnableRecipientHistory());
         return result;
 
     }

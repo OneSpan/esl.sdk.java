@@ -29,6 +29,11 @@ public class AccountPackageSettings
     private Boolean showNseHelp;
     private Boolean showNseLogoInIframe;
     private Boolean showNseOverview;
+    private Boolean title;
+    private Boolean progressBar;
+    private Boolean navigator;
+    private Integer maxAttachmentFiles;
+    private Integer fontSize;
 
     public Boolean getAda() {
         return ada;
@@ -212,5 +217,40 @@ public class AccountPackageSettings
 
     public void setShowNseOverview(Boolean showNseOverview) {
         this.showNseOverview = showNseOverview;
+    }
+    public Boolean getTitle() {
+        return title;
+    }
+
+    public void setTitle(Boolean title) {
+        this.title = title;
+    }
+    public Boolean getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(Boolean progressBar) {
+        this.progressBar = progressBar;
+    }
+    public Boolean getNavigator() {
+        return navigator;
+    }
+
+    public void setNavigator(Boolean navigator) {
+        this.navigator = navigator;
+    }
+    public Integer getMaxAttachmentFiles() {
+        return maxAttachmentFiles;
+    }
+
+    public void setMaxAttachmentFiles(Integer maxAttachmentFiles) {
+        this.maxAttachmentFiles = maxAttachmentFiles;
+    }
+    public Integer getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(Integer fontSize) {
+        this.fontSize = fontSize;
     }
 }
