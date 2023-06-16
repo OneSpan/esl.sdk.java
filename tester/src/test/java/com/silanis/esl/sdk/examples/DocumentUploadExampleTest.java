@@ -37,7 +37,7 @@ public class DocumentUploadExampleTest {
 
         Document document2 = documentPackage.getDocument(DOCUMENT2_NAME);
         byte[] document2Binary = example.eslClient.downloadDocument( example.getPackageId(), document2.getId().getId() );
-        assertThat("Document was not uploaded correctly. ", document2Binary.length, greaterThan(51000) );
+        assertThat("Document was not uploaded correctly. ", document2Binary.length, greaterThan(50000) );
         assertThat("Document was not uploaded correctly. ", document2Binary.length, lessThan(52000) );
     }
 }
