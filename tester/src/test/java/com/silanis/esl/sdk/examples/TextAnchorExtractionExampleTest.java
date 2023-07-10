@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.closeTo;
  * Created by dave on 24/03/14.
  */
 public class TextAnchorExtractionExampleTest {
-    private static final double MAX_ERROR_AFTER_SCALING = 0.75;
+    private static final double MAX_ERROR_AFTER_SCALING = 0.25;
 
     @Test
     public void verifyResult() {

@@ -18,7 +18,7 @@ public class TextAnchorExtractionExample extends SDKSample {
     private InputStream documentInputStream1;
 
     public static final String DOCUMENT_NAME = "Document With Anchors";
-    public static final int FIELD_WIDTH = 150;
+    public static final int FIELD_WIDTH = 151;
     public static final int FIELD_HEIGHT = 40;
 
     public static void main( String... args ) {
