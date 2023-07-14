@@ -12,6 +12,7 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.SignerInformationForEquifaxCanada;
 import com.silanis.esl.sdk.SignerInformationForEquifaxUSA;
+import com.silanis.esl.sdk.SignerInformationForLexisNexis;
 import com.silanis.esl.sdk.internal.Asserts;
 
 import java.util.ArrayList;
@@ -697,5 +698,28 @@ final public class SignerBuilder {
 
     private boolean isPlaceholder() {
         return groupId == null && email == null;
+    }
+    /**
+     * <p>Adds a signer information for Lexis Nexis USA to the signer. The signer information is conveniently customized by the builder provided as parameter.</p>
+     *
+     * @param signerInformationForLexisNexisBuilder the signer builder for Lexis Nexis USA
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForLexisNexisBuilder signerInformationForLexisNexisBuilder) {
+        return challengedWithKnowledgeBasedAuthentication(signerInformationForLexisNexisBuilder.build());
+    }
+
+    /**
+     * <p>Adds a signer information for Equifax USA to the signer.</p>
+     *
+     * @param signerInformationForLexisNexis a signer information for Equifax USA
+     * @return the signer builder itself
+     */
+    public SignerBuilder challengedWithKnowledgeBasedAuthentication(SignerInformationForLexisNexis signerInformationForLexisNexis) {
+        if (this.knowledgeBasedAuthentication == null) {
+            this.knowledgeBasedAuthentication = new KnowledgeBasedAuthentication();
+        }
+        this.knowledgeBasedAuthentication.setSignerInformationForLexisNexis(signerInformationForLexisNexis);
+        return this;
     }
 }
