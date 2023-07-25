@@ -6,6 +6,8 @@ public class KnowledgeBasedAuthentication {
     private SignerInformationForEquifaxCanada signerInformationForEquifaxCanada = null;
     private SignerInformationForEquifaxUSA signerInformationForEquifaxUSA = null;
 
+    private SignerInformationForLexisNexis signerInformationForLexisNexis = null;
+
     public KnowledgeBasedAuthentication(){
     }
 
@@ -31,6 +33,14 @@ public class KnowledgeBasedAuthentication {
 
     public void setSignerInformationForEquifaxUSA(SignerInformationForEquifaxUSA signerInformationForEquifaxUSA) {
         this.signerInformationForEquifaxUSA = signerInformationForEquifaxUSA;
+    }
+
+    public SignerInformationForLexisNexis getSignerInformationForLexisNexis() {
+        return signerInformationForLexisNexis;
+    }
+
+    public void setSignerInformationForLexisNexis(SignerInformationForLexisNexis signerInformationForLexisNexis) {
+        this.signerInformationForLexisNexis = signerInformationForLexisNexis;
     }
 }
 
