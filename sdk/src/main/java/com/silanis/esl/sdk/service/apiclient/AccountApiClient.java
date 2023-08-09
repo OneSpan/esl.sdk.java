@@ -21,7 +21,6 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import io.netty.util.internal.StringUtil;
 
 import javax.xml.ws.Response;
 import java.util.Collections;
@@ -410,7 +409,7 @@ public class AccountApiClient {
     }
 
     public List<UserAccountRole> getAssignedAccountRoles(String userId, String accountId) {
-        if (!StringUtil.isNullOrEmpty(accountId)){
+        if (accountId != null && !accountId.trim().isEmpty()){
             template.addParam("accountId", accountId);
         }
         String path = template.urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH)
