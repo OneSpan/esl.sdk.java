@@ -178,4 +178,28 @@ public class AccountConfigService {
     public void deleteAccountFeatureSettings() {
         apiClient.deleteAccountFeatureSettings();
     }
+
+    /**
+     * Get account designer settings.
+     *
+     */
+    public AccountDesignerSettings getAccountDesignerSettings() {
+        return apiClient.getAccountDesignerSettings();
+    }
+
+    /**
+     * Save account designer settings.
+     *
+     */
+    public void saveAccountDesignerSettings(AccountDesignerSettings accountDesignerSettings) {
+        apiClient.saveAccountDesignerSettings(accountDesignerSettings);
+    }
+
+    /**
+     * Delete account designer settings.
+     *
+     */
+    public void deleteAccountDesignerSettings() {
+        apiClient.deleteAccountDesignerSettings();
+    }
 }
