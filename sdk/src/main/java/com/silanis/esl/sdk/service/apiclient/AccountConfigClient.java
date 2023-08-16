@@ -12,6 +12,7 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.AccountDesignerSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountPackageSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
@@ -346,6 +347,53 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete the account feature settings.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the account feature settings.", e);
+        }
+    }
+
+    /**
+     * Get account designer settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountDesignerSettings getAccountDesignerSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountDesignerSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountDesignerSettings.class)).tosdkAccountDesignerSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account designer settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account designer settings.", e);
+        }
+    }
+
+    /**
+     * Save account designer settings.
+     *
+     */
+    public void saveAccountDesignerSettings(com.silanis.esl.sdk.AccountDesignerSettings accountDesignerSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountDesignerSettings);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account designer settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account designer settings.", e);
+        }
+    }
+
+    /**
+     * Delete account designer settings.
+     *
+     */
+    public void deleteAccountDesignerSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account designer settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account designer settings.", e);
         }
     }
 }

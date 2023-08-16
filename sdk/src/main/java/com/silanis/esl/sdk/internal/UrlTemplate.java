@@ -185,6 +185,8 @@ public class UrlTemplate {
     public static final String ACCOUNT_PACKAGE_SETTINGS_PATH = "/account/admin/accountSettings/packageSettings";
     // Account Feature Settings Service
     public static final String ACCOUNT_FEATURE_SETTINGS_PATH = "/account/admin/accountSettings/featureSettings";
+    //Account Designer Settings Service
+    public static final String ACCOUNT_DESIGNER_SETTINGS_PATH = "/account/admin/accountSettings/designerSettings";
 
     // Account Config Service
     public static final String ACCOUNT_CONFIG_PATH = "/accountConfig";
