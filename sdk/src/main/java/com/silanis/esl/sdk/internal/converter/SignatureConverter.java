@@ -102,6 +102,9 @@ public class SignatureConverter {
             if (apiSignatureField.getFontSize() != null) {
                 signatureBuilder.withFontSize(apiSignatureField.getFontSize());
             }
+            if (apiSignatureField.getTooltip() != null){
+                signatureBuilder.withTooltip(apiSignatureField.getTooltip());
+            }
         }
 
         if (apiApproval.getOptional())
@@ -142,6 +145,9 @@ public class SignatureConverter {
 
         if (sdkSignature.getName() != null) {
             result.setName(sdkSignature.getName());
+        }
+        if (sdkSignature.getTooltip() != null){
+            result.setTooltip(sdkSignature.getTooltip());
         }
 
         result.setOptional(sdkSignature.isOptional());
@@ -205,7 +211,7 @@ public class SignatureConverter {
         result.safeSetFontSize(sdkSignature.getFontSize());
         result.setType(FieldType.SIGNATURE.getApiValue());
         result.setSubtype(getSignatureSubtype());
-
+        result.setTooltip(sdkSignature.getTooltip());
         return result;
     }
 

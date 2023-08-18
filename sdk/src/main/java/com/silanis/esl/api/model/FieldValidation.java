@@ -32,6 +32,8 @@ public class FieldValidation extends Model
     public static final String FIELD_MINIMUMREQUIRED = "minimumRequired";
     @JsonIgnore
     public static final String FIELD_MAXIMUMREQUIRED = "maximumRequired";
+    @JsonIgnore
+    public static final String FIELD_GROUPTOOLtip = "groupTooltip";
     
     // Empty Constructor
     public FieldValidation ( ) {}
@@ -48,6 +50,7 @@ public class FieldValidation extends Model
     protected String _group = "";
     protected Integer _minimumRequired = null;
     protected Integer _maximumRequired = null;
+    protected String _groupTooltip = "";
     
     // Accessors
         
@@ -267,4 +270,20 @@ public class FieldValidation extends Model
     public Integer getMaximumRequired(){
         return _maximumRequired;
     }
+    @JsonIgnore
+    public FieldValidation safeSetGroupTooltip( String value ){
+        if ( value != null ) { this.setGroupTooltip( value ); }
+        return this;
+    }
+    public String getGroupTooltip(){
+        return _groupTooltip;
+    }
+
+    public FieldValidation setGroupTooltip( String value ){
+        value = SchemaSanitizer.trim(value);
+        this._groupTooltip = value;
+        setDirty(FIELD_GROUPTOOLtip);
+        return this;
+    }
+
 }

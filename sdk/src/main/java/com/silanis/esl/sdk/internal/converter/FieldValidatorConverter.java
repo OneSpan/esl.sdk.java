@@ -57,9 +57,8 @@ public class FieldValidatorConverter {
         fieldValidation.setRequired( fieldValidator.isRequired() );
         fieldValidation.setDisabled( fieldValidator.isDisabled() );
 
-        if ( fieldValidator.getGroup() != null ) {
-            fieldValidation.setGroup( fieldValidator.getGroup() );
-        }
+        fieldValidation.setGroup( fieldValidator.getGroup() );
+        fieldValidation.setGroupTooltip( fieldValidator.getGroupTooltip() );
 
         if ( fieldValidator.getMinimumRequired() != null ) {
             fieldValidation.setMinimumRequired( fieldValidator.getMinimumRequired() );
@@ -118,7 +117,9 @@ public class FieldValidatorConverter {
         if(fieldValidation.getGroup() != null){
             fieldValidator.setGroup(fieldValidation.getGroup());
         }
-
+        if(fieldValidation.getGroupTooltip() != null){
+            fieldValidator.setGroupTooltip(fieldValidation.getGroupTooltip());
+        }
         if ( fieldValidation.getMinimumRequired() != null) {
             fieldValidator.setMinimumRequired(fieldValidation.getMinimumRequired());
         }

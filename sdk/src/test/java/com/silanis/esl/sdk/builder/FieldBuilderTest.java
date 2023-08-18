@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.FieldStyle;
 import org.junit.Test;
 
 import static com.silanis.esl.sdk.builder.FieldBuilder.*;
+import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.basic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -125,5 +126,20 @@ public class FieldBuilderTest {
         assertThat( field.getStyle(), is( equalTo(FieldStyle.BOUND_QRCODE)));
         assertThat( field.getHeight(), is(77.0));
         assertThat( field.getWidth(), is(77.0));
+    }
+
+    @Test
+    public void testCheckboxWithTooltip(){
+        String tooltip = "tooltip";
+        Field field = checkBox().withTooltip(tooltip).build();
+        assertThat(field.getTooltip(),is(tooltip));
+    }
+    @Test
+    public void testCheckboxWithGroupTooltip(){
+        String group = "group";
+        String groupTooltip = "groupTooltip";
+        Field field = checkBox().withValidation(basic().setGroup(group).setGroupTooltip(groupTooltip)).build();
+        assertThat(field.getFieldValidator().getGroupTooltip(),is(groupTooltip));
+        assertThat(field.getFieldValidator().getGroup(),is(group));
     }
 }

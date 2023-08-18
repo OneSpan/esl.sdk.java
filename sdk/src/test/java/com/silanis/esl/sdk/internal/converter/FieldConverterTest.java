@@ -95,6 +95,7 @@ public class FieldConverterTest implements ConverterTest{
         assertThat("FontSize was not correctly set", apiField1.getFontSize(), is(sdkField1.getFontSize()));
         assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
         assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
+        assertThat("Tooltip was not correctly set", apiField1.getTooltip(), is(sdkField1.getTooltip()));
     }
 
     @Override
@@ -115,6 +116,7 @@ public class FieldConverterTest implements ConverterTest{
         assertThat("FontSize was not correctly set",apiField1.getFontSize(), is(sdkField1.getFontSize()));
         assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
         assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
+        assertThat("Tooltip was not correctly set", apiField1.getTooltip(), is(sdkField1.getTooltip()));
     }
 
     /**
@@ -151,6 +153,7 @@ public class FieldConverterTest implements ConverterTest{
                         .build())
                 .withValue("value")
                 .withFontSize(10)
+                .withTooltip("tooltip")
                 .build();
         return sdkField;
     }

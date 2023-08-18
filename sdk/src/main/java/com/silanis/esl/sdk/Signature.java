@@ -35,6 +35,7 @@ public class Signature implements Serializable {
 
     private GroupId groupId;
     private boolean fromFile;
+    private String tooltip;
 
     /**
      * 
@@ -209,5 +210,11 @@ public class Signature implements Serializable {
 
     public boolean isFromFile() {
         return fromFile;
+    }
+    public String getTooltip(){
+        return tooltip;
+    }
+    public void setTooltip(String value){
+        this.tooltip = value;
     }
 }
