@@ -66,6 +66,22 @@ public class FieldValidatorsExampleTest {
                     assertThat(field.getFieldValidator().getRegex(), is(URL_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(FIELD_URL_ERROR_MESSAGE));
                 }
+                if (fieldId.getId().equals(FIELD_CHECKBOX_ID_1.getId())) {
+                    assertThat(field.getFieldValidator().getGroup(), is(FIELD_GROUP));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(FIELD_GROUP_TOOLTIP));
+                }
+                if (fieldId.getId().equals(FIELD_CHECKBOX_ID_2.getId())) {
+                    assertThat(field.getFieldValidator().getGroup(), is(FIELD_GROUP));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(FIELD_GROUP_TOOLTIP));
+                }
+                if (fieldId.getId().equals(FIELD_RADIO_ID_1.getId())) {
+                    assertThat(field.getFieldValidator().getGroup(), is(FIELD_RADIO_GROUP));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(FIELD_RADIO_GROUP_TOOLTIP));
+                }
+                if (fieldId.getId().equals(FIELD_RADIO_ID_2.getId())) {
+                    assertThat(field.getFieldValidator().getGroup(), is(FIELD_RADIO_GROUP));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(FIELD_RADIO_GROUP_TOOLTIP));
+                }
             }
         }
     }

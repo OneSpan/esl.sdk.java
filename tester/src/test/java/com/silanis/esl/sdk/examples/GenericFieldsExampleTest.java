@@ -30,7 +30,6 @@ public class GenericFieldsExampleTest {
         example.run();
 
         DocumentPackage documentPackage = example.getRetrievedPackage();
-
         for (Signature signature : documentPackage.getDocument(DOCUMENT_NAME).getSignatures()) {
             for (Field field : signature.getFields()) {
                 if (field.getId().toString().equals(TEXTFIELD_ID)) {
@@ -47,13 +46,14 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getPage(), is(CHECKBOX_1_PAGE));
                     assertThat(field.getStyle(), is(UNBOUND_CHECK_BOX));
                     assertThat(field.getValue(), is(CHECKBOX_CHECKED));
-                }
+               }
                 if (field.getId().toString().equals(GROUPED_CHECKBOX_1_ID)) {
                     assertThat(field.getPage(), is(GROUPED_CHECKBOX_1_PAGE));
                     assertThat(field.getStyle(), is(UNBOUND_CHECK_BOX));
                     assertThat(field.getFieldValidator().getGroup(), is(CHECKBOX_GROUP));
                     assertThat(field.getFieldValidator().getMinimumRequired(), is(GROUPED_CHECKBOX_MINIMUM_REQUIRED));
                     assertThat(field.getFieldValidator().getMaximumRequired(), is(GROUPED_CHECKBOX_MAXIMUM_REQUIRED));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(CHECKBOX_GROUP_TOOLTIP));
                 }
                 if (field.getId().toString().equals(GROUPED_CHECKBOX_2_ID)) {
                     assertThat(field.getPage(), is(GROUPED_CHECKBOX_2_PAGE));
@@ -61,18 +61,21 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getFieldValidator().getGroup(), is(CHECKBOX_GROUP));
                     assertThat(field.getFieldValidator().getMinimumRequired(), is(GROUPED_CHECKBOX_MINIMUM_REQUIRED));
                     assertThat(field.getFieldValidator().getMaximumRequired(), is(GROUPED_CHECKBOX_MAXIMUM_REQUIRED));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(CHECKBOX_GROUP_TOOLTIP));
                 }
                 if (field.getId().toString().equals(RADIO_1_ID)) {
                     assertThat(field.getPage(), is(RADIO_1_PAGE));
                     assertThat(field.getStyle(), is(UNBOUND_RADIO_BUTTON));
                     assertThat(field.getFieldValidator().getOptions().get(0), is(RADIO_1_GROUP));
                     assertThat(field.getValue(), nullValue());
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(RADIO_FIELD_GROUP_TOOLTIP));
                 }
                 if (field.getId().toString().equals(RADIO_2_ID)) {
                     assertThat(field.getPage(), is(RADIO_2_PAGE));
                     assertThat(field.getStyle(), is(UNBOUND_RADIO_BUTTON));
                     assertThat(field.getFieldValidator().getOptions().get(0), is(RADIO_2_GROUP));
                     assertThat(field.getValue(), is(RADIO_SELECTED));
+                    assertThat(field.getFieldValidator().getGroupTooltip(), is(RADIO_FIELD_GROUP_TOOLTIP));
                 }
                 if (field.getId().toString().equals(DROP_LIST_ID)) {
                     assertThat(field.getPage(), is(DROP_LIST_PAGE));
@@ -105,7 +108,22 @@ public class GenericFieldsExampleTest {
                     assertThat(field.getFieldValidator().getErrorMessage(), is(DATEPICKER_ERROR_MESSAGE));
                     assertThat(field.getFontSize(), is(DATEPICKER_FIELD_FONT_SIZE));
                 }
+                if (field.getId().toString().equals(TEXTFIELD_WITH_TOOLTIP_ID)){
+                    assertThat(field.getPage(), is(TEXTFIELD_PAGE));
+                    assertThat(field.getStyle(), is(UNBOUND_TEXT_FIELD));
+                    assertThat(field.getFontSize(), is(TEXTFIELD_FONT_SIZE));
+                    assertThat(field.getTooltip(), is(TEXT_FIELD_TOOLTIP));
+                }
+                if (field.getId().toString().equals(RADIO_3_ID)) {
+                    assertThat(field.getPage(), is(RADIO_3_PAGE));
+                    assertThat(field.getStyle(), is(UNBOUND_RADIO_BUTTON));
+                    assertThat(field.getFieldValidator().getOptions().get(0), is(RADIO_3_GROUP));
+                    assertThat(field.getValue(), is(RADIO_SELECTED));
+                    assertThat(field.getTooltip(), is(RADIO_FIELD_TOOLTIP));
+                }
+
+                }
             }
         }
     }
-}
+

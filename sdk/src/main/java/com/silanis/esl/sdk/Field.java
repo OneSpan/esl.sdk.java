@@ -23,6 +23,7 @@ public class Field implements Serializable {
     private FieldId id;
     private TextAnchor textAnchor;
     private Integer fontSize;
+    private String tooltip;
 
     public Field() {}
 
@@ -157,4 +158,6 @@ public class Field implements Serializable {
     public void setFontSize(Integer fontSize) {
         this.fontSize = fontSize;
     }
+    public String getTooltip(){ return tooltip;}
+    public void setTooltip(String tooltip){this.tooltip = tooltip;}
 }
