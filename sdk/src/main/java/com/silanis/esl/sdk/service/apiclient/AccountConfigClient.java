@@ -16,6 +16,7 @@ import com.silanis.esl.sdk.internal.converter.AccountDesignerSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountPackageSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
+import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
 
 import java.util.List;
 
@@ -394,6 +395,53 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete the account designer settings.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the account designer settings.", e);
+        }
+    }
+
+    /**
+     * Get account email reminder settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountEmailReminderSettings getAccountEmailReminderSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountEmailReminderSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountEmailReminderSettings.class)).tosdkAccountEmailReminderSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account email reminder settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account email reminder settings.", e);
+        }
+    }
+
+    /**
+     * Save account email reminder settings.
+     *
+     */
+    public void saveAccountEmailReminderSettings(com.silanis.esl.sdk.AccountEmailReminderSettings accountEmailReminderSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountEmailReminderSettings);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account email reminder settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account email reminder settings.", e);
+        }
+    }
+
+    /**
+     * Delete account email reminder settings.
+     *
+     */
+    public void deleteAccountEmailReminderSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account email reminder settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account email reminder settings.", e);
         }
     }
 }
