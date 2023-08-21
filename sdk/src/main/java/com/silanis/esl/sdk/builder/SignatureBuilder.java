@@ -25,6 +25,7 @@ final public class SignatureBuilder {
     private Placeholder roleId;
     private String name;
     private String signerEmail;
+    private String tooltip;
     private int pageNumber;
     private double x;
     private double y;
@@ -350,6 +351,16 @@ final public class SignatureBuilder {
         this.name = name;
         return this;
     }
+    /**
+     * Sets the signature's tooltip
+     *
+     * @param tooltip
+     * @return the signature builder itself
+     */
+    public SignatureBuilder withTooltip(String tooltip) {
+        this.tooltip = tooltip;
+        return this;
+    }
 
     /**
      * Enables signature extraction. Indicates to the eSignLive document engine
@@ -464,6 +475,7 @@ final public class SignatureBuilder {
         signature.setDisabled(disabled);
         signature.setEnforceCaptureSignature(enforceCaptureSignature);
         signature.setFromFile(fromFile);
+        signature.setTooltip(tooltip);
 
         return signature;
     }

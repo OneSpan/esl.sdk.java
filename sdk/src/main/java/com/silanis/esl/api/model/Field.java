@@ -43,6 +43,8 @@ public class Field extends Entity
     public static final String FIELD_WIDTH = "width";
     @JsonIgnore
     public static final String FIELD_FONT_SIZE = "fontSize";
+    @JsonIgnore
+    public static final String FIELD_TOOLTIP = "tooltip";
     
     // Empty Constructor
     public Field ( ) {}
@@ -61,6 +63,7 @@ public class Field extends Entity
     protected String _value = "";
     protected Double _width = 0.0;
     protected Integer _fontSize = null;
+    protected String _tooltip = "";
     
     // Accessors
         
@@ -359,5 +362,20 @@ public class Field extends Entity
     }
     public Integer getFontSize(){
         return _fontSize;
+    }
+    @JsonIgnore
+    public Field safeSetTooltip( String value ){
+        if ( value != null ) { this.setTooltip( value ); }
+        return this;
+    }
+    public Field setTooltip(String value) {
+        value = SchemaSanitizer.trim(value);
+        this._tooltip = value;
+        setDirty(FIELD_TOOLTIP);
+        return this;
+    }
+
+    public String getTooltip() {
+        return _tooltip;
     }
 }
