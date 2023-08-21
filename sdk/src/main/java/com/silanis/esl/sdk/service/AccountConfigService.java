@@ -202,4 +202,28 @@ public class AccountConfigService {
     public void deleteAccountDesignerSettings() {
         apiClient.deleteAccountDesignerSettings();
     }
+
+    /**
+     * Get account email reminder settings.
+     *
+     */
+    public AccountEmailReminderSettings getAccountEmailReminderSettings() {
+        return apiClient.getAccountEmailReminderSettings();
+    }
+
+    /**
+     * Save account email reminder settings.
+     *
+     */
+    public void saveAccountEmailReminderSettings(AccountEmailReminderSettings accountEmailReminderSettings) {
+        apiClient.saveAccountEmailReminderSettings(accountEmailReminderSettings);
+    }
+
+    /**
+     * Delete account email reminder settings.
+     *
+     */
+    public void deleteAccountEmailReminderSettings() {
+        apiClient.deleteAccountEmailReminderSettings();
+    }
 }
