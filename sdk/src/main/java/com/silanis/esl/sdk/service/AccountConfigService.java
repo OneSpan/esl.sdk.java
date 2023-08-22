@@ -226,4 +226,28 @@ public class AccountConfigService {
     public void deleteAccountEmailReminderSettings() {
         apiClient.deleteAccountEmailReminderSettings();
     }
+
+    /**
+     * Get account upload settings.
+     *
+     */
+    public AccountUploadSettings getAccountUploadSettings() {
+        return apiClient.getAccountUploadSettings();
+    }
+
+    /**
+     * Save account upload settings.
+     *
+     */
+    public void saveAccountUploadSettings(AccountUploadSettings accountUploadSettings) {
+        apiClient.saveAccountUploadSettings(accountUploadSettings);
+    }
+
+    /**
+     * Delete account upload settings.
+     *
+     */
+    public void deleteAccountUploadSettings() {
+        apiClient.deleteAccountUploadSettings();
+    }
 }
