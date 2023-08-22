@@ -17,7 +17,9 @@ import com.silanis.esl.sdk.internal.converter.AccountSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountPackageSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
+import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -442,6 +444,54 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete the account email reminder settings.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the account email reminder settings.", e);
+        }
+    }
+
+    /**
+     * Get account upload settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountUploadSettings getAccountUploadSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountUploadSettingsConverter(com.silanis.esl.api.model.AccountUploadSettings.class.newInstance().setAllowedFileTypes( Arrays.asList(stringResponse.replaceAll("[\\[\\]]", "").split(",")))).
+                    tosdkAccountUploadSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account upload settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account upload settings.", e);
+        }
+    }
+
+    /**
+     * Save account upload settings.
+     *
+     */
+    public void saveAccountUploadSettings(com.silanis.esl.sdk.AccountUploadSettings accountUploadSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountUploadSettings.getAllowedFileTypes());
+        try {
+            restClient.put(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account upload settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account upload settings.", e);
+        }
+    }
+
+    /**
+     * Delete account upload settings.
+     *
+     */
+    public void deleteAccountUploadSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account upload settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account upload settings.", e);
         }
     }
 }
