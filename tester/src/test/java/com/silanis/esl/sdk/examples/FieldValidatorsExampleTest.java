@@ -32,37 +32,37 @@ public class FieldValidatorsExampleTest {
             }
             for (Field field : signature.getFields()) {
                 FieldId fieldId = field.getId();
-                if (fieldId.getId().equals(FIELD_ALPHABETIC_ID)) {
+                if (fieldId.getId().equals(FIELD_ALPHABETIC_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(ALPHABETIC_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(ALPHABETIC_ERROR_MESSAGE));
                     assertThat(field.getFieldValidator().getMinLength(), is(FIELD_ALPHABETIC_MIN_LENGTH));
                     assertThat(field.getFieldValidator().getMaxLength(), is(FIELD_ALPHABETIC_MAX_LENGTH));
                 }
-                if (fieldId.getId().equals(FIELD_ALPHANUMERIC_ID)) {
+                if (fieldId.getId().equals(FIELD_ALPHANUMERIC_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(ALPHANUMERIC_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(ALPHANUMERIC_ERROR_MESSAGE));
                     assertThat(field.getFieldValidator().getMinLength(), is(FIELD_ALPHANUMERIC_MIN_LENGTH));
                 }
-                if (fieldId.getId().equals(FIELD_BASIC_ID)) {
+                if (fieldId.getId().equals(FIELD_BASIC_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(DEFAULT_REGEX));
                     assertTrue(field.getFieldValidator().getOptions().contains(FIELD_BASIC_OPTION_1));
                     assertTrue(field.getFieldValidator().getOptions().contains(FIELD_BASIC_OPTION_2));
                     assertTrue(field.getFieldValidator().isDisabled());
                 }
-                if (fieldId.getId().equals(FIELD_EMAIL_ID)) {
+                if (fieldId.getId().equals(FIELD_EMAIL_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(EMAIL_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(EMAIL_ERROR_MESSAGE));
                 }
-                if (fieldId.getId().equals(FIELD_NUMERIC_ID)) {
+                if (fieldId.getId().equals(FIELD_NUMERIC_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(NUMERIC_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(NUMERIC_ERROR_MESSAGE));
                     assertThat(field.getFieldValidator().getMaxLength(), is(FIELD_NUMERIC_MAX_LENGTH));
                 }
-                if (fieldId.getId().equals(FIELD_REGEX_ID)) {
+                if (fieldId.getId().equals(FIELD_REGEX_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(EMAIL_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(FIELD_REGEX_ERROR_MESSAGE));
                 }
-                if (fieldId.getId().equals(FIELD_URL_ID)) {
+                if (fieldId.getId().equals(FIELD_URL_ID.getId())) {
                     assertThat(field.getFieldValidator().getRegex(), is(URL_REGEX));
                     assertThat(field.getFieldValidator().getErrorMessage(), is(FIELD_URL_ERROR_MESSAGE));
                 }
