@@ -16,7 +16,7 @@ public class FieldValidatorBuilder {
     public static final String ALPHABETIC_REGEX = "^[\\sa-zA-Z]+$";
     public static final String ALPHANUMERIC_REGEX = "^[\\s0-9a-zA-Z]+$";
     public static final String NUMERIC_REGEX = "^[-+]?[0-9]*\\.?[0-9]*$";
-    public static final String DEFAULT_REGEX = null;
+    public static final String DEFAULT_REGEX = "";
     public static final String DEFAULT_DATEPICKER_FORMAT = "YYYY-MM-dd";
 
     public static final String ALPHABETIC_ERROR_MESSAGE = "Value entered must by alphabetic only.";
