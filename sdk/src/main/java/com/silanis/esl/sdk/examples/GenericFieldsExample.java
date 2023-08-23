@@ -11,7 +11,6 @@ import java.util.Date;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.FieldBuilder.*;
-import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.basic;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -23,10 +22,6 @@ public class GenericFieldsExample extends SDKSample {
 
     public static final String DOCUMENT_NAME = "First Document";
     public static final String TEXTFIELD_ID = "textFieldId";
-    public static final String TEXTFIELD_WITH_TOOLTIP_ID = "textFieldWithTooltipId";
-    public static final String RADIO_FIELD_TOOLTIP = "radioFieldTooltip";
-    public static final String RADIO_FIELD_GROUP_TOOLTIP = "radioFieldGroupTooltip";
-    public static final String FIELD_RADIO_GROUP = "radioGroup";
     public static final int TEXTFIELD_PAGE = 0;
     public static final Integer TEXTFIELD_FONT_SIZE = 0;
     public static final String CHECKBOX_1_ID = "checkbox1Id";
@@ -39,8 +34,6 @@ public class GenericFieldsExample extends SDKSample {
     public static final String GROUPED_CHECKBOX_2_ID = "groupedCheckbox2Id";
     public static final int GROUPED_CHECKBOX_2_PAGE = 0;
     public static final String CHECKBOX_GROUP = "checkboxGroup";
-    public static final String CHECKBOX_GROUP_TOOLTIP = "checkboxGroupTooltip";
-    public static final String TEXT_FIELD_TOOLTIP = "textFieldTooltip";
     public static final int GROUPED_CHECKBOX_MINIMUM_REQUIRED = 1;
     public static final int GROUPED_CHECKBOX_MAXIMUM_REQUIRED = 2;
     public static final String RADIO_1_ID = "radio1Id";
@@ -50,10 +43,6 @@ public class GenericFieldsExample extends SDKSample {
     public static final int RADIO_2_PAGE = 0;
     public static final boolean RADIO_2_VALUE = true;
     public static final String RADIO_2_GROUP = "group";
-    public static final String RADIO_3_ID = "radio3Id";
-    public static final int RADIO_3_PAGE = 0;
-    public static final boolean RADIO_3_VALUE = true;
-    public static final String RADIO_3_GROUP = "group";
     public static final String DROP_LIST_ID = "dropListId";
     public static final int DROP_LIST_PAGE = 0;
     public static final String DROP_LIST_OPTION1 = "one";
@@ -75,7 +64,6 @@ public class GenericFieldsExample extends SDKSample {
     public static final String DATEPICKER_FORMAT = "MM-dd-YYYY";
     public static final String DATEPICKER_VALUE = new SimpleDateFormat(DATEPICKER_FORMAT).format(new Date());
     public static final Integer DATEPICKER_FIELD_FONT_SIZE = null;
-
 
     private int textfieldPositionX = 400;
     private int textfieldPositionY = 200;
@@ -103,10 +91,6 @@ public class GenericFieldsExample extends SDKSample {
     private double radio2Height = 20;
     private int radio2PositionX = 400;
     private int radio2PositionY = 450;
-    private double radio3Width = 20;
-    private double radio3Height = 20;
-    private int radio3PositionX = 400;
-    private int radio3PositionY = 350;
     private double dropListWidth = 100;
     private double dropListHeight = 200;
     private int dropListPositionX = 100;
@@ -161,15 +145,13 @@ public class GenericFieldsExample extends SDKSample {
                                         .withId(new FieldId(RADIO_1_ID))
                                         .onPage(RADIO_1_PAGE)
                                         .withSize(radio1Width, radio1Height)
-                                        .atPosition(radio1PositionX, radio1PositionY)
-                                        .withValidation(basic().setGroup(FIELD_RADIO_GROUP).setGroupTooltip(RADIO_FIELD_GROUP_TOOLTIP)))
+                                        .atPosition(radio1PositionX, radio1PositionY))
                                 .withField(radioButton(RADIO_2_GROUP)
                                         .withId(new FieldId(RADIO_2_ID))
                                         .withValue(RADIO_2_VALUE)
                                         .onPage(RADIO_2_PAGE)
                                         .withSize(radio2Width, radio2Height)
-                                        .atPosition(radio2PositionX, radio2PositionY)
-                                        .withValidation(basic().setGroup(FIELD_RADIO_GROUP).setGroupTooltip(RADIO_FIELD_GROUP_TOOLTIP)))
+                                        .atPosition(radio2PositionX, radio2PositionY))
                                 .withField(dropList()
                                         .withId(new FieldId(DROP_LIST_ID))
                                         .withFontSize(DROP_LIST_FONT_SIZE)
@@ -215,8 +197,7 @@ public class GenericFieldsExample extends SDKSample {
                                         .atPosition(groupedCheckbox1PositionX, groupedCheckbox1PositionY)
                                         .withValidation(FieldValidatorBuilder.basic().setGroup(CHECKBOX_GROUP)
                                                 .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)
-                                                .setMaximumRequired(GROUPED_CHECKBOX_MAXIMUM_REQUIRED)
-                                                .setGroupTooltip(CHECKBOX_GROUP_TOOLTIP)))
+                                                .setMaximumRequired(GROUPED_CHECKBOX_MAXIMUM_REQUIRED)))
                                 .withField(checkBox()
                                         .withId(new FieldId(GROUPED_CHECKBOX_2_ID))
                                         .onPage(GROUPED_CHECKBOX_2_PAGE)
@@ -224,21 +205,7 @@ public class GenericFieldsExample extends SDKSample {
                                         .atPosition(groupedCheckbox2PositionX, groupedCheckbox2PositionY)
                                         .withValidation(FieldValidatorBuilder.basic().setGroup(CHECKBOX_GROUP)
                                                 .setMinimumRequired(GROUPED_CHECKBOX_MINIMUM_REQUIRED)
-                                                .setMaximumRequired(GROUPED_CHECKBOX_MAXIMUM_REQUIRED)
-                                                .setGroupTooltip(CHECKBOX_GROUP_TOOLTIP)))
-                                .withField(textField()
-                                        .withId(new FieldId(TEXTFIELD_WITH_TOOLTIP_ID))
-                                        .withFontSize(TEXTFIELD_FONT_SIZE)
-                                        .onPage(TEXTFIELD_PAGE)
-                                        .atPosition(textfieldPositionX, textfieldPositionY)
-                                        .withTooltip(TEXT_FIELD_TOOLTIP))
-                                .withField(radioButton(RADIO_3_GROUP)
-                                        .withId(new FieldId(RADIO_3_ID))
-                                        .withValue(RADIO_3_VALUE)
-                                        .onPage(RADIO_3_PAGE)
-                                        .withSize(radio3Width, radio3Height)
-                                        .atPosition(radio3PositionX, radio3PositionY).withTooltip(RADIO_FIELD_TOOLTIP))
-                        ))
+                                                .setMaximumRequired(GROUPED_CHECKBOX_MAXIMUM_REQUIRED)))))
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);

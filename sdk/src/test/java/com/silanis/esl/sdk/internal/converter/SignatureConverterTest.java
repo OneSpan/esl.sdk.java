@@ -93,7 +93,6 @@ public class SignatureConverterTest implements ConverterTest {
         assertThat("Left position was not correctly set", apiApproval1.getFields().get(0).getLeft(), is(sdkSignature1.getX()));
         assertThat("Top position was not correctly set", apiApproval1.getFields().get(0).getTop(), is(sdkSignature1.getY()));
         assertThat("Font size was not correctly set", apiApproval1.getFields().get(0).getFontSize(), is(sdkSignature1.getFontSize()));
-        assertThat("Tooltip was not correctly set", apiApproval1.getFields().get(0).getTooltip(), is(sdkSignature1.getTooltip()));
     }
 
     private Signature createTypicalSDKSignature() {

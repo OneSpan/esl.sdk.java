@@ -38,7 +38,6 @@ public class FieldValidatorBuilder {
     private int minimumRequired;
     private int maximumRequired;
     private String errorMessage;
-    private String groupTooltip;
 
     private FieldValidatorBuilder( String regex ) {
         this.regex = regex;
@@ -220,15 +219,6 @@ public class FieldValidatorBuilder {
         this.maximumRequired = maximumRequired;
         return this;
     }
-    /**
-     * Set the groupTooltip for the checkbox
-     * @param groupTooltip string.
-     * @return field validator builder
-     */
-    public FieldValidatorBuilder setGroupTooltip( String groupTooltip ) {
-        this.groupTooltip = groupTooltip;
-        return this;
-    }
 
     /**
      * Builds the actual FieldValidator with the values specified.
@@ -256,7 +246,6 @@ public class FieldValidatorBuilder {
         result.setMinimumRequired(minimumRequired);
         result.setMaximumRequired(maximumRequired);
         result.setErrorMessage( errorMessage );
-        result.setGroupTooltip(groupTooltip);
         return result;
     }
 

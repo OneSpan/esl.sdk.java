@@ -86,8 +86,6 @@ public class FieldValidatorConverterTest implements ConverterTest {
         assertThat( "Min length was not set correctly", apiFieldValidation1.getMinLength(), is( equalTo( sdkFieldValidator1.getMinLength()) ) );
         assertThat( "Required was not set correctly",apiFieldValidation1.getRequired(), is( equalTo( sdkFieldValidator1.isRequired()) ) );
         assertThat( "Disabled was not set correctly",apiFieldValidation1.getDisabled(), is( equalTo( sdkFieldValidator1.isDisabled()) ) );
-        assertThat( "Group tooltip was not set correctly",apiFieldValidation1.getGroupTooltip(), is( equalTo( sdkFieldValidator1.getGroupTooltip()) ) );
-
     }
 
     @Override
@@ -103,9 +101,6 @@ public class FieldValidatorConverterTest implements ConverterTest {
         assertThat( "Required was not set correctly",apiFieldValidation1.getRequired(), is( equalTo( sdkFieldValidator1.isRequired()) ) );
         assertThat( "Disabled was not set correctly",apiFieldValidation1.getDisabled(), is( equalTo( sdkFieldValidator1.isDisabled()) ) );
         assertThat( "Pattern was not set correctly", apiFieldValidation1.getPattern(), is( equalTo( sdkFieldValidator1.getRegex()) ) );
-        assertThat( "Group tooltip was not set correctly", apiFieldValidation1.getGroupTooltip(), is( equalTo( sdkFieldValidator1.getGroupTooltip()) ) );
-        assertThat( "Group was not set correctly", apiFieldValidation1.getGroup(), is( equalTo( sdkFieldValidator1.getGroup()) ) );
-
     }
 
     /**

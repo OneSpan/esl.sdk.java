@@ -79,9 +79,7 @@ public class FieldConverter {
         if ( sdkField.getTextAnchor() != null ) {
             result.setExtractAnchor( new TextAnchorConverter( sdkField.getTextAnchor() ).toAPIExtractAnchor() );
         }
-        if ( sdkField.getTooltip() != null ){
-            result.setTooltip(sdkField.getTooltip());
-        }
+
         result.setFontSize( sdkField.getFontSize() );
 
         return result;
@@ -125,9 +123,7 @@ public class FieldConverter {
         if ( apiField.getHeight() != null )
             result.setHeight(apiField.getHeight());
         result.setFontSize(apiField.getFontSize());
-        if( apiField.getTooltip() != null ){
-            result.setTooltip(apiField.getTooltip());
-        }
+
         return result;
     }
 }

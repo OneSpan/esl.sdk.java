@@ -37,9 +37,7 @@ public class Approval extends Entity
     public static final String FIELD_ENFORCE_CAPTURE_SIGNATURE = "enforceCaptureSignature";
     @JsonIgnore
     public static final String FIELD_FROM_FILE = "fromFile";
-    @JsonIgnore
-    public static final String FIELD_TOOLTIP = "tooltip";
-
+    
     // Empty Constructor
     public Approval ( ) {}
     
@@ -52,7 +50,6 @@ public class Approval extends Entity
     protected Boolean _disabled = false;
     protected Boolean _enforceCaptureSignature = false;
     protected Boolean fromFile = false;
-    protected String _tooltip = "";
 
     // Accessors
         
@@ -165,24 +162,7 @@ public class Approval extends Entity
     public String getRole(){
         return _role;
     }
-    public Approval setTooltip( String value ){
-        SchemaSanitizer.throwOnNull(FIELD_ROLE,value);
-        value = SchemaSanitizer.trim(value);
-        // TODO With proper compare
-        // if ( this._tooltip == value ) return this;
-        this._tooltip = value;
-        setDirty(FIELD_TOOLTIP);
-        return this;
-    }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
-    @JsonIgnore
-    public Approval safeSetTooltip( String value ){
-        if ( value != null ) { this.setTooltip( value ); }
-        return this;
-    }
-    public String getTooltip(){
-        return _tooltip;
-    }
+    
         
     
     @JsonDeserialize(using = JsonDateDeserializer.class)

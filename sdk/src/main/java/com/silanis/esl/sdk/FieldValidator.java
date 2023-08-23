@@ -18,7 +18,6 @@ public class FieldValidator {
     private Integer minimumRequired;
     private Integer maximumRequired;
     private String errorMessage;
-    private String groupTooltip = "";
 
     public FieldValidator() {
         options = new ArrayList<String>();
@@ -109,9 +108,5 @@ public class FieldValidator {
 
     public String getErrorMessage() {
         return errorMessage;
-    }
-    public String getGroupTooltip(){return groupTooltip;};
-    public void setGroupTooltip(String value){
-        this.groupTooltip = value;
     }
 }

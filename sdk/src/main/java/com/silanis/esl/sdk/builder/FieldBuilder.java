@@ -31,7 +31,6 @@ public class FieldBuilder {
     private FieldId fieldId;
     private TextAnchor textAnchor;
     private Integer fontSize;
-    private String tooltip;
 
     /**
      * Creates a field builder
@@ -360,8 +359,8 @@ public class FieldBuilder {
                 this.fieldValidator.setMinimumRequired(fieldValidator.getMinimumRequired());
             if (null != fieldValidator.getMaximumRequired())
                 this.fieldValidator.setMaximumRequired(fieldValidator.getMaximumRequired());
+
             this.fieldValidator.setRequired(fieldValidator.isRequired());
-            this.fieldValidator.setGroupTooltip(fieldValidator.getGroupTooltip());
             this.fieldValidator.setDisabled(fieldValidator.isDisabled());
         } else {
             this.fieldValidator = fieldValidator;
@@ -404,17 +403,7 @@ public class FieldBuilder {
         this.fontSize = fontSize;
         return this;
     }
-    /**
-     * Set a field's tooltip.
-     *
-     * @param tooltip String tooltip of the field)
-     * @return the field builder itself
-     */
 
-    public FieldBuilder withTooltip(String tooltip) {
-        this.tooltip = tooltip;
-        return this;
-    }
     /**
      * Set a field's unique ID. This id allows the field value to be retrieved
      * when querying a package for information.
@@ -445,7 +434,6 @@ public class FieldBuilder {
         field.setFieldValidator(fieldValidator);
         field.setValue(value);
         field.setFontSize(fontSize);
-        field.setTooltip(tooltip);
         if (fieldId != null) {
             field.setId(fieldId);
         }
