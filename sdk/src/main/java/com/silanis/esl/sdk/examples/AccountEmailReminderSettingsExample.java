@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AccountEmailReminderSettings;
-import com.silanis.esl.sdk.AccountSettings;
 import com.silanis.esl.sdk.builder.AccountEmailReminderSettingsBuilder;
 
 public class AccountEmailReminderSettingsExample extends SDKSample{

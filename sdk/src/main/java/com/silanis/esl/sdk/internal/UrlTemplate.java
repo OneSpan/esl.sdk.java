@@ -191,6 +191,8 @@ public class UrlTemplate {
     public static final String ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH = "/account/admin/accountSettings/emailReminderSettings";
     //Account Upload Settings Service
     public static final String ACCOUNT_UPLOAD_SETTINGS_PATH = "/account/admin/accountSettings/attachmentsWhitelist";
+    //Account Upload Settings Service
+    public static final String ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH = "/account/admin/accountSettings/systemSettings";
     // Account Config Service
     public static final String ACCOUNT_CONFIG_PATH = "/accountConfig";
     public static final String HANDOVER_URL_PATH = "/accountConfig/handoverUrl/{language}";
