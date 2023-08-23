@@ -18,6 +18,7 @@ import com.silanis.esl.sdk.internal.converter.AccountPackageSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
+import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -492,6 +493,53 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete the account upload settings.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the account upload settings.", e);
+        }
+    }
+
+    /**
+     * Get account system settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountSystemSettingProperties getAccountSystemSettingProperties() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountSystemSettingPropertiesConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountSystemSettingProperties.class)).tosdkAccountSystemSettingProperties();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account system settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account system settings.", e);
+        }
+    }
+
+    /**
+     * Save account system settings.
+     *
+     */
+    public void saveAccountSystemSettingProperties(com.silanis.esl.sdk.AccountSystemSettingProperties accountSystemSettingProperties) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        String payload = JacksonUtil.serialize(accountSystemSettingProperties);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account system settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account system settings.", e);
+        }
+    }
+
+    /**
+     * Delete account system settings.
+     *
+     */
+    public void deleteAccountSystemSettingProperties() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account system settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account system settings.", e);
         }
     }
 }

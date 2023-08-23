@@ -250,4 +250,28 @@ public class AccountConfigService {
     public void deleteAccountUploadSettings() {
         apiClient.deleteAccountUploadSettings();
     }
+
+    /**
+     * Get account system settings.
+     *
+     */
+    public AccountSystemSettingProperties getAccountSystemSettingProperties() {
+        return apiClient.getAccountSystemSettingProperties();
+    }
+
+    /**
+     * Save account system settings.
+     *
+     */
+    public void saveAccountSystemSettingProperties(AccountSystemSettingProperties accountSystemSettingProperties) {
+        apiClient.saveAccountSystemSettingProperties(accountSystemSettingProperties);
+    }
+
+    /**
+     * Delete account system settings.
+     *
+     */
+    public void deleteAccountSystemSettingProperties() {
+        apiClient.deleteAccountSystemSettingProperties();
+    }
 }
