@@ -37,7 +37,7 @@ public class AuthenticationMethodsExample extends SDKSample {
                 .withSigner(newSignerWithEmail(email3)
                         .withFirstName("Charlie")
                         .withLastName("Brown"))
-                .withDocument(newDocumentWithName("dave.silanis@gmail.com's Document")
+                .withDocument(newDocumentWithName("Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(signatureFor(email1)
                                 .onPage(0)

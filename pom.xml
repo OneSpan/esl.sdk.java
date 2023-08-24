@@ -209,13 +209,7 @@
         <dependency>
             <groupId>xyz.rogfam</groupId>
             <artifactId>littleproxy</artifactId>
-            <version>2.0.7</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-all</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>2.0.19</version>
         </dependency>
 
         <!-- Test dependencies -->
