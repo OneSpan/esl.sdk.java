@@ -20,6 +20,9 @@ public class AccountEmailReminderSettings extends Model
     protected Integer _repetitionsCount ;
 
     public AccountEmailReminderSettings() {
+
+            //Empty Constructor
+
     }
 
 

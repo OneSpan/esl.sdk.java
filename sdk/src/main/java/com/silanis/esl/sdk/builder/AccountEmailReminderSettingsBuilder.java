@@ -9,6 +9,9 @@ public class AccountEmailReminderSettingsBuilder {
     protected Integer repetitionsCount = null;
 
     public AccountEmailReminderSettingsBuilder() {
+        /*
+        Empty constructor
+         */
     }
 
     /**

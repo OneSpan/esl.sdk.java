@@ -12,6 +12,9 @@ public class AccountUploadSettingsBuilder extends Model
     protected List<String> allowedFileTypes = null;
 
     public AccountUploadSettingsBuilder() {
+        /*
+        Empty constructor
+         */
     }
 
     /**
