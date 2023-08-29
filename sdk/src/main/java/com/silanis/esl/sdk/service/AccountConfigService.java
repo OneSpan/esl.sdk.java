@@ -178,4 +178,100 @@ public class AccountConfigService {
     public void deleteAccountFeatureSettings() {
         apiClient.deleteAccountFeatureSettings();
     }
+
+    /**
+     * Get account designer settings.
+     *
+     */
+    public AccountDesignerSettings getAccountDesignerSettings() {
+        return apiClient.getAccountDesignerSettings();
+    }
+
+    /**
+     * Save account designer settings.
+     *
+     */
+    public void saveAccountDesignerSettings(AccountDesignerSettings accountDesignerSettings) {
+        apiClient.saveAccountDesignerSettings(accountDesignerSettings);
+    }
+
+    /**
+     * Delete account designer settings.
+     *
+     */
+    public void deleteAccountDesignerSettings() {
+        apiClient.deleteAccountDesignerSettings();
+    }
+
+    /**
+     * Get account email reminder settings.
+     *
+     */
+    public AccountEmailReminderSettings getAccountEmailReminderSettings() {
+        return apiClient.getAccountEmailReminderSettings();
+    }
+
+    /**
+     * Save account email reminder settings.
+     *
+     */
+    public void saveAccountEmailReminderSettings(AccountEmailReminderSettings accountEmailReminderSettings) {
+        apiClient.saveAccountEmailReminderSettings(accountEmailReminderSettings);
+    }
+
+    /**
+     * Delete account email reminder settings.
+     *
+     */
+    public void deleteAccountEmailReminderSettings() {
+        apiClient.deleteAccountEmailReminderSettings();
+    }
+
+    /**
+     * Get account upload settings.
+     *
+     */
+    public AccountUploadSettings getAccountUploadSettings() {
+        return apiClient.getAccountUploadSettings();
+    }
+
+    /**
+     * Save account upload settings.
+     *
+     */
+    public void saveAccountUploadSettings(AccountUploadSettings accountUploadSettings) {
+        apiClient.saveAccountUploadSettings(accountUploadSettings);
+    }
+
+    /**
+     * Delete account upload settings.
+     *
+     */
+    public void deleteAccountUploadSettings() {
+        apiClient.deleteAccountUploadSettings();
+    }
+
+    /**
+     * Get account system settings.
+     *
+     */
+    public AccountSystemSettingProperties getAccountSystemSettingProperties() {
+        return apiClient.getAccountSystemSettingProperties();
+    }
+
+    /**
+     * Save account system settings.
+     *
+     */
+    public void saveAccountSystemSettingProperties(AccountSystemSettingProperties accountSystemSettingProperties) {
+        apiClient.saveAccountSystemSettingProperties(accountSystemSettingProperties);
+    }
+
+    /**
+     * Delete account system settings.
+     *
+     */
+    public void deleteAccountSystemSettingProperties() {
+        apiClient.deleteAccountSystemSettingProperties();
+    }
 }

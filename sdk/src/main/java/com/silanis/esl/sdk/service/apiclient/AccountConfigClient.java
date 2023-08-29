@@ -12,10 +12,15 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.AccountDesignerSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountPackageSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
+import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
+import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
+import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -346,6 +351,195 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete the account feature settings.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the account feature settings.", e);
+        }
+    }
+
+    /**
+     * Get account designer settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountDesignerSettings getAccountDesignerSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountDesignerSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountDesignerSettings.class)).tosdkAccountDesignerSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account designer settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account designer settings.", e);
+        }
+    }
+
+    /**
+     * Save account designer settings.
+     *
+     */
+    public void saveAccountDesignerSettings(com.silanis.esl.sdk.AccountDesignerSettings accountDesignerSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountDesignerSettings);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account designer settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account designer settings.", e);
+        }
+    }
+
+    /**
+     * Delete account designer settings.
+     *
+     */
+    public void deleteAccountDesignerSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account designer settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account designer settings.", e);
+        }
+    }
+
+    /**
+     * Get account email reminder settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountEmailReminderSettings getAccountEmailReminderSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountEmailReminderSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountEmailReminderSettings.class)).tosdkAccountEmailReminderSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account email reminder settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account email reminder settings.", e);
+        }
+    }
+
+    /**
+     * Save account email reminder settings.
+     *
+     */
+    public void saveAccountEmailReminderSettings(com.silanis.esl.sdk.AccountEmailReminderSettings accountEmailReminderSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountEmailReminderSettings);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account email reminder settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account email reminder settings.", e);
+        }
+    }
+
+    /**
+     * Delete account email reminder settings.
+     *
+     */
+    public void deleteAccountEmailReminderSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account email reminder settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account email reminder settings.", e);
+        }
+    }
+
+    /**
+     * Get account upload settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountUploadSettings getAccountUploadSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountUploadSettingsConverter(com.silanis.esl.api.model.AccountUploadSettings.class.newInstance().setAllowedFileTypes( Arrays.asList(stringResponse.replaceAll("[\\[\\]]", "").split(",")))).
+                    tosdkAccountUploadSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account upload settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account upload settings.", e);
+        }
+    }
+
+    /**
+     * Save account upload settings.
+     *
+     */
+    public void saveAccountUploadSettings(com.silanis.esl.sdk.AccountUploadSettings accountUploadSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountUploadSettings.getAllowedFileTypes());
+        try {
+            restClient.put(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account upload settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account upload settings.", e);
+        }
+    }
+
+    /**
+     * Delete account upload settings.
+     *
+     */
+    public void deleteAccountUploadSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account upload settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account upload settings.", e);
+        }
+    }
+
+    /**
+     * Get account system settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountSystemSettingProperties getAccountSystemSettingProperties() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountSystemSettingPropertiesConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountSystemSettingProperties.class)).tosdkAccountSystemSettingProperties();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account system settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account system settings.", e);
+        }
+    }
+
+    /**
+     * Save account system settings.
+     *
+     */
+    public void saveAccountSystemSettingProperties(com.silanis.esl.sdk.AccountSystemSettingProperties accountSystemSettingProperties) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        String payload = JacksonUtil.serialize(accountSystemSettingProperties);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account system settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account system settings.", e);
+        }
+    }
+
+    /**
+     * Delete account system settings.
+     *
+     */
+    public void deleteAccountSystemSettingProperties() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account system settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account system settings.", e);
         }
     }
 }
