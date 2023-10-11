@@ -32,7 +32,7 @@ public class AccountUploadSettingsExample extends SDKSample{
         defaultAccountUploadSettings = eslClient.getAccountConfigService().getAccountUploadSettings();
 
         accountUploadSettings = AccountUploadSettingsBuilder.newUploadSettings()
-                .withAllowedFileTypes(Arrays.asList("TestFileType1","TestFileType2","TestFileType3"))
+                .withAllowedFileTypes(Arrays.asList("pdf","TestFileType1","TestFileType2","TestFileType3"))
                 .build();
 
         //Save account upload settings
