@@ -38,5 +38,8 @@ public class AccountSystemSettingPropertiesExample extends SDKSample{
         //Save account system settings
         eslClient.getAccountConfigService().saveAccountSystemSettingProperties(accountSystemSettingProperties);
         patchedAccountSettingSystemProperties1 = eslClient.getAccountConfigService().getAccountSystemSettingProperties();
+
+        //Delete account system settings
+        eslClient.getAccountConfigService().deleteAccountEmailReminderSettings();
     }
 }
