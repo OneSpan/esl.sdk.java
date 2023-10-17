@@ -60,5 +60,8 @@ public class AccountDesignerSettingsExample extends SDKSample{
         //Save account designer settings
         eslClient.getAccountConfigService().saveAccountDesignerSettings(accountDesignerSettings);
         patchedAccountDesignerSettings1 = eslClient.getAccountConfigService().getAccountDesignerSettings();
+
+        //Delete account designer settings
+        eslClient.getAccountConfigService().deleteAccountDesignerSettings();
     }
 }

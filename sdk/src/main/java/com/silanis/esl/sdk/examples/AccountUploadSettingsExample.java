@@ -38,5 +38,9 @@ public class AccountUploadSettingsExample extends SDKSample{
         //Save account upload settings
         eslClient.getAccountConfigService().saveAccountUploadSettings(accountUploadSettings);
         updatedAccountUploadSettings1 = eslClient.getAccountConfigService().getAccountUploadSettings();
+
+        //Delete account upload settings
+        eslClient.getAccountConfigService().deleteAccountUploadSettings();
+
     }
 }
