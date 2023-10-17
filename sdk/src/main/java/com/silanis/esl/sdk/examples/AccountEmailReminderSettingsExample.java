@@ -40,6 +40,9 @@ public class AccountEmailReminderSettingsExample extends SDKSample{
         //Save account email reminder settings
         eslClient.getAccountConfigService().saveAccountEmailReminderSettings(accountEmailReminderSettings);
         patchedAccountEmailReminderSettings1 = eslClient.getAccountConfigService().getAccountEmailReminderSettings();
+
+        //Delete account email reminder settings
+        eslClient.getAccountConfigService().deleteAccountEmailReminderSettings();
     }
 
 }
