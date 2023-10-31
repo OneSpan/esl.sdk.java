@@ -38,6 +38,7 @@ public class AccountSystemSettingPropertiesConverter {
         result.setSessionTimeoutWarning(sdkAccountSystemSettingProperties.getSessionTimeoutWarning());
         result.setLoginSessionTimeout(sdkAccountSystemSettingProperties.getLoginSessionTimeout());
         result.setSenderLoginMaxFailedAttempts(sdkAccountSystemSettingProperties.getSenderLoginMaxFailedAttempts());
+        result.setOrderLastNameFirstName(sdkAccountSystemSettingProperties.getOrderLastNameFirstName());
         return result;
     }
 
@@ -56,6 +57,7 @@ public class AccountSystemSettingPropertiesConverter {
         result.setSessionTimeoutWarning(apiAccountSystemSettingProperties.getSessionTimeoutWarning());
         result.setLoginSessionTimeout(apiAccountSystemSettingProperties.getLoginSessionTimeout());
         result.setSenderLoginMaxFailedAttempts(apiAccountSystemSettingProperties.getSenderLoginMaxFailedAttempts());
+        result.setOrderLastNameFirstName(apiAccountSystemSettingProperties.getOrderLastNameFirstName());
         return result;
     }
 }
