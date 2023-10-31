@@ -19,6 +19,7 @@ public class AccountSystemSettingPropertiesExample extends SDKSample{
                 .withLoginSessionTimeout(60000)
                 .withSenderLoginMaxFailedAttempts(2)
                 .withSessionTimeoutWarning(200000)
+                .withOrderLastNameFirstName()
                 .build();
 
         //Save account system settings
@@ -33,6 +34,7 @@ public class AccountSystemSettingPropertiesExample extends SDKSample{
                 .withSessionTimeoutWarning(35000000)
                 .withLoginSessionTimeout(35000000)
                 .withSenderLoginMaxFailedAttempts(10)
+                .withOutOrderLastNameFirstName()
                 .build();
 
         //Save account system settings
