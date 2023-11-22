@@ -32,6 +32,7 @@ public class DocumentBuilder {
     private String description;
     private External external;
     private Map<String, Object> data = new LinkedHashMap<String, Object>();
+    private String base64Content;
 
     public DocumentBuilder() {
         this.name = DEFAULT_NAME;
@@ -163,6 +164,9 @@ public class DocumentBuilder {
         document.addQRCodes(qrCodes);
         document.setData(data);
         document.setExternalSigned(externalSignedDocument);
+        if (base64Content != null) {
+            document.setBase64Content(base64Content);
+        }
 
         return document;
     }
@@ -273,6 +277,17 @@ public class DocumentBuilder {
      */
     public DocumentBuilder withExtractionType( ExtractionType extractionType ) {
         this.extractionTypes.add(extractionType.name());
+        return this;
+    }
+
+    /**
+     * Set this document's base64 content
+     *
+     * @param base64Content
+     * @return the document builder itself
+     */
+    public DocumentBuilder fromBase64Content(String base64Content) {
+        this.base64Content = base64Content;
         return this;
     }
 }

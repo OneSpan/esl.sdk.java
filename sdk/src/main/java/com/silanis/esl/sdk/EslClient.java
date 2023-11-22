@@ -393,6 +393,30 @@ public class EslClient {
     }
 
     /**
+     * <p>Creates the package with base64 encoded document content.</p>
+     * <p>This basically does the followings:</p>
+     * <p> - converts the document package to JSON format with base64 content</p>
+     * <p> - makes an eSL REST call to actually create the package. Is is using as payload the above generated JSON content.
+     *
+     * @param documentPackage the document package
+     * @return the package ID
+     */
+    public PackageId createPackageOneStepWithBase64Content(DocumentPackage documentPackage) {
+
+        if (!isSdkVersionSet(documentPackage)) {
+            setSdkVersion(documentPackage);
+        }
+        validateSignatures(documentPackage);
+        Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
+        for (Document document : documentPackage.getDocuments()) {
+            com.silanis.esl.api.model.Document apiDocument = new DocumentConverter(document).toAPIDocument(packageToCreate);
+            packageToCreate.addDocument(apiDocument);
+        }
+
+        return packageService.createPackage(packageToCreate);
+    }
+
+    /**
      * Sign a document using current api key
      *
      * @param packageId    the package id

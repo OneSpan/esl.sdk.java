@@ -32,6 +32,7 @@ public class Document implements Serializable {
     private External external;
     private Map<String, Object> data;
     private Boolean externalSigned;
+    private String base64Content;
 
     /**
      * <p>Accessor method used to retrieve the file name</p>
@@ -235,4 +236,8 @@ public class Document implements Serializable {
     public Boolean isExternalSigned() { return externalSigned; }
 
     public void setExternalSigned(Boolean externalSigned) { this.externalSigned = externalSigned; }
+
+    public String getBase64Content() {return base64Content;}
+
+    public void setBase64Content(String base64Content) { this.base64Content = base64Content; }
 }

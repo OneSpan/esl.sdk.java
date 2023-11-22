@@ -89,6 +89,7 @@ public class DocumentConverterTest {
         assertThat("Id was not correctly set", sdkDocument1.getId().toString(), is(apiDocument1.getId()));
         assertThat("Index was not correctly set", sdkDocument1.getIndex(), is(apiDocument1.getIndex()));
         assertThat("ExtractionType was not correctly set", sdkDocument1.getExtractionTypes(), is(apiDocument1.getExtractionTypes()));
+        assertThat("Base64Content was not correctly set", sdkDocument1.getBase64Content(), is(apiDocument1.getBase64Content()));
     }
 
     @Test
@@ -169,6 +170,16 @@ public class DocumentConverterTest {
         assertThat("API document Data is not set properly", (String) apiDocument1.getData().get(attributeName), is(attributeValue));
     }
 
+    @Test
+    public void convertSDKtoAPIWithBase64Content() {
+        sdkDocument1 = createDocumentWithBase64Content();
+        com.silanis.esl.api.model.Package apiPackage = new com.silanis.esl.api.model.Package();
+
+        apiDocument1 = new DocumentConverter(sdkDocument1).toAPIDocument(apiPackage);
+
+        assertThat("API document Base64 content is null", apiDocument1.getBase64Content(), notNullValue());
+    }
+
     private com.silanis.esl.sdk.Document createDocumentWithData(final String name, final String value) {
         com.silanis.esl.sdk.Document sdkDocument;
         documentInputStream = this.getClass().getClassLoader()
@@ -200,6 +211,16 @@ public class DocumentConverterTest {
         return sdkDocument;
     }
 
+    private com.silanis.esl.sdk.Document createDocumentWithBase64Content() {
+        com.silanis.esl.sdk.Document sdkDocument = newDocumentWithName("sdkDocument")
+                .fromBase64Content("dummyBase64Content")
+                .withId("sdkDocumentId")
+                .withDescription("sdkDocument Description")
+                .build();
+
+        return sdkDocument;
+    }
+
     private com.silanis.esl.sdk.Document createTypicalSDKDocument() {
         com.silanis.esl.sdk.Document sdkDocument;
         documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
@@ -226,6 +247,7 @@ public class DocumentConverterTest {
                 .setName("apiDocument")
                 .setId("apiDocumentId")
                 .setExtractionTypes(Sets.newHashSet(TEXT_TAGS.name(), ACROFIELDS.name()))
+                .safeSetBase64Content("dummyBase64Content")
                 .setDescription("apiDocument Description");
 
         return apiDocument;
