@@ -95,6 +95,10 @@ public class DocumentConverter {
             document.setExternalSigned(apiDocument.isExternalSigned());
         }
 
+        if (apiDocument.getBase64Content() != null) {
+            document.setBase64Content(apiDocument.getBase64Content());
+        }
+
         return document;
     }
     /**
@@ -121,6 +125,7 @@ public class DocumentConverter {
         result.safeSetDescription(sdkDocument.getDescription());
         result.safeSetTagged(sdkDocument.isTagged());
         result.safeSetExternalSigned(sdkDocument.isExternalSigned());
+        result.safeSetBase64Content(sdkDocument.getBase64Content());
 
         if( sdkDocument.getExternal() != null){
             External external =  new ExternalConverter(sdkDocument.getExternal()).toAPIExternal();

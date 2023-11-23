@@ -49,6 +49,8 @@ public class Document extends Entity
     public static final String FIELD_TAGGED = "tagged";
     @JsonIgnore
     public static final String FIELD_EXTERNAL_SIGNED = "externalSigned";
+    @JsonIgnore
+    public static final String FIELD_BASE64_CONTENT = "base64Content";
 
     // Empty Constructor
     public Document() {
@@ -70,6 +72,7 @@ public class Document extends Entity
     protected String _signerVerificationToken;
     protected Boolean _tagged = false;
     protected Boolean _externalSigned = false;
+    protected String _base64Content;
 
     // Accessors
 
@@ -454,6 +457,24 @@ public class Document extends Entity
     public Document safeSetExternalSigned(Boolean externalSigned) {
         if (externalSigned != null) {
             this.setExternalSigned(externalSigned);
+        }
+        return this;
+    }
+
+    public String getBase64Content() {
+        return _base64Content;
+    }
+
+    public Document setBase64Content(String value) {
+        this._base64Content = value;
+        setDirty(FIELD_BASE64_CONTENT);
+        return this;
+    }
+
+    @JsonIgnore
+    public Document safeSetBase64Content(String value) {
+        if (value != null) {
+            this.setBase64Content(value);
         }
         return this;
     }
