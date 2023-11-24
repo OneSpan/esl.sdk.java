@@ -20,9 +20,9 @@ public class SignerInformationForLexisNexisBuilder {
 
 
     /**
-     * <p>Creates a SignerInformationBuilderForEquifaxUSA object.</p>
+     * <p>Creates a SignerInformationBuilderForLexisNexis object.</p>
      *
-     * @return the signer information builder for Equifax USA itself
+     * @return the signer information builder for LexisNexis itself
      */
     public static SignerInformationForLexisNexisBuilder newSignerInformationForLexisNexis() {
         return new SignerInformationForLexisNexisBuilder();
