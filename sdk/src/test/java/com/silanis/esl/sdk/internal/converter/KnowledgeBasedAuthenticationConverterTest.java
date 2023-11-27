@@ -85,6 +85,8 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Converter returned a null api object for a non null sdk object", apiKBA, notNullValue());
         assertThat("KBA status was not properly set or retrieved", apiKBA.getKnowledgeBasedAuthenticationStatus(), is(sdkKBA.getKnowledgeBasedAuthenticationStatus().toString()));
 
+        assertThat("Signer information LexisNexis was not null", apiKBA.getSignerInformationForLexisNexis(), is(notNullValue()));
+
         assertThat("Signer information (First Name) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getFirstName(), is(sdkKBA.getSignerInformationForLexisNexis().getFirstName()));
         assertThat("Signer information (Last Name) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getLastName(), is(sdkKBA.getSignerInformationForLexisNexis().getLastName()));
         assertThat("Signer information (City) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getCity(), is(sdkKBA.getSignerInformationForLexisNexis().getCity()));
@@ -96,7 +98,6 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Signer information (SIN) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getSocialSecurityNumber(), is(sdkKBA.getSignerInformationForLexisNexis().getSocialSecurityNumber()));
         assertThat("Signer information (Zip) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getZip(), is(sdkKBA.getSignerInformationForLexisNexis().getZip()));
 
-        assertThat("Signer information LexisNexis was not null", apiKBA.getSignerInformationForLexisNexis(), is(nullValue()));
     }
 
     @Test
@@ -107,7 +108,7 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Converter returned a null api object for a non null api object", sdkKBA, notNullValue());
         assertThat("KBA status was not properly set or retrieved", sdkKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(apiKBA.getKnowledgeBasedAuthenticationStatus()));
 
-        assertThat("Signer information for LexisNexis was not null", sdkKBA.getSignerInformationForLexisNexis(), is(nullValue()));
+        assertThat("Signer information for LexisNexis was not null", sdkKBA.getSignerInformationForLexisNexis(), is(notNullValue()));
 
         assertThat("Signer information (First Name) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getFirstName(), is(apiKBA.getSignerInformationForLexisNexis().getFirstName()));
         assertThat("Signer information (Last Name) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getLastName(), is(apiKBA.getSignerInformationForLexisNexis().getLastName()));
