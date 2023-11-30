@@ -11,8 +11,10 @@ import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 
-import java.util.Collections;
+import java.util.*;
 
+import com.silanis.esl.sdk.oauth.OAuthAccessToken;
+import com.silanis.esl.sdk.oauth.OAuthTokenConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.Header;
@@ -34,9 +36,6 @@ import org.apache.http.message.BasicHeader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.silanis.esl.sdk.internal.HttpUtil.percentDecode;
 import static com.silanis.esl.sdk.internal.MimeTypeUtils.getContentTypeByFileName;
@@ -68,6 +67,7 @@ public class RestClient extends Client {
 
     private final String apiKey;
     private final ApiTokenConfig apiTokenConfig;
+    private final OAuthTokenConfig oauthTokenConfig;
     private ApiToken apiToken = null;
     private final Map<String, String> additionalHeaders;
 
@@ -90,6 +90,7 @@ public class RestClient extends Client {
     public RestClient(String apiKey, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties, Map<String, String> headers) {
         this.apiKey = apiKey;
         this.apiTokenConfig = null;
+        this.oauthTokenConfig = null;
         this.allowAllSSLCertificates = allowAllSSLCertificates;
         this.proxyConfiguration = proxyConfiguration;
         this.useSystemProperties = useSystemProperties;
@@ -98,7 +99,18 @@ public class RestClient extends Client {
 
     public RestClient(ApiTokenConfig apiTokenConfig, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties, Map<String, String> headers) {
         this.apiKey = null;
+        this.oauthTokenConfig = null;
         this.apiTokenConfig = apiTokenConfig;
+        this.allowAllSSLCertificates = allowAllSSLCertificates;
+        this.proxyConfiguration = proxyConfiguration;
+        this.useSystemProperties = useSystemProperties;
+        this.additionalHeaders = headers;
+    }
+
+    public RestClient(OAuthTokenConfig oauthTokenConfig, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration, boolean useSystemProperties, Map<String, String> headers) {
+        this.apiKey = null;
+        this.apiTokenConfig = null;
+        this.oauthTokenConfig = oauthTokenConfig;
         this.allowAllSSLCertificates = allowAllSSLCertificates;
         this.proxyConfiguration = proxyConfiguration;
         this.useSystemProperties = useSystemProperties;
@@ -248,6 +260,17 @@ public class RestClient extends Client {
                 throw new EslException("Unable to create access token for "+apiTokenConfig);
             }
             apiToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), ApiToken.class);
+        } else if (oauthTokenConfig != null && (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000)) {
+            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
+            request.setHeader("Authorization",
+                    "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(), oauthTokenConfig.getClientSecret()).getBytes()));
+            CloseableHttpClient client = getHttpClient(request);
+            HttpResponse httpResponse = client.execute(request);
+            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                throw new EslException("Unable to create access token for " + oauthTokenConfig + " " + httpResponse.getStatusLine().getStatusCode() + ":" + httpResponse.getStatusLine().getReasonPhrase());
+            }
+            OAuthAccessToken oauthAccessToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
+            return oauthAccessToken.getAccessToken();
         }
         return apiToken.getAccessToken();
     }
