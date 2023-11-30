@@ -4,7 +4,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.ProxyConfiguration;
-import com.silanis.esl.sdk.apitoken.ApiTokenConfig;
+import com.silanis.esl.sdk.builder.EslClientBuilder;
 import com.silanis.esl.sdk.internal.Converter;
 
 import java.io.InputStream;
@@ -24,6 +24,8 @@ public abstract class SDKSample {
 
     protected Properties props = Props.get();
 
+
+
     public String email1, email2, email3, email4, email5, email6, senderEmail, webpageUrl, senderUID,
             proxyHost, proxyWithCredentialsHost, proxyUserName, proxyPassword;
 
@@ -40,18 +42,12 @@ public abstract class SDKSample {
     }
 
     public EslClient setupEslClientFromProps(Map<String, String> additionalHeaders, ProxyConfiguration proxyConfiguration) {
-        if (props.getProperty("api.clientId") == null) {
-            eslClient = new EslClient(props.getProperty("api.key"), props.getProperty("api.url"), true, proxyConfiguration).setWebpageURL(props.getProperty("webpage.url"));
-        } else {
-            ApiTokenConfig apiTokenConfig = ApiTokenConfig.newBuilder()
-                    .clientAppId(props.getProperty("api.clientId"))
-                    .clientAppSecret(props.getProperty("api.secret"))
-                    .tokenType(ApiTokenConfig.TokenType.OWNER)
-                    .baseUrl(props.getProperty("webpage.url"))
-                    .build();
-            eslClient = new EslClient(apiTokenConfig, props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
-        }
-        return eslClient;
+        return EslClientBuilder.newEslClientBuilder()
+                .withAdditionalHeaders(additionalHeaders)
+                .withProxyConfiguration(proxyConfiguration)
+                .withProperties(props)
+                .withAuthenticationType(props.getProperty("api.auth.type"))
+                .build();
     }
 
     protected abstract void execute();

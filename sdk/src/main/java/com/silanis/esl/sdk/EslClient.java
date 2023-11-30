@@ -11,6 +11,7 @@ import com.silanis.esl.sdk.internal.SignerRestClient;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.SignerVerificationConverter;
+import com.silanis.esl.sdk.oauth.OAuthTokenConfig;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
@@ -140,6 +141,17 @@ public class EslClient {
         setWebpageURL(baseURL);
         RestClient client = new RestClient(apiTokenConfig, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
         this.proxyConfiguration = proxyConfiguration;
+        init(client);
+    }
+    public EslClient(OAuthTokenConfig tokenConfig, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration,
+                     boolean useSystemProperties, Map<String, String> headers) {
+        Asserts.notNull(tokenConfig, "OAuthTokenConfig");
+        Asserts.notNullOrEmpty(baseURL, BASE_URL);
+        setBaseURL(baseURL);
+        setWebpageURL(baseURL);
+        this.proxyConfiguration = proxyConfiguration;
+        tokenConfig.toString();
+        RestClient client = new RestClient(tokenConfig, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
         init(client);
     }
 
