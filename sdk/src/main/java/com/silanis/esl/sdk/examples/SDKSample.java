@@ -32,7 +32,7 @@ public abstract class SDKSample {
     public int proxyPort, proxyWithCredentialsPort;
 
     public SDKSample() {
-        setupEslClientFromProps(Collections.<String, String>emptyMap(), null);
+        eslClient = setupEslClientFromProps(Collections.<String, String>emptyMap(), null);
         setProperties();
     }
 

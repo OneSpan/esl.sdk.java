@@ -78,7 +78,7 @@ public class EslClientBuilder {
                 .withClientId(props.getProperty("api.oauth.clientID"))
                 .withClientSecret(props.getProperty("api.oauth.clientSecret"))
                 .withScope(props.getProperty("api.oauth.scope"))
-                .withBaseURL(props.getProperty("baseURL"))
+                .withBaseURL(props.getProperty("baseURL", props.getProperty("webpage.url")))
                 .withAuthenticationServer(props.getProperty("api.oauth.server.url"))
                 .build();
         return new EslClient(authTokenConfig, props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
