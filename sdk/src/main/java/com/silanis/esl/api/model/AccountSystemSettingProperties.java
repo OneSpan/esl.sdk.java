@@ -11,10 +11,13 @@ public class AccountSystemSettingProperties extends Model implements java.io.Ser
     public static final String FIELD_LOGIN_SESSION_TIMEOUT = "loginSessionTimeout";
     @JsonIgnore
     public static final String FIELD_SESSION_TIMEOUT_WARNING = "sessionTimeoutWarning";
+    @JsonIgnore
+    public static final String FIELD_ORDER_LAST_NAME_FIRST_NAME = "orderLastNameFirstName";
 
     protected Integer _senderLoginMaxFailedAttempts;
     protected Integer _loginSessionTimeout;
     protected Integer _sessionTimeoutWarning;
+    protected Boolean _orderLastNameFirstName;
 
 
     //Empty Constructor
@@ -93,9 +96,24 @@ public class AccountSystemSettingProperties extends Model implements java.io.Ser
         return _sessionTimeoutWarning == null ? 0 : _sessionTimeoutWarning.intValue();
     }
 
+    public AccountSystemSettingProperties setOrderLastNameFirstName( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_ORDER_LAST_NAME_FIRST_NAME,value);
+        this._orderLastNameFirstName = value;
+        setDirty(FIELD_ORDER_LAST_NAME_FIRST_NAME);
+        return this;
+    }
 
-
+    @JsonIgnore
+    public AccountSystemSettingProperties safeSetOrderLastNameFirstName( Boolean value ){
+        if ( value != null ) { this.setOrderLastNameFirstName( value ); }
+        return this;
+    }
+    public Boolean getOrderLastNameFirstName(){
+        return _orderLastNameFirstName;
+    }
+    @JsonIgnore
+    public boolean evalOrderLastNameFirstName(){
+        return _orderLastNameFirstName == null ? false : _orderLastNameFirstName.booleanValue();
+    }
 
 }
-
-

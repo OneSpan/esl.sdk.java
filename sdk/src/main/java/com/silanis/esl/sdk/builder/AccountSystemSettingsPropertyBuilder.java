@@ -5,6 +5,7 @@ public class AccountSystemSettingsPropertyBuilder {
     private Integer senderLoginMaxFailedAttempts;
     private Integer loginSessionTimeout;
     private Integer sessionTimeoutWarning;
+    private Boolean orderLastNameFirstName;
 
 
     /**
@@ -43,11 +44,30 @@ public class AccountSystemSettingsPropertyBuilder {
         return this;
     }
 
+    /**
+     * Set orderLastNameFirstName as true in AccountSystemSettingProperties.
+     * @return This
+     */
+    public AccountSystemSettingsPropertyBuilder withOrderLastNameFirstName() {
+        orderLastNameFirstName = true;
+        return this;
+    }
+
+    /**
+     * Set orderLastNameFirstName as false in AccountSystemSettingProperties.
+     * @return This
+     */
+    public AccountSystemSettingsPropertyBuilder withOutOrderLastNameFirstName() {
+        orderLastNameFirstName = false;
+        return this;
+    }
+
     public com.silanis.esl.sdk.AccountSystemSettingProperties build() {
         com.silanis.esl.sdk.AccountSystemSettingProperties result = new com.silanis.esl.sdk.AccountSystemSettingProperties();
         result.setLoginSessionTimeout( loginSessionTimeout );
         result.setSenderLoginMaxFailedAttempts( senderLoginMaxFailedAttempts );
         result.setSessionTimeoutWarning( sessionTimeoutWarning );
+        result.setOrderLastNameFirstName( orderLastNameFirstName );
         return result;
     }
 }

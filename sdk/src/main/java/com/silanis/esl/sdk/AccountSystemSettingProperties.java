@@ -7,6 +7,7 @@ public class AccountSystemSettingProperties {
     private Integer senderLoginMaxFailedAttempts;
     private Integer loginSessionTimeout;
     private Integer sessionTimeoutWarning;
+    private Boolean orderLastNameFirstName;
 
     public Integer getSenderLoginMaxFailedAttempts() {
         return senderLoginMaxFailedAttempts;
@@ -30,6 +31,14 @@ public class AccountSystemSettingProperties {
 
     public void setSessionTimeoutWarning(Integer sessionTimeoutWarning) {
         this.sessionTimeoutWarning = sessionTimeoutWarning;
+    }
+
+    public Boolean getOrderLastNameFirstName() {
+        return orderLastNameFirstName;
+    }
+
+    public void setOrderLastNameFirstName(Boolean value) {
+        this.orderLastNameFirstName = value;
     }
 
 }
