@@ -1,35 +1,48 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
-import com.silanis.esl.sdk.SignerInformationForLexisNexis;
+import com.silanis.esl.sdk.SignerInformationForEquifaxUSA;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Created by schoi on 9/10/14.
  */
 public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest {
 
-    private final String FIRST_NAME = "Patty";
-    private final String LAST_NAME = "Galant";
-    private final String FLAT_OR_APARTMEN_TNUMBER = "10";
-    private final String HOUSENAME = "Apartment";
-    private final String HOUSENUMBER = "200";
-    private final String CITY = "Montreal";
-    private final String ZIP = "d2r3h9";
-    private final String STATE = "CA";
-    private final String SOCIAL_SECURITY_NUMBER = "123132123";
-    private final Date DATE_OF_BIRTH = new Date(0);
     private com.silanis.esl.sdk.KnowledgeBasedAuthentication sdkKBA = null;
     private com.silanis.esl.api.model.KnowledgeBasedAuthentication apiKBA = null;
     private KnowledgeBasedAuthenticationConverter converter = null;
+
+    private final String FIRST_NAME_FOR_USA = "Patty";
+    private final String LAST_NAME_FOR_USA = "Galant";
+    private final String STREET_ADDRESS_FOR_USA = "456666 asdfasdf";
+    private final String CITY_FOR_USA = "Montreal";
+    private final String ZIP_FOR_USA = "d2r3h9";
+    private final String STATE_FOR_USA = "CA";
+    private final Date DATE_OF_BIRTH_FOR_USA = new DateTime().minusYears(38).toDate();
+    private final String SOCIAL_SECURITY_NUMBER_FOR_USA = "123132123";
+    private final String HOME_PHONE_NUMBER_FOR_USA = "3546895132";
+    private final String DRIVERS_LICENSE_NUMBER_NUMBER_FOR_USA = "9561234";
+    private final Integer TIME_AT_ADDRESS_FOR_USA = 2;
+
+    private final String FIRST_NAME_FOR_CANADA = "John";
+    private final String LAST_NAME_FOR_CANADA = "Smith";
+    private final String STREET_ADDRESS_FOR_CANADA = "123 rue av";
+    private final String CITY_FOR_CANADA = "Montreal";
+    private final String POSTAL_CODE_FOR_CANADA = "h2h3h2";
+    private final String PROVINCE_FOR_CANADA = "QC";
+    private final Integer TIME_AT_ADDRESS_FOR_CANADA = 1;
+    private final Date DATE_OF_BIRTH_FOR_CANADA = new DateTime().minusYears(56).toDate();
+    private final String DRIVERS_LICENSE_NUMBER_FOR_CANADA = "1234567";
+    private final String SOCIAL_INSURANCE_NUMBER_FOR_CANADA = "123456798654321";
+    private final String HOME_PHONE_NUMBER_FOR_CANADA = "9465321597";
+
 
     @Test
     public void convertNullSDKToAPI() {
@@ -85,19 +98,19 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Converter returned a null api object for a non null sdk object", apiKBA, notNullValue());
         assertThat("KBA status was not properly set or retrieved", apiKBA.getKnowledgeBasedAuthenticationStatus(), is(sdkKBA.getKnowledgeBasedAuthenticationStatus().toString()));
 
-        assertThat("Signer information LexisNexis was not null", apiKBA.getSignerInformationForLexisNexis(), is(notNullValue()));
+        assertThat("Signer information (First Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getFirstName(), is(sdkKBA.getSignerInformationForEquifaxCanada().getFirstName()));
+        assertThat("Signer information (Last Name) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getLastName(), is(sdkKBA.getSignerInformationForEquifaxCanada().getLastName()));
+        assertThat("Signer information (Address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getStreetAddress(), is(sdkKBA.getSignerInformationForEquifaxCanada().getStreetAddress()));
+        assertThat("Signer information (City) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getCity(), is(sdkKBA.getSignerInformationForEquifaxCanada().getCity()));
+        assertThat("Signer information (Postal Code) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getPostalCode(), is(sdkKBA.getSignerInformationForEquifaxCanada().getPostalCode()));
+        assertThat("Signer information (Province) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getProvince(), is(sdkKBA.getSignerInformationForEquifaxCanada().getProvince()));
+        assertThat("Signer information (Time at address) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getTimeAtAddress(), is(sdkKBA.getSignerInformationForEquifaxCanada().getTimeAtAddress()));
+        assertThat("Signer information (Date of Birth) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDateOfBirth(), is(sdkKBA.getSignerInformationForEquifaxCanada().getDateOfBirth()));
+        assertThat("Signer information (Driver's license) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getDriversLicenseNumber(), is(sdkKBA.getSignerInformationForEquifaxCanada().getDriversLicenseNumber()));
+        assertThat("Signer information (SIN) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getSocialInsuranceNumber(), is(sdkKBA.getSignerInformationForEquifaxCanada().getSocialInsuranceNumber()));
+        assertThat("Signer information (Home Phone number) for Equifax Canada was not correctly set", apiKBA.getSignerInformationForEquifaxCanada().getHomePhoneNumber(), is(sdkKBA.getSignerInformationForEquifaxCanada().getHomePhoneNumber()));
 
-        assertThat("Signer information (First Name) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getFirstName(), is(sdkKBA.getSignerInformationForLexisNexis().getFirstName()));
-        assertThat("Signer information (Last Name) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getLastName(), is(sdkKBA.getSignerInformationForLexisNexis().getLastName()));
-        assertThat("Signer information (City) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getCity(), is(sdkKBA.getSignerInformationForLexisNexis().getCity()));
-        assertThat("Signer information (Flat or Apt number) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getFlatOrApartmentNumber(), is(sdkKBA.getSignerInformationForLexisNexis().getFlatOrApartmentNumber()));
-        assertThat("Signer information (House Name) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getHouseName(), is(sdkKBA.getSignerInformationForLexisNexis().getHouseName()));
-        assertThat("Signer information (House Number) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getHouseNumber(), is(sdkKBA.getSignerInformationForLexisNexis().getHouseNumber()));
-        assertThat("Signer information (Date of Birth) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getDateOfBirth(), is(sdkKBA.getSignerInformationForLexisNexis().getDateOfBirth()));
-        assertThat("Signer information (State) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getState(), is(sdkKBA.getSignerInformationForLexisNexis().getState()));
-        assertThat("Signer information (SIN) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getSocialSecurityNumber(), is(sdkKBA.getSignerInformationForLexisNexis().getSocialSecurityNumber()));
-        assertThat("Signer information (Zip) for LexisNexis was not correctly set", apiKBA.getSignerInformationForLexisNexis().getZip(), is(sdkKBA.getSignerInformationForLexisNexis().getZip()));
-
+        assertThat("Signer information for Equifax USA was not null", apiKBA.getSignerInformationForEquifaxUSA(), is(nullValue()));
     }
 
     @Test
@@ -108,18 +121,19 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         assertThat("Converter returned a null api object for a non null api object", sdkKBA, notNullValue());
         assertThat("KBA status was not properly set or retrieved", sdkKBA.getKnowledgeBasedAuthenticationStatus().toString(), is(apiKBA.getKnowledgeBasedAuthenticationStatus()));
 
-        assertThat("Signer information for LexisNexis was not null", sdkKBA.getSignerInformationForLexisNexis(), is(notNullValue()));
+        assertThat("Signer information for Equifax Canada was not null", sdkKBA.getSignerInformationForEquifaxCanada(), is(nullValue()));
 
-        assertThat("Signer information (First Name) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getFirstName(), is(apiKBA.getSignerInformationForLexisNexis().getFirstName()));
-        assertThat("Signer information (Last Name) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getLastName(), is(apiKBA.getSignerInformationForLexisNexis().getLastName()));
-        assertThat("Signer information (City) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getCity(), is(apiKBA.getSignerInformationForLexisNexis().getCity()));
-        assertThat("Signer information (Flat or Apt number) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getFlatOrApartmentNumber(), is(apiKBA.getSignerInformationForLexisNexis().getFlatOrApartmentNumber()));
-        assertThat("Signer information (House Name) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getHouseName(), is(apiKBA.getSignerInformationForLexisNexis().getHouseName()));
-        assertThat("Signer information (House Number) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getHouseNumber(), is(apiKBA.getSignerInformationForLexisNexis().getHouseNumber()));
-        assertThat("Signer information (Date of Birth) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getDateOfBirth(), is(apiKBA.getSignerInformationForLexisNexis().getDateOfBirth()));
-        assertThat("Signer information (State) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getState(), is(apiKBA.getSignerInformationForLexisNexis().getState()));
-        assertThat("Signer information (SIN) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getSocialSecurityNumber(), is(apiKBA.getSignerInformationForLexisNexis().getSocialSecurityNumber()));
-        assertThat("Signer information (Zip) for LexisNexis was not correctly set", sdkKBA.getSignerInformationForLexisNexis().getZip(), is(apiKBA.getSignerInformationForLexisNexis().getZip()));
+        assertThat("Signer information (First Name) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getFirstName(), is(apiKBA.getSignerInformationForEquifaxUSA().getFirstName()));
+        assertThat("Signer information (Last Name) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getLastName(), is(apiKBA.getSignerInformationForEquifaxUSA().getLastName()));
+        assertThat("Signer information (Address) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getStreetAddress(), is(apiKBA.getSignerInformationForEquifaxUSA().getStreetAddress()));
+        assertThat("Signer information (City) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getCity(), is(apiKBA.getSignerInformationForEquifaxUSA().getCity()));
+        assertThat("Signer information (Zip Code) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getZip(), is(apiKBA.getSignerInformationForEquifaxUSA().getZip()));
+        assertThat("Signer information (State) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getState(), is(apiKBA.getSignerInformationForEquifaxUSA().getState()));
+        assertThat("Signer information (SSN) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber(), is(apiKBA.getSignerInformationForEquifaxUSA().getSocialSecurityNumber()));
+        assertThat("Signer information (Date of Birth) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getDateOfBirth(), is(apiKBA.getSignerInformationForEquifaxUSA().getDateOfBirth()));
+        assertThat("Signer information (Home Phone number) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber(), is(apiKBA.getSignerInformationForEquifaxUSA().getHomePhoneNumber()));
+        assertThat("Signer information (Driver's license) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getDriversLicenseNumber(), is(apiKBA.getSignerInformationForEquifaxUSA().getDriversLicenseNumber()));
+        assertThat("Signer information (Time at address) for Equifax USA was not correctly set", sdkKBA.getSignerInformationForEquifaxUSA().getTimeAtAddress(), is(apiKBA.getSignerInformationForEquifaxUSA().getTimeAtAddress()));
     }
 
     /**
@@ -131,20 +145,21 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
 
         sdkKBA = new KnowledgeBasedAuthentication();
         sdkKBA.setKnowledgeBasedAuthenticationStatus(com.silanis.esl.sdk.KnowledgeBasedAuthenticationStatus.NOT_YET_ATTEMPTED);
-        sdkKBA.setSignerInformationForLexisNexis(null);
+        sdkKBA.setSignerInformationForEquifaxCanada(null);
 
-        SignerInformationForLexisNexis sdkSignerInfoLexisNexis = new SignerInformationForLexisNexis();
-        sdkSignerInfoLexisNexis.setFirstName(FIRST_NAME);
-        sdkSignerInfoLexisNexis.setLastName(LAST_NAME);
-        sdkSignerInfoLexisNexis.setFlatOrApartmentNumber(FLAT_OR_APARTMEN_TNUMBER);
-        sdkSignerInfoLexisNexis.setHouseName(HOUSENAME);
-        sdkSignerInfoLexisNexis.setHouseNumber(HOUSENUMBER);
-        sdkSignerInfoLexisNexis.setCity(CITY);
-        sdkSignerInfoLexisNexis.setZip(ZIP);
-        sdkSignerInfoLexisNexis.setState(STATE);
-        sdkSignerInfoLexisNexis.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER);
-        sdkSignerInfoLexisNexis.setDateOfBirth(DATE_OF_BIRTH);
-        sdkKBA.setSignerInformationForLexisNexis(sdkSignerInfoLexisNexis);
+        SignerInformationForEquifaxUSA sdkSignerInfoUSA = new SignerInformationForEquifaxUSA();
+        sdkSignerInfoUSA.setFirstName(FIRST_NAME_FOR_USA);
+        sdkSignerInfoUSA.setLastName(LAST_NAME_FOR_USA);
+        sdkSignerInfoUSA.setStreetAddress(STREET_ADDRESS_FOR_USA);
+        sdkSignerInfoUSA.setCity(CITY_FOR_USA);
+        sdkSignerInfoUSA.setZip(ZIP_FOR_USA);
+        sdkSignerInfoUSA.setState(STATE_FOR_USA);
+        sdkSignerInfoUSA.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER_FOR_USA);
+        sdkSignerInfoUSA.setDateOfBirth(DATE_OF_BIRTH_FOR_USA);
+        sdkSignerInfoUSA.setHomePhoneNumber(HOME_PHONE_NUMBER_FOR_USA);
+        sdkSignerInfoUSA.setDriversLicenseNumber(DRIVERS_LICENSE_NUMBER_NUMBER_FOR_USA);
+        sdkSignerInfoUSA.setTimeAtAddress(TIME_AT_ADDRESS_FOR_USA);
+        sdkKBA.setSignerInformationForEquifaxUSA(sdkSignerInfoUSA);
 
         return sdkKBA;
     }
@@ -158,20 +173,21 @@ public class KnowledgeBasedAuthenticationConverterTest implements ConverterTest 
         apiKBA = new com.silanis.esl.api.model.KnowledgeBasedAuthentication();
 
         apiKBA.setKnowledgeBasedAuthenticationStatus("NOT_YET_ATTEMPTED");
-        apiKBA.setSignerInformationForLexisNexis(null);
+        apiKBA.setSignerInformationForEquifaxUSA(null);
 
-        com.silanis.esl.api.model.SignerInformationForLexisNexis apiSignerInfoCanada = new com.silanis.esl.api.model.SignerInformationForLexisNexis();
-        apiSignerInfoCanada.setFirstName(FIRST_NAME);
-        apiSignerInfoCanada.setLastName(LAST_NAME);
-        apiSignerInfoCanada.setFlatOrApartmentNumber(FLAT_OR_APARTMEN_TNUMBER);
-        apiSignerInfoCanada.setHouseName(HOUSENAME);
-        apiSignerInfoCanada.setHouseNumber(HOUSENUMBER);
-        apiSignerInfoCanada.setCity(CITY);
-        apiSignerInfoCanada.setZip(ZIP);
-        apiSignerInfoCanada.setState(STATE);
-        apiSignerInfoCanada.setSocialSecurityNumber(SOCIAL_SECURITY_NUMBER);
-        apiSignerInfoCanada.setDateOfBirth(DATE_OF_BIRTH);
-        apiKBA.setSignerInformationForLexisNexis(apiSignerInfoCanada);
+        com.silanis.esl.api.model.SignerInformationForEquifaxCanada apiSignerInfoCanada = new com.silanis.esl.api.model.SignerInformationForEquifaxCanada();
+        apiSignerInfoCanada.setFirstName(FIRST_NAME_FOR_CANADA);
+        apiSignerInfoCanada.setLastName(LAST_NAME_FOR_CANADA);
+        apiSignerInfoCanada.setStreetAddress(STREET_ADDRESS_FOR_CANADA);
+        apiSignerInfoCanada.setCity(CITY_FOR_CANADA);
+        apiSignerInfoCanada.setPostalCode(POSTAL_CODE_FOR_CANADA);
+        apiSignerInfoCanada.setProvince(PROVINCE_FOR_CANADA);
+        apiSignerInfoCanada.setTimeAtAddress(TIME_AT_ADDRESS_FOR_CANADA);
+        apiSignerInfoCanada.setDateOfBirth(DATE_OF_BIRTH_FOR_CANADA);
+        apiSignerInfoCanada.setDriversLicenseNumber(DRIVERS_LICENSE_NUMBER_FOR_CANADA);
+        apiSignerInfoCanada.setSocialInsuranceNumber(SOCIAL_INSURANCE_NUMBER_FOR_CANADA);
+        apiSignerInfoCanada.setHomePhoneNumber(HOME_PHONE_NUMBER_FOR_CANADA);
+        apiKBA.setSignerInformationForEquifaxCanada(apiSignerInfoCanada);
 
         return apiKBA;
     }
