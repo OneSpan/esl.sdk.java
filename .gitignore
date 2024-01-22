@@ -12,4 +12,5 @@ target
 /bin
 /*.pdf
 /tester/*.pdf
+/tester/src/test/resources/signers.properties
 /tester/src/test/resources/signers.properties.*
