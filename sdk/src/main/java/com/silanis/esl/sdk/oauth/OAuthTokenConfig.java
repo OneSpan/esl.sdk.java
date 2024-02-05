@@ -29,13 +29,7 @@ public class OAuthTokenConfig {
     }
 
     public String getAuthenticationURL() {
-        String url= String.format("%s?grant_type=%s",getAuthenticationServer(), getGrantType());
-
-        if (StringUtils.isNotEmpty(getScope()) && StringUtils.isNotBlank(getScope())) {
-            url = String.format("%s&%s", url, getScope());
-        }
-
-        return url;
+        return String.format("%s?grant_type=%s",getAuthenticationServer(), getGrantType());
     }
 
 
@@ -79,7 +73,7 @@ public class OAuthTokenConfig {
                 "authenticationServerUrl", authenticationServer,
                 "scope", scope,
                 "clientId'", clientId,
-                "clientSecret", clientSecret,
+                "clientSecret", "*********",
                 "tokenType", tokenType,
                 "senderEmail", senderEmail);
     }
@@ -103,7 +97,7 @@ public class OAuthTokenConfig {
 
         public Builder() {
             tokenType = TokenType.OWNER;
-            scope = "user.read, user.write";
+            scope = "user.read,user.write";
             grantType ="client_credentials";
         }
 
@@ -134,9 +128,13 @@ public class OAuthTokenConfig {
         }
 
         public Builder withScope(String scope) {
-            this.scope = scope;
+            if  (StringUtils.isNotBlank(scope)) {
+                this.scope = scope;
+            }
             return this;
         }
+
+
         public OAuthTokenConfig build() {
             Asserts.notNullOrEmpty(baseUrl, "baseUrl");
             Asserts.notNullOrEmpty(clientId, "clientId");
