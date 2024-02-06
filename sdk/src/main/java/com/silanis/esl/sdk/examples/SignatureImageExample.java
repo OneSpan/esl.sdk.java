@@ -26,7 +26,7 @@ public class SignatureImageExample extends SDKSample {
                 .withFirstName("John1")
                 .withLastName("Smith1").build();
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .withSigner(signer1)
                 .withDocument(newDocumentWithName("First Document")
                                       .fromStream(documentInputStream1, DocumentType.PDF)

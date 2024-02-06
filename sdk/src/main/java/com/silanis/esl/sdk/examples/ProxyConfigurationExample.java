@@ -49,7 +49,7 @@ public class ProxyConfigurationExample extends SDKSample {
         HttpProxyServer httpProxyServer = bootstrap().withPort(proxyPort).start();
 
         DocumentPackage package1 = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
@@ -73,7 +73,7 @@ public class ProxyConfigurationExample extends SDKSample {
         HttpProxyServer httpProxyWithCredentialsServer = startHttpProxyWithCredentials(proxyWithCredentialsPort);
 
         DocumentPackage package2 = newPackageNamed("ProxyConfigurationExample2 " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .expiresAt(now().plusMonths(1).toDate())
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)

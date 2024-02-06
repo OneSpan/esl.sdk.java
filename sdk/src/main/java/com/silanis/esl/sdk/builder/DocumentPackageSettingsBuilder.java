@@ -237,7 +237,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Enables the option to stamp the signed documents with the eSignLive logo at each location they were signed.
+     * Enables the option to stamp the signed documents with OneSpan Sign logo at each location they were signed.
      * <p>
      * DEFAULT: ENABLED
      * <p>
@@ -251,7 +251,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Disables the option to stamp the signed documents with the eSignLive logo at each location they were signed.
+     * Disables the option to stamp the signed documents with OneSpan Sign logo at each location they were signed.
      *
      * @return This
      * @see #withWatermark()
@@ -358,7 +358,7 @@ public class DocumentPackageSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      *
-     * @param text text displayed to represent the handoverlink href on the eSignLive UI. @size(max="255")
+     * @param text text displayed to represent the handoverlink href on OneSpan Sign UI. @size(max="255")
      * @return This
      * @see #withHandOverLinkHref(String)
      */
@@ -437,7 +437,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      *
      * @param tooltip text displayed to represent the handoverlink href tool tip on
-     *                the eSignLive UI. @size(max="255")
+     *                OneSpan Sign UI. @size(max="255")
      * @return This
      * @see #withHandOverLinkHref(String)
      */
@@ -489,7 +489,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Set eSignLive signing ceremony branding and customization options.
+     * Set OneSpan Sign signing ceremony branding and customization options.
      *
      * @param ceremonyLayoutSettingsBuilder
      * @return This
@@ -499,7 +499,7 @@ public class DocumentPackageSettingsBuilder {
     }
 
     /**
-     * Set eSignLive signing ceremony branding and customization options.
+     * Set OneSpan Sign signing ceremony branding and customization options.
      *
      * @param ceremonyLayoutSettings
      * @return This

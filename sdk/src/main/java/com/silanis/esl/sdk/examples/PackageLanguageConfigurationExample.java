@@ -23,7 +23,7 @@ public class PackageLanguageConfigurationExample extends SDKSample {
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .withLanguage(LANGUAGE)
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")

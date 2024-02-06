@@ -363,7 +363,7 @@ final public class SignatureBuilder {
     }
 
     /**
-     * Enables signature extraction. Indicates to the eSignLive document engine
+     * Enables signature extraction. Indicates to OneSpan Sign document engine
      * to position and size this signature block based on the size and
      * coordinates of the corresponding PDF form field.
      * {@link #withName(String)}.

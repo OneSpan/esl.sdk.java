@@ -25,7 +25,7 @@ public class SignDocumentsExample extends SDKSample {
     public void execute() {
         CapturedSignature capturedSignature = new CapturedSignature("AQAAAIPGDPtxqL+RsL7/w/7eEX+cAtwAAwADAFAAAAADAAAAnALcACMAAAACq5ZQg105VH9Z/1l+UM9QF3A0v3BEv2BmYYFgSGAYQBZAJkA0QDVAREBmQENAQ0BRUJFQg1CDUFKbQENASUBGQERFUA==");
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .withSigner(newSignerWithEmail(email1)
                         .withCustomId(signer1Id)
                         .withFirstName("John1")

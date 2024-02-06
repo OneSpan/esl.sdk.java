@@ -69,7 +69,7 @@ public class ApplyLayoutByNameExample extends SDKSample {
 
         // Create a new package to apply document layout to
         DocumentPackage packageFromLayout = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1)
                         .withCustomId("Client1")

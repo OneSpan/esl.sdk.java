@@ -21,7 +21,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class ListTemplatesExample extends SDKSample {
 
-    public static final String TEMPLATE_DESCRIPTION = "This is a template created using the eSignLive SDK";
+    public static final String TEMPLATE_DESCRIPTION = "This is a template created using OneSpan Sign SDK";
     public static final String TEMPLATE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER_FIRST = "John";
     public static final String TEMPLATE_SIGNER_LAST = "Smith";
