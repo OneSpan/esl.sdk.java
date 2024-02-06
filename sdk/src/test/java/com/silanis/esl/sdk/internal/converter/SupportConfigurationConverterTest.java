@@ -95,14 +95,14 @@ public class SupportConfigurationConverterTest implements ConverterTest {
 
     private com.silanis.esl.sdk.SupportConfiguration createTypicalSDKSupportConfiguration() {
         SupportConfiguration sdkSupportConfiguration = new SupportConfiguration();
-        sdkSupportConfiguration.setEmail(UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com");
+        sdkSupportConfiguration.setEmail(UUID.randomUUID().toString().replace("-", "") + "@simulator.amazonses.com");
         sdkSupportConfiguration.setPhone("sdkPhone");
         return sdkSupportConfiguration;
     }
 
     private com.silanis.esl.api.model.SupportConfiguration createTypicalAPISupportConfiguration() {
         com.silanis.esl.api.model.SupportConfiguration apiSupportConfiguration = new com.silanis.esl.api.model.SupportConfiguration();
-        apiSupportConfiguration.setEmail(UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com");
+        apiSupportConfiguration.setEmail(UUID.randomUUID().toString().replace("-", "") + "@simulator.amazonses.com");
         apiSupportConfiguration.setPhone("apiPhone");
         return apiSupportConfiguration;
     }

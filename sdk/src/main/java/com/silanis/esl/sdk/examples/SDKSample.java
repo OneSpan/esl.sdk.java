@@ -98,6 +98,6 @@ public abstract class SDKSample {
     }
 
     protected String getRandomEmail() {
-        return UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com";
+        return UUID.randomUUID().toString().replace("-", "") + "@simulator.amazonses.com";
     }
 }

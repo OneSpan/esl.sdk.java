@@ -20,7 +20,7 @@ public class DocumentRetrievalExample extends SDKSample {
 
         String documentId = "myDocumentId";
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package with a document workflow created using the eSignLive SDK")
+                .describedAs("This is a package with a document workflow created using OneSpan Sign SDK")
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John")
                         .withLastName("Smith"))

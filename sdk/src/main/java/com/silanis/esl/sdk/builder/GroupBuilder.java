@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * <p>GroupBuilder is a convenient class to used to define groups of senders for a given eSignLive account.</p>
+ * <p>GroupBuilder is a convenient class to used to define groups of senders for a given OneSpan Sign account.</p>
  */
 public class GroupBuilder {
     private GroupId id;
@@ -71,7 +71,7 @@ public class GroupBuilder {
     }
 
     /**
-     * When setting this method, eSignLive will email each individual members of the group as opposed to
+     * When setting this method, OneSpan Sign will email each individual members of the group as opposed to
      * sending an email to the group email address.
      * <p>
      * @see #withEmail(String)
@@ -83,7 +83,7 @@ public class GroupBuilder {
     }
 
     /**
-     * Invoking this method will result in eSignLive sending emails to the group email {@link #withEmail(String)}
+     * Invoking this method will result in OneSpan Sign sending emails to the group email {@link #withEmail(String)}
      * address as opposed to each individual members.
      * <p>
      * @see #withIndividualMemberEmailing()

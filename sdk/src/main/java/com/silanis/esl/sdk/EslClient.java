@@ -32,9 +32,9 @@ import java.util.Map;
 import static java.util.Arrays.asList;
 
 /**
- * <p>The EslClient class creates a eSignLive client with the given api token and base url.</p>
+ * <p>The EslClient class creates a OneSpan Sign client with the given api token and base url.</p>
  * <p>The base url can be the staging or production url.</p>
- * <p>For example: http://sandbox.esignlive.com/api</p>
+ * <p>For example: <a href="https://sandbox.esignlive.com/api">...</a></p>
  * <p/>
  * <p>Provides access to service classes such as PackageService to help create packages.</p>
  */
@@ -78,7 +78,7 @@ public class EslClient {
      * The constructor of the EslClient class
      *
      * @param apiKey  the api key token
-     * @param baseURL the eSignLive base url
+     * @param baseURL the OneSpan Sign base url
      */
     public EslClient(String apiKey, String baseURL) {
         Asserts.notNullOrEmpty(apiKey, API_KEY);
@@ -93,8 +93,8 @@ public class EslClient {
      * The constructor of the EslClient class
      *
      * @param apiKey     the api key token
-     * @param baseURL    the eSignLive base url
-     * @param webpageURL the eSignLive web page url
+     * @param baseURL    the OneSpan Sign base url
+     * @param webpageURL the OneSpan Sign web page url
      */
     public EslClient(String apiKey, String baseURL, String webpageURL) {
         this(apiKey, baseURL, webpageURL, false);
@@ -321,7 +321,6 @@ public class EslClient {
         if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
-        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         PackageId id = packageService.createPackage(packageToCreate);
 
@@ -346,7 +345,6 @@ public class EslClient {
         if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
-        validateSignatures(documentPackage);
         packageService.updatePackage(packageId, documentPackage);
     }
 
@@ -393,7 +391,6 @@ public class EslClient {
         if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
-        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         for (Document document : documentPackage.getDocuments()) {
             com.silanis.esl.api.model.Document apiDocument = new DocumentConverter(document).toAPIDocument(packageToCreate);
@@ -418,7 +415,6 @@ public class EslClient {
         if (!isSdkVersionSet(documentPackage)) {
             setSdkVersion(documentPackage);
         }
-        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         for (Document document : documentPackage.getDocuments()) {
             com.silanis.esl.api.model.Document apiDocument = new DocumentConverter(document).toAPIDocument(packageToCreate);
@@ -518,44 +514,6 @@ public class EslClient {
     }
 
     /**
-     * Validate Signatures in a documentPackage
-     *
-     * @param documentPackage
-     */
-    private void validateSignatures(DocumentPackage documentPackage) {
-        for (Document document : documentPackage.getDocuments()) {
-            validateMixingSignatureAndAcceptance(document);
-        }
-    }
-
-    /**
-     * Validate Mixing Signature And Acceptance in one document
-     *
-     * @param document
-     */
-    private void validateMixingSignatureAndAcceptance(Document document) {
-        if (checkAcceptanceSignatureStyle(document)) {
-            for (Signature signature : document.getSignatures()) {
-                if (signature.getStyle() != SignatureStyle.ACCEPTANCE)
-                    throw new EslException("It is not allowed to use acceptance signature styles and other signature styles together in one document.");
-            }
-        }
-    }
-
-    /**
-     * Check whether there are Acceptance Signature Style in a document or not
-     *
-     * @param document
-     */
-    private boolean checkAcceptanceSignatureStyle(Document document) {
-        for (Signature signature : document.getSignatures()) {
-            if (signature.getStyle() == SignatureStyle.ACCEPTANCE)
-                return true;
-        }
-        return false;
-    }
-
-    /**
      * Sets the document package to the sdk current version
      *
      * @param documentPackage
@@ -606,7 +564,6 @@ public class EslClient {
      * @return the package ID
      */
     public PackageId createPackageFromTemplate(PackageId packageId, DocumentPackage documentPackage) {
-        validateSignatures(documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
         return packageService.createPackageFromTemplate(packageId, packageToCreate);
     }

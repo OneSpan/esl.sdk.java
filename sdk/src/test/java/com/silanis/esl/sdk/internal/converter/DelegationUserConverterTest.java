@@ -100,7 +100,7 @@ public class DelegationUserConverterTest implements ConverterTest {
     }
 
     private com.silanis.esl.sdk.DelegationUser createTypicalSDKDelegationUser() {
-        return DelegationUserBuilder.newDelegationUser(UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com")
+        return DelegationUserBuilder.newDelegationUser(UUID.randomUUID().toString().replace("-", "") + "@simulator.amazonses.com")
                 .withId("sdkId")
                 .withFirstName("sdkFirstName")
                 .withLastName("sdkLastName")
@@ -112,7 +112,7 @@ public class DelegationUserConverterTest implements ConverterTest {
         com.silanis.esl.api.model.DelegationUser apiDelegationUser = new com.silanis.esl.api.model.DelegationUser();
         apiDelegationUser.setId("apiId");
         apiDelegationUser.setName("apiName");
-        apiDelegationUser.setEmail(UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com");
+        apiDelegationUser.setEmail(UUID.randomUUID().toString().replace("-", "") + "@simulator.amazonses.com");
         apiDelegationUser.setFirstName("apiFirstName");
         apiDelegationUser.setLastName("apiLastName");
 
