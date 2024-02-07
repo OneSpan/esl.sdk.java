@@ -7,7 +7,7 @@ import com.silanis.esl.sdk.SenderStatus;
 
 /**
  * AccountMemberBuilder is a convenience class to define individual that will be
- * added programmatically to the eSignLive account
+ * added programmatically to OneSpan Sign account
  */
 public class AccountMemberBuilder {
 

@@ -22,7 +22,7 @@ public class GetPackageExample extends SDKSample {
     @Override
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs( "This is a package created using the eSignLive SDK" )
+                .describedAs( "This is a package created using OneSpan Sign SDK" )
                 .expiresAt( now().plusMonths( 1 ).toDate() )
                 .withEmailMessage( "This message should be delivered to all signers" )
                 .withSigner( newSignerWithEmail( email1 )

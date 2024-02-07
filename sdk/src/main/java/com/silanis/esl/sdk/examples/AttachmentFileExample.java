@@ -59,7 +59,7 @@ public class AttachmentFileExample extends SDKSample {
 
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .withSigner(signer)
                 .withDocument(DocumentBuilder.newDocumentWithName("test document")
                         .fromStream(documentInputStream1, DocumentType.PDF)

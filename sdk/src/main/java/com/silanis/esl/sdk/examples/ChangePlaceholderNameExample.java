@@ -22,7 +22,7 @@ public class ChangePlaceholderNameExample extends SDKSample {
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
     public static final String TEMPLATE_NAME = "ChangePlaceholderNameExample Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String TEMPLATE_DESCRIPTION = "This is a template created using the eSignLive SDK";
+    public static final String TEMPLATE_DESCRIPTION = "This is a template created using OneSpan Sign SDK";
     public static final String TEMPLATE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER_FIRST = "John";
     public static final String TEMPLATE_SIGNER_LAST = "Smith";

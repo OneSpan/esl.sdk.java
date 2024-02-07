@@ -27,7 +27,7 @@ public class CreateSenderTemplateExample extends SDKSample {
     public void execute() {
 
         DocumentPackage superDuperPackage = PackageBuilder.newPackageNamed(getPackageName())
-                .describedAs("This is a Template created using the eSignLive SDK")
+                .describedAs("This is a Template created using OneSpan Sign SDK")
                 .withVisibility(visibility)
                 .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(SignerBuilder.newSignerWithEmail(email1)

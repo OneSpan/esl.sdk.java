@@ -53,7 +53,7 @@ public class DocumentVisibilityExample extends SDKSample {
         documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
 
         DocumentPackage superDuperPackage = newPackageNamed("DocumentVisibilityExample " + new SimpleDateFormat("HH:mm:ss").format(new Date()))
-            .describedAs("This is a package created using the e-SignLive SDK")
+            .describedAs("This is a package created using OneSpan Sign SDK")
             .withSigner(newSignerWithEmail(email1)
                             .withCustomId(SIGNER1_ID)
                             .withFirstName("John1")

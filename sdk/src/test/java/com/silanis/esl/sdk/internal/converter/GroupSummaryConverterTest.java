@@ -100,7 +100,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
     }
 
     private com.silanis.esl.sdk.GroupSummary createTypicalSDKGroupSummary() {
-        return GroupSummaryBuilder.newGroupSummary(UUID.randomUUID().toString().replace("-","") + "@e-signlive.com")
+        return GroupSummaryBuilder.newGroupSummary(UUID.randomUUID().toString().replace("-","") + "@simulator.amazonses.com")
                                   .withId("sdkId")
                                   .withName("sdkName")
                                   .withData(new HashMap<String, Object>() {{
@@ -113,7 +113,7 @@ public class GroupSummaryConverterTest implements ConverterTest {
         com.silanis.esl.api.model.GroupSummary apiGroupSummary = new com.silanis.esl.api.model.GroupSummary();
         apiGroupSummary.setName("apiName");
         apiGroupSummary.setId("apiId");
-        apiGroupSummary.setEmail(UUID.randomUUID().toString().replace("-", "") + "@e-signlive.com");
+        apiGroupSummary.setEmail(UUID.randomUUID().toString().replace("-", "") + "@simulator.amazonses.com");
         apiGroupSummary.setData(new HashMap<String, Object>() {{
             put("apiDataKey", "apiDataValue");
         }});

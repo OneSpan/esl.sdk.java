@@ -21,7 +21,7 @@ public class BrandingBarConfigurationExample extends SDKSample {
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs( "This is a package created using the eSignLive SDK" )
+                .describedAs( "This is a package created using OneSpan Sign SDK" )
                 .withSettings( newDocumentPackageSettings()
                         .withoutOptOut()
                         .withoutDocumentToolbarDownloadButton()

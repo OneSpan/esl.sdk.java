@@ -30,7 +30,7 @@ public class TextTagsExample extends SDKSample {
         documentInputStream3 = this.getClass().getClassLoader().getResourceAsStream("document_with_text_tag_and_form_field.pdf");
 
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-                .describedAs("This is a package created using the eSignLive SDK")
+                .describedAs("This is a package created using OneSpan Sign SDK")
                 .withSigner(newSignerWithEmail(email1)
                         .withCustomId("role1")
                         .withFirstName("John1")

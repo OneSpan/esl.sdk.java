@@ -29,7 +29,7 @@ public class CreatePackageFromTemplateWithFieldsExample extends SDKSample {
     public static final String DOCUMENT_NAME = "First Document";
     public static final String DOCUMENT_ID = "doc1";
     public static final String TEMPLATE_NAME = "CreatePackageFromTemplateWithFieldsExample Template: " + new SimpleDateFormat("HH:mm:ss").format(new Date());
-    public static final String PACKAGE_DESCRIPTION = "This is a package created using the eSignLive SDK";
+    public static final String PACKAGE_DESCRIPTION = "This is a package created using OneSpan Sign SDK";
     public static final String PACKAGE_EMAIL_MESSAGE = "This message should be delivered to all signers";
     public static final String TEMPLATE_SIGNER1_FIRST = "John";
     public static final String TEMPLATE_SIGNER1_LAST = "Smith";

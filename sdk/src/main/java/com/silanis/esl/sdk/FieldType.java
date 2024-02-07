@@ -16,7 +16,7 @@ public class FieldType extends EslEnumeration {
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
-     * by new versions of eSignLive. If you need access to those new values, you should upgrade your SDK version.
+     * by new versions of OneSpan Sign. If you need access to those new values, you should upgrade your SDK version.
      * @deprecated Please upgrade your SDK version to support new types in this enumeration.
      */
     @Deprecated

@@ -72,8 +72,8 @@ public abstract class Client {
 
     protected SSLConnectionSocketFactory buildSSLSocketFactory() throws HttpException {
 
-        //Disabling all checks that SSL certificate is valid. We are actually calling eSignLive anyways.
-        //Our client library should implicitly trust our eSignLive server. This also allows testing against
+        //Disabling all checks that SSL certificate is valid. We are actually calling OneSpan Sign anyways.
+        //Our client library should implicitly trust our OneSpan Sign server. This also allows testing against
         //server with Self-signed certificates.
         try {
             SSLContext sslContext = SSLContext.getInstance("SSL");
