@@ -16,13 +16,8 @@ import java.util.*;
 import com.silanis.esl.sdk.oauth.OAuthAccessToken;
 import com.silanis.esl.sdk.oauth.OAuthTokenConfig;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Consts;
-import org.apache.http.Header;
-import org.apache.http.HttpException;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
+import org.apache.http.*;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -32,6 +27,7 @@ import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -264,6 +260,12 @@ public class RestClient extends Client {
             HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
             request.setHeader("Authorization",
                     "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(), oauthTokenConfig.getClientSecret()).getBytes()));
+
+            String scope = oauthTokenConfig.getScope();
+            if (StringUtils.isNotBlank(scope)) {
+                request.setEntity(new StringEntity("scope= " + scope));
+            }
+
             CloseableHttpClient client = getHttpClient(request);
             HttpResponse httpResponse = client.execute(request);
             if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
