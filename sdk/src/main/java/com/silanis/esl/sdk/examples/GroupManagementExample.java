@@ -24,6 +24,9 @@ public class GroupManagementExample extends SDKSample {
 
     public static final String GROUP_NAME_PREFIX = "GROUP_";
     public static final String EMAIL = "bob@aol.com";
+    public final String UPDATED_EMAIL = "bob1@aol.com";
+
+    public String updatedGroupName3;
 
     public Group createdGroup1;
     public Group retrievedGroup1;
@@ -38,19 +41,6 @@ public class GroupManagementExample extends SDKSample {
 
     public static void main( String... args ) {
         new GroupManagementExample().run();
-    }
-
-    private void displayAccountGroupsAndMembers() {
-        {
-            List<Group> allGroups = eslClient.getGroupService().getMyGroups();
-            for ( Group group : allGroups ) {
-                System.out.println( group.getName() + " with email " + group.getEmail() + " and id " + group.getId() );
-                List<GroupMember> allMembers = eslClient.getGroupService().getGroupMembers( group.getId() );
-                for ( GroupMember member : allMembers ) {
-                    System.out.println( member.getGroupMemberType().toString() + " " + member.getFirstName() + " " + member.getLastName() + " with email " + member.getEmail());
-                }
-            }
-        }
     }
 
     private void inviteAccountMember( String email ) {
@@ -103,15 +93,6 @@ public class GroupManagementExample extends SDKSample {
         // Retrieve by group name
         retrievedGroupByName1 = eslClient.getGroupService().getMyGroups(groupName);
 
-        // Inviting members with the two different calls
-        // addMember returns the group member while inviteMember returns the group itself
-        GroupMember groupMemberAdded = eslClient.getGroupService().addMember(createdGroup1.getId(), GroupMemberBuilder.newGroupMember(email3)
-                .as(GroupMemberType.MANAGER)
-                .build());
-        Group groupMemberInvited = eslClient.getGroupService().inviteMember(createdGroup1.getId(), GroupMemberBuilder.newGroupMember(email4)
-                .as(GroupMemberType.MANAGER)
-                .build());
-
         groupName = UUID.randomUUID().toString();
         Group group2 = GroupBuilder.newGroup( GROUP_NAME_PREFIX + groupName )
                 .withMember( GroupMemberBuilder.newGroupMember( email2 )
@@ -135,18 +116,21 @@ public class GroupManagementExample extends SDKSample {
         retrievedGroup3 = eslClient.getGroupService().getGroup(createdGroup3.getId());
         retrievedByNamePrefix  = eslClient.getGroupService().getMyGroups(GROUP_NAME_PREFIX);
 
-
         // This shows up how to update group 3
-        Group groupUpdated = GroupBuilder.newGroup( UUID.randomUUID().toString() )
-                .withMember( GroupMemberBuilder.newGroupMember( email2 )
-                        .as( GroupMemberType.MANAGER ) )
-                .withMember( GroupMemberBuilder.newGroupMember( email3 )
-                        .as( GroupMemberType.REGULAR ))
-                .withMember( GroupMemberBuilder.newGroupMember( email4 )
-                        .as( GroupMemberType.REGULAR ))
-                .withEmail( EMAIL )
+        updatedGroupName3 = UUID.randomUUID().toString();
+        Group groupUpdated = GroupBuilder.newGroup(updatedGroupName3)
+                .withEmail( UPDATED_EMAIL )
                 .withIndividualMemberEmailing()
                 .build();
+
+        // Inviting members with the two different calls
+        // addMember returns the group member while inviteMember returns the group itself
+        GroupMember groupMemberAdded = eslClient.getGroupService().addMember(createdGroup3.getId(), GroupMemberBuilder.newGroupMember(email3)
+                .as(GroupMemberType.MANAGER)
+                .build());
+        Group groupMemberInvited = eslClient.getGroupService().inviteMember(createdGroup3.getId(), GroupMemberBuilder.newGroupMember(email4)
+                .as(GroupMemberType.MANAGER)
+                .build());
 
         createdGroup3Updated = eslClient.getGroupService().updateGroup( groupUpdated , createdGroup3.getId() );
 
