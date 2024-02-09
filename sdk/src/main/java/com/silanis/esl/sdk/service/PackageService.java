@@ -389,6 +389,40 @@ public class PackageService {
     }
 
     /**
+     * Upload documents with base64 content to the package.
+     *
+     * @param packageId
+     */
+    public List<com.silanis.esl.sdk.Document> addDocumentWithBase64Content(String packageId, List<com.silanis.esl.sdk.Document> providerDocuments){
+        String path = template.urlFor(UrlTemplate.DOCUMENT_PATH)
+                .replace("{packageId}", packageId)
+                .build();
+
+        final Package apiPackage = getApiPackage(packageId);
+
+        List<Document> apiDocuments = new ArrayList<Document>();
+        for( com.silanis.esl.sdk.Document document : providerDocuments){
+            apiDocuments.add(new DocumentConverter(document).toAPIDocument(apiPackage));
+        }
+        try {
+            String json = Serialization.toJson(apiDocuments);
+            String response = client.post(path, json);
+            List<Document> uploadedDocuments = Serialization.fromJsonToList(response, Document.class);
+
+            return Lists.newArrayList(Iterables.transform(uploadedDocuments, new Function<Document, com.silanis.esl.sdk.Document>() {
+                @Override
+                public com.silanis.esl.sdk.Document apply(final Document input) {
+                    return new DocumentConverter(input, getApiPackage(packageId)).toSDKDocument();
+                }
+            }));
+        } catch (RequestException e) {
+            throw new EslServerException("Could not upload the documents.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not upload the documents." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Deletes the document from the package.
      *
      * @param packageId
