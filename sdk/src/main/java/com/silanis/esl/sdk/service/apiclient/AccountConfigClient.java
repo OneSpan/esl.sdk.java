@@ -19,6 +19,7 @@ import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
+import com.silanis.esl.sdk.internal.converter.SignatureLayoutConverter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -540,6 +541,38 @@ public class AccountConfigClient {
             throw new EslServerException("Could not delete the account system settings.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the account system settings.", e);
+        }
+    }
+
+    /**
+     * Get account signature layout.
+     *
+     */
+    public com.silanis.esl.sdk.SignatureLayout getAccountSignatureLayout() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNATURE_LAYOUT_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new SignatureLayoutConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.SignatureLayout.class)).toSDKSignatureLayout();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account signature layout.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account signature layout.", e);
+        }
+    }
+
+    /**
+     * Save account signature layout.
+     *
+     */
+    public void saveAccountSignatureLayout(com.silanis.esl.sdk.SignatureLayout signatureLayout) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNATURE_LAYOUT_PATH).build();
+        String payload = JacksonUtil.serialize(signatureLayout);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account signature layout.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account signature layout.", e);
         }
     }
 }
