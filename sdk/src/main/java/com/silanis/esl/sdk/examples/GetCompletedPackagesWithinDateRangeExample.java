@@ -5,6 +5,7 @@ import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.Date;
 
@@ -13,8 +14,8 @@ import java.util.Date;
  */
 public class GetCompletedPackagesWithinDateRangeExample extends SDKSample {
 
-    public static final Date START_DATE = new DateTime().toDate();
-    public static final Date END_DATE = new DateTime().toDate();
+    public static final Date START_DATE = new DateTime(DateTimeZone.UTC).toDate();
+    public static final Date END_DATE = new DateTime(DateTimeZone.UTC).toDate();
 
     public Page<DocumentPackage> draftPackages;
     public Page<DocumentPackage> sentPackages;
