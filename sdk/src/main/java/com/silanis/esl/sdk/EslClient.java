@@ -729,6 +729,14 @@ public class EslClient {
         }
     }
 
+    public List<Document> uploadDocumentsWithBase64Content(PackageId packageId, List<Document> documents) {
+        if (documents.isEmpty()) {
+            return Collections.emptyList();
+        } else {
+            return packageService.addDocumentWithBase64Content(packageId.getId(), documents);
+        }
+    }
+
     /**
      * @deprecated Please use uploadDocument(Document document, PackageId packageId) instead of this method.
      */
