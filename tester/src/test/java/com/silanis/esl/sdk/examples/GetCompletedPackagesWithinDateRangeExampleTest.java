@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.examples;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Page;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import java.util.Date;
@@ -31,8 +32,8 @@ public class GetCompletedPackagesWithinDateRangeExampleTest {
 
     private void assertEqualsPackageUpdatedDate(Page<DocumentPackage> packages, Date startDate, Date endDate) {
         for(DocumentPackage draftPackage : packages) {
-            assertThat(draftPackage.getUpdatedDate(), greaterThanOrEqualTo(new DateTime(startDate).withTimeAtStartOfDay().toDate()));
-            assertThat(draftPackage.getUpdatedDate(), lessThan(new DateTime(endDate).plusDays(1).withTimeAtStartOfDay().toDate()));
+            assertThat(draftPackage.getUpdatedDate(), greaterThanOrEqualTo(new DateTime(startDate, DateTimeZone.UTC).withTimeAtStartOfDay().toDate()));
+            assertThat(draftPackage.getUpdatedDate(), lessThan(new DateTime(endDate, DateTimeZone.UTC).plusDays(1).withTimeAtStartOfDay().toDate()));
         }
     }
 }
