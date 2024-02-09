@@ -274,4 +274,21 @@ public class AccountConfigService {
     public void deleteAccountSystemSettingProperties() {
         apiClient.deleteAccountSystemSettingProperties();
     }
+
+    /**
+     * Get account signature layout.
+     *
+     */
+    public SignatureLayout getAccountSignatureLayout() {
+        return apiClient.getAccountSignatureLayout();
+    }
+
+    /**
+     * Save account signature layout.
+     *
+     */
+    public void saveAccountSignatureLayout(SignatureLayout signatureLayout) {
+        apiClient.saveAccountSignatureLayout(signatureLayout);
+    }
+
 }
