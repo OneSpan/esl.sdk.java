@@ -12,12 +12,15 @@ public class PackageSettings extends Settings
     // Dirty Flag Constants
     @JsonIgnore
     public static final String FIELD_CEREMONY = "ceremony";
+    @JsonIgnore
+    public static final String FIELD_INTEGRATION_FRAMEWORK_WORKFLOWS = "integrationFrameworkWorkflows";
     
     // Empty Constructor
     public PackageSettings ( ) {}
     
     // Fields
     protected CeremonySettings _ceremony;
+    protected List<IntegrationFrameworkWorkflow> integrationFrameworkWorkflows = new ArrayList<>();
     
     // Accessors
         
@@ -39,6 +42,33 @@ public class PackageSettings extends Settings
     public CeremonySettings getCeremony(){
         return _ceremony;
     }
-    
-    
+
+    public PackageSettings setIntegrationFrameworkWorkflows(List<IntegrationFrameworkWorkflow> value) {
+        SchemaSanitizer.throwOnNull(FIELD_INTEGRATION_FRAMEWORK_WORKFLOWS, value);
+
+        this.integrationFrameworkWorkflows = value;
+        setDirty(FIELD_INTEGRATION_FRAMEWORK_WORKFLOWS);
+        return this;
+    }
+
+    @JsonIgnore
+    public PackageSettings safeSetIntegrationFrameworkWorkflows(List<IntegrationFrameworkWorkflow> value) {
+        if (value != null) {
+            this.setIntegrationFrameworkWorkflows(value);
+        }
+        return this;
+    }
+
+    public List<IntegrationFrameworkWorkflow> getIntegrationFrameworkWorkflows() {
+        return integrationFrameworkWorkflows;
+    }
+
+    public PackageSettings addIntegrationFrameworkWorkflow(IntegrationFrameworkWorkflow value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
+        this.integrationFrameworkWorkflows.add(value);
+        setDirty(FIELD_INTEGRATION_FRAMEWORK_WORKFLOWS);
+        return this;
+    }
 }

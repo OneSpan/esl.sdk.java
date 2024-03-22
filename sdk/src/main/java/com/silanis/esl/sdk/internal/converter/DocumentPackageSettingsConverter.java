@@ -4,9 +4,13 @@ import com.silanis.esl.api.model.CeremonyEventComplete;
 import com.silanis.esl.api.model.CeremonyEvents;
 import com.silanis.esl.api.model.CeremonySettings;
 import com.silanis.esl.api.model.DocumentToolbarOptions;
+import com.silanis.esl.api.model.IntegrationFrameworkWorkflow;
 import com.silanis.esl.api.model.Link;
 import com.silanis.esl.api.model.PackageSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: jessica
@@ -115,8 +119,14 @@ public class DocumentPackageSettingsConverter {
             ceremonySettings.setLayout(new CeremonyLayoutSettingsConverter(sdkPackageSettings.getCeremonyLayoutSettings()).toAPILayoutOptions());
         }
 
+        List<IntegrationFrameworkWorkflow> apiIntegrationFrameworkWorkflow = new ArrayList<>();
+        for (com.silanis.esl.sdk.IntegrationFrameworkWorkflow sdkIfWorkflow : sdkPackageSettings.getIntegrationFrameworkWorkflows()) {
+            apiIntegrationFrameworkWorkflow.add(IntegrationFrameworkWorkflowConverter.toAPI(sdkIfWorkflow));
+        }
+
         PackageSettings result = new PackageSettings();
         result.setCeremony(ceremonySettings);
+        result.setIntegrationFrameworkWorkflows(apiIntegrationFrameworkWorkflow);
 
         return result;
 
@@ -214,6 +224,12 @@ public class DocumentPackageSettingsConverter {
 
         if (apiPackageSettings.getCeremony().getShowNseLogoInIframe() != null)
             result.setShowNseLogoInIframe(apiPackageSettings.getCeremony().getShowNseLogoInIframe());
+
+        List<com.silanis.esl.sdk.IntegrationFrameworkWorkflow> integrationFrameworkWorkflowsSDK = new ArrayList<>();
+        for (IntegrationFrameworkWorkflow apiIfWorkflow : apiPackageSettings.getIntegrationFrameworkWorkflows()) {
+            integrationFrameworkWorkflowsSDK.add(IntegrationFrameworkWorkflowConverter.toSDK(apiIfWorkflow));
+        }
+        result.setIntegrationFrameworkWorkflows(integrationFrameworkWorkflowsSDK);
 
         result.setCeremonyLayoutSettings(new CeremonyLayoutSettingsConverter(apiPackageSettings.getCeremony().getLayout()).toSDKCeremonyLayoutSettings());
 
