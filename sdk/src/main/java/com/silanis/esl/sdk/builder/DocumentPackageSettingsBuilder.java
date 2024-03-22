@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.CeremonyLayoutSettings;
 import com.silanis.esl.sdk.DocumentPackageSettings;
+import com.silanis.esl.sdk.IntegrationFrameworkWorkflow;
 import com.silanis.esl.sdk.Link;
 import com.silanis.esl.sdk.internal.Asserts;
 
@@ -52,6 +53,7 @@ public class DocumentPackageSettingsBuilder {
     private Boolean expandLeftMenu = null;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
+    private List<IntegrationFrameworkWorkflow> integrationFrameworkWorkflows = new ArrayList<>();
 
     private DocumentPackageSettingsBuilder() {
     }
@@ -606,6 +608,7 @@ public class DocumentPackageSettingsBuilder {
         result.setExpandLeftMenu(expandLeftMenu);
         result.setShowNseOverview(showNseOverview);
         result.setShowNseLogoInIframe(showNseLogoInIframe);
+        result.getIntegrationFrameworkWorkflows().addAll(integrationFrameworkWorkflows);
 
         return result;
     }
@@ -736,6 +739,17 @@ public class DocumentPackageSettingsBuilder {
      */
     public DocumentPackageSettingsBuilder withoutEnforceCaptureSignature() {
         enforceCaptureSignature = false;
+        return this;
+    }
+
+    /**
+     * Set connector used for external archiving.
+     *
+     * @param ifWorkflow
+     * @return This
+     */
+    public DocumentPackageSettingsBuilder withIfWorkflow(IntegrationFrameworkWorkflow ifWorkflow) {
+        integrationFrameworkWorkflows.add(ifWorkflow);
         return this;
     }
 }
