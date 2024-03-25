@@ -200,6 +200,7 @@ public class UrlTemplate {
     public static final String HANDOVER_URL_PATH = "/accountConfig/handoverUrl/{language}";
     public static final String DECLINE_REASONS_URL_PATH = "/accountConfig/declineReasons/{language}";
     public static final String IDV_WORKFLOW_CONFIGS_PATH = "/accountConfig/idvWorkflowConfigs";
+    public static final String IF_WORKFLOW_CONFIGS_PATH = "/accountConfig/ifWorkflows";
 
     // Account SubAccount Service
     public static final String ACCOUNT_SUBACCOUNTS_PATH="/account/subaccounts";
