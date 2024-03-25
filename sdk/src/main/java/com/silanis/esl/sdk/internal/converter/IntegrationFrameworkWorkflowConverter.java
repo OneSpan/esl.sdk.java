@@ -3,6 +3,9 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.Connector;
 import com.silanis.esl.api.model.IntegrationFrameworkWorkflow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class IntegrationFrameworkWorkflowConverter {
 
     public static IntegrationFrameworkWorkflow toAPI(com.silanis.esl.sdk.IntegrationFrameworkWorkflow sdkIfWorkflow) {
@@ -25,5 +28,13 @@ public class IntegrationFrameworkWorkflowConverter {
         sdkIfWorkflow.setConnector(com.silanis.esl.sdk.Connector.valueOf(apiIfWorkflow.getConnector().getValue()));
 
         return sdkIfWorkflow;
+    }
+
+    public static List<com.silanis.esl.sdk.IntegrationFrameworkWorkflow> toSDKList(List<IntegrationFrameworkWorkflow> apiIfWorkflows) {
+        List<com.silanis.esl.sdk.IntegrationFrameworkWorkflow> sdkIfWorkflows = new ArrayList<>();
+        for (IntegrationFrameworkWorkflow apiIfWorkflow : apiIfWorkflows) {
+            sdkIfWorkflows.add(IntegrationFrameworkWorkflowConverter.toSDK(apiIfWorkflow));
+        }
+        return sdkIfWorkflows;
     }
 }
