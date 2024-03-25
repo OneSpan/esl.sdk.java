@@ -291,4 +291,11 @@ public class AccountConfigService {
         apiClient.saveAccountSignatureLayout(signatureLayout);
     }
 
+    /**
+     * Get account IfWorkflows configs.
+     *
+     */
+    public List<IntegrationFrameworkWorkflow> getAccountIfWorkflowsConfigs() {
+        return apiClient.getIfWorkflowsConfigs();
+    }
 }

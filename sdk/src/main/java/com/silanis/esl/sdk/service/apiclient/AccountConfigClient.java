@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.service.apiclient;
 
 import com.silanis.esl.api.model.Handover;
 import com.silanis.esl.api.model.IdvWorkflowConfiguration;
+import com.silanis.esl.api.model.IntegrationFrameworkWorkflow;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.AccountSettings;
 import com.silanis.esl.sdk.AccountPackageSettings;
@@ -19,6 +20,7 @@ import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
+import com.silanis.esl.sdk.internal.converter.IntegrationFrameworkWorkflowConverter;
 import com.silanis.esl.sdk.internal.converter.SignatureLayoutConverter;
 
 import java.util.Arrays;
@@ -573,6 +575,24 @@ public class AccountConfigClient {
             throw new EslServerException("Could not save the account signature layout.", e);
         } catch (Exception e) {
             throw new EslException("Could not save the account signature layout.", e);
+        }
+    }
+
+    /**
+     * Get account IfWorkflows configs.
+     *
+     */
+    public List<com.silanis.esl.sdk.IntegrationFrameworkWorkflow> getIfWorkflowsConfigs() {
+        String path = template.urlFor(UrlTemplate.IF_WORKFLOW_CONFIGS_PATH)
+                .build();
+        try {
+            String stringResponse = restClient.get(path);
+
+            return IntegrationFrameworkWorkflowConverter.toSDKList(Serialization.fromJsonToList(stringResponse, IntegrationFrameworkWorkflow.class));
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get IfWorkflows Configs.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get IfWorkflows Configs.", e);
         }
     }
 }

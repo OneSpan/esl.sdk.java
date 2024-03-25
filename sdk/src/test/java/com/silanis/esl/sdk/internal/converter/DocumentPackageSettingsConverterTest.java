@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder.newCeremonyLayoutSettings;
 import static com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder.newDocumentPackageSettings;
+import static com.silanis.esl.sdk.builder.IntegrationFrameworkWorkflowBuilder.newIntegrationFrameworkWorkflow;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -124,6 +125,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Max attachment files was not correctly set", sdkPackageSettings1.getMaxAttachmentFiles(), is(apiPackageSettings1.getCeremony().getMaxAttachmentFiles()));
         assertThat("Show NSE Overview was not correctly set", sdkPackageSettings1.getShowNseOverview(), is(apiPackageSettings1.getCeremony().getShowNseOverview()));
         assertThat("Show NSE Logo in iFrame was not correctly set", sdkPackageSettings1.getShowNseLogoInIframe(), is(apiPackageSettings1.getCeremony().getShowNseLogoInIframe()));
+        assertThat("IfWorkflow name was not correctly set", sdkPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getName(), is(apiPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getName()));
+        assertThat("IfWorkflow connector was not correctly set", sdkPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getConnector().getValue(), is(apiPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getConnector().getValue()));
     }
 
     @Override
@@ -167,6 +170,8 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         assertThat("Max attachment files was not correctly set", apiPackageSettings1.getCeremony().getMaxAttachmentFiles(), is(sdkPackageSettings1.getMaxAttachmentFiles()));
         assertThat("Show NSE Overview was not correctly set", apiPackageSettings1.getCeremony().getShowNseOverview(), is(sdkPackageSettings1.getShowNseOverview()));
         assertThat("Show NSE Logo in iFrame was not correctly set", apiPackageSettings1.getCeremony().getShowNseLogoInIframe(), is(sdkPackageSettings1.getShowNseLogoInIframe()));
+        assertThat("IfWorkflow name was not correctly set", apiPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getName(), is(sdkPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getName()));
+        assertThat("IfWorkflow connector was not correctly set", apiPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getConnector().getValue(), is(sdkPackageSettings1.getIntegrationFrameworkWorkflows().get(0).getConnector().getValue()));
     }
 
     /**
@@ -213,6 +218,10 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
                 )
                 .withShowNseOverview()
                 .withShowNseLogoInIframe()
+                .withIfWorkflow(newIntegrationFrameworkWorkflow()
+                        .withName("SFTP")
+                        .withConnector(com.silanis.esl.sdk.Connector.SFTP)
+                        .build())
                 .build();
     }
 
@@ -294,9 +303,15 @@ public class DocumentPackageSettingsConverterTest implements ConverterTest {
         headerOptions.setGlobalActions(globalActionsOptions);
         layoutOptions.setHeader(headerOptions);
 
+        IntegrationFrameworkWorkflow ifWorkflow = new IntegrationFrameworkWorkflow();
+        ifWorkflow.setName("SFTP");
+        ifWorkflow.setConnector(Connector.SFTP);
+        List<IntegrationFrameworkWorkflow> integrationFrameworkWorkflows = new ArrayList<>();
+        integrationFrameworkWorkflows.add(ifWorkflow);
 
         com.silanis.esl.api.model.PackageSettings apiPackageSettings = new com.silanis.esl.api.model.PackageSettings();
         apiPackageSettings.setCeremony(apiCeremonySettings);
+        apiPackageSettings.setIntegrationFrameworkWorkflows(integrationFrameworkWorkflows);
 
         return apiPackageSettings;
     }

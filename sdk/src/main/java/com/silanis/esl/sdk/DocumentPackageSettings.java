@@ -39,6 +39,15 @@ public class DocumentPackageSettings {
     private Boolean showNseLogoInIframe = null;
 
     private CeremonyLayoutSettings ceremonyLayoutSettings = null;
+    private List<IntegrationFrameworkWorkflow> integrationFrameworkWorkflows = new ArrayList<>();
+
+    public List<IntegrationFrameworkWorkflow> getIntegrationFrameworkWorkflows() {
+        return integrationFrameworkWorkflows;
+    }
+
+    public void setIntegrationFrameworkWorkflows(List<IntegrationFrameworkWorkflow> integrationFrameworkWorkflows) {
+        this.integrationFrameworkWorkflows = integrationFrameworkWorkflows;
+    }
 
     public Boolean getShowPackageOwnerInPerson() {
         return showPackageOwnerInPerson;
