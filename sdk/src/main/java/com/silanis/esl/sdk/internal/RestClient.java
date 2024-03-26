@@ -11,6 +11,8 @@ import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import com.silanis.esl.sdk.oauth.OAuthAccessToken;
@@ -56,6 +58,7 @@ public class RestClient extends Client {
     public static final String ESL_ACCEPT_TYPE_APPLICATION_JSON = ACCEPT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
     public static final String ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM = ACCEPT_TYPE_APPLICATION_OCTET_STREAM + "; " + ESL_API_VERSION_HEADER;
     public static final String ESL_ACCEPT_TYPE_APPLICATION = ACCEPT_TYPE_APPLICATION + "; " + ESL_API_VERSION_HEADER;
+    public static final long OAUTH_TOKEN_EXPIRY_MARGIN = 5;
 
     private final BytesHandler bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
@@ -65,6 +68,8 @@ public class RestClient extends Client {
     private final ApiTokenConfig apiTokenConfig;
     private final OAuthTokenConfig oauthTokenConfig;
     private ApiToken apiToken = null;
+    private OAuthAccessToken oAuthAccessToken = null;
+    private Instant oAuthAccessTokenExpiresAt;
     private final Map<String, String> additionalHeaders;
 
     public RestClient(String apiKey) {
@@ -234,16 +239,22 @@ public class RestClient extends Client {
     protected void addAuthorizationHeader(HttpUriRequest request) {
         if (StringUtils.isNotEmpty(apiKey)) {
             request.setHeader("Authorization", "Basic " + apiKey);
-        } else {
+        } else if (oauthTokenConfig != null) {
             try {
-                request.setHeader("Authorization", "Bearer " + getBearerToken());
+                request.setHeader("Authorization", "Bearer " + getOAuth2BearerToken(oauthTokenConfig));
+            } catch (Exception x) {
+                throw new RuntimeException(x);
+            }
+        } else if (apiTokenConfig != null){
+            try {
+                request.setHeader("Authorization", "Bearer " + getClientAppBearerToken());
             } catch (Exception x) {
                 throw new RuntimeException(x);
             }
         }
     }
 
-    private String getBearerToken() throws RequestException, IOException {
+    private String getClientAppBearerToken() throws RequestException, IOException {
         //token has to have more than 1mn to live
         if (apiTokenConfig != null && (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000)) {
             String url = apiTokenConfig.getBaseUrl() + ApiTokenConfig.ACCESS_TOKEN_URL;
@@ -256,25 +267,33 @@ public class RestClient extends Client {
                 throw new EslException("Unable to create access token for "+apiTokenConfig);
             }
             apiToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), ApiToken.class);
-        } else if (oauthTokenConfig != null && (apiToken == null || System.currentTimeMillis() > apiToken.getExpiresAt() - 60 * 1000)) {
-            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
-            request.setHeader("Authorization",
-                    "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(), oauthTokenConfig.getClientSecret()).getBytes()));
+        }
+        return apiToken.getAccessToken();
+    }
 
-            String scope = oauthTokenConfig.getScope();
-            if (StringUtils.isNotBlank(scope)) {
-                request.setEntity(new StringEntity("scope= " + scope));
-            }
+    private String getOAuth2BearerToken(OAuthTokenConfig oauthTokenConfig) throws IOException, RequestException {
+        if (oAuthAccessToken == null || oAuthAccessTokenExpiresAt.isBefore(Instant.now())) {
+            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
+            request.setHeader(
+                "Authorization",
+                "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(),
+                    oauthTokenConfig.getClientSecret()).getBytes()));
 
             CloseableHttpClient client = getHttpClient(request);
             HttpResponse httpResponse = client.execute(request);
             if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                throw new EslException("Unable to create access token for " + oauthTokenConfig + " " + httpResponse.getStatusLine().getStatusCode() + ":" + httpResponse.getStatusLine().getReasonPhrase());
+                throw new EslException(
+                    "Unable to create access token for "
+                        + oauthTokenConfig
+                        + " "
+                        + httpResponse.getStatusLine().getStatusCode()
+                        + ":"
+                        + httpResponse.getStatusLine().getReasonPhrase());
             }
-            OAuthAccessToken oauthAccessToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
-            return oauthAccessToken.getAccessToken();
+            oAuthAccessToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
+            oAuthAccessTokenExpiresAt = Instant.now().plus(oAuthAccessToken.getExpiresAt() - OAUTH_TOKEN_EXPIRY_MARGIN, ChronoUnit.SECONDS);
         }
-        return apiToken.getAccessToken();
+        return oAuthAccessToken.getAccessToken();
     }
 
     private String getApiTokenPayload() throws JsonProcessingException {

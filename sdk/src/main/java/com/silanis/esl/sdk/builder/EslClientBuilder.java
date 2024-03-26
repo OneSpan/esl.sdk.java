@@ -74,14 +74,12 @@ public class EslClientBuilder {
     }
 
     private EslClient buildEslClientForOAuth(Map<String, String> additionalHeaders, ProxyConfiguration proxyConfiguration) {
-        OAuthTokenConfig authTokenConfig = OAuthTokenConfig.builder()
-                .withClientId(props.getProperty("api.oauth.clientID"))
-                .withClientSecret(props.getProperty("api.oauth.clientSecret"))
-                .withScope(props.getProperty("api.oauth.scope"))
-                .withBaseURL(props.getProperty("baseURL", props.getProperty("webpage.url")))
-                .withAuthenticationServer(props.getProperty("api.oauth.server.url"))
-                .build();
-        return new EslClient(authTokenConfig, props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
+        OAuthTokenConfig oAuthTokenConfig = OAuthTokenConfig.builder()
+            .withClientId(props.getProperty("api.oauth.clientID"))
+            .withClientSecret(props.getProperty("api.oauth.clientSecret"))
+            .withAuthenticationServer(props.getProperty("api.oauth.server.url"))
+            .build();
+        return new EslClient(oAuthTokenConfig, props.getProperty("api.url"), true, proxyConfiguration, true, additionalHeaders);
     }
 
     private EslClient buildEslClientForAPITOKEN(Map<String, String> additionalHeaders, ProxyConfiguration proxyConfiguration) {
