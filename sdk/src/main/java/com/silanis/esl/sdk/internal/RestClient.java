@@ -12,14 +12,14 @@ import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import com.silanis.esl.sdk.oauth.OAuthAccessToken;
 import com.silanis.esl.sdk.oauth.OAuthTokenConfig;
+import com.silanis.esl.sdk.oauth.Oauth2TokenManager;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -29,7 +29,6 @@ import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,18 +57,17 @@ public class RestClient extends Client {
     public static final String ESL_ACCEPT_TYPE_APPLICATION_JSON = ACCEPT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
     public static final String ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM = ACCEPT_TYPE_APPLICATION_OCTET_STREAM + "; " + ESL_API_VERSION_HEADER;
     public static final String ESL_ACCEPT_TYPE_APPLICATION = ACCEPT_TYPE_APPLICATION + "; " + ESL_API_VERSION_HEADER;
-    public static final long OAUTH_TOKEN_EXPIRY_MARGIN = 5;
 
     private final BytesHandler bytesHandler = new BytesHandler();
     private final ResponseHandler<String> jsonHandler = new JsonHandler();
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final Oauth2TokenManager oauth2TokenManager = new Oauth2TokenManager();
 
     private final String apiKey;
     private final ApiTokenConfig apiTokenConfig;
     private final OAuthTokenConfig oauthTokenConfig;
     private ApiToken apiToken = null;
     private OAuthAccessToken oAuthAccessToken = null;
-    private Instant oAuthAccessTokenExpiresAt;
     private final Map<String, String> additionalHeaders;
 
     public RestClient(String apiKey) {
@@ -272,7 +270,7 @@ public class RestClient extends Client {
     }
 
     private String getOAuth2BearerToken(OAuthTokenConfig oauthTokenConfig) throws IOException, RequestException {
-        if (oAuthAccessToken == null || oAuthAccessTokenExpiresAt.isBefore(Instant.now())) {
+        if (oAuthAccessToken == null || oauth2TokenManager.isOAuth2TokenExpired(oAuthAccessToken.getAccessToken())) {
             HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
             request.setHeader(
                 "Authorization",
@@ -291,7 +289,6 @@ public class RestClient extends Client {
                         + httpResponse.getStatusLine().getReasonPhrase());
             }
             oAuthAccessToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
-            oAuthAccessTokenExpiresAt = Instant.now().plus(oAuthAccessToken.getExpiresAt() - OAUTH_TOKEN_EXPIRY_MARGIN, ChronoUnit.SECONDS);
         }
         return oAuthAccessToken.getAccessToken();
     }
