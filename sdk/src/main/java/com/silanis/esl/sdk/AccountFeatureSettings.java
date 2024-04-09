@@ -33,6 +33,8 @@ public class AccountFeatureSettings {
     private Boolean uploadSignatureImage;
     private Boolean overrideRecipientsPreferredLanguage;
     private Boolean enableRecipientHistory;
+    private Boolean allowSignersDownloadEvidenceSummary;
+
 
     public Boolean getAllowCheckboxConsentApproval() {
         return allowCheckboxConsentApproval;
@@ -256,5 +258,13 @@ public class AccountFeatureSettings {
 
     public void setEnableRecipientHistory(Boolean enableRecipientHistory) {
         this.enableRecipientHistory = enableRecipientHistory;
+    }
+
+    public Boolean getAllowSignersDownloadEvidenceSummary() {
+        return allowSignersDownloadEvidenceSummary;
+    }
+
+    public void setAllowSignersDownloadEvidenceSummary(Boolean allowSignersDownloadEvidenceSummary) {
+        this.allowSignersDownloadEvidenceSummary = allowSignersDownloadEvidenceSummary;
     }
 }

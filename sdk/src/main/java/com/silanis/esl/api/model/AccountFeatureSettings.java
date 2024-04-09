@@ -66,6 +66,8 @@ public class AccountFeatureSettings extends Model
     public static final String FIELD_OVERRIDE_RECIPIENTS_PREFERRED_LANGUAGE = "overrideRecipientsPreferredLanguage";
     @JsonIgnore
     public static final String FIELD_ENABLE_RECIPIENT_HISTORY = "enableRecipientHistory";
+    @JsonIgnore
+    public static final String  FIELD_ALLOW_SIGNERS_DOWNLOAD_EVIDENCE_SUMMARY = "allowSignersDownloadEvidenceSummary";
 
     protected Boolean _allowCheckboxConsentApproval = true;
     protected Boolean _allowInPersonForAccountSenders = true;
@@ -95,6 +97,8 @@ public class AccountFeatureSettings extends Model
     protected Boolean _uploadSignatureImage = false;
     protected Boolean _overrideRecipientsPreferredLanguage = false;
     protected Boolean _enableRecipientHistory = true;
+    protected Boolean _allowSignersDownloadEvidenceSummary = false;
+
 
     public AccountFeatureSettings() {
     }
@@ -744,6 +748,17 @@ public class AccountFeatureSettings extends Model
 
     public Boolean getEnableRecipientHistory() {
         return _enableRecipientHistory;
+    }
+
+    public AccountFeatureSettings setAllowSignersDownloadEvidenceSummary(Boolean allowSignersDownloadEvidenceSummary) {
+        throwOnNull(FIELD_ALLOW_SIGNERS_DOWNLOAD_EVIDENCE_SUMMARY, allowSignersDownloadEvidenceSummary);
+        this._allowSignersDownloadEvidenceSummary = allowSignersDownloadEvidenceSummary;
+        setDirty(FIELD_ALLOW_SIGNERS_DOWNLOAD_EVIDENCE_SUMMARY);
+        return this;
+    }
+
+    public Boolean getAllowSignersDownloadEvidenceSummary() {
+        return _allowSignersDownloadEvidenceSummary;
     }
 
 }

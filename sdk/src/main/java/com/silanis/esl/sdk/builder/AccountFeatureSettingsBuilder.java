@@ -38,6 +38,8 @@ public class AccountFeatureSettingsBuilder {
     private Boolean uploadSignatureImage = null;
     private Boolean overrideRecipientsPreferredLanguage = null;
     private Boolean enableRecipientHistory = null;
+    private Boolean allowSignersDownloadEvidenceSummary = null;
+
 
     /**
      * Creates a new Account Feature Settings builder.
@@ -724,6 +726,30 @@ public class AccountFeatureSettingsBuilder {
     }
 
     /**
+     * Enables the 'allowSignersDownloadEvidenceSummary' feature.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountFeatureSettingsBuilder withAllowSignersDownloadEvidenceSummary() {
+        allowSignersDownloadEvidenceSummary = true;
+        return this;
+    }
+
+    /**
+     * Disables the 'allowSignersDownloadEvidenceSummary' feature.
+     *
+     * @return This
+     * @see #withEnableRecipientHistory()
+     */
+    public AccountFeatureSettingsBuilder withoutAllowSignersDownloadEvidenceSummary() {
+        allowSignersDownloadEvidenceSummary = false;
+        return this;
+    }
+
+    /**
      * Builds the actual Account Feature Settings.
      *
      * @return the Account Feature Settings
@@ -759,6 +785,8 @@ public class AccountFeatureSettingsBuilder {
         result.setUploadSignatureImage(uploadSignatureImage);
         result.setOverrideRecipientsPreferredLanguage(overrideRecipientsPreferredLanguage);
         result.setEnableRecipientHistory(enableRecipientHistory);
+        result.setAllowSignersDownloadEvidenceSummary(allowSignersDownloadEvidenceSummary);
+
 
         return result;
     }
