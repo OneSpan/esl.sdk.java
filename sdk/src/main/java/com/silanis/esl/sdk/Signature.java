@@ -15,6 +15,7 @@ public class Signature implements Serializable {
     private String signerEmail;
 
     private Date accepted;
+    private Date signed;
     private SignatureId signatureId;
     private Placeholder roleId;
     private int page;
@@ -81,6 +82,14 @@ public class Signature implements Serializable {
 
     public void setAccepted(Date accepted) {
         this.accepted = accepted;
+    }
+
+    public Date getSigned() {
+        return signed;
+    }
+
+    public void setSigned(Date signed) {
+        this.signed = signed;
     }
 
     public Placeholder getRoleId(){return roleId;}

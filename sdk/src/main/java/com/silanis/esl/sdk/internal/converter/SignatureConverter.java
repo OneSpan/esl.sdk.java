@@ -121,6 +121,8 @@ public class SignatureConverter {
         Signature signature = signatureBuilder.build();
         if (null != apiApproval.getAccepted())
             signature.setAccepted(apiApproval.getAccepted());
+        if (null != apiApproval.getSigned())
+            signature.setSigned(apiApproval.getSigned());
 
         return signature;
     }
