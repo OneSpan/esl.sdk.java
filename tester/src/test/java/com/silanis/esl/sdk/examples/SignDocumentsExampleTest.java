@@ -5,6 +5,8 @@ import com.silanis.esl.sdk.Signature;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static com.silanis.esl.sdk.PackageStatus.COMPLETED;
@@ -13,11 +15,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by schoi on 12/14/15.
  */
 public class SignDocumentsExampleTest {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
     @Test
     public void verifyResult() {
 
@@ -41,6 +46,8 @@ public class SignDocumentsExampleTest {
                     assertThat(signature.getAccepted(), senderAccepted);
                 if(signerEmail.equals(signature.getSignerEmail()))
                     assertThat(signature.getAccepted(), signerAccepted);
+                if(signerEmail.equals(signature.getSignerEmail()) && signature.getSigned() != null)
+                    assertEquals(sdf.format(signature.getSigned()), sdf.format(new Date()));
             }
         }
     }
