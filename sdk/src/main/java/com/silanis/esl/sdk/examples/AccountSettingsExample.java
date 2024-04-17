@@ -41,7 +41,8 @@ public class AccountSettingsExample extends SDKSample {
                         .withoutAttachments()
                         .withoutConditionalFields()
                         .withOverrideRecipientsPreferredLanguage()
-                        .withEnableRecipientHistory())
+                        .withEnableRecipientHistory()
+                        .withAllowSignersDownloadEvidenceSummary())
                 .build();
 
         //Save account settings
@@ -85,6 +86,7 @@ public class AccountSettingsExample extends SDKSample {
                 .withConditionalFields()
                 .withOverrideRecipientsPreferredLanguage()
                 .withEnableRecipientHistory()
+                .withAllowSignersDownloadEvidenceSummary()
                 .build();
 
         //Save account feature settings
