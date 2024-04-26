@@ -44,6 +44,7 @@ public class GroupMemberConverter {
         result.setFirstName(sdkGroupMember.getFirstName());
         result.setLastName(sdkGroupMember.getLastName());
         result.setMemberType( new GroupMemberTypeConverter(sdkGroupMember.getGroupMemberType()).toAPIGroupMemberType());
+        result.setUserId(sdkGroupMember.getUserId());
         return result;
 
     }
@@ -63,6 +64,7 @@ public class GroupMemberConverter {
                 .as( new GroupMemberTypeConverter(apiGroupMember.getMemberType()).toSDKGroupMemberType() )
                 .withFirstName( apiGroupMember.getFirstName() )
                 .withLastName(apiGroupMember.getLastName())
+                .withUserId(apiGroupMember.getUserId())
                 .build();
     }
 }

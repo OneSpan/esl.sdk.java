@@ -12,6 +12,8 @@ import com.silanis.esl.sdk.builder.GroupBuilder;
 import com.silanis.esl.sdk.builder.GroupMemberBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 
+import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +27,7 @@ public class GroupManagementExample extends SDKSample {
     public static final String GROUP_NAME_PREFIX = "GROUP_";
     public static final String EMAIL = "bob@aol.com";
     public final String UPDATED_EMAIL = "bob1@aol.com";
+    public final String UPDATED_NAME = "UpdatedName";
 
     public String updatedGroupName3;
 
@@ -34,7 +37,7 @@ public class GroupManagementExample extends SDKSample {
     public Group retrievedGroup2;
     public Group createdGroup3;
     public Group retrievedGroup3;
-    public Group createdGroup3Updated;
+    public Group updatedGroup3;
 
     public List<Group> retrievedGroupByName1;
     public List<Group> retrievedByNamePrefix;
@@ -116,13 +119,6 @@ public class GroupManagementExample extends SDKSample {
         retrievedGroup3 = eslClient.getGroupService().getGroup(createdGroup3.getId());
         retrievedByNamePrefix  = eslClient.getGroupService().getMyGroups(GROUP_NAME_PREFIX);
 
-        // This shows up how to update group 3
-        updatedGroupName3 = UUID.randomUUID().toString();
-        Group groupUpdated = GroupBuilder.newGroup(updatedGroupName3)
-                .withEmail( UPDATED_EMAIL )
-                .withIndividualMemberEmailing()
-                .build();
-
         // Inviting members with the two different calls
         // addMember returns the group member while inviteMember returns the group itself
         GroupMember groupMemberAdded = eslClient.getGroupService().addMember(createdGroup3.getId(), GroupMemberBuilder.newGroupMember(email3)
@@ -132,7 +128,14 @@ public class GroupManagementExample extends SDKSample {
                 .as(GroupMemberType.MANAGER)
                 .build());
 
-        createdGroup3Updated = eslClient.getGroupService().updateGroup( groupUpdated , createdGroup3.getId() );
+        // This shows up how to update group 3
+        Group groupUpdated3 = eslClient.getGroupService().getGroup(createdGroup3.getId());
+        groupUpdated3.setEmail(UPDATED_EMAIL);
+        groupUpdated3.setName(UPDATED_NAME);
+        List<GroupMember> groupMembers = groupUpdated3.getMembers();
+        groupMembers.get(0).setGroupMemberType(GroupMemberType.REGULAR);
+        groupUpdated3.setMembers(groupMembers);
+        updatedGroup3 = eslClient.getGroupService().updateGroup( groupUpdated3 , createdGroup3.getId() );
 
         groupMemberEmailsAfterUpdate = eslClient.getGroupService().getGroupMemberEmails( createdGroup3.getId() );
 
