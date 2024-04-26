@@ -43,5 +43,6 @@ public class GroupManagementExampleTest {
         assertThat("Group Name was not updated", example.updatedGroup3.getName(), is(example.UPDATED_NAME));
         assertThat("Group Email was not updated", example.updatedGroup3.getEmail(), is(example.UPDATED_EMAIL));
         assertThat("Group Member Type was not updated", example.updatedGroup3.getMembers().get(0).getGroupMemberType(), is(GroupMemberType.REGULAR));
+        assertThat("Group Member userId was not passed", example.updatedGroup3.getMembers().get(0).getUserId(), is(example.userId1));
     }
 }
