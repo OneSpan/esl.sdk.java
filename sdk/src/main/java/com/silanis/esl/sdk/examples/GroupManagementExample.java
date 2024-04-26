@@ -29,7 +29,7 @@ public class GroupManagementExample extends SDKSample {
     public final String UPDATED_EMAIL = "bob1@aol.com";
     public final String UPDATED_NAME = "UpdatedName";
 
-    public String updatedGroupName3;
+    public String userId1;
 
     public Group createdGroup1;
     public Group retrievedGroup1;
@@ -108,9 +108,11 @@ public class GroupManagementExample extends SDKSample {
         retrievedGroup2 = eslClient.getGroupService().getGroup(createdGroup2.getId());
 
         groupName = UUID.randomUUID().toString();
+        userId1 = UUID.randomUUID().toString();
         Group group3 = GroupBuilder.newGroup( GROUP_NAME_PREFIX + groupName )
                 .withMember( GroupMemberBuilder.newGroupMember( email3 )
-                        .as( GroupMemberType.MANAGER ) )
+                        .as( GroupMemberType.MANAGER )
+                        .withUserId(userId1))
                 .withEmail( EMAIL )
                 .withIndividualMemberEmailing()
                 .build();
