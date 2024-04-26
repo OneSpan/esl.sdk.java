@@ -2,6 +2,7 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Group;
 import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.GroupMemberType;
 import com.silanis.esl.sdk.internal.EslServerException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,7 +40,8 @@ public class GroupManagementExampleTest {
         assertThat("Group was not updated properly, member 2 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email3));
         assertThat("Group was not updated properly, member 3 is missing", example.groupMemberEmailsAfterUpdate.contains(example.email4));
 
-        assertThat("Group Name was not updated", example.createdGroup3Updated.getName(), is(example.updatedGroupName3));
-        assertThat("Group Email was not updated", example.createdGroup3Updated.getEmail(), is(example.UPDATED_EMAIL));
+        assertThat("Group Name was not updated", example.updatedGroup3.getName(), is(example.UPDATED_NAME));
+        assertThat("Group Email was not updated", example.updatedGroup3.getEmail(), is(example.UPDATED_EMAIL));
+        assertThat("Group Member Type was not updated", example.updatedGroup3.getMembers().get(0).getGroupMemberType(), is(GroupMemberType.REGULAR));
     }
 }

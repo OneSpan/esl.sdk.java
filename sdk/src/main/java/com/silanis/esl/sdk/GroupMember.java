@@ -5,6 +5,7 @@ public class GroupMember {
     private String firstName;
     private String lastName;
     private GroupMemberType groupMemberType;
+    private String userId;
 
     public String getEmail() {
         return email;
@@ -36,5 +37,13 @@ public class GroupMember {
 
     public void setGroupMemberType( GroupMemberType groupMemberType ) {
         this.groupMemberType = groupMemberType;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId( String userId ) {
+        this.userId = userId;
     }
 }

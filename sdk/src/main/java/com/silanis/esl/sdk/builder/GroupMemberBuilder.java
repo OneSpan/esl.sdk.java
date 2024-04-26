@@ -10,6 +10,7 @@ public class GroupMemberBuilder {
     private String firstName = "";
     private String lastName = "";
     private GroupMemberType groupMemberType = GroupMemberType.REGULAR;
+    private String userId = "";
 
     private GroupMemberBuilder( String email ) {
         this.email = email;
@@ -60,6 +61,11 @@ public class GroupMemberBuilder {
         return this;
     }
 
+    public GroupMemberBuilder withUserId( String userId ) {
+        this.userId = userId;
+        return this;
+    }
+
     /**
      * Builds the group member object.
      *
@@ -71,6 +77,7 @@ public class GroupMemberBuilder {
         result.setFirstName( firstName );
         result.setLastName( lastName );
         result.setGroupMemberType( groupMemberType );
+        result.setUserId(userId);
         return result;
     }
 }
