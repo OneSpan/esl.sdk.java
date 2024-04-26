@@ -46,7 +46,7 @@ public class ReminderExample extends SDKSample {
         reminderScheduleToUpdate = ReminderScheduleBuilder.forPackageWithId( packageId )
                                                           .withDaysUntilFirstReminder( 3 )
                                                           .withDaysBetweenReminders( 2 )
-                                                          .withNumberOfRepetitions( 10 )
+                                                          .withNumberOfRepetitions( 5 )
                                                           .build();
 
         eslClient.getReminderService().updateReminderScheduleForPackage( reminderScheduleToUpdate );
