@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.silanis.esl</groupId>
     <artifactId>esl-java-sdk</artifactId>
-    <version>11.56.1-SNAPSHOT</version>
+    <version>11.56.1</version>
 
     <modules>
         <module>tester</module>
@@ -284,7 +284,7 @@
         <connection>scm:git:git@github.com:OneSpan/esl.model.git</connection>
         <developerConnection>scm:git:git@github.com:OneSpan/esl.sdk.java.git</developerConnection>
         <url>git@github.com:OneSpan/esl.sdk.java.git</url>
-        <tag>version ${project.version}</tag>
+        <tag>v11.56.1</tag>
     </scm>
 
     <developers>
