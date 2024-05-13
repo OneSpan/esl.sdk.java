@@ -19,10 +19,6 @@ public class OAuthTokenConfig {
         return new Builder();
     }
 
-    public String getAuthenticationURL() {
-        return String.format("%s?grant_type=%s", getAuthenticationServer(), getGrantType());
-    }
-
     public String getClientId() {
         return clientId;
     }

@@ -271,11 +271,15 @@ public class RestClient extends Client {
 
     private String getOAuth2BearerToken(OAuthTokenConfig oauthTokenConfig) throws IOException, RequestException {
         if (oAuthAccessToken == null || oauth2TokenManager.isOAuth2TokenExpired(oAuthAccessToken.getAccessToken())) {
-            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
+            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationServer()));
             request.setHeader(
                 "Authorization",
                 "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(),
                     oauthTokenConfig.getClientSecret()).getBytes()));
+
+            request.addHeader(HEADER_CONTENT_TYPE, "application/x-www-form-urlencoded");
+            request.setEntity(new StringEntity("grant_type=client_credentials", ContentType.create(HEADER_CONTENT_TYPE,
+                Consts.UTF_8)));
 
             CloseableHttpClient client = getHttpClient(request);
             HttpResponse httpResponse = client.execute(request);
