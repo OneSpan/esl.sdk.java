@@ -13,15 +13,7 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
-import com.silanis.esl.sdk.internal.converter.AccountDesignerSettingsConverter;
-import com.silanis.esl.sdk.internal.converter.AccountSettingsConverter;
-import com.silanis.esl.sdk.internal.converter.AccountPackageSettingsConverter;
-import com.silanis.esl.sdk.internal.converter.AccountFeatureSettingsConverter;
-import com.silanis.esl.sdk.internal.converter.AccountEmailReminderSettingsConverter;
-import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
-import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
-import com.silanis.esl.sdk.internal.converter.IntegrationFrameworkWorkflowConverter;
-import com.silanis.esl.sdk.internal.converter.SignatureLayoutConverter;
+import com.silanis.esl.sdk.internal.converter.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -593,6 +585,53 @@ public class AccountConfigClient {
             throw new EslServerException("Could not get IfWorkflows Configs.", e);
         } catch (Exception e) {
             throw new EslException("Could not get IfWorkflows Configs.", e);
+        }
+    }
+
+    /**
+     * Get account limit supported languages settings.
+     *
+     */
+    public com.silanis.esl.sdk.AccountLimitSupportedLanguagesSettings getAccountLimitSupportedLanguagesSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH).build();
+        try {
+            String stringResponse = restClient.get(path);
+            return new AccountLimitSupportedLanguagesSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountLimitSupportedLanguagesSettings.class)).tosdkAccountLimitSupportedLanguagesSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account limit supported languages settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account limit supported languages settings.", e);
+        }
+    }
+
+    /**
+     * Save account limit supported languages settings.
+     *
+     */
+    public void saveAccountLimitSupportedLanguagesSettings(com.silanis.esl.sdk.AccountLimitSupportedLanguagesSettings accountLimitSupportedLanguagesSettings) {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountLimitSupportedLanguagesSettings);
+        try {
+            restClient.patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account limit supported languages settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account limit supported languages settings.", e);
+        }
+    }
+
+    /**
+     * Delete limit supported languages settings.
+     *
+     */
+    public void deleteAccountLimitSupportedLanguagesSettings() {
+        String path = template.urlFor(UrlTemplate.ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH).build();
+        try {
+            restClient.delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account limit supported languages settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account limit supported languages settings.", e);
         }
     }
 }
