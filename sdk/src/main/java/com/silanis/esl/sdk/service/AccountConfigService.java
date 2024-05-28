@@ -298,4 +298,28 @@ public class AccountConfigService {
     public List<IntegrationFrameworkWorkflow> getAccountIfWorkflowsConfigs() {
         return apiClient.getIfWorkflowsConfigs();
     }
+
+    /**
+     * Get account limit supported language settings.
+     *
+     */
+    public AccountLimitSupportedLanguagesSettings getAccountLimitSupportedLanguagesSettings() {
+        return apiClient.getAccountLimitSupportedLanguagesSettings();
+    }
+
+    /**
+     * Save account limit supported language settings.
+     *
+     */
+    public void saveAccountLimitSupportedLanguagesSettings(AccountLimitSupportedLanguagesSettings accountLimitSupportedLanguagesSettings) {
+        apiClient.saveAccountLimitSupportedLanguagesSettings(accountLimitSupportedLanguagesSettings);
+    }
+
+    /**
+     * Delete account limit supported languages settings.
+     *
+     */
+    public void deleteAccountLimitSupportedLanguagesSettings() {
+        apiClient.deleteAccountLimitSupportedLanguagesSettings();
+    }
 }
