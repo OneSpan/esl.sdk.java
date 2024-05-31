@@ -189,8 +189,6 @@ public class UrlTemplate {
     public static final String ACCOUNT_DESIGNER_SETTINGS_PATH = "/account/admin/accountSettings/designerSettings";
     //Account Email Reminder Settings Service
     public static final String ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH = "/account/admin/accountSettings/emailReminderSettings";
-    //Account Limit Supported Languages Settings Service
-    public static final String ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH = "/account/admin/accountSettings/limitSupportedLanguages";
     //Account Upload Settings Service
     public static final String ACCOUNT_UPLOAD_SETTINGS_PATH = "/account/admin/accountSettings/attachmentsWhitelist";
     //Account Upload Settings Service
