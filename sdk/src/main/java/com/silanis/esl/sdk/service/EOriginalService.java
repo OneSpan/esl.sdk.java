@@ -58,9 +58,9 @@ public class EOriginalService {
         try {
             client.post(path, null);
         } catch (RequestException e) {
-            throw new EslServerException("Could not update the package.", e);
+            throw new EslServerException("Could not revault the package.", e);
         } catch (Exception e) {
-            throw new EslException("Could not update the package.", e);
+            throw new EslException("Could not revault the package.", e);
         }
     }
 }
