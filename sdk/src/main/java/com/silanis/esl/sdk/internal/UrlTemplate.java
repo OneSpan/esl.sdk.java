@@ -32,6 +32,8 @@ public class UrlTemplate {
     public static final String CUSTOM_NOTIFICATIONS_PATH = "/packages/{packageId}/notifications";
     public static final String NOTIFY_ROLE_PATH = "/packages/{packageId}/roles/{roleId}/notifications";
     public static final String THANK_YOU_DIALOG_PATH = "/packages/{packageId}/thank_you_dialog";
+    public static final String E_ORIGINAL_VAULTING_DATA_PATH = "/packages/{packageId}/eOriginalVault/vaultingData";
+    public static final String E_ORIGINAL_REVAULT_PATH = "/packages/{packageId}/eOriginalVault/revault";
 
     public static final String TEMPLATE_PATH = "/packages/{packageId}/clone";
 
