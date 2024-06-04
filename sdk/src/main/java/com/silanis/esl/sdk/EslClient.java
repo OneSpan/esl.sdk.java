@@ -67,6 +67,7 @@ public class EslClient {
     private SigningStyleService signingStyleService;
     private DataRetentionSettingsService dataRetentionSettingsService;
     private VirtualRoomService virtualRoomService;
+    private EOriginalService eOriginalService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -181,6 +182,7 @@ public class EslClient {
         signingStyleService = new SigningStyleService(client, baseURL);
         dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
         virtualRoomService = new VirtualRoomService(client, baseURL);
+        eOriginalService = new EOriginalService(client, baseURL);
     }
 
     /**
@@ -794,6 +796,22 @@ public class EslClient {
 
         String signerSessionId = getSignerSessionId(packageId, signerId, signerSessionFieldKey);
         attachmentRequirementService.deleteAttachmentFile(packageId, attachmentId, fileId, signerSessionId);
+    }
+
+    public void updateVaultingData(PackageId packageId, DocumentPackage documentPackage) {
+
+        if (!isSdkVersionSet(documentPackage)) {
+            setSdkVersion(documentPackage);
+        }
+        eOriginalService.updateVaultingData(packageId, documentPackage);
+    }
+
+    public void getVaultingData(PackageId packageId) {
+        eOriginalService.getVaultingData(packageId);
+    }
+
+    public void revault(PackageId packageId) {
+        eOriginalService.revault(packageId);
     }
 
     public GroupService getGroupService() {
