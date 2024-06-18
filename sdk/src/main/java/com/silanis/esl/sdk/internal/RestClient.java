@@ -11,7 +11,6 @@ import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 
-import java.time.Instant;
 import java.util.*;
 
 import com.silanis.esl.sdk.oauth.OAuthAccessToken;
@@ -41,7 +40,7 @@ public class RestClient extends Client {
 
     public static final String CHARSET_UTF_8 = "UTF-8";
 
-    public static final String ESL_API_VERSION = "11.57";
+    public static final String ESL_API_VERSION = "11.55.1";
     public static final String ESL_API_USER_AGENT = "Java SDK v" + ESL_API_VERSION;
     public static final String ESL_API_VERSION_HEADER = "esl-api-version=" + ESL_API_VERSION;
 
@@ -271,26 +270,34 @@ public class RestClient extends Client {
 
     private String getOAuth2BearerToken(OAuthTokenConfig oauthTokenConfig) throws IOException, RequestException {
         if (oAuthAccessToken == null || oauth2TokenManager.isOAuth2TokenExpired(oAuthAccessToken.getAccessToken())) {
-            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationURL()));
-            request.setHeader(
-                "Authorization",
-                "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(),
-                    oauthTokenConfig.getClientSecret()).getBytes()));
-
-            CloseableHttpClient client = getHttpClient(request);
-            HttpResponse httpResponse = client.execute(request);
-            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                throw new EslException(
-                    "Unable to create access token for "
-                        + oauthTokenConfig
-                        + " "
-                        + httpResponse.getStatusLine().getStatusCode()
-                        + ":"
-                        + httpResponse.getStatusLine().getReasonPhrase());
-            }
-            oAuthAccessToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
+            oAuthAccessToken = generateOAuth2AccessToken(oauthTokenConfig);
         }
         return oAuthAccessToken.getAccessToken();
+    }
+
+    private OAuthAccessToken generateOAuth2AccessToken(OAuthTokenConfig oauthTokenConfig) throws RequestException, IOException{
+        HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationServer()));
+        request.setHeader(
+            "Authorization",
+            "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(),
+                oauthTokenConfig.getClientSecret()).getBytes()));
+
+        request.addHeader(HEADER_CONTENT_TYPE, "application/x-www-form-urlencoded");
+        request.setEntity(new StringEntity("grant_type=client_credentials", ContentType.create(HEADER_CONTENT_TYPE,
+            Consts.UTF_8)));
+
+        CloseableHttpClient client = getHttpClient(request);
+        HttpResponse httpResponse = client.execute(request);
+        if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            throw new EslException(
+                "Unable to create access token for "
+                    + oauthTokenConfig
+                    + " "
+                    + httpResponse.getStatusLine().getStatusCode()
+                    + ":"
+                    + httpResponse.getStatusLine().getReasonPhrase());
+        }
+         return OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
     }
 
     private String getApiTokenPayload() throws JsonProcessingException {
@@ -317,6 +324,16 @@ public class RestClient extends Client {
             addAuthorizationHeader(request);
             support.log(request);
             CloseableHttpResponse response = client.execute(request);
+
+            if (response.getStatusLine().getStatusCode() == 401
+                && oauthTokenConfig != null
+                && oauth2TokenManager.isOAuth2TokenExpired(oAuthAccessToken.getAccessToken())) {
+                addAuthorizationHeader(request);
+
+                client.close();
+                client = getHttpClient(request);
+                response = client.execute(request);
+            }
 
             if (response.getStatusLine().getStatusCode() >= 400) {
                 String errorDetails = Streams.toString(response.getEntity().getContent());
