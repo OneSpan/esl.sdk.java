@@ -1,6 +1,5 @@
 package com.silanis.esl.sdk.oauth;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.util.Base64;
 
@@ -9,6 +8,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Oauth2TokenManager {
+
+    public static final int ACCESS_TOKEN_EXPIRATION_LEEWAY = 2;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     public boolean isOAuth2TokenExpired(String oAuthAccessToken) {
@@ -27,6 +29,6 @@ public class Oauth2TokenManager {
         Instant tokenExpiresAt = Instant.ofEpochSecond(unixEpochTime);
         Instant now = Instant.now();
 
-        return now.isAfter(tokenExpiresAt);
+        return now.isAfter(tokenExpiresAt.minusSeconds(ACCESS_TOKEN_EXPIRATION_LEEWAY));
     }
 }
