@@ -325,16 +325,6 @@ public class RestClient extends Client {
             support.log(request);
             CloseableHttpResponse response = client.execute(request);
 
-            if (response.getStatusLine().getStatusCode() == 401
-                && oauthTokenConfig != null
-                && oauth2TokenManager.isOAuth2TokenExpired(oAuthAccessToken.getAccessToken())) {
-                addAuthorizationHeader(request);
-
-                client.close();
-                client = getHttpClient(request);
-                response = client.execute(request);
-            }
-
             if (response.getStatusLine().getStatusCode() >= 400) {
                 String errorDetails = Streams.toString(response.getEntity().getContent());
                 throw new RequestException(request.getRequestLine().getMethod(),
