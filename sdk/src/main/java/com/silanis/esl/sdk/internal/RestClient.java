@@ -11,7 +11,6 @@ import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 
-import java.time.Instant;
 import java.util.*;
 
 import com.silanis.esl.sdk.oauth.OAuthAccessToken;
@@ -271,30 +270,34 @@ public class RestClient extends Client {
 
     private String getOAuth2BearerToken(OAuthTokenConfig oauthTokenConfig) throws IOException, RequestException {
         if (oAuthAccessToken == null || oauth2TokenManager.isOAuth2TokenExpired(oAuthAccessToken.getAccessToken())) {
-            HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationServer()));
-            request.setHeader(
-                "Authorization",
-                "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(),
-                    oauthTokenConfig.getClientSecret()).getBytes()));
-
-            request.addHeader(HEADER_CONTENT_TYPE, "application/x-www-form-urlencoded");
-            request.setEntity(new StringEntity("grant_type=client_credentials", ContentType.create(HEADER_CONTENT_TYPE,
-                Consts.UTF_8)));
-
-            CloseableHttpClient client = getHttpClient(request);
-            HttpResponse httpResponse = client.execute(request);
-            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                throw new EslException(
-                    "Unable to create access token for "
-                        + oauthTokenConfig
-                        + " "
-                        + httpResponse.getStatusLine().getStatusCode()
-                        + ":"
-                        + httpResponse.getStatusLine().getReasonPhrase());
-            }
-            oAuthAccessToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
+            oAuthAccessToken = generateOAuth2AccessToken(oauthTokenConfig);
         }
         return oAuthAccessToken.getAccessToken();
+    }
+
+    private OAuthAccessToken generateOAuth2AccessToken(OAuthTokenConfig oauthTokenConfig) throws RequestException, IOException{
+        HttpPost request = withUserAgent(new HttpPost(oauthTokenConfig.getAuthenticationServer()));
+        request.setHeader(
+            "Authorization",
+            "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", oauthTokenConfig.getClientId(),
+                oauthTokenConfig.getClientSecret()).getBytes()));
+
+        request.addHeader(HEADER_CONTENT_TYPE, "application/x-www-form-urlencoded");
+        request.setEntity(new StringEntity("grant_type=client_credentials", ContentType.create(HEADER_CONTENT_TYPE,
+            Consts.UTF_8)));
+
+        CloseableHttpClient client = getHttpClient(request);
+        HttpResponse httpResponse = client.execute(request);
+        if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            throw new EslException(
+                "Unable to create access token for "
+                    + oauthTokenConfig
+                    + " "
+                    + httpResponse.getStatusLine().getStatusCode()
+                    + ":"
+                    + httpResponse.getStatusLine().getReasonPhrase());
+        }
+         return OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
     }
 
     private String getApiTokenPayload() throws JsonProcessingException {
