@@ -688,15 +688,7 @@ final public class SignerBuilder {
          * @return This
          */
         public QASMSBuilder firstQuestion(String challengeType, String question) {
-//            this.question = question;
-//            this.challengeType = challengeType;
-//            return this;
             return new QASMSBuilder(question, challengeType);
-
-//            this.question = question;
-//            this.challengeType = CHALLENGE_CHALLENGE_TYPE;
-//            challenges.add(new Challenge(challengeType, question, null, Challenge.MaskOptions.None));
-//            return this;
         }
 
         /**
