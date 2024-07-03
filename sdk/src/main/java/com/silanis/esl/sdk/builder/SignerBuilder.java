@@ -778,7 +778,6 @@ final public class SignerBuilder {
             if (questionProvided() && challenges.isEmpty()) {
                 throw new IllegalStateException("Question challenge was provided with no answer");
             }
-
             if (challengeTypeProvided() && challenges.isEmpty()) {
                 throw new IllegalStateException("Challenge type was provided with no challenge");
             }
