@@ -10,7 +10,7 @@ public class Challenge {
 
     private final String question;
     private final String answer;
-
+    private String challengeType;
     private MaskOptions maskOption;
 
     public Challenge(String question, String answer, MaskOptions maskOption) {
@@ -25,6 +25,24 @@ public class Challenge {
 
     public Challenge (String question, String answer){
         this(question, answer, MaskOptions.None);
+    }
+
+    public Challenge (String challengeType, String question, String answer){
+        this(challengeType, question, answer, MaskOptions.None);
+    }
+
+    public Challenge(String challengeType, String question, String answer, MaskOptions maskOption) {
+        if (challengeType == null || challengeType.trim().isEmpty()) {
+            throw new IllegalArgumentException("question parameter cannot be null or empty");
+        }
+        if (question == null || question.trim().isEmpty()) {
+            throw new IllegalArgumentException("challenge type parameter cannot be null or empty");
+        }
+
+        this.challengeType = challengeType;
+        this.question = question;
+        this.answer = answer;
+        this.maskOption = maskOption;
     }
 
     @Override
@@ -65,5 +83,9 @@ public class Challenge {
 
     public MaskOptions getMaskOption() {
         return maskOption;
+    }
+
+    public String getChallengeType() {
+        return challengeType;
     }
 }

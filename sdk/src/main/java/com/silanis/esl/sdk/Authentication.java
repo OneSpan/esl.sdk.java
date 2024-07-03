@@ -19,6 +19,11 @@ public class Authentication {
         this.challenges.addAll(challenges);
     }
 
+    public Authentication(AuthenticationMethod method, List<Challenge> challenges) {
+        this(method);
+        this.challenges.addAll(challenges);
+    }
+
     public Authentication(AuthenticationMethod method, String phoneNumber) {
         this(method);
         this.phoneNumber = phoneNumber;

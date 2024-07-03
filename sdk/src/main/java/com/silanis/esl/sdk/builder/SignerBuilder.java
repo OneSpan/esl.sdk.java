@@ -261,6 +261,23 @@ final public class SignerBuilder {
 
     /**
      * <p>
+     * Sets the signer's authentication type to QASMS.
+     * </p>
+     * The signer will be asked to authenticate, before accessing his signing
+     * ceremony, by providing answers to authentication questions and providing an SMS PIN number that will have been sent by
+     * OneSpan Sign to his phone..
+     *
+     * @param qasmsBuilder the qasms builder
+     * @return the signer builder object itself
+     * @see ChallengeBuilder
+     */
+    public SignerBuilder challengedWithQASMS(QASMSBuilder qasmsBuilder) {
+        this.authenticationBuilder = qasmsBuilder;
+        return this;
+    }
+
+    /**
+     * <p>
      * Sets the signer's authentication type to SMS.
      * </p>
      * The signer will be asked to authenticate, before accessing his signing
@@ -640,6 +657,151 @@ final public class SignerBuilder {
         public Authentication build() {
             return new Authentication(IDV, phoneNumber, idvWorkflow);
         }
+    }
+
+    public static class QASMSBuilder extends AuthenticationBuilder {
+
+        public static final String SMS_CHALLENGE_TYPE = "SMS";
+        public static final String CHALLENGE_CHALLENGE_TYPE = "CHALLENGE";
+        private String question;
+        private String challengeType;
+        private final List<Challenge> challenges = new ArrayList<Challenge>();
+
+        /**
+         * Challenge builder constructor.
+         *
+         * @param question      the question @size(min="1", max="255")
+         * @param challengeType
+         */
+        public QASMSBuilder() {
+        }
+        public QASMSBuilder(String question, String challengeType) {
+            this.question = question;
+            this.challengeType = challengeType;
+        }
+
+         /**
+         * First question asked to the user when they log on to OneSpan Sign.
+         *
+         * @param question the first question @size(min="1", max="255")
+         * @param challengeType challenge type (CHALLENGE or SMS)
+         * @return This
+         */
+        public QASMSBuilder firstQuestion(String challengeType, String question) {
+//            this.question = question;
+//            this.challengeType = challengeType;
+//            return this;
+            return new QASMSBuilder(question, challengeType);
+
+//            this.question = question;
+//            this.challengeType = CHALLENGE_CHALLENGE_TYPE;
+//            challenges.add(new Challenge(challengeType, question, null, Challenge.MaskOptions.None));
+//            return this;
+        }
+
+        /**
+         * Second question asked to the user when they log on to OneSpan Sign.
+         *
+         * @param question the second question @size(min="1", max="255")
+         * @param challengeType challenge type (CHALLENGE or SMS)
+         * @return This
+         */
+        public QASMSBuilder secondQuestion(String challengeType, String question) {
+            this.question = question;
+            this.challengeType = challengeType;
+            return this;
+        }
+
+        /**
+         * sms challenge asked to the user when they log on to OneSpan Sign.
+         *
+         * @param question the second question @size(min="1", max="255"): phoneNumber
+         * @return This
+         */
+        public QASMSBuilder smsQuestion(String question) {
+            this.question = question;
+            this.challengeType = SMS_CHALLENGE_TYPE;
+            challenges.add(new Challenge(challengeType, question, null, Challenge.MaskOptions.None));
+            return this;
+        }
+
+        /**
+         * Add answer to the first and second question. Must be invoked in order
+         * in order to provide the first question's answer and the second
+         * question's answer.
+         *
+         * <p>
+         * It should not be invoked more than twice.
+         *
+         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @return This
+         * @see #firstQuestion(String, String)
+         * @see #secondQuestion(String, String)
+         */
+        public QASMSBuilder answer(String answer) {
+            challenges.add(new Challenge(challengeType, question, answer));
+            return this;
+        }
+
+        /**
+         * Add answer to the first and second question with mask input option. Must be invoked in order
+         * in order to provide the first question's answer and the second
+         * question's answer.
+         *
+         * <p>
+         * It should not be invoked more than twice.
+         *
+         * @param answer     answer to the authentication questions @size(min="1", max="255")
+         * @param maskOption enable/disable masking of challenge
+         * @return This
+         * @see #firstQuestion(String, String)
+         * @see #secondQuestion(String, String)
+         */
+        @Deprecated
+        public QASMSBuilder answer(String answer, Challenge.MaskOptions maskOption) {
+            challenges.add(new Challenge(challengeType, question, answer, maskOption));
+            return this;
+        }
+
+        /**
+         * Add answer to the first and second question with mask input. Must be invoked in order
+         * in order to provide the first question's answer and the second
+         * question's answer.
+         *
+         * <p>
+         * It should not be invoked more than twice.
+         *
+         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @return This
+         * @see #firstQuestion(String, String)
+         * @see #secondQuestion(String, String)
+         */
+        public QASMSBuilder answerWithMaskInput(String answer) {
+            challenges.add(new Challenge(challengeType, question, answer, Challenge.MaskOptions.MaskInput));
+            return this;
+        }
+
+        @Override
+        public Authentication build() {
+            if (questionProvided() && challenges.isEmpty()) {
+                throw new IllegalStateException("Question challenge was provided with no answer");
+            }
+
+            if (challengeTypeProvided() && challenges.isEmpty()) {
+                throw new IllegalStateException("Challenge type was provided with no challenge");
+            }
+
+            return new Authentication(QASMS, challenges);
+        }
+
+        private boolean questionProvided() {
+            return question != null && !question.trim().isEmpty();
+        }
+
+        private boolean challengeTypeProvided() {
+            return challengeType != null && !challengeType.trim().isEmpty();
+        }
+
     }
 
     private boolean isGroupSigner() {
