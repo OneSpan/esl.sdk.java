@@ -37,7 +37,7 @@ public class SignerQASMSChallengeExample extends SDKSample {
                                 .answer(FIRST_ANSWER)
                                 .secondQuestion(CHALLENGE_CHALLENGE_TYPE, SECOND_QUESTION)
                                 .answerWithMaskInput(SECOND_ANSWER)
-                            .smsQuestion("+12042345678")))
+                            .smsPhoneNumber("+12042345678")))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature(signatureFor(email1)

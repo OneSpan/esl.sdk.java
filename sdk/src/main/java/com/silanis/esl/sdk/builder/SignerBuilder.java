@@ -687,7 +687,7 @@ final public class SignerBuilder {
          * @param challengeType challenge type (CHALLENGE or SMS)
          * @return This
          */
-        public QASMSBuilder firstQuestion(String challengeType, String question) {
+        public static QASMSBuilder firstQuestion(String challengeType, String question) {
             return new QASMSBuilder(question, challengeType);
         }
 
@@ -710,10 +710,8 @@ final public class SignerBuilder {
          * @param question the second question @size(min="1", max="255"): phoneNumber
          * @return This
          */
-        public QASMSBuilder smsQuestion(String question) {
-            this.question = question;
-            this.challengeType = SMS_CHALLENGE_TYPE;
-            challenges.add(new Challenge(challengeType, question, null, Challenge.MaskOptions.None));
+        public QASMSBuilder smsPhoneNumber(String question) {
+            challenges.add(new Challenge(SMS_CHALLENGE_TYPE, question, null, Challenge.MaskOptions.None));
             return this;
         }
 
