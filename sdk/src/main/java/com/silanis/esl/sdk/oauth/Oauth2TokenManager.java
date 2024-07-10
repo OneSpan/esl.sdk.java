@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Oauth2TokenManager {
 
-    public static final int ACCESS_TOKEN_EXPIRATION_LEEWAY = 2;
+    public static final int ACCESS_TOKEN_EXPIRATION_LEEWAY = 10;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
