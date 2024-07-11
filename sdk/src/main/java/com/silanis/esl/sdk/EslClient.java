@@ -75,6 +75,9 @@ public class EslClient {
     public static final String BASE_URL = "baseURL";
     public static final String API_TOKEN_CONFIG = "apiTokenConfig";
 
+    private OAuthTokenConfig oAuthTokenConfig;
+
+
     /**
      * The constructor of the EslClient class
      *
@@ -144,6 +147,11 @@ public class EslClient {
         this.proxyConfiguration = proxyConfiguration;
         init(client);
     }
+
+    /**
+     * @Deprecated Use EslClientProvider instead
+     */
+    @Deprecated
     public EslClient(OAuthTokenConfig tokenConfig, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration,
                      boolean useSystemProperties, Map<String, String> headers) {
         Asserts.notNull(tokenConfig, "OAuthTokenConfig");
@@ -151,7 +159,7 @@ public class EslClient {
         setBaseURL(baseURL);
         setWebpageURL(baseURL);
         this.proxyConfiguration = proxyConfiguration;
-        tokenConfig.toString();
+        this.oAuthTokenConfig = tokenConfig;
         RestClient client = new RestClient(tokenConfig, allowAllSSLCertificates, proxyConfiguration, useSystemProperties, headers);
         init(client);
     }
@@ -856,5 +864,9 @@ public class EslClient {
 
     public SigningService getSigningService() {
         return signingService;
+    }
+
+    public OAuthTokenConfig getoAuthTokenConfig() {
+        return oAuthTokenConfig;
     }
 }
