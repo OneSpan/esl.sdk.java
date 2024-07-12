@@ -15,23 +15,23 @@ import com.silanis.esl.sdk.EslClient;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class EslClientProviderTest {
+public class EslOauthClientProviderTest {
 
     @Test
     public void getInstance_ShouldReturnSameInstance() {
-        EslClientProvider firstInstance = EslClientProvider.getInstance();
-        EslClientProvider secondInstance = EslClientProvider.getInstance();
+        EslOauthClientProvider firstInstance = EslOauthClientProvider.getInstance();
+        EslOauthClientProvider secondInstance = EslOauthClientProvider.getInstance();
 
         assertSame("Expected both instances to be the same", firstInstance, secondInstance);
     }
 
     @Test
     public void getEslClient_FirstTime_ShouldCreateNewClient() {
-        EslClientProvider provider = EslClientProvider.getInstance();
+        EslOauthClientProvider provider = EslOauthClientProvider.getInstance();
 
-        EslClientProvider spyProvider = spy(provider);
+        EslOauthClientProvider spyProvider = spy(provider);
 
-        EslClientConfig config = new EslClientConfig.Builder()
+        EslOauthClientConfig config = new EslOauthClientConfig.Builder()
             .withClientId("clientId1")
             .withClientSecret("clientSecret1")
             .withApiUrl("apiUrl")
@@ -46,17 +46,17 @@ public class EslClientProviderTest {
 
     @Test
     public void getEslClient_WhenSecretChanges_ShouldCallCreateNewClientTwice() {
-        EslClientProvider provider = EslClientProvider.getInstance();
-        EslClientProvider spyProvider = spy(provider);
+        EslOauthClientProvider provider = EslOauthClientProvider.getInstance();
+        EslOauthClientProvider spyProvider = spy(provider);
 
-        EslClientConfig initialConfig = new EslClientConfig.Builder()
+        EslOauthClientConfig initialConfig = new EslOauthClientConfig.Builder()
             .withClientId("clientId2")
             .withClientSecret("clientSecret2")
             .withApiUrl("apiUrl")
             .withAuthenticationServer("authServer")
             .build();
 
-        EslClientConfig newConfig = new EslClientConfig.Builder()
+        EslOauthClientConfig newConfig = new EslOauthClientConfig.Builder()
             .withClientId("clientId2")
             .withClientSecret("newSecret")
             .withApiUrl("apiUrl")
@@ -66,16 +66,16 @@ public class EslClientProviderTest {
         spyProvider.getEslClient(initialConfig);
         spyProvider.getEslClient(newConfig);
 
-        verify(spyProvider, times(2)).createNewClient(any(EslClientConfig.class));
+        verify(spyProvider, times(2)).createNewClient(any(EslOauthClientConfig.class));
     }
 
     @Test
     public void getEslClient_WithSameSecret_ShouldNotCreateNewClient() {
-        EslClientProvider provider = EslClientProvider.getInstance();
+        EslOauthClientProvider provider = EslOauthClientProvider.getInstance();
 
-        EslClientProvider spyProvider = spy(provider);
+        EslOauthClientProvider spyProvider = spy(provider);
 
-        EslClientConfig config = new EslClientConfig.Builder()
+        EslOauthClientConfig config = new EslOauthClientConfig.Builder()
             .withClientId("clientId3")
             .withClientSecret("clientSecret3")
             .withApiUrl("apiUrl")
