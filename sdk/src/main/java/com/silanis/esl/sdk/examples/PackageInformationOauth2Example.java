@@ -9,9 +9,6 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.SupportConfiguration;
 
-/**
- * Created by schoi on 4/1/15.
- */
 public class PackageInformationOauth2Example extends Oauth2SDKSample {
 
     public SupportConfiguration supportConfiguration;
