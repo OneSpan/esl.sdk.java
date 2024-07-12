@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.provider;
 import java.util.Map;
 
 import com.silanis.esl.sdk.ProxyConfiguration;
+import com.silanis.esl.sdk.internal.Asserts;
 
 public class EslClientConfig {
 
@@ -121,6 +122,10 @@ public class EslClientConfig {
         }
 
         public EslClientConfig build() {
+            Asserts.notNullOrEmpty(clientId, "clientId");
+            Asserts.notNullOrEmpty(clientSecret, "clientSecret");
+            Asserts.notNullOrEmpty(authenticationServer, "authenticationServer");
+            Asserts.notNullOrEmpty(apiUrl, "apiUrl");
             return new EslClientConfig(clientId, clientSecret, authenticationServer, apiUrl, allowAllSSLCertificatesFlag,
                 proxyConfig, useSystemProperties, headers);
         }
