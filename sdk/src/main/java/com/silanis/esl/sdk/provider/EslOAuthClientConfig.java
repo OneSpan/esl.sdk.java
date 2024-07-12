@@ -6,7 +6,7 @@ import java.util.Map;
 import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.internal.Asserts;
 
-public class EslOauthClientConfig {
+public class EslOAuthClientConfig {
 
     private String clientId;
     private String clientSecret;
@@ -17,7 +17,7 @@ public class EslOauthClientConfig {
     private boolean useSystemProperties;
     private Map<String, String> headers;
 
-    private EslOauthClientConfig(String clientId, String clientSecret, String authenticationServer, String apiUrl,
+    private EslOAuthClientConfig(String clientId, String clientSecret, String authenticationServer, String apiUrl,
                                  boolean allowAllSSLCertificatesFlag, ProxyConfiguration proxyConfig, boolean useSystemProperties, Map<String,
         String> headers) {
         this.clientId = clientId;
@@ -122,12 +122,12 @@ public class EslOauthClientConfig {
             return this;
         }
 
-        public EslOauthClientConfig build() {
+        public EslOAuthClientConfig build() {
             Asserts.notNullOrEmpty(clientId, "clientId");
             Asserts.notNullOrEmpty(clientSecret, "clientSecret");
             Asserts.notNullOrEmpty(authenticationServer, "authenticationServer");
             Asserts.notNullOrEmpty(apiUrl, "apiUrl");
-            return new EslOauthClientConfig(clientId, clientSecret, authenticationServer, apiUrl, allowAllSSLCertificatesFlag,
+            return new EslOAuthClientConfig(clientId, clientSecret, authenticationServer, apiUrl, allowAllSSLCertificatesFlag,
                 proxyConfig, useSystemProperties, headers);
         }
     }

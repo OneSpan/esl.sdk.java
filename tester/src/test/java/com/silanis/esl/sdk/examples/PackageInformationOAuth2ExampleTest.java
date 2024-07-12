@@ -8,23 +8,23 @@ import static org.hamcrest.core.IsNot.not;
 import org.junit.Test;
 
 import com.silanis.esl.sdk.EslClient;
-import com.silanis.esl.sdk.provider.EslOauthClientConfig;
-import com.silanis.esl.sdk.provider.EslOauthClientProvider;
+import com.silanis.esl.sdk.provider.EslOAuthClientConfig;
+import com.silanis.esl.sdk.provider.EslOAuthClientProvider;
 
-public class PackageInformationOauth2ExampleTest {
-    
+public class PackageInformationOAuth2ExampleTest {
+
     @Test
     public void verifyResult() {
-        PackageInformationOauth2Example example = new PackageInformationOauth2Example();
+        PackageInformationOAuth2Example example = new PackageInformationOAuth2Example();
 
-        EslOauthClientConfig config = new EslOauthClientConfig.Builder()
-            .withAuthenticationServer(example.getOauthServerUrl())
+        EslOAuthClientConfig config = new EslOAuthClientConfig.Builder()
+            .withAuthenticationServer(example.getOAuthServerUrl())
             .withClientId(example.getClientId())
             .withClientSecret(example.getClientSecret())
             .withApiUrl(example.getApiUrl())
             .build();
 
-        EslClient eslClient = EslOauthClientProvider.getInstance().getEslClient(config);
+        EslClient eslClient = EslOAuthClientProvider.getInstance().getEslClient(config);
 
         example.setEslClient(eslClient);
 
