@@ -22,6 +22,7 @@ public class SignerQASMSChallengeExample extends SDKSample {
     public static final String FIRST_ANSWER = "golf";
     public static final String SECOND_QUESTION = "What music instrument do you play? (answer: drums)";
     public static final String SECOND_ANSWER = "drums";
+    public static final String PHONE_NUMBER = "+12042345678";
 
     public static void main( String... args ) {
         new SignerQASMSChallengeExample().run();
@@ -37,7 +38,7 @@ public class SignerQASMSChallengeExample extends SDKSample {
                                 .answer(FIRST_ANSWER)
                                 .secondQuestion(CHALLENGE_CHALLENGE_TYPE, SECOND_QUESTION)
                                 .answerWithMaskInput(SECOND_ANSWER)
-                            .smsPhoneNumber("+12042345678")))
+                            .smsPhoneNumber(PHONE_NUMBER)))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream( documentInputStream1, DocumentType.PDF )
                         .withSignature(signatureFor(email1)
