@@ -11,9 +11,6 @@ import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.provider.EslOauthClientConfig;
 import com.silanis.esl.sdk.provider.EslOauthClientProvider;
 
-/**
- * Created by schoi on 4/1/15.
- */
 public class PackageInformationOauth2ExampleTest {
     
     @Test
