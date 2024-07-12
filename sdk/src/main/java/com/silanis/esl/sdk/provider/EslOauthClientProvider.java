@@ -5,19 +5,19 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.silanis.esl.sdk.EslClient;
 import com.silanis.esl.sdk.oauth.OAuthTokenConfig;
 
-public class EslClientProvider {
+public class EslOauthClientProvider {
 
     private static final Object mutex = new Object();
 
-    private static volatile EslClientProvider instance;
+    private static volatile EslOauthClientProvider instance;
     private final ConcurrentHashMap<String, EslClient> clients;
 
-    private EslClientProvider() {
+    private EslOauthClientProvider() {
         clients = new ConcurrentHashMap<>();
     }
 
-    public static EslClientProvider getInstance() {
-        EslClientProvider localInstance = instance;
+    public static EslOauthClientProvider getInstance() {
+        EslOauthClientProvider localInstance = instance;
 
         if (localInstance == null) {
 
@@ -25,19 +25,19 @@ public class EslClientProvider {
                 localInstance = instance;
 
                 if (localInstance == null) {
-                    instance = localInstance = new EslClientProvider();
+                    instance = localInstance = new EslOauthClientProvider();
                 }
             }
         }
         return localInstance;
     }
 
-    public EslClient getEslClient(EslClientConfig config) {
+    public EslClient getEslClient(EslOauthClientConfig config) {
 
         return clients.compute(config.getClientId(), (key, value) -> computeEslClient(value, config));
     }
 
-    private EslClient computeEslClient(EslClient eslClient, EslClientConfig config) {
+    private EslClient computeEslClient(EslClient eslClient, EslOauthClientConfig config) {
 
         if (eslClient == null || !eslClient.getoAuthTokenConfig().getClientSecret().equals(config.getClientSecret())) {
             eslClient = createNewClient(config);
@@ -46,7 +46,7 @@ public class EslClientProvider {
         return eslClient;
     }
 
-    protected EslClient createNewClient(EslClientConfig config) {
+    protected EslClient createNewClient(EslOauthClientConfig config) {
 
         OAuthTokenConfig authTokenConfig = OAuthTokenConfig.builder()
             .withAuthenticationServer(config.getAuthenticationServer())

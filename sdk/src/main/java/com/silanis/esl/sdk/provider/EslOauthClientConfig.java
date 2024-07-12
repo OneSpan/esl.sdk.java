@@ -1,11 +1,12 @@
 package com.silanis.esl.sdk.provider;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.internal.Asserts;
 
-public class EslClientConfig {
+public class EslOauthClientConfig {
 
     private String clientId;
     private String clientSecret;
@@ -16,8 +17,8 @@ public class EslClientConfig {
     private boolean useSystemProperties;
     private Map<String, String> headers;
 
-    private EslClientConfig(String clientId, String clientSecret, String authenticationServer, String apiUrl,
-                            boolean allowAllSSLCertificatesFlag, ProxyConfiguration proxyConfig, boolean useSystemProperties, Map<String,
+    private EslOauthClientConfig(String clientId, String clientSecret, String authenticationServer, String apiUrl,
+                                 boolean allowAllSSLCertificatesFlag, ProxyConfiguration proxyConfig, boolean useSystemProperties, Map<String,
         String> headers) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
@@ -79,7 +80,7 @@ public class EslClientConfig {
         private boolean allowAllSSLCertificatesFlag;
         private ProxyConfiguration proxyConfig;
         private boolean useSystemProperties;
-        private Map<String, String> headers;
+        private Map<String, String> headers = new HashMap<>();
 
         public Builder withClientId(String clientId) {
             this.clientId = clientId;
@@ -121,12 +122,12 @@ public class EslClientConfig {
             return this;
         }
 
-        public EslClientConfig build() {
+        public EslOauthClientConfig build() {
             Asserts.notNullOrEmpty(clientId, "clientId");
             Asserts.notNullOrEmpty(clientSecret, "clientSecret");
             Asserts.notNullOrEmpty(authenticationServer, "authenticationServer");
             Asserts.notNullOrEmpty(apiUrl, "apiUrl");
-            return new EslClientConfig(clientId, clientSecret, authenticationServer, apiUrl, allowAllSSLCertificatesFlag,
+            return new EslOauthClientConfig(clientId, clientSecret, authenticationServer, apiUrl, allowAllSSLCertificatesFlag,
                 proxyConfig, useSystemProperties, headers);
         }
     }
