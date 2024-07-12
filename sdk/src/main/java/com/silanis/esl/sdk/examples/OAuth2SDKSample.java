@@ -1,20 +1,20 @@
 package com.silanis.esl.sdk.examples;
 
-public abstract class Oauth2SDKSample extends BaseSDKSample{
+public abstract class OAuth2SDKSample extends BaseSDKSample {
 
     private String clientId;
     private String clientSecret;
-    private String oauthServerUrl;
+    private String oAuthServerUrl;
     private String apiUrl;
 
-    public Oauth2SDKSample() {
-       setOauth2Props();
+    public OAuth2SDKSample() {
+        setOAuth2Props();
     }
 
-    private void setOauth2Props() {
+    private void setOAuth2Props() {
         clientId = props.getProperty("api.oauth.clientID");
         clientSecret = props.getProperty("api.oauth.clientSecret");
-        oauthServerUrl = props.getProperty("api.oauth.server.url");
+        oAuthServerUrl = props.getProperty("api.oauth.server.url");
         apiUrl = props.getProperty("api.url");
     }
 
@@ -26,8 +26,8 @@ public abstract class Oauth2SDKSample extends BaseSDKSample{
         return clientSecret;
     }
 
-    public String getOauthServerUrl() {
-        return oauthServerUrl;
+    public String getOAuthServerUrl() {
+        return oAuthServerUrl;
     }
 
     public String getApiUrl() {

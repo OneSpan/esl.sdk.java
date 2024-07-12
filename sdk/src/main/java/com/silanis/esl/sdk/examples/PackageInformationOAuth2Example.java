@@ -9,7 +9,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.SupportConfiguration;
 
-public class PackageInformationOauth2Example extends Oauth2SDKSample {
+public class PackageInformationOAuth2Example extends OAuth2SDKSample {
 
     public SupportConfiguration supportConfiguration;
 
@@ -23,12 +23,12 @@ public class PackageInformationOauth2Example extends Oauth2SDKSample {
             .withDocument(newDocumentWithName("First Document")
                 .fromStream(documentInputStream1, DocumentType.PDF)
                 .withSignature(signatureFor(email1)
-                                       .onPage(0)
-                                       .atPosition(100, 100)))
+                    .onPage(0)
+                    .atPosition(100, 100)))
             .build();
 
-        packageId = eslClient.createPackage( superDuperPackage );
-        eslClient.sendPackage( packageId );
+        packageId = eslClient.createPackage(superDuperPackage);
+        eslClient.sendPackage(packageId);
 
         supportConfiguration = eslClient.getPackageService().getConfig(packageId);
     }
