@@ -1,10 +1,10 @@
 package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.*;
-import java.util.List;
-import java.util.ArrayList;
+
 import com.silanis.esl.api.util.SchemaSanitizer;
 @JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthChallenge extends Model
       implements java.io.Serializable
 {
@@ -16,6 +16,9 @@ public class AuthChallenge extends Model
     public static final String FIELD_MASKINPUT = "maskInput";
     @JsonIgnore
     public static final String FIELD_QUESTION = "question";
+
+    @JsonIgnore
+    public static final String FIELD_CHALLENGETYPE = "challengeType";
     
     // Empty Constructor
     public AuthChallenge ( ) {}
@@ -24,6 +27,7 @@ public class AuthChallenge extends Model
     protected String _answer = "";
     protected Boolean _maskInput = false;
     protected String _question = "";
+    protected String _challengeType = null;
     
     // Accessors
         
@@ -92,6 +96,26 @@ public class AuthChallenge extends Model
     public String getQuestion(){
         return _question;
     }
-    
+
+
+    public AuthChallenge setChallengeType( String value ){
+        value = SchemaSanitizer.sanitize(value);
+        value = SchemaSanitizer.trim(value);
+        // TODO With proper compare
+//         if ( this._challengeType == value ) return this;
+        this._challengeType = value;
+        setDirty(FIELD_CHALLENGETYPE);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public AuthChallenge safeSetChallengeType( String value ){
+        if ( value != null ) { this.setChallengeType( value ); }
+        return this;
+    }
+    public String getChallengeType(){
+        return _challengeType;
+    }
+
     
 }

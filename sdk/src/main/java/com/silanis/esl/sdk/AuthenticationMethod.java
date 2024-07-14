@@ -13,7 +13,7 @@ public class AuthenticationMethod extends EslEnumeration {
     public static final AuthenticationMethod KBA = new AuthenticationMethod("KBA", "KBA", 3);
     public static final AuthenticationMethod SSO = new AuthenticationMethod("SSO", "SSO", 4);
     public static final AuthenticationMethod IDV = new AuthenticationMethod("ID_VERIFICATION", "IDV", 5);
-    public static final AuthenticationMethod QASMS = new AuthenticationMethod("Q&A+SMS", "QASMS", 6);
+    public static final AuthenticationMethod QASMS = new AuthenticationMethod("QASMS", "QASMS", 6);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
