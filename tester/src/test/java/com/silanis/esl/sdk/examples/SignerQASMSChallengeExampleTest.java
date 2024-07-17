@@ -34,5 +34,7 @@ public class SignerQASMSChallengeExampleTest {
 
         }
         assertThat(documentPackage.getSigner(example.email1).getAuthenticationMethod(), is(QASMS));
+        assertThat(documentPackage.getSigner(example.email1).getChallengeQuestions().size(), is(3));
+
     }
 }

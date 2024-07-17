@@ -93,6 +93,8 @@ public class AuthenticationConverter {
             for (AuthChallenge apiChallenge : apiAuth.getChallenges()) {
                 if ("CHALLENGE".equals(apiAuth.getScheme())) {
                     sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKChallenge());
+                } else if ("QASMS".equals(apiAuth.getScheme())) {
+                    sdkChallenges.add(new ChallengeConverter(apiChallenge).toSDKQASMSChallenge());
                 } else {
                     telephoneNumber = apiChallenge.getQuestion();
                     break;
@@ -101,6 +103,8 @@ public class AuthenticationConverter {
 
             if ("CHALLENGE".equals(apiAuth.getScheme())) {
                 sdkAuth = new Authentication(sdkChallenges);
+            }else if ("QASMS".equals(apiAuth.getScheme())) {
+                sdkAuth = new Authentication(AuthenticationMethod.QASMS, sdkChallenges);
             } else if ("SMS".equals(apiAuth.getScheme())) {
                 sdkAuth = new Authentication(AuthenticationMethod.SMS, telephoneNumber);
             } else if ("ID_VERIFICATION".equals(apiAuth.getScheme())) {
