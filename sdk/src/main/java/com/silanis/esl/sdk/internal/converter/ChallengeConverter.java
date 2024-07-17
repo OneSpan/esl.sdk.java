@@ -62,7 +62,21 @@ public class ChallengeConverter {
         if (apiChallenge == null) {
             return sdkChallenge;
         }
-        com.silanis.esl.sdk.Challenge sdkChallenge = new com.silanis.esl.sdk.Challenge(apiChallenge.getQuestion(), apiChallenge.getAnswer(), apiChallenge.getMaskInput()? Challenge.MaskOptions.MaskInput : Challenge.MaskOptions.None);
+        com.silanis.esl.sdk.Challenge sdkChallenge = new com.silanis.esl.sdk.Challenge(
+            apiChallenge.getQuestion(),
+            apiChallenge.getAnswer(),
+            apiChallenge.getMaskInput()? Challenge.MaskOptions.MaskInput : Challenge.MaskOptions.None);
+        return sdkChallenge;
+    }
+    public com.silanis.esl.sdk.Challenge toSDKQASMSChallenge() {
+        if (apiChallenge == null) {
+            return sdkChallenge;
+        }
+        com.silanis.esl.sdk.Challenge sdkChallenge = new com.silanis.esl.sdk.Challenge(
+            apiChallenge.getChallengeType() != null ? apiChallenge.getChallengeType() : null,
+            apiChallenge.getQuestion(),
+            apiChallenge.getAnswer(),
+            apiChallenge.getMaskInput()? Challenge.MaskOptions.MaskInput : Challenge.MaskOptions.None);
         return sdkChallenge;
     }
 

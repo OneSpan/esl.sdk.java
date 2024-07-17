@@ -33,10 +33,10 @@ public class Challenge {
 
     public Challenge(String challengeType, String question, String answer, MaskOptions maskOption) {
         if (challengeType == null || challengeType.trim().isEmpty()) {
-            throw new IllegalArgumentException("question parameter cannot be null or empty");
+            throw new IllegalArgumentException("challenge type parameter cannot be null or empty");
         }
         if (question == null || question.trim().isEmpty()) {
-            throw new IllegalArgumentException("challenge type parameter cannot be null or empty");
+            throw new IllegalArgumentException("question parameter cannot be null or empty");
         }
 
         this.challengeType = challengeType;

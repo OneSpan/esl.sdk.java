@@ -4,8 +4,12 @@ import com.silanis.esl.sdk.Challenge;
 import com.silanis.esl.sdk.DocumentPackage;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.AuthenticationMethod.CHALLENGE;
+import static com.silanis.esl.sdk.AuthenticationMethod.QASMS;
 import static com.silanis.esl.sdk.examples.SignerQnAChallengeExample.FIRST_QUESTION;
 import static com.silanis.esl.sdk.examples.SignerQnAChallengeExample.SECOND_QUESTION;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -28,5 +32,7 @@ public class SignerQnAChallengeExampleTest {
                                || challenge.getQuestion().contentEquals(SECOND_QUESTION));
 
         }
+        assertThat(documentPackage.getSigner(example.email1).getAuthenticationMethod(), is(CHALLENGE));
+        assertThat(documentPackage.getSigner(example.email1).getChallengeQuestions().size(), is(2));
     }
 }
