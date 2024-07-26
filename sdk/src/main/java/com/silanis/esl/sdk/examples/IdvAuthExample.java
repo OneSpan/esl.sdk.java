@@ -24,7 +24,7 @@ public class IdvAuthExample extends SDKSample {
     public static final String PHONE_NUMBER = "+15555555555";
     public static final String IDV_WORKFLOW_ID1 = "00000000-0000-0001-0000-200000000055";
     public static final String TYPE1 = "DV";
-    public static final String TENANT = "oss";
+    public static final String TENANT = "OSS";
     public static final String DESC1 = "This is Mitek Document verification only Mock workflow.";
 
     public static final String IDV_WORKFLOW_ID2 = "00000000-0001-0001-0000-200000000055";
