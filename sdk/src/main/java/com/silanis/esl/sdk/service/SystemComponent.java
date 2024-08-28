@@ -11,22 +11,19 @@ import java.util.Properties;
 /**
  * Created by schoi on 3/31/15.
  */
-public class SystemService {
+public class SystemComponent extends EslComponent {
 
-    private UrlTemplate template;
-    private RestClient client;
 
-    public SystemService(RestClient client, String baseUrl) {
-        this.client = client;
-        template = new UrlTemplate(baseUrl);
+    public SystemComponent(RestClient client, String baseUrl) {
+        super(client, baseUrl);
     }
 
     public String getApplicationVersion() {
-        String path = template.urlFor(UrlTemplate.SYSTEM_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SYSTEM_PATH)
                               .build();
 
         try{
-            String json = client.get(path);
+            String json = getClient().get(path);
             Properties systemInfo = Serialization.fromJson(json, Properties.class);
             return systemInfo.getProperty("version");
 

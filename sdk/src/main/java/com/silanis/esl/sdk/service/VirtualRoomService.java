@@ -10,14 +10,10 @@ import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.VirtualRoomConverter;
 
-public class VirtualRoomService {
-
-    private final UrlTemplate template;
-    private final RestClient client;
+public class VirtualRoomService extends EslComponent {
 
     public VirtualRoomService(RestClient client, String baseUrl) {
-        this.client = client;
-        template = new UrlTemplate(baseUrl);
+        super(client, baseUrl);
     }
 
     /**
@@ -27,12 +23,12 @@ public class VirtualRoomService {
      * @return VirtualRoom
      */
     public com.silanis.esl.sdk.VirtualRoom getVirtualRoom(PackageId packageId) {
-        String path = template.urlFor(UrlTemplate.VIRTUAL_ROOM_CONFIG_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.VIRTUAL_ROOM_CONFIG_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
         String stringResponse;
         try {
-            stringResponse = client.get(path);
+            stringResponse = getClient().get(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not get virtual room configuration.", e);
         } catch (Exception e) {
@@ -51,14 +47,14 @@ public class VirtualRoomService {
      * @param virtualRoom
      */
     public void setVirtualRoom(PackageId packageId, com.silanis.esl.sdk.VirtualRoom virtualRoom) {
-        String path = template.urlFor(UrlTemplate.VIRTUAL_ROOM_CONFIG_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.VIRTUAL_ROOM_CONFIG_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
         VirtualRoomConverter converter = new VirtualRoomConverter(virtualRoom);
         String virtualRoomJson = Serialization.toJson(converter.toAPIVirtualRoom());
 
         try {
-            client.put(path, virtualRoomJson);
+            getClient().put(path, virtualRoomJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update virtualRoom", e);
         } catch (Exception e) {

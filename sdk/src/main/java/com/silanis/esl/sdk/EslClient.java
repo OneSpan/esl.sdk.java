@@ -16,7 +16,6 @@ import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
 import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
-import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
 import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
 import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
@@ -43,13 +42,13 @@ public class EslClient {
     private String baseURL;
     private String webpageURL;
     private PackageService packageService;
-    private ReportService reportService;
-    private SessionService sessionService;
-    private FieldSummaryService fieldSummaryService;
+    private ReportComponent reportService;
+    private SessionComponent sessionService;
+    private FieldSummaryComponent fieldSummaryService;
     private AuditService auditService;
     private EventNotificationService eventNotificationService;
     private AuthenticationTokensService authenticationTokensService;
-    private GroupService groupService;
+    private GroupComponent groupService;
     private CustomFieldService customFieldService;
     private AccountService accountService;
     private ApprovalService approvalService;
@@ -59,9 +58,9 @@ public class EslClient {
     private LayoutService layoutService;
     private QRCodeService qrCodeService;
     private AuthenticationService authenticationService;
-    private SystemService systemService;
-    private SignatureImageService signatureImageService;
-    private SigningService signingService;
+    private SystemComponent systemService;
+    private SignatureImageComponent signatureImageService;
+    private SigningComponent signingService;
     private AccountConfigService accountConfigService;
     private SignerVerificationService signerVerificationService;
     private SigningStyleService signingStyleService;
@@ -166,23 +165,23 @@ public class EslClient {
 
     private void init(RestClient client) {
         packageService = new PackageService(client, this.baseURL);
-        reportService = new ReportService(client, this.baseURL);
-        systemService = new SystemService(client, this.baseURL);
-        signingService = new SigningService(client, this.baseURL);
-        signatureImageService = new SignatureImageService(client, this.baseURL);
-        sessionService = new SessionService(client, this.baseURL);
-        fieldSummaryService = new FieldSummaryService(client, this.baseURL);
+        reportService = new ReportComponent(client, this.baseURL);
+        systemService = new SystemComponent(client, this.baseURL);
+        signingService = new SigningComponent(client, this.baseURL);
+        signatureImageService = new SignatureImageComponent(client, this.baseURL);
+        sessionService = new SessionComponent(client, this.baseURL);
+        fieldSummaryService = new FieldSummaryComponent(client, this.baseURL);
         auditService = new AuditService(new AuditApiClient(client, this.baseURL));
         eventNotificationService = new EventNotificationService(new EventNotificationApiClient(client, this.baseURL));
         authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, this.baseURL));
-        groupService = new GroupService(client, this.baseURL);
+        groupService = new GroupComponent(client, this.baseURL);
         customFieldService = new CustomFieldService(new CustomFieldApiClient(client, this.baseURL));
         accountService = new AccountService(new AccountApiClient(client, this.baseURL));
         accountConfigService = new AccountConfigService(new AccountConfigClient(client, this.baseURL));
         approvalService = new ApprovalService(new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService(client, this.baseURL);
         templateService = new TemplateService(client, this.baseURL, packageService);
-        attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL), client, this.baseURL);
+        attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
         authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
@@ -246,13 +245,13 @@ public class EslClient {
      *
      * @return the report service
      */
-    public ReportService getReportService() {
+    public ReportComponent getReportService() {
         return reportService;
     }
 
 
     @SuppressWarnings("unused")
-    public SessionService getSessionService() {
+    public SessionComponent getSessionService() {
         return sessionService;
     }
 
@@ -261,7 +260,7 @@ public class EslClient {
      *
      * @return the field summary service
      */
-    public FieldSummaryService getFieldSummaryService() {
+    public FieldSummaryComponent getFieldSummaryService() {
         return fieldSummaryService;
     }
 
@@ -313,7 +312,7 @@ public class EslClient {
      *
      * @return the signature image service
      */
-    public SignatureImageService getSignatureImageService() {
+    public SignatureImageComponent getSignatureImageService() {
         return signatureImageService;
     }
 
@@ -519,7 +518,7 @@ public class EslClient {
             document.getApprovals().clear();
             signedDocuments.addDocument(document);
         }
-        SigningService signingForSignerService = new SigningService(signerClient, this.baseURL);
+        SigningComponent signingForSignerService = new SigningComponent(signerClient, this.baseURL);
         signingForSignerService.signDocuments(packageId, signedDocuments);
     }
 
@@ -822,7 +821,7 @@ public class EslClient {
         eOriginalService.revault(packageId);
     }
 
-    public GroupService getGroupService() {
+    public GroupComponent getGroupService() {
         return groupService;
     }
 
@@ -858,11 +857,11 @@ public class EslClient {
         return qrCodeService;
     }
 
-    public SystemService getSystemService() {
+    public SystemComponent getSystemService() {
         return systemService;
     }
 
-    public SigningService getSigningService() {
+    public SigningComponent getSigningService() {
         return signingService;
     }
 

@@ -18,7 +18,6 @@ import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.BasePackageTypeConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +25,12 @@ import java.util.List;
 /**
  * The TemplateService class provides methods to help create templates from packages.
  */
-public class TemplateService {
+public class TemplateService extends EslComponent {
 
-    private UrlTemplate urls;
-    private RestClient client;
     private PackageService packageService;
 
     public TemplateService(RestClient client, String baseUrl, PackageService packageService) {
-        this.client = client;
-        urls = new UrlTemplate(baseUrl);
+        super(client, baseUrl);
         this.packageService = packageService;
     }
 
@@ -49,14 +45,14 @@ public class TemplateService {
         Package deltaPackage = new DocumentPackageConverter(delta).toAPIPackage();
         deltaPackage.setType(new BasePackageTypeConverter(BasePackageType.TEMPLATE).toAPIBasePackageType());
 
-        String path = urls.urlFor(UrlTemplate.TEMPLATE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.TEMPLATE_PATH)
                 .replace("{packageId}", originalPackageId.getId())
                 .build();
         String deltaJson = Serialization.toJson(deltaPackage);
 
         Package returnedPackage;
         try {
-            String response = client.post(path, deltaJson);
+            String response = getClient().post(path, deltaJson);
             returnedPackage = Serialization.fromJson(response, Package.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create template", e);
@@ -98,14 +94,14 @@ public class TemplateService {
         setNewSignersIndexIfRoleWorkflowEnabled(packageId, documentPackage);
         Package packageToCreate = new DocumentPackageConverter(documentPackage).toAPIPackage();
 
-        String path = urls.urlFor(UrlTemplate.TEMPLATE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.TEMPLATE_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
         String packageJson = Serialization.toJson(packageToCreate);
 
         Package createdPackage;
         try {
-            String response = client.post(path, packageJson);
+            String response = getClient().post(path, packageJson);
             createdPackage = Serialization.fromJson(response, Package.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create a new package from template", e);
@@ -168,12 +164,12 @@ public class TemplateService {
     public PackageId createTemplate(DocumentPackage template) {
         Package packageToCreate = new DocumentPackageConverter(template).toAPIPackage();
         packageToCreate.setType(new BasePackageTypeConverter(BasePackageType.TEMPLATE).toAPIBasePackageType());
-        String path = urls.urlFor(UrlTemplate.PACKAGE_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_PATH).build();
         String packageJson = Serialization.toJson(packageToCreate);
 
         PackageId templateId;
         try {
-            String response = client.post(path, packageJson);
+            String response = getClient().post(path, packageJson);
             templateId = Serialization.fromJson(response, PackageId.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create template", e);
@@ -201,14 +197,14 @@ public class TemplateService {
         Package packageToUpdate = new DocumentPackageConverter(template).toAPIPackage();
         packageToUpdate.setType(new BasePackageTypeConverter(BasePackageType.TEMPLATE).toAPIBasePackageType());
 
-        String path = urls.urlFor(UrlTemplate.PACKAGE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_ID_PATH)
                 .replace("{packageId}", packageToUpdate.getId())
                 .build();
 
         String packageJson = Serialization.toJson(packageToUpdate);
 
         try {
-            client.put(path, packageJson);
+            getClient().put(path, packageJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update template", e);
         } catch (Exception e) {
@@ -225,14 +221,14 @@ public class TemplateService {
      * @throws EslException
      */
     public Placeholder addPlaceholder(PackageId templateId, Placeholder placeholder) throws EslException {
-        String path = urls.urlFor(UrlTemplate.ROLE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_PATH)
                 .replace("{packageId}", templateId.getId())
                 .build();
 
         String placeholderJson = JacksonUtil.serializeDirty(placeholder);
         String stringResponse;
         try {
-            stringResponse = client.post(path, placeholderJson);
+            stringResponse = getClient().post(path, placeholderJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not add placeholder.", e);
         } catch (Exception e) {
@@ -252,7 +248,7 @@ public class TemplateService {
      * @throws EslException
      */
     public Placeholder updatePlaceholder(PackageId templateId, Placeholder placeholder) throws EslException {
-        String path = urls.urlFor(UrlTemplate.ROLE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_ID_PATH)
                 .replace("{packageId}", templateId.getId())
                 .replace("{roleId}", placeholder.getId())
                 .build();
@@ -260,7 +256,7 @@ public class TemplateService {
         String placeholderJson = JacksonUtil.serializeDirty(placeholder);
         String stringResponse;
         try {
-            stringResponse = client.put(path, placeholderJson);
+            stringResponse = getClient().put(path, placeholderJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the placeholder.", e);
         } catch (Exception e) {

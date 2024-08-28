@@ -7,14 +7,10 @@ import com.silanis.esl.sdk.internal.*;
 /**
  * The SessionService class provides a method to create a session token for a signer.
  */
-public class SessionService {
+public class SessionComponent extends EslComponent {
 
-    private UrlTemplate template;
-    private RestClient client;
-
-    public SessionService(RestClient client, String baseUrl) {
-        template = new UrlTemplate(baseUrl);
-        this.client = client;
+    public SessionComponent(RestClient client, String baseUrl) {
+        super(client, baseUrl);
     }
 
     /**
@@ -28,13 +24,13 @@ public class SessionService {
      * @throws com.silanis.esl.sdk.EslException
      */
     public SessionToken createSessionToken( String packageId, String signerId ) throws EslException {
-        String path = template.urlFor(UrlTemplate.SESSION_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SESSION_PATH)
                 .replace( "{packageId}", packageId )
                 .replace("{signerId}", signerId)
                 .build();
         String stringResponse;
         try {
-            stringResponse = client.post(path, "");
+            stringResponse = getClient().post(path, "");
         } catch (RequestException e) {
             throw new EslServerException("Could not create a session token for signer.", e);
         } catch (Exception e) {
@@ -44,11 +40,11 @@ public class SessionService {
     }
 
     public SessionToken createSenderSessionToken() throws EslException {
-        String path = template.urlFor(UrlTemplate.SENDER_SESSION_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SENDER_SESSION_PATH)
                 .build();
         String stringResponse;
         try {
-            stringResponse = client.post(path, "");
+            stringResponse = getClient().post(path, "");
         } catch (RequestException e) {
             throw new EslServerException("Could not create a session token for sender.", e);
         } catch (Exception e) {
