@@ -9,19 +9,16 @@ import com.silanis.esl.sdk.ReminderSchedule;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.ReminderScheduleConverter;
 
-public class ReminderService {
-    private final UrlTemplate template;
-    private final RestClient client;
+public class ReminderService extends EslComponent {
 
     public ReminderService( RestClient client, String baseUrl ) {
-        template = new UrlTemplate( baseUrl );
-        this.client = client;
+        super( client, baseUrl);
     }
 
     public ReminderSchedule getReminderScheduleForPackage( PackageId packageId ) {
-        String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", packageId.getId() ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", packageId.getId() ).build();
         try {
-            String stringResponse = client.get( path );
+            String stringResponse = getClient().get( path );
             if (stringResponse != null) {
                 PackageReminderSchedule apiReminderSchedule = JacksonUtil.deserialize( stringResponse, new TypeReference<PackageReminderSchedule>() {} );
                 ReminderSchedule sdkReminder = new ReminderScheduleConverter( apiReminderSchedule ).toSDKReminderSchedule();
@@ -46,10 +43,10 @@ public class ReminderService {
     }
 
     public ReminderSchedule createReminderScheduleForPackage( ReminderSchedule reminderSchedule ) {
-        String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", reminderSchedule.getPackageId().getId() ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", reminderSchedule.getPackageId().getId() ).build();
         PackageReminderSchedule apiReminderSchedule = new ReminderScheduleConverter( reminderSchedule ).toAPIPackageReminderSchedule();
         try {
-            String stringResponse = client.post( path, Serialization.toJson( apiReminderSchedule ) );
+            String stringResponse = getClient().post( path, Serialization.toJson( apiReminderSchedule ) );
             PackageReminderSchedule apiResponse = Serialization.fromJson( stringResponse, PackageReminderSchedule.class );
             return new ReminderScheduleConverter( apiResponse ).toSDKReminderSchedule();
         } catch ( RequestException e ) {
@@ -60,10 +57,10 @@ public class ReminderService {
     }
 
     public ReminderSchedule updateReminderScheduleForPackage( ReminderSchedule reminderSchedule ) {
-        String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", reminderSchedule.getPackageId().getId() ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", reminderSchedule.getPackageId().getId() ).build();
         PackageReminderSchedule apiReminderSchedule = new ReminderScheduleConverter( reminderSchedule ).toAPIPackageReminderSchedule();
         try {
-            String stringResponse = client.put( path, Serialization.toJson( apiReminderSchedule ) );
+            String stringResponse = getClient().put( path, Serialization.toJson( apiReminderSchedule ) );
             PackageReminderSchedule apiResponse = Serialization.fromJson( stringResponse, PackageReminderSchedule.class );
             return new ReminderScheduleConverter( apiResponse ).toSDKReminderSchedule();
         } catch ( RequestException e ) {
@@ -74,9 +71,9 @@ public class ReminderService {
     }
 
     public void clearReminderScheduleForPackage( PackageId packageId ) {
-        String path = template.urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", packageId.getId() ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.REMINDERS_PATH ).replace( "{packageId}", packageId.getId() ).build();
         try {
-            client.delete( path );
+            getClient().delete( path );
         } catch ( RequestException e ) {
             throw new EslServerException( "Unable to clear reminder schedule for package with ID: " + packageId.getId(), e );
         } catch ( Exception e ) {

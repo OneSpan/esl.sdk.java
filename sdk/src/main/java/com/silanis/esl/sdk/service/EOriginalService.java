@@ -10,18 +10,14 @@ import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 /**
  * The EOriginalService class provides methods to help update eOrignial Workflow data
  */
-public class EOriginalService {
-
-    private UrlTemplate template;
-    private RestClient client;
+public class EOriginalService extends EslComponent {
 
     public EOriginalService(RestClient restClient, String baseUrl) {
-        this.client = restClient;
-        template = new UrlTemplate(baseUrl);
+        super(restClient, baseUrl);
     }
 
     public void updateVaultingData( PackageId packageId, DocumentPackage sdkPackage ) throws EslException {
-        String path = template.urlFor( UrlTemplate.E_ORIGINAL_VAULTING_DATA_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.E_ORIGINAL_VAULTING_DATA_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
 
@@ -29,7 +25,7 @@ public class EOriginalService {
 
         String packageJson = Serialization.toJson( aPackage );
         try {
-            client.put(path, packageJson);
+            getClient().put(path, packageJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
@@ -38,11 +34,11 @@ public class EOriginalService {
     }
 
     public void getVaultingData( PackageId packageId) throws EslException {
-        String path = template.urlFor( UrlTemplate.E_ORIGINAL_VAULTING_DATA_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.E_ORIGINAL_VAULTING_DATA_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
         try {
-            client.get(path);
+            getClient().get(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not get the package.", e);
         } catch (Exception e) {
@@ -51,12 +47,12 @@ public class EOriginalService {
     }
 
     public void revault( PackageId packageId) throws EslException {
-        String path = template.urlFor( UrlTemplate.E_ORIGINAL_REVAULT_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.E_ORIGINAL_REVAULT_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
 
         try {
-            client.post(path, null);
+            getClient().post(path, null);
         } catch (RequestException e) {
             throw new EslServerException("Could not revault the package.", e);
         } catch (Exception e) {

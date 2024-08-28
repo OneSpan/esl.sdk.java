@@ -12,13 +12,10 @@ import com.silanis.esl.sdk.internal.converter.GroupSummaryConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupService {
-    private UrlTemplate template;
-    private RestClient client;
+public class GroupComponent extends EslComponent {
 
-    public GroupService( RestClient client, String baseUrl ) {
-        this.client = client;
-        template = new UrlTemplate( baseUrl );
+    public GroupComponent(RestClient client, String baseUrl) {
+        super(client, baseUrl);
     }
 
     /**
@@ -27,7 +24,7 @@ public class GroupService {
      * @return
      */
     public List<Group> getMyGroups() {
-        String path = template.urlFor( UrlTemplate.GROUPS_PATH ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_PATH ).build();
         return getGroups(path);
     }
 
@@ -38,13 +35,13 @@ public class GroupService {
      * @return
      */
     public List<Group> getMyGroups( String groupName ) {
-        String path = template.urlFor( UrlTemplate.GROUPS_PATH).addParam("name", groupName ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_PATH).addParam("name", groupName ).build();
         return getGroups(path);
     }
 
     private List<Group> getGroups(String path) {
         try {
-            String stringResponse = client.get( path );
+            String stringResponse = getClient().get( path );
             Result<com.silanis.esl.api.model.Group> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.Group>>() {
             } );
             List<Group> result = new ArrayList<Group>();
@@ -66,9 +63,9 @@ public class GroupService {
      * @return
      */
     public Group getGroup( GroupId groupId ) {
-        String path = template.urlFor( UrlTemplate.GROUPS_ID_PATH ).replace( "{groupId}", groupId.getId() ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_ID_PATH ).replace( "{groupId}", groupId.getId() ).build();
         try {
-            String stringResponse = client.get( path );
+            String stringResponse = getClient().get( path );
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
             return new GroupConverter(apiResponse).toSDKGroup();
         } catch ( RequestException e ) {
@@ -85,10 +82,10 @@ public class GroupService {
      * @return
      */
     public Group createGroup( Group group ) {
-        String path = template.urlFor( UrlTemplate.GROUPS_PATH ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_PATH ).build();
         com.silanis.esl.api.model.Group apiGroup = new GroupConverter(group).toAPIGroupWithoutMembers();
         try {
-            String stringResponse = client.post( path, Serialization.toJson( apiGroup ) );
+            String stringResponse = getClient().post( path, Serialization.toJson( apiGroup ) );
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
             Group resultGroup =  new GroupConverter(apiResponse).toSDKGroup();
             for ( GroupMember groupMember : group.getMembers() ) {
@@ -109,12 +106,12 @@ public class GroupService {
      * @return
      */
     public Group updateGroup( Group group, GroupId groupId ) {
-        String path = template.urlFor( UrlTemplate.GROUPS_ID_PATH )
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_ID_PATH )
                 .replace("{groupId}", groupId.getId())
                 .build();
         com.silanis.esl.api.model.Group apiGroup = new GroupConverter(group).toAPIGroup();
         try {
-            String stringResponse = client.put( path, Serialization.toJson( apiGroup ) );
+            String stringResponse = getClient().put( path, Serialization.toJson( apiGroup ) );
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
 
             Group resultGroup =  new GroupConverter(apiResponse).toSDKGroup();
@@ -134,10 +131,10 @@ public class GroupService {
      * @return The group member
      */
     public GroupMember addMember(GroupId groupId, GroupMember groupMember) {
-        String path = template.urlFor(  UrlTemplate.GROUPS_MEMBER_PATH ).build().replace( "{groupId}", groupId.getId() );
+        String path = new UrlTemplate(getBaseUrl()).urlFor(  UrlTemplate.GROUPS_MEMBER_PATH ).build().replace( "{groupId}", groupId.getId() );
         com.silanis.esl.api.model.GroupMember apiGroupMember = new GroupMemberConverter(groupMember).toAPIGroupMember();
         try {
-            String stringResponse = client.post( path, Serialization.toJson( apiGroupMember ) );
+            String stringResponse = getClient().post( path, Serialization.toJson( apiGroupMember ) );
             com.silanis.esl.api.model.GroupMember apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.GroupMember.class );
             GroupMember resultGroupMember = new GroupMemberConverter(apiResponse).toSDKGroupMember();
             return resultGroupMember;
@@ -156,10 +153,10 @@ public class GroupService {
      * @return The group with the new member
      */
     public Group inviteMember(GroupId groupId, GroupMember groupMember) {
-        String path = template.urlFor(  UrlTemplate.GROUPS_INVITE_PATH ).build().replace( "{groupId}", groupId.getId() );
+        String path = new UrlTemplate(getBaseUrl()).urlFor(  UrlTemplate.GROUPS_INVITE_PATH ).build().replace( "{groupId}", groupId.getId() );
         com.silanis.esl.api.model.GroupMember apiGroupMember = new GroupMemberConverter(groupMember).toAPIGroupMember();
         try {
-            String stringResponse = client.post( path, Serialization.toJson( apiGroupMember ) );
+            String stringResponse = getClient().post( path, Serialization.toJson( apiGroupMember ) );
             com.silanis.esl.api.model.Group apiResponse = Serialization.fromJson( stringResponse, com.silanis.esl.api.model.Group.class );
             Group resultGroup = new GroupConverter(apiResponse).toSDKGroup();
             return resultGroup;
@@ -176,9 +173,9 @@ public class GroupService {
      * @param groupId
      */
     public void deleteGroup( GroupId groupId ) {
-        String path = template.urlFor( UrlTemplate.GROUPS_ID_PATH ).replace( "{groupId}", groupId.getId() ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_ID_PATH ).replace( "{groupId}", groupId.getId() ).build();
         try {
-            client.delete( path );
+            getClient().delete( path );
         } catch ( RequestException e ) {
             throw new EslServerException( "Failed to delete Group.", e );
         } catch ( Exception e ) {
@@ -231,9 +228,9 @@ public class GroupService {
      */
     public List<com.silanis.esl.sdk.GroupSummary> getGroupSummaries() {
         List<com.silanis.esl.sdk.GroupSummary> result = new ArrayList<com.silanis.esl.sdk.GroupSummary>();
-        String path = template.urlFor( UrlTemplate.GROUPS_SUMMARY_PATH ).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.GROUPS_SUMMARY_PATH ).build();
         try {
-            String stringResponse = client.get( path );
+            String stringResponse = getClient().get( path );
             Result<com.silanis.esl.api.model.GroupSummary> apiResponse = JacksonUtil.deserialize( stringResponse, new TypeReference<Result<com.silanis.esl.api.model.GroupSummary>>() {
             } );
             for(com.silanis.esl.api.model.GroupSummary apiGroupSummary : apiResponse.getResults()) {

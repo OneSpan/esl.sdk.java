@@ -22,6 +22,9 @@ import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
 import com.silanis.esl.sdk.internal.converter.IntegrationFrameworkWorkflowConverter;
 import com.silanis.esl.sdk.internal.converter.SignatureLayoutConverter;
+import com.silanis.esl.sdk.service.EslComponent;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,21 +32,18 @@ import java.util.List;
 /**
  * Created by schoi on 2020-04-01.
  */
-public class AccountConfigClient {
-    private UrlTemplate template;
-    private RestClient restClient;
+public class AccountConfigClient extends EslComponent {
 
     public AccountConfigClient(RestClient restClient, String apiUrl) {
-        this.restClient = restClient;
-        this.template = new UrlTemplate(apiUrl);
+        super(restClient, apiUrl);
     }
 
     public Handover getHandoverUrl(String language) {
-        String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
 
             return Serialization.fromJson(stringResponse, Handover.class);
         } catch (RequestException e) {
@@ -54,12 +54,12 @@ public class AccountConfigClient {
     }
 
     public Handover createHandoverUrl(String language, Handover handover) {
-        String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
             String json = Serialization.toJson(handover);
-            String stringResponse = restClient.post(path, json);
+            String stringResponse = getClient().post(path, json);
 
             return Serialization.fromJson(stringResponse, Handover.class);
         } catch (RequestException e) {
@@ -70,12 +70,12 @@ public class AccountConfigClient {
     }
 
     public Handover updateHandoverUrl(String language, Handover handover) {
-        String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
             String json = Serialization.toJson(handover);
-            String stringResponse = restClient.put(path, json);
+            String stringResponse = getClient().put(path, json);
 
             return Serialization.fromJson(stringResponse, Handover.class);
         } catch (RequestException e) {
@@ -86,11 +86,11 @@ public class AccountConfigClient {
     }
 
     public void deleteHandoverUrl(String language) {
-        String path = template.urlFor(UrlTemplate.HANDOVER_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.HANDOVER_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete handover url.", e);
         } catch (Exception e) {
@@ -99,13 +99,13 @@ public class AccountConfigClient {
     }
 
     public List<String> createDeclineReasons(String language, List<String> declineReasons) {
-        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
                 .replace("{language}", language)
                 .build();
         String json = Serialization.toJson(declineReasons);
 
         try {
-            String stringResponse = restClient.post(path, json);
+            String stringResponse = getClient().post(path, json);
             return Serialization.fromJsonToList(stringResponse, String.class);
 
         } catch (RequestException e) {
@@ -116,13 +116,13 @@ public class AccountConfigClient {
     }
 
     public List<String> updateDeclineReasons(String language, List<String> declineReasons) {
-        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
                 .replace("{language}", language)
                 .build();
         String json = Serialization.toJson(declineReasons);
 
         try {
-            String stringResponse = restClient.put(path, json);
+            String stringResponse = getClient().put(path, json);
             return Serialization.fromJsonToList(stringResponse, String.class);
 
         } catch (RequestException e) {
@@ -133,11 +133,11 @@ public class AccountConfigClient {
     }
 
     public List<String> getDeclineReasons(String language) {
-        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJsonToList(stringResponse, String.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get decline reasons.", e);
@@ -147,11 +147,11 @@ public class AccountConfigClient {
     }
 
     public void deleteDeclineReasons(String language) {
-        String path = template.urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DECLINE_REASONS_URL_PATH)
                 .replace("{language}", language)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete decline reasons.", e);
         } catch (Exception e) {
@@ -161,10 +161,10 @@ public class AccountConfigClient {
 
 
     public List<IdvWorkflowConfiguration> getIdvWorkflowConfigs() {
-        String path = template.urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
 
             return Serialization.fromJsonToList(stringResponse, IdvWorkflowConfiguration.class);
         } catch (RequestException e) {
@@ -175,11 +175,11 @@ public class AccountConfigClient {
     }
 
     public List<IdvWorkflowConfiguration> createIdvWorkflowConfigs(List<IdvWorkflowConfiguration> idvWorkflowConfigurations) {
-        String path = template.urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
                 .build();
         try {
             String json = Serialization.toJson(idvWorkflowConfigurations);
-            String stringResponse = restClient.post(path, json);
+            String stringResponse = getClient().post(path, json);
 
             return Serialization.fromJsonToList(stringResponse, IdvWorkflowConfiguration.class);
         } catch (RequestException e) {
@@ -190,11 +190,11 @@ public class AccountConfigClient {
     }
 
     public List<IdvWorkflowConfiguration> updateIdvWorkflowConfigs(List<IdvWorkflowConfiguration> idvWorkflowConfigurations) {
-        String path = template.urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
                 .build();
         try {
             String json = Serialization.toJson(idvWorkflowConfigurations);
-            String stringResponse = restClient.put(path, json);
+            String stringResponse = getClient().put(path, json);
 
             return Serialization.fromJsonToList(stringResponse, IdvWorkflowConfiguration.class);
         } catch (RequestException e) {
@@ -205,10 +205,10 @@ public class AccountConfigClient {
     }
 
     public void deleteIdvWorkflowConfigs() {
-        String path = template.urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete IdvWorkflow Configs.", e);
         } catch (Exception e) {
@@ -221,9 +221,9 @@ public class AccountConfigClient {
      *
      */
     public AccountSettings getAccountSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SETTINGS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountSettings.class)).toSDKAccountSettings();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account settings.", e);
@@ -237,10 +237,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountSettings(AccountSettings accountSettings) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SETTINGS_PATH).build();
         String payload = JacksonUtil.serialize(accountSettings);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account settings.", e);
         } catch (Exception e) {
@@ -253,9 +253,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SETTINGS_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account settings.", e);
         } catch (Exception e) {
@@ -268,9 +268,9 @@ public class AccountConfigClient {
      *
      */
     public AccountPackageSettings getAccountPackageSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_PACKAGE_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_PACKAGE_SETTINGS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountPackageSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountPackageSettings.class)).toSDKAccountPackageSettings();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account package settings.", e);
@@ -284,10 +284,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountPackageSettings(AccountPackageSettings accountPackageSettings) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_PACKAGE_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_PACKAGE_SETTINGS_PATH).build();
         String payload = JacksonUtil.serialize(accountPackageSettings);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account package settings.", e);
         } catch (Exception e) {
@@ -300,9 +300,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountPackageSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_PACKAGE_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_PACKAGE_SETTINGS_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account package settings.", e);
         } catch (Exception e) {
@@ -315,9 +315,9 @@ public class AccountConfigClient {
      *
      */
     public AccountFeatureSettings getAccountFeatureSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_FEATURE_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_FEATURE_SETTINGS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountFeatureSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountFeatureSettings.class)).toSDKAccountFeatureSettings();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account feature settings.", e);
@@ -331,10 +331,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountFeatureSettings(AccountFeatureSettings accountFeatureSettings) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_FEATURE_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_FEATURE_SETTINGS_PATH).build();
         String payload = JacksonUtil.serialize(accountFeatureSettings);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account feature settings.", e);
         } catch (Exception e) {
@@ -347,9 +347,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountFeatureSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_FEATURE_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_FEATURE_SETTINGS_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account feature settings.", e);
         } catch (Exception e) {
@@ -362,9 +362,9 @@ public class AccountConfigClient {
      *
      */
     public com.silanis.esl.sdk.AccountDesignerSettings getAccountDesignerSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountDesignerSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountDesignerSettings.class)).tosdkAccountDesignerSettings();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account designer settings.", e);
@@ -378,10 +378,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountDesignerSettings(com.silanis.esl.sdk.AccountDesignerSettings accountDesignerSettings) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
         String payload = JacksonUtil.serialize(accountDesignerSettings);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account designer settings.", e);
         } catch (Exception e) {
@@ -394,9 +394,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountDesignerSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_DESIGNER_SETTINGS_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account designer settings.", e);
         } catch (Exception e) {
@@ -409,9 +409,9 @@ public class AccountConfigClient {
      *
      */
     public com.silanis.esl.sdk.AccountEmailReminderSettings getAccountEmailReminderSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountEmailReminderSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountEmailReminderSettings.class)).tosdkAccountEmailReminderSettings();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account email reminder settings.", e);
@@ -425,10 +425,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountEmailReminderSettings(com.silanis.esl.sdk.AccountEmailReminderSettings accountEmailReminderSettings) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
         String payload = JacksonUtil.serialize(accountEmailReminderSettings);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account email reminder settings.", e);
         } catch (Exception e) {
@@ -441,9 +441,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountEmailReminderSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_EMAIL_REMINDER_SETTINGS_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account email reminder settings.", e);
         } catch (Exception e) {
@@ -456,9 +456,9 @@ public class AccountConfigClient {
      *
      */
     public com.silanis.esl.sdk.AccountUploadSettings getAccountUploadSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountUploadSettingsConverter(com.silanis.esl.api.model.AccountUploadSettings.class.newInstance().setAllowedFileTypes( Arrays.asList(stringResponse.replaceAll("[\\[\\]]", "").split(",")))).
                     tosdkAccountUploadSettings();
         } catch (RequestException e) {
@@ -473,10 +473,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountUploadSettings(com.silanis.esl.sdk.AccountUploadSettings accountUploadSettings) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
         String payload = JacksonUtil.serialize(accountUploadSettings.getAllowedFileTypes());
         try {
-            restClient.put(path, payload);
+            getClient().put(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account upload settings.", e);
         } catch (Exception e) {
@@ -489,9 +489,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountUploadSettings() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_UPLOAD_SETTINGS_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account upload settings.", e);
         } catch (Exception e) {
@@ -504,9 +504,9 @@ public class AccountConfigClient {
      *
      */
     public com.silanis.esl.sdk.AccountSystemSettingProperties getAccountSystemSettingProperties() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new AccountSystemSettingPropertiesConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.AccountSystemSettingProperties.class)).tosdkAccountSystemSettingProperties();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account system settings.", e);
@@ -520,10 +520,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountSystemSettingProperties(com.silanis.esl.sdk.AccountSystemSettingProperties accountSystemSettingProperties) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
         String payload = JacksonUtil.serialize(accountSystemSettingProperties);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account system settings.", e);
         } catch (Exception e) {
@@ -536,9 +536,9 @@ public class AccountConfigClient {
      *
      */
     public void deleteAccountSystemSettingProperties() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SYSTEM_SETTING_PROPERTIES_PATH).build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the account system settings.", e);
         } catch (Exception e) {
@@ -551,9 +551,9 @@ public class AccountConfigClient {
      *
      */
     public com.silanis.esl.sdk.SignatureLayout getAccountSignatureLayout() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNATURE_LAYOUT_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNATURE_LAYOUT_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return new SignatureLayoutConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.SignatureLayout.class)).toSDKSignatureLayout();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the account signature layout.", e);
@@ -567,10 +567,10 @@ public class AccountConfigClient {
      *
      */
     public void saveAccountSignatureLayout(com.silanis.esl.sdk.SignatureLayout signatureLayout) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNATURE_LAYOUT_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNATURE_LAYOUT_PATH).build();
         String payload = JacksonUtil.serialize(signatureLayout);
         try {
-            restClient.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the account signature layout.", e);
         } catch (Exception e) {
@@ -583,16 +583,66 @@ public class AccountConfigClient {
      *
      */
     public List<com.silanis.esl.sdk.IntegrationFrameworkWorkflow> getIfWorkflowsConfigs() {
-        String path = template.urlFor(UrlTemplate.IF_WORKFLOW_CONFIGS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IF_WORKFLOW_CONFIGS_PATH)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
 
             return IntegrationFrameworkWorkflowConverter.toSDKList(Serialization.fromJsonToList(stringResponse, IntegrationFrameworkWorkflow.class));
         } catch (RequestException e) {
             throw new EslServerException("Could not get IfWorkflows Configs.", e);
         } catch (Exception e) {
             throw new EslException("Could not get IfWorkflows Configs.", e);
+        }
+    }
+
+    /**
+     * Get account limit supported languages settings.
+     *
+     */
+    public com.silanis.esl.sdk.SupportedLanguages getAccountLimitSupportedLanguagesSettings() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH).build();
+        try {
+            String stringResponse = getClient().get(path);
+            if(StringUtils.isEmpty(stringResponse)){
+                return new SupportedLanguages();
+            }
+            return new AccountLimitSupportedLanguagesSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.SupportedLanguages.class)).tosdkAccountLimitSupportedLanguagesSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the account limit supported languages settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the account limit supported languages settings.", e);
+        }
+    }
+
+    /**
+     * Save account limit supported languages settings.
+     *
+     */
+    public void saveAccountLimitSupportedLanguagesSettings(com.silanis.esl.sdk.SupportedLanguages accountLimitSupportedLanguagesSettings) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(accountLimitSupportedLanguagesSettings);
+        try {
+            getClient().patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not save the account limit supported languages settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not save the account limit supported languages settings.", e);
+        }
+    }
+
+    /**
+     * Delete limit supported languages settings.
+     *
+     */
+    public void deleteAccountLimitSupportedLanguagesSettings() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_LIMIT_SUPPORTED_LANGUAGES_SETTINGS_PATH).build();
+        try {
+            getClient().delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the account limit supported languages settings.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the account limit supported languages settings.", e);
         }
     }
 }
