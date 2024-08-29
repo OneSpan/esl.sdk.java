@@ -19,18 +19,15 @@ public class AuthenticationService {
 
     private final UnauthenticatedRestClient client;
     private String webpageUrl;
-    private UrlTemplate redirectUrlTemplate;
 
     public AuthenticationService(String webpageUrl) {
         this.webpageUrl = webpageUrl;
         client = new UnauthenticatedRestClient();
-        redirectUrlTemplate = new UrlTemplate(webpageUrl);
     }
 
     public AuthenticationService(String webpageUrl, ProxyConfiguration proxyConfiguration) {
         this.webpageUrl = webpageUrl;
         client = new UnauthenticatedRestClient(proxyConfiguration);
-        redirectUrlTemplate = new UrlTemplate(webpageUrl);
     }
 
     public String getSessionIdForUserAuthenticationToken(String userAuthenticationToken) {
