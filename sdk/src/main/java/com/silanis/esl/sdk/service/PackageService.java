@@ -57,11 +57,11 @@ import java.util.*;
  */
 public class PackageService extends EslComponent {
 
-    private ReportComponent reportService;
+    private ReportService reportService;
 
     public PackageService(RestClient client, String baseUrl) {
         super(client, baseUrl);
-        reportService = new ReportComponent(client, baseUrl);
+        reportService = new ReportService(client, baseUrl);
     }
 
     /**
@@ -1281,7 +1281,7 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * @deprecated Use the {@link ReportComponent#downloadCompletionReport}.
+     * @deprecated Use the {@link ReportService#downloadCompletionReport}.
      */
     @Deprecated
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
@@ -1289,7 +1289,7 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * @deprecated Use the {@link ReportComponent#downloadCompletionReportAsCSV}.
+     * @deprecated Use the {@link ReportService#downloadCompletionReportAsCSV}.
      */
     @Deprecated
     public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, String senderId, Date from, Date to) {
@@ -1297,7 +1297,7 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * @deprecated Use the {@link ReportComponent#downloadCompletionReport}.
+     * @deprecated Use the {@link ReportService#downloadCompletionReport}.
      */
     @Deprecated
     public com.silanis.esl.sdk.CompletionReport downloadCompletionReport(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
@@ -1305,7 +1305,7 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * @deprecated Use the {@link ReportComponent#downloadCompletionReportAsCSV}.
+     * @deprecated Use the {@link ReportService#downloadCompletionReportAsCSV}.
      */
     @Deprecated
     public String downloadCompletionReportAsCSV(com.silanis.esl.sdk.PackageStatus packageStatus, Date from, Date to) {
@@ -1313,7 +1313,7 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * @deprecated Use the {@link ReportComponent#downloadUsageReport}.
+     * @deprecated Use the {@link ReportService#downloadUsageReport}.
      */
     @Deprecated
     public com.silanis.esl.sdk.UsageReport downloadUsageReport(Date from, Date to) {
@@ -1321,7 +1321,7 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * @deprecated Use the {@link ReportComponent#downloadUsageReportAsCSV}.
+     * @deprecated Use the {@link ReportService#downloadUsageReportAsCSV}.
      */
     @Deprecated
     public String downloadUsageReportAsCSV(Date from, Date to) {

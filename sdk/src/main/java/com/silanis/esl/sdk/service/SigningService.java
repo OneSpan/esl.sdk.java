@@ -13,9 +13,9 @@ import com.silanis.esl.sdk.internal.UrlTemplate;
 /**
  * Created by schoi on 12/7/15.
  */
-public class SigningComponent extends EslComponent {
+public class SigningService extends EslComponent {
 
-    public SigningComponent(RestClient client, String baseUrl) {
+    public SigningService(RestClient client, String baseUrl) {
         super(client, baseUrl);
     }
 

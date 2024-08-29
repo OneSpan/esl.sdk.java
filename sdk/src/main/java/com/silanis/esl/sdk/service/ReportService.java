@@ -15,9 +15,9 @@ import java.util.Date;
 /**
  * Created by schoi on 3/25/15.
  */
-public class ReportComponent extends EslComponent {
+public class ReportService extends EslComponent {
 
-    public ReportComponent(RestClient client, String baseUrl) {
+    public ReportService(RestClient client, String baseUrl) {
         super(client, baseUrl);
     }
 
