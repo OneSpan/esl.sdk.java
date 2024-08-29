@@ -12,9 +12,9 @@ import com.silanis.esl.sdk.internal.converter.GroupSummaryConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupComponent extends EslComponent {
+public class GroupService extends EslComponent {
 
-    public GroupComponent(RestClient client, String baseUrl) {
+    public GroupService(RestClient client, String baseUrl) {
         super(client, baseUrl);
     }
 

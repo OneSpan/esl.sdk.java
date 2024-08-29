@@ -12,9 +12,9 @@ import com.silanis.esl.sdk.io.DownloadedFile;
 /**
  * Created by schoi on 10/16/15.
  */
-public class SignatureImageComponent extends EslComponent {
+public class SignatureImageService extends EslComponent {
 
-    public SignatureImageComponent(RestClient client, String baseUrl ) {
+    public SignatureImageService(RestClient client, String baseUrl ) {
         super(client, baseUrl);
     }
 

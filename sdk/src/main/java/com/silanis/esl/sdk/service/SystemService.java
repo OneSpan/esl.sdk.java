@@ -11,10 +11,9 @@ import java.util.Properties;
 /**
  * Created by schoi on 3/31/15.
  */
-public class SystemComponent extends EslComponent {
+public class SystemService extends EslComponent {
 
-
-    public SystemComponent(RestClient client, String baseUrl) {
+    public SystemService(RestClient client, String baseUrl) {
         super(client, baseUrl);
     }
 

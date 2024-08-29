@@ -10,9 +10,9 @@ import java.util.List;
 /**
  * The FieldSummaryService class provides a method to get the field summary for a package.
  */
-public class FieldSummaryComponent extends EslComponent {
+public class FieldSummaryService extends EslComponent {
 
-    public FieldSummaryComponent(RestClient client, String baseUrl ) {
+    public FieldSummaryService(RestClient client, String baseUrl ) {
         super( client, baseUrl);
     }
 

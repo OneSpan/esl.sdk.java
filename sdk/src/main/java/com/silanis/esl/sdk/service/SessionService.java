@@ -7,9 +7,9 @@ import com.silanis.esl.sdk.internal.*;
 /**
  * The SessionService class provides a method to create a session token for a signer.
  */
-public class SessionComponent extends EslComponent {
+public class SessionService extends EslComponent {
 
-    public SessionComponent(RestClient client, String baseUrl) {
+    public SessionService(RestClient client, String baseUrl) {
         super(client, baseUrl);
     }
 
