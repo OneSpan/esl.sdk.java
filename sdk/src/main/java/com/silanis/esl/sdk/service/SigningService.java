@@ -13,22 +13,19 @@ import com.silanis.esl.sdk.internal.UrlTemplate;
 /**
  * Created by schoi on 12/7/15.
  */
-public class SigningService {
-    private final UrlTemplate template;
-    private final RestClient client;
+public class SigningService extends EslComponent {
 
     public SigningService(RestClient client, String baseUrl) {
-        this.template = new UrlTemplate(baseUrl);
-        this.client = client;
+        super(client, baseUrl);
     }
 
     public void signDocument(PackageId packageId, SignedDocument signedDocument) {
-        String path = template.urlFor(UrlTemplate.SIGN_DOCUMENT_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SIGN_DOCUMENT_PATH)
                 .replace("{packageId}", packageId.getId())
                 .build();
 
         try {
-            client.post(path, Serialization.toJson(signedDocument));
+            getClient().post(path, Serialization.toJson(signedDocument));
         } catch (RequestException e) {
             throw new EslServerException("Failed to sign a document.", e);
         } catch (Exception e) {
@@ -37,9 +34,9 @@ public class SigningService {
     }
 
     public void signDocuments(PackageId packageId, SignedDocuments signedDocumentses) {
-        String path = template.urlFor(UrlTemplate.SIGN_DOCUMENTS_PATH).replace("{packageId}", packageId.getId()).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SIGN_DOCUMENTS_PATH).replace("{packageId}", packageId.getId()).build();
         try {
-            client.post(path, Serialization.toJson(signedDocumentses));
+            getClient().post(path, Serialization.toJson(signedDocumentses));
         } catch (RequestException e) {
             throw new EslServerException("Failed to sign documents.", e);
         } catch (Exception e) {

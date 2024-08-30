@@ -13,14 +13,10 @@ import java.util.List;
 /**
  * The QRCodeService class provides methods to help create, modify, get, delete and update QR codes in documents.
  */
-public class QRCodeService {
-
-    private UrlTemplate template;
-    private RestClient client;
+public class QRCodeService extends EslComponent {
 
     public QRCodeService(RestClient restClient, String baseUrl) {
-        this.client = restClient;
-        template = new UrlTemplate(baseUrl);
+        super(restClient, baseUrl);
     }
 
     /**
@@ -32,7 +28,7 @@ public class QRCodeService {
      * @return the field Id of the added QR code
      */
     public FieldId addQRCode(PackageId packageId, String documentId, Field qrCodeField) {
-        String path = template.urlFor(template.QRCODE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.QRCODE_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .build();
@@ -41,7 +37,7 @@ public class QRCodeService {
         String json = Serialization.toJson(apiField);
 
         try {
-            String response = client.post(path, json);
+            String response = getClient().post(path, json);
             com.silanis.esl.api.model.Field result = Serialization.fromJson(response, com.silanis.esl.api.model.Field.class);
             return new FieldId(result.getId());
         } catch (RequestException e) {
@@ -59,7 +55,7 @@ public class QRCodeService {
      * @param qrCodeField the new QR code field
      */
     public void modifyQRCode(PackageId packageId, String documentId, Field qrCodeField) {
-        String path = template.urlFor(template.QRCODE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.QRCODE_ID_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .replace("{fieldId}", qrCodeField.getId().getId())
@@ -69,7 +65,7 @@ public class QRCodeService {
         String json = Serialization.toJson(apiField);
 
         try {
-            client.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not modify QR code in document.", e);
         } catch (Exception e) {
@@ -86,14 +82,14 @@ public class QRCodeService {
      * @return the QR code field
      */
     public Field getQRCode(PackageId packageId, String documentId, FieldId qrCodeId) {
-        String path = template.urlFor(template.QRCODE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.QRCODE_ID_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .replace("{fieldId}", qrCodeId.getId())
                 .build();
 
         try {
-            String response = client.get(path);
+            String response = getClient().get(path);
             com.silanis.esl.api.model.Field apiField = Serialization.fromJson(response, com.silanis.esl.api.model.Field.class);
             return new FieldConverter(apiField).toSDKField();
         } catch (RequestException e) {
@@ -111,14 +107,14 @@ public class QRCodeService {
      * @param qrCodeId of the QR code to delete
      */
     public void deleteQRCode(PackageId packageId, String documentId, FieldId qrCodeId) {
-        String path = template.urlFor(template.QRCODE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.QRCODE_ID_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .replace("{fieldId}", qrCodeId.getId())
                 .build();
 
         try {
-            client.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete QR code from document.", e);
         } catch (Exception e) {
@@ -134,7 +130,7 @@ public class QRCodeService {
      * @param qrCodeList The list of QR codes (Field) to update for document
      */
     public void updateQRCodes(PackageId packageId, String documentId, List<Field> qrCodeList)  {
-        String path = template.urlFor(template.QRCODE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.QRCODE_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .build();
@@ -147,7 +143,7 @@ public class QRCodeService {
 
         try {
             String json = Serialization.toJson(fieldList);
-            client.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update QR codes in document.", e);
         } catch (Exception e) {

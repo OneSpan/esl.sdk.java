@@ -10,14 +10,10 @@ import java.util.List;
 /**
  * The FieldSummaryService class provides a method to get the field summary for a package.
  */
-public class FieldSummaryService {
+public class FieldSummaryService extends EslComponent {
 
-    private UrlTemplate template;
-    private RestClient client;
-
-    public FieldSummaryService( RestClient client, String baseUrl ) {
-        template = new UrlTemplate( baseUrl );
-        this.client = client;
+    public FieldSummaryService(RestClient client, String baseUrl ) {
+        super( client, baseUrl);
     }
 
     /**
@@ -28,13 +24,13 @@ public class FieldSummaryService {
      * @throws com.silanis.esl.sdk.EslException
      */
     public List<FieldSummary> getFieldSummary( PackageId packageId ) throws EslException {
-        String path = template.urlFor( UrlTemplate.FIELD_SUMMARY_PATH )
+        String path = new UrlTemplate(getBaseUrl()).urlFor( UrlTemplate.FIELD_SUMMARY_PATH )
                 .replace( "{packageId}", packageId.getId() )
                 .build();
 
         List<FieldSummary> fieldSummary;
         try {
-            String stringResponse = client.get(path);
+            String stringResponse = getClient().get(path);
 
 
             fieldSummary = Serialization.fromJsonToList(stringResponse, FieldSummary.class);

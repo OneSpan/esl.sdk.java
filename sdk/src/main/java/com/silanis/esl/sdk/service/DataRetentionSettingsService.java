@@ -11,14 +11,10 @@ import com.silanis.esl.sdk.internal.UrlTemplate;
 import com.silanis.esl.sdk.internal.converter.DataManagementPolicyConverter;
 import com.silanis.esl.sdk.internal.converter.ExpiryTimeConfigurationConverter;
 
-public class DataRetentionSettingsService {
-
-    private UrlTemplate template;
-    private RestClient client;
+public class DataRetentionSettingsService extends EslComponent {
 
     public DataRetentionSettingsService(RestClient client, String baseUrl) {
-        this.client = client;
-        template = new UrlTemplate(baseUrl);
+        super(client, baseUrl);
     }
 
     /**
@@ -27,11 +23,11 @@ public class DataRetentionSettingsService {
      * @return ExpiryTimeConfiguration
      */
     public com.silanis.esl.sdk.ExpiryTimeConfiguration getExpiryTimeConfiguration() {
-        String path = template.urlFor(UrlTemplate.EXPIRY_TIME_CONFIGURATION_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.EXPIRY_TIME_CONFIGURATION_PATH)
                 .build();
         String stringResponse;
         try {
-            stringResponse = client.get(path);
+            stringResponse = getClient().get(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not get expiryTimeConfiguration.", e);
         } catch (Exception e) {
@@ -49,13 +45,13 @@ public class DataRetentionSettingsService {
      * @param expiryTimeConfiguration
      */
     public void setExpiryTimeConfiguration(com.silanis.esl.sdk.ExpiryTimeConfiguration expiryTimeConfiguration) {
-        String path = template.urlFor(UrlTemplate.EXPIRY_TIME_CONFIGURATION_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.EXPIRY_TIME_CONFIGURATION_PATH)
                 .build();
         ExpiryTimeConfigurationConverter converter = new ExpiryTimeConfigurationConverter(expiryTimeConfiguration);
         String expiryTimeConfigurationJson = Serialization.toJson(converter.toAPIExpiryTimeConfiguration());
 
         try {
-            client.put(path, expiryTimeConfigurationJson);
+            getClient().put(path, expiryTimeConfigurationJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update expiryTimeConfiguration", e);
         } catch (Exception e) {
@@ -69,11 +65,11 @@ public class DataRetentionSettingsService {
      * @return DataManagementPolicy
      */
     public com.silanis.esl.sdk.DataManagementPolicy getDataManagementPolicy() {
-        String path = template.urlFor(UrlTemplate.DATA_MANAGEMENT_POLICY_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DATA_MANAGEMENT_POLICY_PATH)
                 .build();
         String stringResponse;
         try {
-            stringResponse = client.get(path);
+            stringResponse = getClient().get(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not get dataManagementPolicy.", e);
         } catch (Exception e) {
@@ -91,13 +87,13 @@ public class DataRetentionSettingsService {
      * @param dataManagementPolicy
      */
     public void setDataManagementPolicy(com.silanis.esl.sdk.DataManagementPolicy dataManagementPolicy) {
-        String path = template.urlFor(UrlTemplate.DATA_MANAGEMENT_POLICY_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DATA_MANAGEMENT_POLICY_PATH)
                 .build();
         DataManagementPolicyConverter converter = new DataManagementPolicyConverter(dataManagementPolicy);
         String dataManagementPolicyJson = Serialization.toJson(converter.toAPIDataManagementPolicy());
 
         try {
-            client.put(path, dataManagementPolicyJson);
+            getClient().put(path, dataManagementPolicyJson);
         } catch (RequestException e) {
             throw new EslServerException("Could not update dataManagementPolicy", e);
         } catch (Exception e) {

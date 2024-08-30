@@ -16,14 +16,10 @@ import java.util.Map;
  * The SigningStyleService class provides methods to customize the New Signer Experience
  * Signing Themes and Signing Logos
  */
-public class SigningStyleService {
-
-    private UrlTemplate template;
-    private RestClient client;
+public class SigningStyleService extends EslComponent {
 
     public SigningStyleService(RestClient client, String baseUrl) {
-        template = new UrlTemplate(baseUrl);
-        this.client = client;
+        super(client, baseUrl);
     }
 
     /**
@@ -33,11 +29,11 @@ public class SigningStyleService {
      * @return the signing themes created
      */
     public Map<String, Object> createSigningThemes(String signingThemesString) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
                 .build();
 
         try {
-            String stringResponse = client.post(path, signingThemesString);
+            String stringResponse = getClient().post(path, signingThemesString);
             return JacksonUtil.deserialize(stringResponse, Map.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create the signing themes for account.", e);
@@ -52,11 +48,11 @@ public class SigningStyleService {
      * @return the signing themes
      */
     public Map<String, Object> getSigningThemes() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
                 .build();
 
         try {
-            String stringResponse = client.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJson(stringResponse, Map.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get the signing themes from account.", e);
@@ -69,11 +65,11 @@ public class SigningStyleService {
      * Delete account signing themes.
      */
     public void deleteSigningThemes() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
                 .build();
 
         try {
-            client.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the signing themes from account.", e);
         } catch (Exception e) {
@@ -89,11 +85,11 @@ public class SigningStyleService {
      * @return the signing themes are created
      */
     public Map<String, Object> updateSigningThemes(String signingThemesString) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_THEME_PATH)
                 .build();
 
         try {
-            String stringResponse = client.put(path, signingThemesString);
+            String stringResponse = getClient().put(path, signingThemesString);
             return JacksonUtil.deserialize(stringResponse, Map.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not update the signing themes to account.", e);
@@ -108,10 +104,10 @@ public class SigningStyleService {
      * @param signingLogos
      */
     public void saveSigningLogos(List<SigningLogo> signingLogos) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_LOGO_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_LOGO_PATH).build();
         String payload = JacksonUtil.serialize(signingLogos);
         try {
-            client.post(path, payload);
+            getClient().post(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the signing logos for account.", e);
         } catch (Exception e) {
@@ -124,9 +120,9 @@ public class SigningStyleService {
      *
      */
     public List getSigningLogos() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_LOGO_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_LOGO_PATH).build();
         try {
-            String stringResponse = client.get(path);
+            String stringResponse = getClient().get(path);
             return SigningLogoConverter.converToSDKSigningLogoList(Serialization.fromJsonToList(stringResponse, com.silanis.esl.api.model.SigningLogo.class));
         } catch (RequestException e) {
             throw new EslServerException("Could not get the signing logos from account.", e);
@@ -140,9 +136,9 @@ public class SigningStyleService {
      *
      */
     public SigningUiOptions getSigningUiOptions() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_UI_OPTIONS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_UI_OPTIONS_PATH).build();
         try {
-            String stringResponse = client.get(path);
+            String stringResponse = getClient().get(path);
             return new SigningUiOptionsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.SigningUiOptions.class)).toSDKSigningUiOptions();
         } catch (RequestException e) {
             throw new EslServerException("Could not get the signing ui options from account.", e);
@@ -156,10 +152,10 @@ public class SigningStyleService {
      *
      */
     public void saveSigningUiOptions(SigningUiOptions signingUiOptions) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_UI_OPTIONS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_UI_OPTIONS_PATH).build();
         String payload = JacksonUtil.serialize(signingUiOptions);
         try {
-            client.patch(path, payload);
+            getClient().patch(path, payload);
         } catch (RequestException e) {
             throw new EslServerException("Could not save the signing ui options from account.", e);
         } catch (Exception e) {
@@ -172,9 +168,9 @@ public class SigningStyleService {
      *
      */
     public void deleteSigningUiOptions() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SIGNING_UI_OPTIONS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SIGNING_UI_OPTIONS_PATH).build();
         try {
-            client.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete the signing ui options from account.", e);
         } catch (Exception e) {

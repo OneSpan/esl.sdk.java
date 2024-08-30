@@ -15,14 +15,10 @@ import java.util.Date;
 /**
  * Created by schoi on 3/25/15.
  */
-public class ReportService {
-
-    private UrlTemplate template;
-    private RestClient client;
+public class ReportService extends EslComponent {
 
     public ReportService(RestClient client, String baseUrl) {
-        this.client = client;
-        template = new UrlTemplate(baseUrl);
+        super(client, baseUrl);
     }
 
 
@@ -40,7 +36,7 @@ public class ReportService {
         String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
 
         try {
-            String json = client.get(path);
+            String json = getClient().get(path);
             CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
             return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
         }
@@ -65,7 +61,7 @@ public class ReportService {
         String path = buildCompletionReportUrl(packageStatus, senderId, from, to);
 
         try {
-            return client.get(path, "text/csv");
+            return getClient().get(path, "text/csv");
         } catch (RequestException e) {
             throw new EslException("Could not download the completion report in csv.", e);
         } catch (Exception e) {
@@ -86,7 +82,7 @@ public class ReportService {
         String path = buildCompletionReportUrl(packageStatus, from, to);
 
         try {
-            String json = client.get(path);
+            String json = getClient().get(path);
             CompletionReport apiCompletionReport = Serialization.fromJson(json, CompletionReport.class);
             return new CompletionReportConverter(apiCompletionReport).toSDKCompletionReport();
         }
@@ -110,7 +106,7 @@ public class ReportService {
         String path = buildCompletionReportUrl(packageStatus, from, to);
 
         try {
-            return client.get(path, "text/csv");
+            return getClient().get(path, "text/csv");
         } catch (RequestException e) {
             throw new EslException("Could not download the completion report in csv.", e);
         } catch (Exception e) {
@@ -129,7 +125,7 @@ public class ReportService {
         String path = buildUsageReportUrl(from, to);
 
         try {
-            String json = client.get(path);
+            String json = getClient().get(path);
             com.silanis.esl.api.model.UsageReport apiUsageReport = Serialization.fromJson(json, com.silanis.esl.api.model.UsageReport.class);
             return new UsageReportConverter(apiUsageReport).toSDKUsageReport();
         }
@@ -151,7 +147,7 @@ public class ReportService {
         String path = buildUsageReportUrl(from, to);
 
         try {
-            return client.get(path, "text/csv");
+            return getClient().get(path, "text/csv");
         } catch (RequestException e) {
             throw new EslException("Could not download the usage report in csv.", e);
         } catch (Exception e) {
@@ -168,7 +164,7 @@ public class ReportService {
         String path = buildDelegationReportUrl();
 
         try {
-            String json = client.get(path);
+            String json = getClient().get(path);
             DelegationReport apiDelegationReport = Serialization.fromJson(json, com.silanis.esl.api.model.DelegationReport.class);
             return new DelegationReportConverter(apiDelegationReport).toSDKDelegationReport();
         }
@@ -191,7 +187,7 @@ public class ReportService {
         String path = buildDelegationReportUrl(from, to);
 
         try {
-            String json = client.get(path);
+            String json = getClient().get(path);
             DelegationReport apiDelegationReport = Serialization.fromJson(json, com.silanis.esl.api.model.DelegationReport.class);
             return new DelegationReportConverter(apiDelegationReport).toSDKDelegationReport();
         }
@@ -215,7 +211,7 @@ public class ReportService {
         String path = buildDelegationReportUrl(senderId, from, to);
 
         try {
-            String json = client.get(path);
+            String json = getClient().get(path);
             DelegationReport apiDelegationReport = Serialization.fromJson(json, com.silanis.esl.api.model.DelegationReport.class);
             return new DelegationReportConverter(apiDelegationReport).toSDKDelegationReport();
         }
@@ -235,7 +231,7 @@ public class ReportService {
         String path = buildDelegationReportUrl();
 
         try {
-            return client.get(path, "text/csv");
+            return getClient().get(path, "text/csv");
         } catch (RequestException e) {
             throw new EslException("Could not download the delegation report in csv.", e);
         } catch (Exception e) {
@@ -253,7 +249,7 @@ public class ReportService {
         String path = buildDelegationReportUrl(from, to);
 
         try {
-            return client.get(path, "text/csv");
+            return getClient().get(path, "text/csv");
         } catch (RequestException e) {
             throw new EslException("Could not download the delegation report in csv.", e);
         } catch (Exception e) {
@@ -272,7 +268,7 @@ public class ReportService {
         String path = buildDelegationReportUrl(senderId, from, to);
 
         try {
-            return client.get(path, "text/csv");
+            return getClient().get(path, "text/csv");
         } catch (RequestException e) {
             throw new EslException("Could not download the delegation report in csv.", e);
         } catch (Exception e) {
@@ -284,7 +280,7 @@ public class ReportService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
+        return new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.COMPLETION_REPORT_PATH)
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate)
                        .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
@@ -296,7 +292,7 @@ public class ReportService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.COMPLETION_REPORT_FOR_ALL_SENDERS_PATH)
+        return new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.COMPLETION_REPORT_FOR_ALL_SENDERS_PATH)
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate)
                        .replace("{status}", new PackageStatusConverter(packageStatus).toAPIPackageStatus())
@@ -307,14 +303,14 @@ public class ReportService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.USAGE_REPORT_PATH)
+        return new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.USAGE_REPORT_PATH)
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate)
                        .build();
     }
 
     private String buildDelegationReportUrl() {
-        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH)
+        return new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATION_REPORT_PATH)
                        .build();
     }
 
@@ -322,7 +318,7 @@ public class ReportService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH).build().concat("?from={from}&to={to}")
+        return new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATION_REPORT_PATH).build().concat("?from={from}&to={to}")
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate);
     }
@@ -331,7 +327,7 @@ public class ReportService {
         String toDate = DateHelper.dateToIsoUtcFormat(to);
         String fromDate = DateHelper.dateToIsoUtcFormat(from);
 
-        return template.urlFor(UrlTemplate.DELEGATION_REPORT_PATH).build().concat("?senderId={senderId}&from={from}&to={to}")
+        return new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATION_REPORT_PATH).build().concat("?senderId={senderId}&from={from}&to={to}")
                        .replace("{senderId}", senderId)
                        .replace("{from}", fromDate)
                        .replace("{to}", toDate);
