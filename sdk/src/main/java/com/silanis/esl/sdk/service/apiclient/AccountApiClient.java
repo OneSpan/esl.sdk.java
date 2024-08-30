@@ -21,28 +21,24 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.service.EslComponent;
 
-import javax.xml.ws.Response;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by dave on 31/07/14.
  */
-public class AccountApiClient {
-
-    private final UrlTemplate template;
-    private final RestClient restClient;
+public class AccountApiClient extends EslComponent {
 
     public AccountApiClient(RestClient restClient, String apiUrl) {
-        this.restClient = restClient;
-        this.template = new UrlTemplate(apiUrl);
+        super(restClient, apiUrl);
     }
 
     public Sender inviteUser(Sender sender) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_PATH).build();
         try {
-            String stringResponse = restClient.post(path, Serialization.toJson(sender));
+            String stringResponse = getClient().post(path, Serialization.toJson(sender));
             return Serialization.fromJson(stringResponse, Sender.class);
         } catch (RequestException e) {
             throw new EslServerException("Unable to invite member to account.", e);
@@ -52,11 +48,11 @@ public class AccountApiClient {
     }
 
     public void sendInvite(String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_INVITE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_INVITE_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
-            restClient.post(path, null);
+            getClient().post(path, null);
         } catch (RequestException e) {
             throw new EslServerException("Unable to send invite to member.", e);
         } catch (Exception e) {
@@ -65,14 +61,14 @@ public class AccountApiClient {
     }
 
     public Result<Sender> getSenders(Direction direction, PageRequest request) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_LIST_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_LIST_PATH)
                 .replace("{dir}", direction.getDirection())
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
                 .build();
 
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return JacksonUtil.deserialize(stringResponse, new TypeReference<Result<Sender>>() {});
         } catch (RequestException e) {
             throw new EslServerException("Failed to retrieve Account Members List.", e);
@@ -82,11 +78,11 @@ public class AccountApiClient {
     }
 
     public Sender getSender(String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJson(stringResponse, Sender.class);
         } catch (RequestException e) {
             throw new EslServerException("Unable to get member from account.", e);
@@ -96,11 +92,11 @@ public class AccountApiClient {
     }
 
     public void deleteSender(String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete sender.", e);
         } catch (Exception e) {
@@ -109,12 +105,12 @@ public class AccountApiClient {
     }
 
     public void updateSender(Sender sender, String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_ID_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
             String json = Serialization.toJson(sender);
-            restClient.post(path, json);
+            getClient().post(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update sender.", e);
         } catch (Exception e) {
@@ -123,11 +119,11 @@ public class AccountApiClient {
     }
 
     public void updateSenderImageSignature(String fileName, byte[] fileContent, String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
-            restClient.postMultipartFile(path, Collections.singletonMap(fileName, fileContent));
+            getClient().postMultipartFile(path, Collections.singletonMap(fileName, fileContent));
         } catch (RequestException e) {
             throw new EslServerException("Could not update sender signature image.", e);
         } catch (Exception e) {
@@ -136,11 +132,11 @@ public class AccountApiClient {
     }
 
     public SenderImageSignature getSenderImageSignature(String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJson(stringResponse, SenderImageSignature.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get sender signature image.", e);
@@ -150,11 +146,11 @@ public class AccountApiClient {
     }
 
     public void deleteSenderImageSignature(String senderId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_MEMBER_SIGNATURE_IMAGE_PATH)
                 .replace("{senderUid}", senderId)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete sender signature image.", e);
         } catch (Exception e) {
@@ -163,12 +159,12 @@ public class AccountApiClient {
     }
 
     public List<DelegationUser> getDelegates(String senderId) {
-        String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATES_PATH)
                 .replace("{senderId}", senderId)
                 .build();
 
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJsonToList(stringResponse, DelegationUser.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get delegates.", e);
@@ -178,12 +174,12 @@ public class AccountApiClient {
     }
 
     public <T> void updateDelegates(String senderId, List<T> delegateIds) {
-        String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATES_PATH)
                 .replace("{senderId}", senderId)
                 .build();
         try {
             String json = Serialization.toJson(delegateIds);
-            restClient.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update delegates.", e);
         } catch (Exception e) {
@@ -192,13 +188,13 @@ public class AccountApiClient {
     }
 
     public void addDelegate(String senderId, DelegationUser delegationUser) {
-        String path = template.urlFor(UrlTemplate.DELEGATE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATE_ID_PATH)
                 .replace("{senderId}", senderId)
                 .replace("{delegateId}", delegationUser.getId())
                 .build();
         try {
             String json = Serialization.toJson(delegationUser);
-            restClient.post(path, json);
+            getClient().post(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not add a delegate.", e);
         } catch (Exception e) {
@@ -207,12 +203,12 @@ public class AccountApiClient {
     }
 
     public void removeDelegate(String senderId, String delegateId) {
-        String path = template.urlFor(UrlTemplate.DELEGATE_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATE_ID_PATH)
                 .replace("{senderId}", senderId)
                 .replace("{delegateId}", delegateId)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not remove a delegate.", e);
         } catch (Exception e) {
@@ -221,11 +217,11 @@ public class AccountApiClient {
     }
 
     public void clearDelegates(String senderId) {
-        String path = template.urlFor(UrlTemplate.DELEGATES_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DELEGATES_PATH)
                 .replace("{senderId}", senderId)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not clear delegates.", e);
         } catch (Exception e) {
@@ -234,11 +230,11 @@ public class AccountApiClient {
     }
 
     public List<Sender> getContacts() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_CONTACTS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CONTACTS_PATH)
                 .build();
 
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJsonToList(stringResponse, Sender.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get contacts.", e);
@@ -248,13 +244,13 @@ public class AccountApiClient {
     }
 
     public List<VerificationType> getVerificationTypes() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_VERIFICATION_TYPE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_VERIFICATION_TYPE_PATH)
                 // TODO: Why we need pass accountId when it is not used in backend?
                 .replace("{accountId}", "dummyAccountId")
                 .build();
 
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             Result<?> result = Serialization.fromJson(stringResponse, Result.class);
 
             return Serialization.fromJsonToList(Serialization.toJson(result.getResults()), VerificationType.class);
@@ -266,9 +262,9 @@ public class AccountApiClient {
     }
 
     public List<Account> getSubAccounts() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJsonToList(stringResponse, Account.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get subAccounts.", e);
@@ -278,9 +274,9 @@ public class AccountApiClient {
     }
 
     public List<SubAccountApiKey> getSubAccountApiKey() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_SUBACCOUNTAPIKEYS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_SUBACCOUNTAPIKEYS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJsonToList(stringResponse, SubAccountApiKey.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get subAccounts Api Key.", e);
@@ -290,9 +286,9 @@ public class AccountApiClient {
     }
 
     public List<AccessibleAccountResponse> getAccessibleAccounts() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ACCESSIBLEACCOUNTS_PATH).build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJsonToList(stringResponse, AccessibleAccountResponse.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get accessibleAccounts.", e);
@@ -302,10 +298,10 @@ public class AccountApiClient {
     }
 
     public Account createSubAccount(SubAccount subAccount) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_PATH).build();
         try {
             String json = Serialization.toJson(subAccount);
-            String stringResponse = restClient.post(path, json);
+            String stringResponse = getClient().post(path, json);
             return Serialization.fromJson(stringResponse, Account.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not create subAccount.", e);
@@ -315,12 +311,12 @@ public class AccountApiClient {
     }
 
     public void updateSubAccount(SubAccount subAccount, String accountId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SUBACCOUNTS_ID_PATH)
                 .replace("{accountId}", accountId)
                 .build();
         try {
             String json = Serialization.toJson(subAccount);
-            restClient.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update subAccount.", e);
         } catch (Exception e) {
@@ -329,10 +325,10 @@ public class AccountApiClient {
     }
 
     public List<AccountRole> getAccountRoles() {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
 
         try {
-            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<AccountRole>>() {}).getResults();
+            return JacksonUtil.deserialize(getClient().get(path), new TypeReference<Result<AccountRole>>() {}).getResults();
         } catch (RequestException e) {
             throw new EslServerException("Could not get roles.", e);
         } catch (Exception e) {
@@ -341,10 +337,10 @@ public class AccountApiClient {
     }
 
     public void addAccountRole(AccountRole accountRole) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_ROLES_PATH).build();
 
         try {
-            restClient.post(path, JacksonUtil.serialize(accountRole));
+            getClient().post(path, JacksonUtil.serialize(accountRole));
         } catch (RequestException e) {
             throw new EslServerException("Could not add account role.", e);
         } catch (Exception e) {
@@ -353,12 +349,12 @@ public class AccountApiClient {
     }
 
     public void updateAccountRole(String accountRoleId, AccountRole accountRole) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
                 .replace("{accountRoleId}", accountRoleId)
                 .build();
 
         try {
-            restClient.put(path, JacksonUtil.serialize(accountRole));
+            getClient().put(path, JacksonUtil.serialize(accountRole));
         } catch (RequestException e) {
             throw new EslServerException("Could not update account role.", e);
         } catch (Exception e) {
@@ -367,12 +363,12 @@ public class AccountApiClient {
     }
 
     public AccountRole getAccountRole(String accountRoleId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
                 .replace("{accountRoleId}", accountRoleId)
                 .build();
 
         try {
-            return JacksonUtil.deserialize(restClient.get(path), AccountRole.class);
+            return JacksonUtil.deserialize(getClient().get(path), AccountRole.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get account role.", e);
         } catch (Exception e) {
@@ -381,12 +377,12 @@ public class AccountApiClient {
     }
 
     public void deleteAccountRole(String accountRoleId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_PATH)
                 .replace("{accountRoleId}", accountRoleId)
                 .build();
 
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete account role.", e);
         } catch (Exception e) {
@@ -395,12 +391,12 @@ public class AccountApiClient {
     }
 
     public List<String> getAccountRoleUsers(String accountRoleId) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_USERS_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_ROLES_ROLE_USERS_PATH)
                 .replace("{accountRoleId}", accountRoleId)
                 .build();
 
         try {
-            return JacksonUtil.deserialize(restClient.get(path), new TypeReference<Result<String>>() {}).getResults();
+            return JacksonUtil.deserialize(getClient().get(path), new TypeReference<Result<String>>() {}).getResults();
         } catch (RequestException e) {
             throw new EslServerException("Could not get account role users.", e);
         } catch (Exception e) {
@@ -409,16 +405,19 @@ public class AccountApiClient {
     }
 
     public List<UserAccountRole> getAssignedAccountRoles(String userId, String accountId) {
+
+        UrlTemplate template = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH);
+
         if (accountId != null && !accountId.trim().isEmpty()){
             template.addParam("accountId", accountId);
         }
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH)
-                .replace("{userId}", userId)
-                .build();
+        String path = template
+            .replace("{userId}", userId)
+            .build();
 
         System.out.println(path);
         try {
-            String json = restClient.get(path);
+            String json = getClient().get(path);
             return JacksonUtil.deserialize(json, new TypeReference<List<UserAccountRole>>() {});
         } catch (RequestException e) {
             throw new EslServerException("Could not get account role users.", e);
@@ -428,12 +427,12 @@ public class AccountApiClient {
     }
 
     public UserAccountRole assignAccountRoleToUser(String userId, com.silanis.esl.api.model.UserAccountRole userAccountRole) {
-        String path = template.urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_SENDERS_ROLES_PATH)
                 .replace("{userId}", userId)
                 .build();
         try {
             String body =JacksonUtil.serialize(userAccountRole);
-            String response = restClient.post(path, body);
+            String response = getClient().post(path, body);
             return JacksonUtil.deserialize(response, new TypeReference<UserAccountRole>() {});
 
 

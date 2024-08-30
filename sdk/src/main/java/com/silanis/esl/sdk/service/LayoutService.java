@@ -17,14 +17,10 @@ import java.util.List;
 /**
  * The LayoutService class provides methods to help create and apply document layouts.
  */
-public class LayoutService {
-
-    private UrlTemplate template;
-    private RestClient client;
+public class LayoutService extends EslComponent {
 
     public LayoutService(RestClient restClient, String baseUrl) {
-        this.client = restClient;
-        template = new UrlTemplate(baseUrl);
+        super(restClient, baseUrl);
     }
 
     /**
@@ -35,7 +31,7 @@ public class LayoutService {
      * @return The layout id.
      */
     public String createLayout(DocumentPackage layout) {
-        String path = template.urlFor(UrlTemplate.LAYOUT_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.LAYOUT_PATH)
                 .build();
 
         Package layoutToCreate = new DocumentPackageConverter(layout).toAPIPackage();
@@ -50,7 +46,7 @@ public class LayoutService {
         String templateString = Serialization.toJson(template);
 
         try {
-            String response = client.post(path, templateString);
+            String response = getClient().post(path, templateString);
             Package aPackage = Serialization.fromJson(response, Package.class);
             return aPackage.getId();
         } catch (RequestException e) {
@@ -67,7 +63,7 @@ public class LayoutService {
      * @return DocumentPackage layout.
      */
     public DocumentPackage createAndGetLayout(DocumentPackage layout) {
-        String path = template.urlFor(UrlTemplate.LAYOUT_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.LAYOUT_PATH)
                 .build();
 
         Package layoutToCreate = new DocumentPackageConverter(layout).toAPIPackage();
@@ -82,7 +78,7 @@ public class LayoutService {
         String templateString = Serialization.toJson(template);
 
         try {
-            String response = client.post(path, templateString);
+            String response = getClient().post(path, templateString);
             Package aPackage = Serialization.fromJson(response, Package.class);
             return new DocumentPackageConverter(aPackage).toSDKPackage();
         } catch (RequestException e) {
@@ -100,14 +96,14 @@ public class LayoutService {
      * @return The list of layouts.
      */
     public List<DocumentPackage> getLayouts(Direction direction, PageRequest request) {
-        String path = template.urlFor(UrlTemplate.LAYOUT_LIST_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.LAYOUT_LIST_PATH)
                 .replace("{dir}", direction.getDirection())
                 .replace("{from}", Integer.toString(request.getFrom()))
                 .replace("{to}", Integer.toString(request.to()))
                 .build();
 
         try {
-            String response = client.get(path);
+            String response = getClient().get(path);
             Result<com.silanis.esl.api.model.Package> results = JacksonUtil.deserialize(response, new TypeReference<Result<Package>>() {
             });
 
@@ -132,14 +128,14 @@ public class LayoutService {
      * @param layoutId   The layout id of the layout to apply.
      */
     public void applyLayout(PackageId packageId, String documentId, String layoutId) {
-        String path = template.urlFor(UrlTemplate.APPLY_LAYOUT_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPLY_LAYOUT_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .replace("{layoutId}", layoutId)
                 .build();
 
         try {
-            client.post(path, "");
+            getClient().post(path, "");
         } catch (RequestException e) {
             throw new EslServerException("Could not apply layout.", e);
         } catch (Exception e) {
@@ -158,13 +154,13 @@ public class LayoutService {
     public void applyLayoutByName(PackageId packageId, String documentId, String layoutName) {
 
         try {
-            String path = template.urlFor(UrlTemplate.APPLY_LAYOUT_BY_NAME_PATH)
+            String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPLY_LAYOUT_BY_NAME_PATH)
                     .replace("{packageId}", packageId.getId())
                     .replace("{documentId}", documentId)
                     .replace("{layoutName}", URLEncoder.encode(layoutName, "UTF-8"))
                     .build();
 
-            client.post(path, "");
+            getClient().post(path, "");
         } catch (UnsupportedEncodingException e) {
             throw new EslException("Layout name : '" + layoutName + "' can not be url encoded.", e);
         } catch (RequestException e) {

@@ -5,29 +5,27 @@ import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.SignatureId;
 import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.service.EslComponent;
 
 import java.util.List;
 
 /**
  * Created by dave on 11/08/14.
  */
-public class ApprovalApiClient {
-    private UrlTemplate template;
-    private RestClient restClient;
+public class ApprovalApiClient extends EslComponent {
 
     public ApprovalApiClient(RestClient restClient, String apiUrl) {
-        this.restClient = restClient;
-        template = new UrlTemplate(apiUrl);
+        super(restClient, apiUrl);
     }
 
     public void deleteSignature(String packageId, String documentId, String signatureId) throws EslException {
-        String path = template.urlFor(UrlTemplate.APPROVAL_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPROVAL_ID_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", signatureId)
                 .build();
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete signature from document.", e);
         } catch (Exception e) {
@@ -36,13 +34,13 @@ public class ApprovalApiClient {
     }
 
     public Approval addSignature(String packageId, String documentId, Approval approval) throws EslException {
-        String path = template.urlFor(UrlTemplate.APPROVAL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPROVAL_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .build();
         try {
             String json = Serialization.toJson(approval);
-            String stringResponse = restClient.post(path, json);
+            String stringResponse = getClient().post(path, json);
 
             Approval apiResponse = Serialization.fromJson(stringResponse, Approval.class);
             return apiResponse;
@@ -54,14 +52,14 @@ public class ApprovalApiClient {
     }
 
     public void modifySignature(String packageId, String documentId, Approval approval) throws EslException {
-        String path = template.urlFor(UrlTemplate.APPROVAL_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPROVAL_ID_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", approval.getId())
                 .build();
         try {
             String json = Serialization.toJson(approval);
-            restClient.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not modify signature from document.", e);
         } catch (Exception e) {
@@ -70,14 +68,14 @@ public class ApprovalApiClient {
     }
 
     public void updateSignatures(String packageId, String documentId, List<Approval> approvalList) {
-        String path = template.urlFor(UrlTemplate.APPROVAL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPROVAL_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .build();
 
         try {
             String json = Serialization.toJson(approvalList);
-            restClient.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update signatures from document.", e);
         } catch (Exception e) {
@@ -86,13 +84,13 @@ public class ApprovalApiClient {
     }
 
     public Approval getSignature(String packageId, String documentId, String approvalId) throws EslException {
-        String path = template.urlFor(UrlTemplate.APPROVAL_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.APPROVAL_ID_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", approvalId)
                 .build();
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             Approval apiResponse = Serialization.fromJson(stringResponse, Approval.class);
             return apiResponse;
         } catch (RequestException e) {
@@ -103,7 +101,7 @@ public class ApprovalApiClient {
     }
 
     public String addField(PackageId packageId, String documentId, SignatureId signatureId, com.silanis.esl.api.model.Field apiField) {
-        String path = template.urlFor(UrlTemplate.FIELD_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.FIELD_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", signatureId.getId())
@@ -111,7 +109,7 @@ public class ApprovalApiClient {
 
         try {
             String json = Serialization.toJson(apiField);
-            String stringResponse = restClient.post(path, json);
+            String stringResponse = getClient().post(path, json);
             com.silanis.esl.api.model.Field apiResponse = Serialization.fromJson(stringResponse, com.silanis.esl.api.model.Field.class);
             return apiResponse.getId();
 
@@ -123,7 +121,7 @@ public class ApprovalApiClient {
     }
 
     public void updateField(String packageId, String documentId, String signatureId, com.silanis.esl.api.model.Field field) {
-        String path = template.urlFor(UrlTemplate.FIELD_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.FIELD_ID_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", signatureId)
@@ -132,7 +130,7 @@ public class ApprovalApiClient {
 
         try {
             String json = Serialization.toJson(field);
-            restClient.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update field from signature.", e);
         } catch (Exception e) {
@@ -141,7 +139,7 @@ public class ApprovalApiClient {
     }
 
     public void updateConditionalField(String packageId, String documentId, String signatureId, com.silanis.esl.api.model.ConditionalField field) {
-        String path = template.urlFor(UrlTemplate.CONDITIONAL_FIELD_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.CONDITIONAL_FIELD_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", signatureId)
@@ -150,7 +148,7 @@ public class ApprovalApiClient {
 
         try {
             String json = Serialization.toJson(field);
-            restClient.put(path, json);
+            getClient().put(path, json);
         } catch (RequestException e) {
             throw new EslServerException("Could not update conditional field from signature.", e);
         } catch (Exception e) {
@@ -159,7 +157,7 @@ public class ApprovalApiClient {
     }
 
     public void deleteField(String packageId, String documentId, String approvalId, String fieldId) {
-        String path = template.urlFor(UrlTemplate.FIELD_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.FIELD_ID_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", approvalId)
@@ -167,7 +165,7 @@ public class ApprovalApiClient {
                 .build();
 
         try {
-            restClient.delete(path);
+            getClient().delete(path);
         } catch (RequestException e) {
             throw new EslServerException("Could not delete field from signature.", e);
         } catch (Exception e) {
@@ -176,7 +174,7 @@ public class ApprovalApiClient {
     }
 
     public com.silanis.esl.api.model.Field getField(String packageId, String documentId, String approvalId, String fieldId) {
-        String path = template.urlFor(UrlTemplate.FIELD_ID_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.FIELD_ID_PATH)
                 .replace("{packageId}", packageId)
                 .replace("{documentId}", documentId)
                 .replace("{approvalId}", approvalId)
@@ -184,7 +182,7 @@ public class ApprovalApiClient {
                 .build();
 
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             return Serialization.fromJson(stringResponse, com.silanis.esl.api.model.Field.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get field from signature.", e);
@@ -194,7 +192,7 @@ public class ApprovalApiClient {
     }
 
     public List<Approval> getAllSignableApprovals(String packageId, String documentId, String signerId) {
-        String path = template.urlFor(UrlTemplate.SIGNABLE_APPROVAL_PATH)
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SIGNABLE_APPROVAL_PATH)
                               .replace("{packageId}", packageId)
                               .replace("{documentId}", documentId)
                               .replace("{signerId}", signerId)
@@ -203,7 +201,7 @@ public class ApprovalApiClient {
         List<Approval> approvals;
 
         try {
-            String stringResponse = restClient.get(path);
+            String stringResponse = getClient().get(path);
             approvals = Serialization.fromJsonToList(stringResponse, Approval.class);
         } catch (RequestException e) {
             throw new EslServerException("Could not get all signable signatures.", e);

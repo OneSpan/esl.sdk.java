@@ -5,7 +5,6 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
-import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -14,16 +13,13 @@ import java.util.Map;
 /**
  * The AttachmentRequirementService class provides methods to help create attachments for signers.
  */
-public class AttachmentRequirementService {
+public class AttachmentRequirementService extends EslComponent {
 
-    private UrlTemplate template;
-    private RestClient client;
     private PackageService packageService;
 
-    public AttachmentRequirementService(AttachmentRequirementApiClient apiClient, RestClient restClient, String baseUrl) {
+    public AttachmentRequirementService(RestClient restClient, String baseUrl) {
+        super(restClient, baseUrl);
         packageService = new PackageService(restClient, baseUrl);
-        this.client = restClient;
-        template = new UrlTemplate(baseUrl);
     }
 
     /**
@@ -71,13 +67,13 @@ public class AttachmentRequirementService {
      * @return
      */
     public DownloadedFile downloadAttachmentFile(PackageId packageId, String attachmentId) {
-        String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
+        String path =new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
                               .replace("{packageId}", packageId.getId())
                               .replace("{attachmentId}", attachmentId)
                               .build();
 
         try {
-            return client.getBytes(path);
+            return getClient().getBytes(path);
         } catch (RequestException e){
             throw new EslServerException( "Could not download the pdf attachment.", e);
         } catch (Exception e) {
@@ -94,14 +90,14 @@ public class AttachmentRequirementService {
      * @return
      */
     public DownloadedFile downloadAttachmentFile(PackageId packageId, String attachmentId, Integer fileId) {
-        String path = template.urlFor(UrlTemplate.ATTACHMENT_FILE_PATH)
+        String path =new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ATTACHMENT_FILE_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{attachmentId}", attachmentId)
                 .replace("{fileId}", String.valueOf(fileId))
                 .build();
 
         try {
-            return client.getBytes(path);
+            return getClient().getBytes(path);
         } catch (RequestException e){
             throw new EslServerException( "Could not download the attachment file.", e);
         } catch (Exception e) {
@@ -124,12 +120,12 @@ public class AttachmentRequirementService {
      * @return
      */
     public DownloadedFile downloadAllAttachmentFilesForPackage(PackageId packageId) {
-        String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_PATH)
+        String path =new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ALL_ATTACHMENTS_PATH)
                               .replace("{packageId}", packageId.getId())
                               .build();
 
         try {
-            return client.getBytes(path);
+            return getClient().getBytes(path);
         } catch (RequestException e){
             throw new EslServerException( "Could not download all attachments.", e);
         } catch (Exception e) {
@@ -177,13 +173,13 @@ public class AttachmentRequirementService {
     }
 
     private DownloadedFile downloadAllAttachmentsForSignerInPackage(PackageId packageId, String roleId) {
-        String path = template.urlFor(UrlTemplate.ALL_ATTACHMENTS_FOR_ROLE_PATH)
+        String path =new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ALL_ATTACHMENTS_FOR_ROLE_PATH)
                               .replace("{packageId}", packageId.getId())
                               .replace("{roleId}", roleId)
                               .build();
 
         try {
-            return client.getBytes(path);
+            return getClient().getBytes(path);
         } catch (RequestException e){
             throw new EslServerException( "Could not download all attachments for the signer in the package.", e);
         } catch (Exception e) {
@@ -194,7 +190,7 @@ public class AttachmentRequirementService {
     public void uploadAttachment(PackageId packageId, String attachmentId, Map<String, byte[]> files, String signerSessionId) {
         SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
-        String path = template.urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
+        String path =new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ATTACHMENT_REQUIREMENT_PATH)
                               .replace("{packageId}", packageId.getId())
                               .replace("{attachmentId}", attachmentId)
                               .build();
@@ -211,7 +207,7 @@ public class AttachmentRequirementService {
     public void deleteAttachmentFile(PackageId packageId, String attachmentId, Integer fileId, String signerSessionId) {
         SignerRestClient signerClient = new SignerRestClient(signerSessionId, true);
 
-        String path = template.urlFor(UrlTemplate.ATTACHMENT_FILE_PATH)
+        String path =new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ATTACHMENT_FILE_PATH)
                 .replace("{packageId}", packageId.getId())
                 .replace("{attachmentId}", attachmentId)
                 .replace("{fileId}", String.valueOf(fileId))

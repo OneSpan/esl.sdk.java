@@ -16,7 +16,6 @@ import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
 import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
-import com.silanis.esl.sdk.service.apiclient.AttachmentRequirementApiClient;
 import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
 import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
 import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
@@ -182,7 +181,7 @@ public class EslClient {
         approvalService = new ApprovalService(new ApprovalApiClient(client, this.baseURL));
         reminderService = new ReminderService(client, this.baseURL);
         templateService = new TemplateService(client, this.baseURL, packageService);
-        attachmentRequirementService = new AttachmentRequirementService(new AttachmentRequirementApiClient(client, this.baseURL), client, this.baseURL);
+        attachmentRequirementService = new AttachmentRequirementService(client, this.baseURL);
         layoutService = new LayoutService(client, this.baseURL);
         qrCodeService = new QRCodeService(client, this.baseURL);
         authenticationService = new AuthenticationService(this.webpageURL, this.proxyConfiguration);
