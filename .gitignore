@@ -15,3 +15,5 @@ target
 /tester/src/test/resources/signers.properties
 /tester/src/test/resources/signers.properties.*
 /.vscode/settings.json
+
+.vscode/
