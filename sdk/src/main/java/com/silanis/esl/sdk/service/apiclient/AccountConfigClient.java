@@ -20,6 +20,7 @@ import com.silanis.esl.sdk.internal.converter.AccountUploadSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.AccountSystemSettingPropertiesConverter;
 import com.silanis.esl.sdk.internal.converter.IntegrationFrameworkWorkflowConverter;
 import com.silanis.esl.sdk.internal.converter.SignatureLayoutConverter;
+import org.apache.commons.lang3.StringUtils;
 import com.silanis.esl.sdk.service.EslComponent;
 
 import org.apache.commons.lang3.StringUtils;
@@ -581,8 +582,7 @@ public class AccountConfigClient extends EslComponent {
      *
      */
     public List<com.silanis.esl.sdk.IntegrationFrameworkWorkflow> getIfWorkflowsConfigs() {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IF_WORKFLOW_CONFIGS_PATH)
-                .build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IF_WORKFLOW_CONFIGS_PATH).build();
         try {
             String stringResponse = getClient().get(path);
 
