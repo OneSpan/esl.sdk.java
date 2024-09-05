@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static com.silanis.esl.sdk.SignatureStyle.ACCEPTANCE;
 import static com.silanis.esl.sdk.SignatureStyle.FULL_NAME;
@@ -30,7 +31,13 @@ public class MixingSignatureAndAcceptanceOnOnedocumentExampleTest {
         List<Signature> signatureList = new ArrayList<Signature>(signatures);
 
         assertThat("Signatures not set correctly. ", signatureList.size(), is(2));
-        assertThat("Signature not set correctly.", signatureList.get(0).getStyle(), is(FULL_NAME));
-        assertThat("Acceptance not set correctly.", signatureList.get(1).getStyle(), is(ACCEPTANCE));
+        for (Signature signature : signatureList) {
+            if (Objects.equals(signature.getSignerEmail(), example.email1)) {
+                assertThat("Signature not set correctly.", signature.getStyle(), is(FULL_NAME));
+            }
+            if (Objects.equals(signature.getSignerEmail(), example.email2)) {
+                assertThat("Signature not set correctly.", signature.getStyle(), is(ACCEPTANCE));
+            }
+        }
     }
 }
