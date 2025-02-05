@@ -43,19 +43,7 @@ public class UnauthenticatedRestClient extends Client {
         //Disabling all checks that SSL certificate is valid. We are actually calling OneSpan Sign anyways.
         //Our client library should implicitly trust our OneSpan Sign server. This also allows testing against
         //server with Self-signed certificates.
-
-        CloseableHttpClient client;
-        try {
-            client = buildHttpClient();
-        } catch (HttpException e) {
-            throw new RequestException(request.getRequestLine().getMethod(),
-                    request.getRequestLine().getUri(),
-                    500,
-                    "No SSL Socket Factory",
-                    "Could not build request because of SSL socket Factory");
-        }
-
-        try {
+        try (CloseableHttpClient client = buildHttpClient();) {
             HttpResponse response = client.execute(request);
 
             if (response.getStatusLine().getStatusCode() >= 400) {
@@ -69,11 +57,15 @@ public class UnauthenticatedRestClient extends Client {
                 return null;
             } else {
                 InputStream bodyContent = response.getEntity().getContent();
-
                 return handler.extract(bodyContent);
             }
-        } finally {
-            client.getConnectionManager().shutdown();
+        }
+        catch (HttpException e) {
+            throw new RequestException(request.getRequestLine().getMethod(),
+                    request.getRequestLine().getUri(),
+                    500,
+                    "No SSL Socket Factory",
+                    "Could not build request because of SSL socket Factory");
         }
     }
 
