@@ -258,13 +258,16 @@ public class RestClient extends Client {
             HttpPost request = withUserAgent(new HttpPost(url));
             request.addHeader(HEADER_CONTENT_TYPE, ESL_CONTENT_TYPE_APPLICATION_JSON);
             request.setEntity(new StringEntity(getApiTokenPayload()));
-            CloseableHttpClient client = getHttpClient(request);
-            HttpResponse httpResponse = client.execute(request);
-            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                throw new EslException("Unable to create access token for "+apiTokenConfig);
+            try(CloseableHttpClient client = getHttpClient(request);) {
+                HttpResponse httpResponse = client.execute(request);
+                if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                    throw new EslException("Unable to create access token for " + apiTokenConfig);
+                }
+                apiToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), ApiToken.class);
             }
-            apiToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), ApiToken.class);
         }
+        if (apiToken == null)
+            throw new EslException("Unable to create access token for " + apiTokenConfig);
         return apiToken.getAccessToken();
     }
 
@@ -286,18 +289,20 @@ public class RestClient extends Client {
         request.setEntity(new StringEntity("grant_type=client_credentials", ContentType.create(HEADER_CONTENT_TYPE,
             Consts.UTF_8)));
 
-        CloseableHttpClient client = getHttpClient(request);
-        HttpResponse httpResponse = client.execute(request);
-        if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-            throw new EslException(
-                "Unable to create access token for "
-                    + oauthTokenConfig
-                    + " "
-                    + httpResponse.getStatusLine().getStatusCode()
-                    + ":"
-                    + httpResponse.getStatusLine().getReasonPhrase());
+        try(CloseableHttpClient client = getHttpClient(request);)
+        {
+            HttpResponse httpResponse = client.execute(request);
+            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                throw new EslException(
+                        "Unable to create access token for "
+                                + oauthTokenConfig
+                                + " "
+                                + httpResponse.getStatusLine().getStatusCode()
+                                + ":"
+                                + httpResponse.getStatusLine().getReasonPhrase());
+            }
+            return OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
         }
-         return OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
     }
 
     private String getApiTokenPayload() throws JsonProcessingException {
