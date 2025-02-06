@@ -266,6 +266,8 @@ public class RestClient extends Client {
                 apiToken = OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), ApiToken.class);
             }
         }
+        if (apiToken == null)
+            throw new EslException("Unable to create access token for " + apiTokenConfig);
         return apiToken.getAccessToken();
     }
 
