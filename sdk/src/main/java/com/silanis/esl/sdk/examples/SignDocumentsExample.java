@@ -15,6 +15,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  */
 public class SignDocumentsExample extends SDKSample {
     private String signer1Id = "signer1";
+    private String signer2Id = "signer2";
 
     public DocumentPackage retrievedPackageBeforeSigning, retrievedPackageAfterSigningApproval1, retrievedPackageAfterSigningApproval2;
 
@@ -30,6 +31,10 @@ public class SignDocumentsExample extends SDKSample {
                         .withCustomId(signer1Id)
                         .withFirstName("John1")
                         .withLastName("Smith1"))
+                .withSigner(newSignerWithEmail(email2)
+                        .withCustomId(signer2Id)
+                        .withFirstName("Alice")
+                        .withLastName("Bob"))
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
                         .withSignature(captureFor(senderEmail)
@@ -45,7 +50,10 @@ public class SignDocumentsExample extends SDKSample {
                                 .atPosition(100, 100))
                         .withSignature(captureFor(email1)
                                 .onPage(0)
-                                .atPosition(400, 100)))
+                                .atPosition(400, 100))
+                        .withSignature(captureFor(email2)
+                                .onPage(0)
+                                .atPosition(400, 300)))
                 .build();
 
         packageId = eslClient.createPackage(superDuperPackage);
@@ -56,6 +64,7 @@ public class SignDocumentsExample extends SDKSample {
         retrievedPackageAfterSigningApproval1 = eslClient.getPackage(packageId);
 
         eslClient.signDocuments(packageId, signer1Id, capturedSignature);
+        eslClient.signDocuments(packageId, signer2Id, capturedSignature);
         retrievedPackageAfterSigningApproval2 = eslClient.getPackage(packageId);
     }
 }
