@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,6 +17,7 @@ public class Signer implements Serializable {
     private final String firstName;
     private final String lastName;
     private final Authentication authentication;
+    private final Notification notification;
     private int signingOrder;
     private String title;
     private String company;
@@ -39,7 +41,7 @@ public class Signer implements Serializable {
      * @param lastName	the last name
      * @param authentication the authentication used by the signer to join to a eSL signing ceremony 
      */
-    public Signer(String email, String firstName, String lastName, Authentication authentication) {
+    public Signer(String email, String firstName, String lastName, Authentication authentication, Notification notification) {
         if (email == null) {
             this.email = email;
         } else {
@@ -49,7 +51,12 @@ public class Signer implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.authentication = authentication;
+        this.notification = notification;
         this.groupId = null;
+    }
+
+    public Signer(String email, String firstName, String lastName, Authentication authentication) {
+        this(email, firstName, lastName, authentication, null);
     }
 
     public Signer(GroupId groupId) {
@@ -57,6 +64,7 @@ public class Signer implements Serializable {
         this.firstName = null;
         this.lastName = null;
         this.authentication = new Authentication(AuthenticationMethod.EMAIL);
+        this.notification = new Notification();
         this.groupId = groupId;
     }
 
@@ -65,6 +73,7 @@ public class Signer implements Serializable {
         this.firstName = null;
         this.lastName = null;
         this.authentication = new Authentication(AuthenticationMethod.EMAIL);
+        this.notification = new Notification();
         this.groupId = null;
         this.id = id;
     }
@@ -84,6 +93,10 @@ public class Signer implements Serializable {
      */
     public String getEmail() {
         return email;
+    }
+
+    public void setNotificationPhoneNumber(String phoneNumber){
+        this.notification.setPhone(phoneNumber);
     }
 
     /**
@@ -149,6 +162,16 @@ public class Signer implements Serializable {
      * 
      * @return	the phone number
      */
+    public String getAuthPhoneNumber() {
+        return authentication.getPhoneNumber();
+    }
+
+    /**
+     * Accessor method used to retrieve the signer's phone number
+     *
+     * @return	the phone number
+     */
+    @Deprecated
     public String getPhoneNumber() {
         return authentication.getPhoneNumber();
     }
@@ -351,5 +374,9 @@ public class Signer implements Serializable {
 
     public void setLocalLanguage(String localLanguage) {
         this.localLanguage = localLanguage;
+    }
+
+    public Notification getNotification() {
+        return notification;
     }
 }

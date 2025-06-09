@@ -79,11 +79,15 @@ public class SignerConverter {
             result.setId(sdkSigner.getId());
         }
 
-        result.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication());
+        result.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication())
+        .setPhone(sdkSigner.getNotification().getPhone())
+        .setNotificationMethods(new NotificationConverter(sdkSigner.getNotification()).toAPINotification());
+
 
         return result;
     }
 
+    //API signer to SDK signer implementation
     private Signer newRegularSignerFromAPIRole() {
         SignerBuilder signerBuilder;
 
@@ -116,7 +120,12 @@ public class SignerConverter {
             signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
         }
 
-        signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
+        signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication())
+        .withNotificationPhoneNumber(apiSigner.getPhone());
+        if (apiSigner.getNotificationMethods() != null) {
+            signerBuilder.withNotification(new NotificationConverter(apiSigner.getNotificationMethods()).toSDKNotification());
+        }
+
 
         for (com.silanis.esl.api.model.AttachmentRequirement attachmentRequirement : apiRole.getAttachmentRequirements()) {
             signerBuilder.withAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toSDKAttachmentRequirement());

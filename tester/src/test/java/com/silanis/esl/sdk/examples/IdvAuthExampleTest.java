@@ -54,7 +54,7 @@ public class IdvAuthExampleTest {
         Signer signer = documentPackage.getSigner(example.email1);
         assertThat(signer.getAuthenticationMethod(), is(IDV));
         assertThat(signer.getChallengeQuestions(), hasSize(0));
-        assertThat(signer.getPhoneNumber(), is(PHONE_NUMBER));
+        assertThat(signer.getAuthPhoneNumber(), is(PHONE_NUMBER));
 
         IdvWorkflow idvWorkflow = signer.getAuthentication().getIdvWorkflow();
         assertThat(idvWorkflow.getId(), is(IDV_WORKFLOW_ID1));
