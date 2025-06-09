@@ -16,6 +16,7 @@ public class Signer implements Serializable {
     private final String firstName;
     private final String lastName;
     private final Authentication authentication;
+    private final NotificationMethods notificationMethods;
     private int signingOrder;
     private String title;
     private String company;
@@ -37,9 +38,10 @@ public class Signer implements Serializable {
      * @param email	the email address
      * @param firstName	the first name
      * @param lastName	the last name
-     * @param authentication the authentication used by the signer to join to a eSL signing ceremony 
+     * @param authentication the authentication used by the signer to join to a eSL signing ceremony
+     * @param notificationMethods the notification methods used by the signer
      */
-    public Signer(String email, String firstName, String lastName, Authentication authentication) {
+    public Signer(String email, String firstName, String lastName, Authentication authentication, NotificationMethods notificationMethods) {
         if (email == null) {
             this.email = email;
         } else {
@@ -49,7 +51,12 @@ public class Signer implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.authentication = authentication;
+        this.notificationMethods = notificationMethods;
         this.groupId = null;
+    }
+
+    public Signer(String email, String firstName, String lastName, Authentication authentication) {
+        this(email, firstName, lastName, authentication, null);
     }
 
     public Signer(GroupId groupId) {
@@ -57,6 +64,7 @@ public class Signer implements Serializable {
         this.firstName = null;
         this.lastName = null;
         this.authentication = new Authentication(AuthenticationMethod.EMAIL);
+        this.notificationMethods = new NotificationMethods();
         this.groupId = groupId;
     }
 
@@ -65,6 +73,7 @@ public class Signer implements Serializable {
         this.firstName = null;
         this.lastName = null;
         this.authentication = new Authentication(AuthenticationMethod.EMAIL);
+        this.notificationMethods = new NotificationMethods();
         this.groupId = null;
         this.id = id;
     }
@@ -84,6 +93,24 @@ public class Signer implements Serializable {
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Accessor method used to set the signer's notification phoneNumber
+     *
+     * @param phoneNumber	the signer's notification phoneNumber
+     */
+    public void setNotificationPhoneNumber(String phoneNumber){
+        this.notificationMethods.setPhone(phoneNumber);
+    }
+
+    /**
+     * Accessor method used to set the signer's notification methods
+     *
+     * @param notificationMethods	the signer's notification methods
+     */
+    public void setNotificationPrimaryMethods(NotificationMethod... notificationMethods){
+        this.notificationMethods.setPrimaryMethods(notificationMethods);
     }
 
     /**
@@ -145,10 +172,20 @@ public class Signer implements Serializable {
     }
 
     /**
-     * Accessor method used to retrieve the signer's phone number
+     * Accessor method used to retrieve the signer's authentication phone number
      * 
-     * @return	the phone number
+     * @return	the authentication phone number
      */
+    public String getAuthPhoneNumber() {
+        return authentication.getPhoneNumber();
+    }
+
+    /**
+     * please use getAuthPhoneNumber instead
+     * Accessor method used to retrieve the signer's phone number
+     * @return	the authentication phone number
+     */
+    @Deprecated
     public String getPhoneNumber() {
         return authentication.getPhoneNumber();
     }
@@ -351,5 +388,9 @@ public class Signer implements Serializable {
 
     public void setLocalLanguage(String localLanguage) {
         this.localLanguage = localLanguage;
+    }
+
+    public NotificationMethods getNotificationMethods() {
+        return notificationMethods;
     }
 }

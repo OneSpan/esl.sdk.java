@@ -1,15 +1,18 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.AuthenticationMethod;
-import com.silanis.esl.sdk.Challenge;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.*;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.runner.RunWith;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.silanis.esl.sdk.AuthenticationMethod.*;
 import static com.silanis.esl.sdk.builder.IdvWorkflowBuilder.newIdvWorkflow;
 import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQuestion;
+import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,24 +20,122 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
+@RunWith(Enclosed.class)
 public class SignerBuilderTest {
     @Test
     public void buildWithSpecifiedValues() {
         String email = "email@aol.com";
         String firstName = "withFirstName";
         String lastName = "withLastName";
+        String phone = "+1 624-635-8233";
+        Set<NotificationMethod> notificationMethods = new HashSet<>();
+        notificationMethods.add(NotificationMethod.EMAIL);
+        notificationMethods.add(NotificationMethod.SMS);
+
         int signingOrder = 1;
         Signer signer = newSignerWithEmail(email)
                 .withFirstName(firstName)
                 .withLastName(lastName)
                 .signingOrder(signingOrder)
+                .withNotificationMethods(newNotificationMethods()
+                        .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                        .withPhoneNumber(phone))
                 .build();
 
         assertEquals(email, signer.getEmail());
         assertEquals(firstName, signer.getFirstName());
         assertEquals(lastName, signer.getLastName());
         assertEquals(signingOrder, signer.getSigningOrder());
+        assertEquals(phone, signer.getNotificationMethods().getPhone());
+        assertEquals(notificationMethods, signer.getNotificationMethods().getPrimary());
     }
+
+
+    public static class NotificationMethodsBuilderTest {
+        String email = "email@aol.com";
+        String firstName = "withFirstName";
+        String lastName = "withLastName";
+        String phone = "+1 624-635-8233";
+        Set<NotificationMethod> byEmail = new HashSet<>(Arrays.asList(NotificationMethod.EMAIL));
+        Set<NotificationMethod> byEmailAndSMS = new HashSet<>(Arrays.asList(NotificationMethod.EMAIL, NotificationMethod.SMS));
+
+        @Test
+        public void emailAsDefault(){
+            Signer signer = newSignerWithEmail(email)
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+                    .build();
+
+            assertEquals(null, signer.getNotificationMethods());
+        }
+
+        @Test
+        public void alwaysContainsEmail(){
+            Signer signer = newSignerWithEmail(email)
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+                    .withNotificationMethods(newNotificationMethods()
+                            .withPrimaryMethods())
+                    .build();
+
+            assertEquals(byEmail, signer.getNotificationMethods().getPrimary());
+        }
+
+        @Test
+        public void noDuplicateMethods(){
+            Signer signer = newSignerWithEmail(email)
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+                    .withNotificationMethods(newNotificationMethods()
+                            .withPrimaryMethods(NotificationMethod.EMAIL)
+                            .addPrimaryMethods(NotificationMethod.EMAIL))
+                    .build();
+
+            assertEquals(byEmail, signer.getNotificationMethods().getPrimary());
+        }
+
+        @Test
+        public void cannotAddSMSWithoutPhoneNumber(){
+            try {
+                Signer signer1 = newSignerWithEmail(email)
+                        .withFirstName(firstName)
+                        .withLastName(lastName)
+                        .withNotificationMethods(newNotificationMethods()
+                                .withPrimaryMethods(NotificationMethod.EMAIL)
+                                .addPrimaryMethods(NotificationMethod.SMS))
+                        .build();
+            }
+            catch (IllegalStateException e) {
+                    System.err.println("Package build failed: " + e.getMessage());
+            }
+
+            try {
+                Signer signer2 = newSignerWithEmail(email)
+                        .withFirstName(firstName)
+                        .withLastName(lastName)
+                        .withNotificationMethods(newNotificationMethods()
+                                .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS))
+                        .build();
+            }
+            catch (IllegalStateException e) {
+                System.err.println("Package build failed: " + e.getMessage());
+            }
+
+        }
+
+        @Test
+        public void canAddSMSAfterPhoneNumber(){
+            Signer signer = newSignerWithEmail(email)
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+                    .withNotificationMethods(newNotificationMethods()
+                            .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                            .withPhoneNumber(phone))
+                    .build();
+            assertEquals(byEmailAndSMS, signer.getNotificationMethods().getPrimary());
+        }
+    }
+
 
     @Test
     public void buildPlaceholder() {
@@ -147,7 +248,7 @@ public class SignerBuilderTest {
                 .build();
 
         assertThat(signer.getAuthenticationMethod(), is(SMS));
-        assertThat(signer.getPhoneNumber(), is("1112223333"));
+        assertThat(signer.getAuthPhoneNumber(), is("1112223333"));
     }
 
     @Test

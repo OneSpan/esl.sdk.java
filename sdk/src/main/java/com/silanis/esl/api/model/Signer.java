@@ -6,9 +6,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Signer extends User
       implements java.io.Serializable
@@ -61,6 +62,8 @@ public class Signer extends User
     public static final String FIELD_UPDATED = "updated";
     @JsonIgnore
     public static final String FIELD_USERCUSTOMFIELDS = "userCustomFields";
+    @JsonIgnore
+    public static final String FIELD_NOTIFICATION_METHODS = "notificationMethods";
 
     // Empty Constructor
     public Signer ( ) {}
@@ -71,7 +74,10 @@ public class Signer extends User
     protected String _signerType = "THIRD_PARTY_SIGNER";
     protected Group _group = null;
     protected KnowledgeBasedAuthentication _knowledgeBasedAuthentication = null;
-    
+
+    protected NotificationMethods _notificationMethods;
+
+
     // Accessors
         
     
@@ -120,8 +126,17 @@ public class Signer extends User
         if ( value != null ) { this.setCompany( value ); }
         return this;
     }
-    
-        
+
+    public Signer setNotificationMethods(NotificationMethods value) {
+        this._notificationMethods = value;
+        this.setDirty(FIELD_NOTIFICATION_METHODS);
+        return this;
+    }
+
+
+    public NotificationMethods getNotificationMethods() {
+        return this._notificationMethods;
+    }
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @Override

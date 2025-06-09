@@ -1,21 +1,15 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.AttachmentRequirement;
-import com.silanis.esl.api.model.BaseMessage;
-import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
+import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -102,6 +96,9 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("SignerType was not correctly set", apiSigner1.getSignerType(), is(sdkSigner1.getSignerType()));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiSigner1.getLanguage(), is(sdkSigner1.getLanguage().getLanguage()));
+        assertThat("Notification methods was not correctly set", NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner1.getNotificationMethods().getPrimary()), is(sdkSigner1.getNotificationMethods().getPrimary()));
+        assertThat("Notification phone number was not correctly set", sdkSigner1.getNotificationMethods().getPhone(), isEmptyOrNullString());
+
         assertThat("Signer ID was not correctly set", apiRole.getId(), is(sdkSigner1.getId()));
         assertThat("Signing order was not correctly set", apiRole.getIndex(), is(sdkSigner1.getSigningOrder()));
         assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(sdkSigner1.canChangeSigner()));
@@ -127,6 +124,7 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(sdkSigner1.getLastName()));
         assertThat("Company was not correctly set", apiSigner1.getCompany(), is(sdkSigner1.getCompany()));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
+        assertThat("Notification methods was not correctly set", NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner1.getNotificationMethods().getPrimary()), is(sdkSigner1.getNotificationMethods().getPrimary()));
 
     }
 
@@ -159,6 +157,8 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Attachment's name was not set correctly", attachmentName, is(sdkSigner1.getAttachmentRequirement(attachmentName).getName()));
         assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription()));
         assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
+        assertThat("Notification methods was not correctly set", NotificationMethodsConverter.convertNotificationMethodsToSDK(apiRole.getSigners().get(0).getNotificationMethods().getPrimary()), is(sdkSigner1.getNotificationMethods().getPrimary()));
+
     }
 
     @Test
@@ -190,6 +190,9 @@ public class SignerConverterTest implements ConverterTest {
                 is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
                 is(sdkSigner1.getLanguage().getLanguage()));
+        assertThat("Notification methods was not correctly set", apiRole.getSigners().get(0).getNotificationMethods()
+                , nullValue());
+
 
         assertThat("ID was not set correctly", apiRole.getId(), is(roleId));
         assertThat("Name was not set correctly", apiRole.getName(), is(roleId));
@@ -218,6 +221,9 @@ public class SignerConverterTest implements ConverterTest {
                         .withDescription("Please upload your scanned driver license.")
                         .isRequiredAttachment()
                         .build())
+                .withNotificationMethods(newNotificationMethods()
+                        .withPrimaryMethods(com.silanis.esl.sdk.NotificationMethod.EMAIL)
+                )
                 .build();
     }
 
@@ -237,6 +243,10 @@ public class SignerConverterTest implements ConverterTest {
         apiSigner.setLanguage("fr");
         apiSigner.setTitle("Doctor");
         apiSigner.setSignerType("THIRD_PARTY_SIGNER");
+
+        Set<NotificationMethod> methods = new HashSet<>();
+        methods.add(NotificationMethod.EMAIL);
+        apiSigner.setNotificationMethods(new NotificationMethods(methods));
 
         Delivery delivery = new Delivery();
         delivery.setDownload(true);
