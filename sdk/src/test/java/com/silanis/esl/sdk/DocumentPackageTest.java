@@ -1,8 +1,10 @@
 package com.silanis.esl.sdk;
-
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
+
 import org.junit.Test;
+
+import java.util.HashSet;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -65,7 +67,7 @@ public class DocumentPackageTest {
         DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
                 .build();
 
-        Signer signer1 = new Signer(lowerCaseEmail1, "John", "Smith", new Authentication(AuthenticationMethod.EMAIL));
+        Signer signer1 = new Signer(lowerCaseEmail1, "John", "Smith", new Authentication(AuthenticationMethod.EMAIL), new Notification());
         Signer signer2 = SignerBuilder.newSignerWithEmail(upperCaseEmail2)
                 .withFirstName("Patty")
                 .withLastName("Galant")

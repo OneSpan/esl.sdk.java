@@ -1,17 +1,11 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.AttachmentRequirement;
-import com.silanis.esl.api.model.BaseMessage;
-import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.model.*;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
@@ -102,6 +96,9 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("SignerType was not correctly set", apiSigner1.getSignerType(), is(sdkSigner1.getSignerType()));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiSigner1.getLanguage(), is(sdkSigner1.getLanguage().getLanguage()));
+        assertThat("Notification methods was not correctly set", NotificationConverter.convertNotificationMethodsToSDK(apiSigner1.getNotificationMethods().getPrimary()), is(sdkSigner1.getNotification().getMethods()));
+        assertThat("Notification phone number was not correctly set", apiSigner1.getPhone(), is(sdkSigner1.getNotification().getPhone()));
+
         assertThat("Signer ID was not correctly set", apiRole.getId(), is(sdkSigner1.getId()));
         assertThat("Signing order was not correctly set", apiRole.getIndex(), is(sdkSigner1.getSigningOrder()));
         assertThat("Can change signer flag was not correctly set", apiRole.getReassign(), is(sdkSigner1.canChangeSigner()));
@@ -237,6 +234,10 @@ public class SignerConverterTest implements ConverterTest {
         apiSigner.setLanguage("fr");
         apiSigner.setTitle("Doctor");
         apiSigner.setSignerType("THIRD_PARTY_SIGNER");
+
+        Set<NotificationMethod> methods = new HashSet<>();
+        methods.add(NotificationMethod.EMAIL);
+        apiSigner.setNotificationMethods(new NotificationMethods(methods));
 
         Delivery delivery = new Delivery();
         delivery.setDownload(true);

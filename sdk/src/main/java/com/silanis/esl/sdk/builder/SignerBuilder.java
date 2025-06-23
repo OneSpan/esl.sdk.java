@@ -1,24 +1,14 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.AttachmentRequirement;
-import com.silanis.esl.sdk.Authentication;
-import com.silanis.esl.sdk.AuthenticationMethod;
-import com.silanis.esl.sdk.Challenge;
-import com.silanis.esl.sdk.EslException;
-import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.IdvWorkflow;
-import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
-import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.Signer;
-import com.silanis.esl.sdk.SignerInformationForLexisNexis;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.Asserts;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import static com.silanis.esl.sdk.AuthenticationMethod.*;
 import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
+import static com.silanis.esl.sdk.NotificationMethod.*;
+
 
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
@@ -33,7 +23,9 @@ final public class SignerBuilder {
     private String lastName;
     private int signingOrder = DEFAULT_SIGNING_ORDER;
     private AuthenticationBuilder authenticationBuilder = new AuthenticationBuilder();
+    private NotificationBuilder notificationBuilder = new NotificationBuilder();
     private Authentication authentication = null;
+    private Notification notification = null;
     private String title = "";
     private String company = "";
     private Locale language;
@@ -137,6 +129,33 @@ final public class SignerBuilder {
         return this;
     }
 
+    public SignerBuilder withNotificationPhoneNumber(String phoneNumber){
+        notificationBuilder.setPhoneNumber(phoneNumber);
+        return this;
+    }
+
+    public SignerBuilder withNotificationMethods(Set<NotificationMethod> methods) {
+        notificationBuilder.setNotificationMethods(methods);
+        return this;
+    }
+
+    public SignerBuilder withNotificationMethods(NotificationMethod... methods) {
+        notificationBuilder.setNotificationMethods(methods);
+        return this;
+    }
+
+    public SignerBuilder addNotificationMethods(NotificationMethod... methods) {
+        notificationBuilder.addNotificationMethods(methods);
+        return this;
+    }
+
+    public SignerBuilder withNotification(Notification notification){
+        this.notification = notification;
+        return this;
+    }
+
+
+
     /**
      * Sets the signer's first name.
      *
@@ -203,12 +222,15 @@ final public class SignerBuilder {
         if (authentication == null) {
             authentication = authenticationBuilder.build();
         }
+        if (notification == null) {
+            notification = notificationBuilder.build();
+        }
 
         Signer result;
 
         Asserts.notNullOrEmpty(firstName, "first name");
         Asserts.notNullOrEmpty(lastName, "last name");
-        result = new Signer(email, firstName, lastName, authentication);
+        result = new Signer(email, firstName, lastName, authentication, notification);
         result.setTitle(title);
         result.setCompany(company);
         result.setLanguage(language);
@@ -500,6 +522,50 @@ final public class SignerBuilder {
         }
     }
 
+
+    public static class NotificationBuilder {
+        private final Set<NotificationMethod> methods = new HashSet<>();
+        private String phone;
+
+        private NotificationBuilder() {
+            this.methods.add(NotificationMethod.EMAIL);
+        }
+
+        public void setNotificationMethods(Set<NotificationMethod> methods) {
+            this.setNotificationMethods(methods.toArray(new NotificationMethod[0]));
+        }
+
+        public void setNotificationMethods(NotificationMethod... methods) {
+            this.methods.clear();
+            this.methods.add(NotificationMethod.EMAIL);
+            this.addNotificationMethods(methods);
+        }
+
+        public void addNotificationMethods(NotificationMethod... methods) {
+            Arrays.stream(methods)
+                    .peek(this::validateSMSRequirements)
+                    .forEach(this.methods::add);
+        }
+
+        private void validateSMSRequirements(NotificationMethod method) {
+            if (method == NotificationMethod.SMS &&
+                (phone == null || phone.trim().isEmpty())){
+                throw new IllegalStateException("Phone number must be set before enabling SMS notifications");
+            }
+        }
+
+        public NotificationBuilder setPhoneNumber(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+
+        public Notification build() {
+            return new Notification(methods, phone);
+        }
+    }
+
+
     /**
      * Challenge builder is a convenient class used to create an Authentication
      * object. It is used to help define the authentication questions and
@@ -628,7 +694,7 @@ final public class SignerBuilder {
         @Override
         public Authentication build() {
             Asserts.notNullOrEmpty(phoneNumber, "phone number");
-            return new Authentication(SMS, phoneNumber);
+            return new Authentication(AuthenticationMethod.SMS, phoneNumber);
         }
     }
 

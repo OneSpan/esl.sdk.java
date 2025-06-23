@@ -67,7 +67,7 @@ public class User extends Entity
     protected String _firstName = "";
     protected String _language = "";
     protected String _lastName = "";
-    protected String _phone = "";
+    protected String _phone;
     protected List<ProfessionalIdentityField> _professionalIdentityFields = new ArrayList<ProfessionalIdentityField>();
     protected SignatureStyle _signature = null;
     protected List<String> _specialTypes = new ArrayList<String>();
