@@ -34,6 +34,7 @@ public class AccountFeatureSettings {
     private Boolean overrideRecipientsPreferredLanguage;
     private Boolean enableRecipientHistory;
     private Boolean allowSignersDownloadEvidenceSummary;
+    private Boolean documentWidget;
 
 
     public Boolean getAllowCheckboxConsentApproval() {
@@ -266,5 +267,13 @@ public class AccountFeatureSettings {
 
     public void setAllowSignersDownloadEvidenceSummary(Boolean allowSignersDownloadEvidenceSummary) {
         this.allowSignersDownloadEvidenceSummary = allowSignersDownloadEvidenceSummary;
+    }
+
+    public Boolean getDocumentWidget() {
+        return documentWidget;
+    }
+
+    public void setDocumentWidget(Boolean documentWidget) {
+        this.documentWidget = documentWidget;
     }
 }

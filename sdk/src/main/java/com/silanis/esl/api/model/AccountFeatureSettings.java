@@ -68,6 +68,8 @@ public class AccountFeatureSettings extends Model
     public static final String FIELD_ENABLE_RECIPIENT_HISTORY = "enableRecipientHistory";
     @JsonIgnore
     public static final String  FIELD_ALLOW_SIGNERS_DOWNLOAD_EVIDENCE_SUMMARY = "allowSignersDownloadEvidenceSummary";
+    @JsonIgnore
+    public static final String  FIELD_DOCUMENT_WIDGET = "documentWidget";
 
     protected Boolean _allowCheckboxConsentApproval = true;
     protected Boolean _allowInPersonForAccountSenders = true;
@@ -98,7 +100,7 @@ public class AccountFeatureSettings extends Model
     protected Boolean _overrideRecipientsPreferredLanguage = false;
     protected Boolean _enableRecipientHistory = true;
     protected Boolean _allowSignersDownloadEvidenceSummary = false;
-
+    protected Boolean _documentWidget = false;
 
     public AccountFeatureSettings() {
     }
@@ -759,6 +761,30 @@ public class AccountFeatureSettings extends Model
 
     public Boolean getAllowSignersDownloadEvidenceSummary() {
         return _allowSignersDownloadEvidenceSummary;
+    }
+
+    public Boolean getDocumentWidget() {
+        return _documentWidget;
+    }
+
+    public AccountFeatureSettings setDocumentWidget(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_DOCUMENT_WIDGET, value);
+        this._documentWidget = value;
+        setDirty(FIELD_DOCUMENT_WIDGET);
+        return this;
+    }
+
+    @JsonIgnore
+    public AccountFeatureSettings safeSetDocumentWidget(Boolean value) {
+        if (value != null) {
+            this.setDocumentWidget(value);
+        }
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalDocumentWidget() {
+        return _documentWidget == null || _documentWidget.booleanValue();
     }
 
 }
