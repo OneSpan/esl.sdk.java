@@ -44,6 +44,7 @@ public class AccountSettingsExampleTest {
         assertNotNull("'allowInPersonForAccountSenders' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getAllowInPersonForAccountSenders());
         assertNotNull("'Attachments' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getAttachments());
         assertNotNull("'ConditionalFields' in AccountFeatureSettings should be returned", example.defaultAccountSettings.getAccountFeatureSettings().getConditionalFields());
+        assertNotNull("'documentWidget' in AccountFeatureSettings should be updated correctly", example.defaultAccountSettings.getAccountFeatureSettings().getDocumentWidget());
 
         assertFalse("'allowCheckboxConsentApproval' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getAllowCheckboxConsentApproval());
         assertTrue("'allowInPersonForAccountSenders' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getAllowInPersonForAccountSenders());
@@ -51,6 +52,7 @@ public class AccountSettingsExampleTest {
         assertFalse("'ConditionalFields' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getConditionalFields());
         assertTrue("'overrideRecipientsPreferredLanguage' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getOverrideRecipientsPreferredLanguage());
         assertTrue("'enableRecipientHistory' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getEnableRecipientHistory());
+        assertFalse("'documentWidget' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getDocumentWidget());
 
         assertTrue("'allowCheckboxConsentApproval' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getAllowCheckboxConsentApproval());
         assertTrue("'allowInPersonForAccountSenders' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getAllowInPersonForAccountSenders());
@@ -59,6 +61,7 @@ public class AccountSettingsExampleTest {
         assertTrue("'overrideRecipientsPreferredLanguage' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getOverrideRecipientsPreferredLanguage());
         assertTrue("'enableRecipientHistory' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getEnableRecipientHistory());
         assertTrue("'allowSignersDownloadEvidenceSummary' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getAllowSignersDownloadEvidenceSummary());
+        assertTrue("'documentWidget' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getDocumentWidget());
 
     }
 }

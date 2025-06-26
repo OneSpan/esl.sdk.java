@@ -39,6 +39,7 @@ public class AccountFeatureSettingsBuilder {
     private Boolean overrideRecipientsPreferredLanguage = null;
     private Boolean enableRecipientHistory = null;
     private Boolean allowSignersDownloadEvidenceSummary = null;
+    private Boolean documentWidget = null;
 
 
     /**
@@ -750,6 +751,30 @@ public class AccountFeatureSettingsBuilder {
     }
 
     /**
+     * Enables the 'documentWidget' feature.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountFeatureSettingsBuilder withDocumentWidget() {
+        documentWidget = true;
+        return this;
+    }
+
+    /**
+     * Disables the 'documentWidget' feature.
+     *
+     * @return This
+     * @see #withoutDocumentWidget()
+     */
+    public AccountFeatureSettingsBuilder withoutDocumentWidget() {
+        documentWidget = false;
+        return this;
+    }
+
+    /**
      * Builds the actual Account Feature Settings.
      *
      * @return the Account Feature Settings
@@ -786,6 +811,7 @@ public class AccountFeatureSettingsBuilder {
         result.setOverrideRecipientsPreferredLanguage(overrideRecipientsPreferredLanguage);
         result.setEnableRecipientHistory(enableRecipientHistory);
         result.setAllowSignersDownloadEvidenceSummary(allowSignersDownloadEvidenceSummary);
+        result.setDocumentWidget(documentWidget);
 
 
         return result;
