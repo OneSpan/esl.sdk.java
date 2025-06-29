@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.NotificationMethods;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
@@ -11,6 +12,8 @@ import com.silanis.esl.sdk.internal.Asserts;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
+
+import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 
 /**
  * User: jessica
@@ -79,9 +82,12 @@ public class SignerConverter {
             result.setId(sdkSigner.getId());
         }
 
-        result.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication())
-        .setPhone(sdkSigner.getNotification().getPhone())
-        .setNotificationMethods(new NotificationConverter(sdkSigner.getNotification()).toAPINotification());
+        result.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication());
+
+        if (sdkSigner.getNotificationMethods() != null){
+            result.setPhone(sdkSigner.getNotificationMethods().getPhone())
+                    .setNotificationMethods(new NotificationMethodsConverter(sdkSigner.getNotificationMethods()).toAPINotificationMethods());
+        }
 
 
         return result;
@@ -120,10 +126,13 @@ public class SignerConverter {
             signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
         }
 
-        signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication())
-        .withNotificationPhoneNumber(apiSigner.getPhone());
+        signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
+
+
         if (apiSigner.getNotificationMethods() != null) {
-            signerBuilder.withNotification(new NotificationConverter(apiSigner.getNotificationMethods()).toSDKNotification());
+            signerBuilder.withNotificationMethods(newNotificationMethods()
+                    .setPrimaryMethods(NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner.getNotificationMethods().getPrimary()))
+                    .setPhoneNumber(apiSigner.getPhone()));
         }
 
 

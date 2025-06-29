@@ -7,7 +7,6 @@ import java.util.*;
 
 import static com.silanis.esl.sdk.AuthenticationMethod.*;
 import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
-import static com.silanis.esl.sdk.NotificationMethod.*;
 
 
 /**
@@ -23,9 +22,9 @@ final public class SignerBuilder {
     private String lastName;
     private int signingOrder = DEFAULT_SIGNING_ORDER;
     private AuthenticationBuilder authenticationBuilder = new AuthenticationBuilder();
-    private NotificationBuilder notificationBuilder = new NotificationBuilder();
+    private NotificationMethodsBuilder notificationMethodsBuilder;
     private Authentication authentication = null;
-    private Notification notification = null;
+    private NotificationMethods notificationMethods = null;
     private String title = "";
     private String company = "";
     private Locale language;
@@ -129,32 +128,10 @@ final public class SignerBuilder {
         return this;
     }
 
-    public SignerBuilder withNotificationPhoneNumber(String phoneNumber){
-        notificationBuilder.setPhoneNumber(phoneNumber);
+    public SignerBuilder withNotificationMethods(NotificationMethodsBuilder notificationMethodsBuilder){
+        this.notificationMethodsBuilder = notificationMethodsBuilder;
         return this;
     }
-
-    public SignerBuilder withNotificationMethods(Set<NotificationMethod> methods) {
-        notificationBuilder.setNotificationMethods(methods);
-        return this;
-    }
-
-    public SignerBuilder withNotificationMethods(NotificationMethod... methods) {
-        notificationBuilder.setNotificationMethods(methods);
-        return this;
-    }
-
-    public SignerBuilder addNotificationMethods(NotificationMethod... methods) {
-        notificationBuilder.addNotificationMethods(methods);
-        return this;
-    }
-
-    public SignerBuilder withNotification(Notification notification){
-        this.notification = notification;
-        return this;
-    }
-
-
 
     /**
      * Sets the signer's first name.
@@ -222,15 +199,15 @@ final public class SignerBuilder {
         if (authentication == null) {
             authentication = authenticationBuilder.build();
         }
-        if (notification == null) {
-            notification = notificationBuilder.build();
+        if (notificationMethods == null && notificationMethodsBuilder != null) {
+            notificationMethods = notificationMethodsBuilder.build();
         }
 
         Signer result;
 
         Asserts.notNullOrEmpty(firstName, "first name");
         Asserts.notNullOrEmpty(lastName, "last name");
-        result = new Signer(email, firstName, lastName, authentication, notification);
+        result = new Signer(email, firstName, lastName, authentication, notificationMethods);
         result.setTitle(title);
         result.setCompany(company);
         result.setLanguage(language);
@@ -523,45 +500,41 @@ final public class SignerBuilder {
     }
 
 
-    public static class NotificationBuilder {
-        private final Set<NotificationMethod> methods = new HashSet<>();
+    public static class NotificationMethodsBuilder {
+        private final Set<NotificationMethod> primary;
         private String phone;
 
-        private NotificationBuilder() {
-            this.methods.add(NotificationMethod.EMAIL);
+        private NotificationMethodsBuilder(){
+            primary = new HashSet<>();
         }
 
-        public void setNotificationMethods(Set<NotificationMethod> methods) {
-            this.setNotificationMethods(methods.toArray(new NotificationMethod[0]));
+        public NotificationMethodsBuilder setPrimaryMethods(Set<NotificationMethod> methods) {
+            this.setPrimaryMethods(methods.toArray(new NotificationMethod[0]));
+            return this;
         }
 
-        public void setNotificationMethods(NotificationMethod... methods) {
-            this.methods.clear();
-            this.methods.add(NotificationMethod.EMAIL);
-            this.addNotificationMethods(methods);
+        public NotificationMethodsBuilder setPrimaryMethods(NotificationMethod... methods) {
+            this.primary.clear();
+            this.addPrimaryMethods(methods);
+            return this;
         }
 
-        public void addNotificationMethods(NotificationMethod... methods) {
-            Arrays.stream(methods)
-                    .peek(this::validateSMSRequirements)
-                    .forEach(this.methods::add);
+        public NotificationMethodsBuilder addPrimaryMethods(NotificationMethod... methods) {
+            this.primary.addAll(Arrays.asList(methods));
+            return this;
         }
 
-        private void validateSMSRequirements(NotificationMethod method) {
-            if (method == NotificationMethod.SMS &&
-                (phone == null || phone.trim().isEmpty())){
-                throw new IllegalStateException("Phone number must be set before enabling SMS notifications");
-            }
-        }
-
-        public NotificationBuilder setPhoneNumber(String phone) {
+        public NotificationMethodsBuilder setPhoneNumber(String phone) {
             this.phone = phone;
             return this;
         }
 
+        public static NotificationMethodsBuilder newNotificationMethods() {
+            return new NotificationMethodsBuilder();
+        }
 
-        public Notification build() {
-            return new Notification(methods, phone);
+        public NotificationMethods build() {
+            return new NotificationMethods(primary, phone);
         }
     }
 

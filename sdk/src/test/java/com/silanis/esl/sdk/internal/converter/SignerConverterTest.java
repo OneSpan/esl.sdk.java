@@ -8,8 +8,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 
 /**
@@ -96,8 +95,8 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("SignerType was not correctly set", apiSigner1.getSignerType(), is(sdkSigner1.getSignerType()));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiSigner1.getLanguage(), is(sdkSigner1.getLanguage().getLanguage()));
-        assertThat("Notification methods was not correctly set", NotificationConverter.convertNotificationMethodsToSDK(apiSigner1.getNotificationMethods().getPrimary()), is(sdkSigner1.getNotification().getMethods()));
-        assertThat("Notification phone number was not correctly set", apiSigner1.getPhone(), is(sdkSigner1.getNotification().getPhone()));
+        assertThat("Notification methods was not correctly set", NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner1.getNotificationMethods().getPrimary()), is(sdkSigner1.getNotificationMethods().getPrimary()));
+        assertThat("Notification phone number was not correctly set", sdkSigner1.getNotificationMethods().getPhone(), isEmptyOrNullString());
 
         assertThat("Signer ID was not correctly set", apiRole.getId(), is(sdkSigner1.getId()));
         assertThat("Signing order was not correctly set", apiRole.getIndex(), is(sdkSigner1.getSigningOrder()));

@@ -39,7 +39,7 @@ public class NotificationMethodConverter {
             return apiNotificationMethod;
         }
 
-        return com.silanis.esl.api.model.NotificationMethod.valueOf(sdkNotificationMethod.getApiValue());
+        return com.silanis.esl.api.model.NotificationMethod.valueOf(sdkNotificationMethod.name());
     }
 
     /**
@@ -48,21 +48,10 @@ public class NotificationMethodConverter {
      * @return an SDK Notification Method object.
      */
     public NotificationMethod toSDKNotificationMethod() {
-
         if (apiNotificationMethod == null) {
             return sdkNotificationMethod;
         }
 
-        //return NotificationMethod.valueOf(apiNotificationMethod.name());
-
-        try {
-            return Iterables.find(Arrays.asList(NotificationMethod.values()), new Predicate<NotificationMethod>() {
-                public boolean apply(NotificationMethod NotificationMethod) {
-                    return apiNotificationMethod.equals(NotificationMethod.getApiValue());
-                }
-            });
-        } catch (NoSuchElementException e) {
-            return NotificationMethod.UNRECOGNIZED(apiNotificationMethod.toString());
-        }
+        return NotificationMethod.valueOf(apiNotificationMethod.name());
     }
 }

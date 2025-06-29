@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,7 +16,7 @@ public class Signer implements Serializable {
     private final String firstName;
     private final String lastName;
     private final Authentication authentication;
-    private final Notification notification;
+    private final NotificationMethods notificationMethods;
     private int signingOrder;
     private String title;
     private String company;
@@ -41,7 +40,7 @@ public class Signer implements Serializable {
      * @param lastName	the last name
      * @param authentication the authentication used by the signer to join to a eSL signing ceremony 
      */
-    public Signer(String email, String firstName, String lastName, Authentication authentication, Notification notification) {
+    public Signer(String email, String firstName, String lastName, Authentication authentication, NotificationMethods notificationMethods) {
         if (email == null) {
             this.email = email;
         } else {
@@ -51,7 +50,7 @@ public class Signer implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.authentication = authentication;
-        this.notification = notification;
+        this.notificationMethods = notificationMethods;
         this.groupId = null;
     }
 
@@ -64,7 +63,7 @@ public class Signer implements Serializable {
         this.firstName = null;
         this.lastName = null;
         this.authentication = new Authentication(AuthenticationMethod.EMAIL);
-        this.notification = new Notification();
+        this.notificationMethods = new NotificationMethods();
         this.groupId = groupId;
     }
 
@@ -73,7 +72,7 @@ public class Signer implements Serializable {
         this.firstName = null;
         this.lastName = null;
         this.authentication = new Authentication(AuthenticationMethod.EMAIL);
-        this.notification = new Notification();
+        this.notificationMethods = new NotificationMethods();
         this.groupId = null;
         this.id = id;
     }
@@ -95,8 +94,22 @@ public class Signer implements Serializable {
         return email;
     }
 
+    /**
+     * Accessor method used to set the signer's notification phoneNumber
+     *
+     * @param phoneNumber	the signer's notification phoneNumber
+     */
     public void setNotificationPhoneNumber(String phoneNumber){
-        this.notification.setPhone(phoneNumber);
+        this.notificationMethods.setPhone(phoneNumber);
+    }
+
+    /**
+     * Accessor method used to set the signer's notification methods
+     *
+     * @param notificationMethods	the signer's notification methods
+     */
+    public void setNotificationPrimaryMethods(NotificationMethod... notificationMethods){
+        this.notificationMethods.setPrimaryMethods(notificationMethods);
     }
 
     /**
@@ -376,7 +389,7 @@ public class Signer implements Serializable {
         this.localLanguage = localLanguage;
     }
 
-    public Notification getNotification() {
-        return notification;
+    public NotificationMethods getNotificationMethods() {
+        return notificationMethods;
     }
 }

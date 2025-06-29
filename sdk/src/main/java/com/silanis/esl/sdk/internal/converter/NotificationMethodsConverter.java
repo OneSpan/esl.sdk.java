@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import com.silanis.esl.api.model.NotificationMethods;
-import com.silanis.esl.sdk.Notification;
+import com.silanis.esl.sdk.NotificationMethods;
 import com.silanis.esl.sdk.NotificationMethod;
 
 import java.util.HashSet;
@@ -13,59 +12,59 @@ import java.util.Set;
  * <p>
  * Converter for SDK Notification and API Notification.
  */
-public class NotificationConverter {
+public class NotificationMethodsConverter {
 
-    NotificationMethods apiNotificationMethods;
-    Notification sdkNotification;
+    com.silanis.esl.api.model.NotificationMethods apiNotificationMethodsMethods;
+    NotificationMethods sdkNotificationMethods;
 
     /**
      * Construct with API Notification.
      *
-     * @param apiNotificationMethods
+     * @param apiNotificationMethodsMethods
      */
-    public NotificationConverter(NotificationMethods apiNotificationMethods) {
-        this.apiNotificationMethods = apiNotificationMethods;
+    public NotificationMethodsConverter(com.silanis.esl.api.model.NotificationMethods apiNotificationMethodsMethods) {
+        this.apiNotificationMethodsMethods = apiNotificationMethodsMethods;
     }
 
     /**
      * Construct with SDK Notification.
      *
-     * @param sdkNotification
+     * @param sdkNotificationMethods
      */
-    public NotificationConverter(Notification sdkNotification) {
-        this.sdkNotification = sdkNotification;
+    public NotificationMethodsConverter(NotificationMethods sdkNotificationMethods) {
+        this.sdkNotificationMethods = sdkNotificationMethods;
     }
 
     /**
-     * Convert from SDK Notification to API Notification.
+     * Convert from SDK NotificationMethods to API NotificationMethods.
      *
-     * @return API Notification
+     * @return API NotificationMethods
      */
-    public NotificationMethods toAPINotification() {
+    public com.silanis.esl.api.model.NotificationMethods toAPINotificationMethods() {
 
-        if (sdkNotification == null) {
-            return apiNotificationMethods;
+        if (sdkNotificationMethods == null) {
+            return apiNotificationMethodsMethods;
         }
-        return new NotificationMethods(convertNotificationMethodsToAPI(sdkNotification.getMethods()));
+        return new com.silanis.esl.api.model.NotificationMethods(convertNotificationMethodsToAPI(sdkNotificationMethods.getPrimary()));
     }
 
     /**
-     * Convert from API Notification to SDK Notification.
+     * Convert from API NotificationMethods to SDK NotificationMethods.
      *
-     * @return SDK Notification
+     * @return SDK NotificationMethods
      */
-    public Notification toSDKNotification() {
-        if (apiNotificationMethods == null) {
-            return sdkNotification;
+    public NotificationMethods toSDKNotificationMethods() {
+        if (apiNotificationMethodsMethods == null) {
+            return sdkNotificationMethods;
         }
-        return new Notification(convertNotificationMethodsToSDK(apiNotificationMethods.getPrimary()), null);
+        return new NotificationMethods(convertNotificationMethodsToSDK(apiNotificationMethodsMethods.getPrimary()), null);
     }
 
 
     /**
      * Convert from SDK Set<NotificationMethod> to API </NotificationMethod>.
      *
-     * @return API Notification
+     * @return API </NotificationMethod>.
      */
     public static Set<com.silanis.esl.api.model.NotificationMethod> convertNotificationMethodsToAPI(Set<NotificationMethod> sdkMethods){
         Set<com.silanis.esl.api.model.NotificationMethod> methods = new HashSet<>();
@@ -79,7 +78,7 @@ public class NotificationConverter {
     /**
      * Convert from API Set<NotificationMethod> to SDK </NotificationMethod>.
      *
-     * @return SDK Notification
+     * @return SDK </NotificationMethod>.
      */
     public static Set<NotificationMethod> convertNotificationMethodsToSDK(Set<com.silanis.esl.api.model.NotificationMethod> apiMethods){
         Set<NotificationMethod> methods = new HashSet<>();
