@@ -4,7 +4,6 @@ import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.sdk.GroupId;
-import com.silanis.esl.sdk.NotificationMethods;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
@@ -93,7 +92,6 @@ public class SignerConverter {
         return result;
     }
 
-    //API signer to SDK signer implementation
     private Signer newRegularSignerFromAPIRole() {
         SignerBuilder signerBuilder;
 
@@ -131,8 +129,8 @@ public class SignerConverter {
 
         if (apiSigner.getNotificationMethods() != null) {
             signerBuilder.withNotificationMethods(newNotificationMethods()
-                    .setPrimaryMethods(NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner.getNotificationMethods().getPrimary()))
-                    .setPhoneNumber(apiSigner.getPhone()));
+                    .withPrimaryMethods(NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner.getNotificationMethods().getPrimary()))
+                    .withPhoneNumber(apiSigner.getPhone()));
         }
 
 

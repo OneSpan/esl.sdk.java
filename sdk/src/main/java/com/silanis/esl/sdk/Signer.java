@@ -38,7 +38,8 @@ public class Signer implements Serializable {
      * @param email	the email address
      * @param firstName	the first name
      * @param lastName	the last name
-     * @param authentication the authentication used by the signer to join to a eSL signing ceremony 
+     * @param authentication the authentication used by the signer to join to a eSL signing ceremony
+     * @param notificationMethods the notification methods used by the signer
      */
     public Signer(String email, String firstName, String lastName, Authentication authentication, NotificationMethods notificationMethods) {
         if (email == null) {
@@ -171,18 +172,18 @@ public class Signer implements Serializable {
     }
 
     /**
-     * Accessor method used to retrieve the signer's phone number
+     * Accessor method used to retrieve the signer's authentication phone number
      * 
-     * @return	the phone number
+     * @return	the authentication phone number
      */
     public String getAuthPhoneNumber() {
         return authentication.getPhoneNumber();
     }
 
     /**
+     * please use getAuthPhoneNumber instead
      * Accessor method used to retrieve the signer's phone number
-     *
-     * @return	the phone number
+     * @return	the authentication phone number
      */
     @Deprecated
     public String getPhoneNumber() {

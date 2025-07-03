@@ -21,7 +21,7 @@ public class NotificationMethods extends Model implements java.io.Serializable {
 
     public NotificationMethods() {}
 
-    public NotificationMethods setPrimary(Set<NotificationMethod> collection) {
+    private NotificationMethods setPrimary(Set<NotificationMethod> collection) {
         throwOnNull(FIELD_PRIMARY_SET, collection);
         setDirty(FIELD_PRIMARY_SET);
         this.primary = sort(collection);

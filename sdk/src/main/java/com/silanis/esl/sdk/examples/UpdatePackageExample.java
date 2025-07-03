@@ -4,13 +4,11 @@ import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
-import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import java.util.Locale;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
-import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
@@ -118,9 +116,7 @@ public class UpdatePackageExample extends SDKSample {
                 .withSettings(settingsToCreate)
                 .withSigner(newSignerWithEmail(email1)
                                     .withFirstName("John1")
-                                    .withLastName("Smith1")
-                                    .withNotificationMethods(newNotificationMethods()
-                                            .setPrimaryMethods(NotificationMethod.EMAIL)))
+                                    .withLastName("Smith1"))
                 .withDocument(newDocumentWithName("First Document")
                                       .fromStream(documentInputStream1, DocumentType.PDF)
                                       .withSignature(signatureFor(email1)

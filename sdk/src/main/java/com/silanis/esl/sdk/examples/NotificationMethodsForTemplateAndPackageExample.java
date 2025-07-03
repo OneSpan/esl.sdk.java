@@ -1,8 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.builder.DocumentBuilder;
-import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
 import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
@@ -11,20 +9,22 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 public class NotificationMethodsForTemplateAndPackageExample extends SDKSample{
     protected DocumentPackage templatePackage;
+    protected DocumentPackage updatedPackage;
+    protected DocumentPackage signerUpdatedPackage;
 
     public DocumentPackage getTemplatePackage() {
         return templatePackage;
     }
+    public DocumentPackage getUpdatedPackage() {
+        return updatedPackage;
+    }
+    public DocumentPackage getSignerUpdatedPackage() {
+        return signerUpdatedPackage;
+    }
 
-    public static final String DOCUMENT_NAME = "First Document";
-    public static final String DOCUMENT_ID = "doc1";
-    public static final String PACKAGE_DESCRIPTION = "This is a package created using OneSpan Sign SDK";
-    public static final String PACKAGE_EMAIL_MESSAGE = "This message should be delivered to all signers";
-    public static final String PACKAGE_EMAIL_MESSAGE2 = "Changed the email message";
+    public static final String PACKAGE_DESCRIPTION = "This example is created to demonstrate that package update doesn't affect signer's notification methods";
     public static final String PACKAGE_SIGNER1_FIRST = "John";
     public static final String PACKAGE_SIGNER1_LAST = "Smith";
-    public static final String PACKAGE_SIGNER1_TITLE = "Manager";
-    public static final String PACKAGE_SIGNER1_COMPANY = "Acme Inc.";
     public static final String PACKAGE_SIGNER1_CUSTOM_ID = "Signer1";
     public static final String PACKAGE_SIGNER1_PHONE = "+12042345678";
 
@@ -36,42 +36,32 @@ public class NotificationMethodsForTemplateAndPackageExample extends SDKSample{
     public void execute() {
         DocumentPackage template = PackageBuilder.newPackageNamed("Template " + getPackageName())
                 .describedAs("first message")
-                .withEmailMessage(PACKAGE_EMAIL_MESSAGE)
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName(PACKAGE_SIGNER1_FIRST)
                         .withLastName(PACKAGE_SIGNER1_LAST)
-                        .withTitle(PACKAGE_SIGNER1_TITLE)
-                        .withCompany(PACKAGE_SIGNER1_COMPANY)
                         .withCustomId(PACKAGE_SIGNER1_CUSTOM_ID)
                         .withNotificationMethods(newNotificationMethods()
-                                .setPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
-                                .setPhoneNumber(PACKAGE_SIGNER1_PHONE)))
-                .withDocument(DocumentBuilder.newDocumentWithName(DOCUMENT_NAME)
-                        .fromStream(documentInputStream1, DocumentType.PDF)
-                        .withId(DOCUMENT_ID)
-                        .build())
+                                .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                                .withPhoneNumber(PACKAGE_SIGNER1_PHONE)))
                 .build();
 
         template.setId(eslClient.getTemplateService().createTemplate(template));
+        templatePackage = template;
 
         DocumentPackage newPackage = PackageBuilder.newPackageNamed(getPackageName())
                 .describedAs(PACKAGE_DESCRIPTION)
-                .withEmailMessage(PACKAGE_EMAIL_MESSAGE2)
-                .withSettings(DocumentPackageSettingsBuilder.newDocumentPackageSettings()
-                        .withoutInPerson()
-                        .withoutDecline()
-                        .withoutOptOut()
-                        .withWatermark()
-                        .build())
                 .build();
 
+        // Cannot update signer's NM during package update
         packageId = eslClient.getTemplateService().createPackageFromTemplate(template.getId(), newPackage);
+        updatedPackage = eslClient.getPackage( packageId );
 
         Signer signer = eslClient.getPackageService().getSigner(packageId, PACKAGE_SIGNER1_CUSTOM_ID);
         signer.setNotificationPrimaryMethods(NotificationMethod.EMAIL);
-        eslClient.getPackageService().updateSigner(packageId, signer);
 
-        retrievedPackage = eslClient.getPackage( packageId );
-        templatePackage = template;
+        // Able to update signer's NM during signer update
+        eslClient.getPackageService().updateSigner(packageId, signer);
+        signerUpdatedPackage = eslClient.getPackage( packageId );
+
     }
 }

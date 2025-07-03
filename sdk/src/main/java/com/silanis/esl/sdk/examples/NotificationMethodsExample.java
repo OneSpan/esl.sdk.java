@@ -23,13 +23,13 @@ public class NotificationMethodsExample extends SDKSample{
                         .withFirstName("John")
                         .withLastName("Smith")
                         .withNotificationMethods(newNotificationMethods()
-                                .setPrimaryMethods(NotificationMethod.EMAIL)))
+                                .withPrimaryMethods(NotificationMethod.EMAIL)))
                 .withSigner(newSignerWithEmail(email3)
                         .withFirstName("Jane")
                         .withLastName("Cooked")
                         .withNotificationMethods(newNotificationMethods()
-                                .setPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
-                                .setPhoneNumber("+1 204-234-5678")))
+                                .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                                .withPhoneNumber("+1 204-234-5678")))
                 .build();
 
         packageId = eslClient.createPackage(package1);

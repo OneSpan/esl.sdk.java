@@ -38,8 +38,8 @@ public class SignerBuilderTest {
                 .withLastName(lastName)
                 .signingOrder(signingOrder)
                 .withNotificationMethods(newNotificationMethods()
-                        .setPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
-                        .setPhoneNumber(phone))
+                        .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                        .withPhoneNumber(phone))
                 .build();
 
         assertEquals(email, signer.getEmail());
@@ -75,7 +75,7 @@ public class SignerBuilderTest {
                     .withFirstName(firstName)
                     .withLastName(lastName)
                     .withNotificationMethods(newNotificationMethods()
-                            .setPrimaryMethods())
+                            .withPrimaryMethods())
                     .build();
 
             assertEquals(byEmail, signer.getNotificationMethods().getPrimary());
@@ -87,7 +87,7 @@ public class SignerBuilderTest {
                     .withFirstName(firstName)
                     .withLastName(lastName)
                     .withNotificationMethods(newNotificationMethods()
-                            .setPrimaryMethods(NotificationMethod.EMAIL)
+                            .withPrimaryMethods(NotificationMethod.EMAIL)
                             .addPrimaryMethods(NotificationMethod.EMAIL))
                     .build();
 
@@ -101,7 +101,7 @@ public class SignerBuilderTest {
                         .withFirstName(firstName)
                         .withLastName(lastName)
                         .withNotificationMethods(newNotificationMethods()
-                                .setPrimaryMethods(NotificationMethod.EMAIL)
+                                .withPrimaryMethods(NotificationMethod.EMAIL)
                                 .addPrimaryMethods(NotificationMethod.SMS))
                         .build();
             }
@@ -114,7 +114,7 @@ public class SignerBuilderTest {
                         .withFirstName(firstName)
                         .withLastName(lastName)
                         .withNotificationMethods(newNotificationMethods()
-                                .setPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS))
+                                .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS))
                         .build();
             }
             catch (IllegalStateException e) {
@@ -129,8 +129,8 @@ public class SignerBuilderTest {
                     .withFirstName(firstName)
                     .withLastName(lastName)
                     .withNotificationMethods(newNotificationMethods()
-                            .setPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
-                            .setPhoneNumber(phone))
+                            .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                            .withPhoneNumber(phone))
                     .build();
             assertEquals(byEmailAndSMS, signer.getNotificationMethods().getPrimary());
         }

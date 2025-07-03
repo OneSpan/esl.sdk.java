@@ -508,12 +508,12 @@ final public class SignerBuilder {
             primary = new HashSet<>();
         }
 
-        public NotificationMethodsBuilder setPrimaryMethods(Set<NotificationMethod> methods) {
-            this.setPrimaryMethods(methods.toArray(new NotificationMethod[0]));
+        public NotificationMethodsBuilder withPrimaryMethods(Set<NotificationMethod> methods) {
+            this.withPrimaryMethods(methods.toArray(new NotificationMethod[0]));
             return this;
         }
 
-        public NotificationMethodsBuilder setPrimaryMethods(NotificationMethod... methods) {
+        public NotificationMethodsBuilder withPrimaryMethods(NotificationMethod... methods) {
             this.primary.clear();
             this.addPrimaryMethods(methods);
             return this;
@@ -524,7 +524,7 @@ final public class SignerBuilder {
             return this;
         }
 
-        public NotificationMethodsBuilder setPhoneNumber(String phone) {
+        public NotificationMethodsBuilder withPhoneNumber(String phone) {
             this.phone = phone;
             return this;
         }

@@ -24,11 +24,6 @@ public class UpdatePackageExampleTest {
         assertPackage(example.updatedPackage, example.packageToUpdate);
         assertPackageSettings(example.updatedSettings, example.settingsToUpdate);
         assertLayoutSettings(example.updatedLayoutSettings, example.layoutSettingsToUpdate);
-
-        assertThat("Signer's primary notification methods shouldn't have been updated.",
-                example.updatedPackage.getSigner(example.email1).getNotificationMethods().getPrimary(),
-                is(example.createdPackage.getSigner(example.email1).getNotificationMethods().getPrimary()) );
-
     }
 
     private void assertPackage(DocumentPackage actualPackage, DocumentPackage expectedPackage) {
