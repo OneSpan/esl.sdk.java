@@ -59,6 +59,7 @@ public class AccountSettingsExampleTest {
         assertTrue("'overrideRecipientsPreferredLanguage' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getOverrideRecipientsPreferredLanguage());
         assertTrue("'enableRecipientHistory' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getEnableRecipientHistory());
         assertTrue("'allowSignersDownloadEvidenceSummary' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getAllowSignersDownloadEvidenceSummary());
+        assertTrue("'documentWidget' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getDocumentWidget());
 
     }
 }
