@@ -12,11 +12,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 public class UpdatePackagePreservesNotificationMethodsExample extends SDKSample {
     public static final String OLD_PACKAGE_NAME = "Old Package Name";
 
-    public static final boolean OLD_NOTARIZED = false;
-
     public static final String NEW_PACKAGE_NAME = "new package name";
-
-    public static final boolean NEW_NOTARIZED = true;
 
     public DocumentPackage packageToCreate, createdPackage, packageToUpdate, updatedPackage;
 
@@ -36,14 +32,12 @@ public class UpdatePackagePreservesNotificationMethodsExample extends SDKSample 
                 .build();
 
         packageId = eslClient.createPackage(packageToCreate);
-
         createdPackage = eslClient.getPackage( packageId );
 
-        packageToUpdate = PackageBuilder.newPackageNamed(NEW_PACKAGE_NAME)
-                .build();
+        packageToUpdate = PackageBuilder.newPackageNamed(NEW_PACKAGE_NAME).build();
 
+        // Cannot update signer's NM during package update
         eslClient.updatePackage(packageId, packageToUpdate);
-
         updatedPackage = eslClient.getPackage( packageId );
     }
 

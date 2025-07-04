@@ -52,7 +52,7 @@ public class NotificationMethodsForTemplateAndPackageExample extends SDKSample{
                 .describedAs(PACKAGE_DESCRIPTION)
                 .build();
 
-        // Cannot update signer's NM during package update
+        // Cannot update signer's NM when create package from template
         packageId = eslClient.getTemplateService().createPackageFromTemplate(template.getId(), newPackage);
         updatedPackage = eslClient.getPackage( packageId );
 

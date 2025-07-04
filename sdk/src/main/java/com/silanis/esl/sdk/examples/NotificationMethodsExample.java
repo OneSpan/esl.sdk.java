@@ -29,7 +29,7 @@ public class NotificationMethodsExample extends SDKSample{
                         .withLastName("Cooked")
                         .withNotificationMethods(newNotificationMethods()
                                 .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
-                                .withPhoneNumber("+1 204-234-5678")))
+                                .withPhoneNumber("+12042345678")))
                 .build();
 
         packageId = eslClient.createPackage(package1);

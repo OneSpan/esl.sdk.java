@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.*;
 
+import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
@@ -123,6 +124,7 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Last name was not correctly set", apiSigner1.getLastName(), is(sdkSigner1.getLastName()));
         assertThat("Company was not correctly set", apiSigner1.getCompany(), is(sdkSigner1.getCompany()));
         assertThat("Title was not correctly set", apiSigner1.getTitle(), is(sdkSigner1.getTitle()));
+        assertThat("Notification methods was not correctly set", NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner1.getNotificationMethods().getPrimary()), is(sdkSigner1.getNotificationMethods().getPrimary()));
 
     }
 
@@ -155,6 +157,8 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("Attachment's name was not set correctly", attachmentName, is(sdkSigner1.getAttachmentRequirement(attachmentName).getName()));
         assertThat("Attachment's description was not set correctly", apiRole.getAttachmentRequirements().get(0).getDescription(), is(sdkSigner1.getAttachmentRequirement(attachmentName).getDescription()));
         assertThat("Attachment's required property was not set correctly", apiRole.getAttachmentRequirements().get(0).getRequired(), is(sdkSigner1.getAttachmentRequirement(attachmentName).isRequired()));
+        assertThat("Notification methods was not correctly set", NotificationMethodsConverter.convertNotificationMethodsToSDK(apiRole.getSigners().get(0).getNotificationMethods().getPrimary()), is(sdkSigner1.getNotificationMethods().getPrimary()));
+
     }
 
     @Test
@@ -186,6 +190,9 @@ public class SignerConverterTest implements ConverterTest {
                 is(sdkSigner1.getTitle()));
         assertThat("Language was not correctly set", apiRole.getSigners().get(0).getLanguage(),
                 is(sdkSigner1.getLanguage().getLanguage()));
+        assertThat("Notification methods was not correctly set", apiRole.getSigners().get(0).getNotificationMethods()
+                , nullValue());
+
 
         assertThat("ID was not set correctly", apiRole.getId(), is(roleId));
         assertThat("Name was not set correctly", apiRole.getName(), is(roleId));
@@ -214,6 +221,9 @@ public class SignerConverterTest implements ConverterTest {
                         .withDescription("Please upload your scanned driver license.")
                         .isRequiredAttachment()
                         .build())
+                .withNotificationMethods(newNotificationMethods()
+                        .withPrimaryMethods(com.silanis.esl.sdk.NotificationMethod.EMAIL)
+                )
                 .build();
     }
 
