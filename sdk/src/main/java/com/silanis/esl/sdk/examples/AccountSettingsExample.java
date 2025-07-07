@@ -43,7 +43,7 @@ public class AccountSettingsExample extends SDKSample {
                         .withOverrideRecipientsPreferredLanguage()
                         .withEnableRecipientHistory()
                         .withAllowSignersDownloadEvidenceSummary()
-                        .withDocumentWidget())
+                        .withoutDocumentWidget())
                 .build();
 
         //Save account settings
