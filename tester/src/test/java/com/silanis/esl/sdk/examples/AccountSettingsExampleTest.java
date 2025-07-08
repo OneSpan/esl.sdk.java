@@ -52,7 +52,7 @@ public class AccountSettingsExampleTest {
         assertFalse("'ConditionalFields' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getConditionalFields());
         assertTrue("'overrideRecipientsPreferredLanguage' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getOverrideRecipientsPreferredLanguage());
         assertTrue("'enableRecipientHistory' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getEnableRecipientHistory());
-        assertFalse("'enableRecipientHistory' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getDocumentWidget());
+        assertFalse("'documentWidget' in AccountFeatureSettings should be updated correctly", example.patchedAccountSettings.getAccountFeatureSettings().getDocumentWidget());
 
         assertTrue("'allowCheckboxConsentApproval' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getAllowCheckboxConsentApproval());
         assertTrue("'allowInPersonForAccountSenders' in AccountFeatureSettings should be updated correctly", example.patchedAccountFeatureSettings.getAllowInPersonForAccountSenders());
