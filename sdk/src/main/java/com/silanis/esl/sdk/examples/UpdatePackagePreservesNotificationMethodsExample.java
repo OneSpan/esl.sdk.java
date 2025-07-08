@@ -10,11 +10,9 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Created by Yzhang on 7/2/25.
  */
 public class UpdatePackagePreservesNotificationMethodsExample extends SDKSample {
-    public static final String OLD_PACKAGE_NAME = "Old Package Name";
+    public static final String PACKAGE_NAME = "This example is to demonstrate that package update doesn't affect signer's NM";
 
-    public static final String NEW_PACKAGE_NAME = "new package name";
-
-    public DocumentPackage packageToCreate, createdPackage, packageToUpdate, updatedPackage;
+    public DocumentPackage createdPackage, updatedPackage;
 
     public static void main( String... args ) {
         new UpdatePackageExample().run();
@@ -22,23 +20,26 @@ public class UpdatePackagePreservesNotificationMethodsExample extends SDKSample 
 
     public void execute() {
 
-        packageToCreate = PackageBuilder.newPackageNamed(OLD_PACKAGE_NAME)
+        DocumentPackage packageToCreate = PackageBuilder.newPackageNamed(PACKAGE_NAME)
                 .describedAs("This example is created to demonstrate Notification methods")
                 .withSigner(newSignerWithEmail(email1)
                         .withFirstName("John1")
                         .withLastName("Smith1")
                         .withNotificationMethods(newNotificationMethods()
-                                .withPrimaryMethods(NotificationMethod.EMAIL)))
+                                .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
+                                .withPhoneNumber("+12042345678")))
                 .build();
 
         packageId = eslClient.createPackage(packageToCreate);
-        createdPackage = eslClient.getPackage( packageId );
+        createdPackage = eslClient.getPackage(packageId);
 
-        packageToUpdate = PackageBuilder.newPackageNamed(NEW_PACKAGE_NAME).build();
-
-        // Cannot update signer's NM during package update
+        DocumentPackage packageToUpdate = eslClient.getPackage(packageId);
+        Signer signer1 = packageToUpdate.getSigner(email1);
+        signer1.setNotificationPrimaryMethods(NotificationMethod.EMAIL);
+        signer1.setNotificationPhoneNumber(null);
         eslClient.updatePackage(packageId, packageToUpdate);
-        updatedPackage = eslClient.getPackage( packageId );
+
+        updatedPackage = eslClient.getPackage(packageId);
     }
 
 }
