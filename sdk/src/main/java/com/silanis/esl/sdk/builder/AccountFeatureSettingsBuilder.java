@@ -767,7 +767,7 @@ public class AccountFeatureSettingsBuilder {
      * Disables the 'documentWidget' feature.
      *
      * @return This
-     * @see #withDocumentWidget()
+     * @see #withoutDocumentWidget()
      */
     public AccountFeatureSettingsBuilder withoutDocumentWidget() {
         documentWidget = false;
