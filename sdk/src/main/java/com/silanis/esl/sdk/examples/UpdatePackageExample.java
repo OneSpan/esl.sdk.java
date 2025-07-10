@@ -1,10 +1,6 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.CeremonyLayoutSettings;
-import com.silanis.esl.sdk.DocumentPackage;
-import com.silanis.esl.sdk.DocumentPackageSettings;
-import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.Visibility;
+import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.builder.CeremonyLayoutSettingsBuilder;
 import com.silanis.esl.sdk.builder.DocumentPackageSettingsBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;

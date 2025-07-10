@@ -12,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
+import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
+
 /**
  * User: jessica
  * Date: 03/12/13
@@ -81,6 +83,12 @@ public class SignerConverter {
 
         result.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication());
 
+        if (sdkSigner.getNotificationMethods() != null){
+            result.setPhone(sdkSigner.getNotificationMethods().getPhone())
+                    .setNotificationMethods(new NotificationMethodsConverter(sdkSigner.getNotificationMethods()).toAPINotificationMethods());
+        }
+
+
         return result;
     }
 
@@ -117,6 +125,14 @@ public class SignerConverter {
         }
 
         signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
+
+
+        if (apiSigner.getNotificationMethods() != null) {
+            signerBuilder.withNotificationMethods(newNotificationMethods()
+                    .withPrimaryMethods(NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner.getNotificationMethods().getPrimary()))
+                    .withPhoneNumber(apiSigner.getPhone()));
+        }
+
 
         for (com.silanis.esl.api.model.AttachmentRequirement attachmentRequirement : apiRole.getAttachmentRequirements()) {
             signerBuilder.withAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toSDKAttachmentRequirement());
