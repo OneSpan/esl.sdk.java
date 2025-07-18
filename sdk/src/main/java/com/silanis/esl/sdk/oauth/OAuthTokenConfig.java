@@ -7,12 +7,16 @@ public class OAuthTokenConfig {
     private final String clientId;
     private final String clientSecret;
     private final String authenticationServer;
+    private final String senderId;
+    private final String delegatorId;
 
     private OAuthTokenConfig(Builder builder) {
         this.authenticationServer = builder.authenticationServer;
         this.clientId = builder.clientId;
         this.clientSecret = builder.clientSecret;
         this.grantType = builder.grantType;
+        this.senderId = builder.senderId;
+        this.delegatorId = builder.delegatorId;
     }
 
     public static Builder builder() {
@@ -39,6 +43,10 @@ public class OAuthTokenConfig {
         return grantType;
     }
 
+    public String getSenderId() { return senderId; }
+
+    public String getDelegatorId() { return delegatorId; }
+
     @Override
     public String toString() {
 
@@ -53,6 +61,8 @@ public class OAuthTokenConfig {
         private String clientId;
         private String clientSecret;
         private String authenticationServer;
+        private String senderId;
+        private String delegatorId;
 
         public Builder() {
             grantType = "client_credentials";
@@ -68,9 +78,18 @@ public class OAuthTokenConfig {
             return this;
         }
 
-
         public Builder withAuthenticationServer(String authenticationServer) {
             this.authenticationServer = authenticationServer;
+            return this;
+        }
+
+        public Builder withSenderId(String senderId){
+            this.senderId = senderId;
+            return this;
+        }
+
+        public Builder withDelegatorId(String delegatorId){
+            this.delegatorId = delegatorId;
             return this;
         }
 

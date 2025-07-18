@@ -11,6 +11,7 @@ import com.silanis.esl.sdk.ProxyConfiguration;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import com.silanis.esl.sdk.io.Streams;
 
+import java.net.URLEncoder;
 import java.util.*;
 
 import com.silanis.esl.sdk.oauth.OAuthAccessToken;
@@ -286,20 +287,36 @@ public class RestClient extends Client {
                 oauthTokenConfig.getClientSecret()).getBytes()));
 
         request.addHeader(HEADER_CONTENT_TYPE, "application/x-www-form-urlencoded");
-        request.setEntity(new StringEntity("grant_type=client_credentials", ContentType.create(HEADER_CONTENT_TYPE,
-            Consts.UTF_8)));
+
+        StringBuilder encodedParams = new StringBuilder("grant_type=client_credentials");
+
+        String senderId = oauthTokenConfig.getSenderId();
+        if (senderId != null) {
+            encodedParams.append("&sender_id=" + URLEncoder.encode(senderId, CHARSET_UTF_8));
+        }
+
+        String delegatorId = oauthTokenConfig.getDelegatorId();
+        if (delegatorId != null) {
+            encodedParams.append("&delegator_id=" + URLEncoder.encode(delegatorId, CHARSET_UTF_8));
+        }
+
+        request.setEntity(new StringEntity(encodedParams.toString(), ContentType.create(HEADER_CONTENT_TYPE, Consts.UTF_8)));
 
         try(CloseableHttpClient client = getHttpClient(request);)
         {
             HttpResponse httpResponse = client.execute(request);
             if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                JsonHandler jsonHandler = new JsonHandler();
                 throw new EslException(
                         "Unable to create access token for "
                                 + oauthTokenConfig
                                 + " "
                                 + httpResponse.getStatusLine().getStatusCode()
                                 + ":"
-                                + httpResponse.getStatusLine().getReasonPhrase());
+                                + httpResponse.getStatusLine().getReasonPhrase()
+                                + " "
+                                + jsonHandler.extract(httpResponse.getEntity().getContent())
+                );
             }
             return OBJECT_MAPPER.readValue(httpResponse.getEntity().getContent(), OAuthAccessToken.class);
         }

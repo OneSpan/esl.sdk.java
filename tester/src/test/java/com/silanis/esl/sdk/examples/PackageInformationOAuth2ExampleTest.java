@@ -33,5 +33,9 @@ public class PackageInformationOAuth2ExampleTest {
         assertThat("Support configuration was not set correctly. ", example.supportConfiguration, notNullValue());
         assertThat("Support configuration was not set correctly. ", example.supportConfiguration.getEmail(), not(isEmptyOrNullString()));
         assertThat("Support configuration was not set correctly. ", example.supportConfiguration.getPhone(), not(isEmptyOrNullString()));
+        assertThat("Package information not found. ", example.aPackage, notNullValue());
+        assertThat("Package information not found. ", example.aPackage.getId().getId(), not(isEmptyOrNullString()));
+        assertThat("Package information not found. ", example.aPackage.getName(), not(isEmptyOrNullString()));
+
     }
 }
