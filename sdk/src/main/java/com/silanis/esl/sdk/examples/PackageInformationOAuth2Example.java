@@ -12,7 +12,7 @@ import com.silanis.esl.sdk.SupportConfiguration;
 public class PackageInformationOAuth2Example extends OAuth2SDKSample {
 
     public SupportConfiguration supportConfiguration;
-
+    public DocumentPackage aPackage;
 
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
@@ -31,5 +31,6 @@ public class PackageInformationOAuth2Example extends OAuth2SDKSample {
         eslClient.sendPackage(packageId);
 
         supportConfiguration = eslClient.getPackageService().getConfig(packageId);
+        aPackage = eslClient.getPackage(packageId);
     }
 }

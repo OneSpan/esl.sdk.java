@@ -6,6 +6,8 @@ public abstract class OAuth2SDKSample extends BaseSDKSample {
     private String clientSecret;
     private String oAuthServerUrl;
     private String apiUrl;
+    private String senderId;
+    private String delegatorId;
 
     public OAuth2SDKSample() {
         setOAuth2Props();
@@ -16,6 +18,8 @@ public abstract class OAuth2SDKSample extends BaseSDKSample {
         clientSecret = props.getProperty("api.oauth.clientSecret");
         oAuthServerUrl = props.getProperty("api.oauth.server.url");
         apiUrl = props.getProperty("api.url");
+        senderId = props.getProperty("api.oauth.senderId");
+        delegatorId = props.getProperty("api.oauth.delegatorId");
     }
 
     public String getClientId() {
@@ -32,5 +36,13 @@ public abstract class OAuth2SDKSample extends BaseSDKSample {
 
     public String getApiUrl() {
         return apiUrl;
+    }
+
+    public String getDelegatorId() {
+        return delegatorId;
+    }
+
+    public String getSenderId() {
+        return senderId;
     }
 }
