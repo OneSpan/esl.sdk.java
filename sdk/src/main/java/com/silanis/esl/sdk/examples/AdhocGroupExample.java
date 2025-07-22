@@ -4,70 +4,86 @@ import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+import static com.silanis.esl.sdk.service.AdhocGroupService.addAdhocGroupMembersToAdhocGroup;
+import static com.silanis.esl.sdk.service.AdhocGroupService.buildAdhocGroup;
+import static com.silanis.esl.sdk.service.AdhocGroupService.buildAdhocGroupMember;
 
-import com.silanis.esl.api.model.Delivery;
-import com.silanis.esl.api.model.Group;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.util.AdHocGroupUtils;
+import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.SupportConfiguration;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class AdhocGroupExample extends SDKSample {
 
-    public static void main( String... args ) {
-        new AdhocGroupExample().run();
-    }
+  private static final Logger LOG = Logger.getLogger(AdhocGroupExample.class.getName());
 
-    public void execute() {
-        final DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-            .describedAs("This is a package created using OneSpan Sign SDK")
-            .withSigner(newSignerWithEmail(email1)
-                .withFirstName("John1")
-                .withLastName("Smith1"))
-            .withDocument(newDocumentWithName("First Document")
-                .fromStream(documentInputStream1, DocumentType.PDF)
-                .withSignature(signatureFor(email1)
-                                       .onPage(0)
-                                       .atPosition(100, 100)))
-            .build();
+  public static void main(String... args) {
+    new AdhocGroupExample().run();
+  }
 
-        //this.packageId = this.eslClient.createPackage( superDuperPackage );
-        final Role adhocGroup = new Role();
-        adhocGroup.setId("68c42bed-d7f0-406d-a016-a8a7525aeb08");
-        final Signer e = new Signer();
-        e.setFirstName("Adhoc Group TEST 7");
-        e.setGroup(new Group());
-        e.getGroup().setName("Adhoc Group TEST 7");
-        e.getGroup().setCreated(new Date());
-        e.getGroup().setUpdated(new Date());
-        e.setSignerType("AD_HOC_GROUP_SIGNER");
-        e.setCreated(new Date());
-        e.setUpdated(new Date());
-        e.setDelivery(new Delivery());
-        adhocGroup.getSigners().add(e);
-        //this.eslClient.getAdhocGroupService().createAdhocGroupWithAdhoc("doZ-O-9w3VSdgLrlzBRm-bQdC_E=", adhocGroup);
-        final Signer adhocGroupMember = new Signer();
-        adhocGroupMember.setFirstName("test99 first name");
-        adhocGroupMember.setLastName("test99 last name");
-        adhocGroupMember.setEmail("test99@test.com");
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  public void execute() {
+    final DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
+        .describedAs("This is a package with Adhoc Group created using OneSpan Sign SDK")
+        .withSigner(newSignerWithEmail(email1)
+            .withFirstName("Fox")
+            .withLastName("Mulder"))
+        .build();
 
-       //this.eslClient.getAdhocGroupService().addAdhocGroupMember(this.packageId.getId(), adhocGroup.getId(),
-       //     adhocGroupMember);
-        //this.eslClient.sendPackage( packageId );
+    // 1. Create a package
+    packageId = eslClient.createPackage(superDuperPackage);
 
-        final Signer adhocGroupMember1 = new Signer();
-        adhocGroupMember1.setId("8452b056-9680-45e6-9b42-2203dfe7eb44");
-        //this.eslClient.getAdhocGroupService().deleteAdhocGroupMember2("doZ-O-9w3VSdgLrlzBRm-bQdC_E=","68c42bed-d7f0-406d-a016-a8a7525aeb08", adhocGroupMember1);
+    retrievedPackage = eslClient.getPackage(packageId);
 
-        final List<Role> roles = this.eslClient.getPackageService()
-            .getRoles(new PackageId("doZ-O-9w3VSdgLrlzBRm-bQdC_E="));
-        System.out.println(roles);
+    final Role adhocGroup = buildAdhocGroup("Adhoc Group Name 99");
 
-        this.eslClient.getAdhocGroupService().deleteAdhocGroupWithAdhoc("doZ-O-9w3VSdgLrlzBRm-bQdC_E=","abc");
-    }
+    final Signer adhocGroupMemberInitial1 = buildAdhocGroupMember("test 80", "test 80 ln",
+        "test80@test.com");
+    final Signer adhocGroupMemberInitial2 = buildAdhocGroupMember("test 90", "test 90 ln",
+        "test90@test.com");
+    final List<Role> createAdhocGroupWihMembersRequest = addAdhocGroupMembersToAdhocGroup(
+        Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
+        adhocGroup);
+
+    final List<Role> createdAdhocGroupWithMembers = this.eslClient.getAdhocGroupService()
+        .createAdhocGroup(packageId.getId(), createAdhocGroupWihMembersRequest);
+    LOG.info("createdAdhocGroupWithMembers: " + createdAdhocGroupWithMembers);
+
+    final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
+        "test100@test.com");
+    this.eslClient.getAdhocGroupService()
+        .addAdhocGroupMember(this.packageId.getId(), adhocGroup.getId(),
+            Collections.singletonList(adhocGroupMember));
+
+    final List<Role> roles = this.eslClient.getPackageService()
+        .getRoles(packageId);
+
+    LOG.info("list of roles: " + roles);
+
+    // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
+    final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().get()
+        .getSigners().get(0).getEmail();
+    final Document document = newDocumentWithName("First Document")
+        .fromStream(documentInputStream1, DocumentType.PDF)
+        .withId("documentId")
+        .withSignature(signatureFor(email1)
+            .atPosition(100, 100)
+            .onPage(0))
+        .withSignature(signatureFor(email)
+            .atPosition(100, 300)
+            .onPage(0))
+        .build();
+
+    // 3. Attach the document to the created package by uploading the document.
+    eslClient.uploadDocument(document.getFileName(), document.getContent(), document, packageId);
+  }
+
 }

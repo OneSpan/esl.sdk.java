@@ -37,12 +37,13 @@ public final class AdhocGroupApiClient extends EslComponent {
   public List<Role> updateAdhocGroup(final String packageId,
       final String groupRoleId,
       final List<Role> roles) {
-    final String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ADHOC_GROUPS_PATH)
+    final String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ADHOC_GROUPS_ROLE_PATH)
         .replace("{packageId}", packageId)
         .replace("{groupRoleId}", groupRoleId)
         .build();
 
     final String roleJson = JacksonUtil.serialize(roles);
+    List<Role> tmpRoles = JacksonUtil.deserializeList(roleJson, Role.class);
     try {
       this.getClient().put(path, roleJson);
     } catch (final RequestException re) {
