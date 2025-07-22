@@ -50,7 +50,7 @@ public final class AdhocGroupService {
     this.adhocGroupApiClient.deleteAdhocGroup(packageId, groupRoleId);
   }
 
-  public List<Signer> addAdhocGroupMember(final String packageId,
+  public List<Signer> addAdhocGroupMembers(final String packageId,
       final String roleId,
       final List<Signer> adhocGroupMembers) {
     //AdhocResource.updateRole
@@ -72,7 +72,7 @@ public final class AdhocGroupService {
     role.ifPresent(value ->
     {
       final String signerId = adhocGroupMember.getId();
-      value.getSigners().removeIf(signer -> StringUtils.equalsIgnoreCase(signerId, signer.getId()));
+      value.getSigners().get(0).getGroup().getMembers().removeIf(member -> StringUtils.equalsIgnoreCase(signerId, member.getUserId()));
       this.updateAdhocGroupMember(packageId, roleId, Collections.singletonList(value));
     });
     return adhocGroupMember;
