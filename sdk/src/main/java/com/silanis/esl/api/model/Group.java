@@ -69,7 +69,7 @@ public class Group extends Entity
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Group setCreated( java.util.Date value ){
-        SchemaSanitizer.throwOnNull(FIELD_CREATED,value);
+       // SchemaSanitizer.throwOnNull(FIELD_CREATED,value);
         // TODO With proper compare
         // if ( this._created == value ) return this;
         this._created = value;
@@ -205,7 +205,7 @@ public class Group extends Entity
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Group setUpdated( java.util.Date value ){
-        SchemaSanitizer.throwOnNull(FIELD_UPDATED,value);
+        //SchemaSanitizer.throwOnNull(FIELD_UPDATED,value);
         // TODO With proper compare
         // if ( this._updated == value ) return this;
         this._updated = value;
