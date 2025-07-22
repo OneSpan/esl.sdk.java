@@ -14,8 +14,6 @@ import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
-import com.silanis.esl.sdk.PackageId;
-import com.silanis.esl.sdk.builder.SignerBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -41,10 +39,11 @@ public class AdhocGroupExample extends SDKSample {
         .build();
 
     // 1. Create a package
-   // packageId = eslClient.createPackage(superDuperPackage);
+    packageId = eslClient.createPackage(superDuperPackage);
 
-    //retrievedPackage = eslClient.getPackage(packageId);
+    retrievedPackage = eslClient.getPackage(packageId);
 
+    // Create an adhoc group with two initial members.
     final Role adhocGroup = buildAdhocGroup("Adhoc Group Name 99");
 
     final Signer adhocGroupMemberInitial1 = buildAdhocGroupMember("test 80", "test 80 ln",
@@ -55,27 +54,21 @@ public class AdhocGroupExample extends SDKSample {
         Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
         adhocGroup);
 
-    //final List<Role> createdAdhocGroupWithMembers = this.eslClient.getAdhocGroupService()
-    //    .createAdhocGroup(packageId.getId(), createAdhocGroupWihMembersRequest);
-    //LOG.info("createdAdhocGroupWithMembers: " + createdAdhocGroupWithMembers);
+    final List<Role> createdAdhocGroupWithMembers = this.eslClient.getAdhocGroupService()
+        .createAdhocGroup(packageId.getId(), createAdhocGroupWihMembersRequest);
+    LOG.info("createdAdhocGroupWithMembers: " + createdAdhocGroupWithMembers);
 
+    // Add an adhoc  member to the adhoc group.
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
         "test100@test.com");
-    //this.eslClient.getAdhocGroupService()
-    //    .addAdhocGroupMember(this.packageId.getId(), adhocGroup.getId(),
-    //        Collections.singletonList(adhocGroupMember));
+    this.eslClient.getAdhocGroupService()
+        .addAdhocGroupMembers(this.packageId.getId(), adhocGroup.getId(),
+            Collections.singletonList(adhocGroupMember));
 
     final List<Role> roles = this.eslClient.getPackageService()
-        .getRoles(new PackageId("8NeAwXCbsFQkqAi-wYyyAm6hWkU="));//packageId);
+        .getRoles(packageId);
 
     LOG.info("list of roles: " + roles);
-
-    Signer addhocGroupMember = new Signer();
-    adhocGroupMember.setId("9c98a137-1ab5-4776-b942-f60a785cfc15");
-    this.eslClient.getAdhocGroupService().deleteAdhocGroupMember("8NeAwXCbsFQkqAi-wYyyAm6hWkU=","4af6eb29-d79b-4b8f-9e6a-e85f6d7ede0f",
-        adhocGroupMember);
-
-
 
     // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
     final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().get()
@@ -92,7 +85,10 @@ public class AdhocGroupExample extends SDKSample {
         .build();
 
     // 3. Attach the document to the created package by uploading the document.
-    //eslClient.uploadDocument(document.getFileName(), document.getContent(), document, packageId);
+    this.eslClient.uploadDocument(document.getFileName(), document.getContent(), document,
+        packageId);
+
+    this.eslClient.sendPackage(packageId);
   }
 
 }
