@@ -69,7 +69,6 @@ public class Group extends Entity
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Group setCreated( java.util.Date value ){
-       // SchemaSanitizer.throwOnNull(FIELD_CREATED,value);
         // TODO With proper compare
         // if ( this._created == value ) return this;
         this._created = value;
@@ -194,7 +193,7 @@ public class Group extends Entity
         super.setName(value);
         return this;
     }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    // Used internally by aws. Invokes a corresponding setter if the value is not null
     @JsonIgnore
     public Group safeSetName( String value ){
         if ( value != null ) { this.setName( value ); }
@@ -205,14 +204,13 @@ public class Group extends Entity
     
     @JsonDeserialize(using = JsonDateDeserializer.class)
     public Group setUpdated( java.util.Date value ){
-        //SchemaSanitizer.throwOnNull(FIELD_UPDATED,value);
         // TODO With proper compare
         // if ( this._updated == value ) return this;
         this._updated = value;
         setDirty(FIELD_UPDATED);
         return this;
     }
-    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    // Used internally by aws. Invokes a corresponding setter if the value is not null
     @JsonIgnore
     public Group safeSetUpdated( java.util.Date value ){
         if ( value != null ) { this.setUpdated( value ); }
