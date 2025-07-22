@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.sdk.builder.GroupMemberBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * User: jessica
@@ -40,10 +41,16 @@ public class GroupMemberConverter {
         }
 
         com.silanis.esl.api.model.GroupMember result = new com.silanis.esl.api.model.GroupMember();
-        result.setEmail(sdkGroupMember.getEmail());
-        result.setFirstName(sdkGroupMember.getFirstName());
-        result.setLastName(sdkGroupMember.getLastName());
-        result.setMemberType( new GroupMemberTypeConverter(sdkGroupMember.getGroupMemberType()).toAPIGroupMemberType());
+        if (StringUtils.isNotBlank(sdkGroupMember.getEmail())) {
+            result.setEmail(sdkGroupMember.getEmail());
+        }
+        if (StringUtils.isNotBlank(sdkGroupMember.getFirstName())) {
+            result.setFirstName(sdkGroupMember.getFirstName());
+        }
+        if (StringUtils.isNotBlank(sdkGroupMember.getLastName())) {
+            result.setLastName(sdkGroupMember.getLastName());
+        }
+        result.setMemberType(new GroupMemberTypeConverter(sdkGroupMember.getGroupMemberType()).toAPIGroupMemberType());
         result.setUserId(sdkGroupMember.getUserId());
         return result;
 
