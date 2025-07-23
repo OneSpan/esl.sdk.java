@@ -44,14 +44,23 @@ public final class AdhocGroupApiClient extends EslComponent {
   }
 
   /**
-   * Updates an existing adhoc group for the specified package and group role using AdhocGroupResource API.
+   * Updates an existing adhoc group for the specified package and group role using
+   * AdhocGroupResource API.
+   * <p>
+   * This method is used for the following operations:
+   * <ul>
+   *   <li>Edit Adhoc Group, for example name of group</li>
+   *   <li>Add Adhoc Group Member to an Adhoc Group</li>
+   *   <li>Edit Adhoc Group Member (first name, last name, etc.)</li>
+   *   <li>Remove Adhoc Group Member from an Adhoc Group</li>
+   *   </ul>
    *
-   * @param packageId the ID of the package containing the adhoc group
+   * @param packageId   the ID of the package containing the adhoc group
    * @param groupRoleId the ID of the group role to update
-   * @param roles the list of roles to update in the adhoc group
+   * @param roles       the list of roles to update in the adhoc group
    * @return the list of roles after update
    * @throws EslServerException if the server cannot update the adhoc group
-   * @throws EslException for other errors during group update
+   * @throws EslException       for other errors during group update
    */
   public List<Role> updateAdhocGroup(final String packageId,
       final String groupRoleId,
