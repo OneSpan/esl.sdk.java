@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public final class AdhocGroupService {
@@ -72,7 +73,12 @@ public final class AdhocGroupService {
     role.ifPresent(value ->
     {
       final String signerId = adhocGroupMember.getId();
-      value.getSigners().get(0).getGroup().getMembers().removeIf(member -> StringUtils.equalsIgnoreCase(signerId, member.getUserId()));
+      if (CollectionUtils.isNotEmpty(value.getSigners())
+          && value.getSigners().get(0).getGroup() != null
+          && CollectionUtils.isNotEmpty(value.getSigners().get(0).getGroup().getMembers())) {
+        value.getSigners().get(0).getGroup().getMembers()
+            .removeIf(member -> StringUtils.equalsIgnoreCase(signerId, member.getUserId()));
+      }
       this.updateAdhocGroupMember(packageId, roleId, Collections.singletonList(value));
     });
     return adhocGroupMember;
