@@ -4,8 +4,13 @@ import static org.apache.commons.lang3.StringUtils.stripToEmpty;
 
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 public final class AdHocGroupUtils {
 
@@ -34,6 +39,25 @@ public final class AdHocGroupUtils {
   public static boolean isAdhocGroup(final Role role) {
     return CollectionUtils.isNotEmpty(role.getSigners())
         && isAdHocGroupSigner(role.getSigners().get(0));
+  }
+
+  /**
+   * Converts a list of objects to a list of their string representations. Each object is converted
+   * using ReflectionToStringBuilder with MULTI_LINE_STYLE.
+   *
+   * This method based on Java Reflection and it is purpose is only to use in Examples classes.
+   *
+   * @param list the list of objects to convert to strings
+   * @return a list of string representations, or an empty list if the input is null or empty
+   */
+  public static List<String> toString(final List<?> list) {
+    if (CollectionUtils.isNotEmpty(list)) {
+      return list.stream()
+          .map(item -> ReflectionToStringBuilder.toString(item, ToStringStyle.MULTI_LINE_STYLE))
+          .collect(Collectors.toList());
+    } else {
+      return Collections.emptyList();
+    }
   }
 
 }

@@ -39,7 +39,7 @@ public class AdhocGroupExample extends SDKSample {
         .build();
 
     // 1. Create a package
-    packageId = eslClient.createPackage(superDuperPackage);
+    packageId = this.eslClient.createPackage(superDuperPackage);
 
     // Create an adhoc group with two initial members.
     final Role adhocGroup = buildAdhocGroup("Adhoc Group Name 99");
@@ -54,7 +54,7 @@ public class AdhocGroupExample extends SDKSample {
 
     final List<Role> createdAdhocGroupWithMembers = this.eslClient.getAdhocGroupService()
         .createAdhocGroup(packageId.getId(), createAdhocGroupWihMembersRequest);
-    LOG.info("createdAdhocGroupWithMembers: " + createdAdhocGroupWithMembers);
+    LOG.info("createdAdhocGroupWithMembers: " + AdHocGroupUtils.toString(createdAdhocGroupWithMembers));
 
     // Add an adhoc  member to the adhoc group.
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
@@ -66,7 +66,7 @@ public class AdhocGroupExample extends SDKSample {
     final List<Role> roles = this.eslClient.getPackageService()
         .getRoles(packageId);
 
-    LOG.info("list of roles: " + roles);
+    LOG.info("list of roles: " + AdHocGroupUtils.toString(roles));
 
     // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
     final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().get()
