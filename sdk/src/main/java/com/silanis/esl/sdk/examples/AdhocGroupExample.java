@@ -41,8 +41,6 @@ public class AdhocGroupExample extends SDKSample {
     // 1. Create a package
     packageId = eslClient.createPackage(superDuperPackage);
 
-    retrievedPackage = eslClient.getPackage(packageId);
-
     // Create an adhoc group with two initial members.
     final Role adhocGroup = buildAdhocGroup("Adhoc Group Name 99");
 
@@ -89,6 +87,8 @@ public class AdhocGroupExample extends SDKSample {
         packageId);
 
     this.eslClient.sendPackage(packageId);
+
+    retrievedPackage = this.eslClient.getPackage(packageId);
   }
 
 }

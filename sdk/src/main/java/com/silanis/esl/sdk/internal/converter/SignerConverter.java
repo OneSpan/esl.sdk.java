@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
+import static com.silanis.esl.api.util.AdHocGroupUtils.isAdHocGroupSigner;
 import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 
 /**
@@ -106,8 +107,19 @@ public class SignerConverter {
             if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }
+        } else if (isAdHocGroupSigner(apiSigner)) {
+            signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
+                .withFirstName(apiSigner.getFirstName())
+                .withCompany(apiSigner.getCompany())
+                .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
+                .withAdhocGroupSigner(true)
+                .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
+            if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
+                signerBuilder.deliverSignedDocumentsByEmail();
+            }
         } else {
-            signerBuilder = SignerBuilder.newSignerFromGroup(new GroupId(apiSigner.getGroup().getId()));
+            signerBuilder = SignerBuilder.newSignerFromGroup(
+                new GroupId(apiSigner.getGroup().getId()));
         }
 
         signerBuilder.withCustomId(apiSigner.getId())

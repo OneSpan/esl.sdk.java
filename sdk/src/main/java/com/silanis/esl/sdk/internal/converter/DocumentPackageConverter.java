@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.silanis.esl.api.util.AdHocGroupUtils.isAdhocGroup;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerFromGroup;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 
@@ -230,7 +231,7 @@ public class DocumentPackageConverter {
 
             if (role.getSigners().isEmpty()) {
                 packageBuilder.withSigner(newSignerPlaceholder(new Placeholder(role.getId(), role.getName(), role.getIndex())));
-            } else if (role.getSigners().get(0).getGroup() != null) {
+            } else if ((!isAdhocGroup(role))&&role.getSigners().get(0).getGroup() != null) {
                 packageBuilder.withSigner(newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
             } else {
                 packageBuilder.withSigner(new SignerConverter(role).toSDKSigner());
