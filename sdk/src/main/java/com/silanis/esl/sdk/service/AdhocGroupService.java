@@ -1,5 +1,9 @@
 package com.silanis.esl.sdk.service;
 
+import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_MEMBER_TYPE;
+import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE;
+import static com.silanis.esl.api.util.AdHocGroupUtils.EXTERNAL_SIGNER_TYPE;
+
 import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Group;
@@ -20,41 +24,64 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public final class AdhocGroupService {
-  private static final String AD_HOC_GROUP_SIGNER_TYPE = "AD_HOC_GROUP_SIGNER";
-  private static final String EXTERNAL_SIGNER_TYPE = "EXTERNAL_SIGNER";
-  private static final String AD_HOC_GROUP_MEMBER_TYPE = "AD_HOC_GROUP_MEMBER";
-
   private final AdhocGroupApiClient adhocGroupApiClient;
   private final PackageService packageService;
 
+  /**
+   * Provides services for managing ad-hoc groups within a package.
+   */
   public AdhocGroupService(final AdhocGroupApiClient adhocGroupApiClient,
       final PackageService packageService) {
     this.adhocGroupApiClient = adhocGroupApiClient;
     this.packageService = packageService;
   }
 
+  /**
+   * Creates an ad-hoc group within the specified package.
+   *
+   * @param packageId the ID of the package to add the ad-hoc group to
+   * @param adhocGroup the Role object representing the ad-hoc group
+   * @return new AdhocGroup created
+   */
   public Role createAdhocGroup(final String packageId,
       final Role adhocGroup) {
-    //AdhocResources.addRole
     return this.createAdhocGroup(packageId, Collections.singletonList(adhocGroup)).get(0);
   }
 
+  /**
+   * Creates ad-hoc groups within the specified package.
+   *
+   * @param packageId the ID of the package to add the ad-hoc groups to
+   * @param roles the list of Role objects representing the ad-hoc groups
+   * @return list of newly created AdhocGroups
+   */
   public List<Role> createAdhocGroup(final String packageId,
       final List<Role> roles) {
-    //AdhocResources.addRole
     return this.adhocGroupApiClient.createAdhocGroup(packageId, roles);
   }
 
+  /**
+   * Deletes an ad-hoc group from the specified package.
+   *
+   * @param packageId the ID of the package containing the ad-hoc group
+   * @param groupRoleId the ID of the ad-hoc group role to delete
+   */
   public void deleteAdhocGroup(final String packageId,
       final String groupRoleId) {
-    //AdhocResources.deleteRole
     this.adhocGroupApiClient.deleteAdhocGroup(packageId, groupRoleId);
   }
 
+  /**
+   * Adds members to an ad-hoc group within the specified package.
+   *
+   * @param packageId the ID of the package containing the ad-hoc group
+   * @param roleId the ID of the ad-hoc group role
+   * @param adhocGroupMembers the list of Signer objects to add as group members
+   * @return the list of added Signer objects
+   */
   public List<Signer> addAdhocGroupMembers(final String packageId,
       final String roleId,
       final List<Signer> adhocGroupMembers) {
-    //AdhocResource.updateRole
     final Optional<Role> adhocGroup = this.getRole(packageId, roleId);
     adhocGroup.ifPresent(role ->
     {
@@ -65,10 +92,17 @@ public final class AdhocGroupService {
     return adhocGroupMembers;
   }
 
+  /**
+   * Deletes a member from an ad-hoc group within the specified package.
+   *
+   * @param packageId        the ID of the package containing the ad-hoc group
+   * @param roleId           the ID of the ad-hoc group role
+   * @param adhocGroupMember the Signer object representing the member to delete
+   * @return the deleted Signer object
+   */
   public Signer deleteAdhocGroupMember(final String packageId,
       final String roleId,
       final Signer adhocGroupMember) {
-    //RoleResource.updateRole
     final Optional<Role> role = this.getRole(packageId, roleId);
     role.ifPresent(value ->
     {
@@ -84,32 +118,45 @@ public final class AdhocGroupService {
   }
 
   /**
-   * add group members to adhoc group update adhoc group members names/email
+   * Updates the members of an ad-hoc group within the specified package.
+   * For example, this can be used to update Adhoc Group Name
    *
-   * @param packageId
-   * @param roles
-   * @return
+   * @param packageId    the ID of the package containing the ad-hoc group
+   * @param groupRoleId  the ID of the ad-hoc group role
+   * @param roles        the list of Role objects representing the updated members
+   * @return the list of updated Role objects
    */
   public List<Role> updateAdhocGroupMember(final String packageId,
       final String groupRoleId,
       final List<Role> roles) {
-    //adhocGroupResource.updateAdHocGroup()
     return this.adhocGroupApiClient.updateAdhocGroup(packageId, groupRoleId, roles);
   }
 
   /**
-   * create adhoc group
+   * <b>SIGNER UI Operation</b>
    *
-   * @param packageId
-   * @param adhocGroup
-   * @return created adhoc group
+   * <p>
+   *
+   * Creates an ad-hoc group as a role within the specified package.
+   *
+   * @param packageId the ID of the package to add the ad-hoc group to
+   * @param adhocGroup the Role object representing the ad-hoc group
+   * @return the newly created Role object representing the ad-hoc group
    */
   public Role createAdhocGroupAsRole(final String packageId,
       final Role adhocGroup) {
-    //RoleResources.addRole
     return this.packageService.addAdhocRole(new PackageId(packageId), adhocGroup);
   }
 
+  /**
+   * <b>SIGNER UI Operation</b>
+   *
+   * <p>
+   * Deletes an ad-hoc group role from the specified package.
+   *
+   * @param packageId the ID of the package containing the ad-hoc group
+   * @param roleId the ID of the ad-hoc group role to delete
+   */
   public void deleteAdhocGroupAsRole(final String packageId,
       final String roleId) {
     final Optional<Role> role = this.getRole(packageId, roleId);
@@ -117,36 +164,60 @@ public final class AdhocGroupService {
   }
 
   /**
-   * update Adhoc Group Name remove group members from adhoc group
+   * <b>SIGNER UI Operation</b>
    *
-   * @param packageId
-   * @return
+   * <p>
+   * Updates an ad-hoc group as a role within the specified package.
+   *
+   * @param packageId the ID of the package containing the ad-hoc group
+   * @param roleId the ID of the ad-hoc group role to update
+   * @return the updated Role object representing the ad-hoc group
    */
   public Role updateAdhocGroupAsRole(final String packageId,
       final String roleId) {
-    //RoleResources.updateRole
     final Optional<Role> role = this.getRole(packageId, roleId);
 
     return role.map(value -> this.packageService.updateAdhocRole(new PackageId(packageId), value))
         .orElse(null);
   }
 
+  /**
+   * <b>SIGNER UI Operation</b>
+   *
+   * <p>
+   * Deletes a member from an ad-hoc group as a role within the specified package.
+   *
+   * @param packageId        the ID of the package containing the ad-hoc group
+   * @param roleId           the ID of the ad-hoc group role
+   * @param adhocGroupMember the Signer object representing the member to delete
+   * @return the deleted Signer object
+   */
   public Signer deleteAdhocGroupMemberAsRole(final String packageId,
       final String roleId,
       final Signer adhocGroupMember) {
-    //RoleResource.updateRole
+
     final Optional<Role> role = this.getRole(packageId, roleId);
 
     role.ifPresent(value ->
     {
       final String signerId = adhocGroupMember.getId();
-      value.getSigners().removeIf(signer -> StringUtils.equalsIgnoreCase(signerId, signer.getId()));
+      if (CollectionUtils.isNotEmpty(value.getSigners())) {
+        value.getSigners()
+            .removeIf(signer -> StringUtils.equalsIgnoreCase(signerId, signer.getId()));
+      }
       this.packageService.updateAdhocRole(new PackageId(packageId), value);
     });
 
     return adhocGroupMember;
   }
 
+  /**
+   * Builds a new ad-hoc group Role with the specified group name.
+   * The Role will have a unique ID and a single signer representing the group.
+   *
+   * @param adhocGroupName the name of the ad-hoc group
+   * @return a new Role object representing the ad-hoc group
+   */
   public static Role buildAdhocGroup(final String adhocGroupName) {
     final Role adhocGroup = new Role();
     adhocGroup.setId(UUID.randomUUID().toString());
@@ -154,6 +225,15 @@ public final class AdhocGroupService {
     return adhocGroup;
   }
 
+  /**
+   * Adds members to an existing ad-hoc group Role.
+   * Each Signer in the provided list is added as a member to the group.
+   * Returns a list containing the updated Role and new Roles for each member.
+   *
+   * @param adhocGroupMembers the list of Signer objects to add as group members
+   * @param adhocGroup the Role object representing the ad-hoc group
+   * @return a list of Role objects including the updated group and new member roles
+   */
   public static List<Role> addAdhocGroupMembersToAdhocGroup(final List<Signer> adhocGroupMembers,
       final Role adhocGroup) {
     return Stream.concat(adhocGroupMembers.stream().map(adhocGroupMember -> {
@@ -173,6 +253,14 @@ public final class AdhocGroupService {
     }), Stream.of(adhocGroup)).collect(Collectors.toList());
   }
 
+  /**
+   * Builds a new Signer object representing an ad-hoc group member.
+   *
+   * @param firstName the first name of the group member
+   * @param lastName the last name of the group member
+   * @param email the email address of the group member
+   * @return a new Signer object configured as an external signer and group member
+   */
   public static Signer buildAdhocGroupMember(final String firstName,
       final String lastName,
       final String email) {
@@ -192,6 +280,14 @@ public final class AdhocGroupService {
     return adhocGroupMember;
   }
 
+  /**
+   * Builds a new Signer object representing an ad-hoc group.
+   * The signer will have the specified group name, type set to AD_HOC_GROUP_SIGNER,
+   * delivery information, creation and update timestamps, and an associated group.
+   *
+   * @param adhocGroupName the name of the ad-hoc group
+   * @return a new Signer object configured as an ad-hoc group signer
+   */
   private static Signer buildAdhocSigner(final String adhocGroupName) {
     final Signer signer = new Signer();
     signer.setFirstName(adhocGroupName);
@@ -204,6 +300,13 @@ public final class AdhocGroupService {
     return signer;
   }
 
+  /**
+   * Builds a new Group object for the ad-hoc group.
+   *
+   * @param adhocGroupName the name of the ad-hoc group
+   * @param createdDate the creation date for the group
+   * @return a new Group object with the specified name and creation date
+   */
   private static Group buildGroup(final String adhocGroupName,
       final Date createdDate) {
     final Group group = new Group();
@@ -213,6 +316,13 @@ public final class AdhocGroupService {
     return group;
   }
 
+  /**
+   * Retrieves a Role from the specified package by its role ID.
+   *
+   * @param packageId the ID of the package containing the roles
+   * @param roleId the ID of the role to retrieve
+   * @return an Optional containing the Role if found, otherwise throws EslException
+   */
   private Optional<Role> getRole(final String packageId,
       final String roleId) {
     final List<Role> roles = this.packageService.getRoles(new PackageId(packageId));

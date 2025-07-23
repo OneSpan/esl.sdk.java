@@ -17,6 +17,15 @@ public final class AdhocGroupApiClient extends EslComponent {
     super(restClient, apiUrl);
   }
 
+  /**
+   * Creates an adhoc group for the specified package using AdhocGroupResource API
+   *
+   * @param packageId the ID of the package to add the adhoc group to
+   * @param roles the list of roles to include in the adhoc group
+   * @return the list of roles added to the adhoc group
+   * @throws EslServerException if the server cannot add the adhoc group
+   * @throws EslException for other errors during group creation
+   */
   public List<Role> createAdhocGroup(final String packageId,
       final List<Role> roles) {
     final String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ADHOC_GROUPS_PATH)
@@ -34,6 +43,16 @@ public final class AdhocGroupApiClient extends EslComponent {
     return roles;
   }
 
+  /**
+   * Updates an existing adhoc group for the specified package and group role using AdhocGroupResource API.
+   *
+   * @param packageId the ID of the package containing the adhoc group
+   * @param groupRoleId the ID of the group role to update
+   * @param roles the list of roles to update in the adhoc group
+   * @return the list of roles after update
+   * @throws EslServerException if the server cannot update the adhoc group
+   * @throws EslException for other errors during group update
+   */
   public List<Role> updateAdhocGroup(final String packageId,
       final String groupRoleId,
       final List<Role> roles) {
@@ -43,7 +62,7 @@ public final class AdhocGroupApiClient extends EslComponent {
         .build();
 
     final String roleJson = JacksonUtil.serialize(roles);
-    List<Role> tmpRoles = JacksonUtil.deserializeList(roleJson, Role.class);
+
     try {
       this.getClient().put(path, roleJson);
     } catch (final RequestException re) {
@@ -54,6 +73,14 @@ public final class AdhocGroupApiClient extends EslComponent {
     return roles;
   }
 
+  /**
+   * Deletes an adhoc group for the specified package and group role using AdhocGroupResource API.
+   *
+   * @param packageId the ID of the package containing the adhoc group
+   * @param groupRoleId the ID of the group role to delete
+   * @throws EslServerException if the server cannot delete the adhoc group
+   * @throws EslException for other errors during group deletion
+   */
   public void deleteAdhocGroup(final String packageId,
       final String groupRoleId) {
     final String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ADHOC_GROUPS_ROLE_PATH)
