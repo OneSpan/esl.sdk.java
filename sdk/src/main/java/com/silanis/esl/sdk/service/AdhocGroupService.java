@@ -74,8 +74,7 @@ public final class AdhocGroupService {
     {
       final String signerId = adhocGroupMember.getId();
       if (CollectionUtils.isNotEmpty(value.getSigners())
-          && value.getSigners().get(0).getGroup() != null
-          && CollectionUtils.isNotEmpty(value.getSigners().get(0).getGroup().getMembers())) {
+          && value.getSigners().get(0).getGroup() != null) {
         value.getSigners().get(0).getGroup().getMembers()
             .removeIf(member -> StringUtils.equalsIgnoreCase(signerId, member.getUserId()));
       }
@@ -165,7 +164,11 @@ public final class AdhocGroupService {
       final GroupMember groupMember = new GroupMember();
       groupMember.setUserId(adhocGroupMember.getId());
       groupMember.setMemberType(AD_HOC_GROUP_MEMBER_TYPE);
-      adhocGroup.getSigners().get(0).getGroup().addMember(groupMember);
+
+      if (CollectionUtils.isNotEmpty(adhocGroup.getSigners())
+          && adhocGroup.getSigners().get(0).getGroup() != null) {
+        adhocGroup.getSigners().get(0).getGroup().addMember(groupMember);
+      }
       return tempRole;
     }), Stream.of(adhocGroup)).collect(Collectors.toList());
   }
