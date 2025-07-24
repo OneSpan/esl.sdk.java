@@ -3,7 +3,7 @@
     <parent>
         <artifactId>esl-java-sdk</artifactId>
         <groupId>com.silanis.esl</groupId>
-        <version>11.63.0-SNAPSHOT</version>
+        <version>11.64.0-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
@@ -15,6 +15,7 @@
     </dependencies>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>SDK</name>
     <artifactId>sdk</artifactId>
 
     <build>
@@ -66,7 +67,7 @@
                 <version>2.9.1</version>
                 <configuration>
                     <docfilessubdirs>true</docfilessubdirs>
-                    <bottom><![CDATA[Copyright 2022 <a href="https://www.onespan.com">OneSpan<a> All rights reserved.]]></bottom>
+                    <bottom><![CDATA[Copyright 2025 <a href="https://www.onespan.com">OneSpan<a> All rights reserved.]]></bottom>
                 </configuration>
             </plugin>
         </plugins>

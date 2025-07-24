@@ -17,7 +17,7 @@ import static org.hamcrest.core.Is.is;
  * Date: 03/12/13
  * Time: 2:00 PM
  * <p/>
- * Test SignerConverter
+ * Test SignerConverterF
  */
 public class SignerConverterTest implements ConverterTest {
     private com.silanis.esl.sdk.Signer sdkSigner1 = null;
