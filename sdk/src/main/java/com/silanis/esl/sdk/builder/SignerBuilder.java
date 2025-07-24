@@ -1,12 +1,30 @@
 package com.silanis.esl.sdk.builder;
 
-import com.silanis.esl.sdk.*;
-import com.silanis.esl.sdk.internal.Asserts;
-
-import java.util.*;
-
-import static com.silanis.esl.sdk.AuthenticationMethod.*;
+import static com.silanis.esl.sdk.AuthenticationMethod.IDV;
+import static com.silanis.esl.sdk.AuthenticationMethod.QASMS;
+import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
 import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
+
+import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.Authentication;
+import com.silanis.esl.sdk.AuthenticationMethod;
+import com.silanis.esl.sdk.Challenge;
+import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.IdvWorkflow;
+import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
+import com.silanis.esl.sdk.NotificationMethod;
+import com.silanis.esl.sdk.NotificationMethods;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.SignerInformationForLexisNexis;
+import com.silanis.esl.sdk.internal.Asserts;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 
 /**
@@ -36,6 +54,7 @@ final public class SignerBuilder {
     private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
+    private boolean isAdhocGroupSigner = false;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -170,6 +189,11 @@ final public class SignerBuilder {
         return this;
     }
 
+    public SignerBuilder withAdhocGroupSigner(final boolean isAdhocGroupSigner) {
+        this.isAdhocGroupSigner = isAdhocGroupSigner;
+        return this;
+    }
+
     private Signer buildGroupSigner() {
         Signer result = new Signer(groupId);
 
@@ -223,6 +247,32 @@ final public class SignerBuilder {
         return result;
     }
 
+    private Signer buildAdhocSigner() {
+        if (authentication == null) {
+            authentication = authenticationBuilder.build();
+        }
+        if (notificationMethods == null && notificationMethodsBuilder != null) {
+            notificationMethods = notificationMethodsBuilder.build();
+        }
+
+        Asserts.notNullOrEmpty(firstName, "first name");
+        Asserts.notNullOrEmpty(email, "email");
+        final Signer result = new Signer(email, firstName, lastName, authentication, notificationMethods);
+        result.setTitle(title);
+        result.setCompany(company);
+        result.setLanguage(language);
+        result.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
+
+        result.setSigningOrder(signingOrder);
+        result.setCanChangeSigner(canChangeSigner);
+        result.setMessage(message);
+        result.setId(id);
+        result.setAttachmentRequirements(attachments);
+        result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
+        result.setLocalLanguage(localLanguage);
+        return result;
+    }
+
     /**
      * Builds the actual signer object.
      *
@@ -231,6 +281,9 @@ final public class SignerBuilder {
     public Signer build() {
 
         Signer signer;
+        if (this.isAdhocGroupSigner) {
+            signer = buildAdhocSigner();
+        } else
         if (isGroupSigner()) {
             signer = buildGroupSigner();
         } else if (isPlaceholder()) {

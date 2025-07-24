@@ -1,5 +1,8 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import static com.silanis.esl.api.util.AdHocGroupUtils.isAdhocGroup;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Role;
@@ -9,8 +12,6 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureId;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * User: jessica
@@ -177,7 +178,7 @@ public class SignatureConverter {
     }
 
     private static boolean isGroupRole(Role role) {
-        return role.getSigners().get(0).getGroup() != null;
+        return (!isAdhocGroup(role)) && role.getSigners().get(0).getGroup() != null;
     }
 
     /**
