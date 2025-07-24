@@ -21,20 +21,21 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public final class AdhocGroupExample extends SDKSample {
+public final class AdhocGroupWithDeletingExample extends SDKSample {
 
-  private static final Logger LOG = Logger.getLogger(AdhocGroupExample.class.getName());
+  private List<Role> createdAdhocGroupWithMembers;
+  private List<Role> rolesAfterRemovingOneAdhocGroupMember;
 
-  private List<Role> createAdhocGroupWithMembersRequest;
+  private static final Logger LOG = Logger.getLogger(AdhocGroupWithDeletingExample.class.getName());
 
   public static void main(String... args) {
-    new AdhocGroupExample().run();
+    new AdhocGroupWithDeletingExample().run();
   }
 
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   public void execute() {
     final DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-        .describedAs("This is a package with Adhoc Group created using OneSpan Sign SDK")
+        .describedAs("This is a package with Adhoc Group and Deleting Adhoc Group Members created using OneSpan Sign SDK")
         .withSigner(newSignerWithEmail(email1)
             .withFirstName("Fox")
             .withLastName("Mulder"))
@@ -50,14 +51,15 @@ public final class AdhocGroupExample extends SDKSample {
         "test80@test.com");
     final Signer adhocGroupMemberInitial2 = buildAdhocGroupMember("test 90", "test 90 ln",
         "test90@test.com");
-    createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(
+    final List<Role> createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(
         Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
         adhocGroup);
 
-    final List<Role> createdAdhocGroupWithMembers = this.eslClient.getAdhocGroupService()
+    this.eslClient.getAdhocGroupService()
         .createAdhocGroup(packageId.getId(), createAdhocGroupWithMembersRequest);
-    LOG.info(
-        "createdAdhocGroupWithMembers: " + AdHocGroupUtils.toString(createdAdhocGroupWithMembers));
+
+    createdAdhocGroupWithMembers = this.eslClient.getPackageService()
+        .getRoles(packageId).stream().filter(role -> role.getId().equals(adhocGroup.getId())).collect(Collectors.toList());
 
     // Add an adhoc  member to the adhoc group.
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
@@ -70,6 +72,14 @@ public final class AdhocGroupExample extends SDKSample {
         .getRoles(packageId);
 
     LOG.info("list of roles: " + AdHocGroupUtils.toString(roles));
+
+    //remove adhoc group member
+    this.eslClient.getAdhocGroupService().deleteAdhocGroupMember(this.packageId.getId(), adhocGroup.getId(), adhocGroupMemberInitial2);
+
+    rolesAfterRemovingOneAdhocGroupMember = this.eslClient.getPackageService()
+        .getRoles(packageId);
+
+    LOG.info("list of rolesAfterRemovingOneAdhocGroupMember: " + AdHocGroupUtils.toString(rolesAfterRemovingOneAdhocGroupMember));
 
     // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
     final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().get()
@@ -89,13 +99,14 @@ public final class AdhocGroupExample extends SDKSample {
     this.eslClient.uploadDocument(document.getFileName(), document.getContent(), document,
         packageId);
 
-    this.eslClient.sendPackage(packageId);
-
     retrievedPackage = this.eslClient.getPackage(packageId);
   }
 
-  public List<Role> getCreateAdhocGroupWithMembersRequest() {
-    return createAdhocGroupWithMembersRequest;
+  public List<Role> getCreatedAdhocGroupWithMembers() {
+    return createdAdhocGroupWithMembers;
   }
 
+  public List<Role> getRolesAfterRemovingOneAdhocGroupMember() {
+    return rolesAfterRemovingOneAdhocGroupMember;
+  }
 }

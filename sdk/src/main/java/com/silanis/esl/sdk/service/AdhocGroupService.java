@@ -201,9 +201,10 @@ public final class AdhocGroupService {
     role.ifPresent(value ->
     {
       final String signerId = adhocGroupMember.getId();
-      if (CollectionUtils.isNotEmpty(value.getSigners())) {
-        value.getSigners()
-            .removeIf(signer -> StringUtils.equalsIgnoreCase(signerId, signer.getId()));
+      if (CollectionUtils.isNotEmpty(value.getSigners())
+          && value.getSigners().get(0).getGroup() != null) {
+        value.getSigners().get(0).getGroup().getMembers()
+            .removeIf(member -> StringUtils.equalsIgnoreCase(signerId, member.getUserId()));
       }
       this.packageService.updateAdhocRole(new PackageId(packageId), value);
     });
