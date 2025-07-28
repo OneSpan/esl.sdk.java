@@ -16,6 +16,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,7 +36,8 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   public void execute() {
     final DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
-        .describedAs("This is a package with Adhoc Group and Deleting Adhoc Group Members created using OneSpan Sign SDK")
+        .describedAs(
+            "This is a package with Adhoc Group and Deleting Adhoc Group Members created using OneSpan Sign SDK")
         .withSigner(newSignerWithEmail(email1)
             .withFirstName("Fox")
             .withLastName("Mulder"))
@@ -48,9 +50,9 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
     final Role adhocGroup = buildAdhocGroup("Adhoc Group Name 99");
 
     final Signer adhocGroupMemberInitial1 = buildAdhocGroupMember("test 80", "test 80 ln",
-        "test80@test.com");
+        "success+sdk+auto2@simulator.amazonses.com");
     final Signer adhocGroupMemberInitial2 = buildAdhocGroupMember("test 90", "test 90 ln",
-        "test90@test.com");
+        "success+sdk+auto3@simulator.amazonses.com");
     final List<Role> createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(
         Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
         adhocGroup);
@@ -59,11 +61,12 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
         .createAdhocGroup(packageId.getId(), createAdhocGroupWithMembersRequest);
 
     createdAdhocGroupWithMembers = this.eslClient.getPackageService()
-        .getRoles(packageId).stream().filter(role -> role.getId().equals(adhocGroup.getId())).collect(Collectors.toList());
+        .getRoles(packageId).stream().filter(role -> role.getId().equals(adhocGroup.getId()))
+        .collect(Collectors.toList());
 
     // Add an adhoc  member to the adhoc group.
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
-        "test100@test.com");
+        "success+sdk+auto4@simulator.amazonses.com");
     this.eslClient.getAdhocGroupService()
         .addAdhocGroupMembers(this.packageId.getId(), adhocGroup.getId(),
             Collections.singletonList(adhocGroupMember));
@@ -71,19 +74,25 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
     final List<Role> roles = this.eslClient.getPackageService()
         .getRoles(packageId);
 
-    LOG.info("list of roles: " + AdHocGroupUtils.toString(roles));
-
+    if (LOG.isLoggable(Level.INFO)) {
+      LOG.info("list of roles: " + AdHocGroupUtils.toString(roles));
+    }
     //remove adhoc group member
-    this.eslClient.getAdhocGroupService().deleteAdhocGroupMember(this.packageId.getId(), adhocGroup.getId(), adhocGroupMemberInitial2);
+    this.eslClient.getAdhocGroupService()
+        .deleteAdhocGroupMember(this.packageId.getId(), adhocGroup.getId(),
+            adhocGroupMemberInitial2);
 
     rolesAfterRemovingOneAdhocGroupMember = this.eslClient.getPackageService()
         .getRoles(packageId);
 
-    LOG.info("list of rolesAfterRemovingOneAdhocGroupMember: " + AdHocGroupUtils.toString(rolesAfterRemovingOneAdhocGroupMember));
-
+    if (LOG.isLoggable(Level.INFO)) {
+      LOG.info("list of rolesAfterRemovingOneAdhocGroupMember: " + AdHocGroupUtils.toString(
+          rolesAfterRemovingOneAdhocGroupMember));
+    }
     // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
-    final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().get()
-        .getSigners().get(0).getEmail();
+    final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().map(
+        role -> role.getSigners().get(0).getEmail()
+    ).orElse(null);
     final Document document = newDocumentWithName("First Document")
         .fromStream(documentInputStream1, DocumentType.PDF)
         .withId("documentId")

@@ -16,6 +16,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -47,21 +48,24 @@ public final class AdhocGroupExample extends SDKSample {
     final Role adhocGroup = buildAdhocGroup("Adhoc Group Name 99");
 
     final Signer adhocGroupMemberInitial1 = buildAdhocGroupMember("test 80", "test 80 ln",
-        "test80@test.com");
+        "success+sdk+auto2@simulator.amazonses.com");
     final Signer adhocGroupMemberInitial2 = buildAdhocGroupMember("test 90", "test 90 ln",
-        "test90@test.com");
+        "success+sdk+auto3@simulator.amazonses.com");
     createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(
         Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
         adhocGroup);
 
     final List<Role> createdAdhocGroupWithMembers = this.eslClient.getAdhocGroupService()
         .createAdhocGroup(packageId.getId(), createAdhocGroupWithMembersRequest);
-    LOG.info(
-        "createdAdhocGroupWithMembers: " + AdHocGroupUtils.toString(createdAdhocGroupWithMembers));
+    if (LOG.isLoggable(Level.INFO)) {
+      LOG.info(
+          "createdAdhocGroupWithMembers: " + AdHocGroupUtils.toString(
+              createdAdhocGroupWithMembers));
+    }
 
     // Add an adhoc  member to the adhoc group.
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
-        "test100@test.com");
+        "success+sdk+auto4@simulator.amazonses.com");
     this.eslClient.getAdhocGroupService()
         .addAdhocGroupMembers(this.packageId.getId(), adhocGroup.getId(),
             Collections.singletonList(adhocGroupMember));
@@ -69,11 +73,14 @@ public final class AdhocGroupExample extends SDKSample {
     final List<Role> roles = this.eslClient.getPackageService()
         .getRoles(packageId);
 
-    LOG.info("list of roles: " + AdHocGroupUtils.toString(roles));
+    if (LOG.isLoggable(Level.INFO)) {
+      LOG.info("list of roles: " + AdHocGroupUtils.toString(roles));
+    }
 
     // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
-    final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().get()
-        .getSigners().get(0).getEmail();
+    final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().map(
+        adhocGroupRole -> adhocGroupRole.getSigners().get(0).getEmail()
+        ).orElse(null);
     final Document document = newDocumentWithName("First Document")
         .fromStream(documentInputStream1, DocumentType.PDF)
         .withId("documentId")
