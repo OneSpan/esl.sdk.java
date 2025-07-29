@@ -18,6 +18,7 @@ public final class AdHocGroupUtils {
   public static final String AD_HOC_GROUP_SIGNER_TYPE = "AD_HOC_GROUP_SIGNER";
   public static final String EXTERNAL_SIGNER_TYPE = "EXTERNAL_SIGNER";
   public static final String AD_HOC_GROUP_MEMBER_TYPE = "AD_HOC_GROUP_MEMBER";
+  public static final String SIGNER_TYPE = "SIGNER";
 
   private AdHocGroupUtils() {
     //Compliant java:S1118
@@ -31,7 +32,7 @@ public final class AdHocGroupUtils {
    * @return true if the signer is an ad hoc group signer, false otherwise
    */
   public static boolean isAdHocGroupSigner(final Signer signer) {
-    return "AD_HOC_GROUP_SIGNER".equals(signer.getSignerType()) || isAdHocGroup(signer.getEmail());
+    return AD_HOC_GROUP_SIGNER_TYPE.equals(signer.getSignerType()) || isAdHocGroup(signer.getEmail());
   }
 
   /**

@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.service;
 import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_MEMBER_TYPE;
 import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE;
 import static com.silanis.esl.api.util.AdHocGroupUtils.EXTERNAL_SIGNER_TYPE;
+import static com.silanis.esl.api.util.AdHocGroupUtils.SIGNER_TYPE;
 
 import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.Delivery;
@@ -90,6 +91,28 @@ public final class AdhocGroupService {
           roles);
     });
     return adhocGroupMembers;
+  }
+
+  /**
+   * Adds members to an ad-hoc group within the specified package.
+   * This method is used when linking existing roles to an ad-hoc group.
+   *
+   * @param packageId the ID of the package containing the ad-hoc group
+   * @param roleId the ID of the ad-hoc group role
+   * @param adhocGroupLinkedMembers the list of GroupMember objects to add as linked members
+   * @return the list of added GroupMember objects
+   */
+  public List<GroupMember> addAdhocGroupLinkedMembers(final String packageId,
+      final String roleId,
+      final List<GroupMember> adhocGroupLinkedMembers) {
+    final Optional<Role> adhocGroup = this.getRole(packageId, roleId);
+    adhocGroup.ifPresent(role ->
+    {
+      final Role updatedAdhocGroup = addAdhocGroupLinkedMembersToAdhocGroup(adhocGroupLinkedMembers, role);
+      this.adhocGroupApiClient.updateAdhocGroup(packageId, roleId,
+          Collections.singletonList(updatedAdhocGroup));
+    });
+    return adhocGroupLinkedMembers;
   }
 
   /**
@@ -242,16 +265,22 @@ public final class AdhocGroupService {
           .setSigners(Collections.singletonList(adhocGroupMember))
           .setId(adhocGroupMember.getId());
 
-      final GroupMember groupMember = new GroupMember();
-      groupMember.setUserId(adhocGroupMember.getId());
-      groupMember.setMemberType(AD_HOC_GROUP_MEMBER_TYPE);
-
       if (CollectionUtils.isNotEmpty(adhocGroup.getSigners())
           && adhocGroup.getSigners().get(0).getGroup() != null) {
+        final GroupMember groupMember = buildGroupMember(adhocGroupMember.getId(), AD_HOC_GROUP_MEMBER_TYPE);
         adhocGroup.getSigners().get(0).getGroup().addMember(groupMember);
       }
       return tempRole;
     }), Stream.of(adhocGroup)).collect(Collectors.toList());
+  }
+
+  public static Role addAdhocGroupLinkedMembersToAdhocGroup(final List<GroupMember> adhocGroupMembers,
+      final Role adhocGroup) {
+      if (CollectionUtils.isNotEmpty(adhocGroup.getSigners())
+          && adhocGroup.getSigners().get(0).getGroup() != null) {
+        adhocGroup.getSigners().get(0).getGroup().getMembers().addAll(adhocGroupMembers);
+      }
+      return adhocGroup;
   }
 
   /**
@@ -278,6 +307,34 @@ public final class AdhocGroupService {
     final Date currentDate = new Date();
     adhocGroupMember.setCreated(currentDate);
     adhocGroupMember.setUpdated(currentDate);
+    return adhocGroupMember;
+  }
+
+  /**
+   * Builds a new GroupMember object to link an existing role to an ad-hoc group.
+   * This method is used when linking an existing role to an ad-hoc group.
+   *
+   * @param roleIdToLink the ID of the role to link
+   * @return a new GroupMember object configured with the specified role ID and member type
+   */
+  public static GroupMember buildAdhocGroupMemberToLinkExistingRole(final String roleIdToLink) {
+    return buildGroupMember(roleIdToLink, SIGNER_TYPE);
+  }
+
+  /**
+   * Builds a new GroupMember object to link an existing role to an ad-hoc group.
+   *
+   * @param roleId user Id
+   * @param memberType   the type of the member (e.g., SIGNER_TYPE)
+   * @return a new GroupMember object configured with the specified role ID and member type
+   */
+  private static GroupMember buildGroupMember(final String roleId,
+      final String memberType) {
+    final GroupMember adhocGroupMember = new GroupMember();
+
+    adhocGroupMember.setUserId(roleId);
+    adhocGroupMember.setMemberType(memberType);
+
     return adhocGroupMember;
   }
 
