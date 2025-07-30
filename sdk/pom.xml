@@ -67,7 +67,7 @@
                 <version>2.9.1</version>
                 <configuration>
                     <docfilessubdirs>true</docfilessubdirs>
-                    <bottom><![CDATA[Copyright 2022 <a href="https://www.onespan.com">OneSpan<a> All rights reserved.]]></bottom>
+                    <bottom><![CDATA[Copyright 2025 <a href="https://www.onespan.com">OneSpan<a> All rights reserved.]]></bottom>
                 </configuration>
             </plugin>
         </plugins>

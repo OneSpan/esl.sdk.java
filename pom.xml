@@ -76,6 +76,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>
+                    <excludeArtifacts>release</excludeArtifacts>
                 </configuration>
             </plugin>
             <plugin>
