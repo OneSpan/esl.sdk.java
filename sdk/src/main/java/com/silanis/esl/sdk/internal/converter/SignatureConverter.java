@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
-import static com.silanis.esl.api.util.AdHocGroupUtils.isAdhocGroup;
+import static com.silanis.esl.api.util.AdHocGroupUtils.isAdHocGroup;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import com.silanis.esl.api.model.Approval;
@@ -178,7 +178,7 @@ public class SignatureConverter {
     }
 
     private static boolean isGroupRole(Role role) {
-        return (!isAdhocGroup(role)) && role.getSigners().get(0).getGroup() != null;
+        return (!isAdHocGroup(role)) && role.getSigners().get(0).getGroup() != null;
     }
 
     /**

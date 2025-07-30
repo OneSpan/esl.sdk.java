@@ -20,11 +20,11 @@ public final class AdhocGroupExampleTest {
 
     assertThat("Additional Adhoc Group Request has to one Adhoc Group: ",
         (int) this.example.getCreateAdhocGroupWithMembersRequest().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).count(),
+            .filter(AdHocGroupUtils::isAdHocGroup).count(),
         is(1));
     assertThat("Additional Adhoc Group Request has to have one Adhoc Group which has two members: ",
         (int) this.example.getCreateAdhocGroupWithMembersRequest().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup().getMembers().size(),
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup().getMembers().size(),
         is(2));
 
     final DocumentPackage documentPackage = this.example.getRetrievedPackage();

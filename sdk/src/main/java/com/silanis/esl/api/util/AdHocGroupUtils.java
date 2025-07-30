@@ -61,7 +61,7 @@ public final class AdHocGroupUtils {
    * @param role the Role object to check
    * @return true if the role is an ad hoc group, false otherwise
    */
-  public static boolean isAdhocGroup(final Role role) {
+  public static boolean isAdHocGroup(final Role role) {
     return CollectionUtils.isNotEmpty(role.getSigners())
         && isAdHocGroupSigner(role.getSigners().get(0));
   }

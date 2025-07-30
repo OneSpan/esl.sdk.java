@@ -20,17 +20,17 @@ public final class AdhocGroupExampleWithLinkExternalSignerTest {
 
     assertThat("Additional Adhoc Group Request has to one Adhoc Group: ",
         (int) this.example.getCreateAdhocGroupWithMembersRequest().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).count(),
+            .filter(AdHocGroupUtils::isAdHocGroup).count(),
         is(1));
     assertThat("Additional Adhoc Group Request has to have one Adhoc Group which has one linked member: ",
         this.example.getCreateAdhocGroupWithMembersRequest().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
             .getMembers().size(),
         is(1));
     assertThat(
         "Additional Adhoc Group has no linked member with email email2: ",
         (int) this.example.getCreateAdhocGroupWithMembersRequest().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
             .getMembers().stream()
             .filter(member -> this.example.email2.equalsIgnoreCase(member.getEmail()))
             .count(),
@@ -53,7 +53,7 @@ public final class AdhocGroupExampleWithLinkExternalSignerTest {
     assertThat(
         "Additional Adhoc Group has linked member with email email2 because it was added after: ",
         (int) this.example.getEslClient().getPackageService().getRoles(this.example.packageId).stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
             .getMembers().stream()
             .filter(member -> this.example.email2.equalsIgnoreCase(member.getEmail()))
             .count(),

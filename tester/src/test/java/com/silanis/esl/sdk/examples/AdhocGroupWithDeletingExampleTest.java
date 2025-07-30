@@ -21,17 +21,17 @@ public final class AdhocGroupWithDeletingExampleTest {
 
     assertThat("Additional Adhoc Group Request has to one Adhoc Group: ",
         (int) this.example.getCreatedAdhocGroupWithMembers().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).count(),
+            .filter(AdHocGroupUtils::isAdHocGroup).count(),
         is(1));
     assertThat("Additional Adhoc Group Request has to have one Adhoc Group which has two members: ",
         this.example.getCreatedAdhocGroupWithMembers().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
             .getMembers().size(),
         is(2));
     assertThat(
         "Additional Adhoc Group has member with email success+sdk+auto3@simulator.amazonses.com: ",
         (int) this.example.getCreatedAdhocGroupWithMembers().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
             .getMembers().stream()
             .filter(member -> "success+sdk+auto3@simulator.amazonses.com".equals(member.getEmail()))
             .count(),
@@ -39,7 +39,7 @@ public final class AdhocGroupWithDeletingExampleTest {
     assertThat(
         "Additional Adhoc Group has no member with email test90@test.com after it was removed: ",
         (int) this.example.getRolesAfterRemovingOneAdhocGroupMember().stream()
-            .filter(AdHocGroupUtils::isAdhocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
             .getMembers().stream()
             .filter(member -> "success+sdk+auto3@simulator.amazonses.com".equals(member.getEmail()))
             .count(),

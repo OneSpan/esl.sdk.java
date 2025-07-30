@@ -90,7 +90,7 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
           rolesAfterRemovingOneAdhocGroupMember));
     }
     // 2. Construct a document with two signatures, one for the initial signer and one for the adhoc group.
-    final String email = roles.stream().filter(AdHocGroupUtils::isAdhocGroup).findFirst().map(
+    final String email = roles.stream().filter(AdHocGroupUtils::isAdHocGroup).findFirst().map(
         role -> role.getSigners().get(0).getEmail()
     ).orElse(null);
     final Document document = newDocumentWithName("First Document")
