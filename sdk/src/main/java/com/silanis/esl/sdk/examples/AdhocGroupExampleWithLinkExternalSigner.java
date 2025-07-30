@@ -15,6 +15,8 @@ import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Visibility;
+import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,6 +38,10 @@ public final class AdhocGroupExampleWithLinkExternalSigner extends SDKSample {
   public void execute() {
     final DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
         .describedAs("This is a package with Adhoc Group created using OneSpan Sign SDK with Linked Group Member")
+        .withVisibility(Visibility.ACCOUNT)
+        .withAttributes(DocumentPackageAttributesBuilder.newDocumentPackageAttributes() // do not display transaction owner in the package on Sender UI dashboard
+            .withAttribute("senderVisible", Boolean.FALSE)
+            .build())
         .withSigner(newSignerWithEmail(email1)
             .withFirstName("Fox")
             .withLastName("Mulder"))
