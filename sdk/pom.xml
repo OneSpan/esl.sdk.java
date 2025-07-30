@@ -15,7 +15,7 @@
     </dependencies>
     <modelVersion>4.0.0</modelVersion>
 
-    <name>OneSpanSignSDK</name>
+    <name>SDK</name>
     <artifactId>sdk</artifactId>
 
     <build>
