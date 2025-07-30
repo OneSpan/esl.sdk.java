@@ -59,6 +59,16 @@ public final class AdhocGroupExampleWithLinkExternalSignerTest {
             .count(),
         is(1));
 
+    final String transactionOwnerEmail = this.example.getTransactionOwner().getSigners().get(0).getEmail();
+    assertThat(
+        "Additional Adhoc Group has transaction owner as member: ",
+        (int) this.example.getEslClient().getPackageService().getRoles(this.example.packageId).stream()
+            .filter(AdHocGroupUtils::isAdHocGroup).findFirst().get().getSigners().get(0).getGroup()
+            .getMembers().stream()
+            .filter(member -> transactionOwnerEmail.equalsIgnoreCase(member.getEmail()))
+            .count(),
+        is(1));
+
 
   }
 }

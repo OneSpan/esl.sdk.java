@@ -19,6 +19,8 @@ public final class AdHocGroupUtils {
   public static final String EXTERNAL_SIGNER_TYPE = "EXTERNAL_SIGNER";
   public static final String AD_HOC_GROUP_MEMBER_TYPE = "AD_HOC_GROUP_MEMBER";
   public static final String SIGNER_TYPE = "SIGNER";
+  private static final String OWNER_ROLE_TYPE = "SENDER";
+  private static final String SIGNER_TYPE_OF_OWNER_ROLE = "ACCOUNT_SENDER";
 
   private AdHocGroupUtils() {
     //Compliant java:S1118
@@ -83,6 +85,19 @@ public final class AdHocGroupUtils {
     } else {
       return Collections.emptyList();
     }
+  }
+
+  /**
+   * Checks if the given role is the owner of a transaction. A role is considered the owner if it has
+   * signers, its type is "SENDER", and the first signer is of type "ACCOUNT_SENDER".
+   *
+   * @param role the Role object to check
+   * @return true if the role is the transaction owner, false otherwise
+   */
+  public static boolean isTransactionOwner(final Role role) {
+    return CollectionUtils.isNotEmpty(role.getSigners())
+        && OWNER_ROLE_TYPE.equalsIgnoreCase(role.getType())
+        && SIGNER_TYPE_OF_OWNER_ROLE.equalsIgnoreCase(role.getSigners().get(0).getSignerType());
   }
 
 }

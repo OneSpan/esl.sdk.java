@@ -14,6 +14,7 @@ import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.Visibility;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ public final class AdhocGroupExample extends SDKSample {
   public void execute() {
     final DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
         .describedAs("This is a package with Adhoc Group created using OneSpan Sign SDK")
+        .withVisibility(Visibility.ACCOUNT)
         .withSigner(newSignerWithEmail(email1)
             .withFirstName("Fox")
             .withLastName("Mulder"))
@@ -51,7 +53,9 @@ public final class AdhocGroupExample extends SDKSample {
         "success+sdk+auto2@simulator.amazonses.com");
     final Signer adhocGroupMemberInitial2 = buildAdhocGroupMember("test 90", "test 90 ln",
         "success+sdk+auto3@simulator.amazonses.com");
-    createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(
+    final Role transactionOwner = this.eslClient.getAdhocGroupService()
+        .getTransactionOwner(packageId.getId());
+    createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(transactionOwner,
         Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
         adhocGroup);
 
@@ -67,7 +71,7 @@ public final class AdhocGroupExample extends SDKSample {
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
         "success+sdk+auto4@simulator.amazonses.com");
     this.eslClient.getAdhocGroupService()
-        .addAdhocGroupMembers(this.packageId.getId(), adhocGroup.getId(),
+        .addAdhocGroupMembers(this.packageId.getId(), transactionOwner, adhocGroup.getId(),
             Collections.singletonList(adhocGroupMember));
 
     final List<Role> roles = this.eslClient.getPackageService()

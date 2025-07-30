@@ -6,6 +6,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static com.silanis.esl.sdk.service.AdhocGroupService.addAdhocGroupLinkedMembersToAdhocGroup;
 import static com.silanis.esl.sdk.service.AdhocGroupService.buildAdhocGroup;
+import static com.silanis.esl.sdk.service.AdhocGroupService.buildAdhocGroupMember;
 import static com.silanis.esl.sdk.service.AdhocGroupService.buildAdhocGroupMemberToLinkExistingRole;
 
 import com.silanis.esl.api.model.GroupMember;
@@ -25,6 +26,7 @@ public final class AdhocGroupExampleWithLinkExternalSigner extends SDKSample {
   private static final Logger LOG = Logger.getLogger(AdhocGroupExampleWithLinkExternalSigner.class.getName());
 
   private List<Role> createAdhocGroupWithMembersRequest;
+  private Role transactionOwner;
 
   public static void main(String... args) {
     new AdhocGroupExampleWithLinkExternalSigner().run();
@@ -82,6 +84,12 @@ public final class AdhocGroupExampleWithLinkExternalSigner extends SDKSample {
                   Collections.singletonList(groupMemberToLinkExistingRole));
         });
 
+    transactionOwner = this.eslClient.getAdhocGroupService()
+        .getTransactionOwner(packageId.getId());
+    this.eslClient.getAdhocGroupService()
+        .addAdhocGroupMembers(packageId.getId(), transactionOwner, adhocGroup.getId(),
+            Collections.singletonList(buildAdhocGroupMember("test1", "test1", transactionOwner.getSigners().get(0).getEmail())));
+
     final List<Role> roles = this.eslClient.getPackageService()
         .getRoles(packageId);
 
@@ -116,6 +124,10 @@ public final class AdhocGroupExampleWithLinkExternalSigner extends SDKSample {
 
   public List<Role> getCreateAdhocGroupWithMembersRequest() {
     return createAdhocGroupWithMembersRequest;
+  }
+
+  public Role getTransactionOwner() {
+    return transactionOwner;
   }
 
 }

@@ -53,7 +53,11 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
         "success+sdk+auto2@simulator.amazonses.com");
     final Signer adhocGroupMemberInitial2 = buildAdhocGroupMember("test 90", "test 90 ln",
         "success+sdk+auto3@simulator.amazonses.com");
-    final List<Role> createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(
+
+    final Role transactionOwner = this.eslClient.getAdhocGroupService()
+        .getTransactionOwner(packageId.getId());
+
+    final List<Role> createAdhocGroupWithMembersRequest = addAdhocGroupMembersToAdhocGroup(transactionOwner,
         Stream.of(adhocGroupMemberInitial1, adhocGroupMemberInitial2).collect(Collectors.toList()),
         adhocGroup);
 
@@ -67,8 +71,9 @@ public final class AdhocGroupWithDeletingExample extends SDKSample {
     // Add an adhoc  member to the adhoc group.
     final Signer adhocGroupMember = buildAdhocGroupMember("test 100", "test 100 ln",
         "success+sdk+auto4@simulator.amazonses.com");
+
     this.eslClient.getAdhocGroupService()
-        .addAdhocGroupMembers(this.packageId.getId(), adhocGroup.getId(),
+        .addAdhocGroupMembers(this.packageId.getId(), transactionOwner, adhocGroup.getId(),
             Collections.singletonList(adhocGroupMember));
 
     final List<Role> roles = this.eslClient.getPackageService()

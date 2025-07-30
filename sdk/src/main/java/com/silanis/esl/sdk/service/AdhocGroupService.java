@@ -11,10 +11,12 @@ import com.silanis.esl.api.model.Group;
 import com.silanis.esl.api.model.GroupMember;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
+import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.service.apiclient.AdhocGroupApiClient;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -76,17 +78,19 @@ public final class AdhocGroupService {
    * Adds members to an ad-hoc group within the specified package.
    *
    * @param packageId the ID of the package containing the ad-hoc group
+   * @param transactionOwner role of the transaction owner
    * @param roleId the ID of the ad-hoc group role
    * @param adhocGroupMembers the list of Signer objects to add as group members
    * @return the list of added Signer objects
    */
   public List<Signer> addAdhocGroupMembers(final String packageId,
+      final Role transactionOwner,
       final String roleId,
       final List<Signer> adhocGroupMembers) {
     final Optional<Role> adhocGroup = this.getRole(packageId, roleId);
     adhocGroup.ifPresent(role ->
     {
-      final List<Role> roles = addAdhocGroupMembersToAdhocGroup(adhocGroupMembers, role);
+      final List<Role> roles = addAdhocGroupMembersToAdhocGroup(transactionOwner, adhocGroupMembers, role);
       this.adhocGroupApiClient.updateAdhocGroup(packageId, roleId,
           roles);
     });
@@ -155,84 +159,15 @@ public final class AdhocGroupService {
     return this.adhocGroupApiClient.updateAdhocGroup(packageId, groupRoleId, roles);
   }
 
-  /**
-   * <b>SIGNER UI Operation</b>
-   *
-   * <p>
-   *
-   * Creates an ad-hoc group as a role within the specified package.
-   *
-   * @param packageId the ID of the package to add the ad-hoc group to
-   * @param adhocGroup the Role object representing the ad-hoc group
-   * @return the newly created Role object representing the ad-hoc group
-   */
-  public Role createAdhocGroupAsRole(final String packageId,
-      final Role adhocGroup) {
-    return this.packageService.addAdhocRole(new PackageId(packageId), adhocGroup);
-  }
+  public Role getTransactionOwner(final String packageId) {
+    final List<Role> currentRoles = this.packageService.getRoles(new PackageId(packageId));
+    final Optional<Role> transactionOwner = currentRoles.stream()
+        .filter(AdHocGroupUtils::isTransactionOwner)
+        .min(Comparator.comparingInt(Role::getIndex));
 
-  /**
-   * <b>SIGNER UI Operation</b>
-   *
-   * <p>
-   * Deletes an ad-hoc group role from the specified package.
-   *
-   * @param packageId the ID of the package containing the ad-hoc group
-   * @param roleId the ID of the ad-hoc group role to delete
-   */
-  public void deleteAdhocGroupAsRole(final String packageId,
-      final String roleId) {
-    final Optional<Role> role = this.getRole(packageId, roleId);
-    role.ifPresent(r -> this.packageService.deleteRole(new PackageId(packageId), r));
-  }
-
-  /**
-   * <b>SIGNER UI Operation</b>
-   *
-   * <p>
-   * Updates an ad-hoc group as a role within the specified package.
-   *
-   * @param packageId the ID of the package containing the ad-hoc group
-   * @param roleId the ID of the ad-hoc group role to update
-   * @return the updated Role object representing the ad-hoc group
-   */
-  public Role updateAdhocGroupAsRole(final String packageId,
-      final String roleId) {
-    final Optional<Role> role = this.getRole(packageId, roleId);
-
-    return role.map(value -> this.packageService.updateAdhocRole(new PackageId(packageId), value))
-        .orElse(null);
-  }
-
-  /**
-   * <b>SIGNER UI Operation</b>
-   *
-   * <p>
-   * Deletes a member from an ad-hoc group as a role within the specified package.
-   *
-   * @param packageId        the ID of the package containing the ad-hoc group
-   * @param roleId           the ID of the ad-hoc group role
-   * @param adhocGroupMember the Signer object representing the member to delete
-   * @return the deleted Signer object
-   */
-  public Signer deleteAdhocGroupMemberAsRole(final String packageId,
-      final String roleId,
-      final Signer adhocGroupMember) {
-
-    final Optional<Role> role = this.getRole(packageId, roleId);
-
-    role.ifPresent(value ->
-    {
-      final String signerId = adhocGroupMember.getId();
-      if (CollectionUtils.isNotEmpty(value.getSigners())
-          && value.getSigners().get(0).getGroup() != null) {
-        value.getSigners().get(0).getGroup().getMembers()
-            .removeIf(member -> StringUtils.equalsIgnoreCase(signerId, member.getUserId()));
-      }
-      this.packageService.updateAdhocRole(new PackageId(packageId), value);
-    });
-
-    return adhocGroupMember;
+    return transactionOwner.orElseThrow(() ->
+        new EslException("No transaction owner found in package with ID: " + packageId)
+    );
   }
 
   /**
@@ -254,13 +189,23 @@ public final class AdhocGroupService {
    * Each Signer in the provided list is added as a member to the group.
    * Returns a list containing the updated Role and new Roles for each member.
    *
+   * @param transactionOwner role of transaction owner
    * @param adhocGroupMembers the list of Signer objects to add as group members
    * @param adhocGroup the Role object representing the ad-hoc group
    * @return a list of Role objects including the updated group and new member roles
    */
-  public static List<Role> addAdhocGroupMembersToAdhocGroup(final List<Signer> adhocGroupMembers,
+  public static List<Role> addAdhocGroupMembersToAdhocGroup(final Role transactionOwner,
+      final List<Signer> adhocGroupMembers,
       final Role adhocGroup) {
-    return Stream.concat(adhocGroupMembers.stream().map(adhocGroupMember -> {
+
+    final String transactionOwnerEmail = transactionOwner.getSigners().get(0).getEmail();
+    final String transactionOwnerId = transactionOwner.getId();
+
+    processTransactionOwnerIfAdhocGroupMember(adhocGroupMembers, adhocGroup, transactionOwnerEmail, transactionOwnerId);
+
+    return Stream.concat(adhocGroupMembers.stream()
+            .filter(adhocGroupMember -> !StringUtils.equalsIgnoreCase(transactionOwnerEmail, adhocGroupMember.getEmail()))
+        .map(adhocGroupMember -> {
       final Role tempRole = new Role() // Create a new role to update the adhoc group
           .setSigners(Collections.singletonList(adhocGroupMember))
           .setId(adhocGroupMember.getId());
@@ -390,5 +335,30 @@ public final class AdhocGroupService {
     } else {
       return role;
     }
+  }
+
+  /**
+   * Processes the transaction owner if they are a member of the ad-hoc group. If the transaction
+   * owner's email matches any of the ad-hoc group members, a new GroupMember is created and added
+   * to the ad-hoc group.
+   *
+   * @param adhocGroupMembers     the list of Signer objects representing ad-hoc group members
+   * @param adhocGroup            the Role object representing the ad-hoc group
+   * @param transactionOwnerEmail the email address of the transaction owner
+   * @param transactionOwnerId    the ID of the transaction owner
+   */
+  private static void processTransactionOwnerIfAdhocGroupMember(final List<Signer> adhocGroupMembers,
+      final Role adhocGroup,
+      final String transactionOwnerEmail,
+      final String transactionOwnerId) {
+    adhocGroupMembers.stream().filter(
+            adhocGroupMember -> StringUtils.equalsIgnoreCase(transactionOwnerEmail,
+                adhocGroupMember.getEmail()))
+        .forEach(adhocGroupMember -> {
+          final GroupMember groupMember = buildGroupMember(transactionOwnerId,
+              AD_HOC_GROUP_MEMBER_TYPE);
+          addAdhocGroupLinkedMembersToAdhocGroup(Collections.singletonList(groupMember),
+              adhocGroup);
+        });
   }
 }
