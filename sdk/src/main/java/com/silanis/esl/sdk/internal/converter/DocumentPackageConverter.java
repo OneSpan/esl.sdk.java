@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static com.silanis.esl.api.util.AdHocGroupUtils.isAdHocGroup;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerFromGroup;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 
@@ -230,8 +231,9 @@ public class DocumentPackageConverter {
 
             if (role.getSigners().isEmpty()) {
                 packageBuilder.withSigner(newSignerPlaceholder(new Placeholder(role.getId(), role.getName(), role.getIndex())));
-            } else if (role.getSigners().get(0).getGroup() != null) {
-                packageBuilder.withSigner(newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
+            } else if (isGroupRole(role)) {
+                packageBuilder.withSigner(
+                    newSignerFromGroup(new GroupId(role.getSigners().get(0).getGroup().getId())));
             } else {
                 packageBuilder.withSigner(new SignerConverter(role).toSDKSigner());
 
@@ -279,6 +281,17 @@ public class DocumentPackageConverter {
         }
 
         return documentPackage;
+    }
+
+    /**
+     * Determines if the given role is a group role.
+     * A group role is defined as a role that is not an ad-hoc group and whose first signer has a non-null group.
+     *
+     * @param role the Role to check
+     * @return true if the role is a group role, false otherwise
+     */
+    private static boolean isGroupRole(final Role role) {
+        return (!isAdHocGroup(role)) && role.getSigners().get(0).getGroup() != null;
     }
 
     private Locale toSdkLanguage(String apiLanguage) {

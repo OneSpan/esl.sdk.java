@@ -15,6 +15,7 @@ import com.silanis.esl.sdk.oauth.OAuthTokenConfig;
 import com.silanis.esl.sdk.service.*;
 import com.silanis.esl.sdk.service.apiclient.AccountApiClient;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
+import com.silanis.esl.sdk.service.apiclient.AdhocGroupApiClient;
 import com.silanis.esl.sdk.service.apiclient.ApprovalApiClient;
 import com.silanis.esl.sdk.service.apiclient.AuditApiClient;
 import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
@@ -67,6 +68,8 @@ public class EslClient {
     private DataRetentionSettingsService dataRetentionSettingsService;
     private VirtualRoomService virtualRoomService;
     private EOriginalService eOriginalService;
+
+    private AdhocGroupService adhocGroupService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -190,6 +193,7 @@ public class EslClient {
         dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
         virtualRoomService = new VirtualRoomService(client, baseURL);
         eOriginalService = new EOriginalService(client, baseURL);
+        adhocGroupService = new AdhocGroupService(new AdhocGroupApiClient(client, baseURL), packageService);
     }
 
     /**
@@ -314,6 +318,10 @@ public class EslClient {
      */
     public SignatureImageService getSignatureImageService() {
         return signatureImageService;
+    }
+
+    public AdhocGroupService getAdhocGroupService() {
+        return adhocGroupService;
     }
 
     /**
