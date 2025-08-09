@@ -1,20 +1,17 @@
 package com.silanis.esl.sdk.service;
 
-import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_MEMBER_TYPE;
-import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE;
-import static com.silanis.esl.api.util.AdHocGroupUtils.EXTERNAL_SIGNER_TYPE;
-import static com.silanis.esl.api.util.AdHocGroupUtils.SIGNER_TYPE;
-
 import com.silanis.esl.api.model.Auth;
 import com.silanis.esl.api.model.Delivery;
 import com.silanis.esl.api.model.Group;
 import com.silanis.esl.api.model.GroupMember;
 import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
-import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.service.apiclient.AdhocGroupApiClient;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -23,10 +20,16 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_MEMBER_TYPE;
+import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE;
+import static com.silanis.esl.api.util.AdHocGroupUtils.EXTERNAL_SIGNER_TYPE;
+import static com.silanis.esl.api.util.AdHocGroupUtils.SIGNER_TYPE;
 
 public final class AdhocGroupService {
+  private static final String OWNER_ROLE_TYPE = "SENDER";
+  private static final String SIGNER_TYPE_OF_OWNER_ROLE = "ACCOUNT_SENDER";
+
   private final AdhocGroupApiClient adhocGroupApiClient;
   private final PackageService packageService;
 
@@ -162,7 +165,7 @@ public final class AdhocGroupService {
   public Role getTransactionOwner(final String packageId) {
     final List<Role> currentRoles = this.packageService.getRoles(new PackageId(packageId));
     final Optional<Role> transactionOwner = currentRoles.stream()
-        .filter(AdHocGroupUtils::isTransactionOwner)
+        .filter(AdhocGroupService::isTransactionOwner)
         .min(Comparator.comparingInt(Role::getIndex));
 
     return transactionOwner.orElseThrow(() ->
@@ -264,6 +267,12 @@ public final class AdhocGroupService {
    */
   public static GroupMember buildAdhocGroupMemberToLinkExistingRole(final String roleIdToLink) {
     return buildGroupMember(roleIdToLink, SIGNER_TYPE);
+  }
+
+  public static boolean isTransactionOwner(final Role role) {
+    return CollectionUtils.isNotEmpty(role.getSigners())
+            && OWNER_ROLE_TYPE.equalsIgnoreCase(role.getType())
+            && SIGNER_TYPE_OF_OWNER_ROLE.equalsIgnoreCase(role.getSigners().get(0).getSignerType());
   }
 
   /**

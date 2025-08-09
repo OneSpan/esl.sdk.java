@@ -1,15 +1,18 @@
 package com.silanis.esl.sdk.builder;
 
+import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_EMAIL_SUFFIX;
 import static com.silanis.esl.sdk.AuthenticationMethod.IDV;
 import static com.silanis.esl.sdk.AuthenticationMethod.QASMS;
 import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
 import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
 
+import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.AttachmentRequirement;
 import com.silanis.esl.sdk.Authentication;
 import com.silanis.esl.sdk.AuthenticationMethod;
 import com.silanis.esl.sdk.Challenge;
 import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.Group;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.IdvWorkflow;
 import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
@@ -19,12 +22,15 @@ import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.SignerInformationForLexisNexis;
 import com.silanis.esl.sdk.internal.Asserts;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.UUID;
 
 
 /**
@@ -55,6 +61,8 @@ final public class SignerBuilder {
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
     private boolean isAdhocGroupSigner = false;
+    private String type;
+    private Group group;
 
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
@@ -122,6 +130,23 @@ final public class SignerBuilder {
     public static SignerBuilder newSignerPlaceholder(Placeholder placeholder) {
         return new SignerBuilder(placeholder);
     }
+
+    /**
+     * Creates a SignerBuilder object for an ad hoc group signer.
+     * <p>
+     * Ad hoc group signers are temporary signers created with a generated email address
+     * and are typically used for group signing scenarios where the actual signer
+     * identity is determined at signing time.
+     *
+     * @return the signer builder configured for ad hoc group signing
+     */
+    public static SignerBuilder newAdHocGroupSigner() {
+        return new SignerBuilder(AdHocGroupUtils.generateAdHocGroupEmail())
+                .withLastName(StringUtils.EMPTY)
+                .withAdhocGroupSigner(true)
+                .withSignerType(AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE);
+    }
+
 
     /**
      * Sets the ID of the signer for this package.
@@ -194,8 +219,19 @@ final public class SignerBuilder {
         return this;
     }
 
+    public SignerBuilder withSignerType(final String type) {
+        this.type = type;
+        return this;
+    }
+
+    public SignerBuilder withGroup(final Group group) {
+        Asserts.genericAssert(isAdhocGroupSigner, "group can be set only for an adhoc group signer");
+        this.group = group;
+        return this;
+    }
+
     private Signer buildGroupSigner() {
-        Signer result = new Signer(groupId);
+        final Signer result = new Signer(groupId);
 
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
@@ -255,14 +291,15 @@ final public class SignerBuilder {
             notificationMethods = notificationMethodsBuilder.build();
         }
 
-        Asserts.notNullOrEmpty(firstName, "first name");
-        Asserts.notNullOrEmpty(email, "email");
-        final Signer result = new Signer(email, firstName, lastName, authentication, notificationMethods);
+        Asserts.genericAssert(StringUtils.isBlank(lastName), "last name must be null or empty for adhoc group signer");
+        Asserts.notNull(group, "group");
+        Asserts.notNullOrEmpty(group.getName(), "name of the adhoc group");
+
+        final Signer result = new Signer(email, group.getName(), lastName, authentication, notificationMethods);
         result.setTitle(title);
         result.setCompany(company);
         result.setLanguage(language);
         result.setDeliverSignedDocumentsByEmail(deliverSignedDocumentsByEmail);
-
         result.setSigningOrder(signingOrder);
         result.setCanChangeSigner(canChangeSigner);
         result.setMessage(message);
@@ -270,6 +307,8 @@ final public class SignerBuilder {
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
         result.setLocalLanguage(localLanguage);
+        result.setSignerType(type);
+        result.setGroup(group);
         return result;
     }
 

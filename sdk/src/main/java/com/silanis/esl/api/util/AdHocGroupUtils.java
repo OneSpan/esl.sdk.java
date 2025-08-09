@@ -6,6 +6,7 @@ import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +20,6 @@ public final class AdHocGroupUtils {
   public static final String EXTERNAL_SIGNER_TYPE = "EXTERNAL_SIGNER";
   public static final String AD_HOC_GROUP_MEMBER_TYPE = "AD_HOC_GROUP_MEMBER";
   public static final String SIGNER_TYPE = "SIGNER";
-  private static final String OWNER_ROLE_TYPE = "SENDER";
-  private static final String SIGNER_TYPE_OF_OWNER_ROLE = "ACCOUNT_SENDER";
 
   private AdHocGroupUtils() {
     //Compliant java:S1118
@@ -34,7 +33,7 @@ public final class AdHocGroupUtils {
    * @return true if the signer is an ad hoc group signer, false otherwise
    */
   public static boolean isAdHocGroupSigner(final Signer signer) {
-    return AD_HOC_GROUP_SIGNER_TYPE.equals(signer.getSignerType()) || isAdHocGroup(signer.getEmail());
+    return AD_HOC_GROUP_SIGNER_TYPE.equals(signer.getSignerType()) || isAdHocGroupEmail(signer.getEmail());
   }
 
   /**
@@ -44,16 +43,12 @@ public final class AdHocGroupUtils {
    * @param email the email address to check
    * @return true if the email is an ad hoc group email, false otherwise
    */
-  public static boolean isAdHocGroup(final String email) {
+  public static boolean isAdHocGroupEmail(final String email) {
     if (StringUtils.isNotBlank(email)) {
-      return isAdHocGroupEmail(email);
+      return stripToEmpty(email).endsWith(AD_HOC_GROUP_EMAIL_SUFFIX);
     } else {
       return false;
     }
-  }
-
-  public static boolean isAdHocGroupEmail(final String email) {
-    return stripToEmpty(email).endsWith(AD_HOC_GROUP_EMAIL_SUFFIX);
   }
 
   /**
@@ -87,17 +82,13 @@ public final class AdHocGroupUtils {
     }
   }
 
-  /**
-   * Checks if the given role is the owner of a transaction. A role is considered the owner if it has
-   * signers, its type is "SENDER", and the first signer is of type "ACCOUNT_SENDER".
-   *
-   * @param role the Role object to check
-   * @return true if the role is the transaction owner, false otherwise
-   */
-  public static boolean isTransactionOwner(final Role role) {
-    return CollectionUtils.isNotEmpty(role.getSigners())
-        && OWNER_ROLE_TYPE.equalsIgnoreCase(role.getType())
-        && SIGNER_TYPE_OF_OWNER_ROLE.equalsIgnoreCase(role.getSigners().get(0).getSignerType());
+    /**
+     * Generates a unique email address for an ad hoc group by creating a random UUID, removing
+     * hyphens, converting it to lowercase, and appending the ad hoc group email suffix.
+     *
+     * @return a unique ad hoc group email address
+     */
+  public static String generateAdHocGroupEmail() {
+    return UUID.randomUUID().toString().replace("-", "").toLowerCase() + AD_HOC_GROUP_EMAIL_SUFFIX;
   }
-
 }

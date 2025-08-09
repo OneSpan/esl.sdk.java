@@ -2,15 +2,21 @@ package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.BaseMessage;
 import com.silanis.esl.api.model.Delivery;
+import com.silanis.esl.api.model.Group;
+import com.silanis.esl.api.model.GroupMember;
 import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.GroupId;
+import com.silanis.esl.sdk.GroupMemberType;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.silanis.esl.api.util.AdHocGroupUtils.isAdHocGroupSigner;
 import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
@@ -89,8 +95,37 @@ public class SignerConverter {
                     .setNotificationMethods(new NotificationMethodsConverter(sdkSigner.getNotificationMethods()).toAPINotificationMethods());
         }
 
+        if (AdHocGroupUtils.isAdHocGroupEmail(sdkSigner.getEmail())) {
+            result.setSignerType(sdkSigner.getSignerType());
+            result.setGroup(convert2Group(sdkSigner.getGroup()));
+        }
 
         return result;
+    }
+
+    private Group convert2Group(final com.silanis.esl.sdk.Group group) {
+        if (group != null) {
+            final Group result = new Group();
+            group.getMembers().forEach(member -> {
+                final GroupMember groupMember = new GroupMember();
+                groupMember.setUserId(member.getUserId());
+                if (StringUtils.isNotBlank(member.getEmail())) {
+                    groupMember.setEmail(member.getEmail());
+                }
+                if (StringUtils.isNotBlank(member.getFirstName())) {
+                    groupMember.setFirstName(member.getFirstName());
+                }
+                if (StringUtils.isNotBlank(member.getLastName())) {
+                    groupMember.setLastName(member.getLastName());
+                }
+                groupMember.setMemberType(member.getGroupMemberType().name());
+                result.addMember(groupMember);
+            });
+            result.setName(group.getName());
+            return result;
+        } else {
+            return null;
+        }
     }
 
     private Signer newRegularSignerFromAPIRole() {
@@ -104,16 +139,6 @@ public class SignerConverter {
                     .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
                     .withTitle(apiSigner.getTitle())
                     .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
-            if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
-                signerBuilder.deliverSignedDocumentsByEmail();
-            }
-        } else if (isAdHocGroupSigner(apiSigner)) {
-            signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
-                .withFirstName(apiSigner.getFirstName())
-                .withCompany(apiSigner.getCompany())
-                .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
-                .withAdhocGroupSigner(true)
-                .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
             if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
                 signerBuilder.deliverSignedDocumentsByEmail();
             }
@@ -171,6 +196,33 @@ public class SignerConverter {
         return signer;
     }
 
+    private com.silanis.esl.sdk.Group convert2SdkGroup(final Group group) {
+        if (group != null) {
+            final List<com.silanis.esl.sdk.GroupMember> groupMembers = group.getMembers().stream().map(member -> {
+                final com.silanis.esl.sdk.GroupMember groupMember = new com.silanis.esl.sdk.GroupMember();
+                groupMember.setUserId(member.getUserId());
+                if (StringUtils.isNotBlank(member.getEmail())) {
+                    groupMember.setEmail(member.getEmail());
+                }
+                if (StringUtils.isNotBlank(member.getFirstName())) {
+                    groupMember.setFirstName(member.getFirstName());
+                }
+                if (StringUtils.isNotBlank(member.getLastName())) {
+                    groupMember.setLastName(member.getLastName());
+                }
+                groupMember.setGroupMemberType(GroupMemberType.valueOf(member.getMemberType()));
+                return groupMember;
+            }).collect(Collectors.toList());
+
+            final com.silanis.esl.sdk.Group result = new com.silanis.esl.sdk.Group();
+            result.setName(group.getName());
+            result.setMembers(groupMembers);
+            return result;
+        } else {
+            return null;
+        }
+    }
+
     private Signer newSignerPlaceholderFromAPIRole() {
         Asserts.notNullOrEmpty(apiRole.getId(), "role.id");
 
@@ -219,6 +271,8 @@ public class SignerConverter {
 
         if (apiRole.getSigners() == null || apiRole.getSigners().isEmpty()) {
             return newSignerPlaceholderFromAPIRole();
+        } else if (AdHocGroupUtils.isAdHocGroup(apiRole)) {
+            return newAdHocGroupSignerFromAPIRole();
         } else {
             return newRegularSignerFromAPIRole();
         }
@@ -317,5 +371,70 @@ public class SignerConverter {
         }
 
         return role;
+    }
+
+    private Signer newAdHocGroupSignerFromAPIRole() {
+        SignerBuilder signerBuilder;
+
+        if (isAdHocGroupSigner(apiSigner)) {
+            signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
+                    .withFirstName(apiSigner.getFirstName())
+                    .withCompany(apiSigner.getCompany())
+                    .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
+                    .withAdhocGroupSigner(true)
+                    .withSignerType(AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE)
+                    .withGroup(convert2SdkGroup(apiSigner.getGroup()))
+                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
+            if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
+                signerBuilder.deliverSignedDocumentsByEmail();
+            }
+        } else {
+            signerBuilder = SignerBuilder.newSignerFromGroup(
+                    new GroupId(apiSigner.getGroup().getId()));
+        }
+
+        signerBuilder.withCustomId(apiSigner.getId())
+                .withRoleId(apiRole.getId());
+
+        if (apiRole.getIndex() != null)
+            signerBuilder.signingOrder(apiRole.getIndex());
+
+        if (apiRole.evalReassign()) {
+            signerBuilder.canChangeSigner();
+        }
+
+        if (apiRole.getEmailMessage() != null) {
+            signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
+        }
+
+        signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication());
+
+
+        if (apiSigner.getNotificationMethods() != null) {
+            signerBuilder.withNotificationMethods(newNotificationMethods()
+                    .withPrimaryMethods(NotificationMethodsConverter.convertNotificationMethodsToSDK(apiSigner.getNotificationMethods().getPrimary()))
+                    .withPhoneNumber(apiSigner.getPhone()));
+        }
+
+
+        for (com.silanis.esl.api.model.AttachmentRequirement attachmentRequirement : apiRole.getAttachmentRequirements()) {
+            signerBuilder.withAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toSDKAttachmentRequirement());
+        }
+
+        final Signer signer = signerBuilder.build();
+
+        if (apiRole.evalLocked()) {
+            signer.setLocked(true);
+        }
+
+        final Map<String, Object> apiRoleData = apiRole.getData();
+        if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
+            final Object localLanguage = apiRoleData.get(Role.LOCAL_LANGUAGE_DATA_KEY);
+            if (localLanguage != null) {
+                signer.setLocalLanguage(localLanguage.toString());
+            }
+        }
+
+        return signer;
     }
 }
