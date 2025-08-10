@@ -1,11 +1,5 @@
 package com.silanis.esl.sdk.builder;
 
-import static com.silanis.esl.api.util.AdHocGroupUtils.AD_HOC_GROUP_EMAIL_SUFFIX;
-import static com.silanis.esl.sdk.AuthenticationMethod.IDV;
-import static com.silanis.esl.sdk.AuthenticationMethod.QASMS;
-import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
-import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
-
 import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.AttachmentRequirement;
 import com.silanis.esl.sdk.Authentication;
@@ -30,13 +24,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.UUID;
+
+import static com.silanis.esl.sdk.AuthenticationMethod.IDV;
+import static com.silanis.esl.sdk.AuthenticationMethod.QASMS;
+import static com.silanis.esl.sdk.AuthenticationMethod.SSO;
+import static com.silanis.esl.sdk.builder.SignerBuilder.AuthenticationBuilder.newAuthenticationWithMethod;
 
 
 /**
  * <p>The SignerBuilder class is a convenient class used to create and customize a signer.</p>
  */
-final public class SignerBuilder {
+public final class SignerBuilder {
 
     public static final int DEFAULT_SIGNING_ORDER = 0;
 
@@ -57,7 +55,7 @@ final public class SignerBuilder {
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
     private String placeholderName = null;
-    private List<AttachmentRequirement> attachments = new ArrayList<AttachmentRequirement>();
+    private List<AttachmentRequirement> attachments = new ArrayList<>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
     private boolean isAdhocGroupSigner = false;
@@ -796,7 +794,11 @@ final public class SignerBuilder {
         public static final String CHALLENGE_CHALLENGE_TYPE = "CHALLENGE";
         private String question;
         private String challengeType;
-        private final List<Challenge> challenges = new ArrayList<Challenge>();
+        private final List<Challenge> challenges = new ArrayList<>();
+
+
+        public QASMSBuilder() {
+        }
 
         /**
          * Challenge builder constructor.
@@ -804,8 +806,6 @@ final public class SignerBuilder {
          * @param question      the question @size(min="1", max="255")
          * @param challengeType
          */
-        public QASMSBuilder() {
-        }
         public QASMSBuilder(String question, String challengeType) {
             this.question = question;
             this.challengeType = challengeType;
@@ -886,7 +886,7 @@ final public class SignerBuilder {
 
         /**
          * Add answer to the first and second question with mask input. Must be invoked in order
-         * in order to provide the first question's answer and the second
+         * to provide the first question's answer and the second
          * question's answer.
          *
          * <p>
