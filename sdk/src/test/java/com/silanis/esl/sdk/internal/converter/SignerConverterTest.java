@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import com.silanis.esl.api.model.*;
+import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import org.junit.Test;
@@ -197,6 +198,67 @@ public class SignerConverterTest implements ConverterTest {
         assertThat("ID was not set correctly", apiRole.getId(), is(roleId));
         assertThat("Name was not set correctly", apiRole.getName(), is(roleId));
         assertThat("Message was not set correctly", apiRole.getEmailMessage(), nullValue());
+    }
+
+    @Test
+    public void convertAPIRoleToSDKAdHocGroupSigner() {
+        apiRole = createTypicalAPIAdHocGroupRole();
+        apiSigner1 = apiRole.getSigners().get(0);
+
+        sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
+
+        assertThat("Converter returned a null sdk object for a non null api object", sdkSigner1, notNullValue());
+        assertThat("Email was not correctly set", sdkSigner1.getEmail(), is(apiSigner1.getEmail()));
+        assertThat("First name was not correctly set", sdkSigner1.getGroup().getName(), is(apiSigner1.getFirstName()));
+        assertThat("Company was not correctly set", sdkSigner1.getCompany(), is(apiSigner1.getCompany()));
+        assertThat("Language was not correctly set", sdkSigner1.getLanguage().getLanguage(), is(apiSigner1.getLanguage()));
+        assertThat("SignerType was not correctly set", sdkSigner1.getSignerType(), is(apiSigner1.getSignerType()));
+        assertThat("isAdhocGroupSigner was not correctly set", sdkSigner1.getSignerType(), is(AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE));
+        assertThat("Group was not correctly set", sdkSigner1.getGroup(), notNullValue());
+        assertThat("Group name was not correctly set", sdkSigner1.getGroup().getName(), is(apiSigner1.getGroup().getName()));
+        assertThat("Group members were not correctly set", sdkSigner1.getGroup().getMembers(), hasSize(1));
+        assertThat("Group member email was not correctly set", sdkSigner1.getGroup().getMembers().get(0).getEmail(), is(apiSigner1.getGroup().getMembers().get(0).getEmail()));
+        assertThat("Custom ID was not correctly set", sdkSigner1.getId(), is(apiSigner1.getId()));
+        assertThat("Role ID was not correctly set", sdkSigner1.getId(), is(apiRole.getId()));
+        assertThat("Signing order was not correctly set", sdkSigner1.getSigningOrder(), is(apiRole.getIndex()));
+        assertThat("Can change signer was not correctly set", sdkSigner1.canChangeSigner(), is(apiRole.getReassign()));
+        assertThat("Email message was not correctly set", sdkSigner1.getMessage(), is(apiRole.getEmailMessage().getContent()));
+        assertThat("Locked was not correctly set", sdkSigner1.isLocked(), is(apiRole.getLocked()));
+    }
+
+    private com.silanis.esl.api.model.Role createTypicalAPIAdHocGroupRole() {
+        final com.silanis.esl.api.model.Role role = new com.silanis.esl.api.model.Role();
+        role.setId("signerId");
+        role.setIndex(1);
+        role.setReassign(true);
+        final BaseMessage message = new BaseMessage();
+        message.setContent("Ad-hoc group message");
+        role.setEmailMessage(message);
+        role.setLocked(true);
+
+        final com.silanis.esl.api.model.Signer signer = new com.silanis.esl.api.model.Signer();
+        signer.setEmail(AdHocGroupUtils.generateAdHocGroupEmail());
+        signer.setFirstName("AdHocGroup");
+        signer.setCompany("AdHocCompany");
+        signer.setLanguage("en");
+        signer.setSignerType(AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE);
+        signer.setId("signerId");
+
+        final com.silanis.esl.api.model.Group group = new com.silanis.esl.api.model.Group();
+        group.setName("AdHocGroup");
+        final com.silanis.esl.api.model.GroupMember member = new com.silanis.esl.api.model.GroupMember();
+        member.setEmail("member@email.com");
+        member.setFirstName("MemberFirstName");
+        member.setLastName("MemberLastName");
+        member.setMemberType("REGULAR");
+        group.addMember(member);
+        signer.setGroup(group);
+
+        final List<com.silanis.esl.api.model.Signer> signers = new ArrayList<>();
+        signers.add(signer);
+        role.setSigners(signers);
+
+        return role;
     }
 
     /**

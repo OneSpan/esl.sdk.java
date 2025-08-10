@@ -97,41 +97,10 @@ public class SignerConverter {
 
         if (AdHocGroupUtils.isAdHocGroupEmail(sdkSigner.getEmail())) {
             result.setSignerType(sdkSigner.getSignerType());
-            result.setGroup(convert2Group(sdkSigner.getGroup()));
+            result.setGroup(new GroupConverter(sdkSigner.getGroup()).toAPIGroup());
         }
 
         return result;
-    }
-
-    /**
-     * Converts an SDK Group object to an API Group object.
-     *
-     * @param group the SDK Group object to convert
-     * @return the converted API Group object, or null if the input group is null
-     */
-    private Group convert2Group(final com.silanis.esl.sdk.Group group) {
-        if (group != null) {
-            final Group result = new Group();
-            group.getMembers().forEach(member -> {
-                final GroupMember groupMember = new GroupMember();
-                groupMember.setUserId(member.getUserId());
-                if (StringUtils.isNotBlank(member.getEmail())) {
-                    groupMember.setEmail(member.getEmail());
-                }
-                if (StringUtils.isNotBlank(member.getFirstName())) {
-                    groupMember.setFirstName(member.getFirstName());
-                }
-                if (StringUtils.isNotBlank(member.getLastName())) {
-                    groupMember.setLastName(member.getLastName());
-                }
-                groupMember.setMemberType(member.getGroupMemberType().name());
-                result.addMember(groupMember);
-            });
-            result.setName(group.getName());
-            return result;
-        } else {
-            return null;
-        }
     }
 
     private Signer newRegularSignerFromAPIRole() {
@@ -200,39 +169,6 @@ public class SignerConverter {
         }
 
         return signer;
-    }
-
-    /**
-     * Converts an API Group object to an SDK Group object.
-     *
-     * @param group the API Group object to convert
-     * @return the converted SDK Group object, or null if the input group is null
-     */
-    private com.silanis.esl.sdk.Group convert2SdkGroup(final Group group) {
-        if (group != null) {
-            final List<com.silanis.esl.sdk.GroupMember> groupMembers = group.getMembers().stream().map(member -> {
-                final com.silanis.esl.sdk.GroupMember groupMember = new com.silanis.esl.sdk.GroupMember();
-                groupMember.setUserId(member.getUserId());
-                if (StringUtils.isNotBlank(member.getEmail())) {
-                    groupMember.setEmail(member.getEmail());
-                }
-                if (StringUtils.isNotBlank(member.getFirstName())) {
-                    groupMember.setFirstName(member.getFirstName());
-                }
-                if (StringUtils.isNotBlank(member.getLastName())) {
-                    groupMember.setLastName(member.getLastName());
-                }
-                groupMember.setGroupMemberType(GroupMemberType.valueOf(member.getMemberType()));
-                return groupMember;
-            }).collect(Collectors.toList());
-
-            final com.silanis.esl.sdk.Group result = new com.silanis.esl.sdk.Group();
-            result.setName(group.getName());
-            result.setMembers(groupMembers);
-            return result;
-        } else {
-            return null;
-        }
     }
 
     private Signer newSignerPlaceholderFromAPIRole() {
@@ -400,23 +336,16 @@ public class SignerConverter {
      * @return a new SDK Signer object configured for ad-hoc group signing
      */
     private Signer newAdHocGroupSignerFromAPIRole() {
-        SignerBuilder signerBuilder;
-
-        if (isAdHocGroupSigner(apiSigner)) {
-            signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
-                    .withFirstName(apiSigner.getFirstName())
-                    .withCompany(apiSigner.getCompany())
-                    .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
-                    .withAdhocGroupSigner(true)
-                    .withSignerType(AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE)
-                    .withGroup(convert2SdkGroup(apiSigner.getGroup()))
-                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
-            if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
-                signerBuilder.deliverSignedDocumentsByEmail();
-            }
-        } else {
-            signerBuilder = SignerBuilder.newSignerFromGroup(
-                    new GroupId(apiSigner.getGroup().getId()));
+        final SignerBuilder signerBuilder = SignerBuilder.newSignerWithEmail(apiSigner.getEmail())
+                .withFirstName(apiSigner.getFirstName())
+                .withCompany(apiSigner.getCompany())
+                .withLanguage(LocaleConverter.convertToLocale(apiSigner.getLanguage()))
+                .withAdhocGroupSigner(true)
+                .withSignerType(AdHocGroupUtils.AD_HOC_GROUP_SIGNER_TYPE)
+                .withGroup(new GroupConverter(apiSigner.getGroup()).toSDKGroup())
+                .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
+        if (apiSigner.getDelivery() != null && apiSigner.getDelivery().getEmail()) {
+            signerBuilder.deliverSignedDocumentsByEmail();
         }
 
         signerBuilder.withCustomId(apiSigner.getId())
