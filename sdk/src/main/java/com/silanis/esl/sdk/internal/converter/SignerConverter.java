@@ -103,6 +103,12 @@ public class SignerConverter {
         return result;
     }
 
+    /**
+     * Converts an SDK Group object to an API Group object.
+     *
+     * @param group the SDK Group object to convert
+     * @return the converted API Group object, or null if the input group is null
+     */
     private Group convert2Group(final com.silanis.esl.sdk.Group group) {
         if (group != null) {
             final Group result = new Group();
@@ -196,6 +202,12 @@ public class SignerConverter {
         return signer;
     }
 
+    /**
+     * Converts an API Group object to an SDK Group object.
+     *
+     * @param group the API Group object to convert
+     * @return the converted SDK Group object, or null if the input group is null
+     */
     private com.silanis.esl.sdk.Group convert2SdkGroup(final Group group) {
         if (group != null) {
             final List<com.silanis.esl.sdk.GroupMember> groupMembers = group.getMembers().stream().map(member -> {
@@ -373,6 +385,20 @@ public class SignerConverter {
         return role;
     }
 
+    /**
+     * Creates a new SDK Signer object from an API Role for ad-hoc group signers.
+     * <p>
+     * This method handles the conversion of API Role objects that represent ad-hoc group signers
+     * into SDK Signer objects. Ad-hoc groups are temporary groups created for specific signing
+     * purposes and can contain multiple members.
+     * <p>
+     * The method builds a SignerBuilder with appropriate configuration based on whether the
+     * API signer is an ad-hoc group signer or a regular group signer, then applies common
+     * role properties like signing order, reassignment permissions, email messages, and
+     * authentication settings.
+     *
+     * @return a new SDK Signer object configured for ad-hoc group signing
+     */
     private Signer newAdHocGroupSignerFromAPIRole() {
         SignerBuilder signerBuilder;
 
