@@ -651,13 +651,20 @@ public class PackageService extends EslComponent {
      * @throws EslException
      */
     public Role addRole(PackageId packageId, Role role) throws EslException {
-        final String roleJson = JacksonUtil.serializeDirty(role);
-        return this.addRole(packageId, roleJson);
-    }
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_PATH)
+                .replace("{packageId}", packageId.getId())
+                .build();
 
-    public Role addAdhocRole(PackageId packageId, Role role) throws EslException {
-        final String roleJson = JacksonUtil.serialize(role);
-        return this.addRole(packageId, roleJson);
+        String roleJson = JacksonUtil.serializeDirty(role);
+        String stringResponse;
+        try {
+            stringResponse = getClient().post(path, roleJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add role.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not add role.", e);
+        }
+        return Serialization.fromJson(stringResponse, Role.class);
     }
 
     /**
@@ -668,18 +675,22 @@ public class PackageService extends EslComponent {
      * @return The updated role
      * @throws EslException
      */
-    public Role updateRole(final PackageId packageId,
-        final Role role) throws EslException {
-        final String roleJson = JacksonUtil.serializeDirty(role);
+    public Role updateRole(PackageId packageId, Role role) throws EslException {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_ID_PATH)
+                .replace("{packageId}", packageId.getId())
+                .replace("{roleId}", role.getId())
+                .build();
 
-        return this.updateRole(packageId, role, roleJson);
-    }
-
-    public Role updateAdhocRole(final PackageId packageId,
-        final Role role) throws EslException {
-        final String roleJson = JacksonUtil.serialize(role);
-
-        return this.updateRole(packageId, role, roleJson);
+        String roleJson = JacksonUtil.serializeDirty(role);
+        String stringResponse;
+        try {
+            stringResponse = getClient().put(path, roleJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update role", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update role", e);
+        }
+        return Serialization.fromJson(stringResponse, Role.class);
     }
 
     /**
@@ -1327,10 +1338,10 @@ public class PackageService extends EslComponent {
     public String getSigningUrl(PackageId packageId, String signerId) {
         Package aPackage = getApiPackage(packageId.getId());
 
-        return getSigningUrl(packageId, addRole(aPackage, signerId));
+        return getSigningUrl(packageId, getRole(aPackage, signerId));
     }
 
-    private Role addRole(Package apiPackage, String sigenrId) {
+    private Role getRole(Package apiPackage, String sigenrId) {
         for(Role role : apiPackage.getRoles()) {
             for(Signer signer : role.getSigners()) {
                 if(signer.getId().equals(sigenrId)) {
@@ -1591,39 +1602,5 @@ public class PackageService extends EslComponent {
         com.silanis.esl.api.model.ReferencedConditions apiReferencedConditions = Serialization
             .fromJson(stringResponse, com.silanis.esl.api.model.ReferencedConditions.class);
         return ReferencedConditionsConverter.toSDK(apiReferencedConditions);
-    }
-
-    private Role addRole(final PackageId packageId,
-        final String roleJson) {
-        final String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_PATH)
-            .replace("{packageId}", packageId.getId())
-            .build();
-
-        String stringResponse;
-        try {
-            stringResponse = getClient().post(path, roleJson);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not add role.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not add role.", e);
-        }
-        return Serialization.fromJson(stringResponse, Role.class);
-    }
-
-    private Role updateRole(PackageId packageId, Role role, String roleJson) {
-        final String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_ID_PATH)
-            .replace("{packageId}", packageId.getId())
-            .replace("{roleId}", role.getId())
-            .build();
-
-        String stringResponse;
-        try {
-            stringResponse = getClient().put(path, roleJson);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not update role", e);
-        } catch (Exception e) {
-            throw new EslException("Could not update role", e);
-        }
-        return Serialization.fromJson(stringResponse, Role.class);
     }
 }

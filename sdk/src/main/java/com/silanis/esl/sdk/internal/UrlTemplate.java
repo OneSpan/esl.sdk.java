@@ -220,10 +220,6 @@ public class UrlTemplate {
     // User Account Roles
     public static final String ACCOUNT_SENDERS_ROLES_PATH = "/account/senders/{userId}/roles";
 
-    //Adhoc Groups
-    public static final String ADHOC_GROUPS_PATH = "/packages/{packageId}/groups";
-    public static final String ADHOC_GROUPS_ROLE_PATH = "/packages/{packageId}/groups/{groupRoleId}";
-
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
