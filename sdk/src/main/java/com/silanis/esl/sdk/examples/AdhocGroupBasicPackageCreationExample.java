@@ -18,7 +18,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 /**
  * Example class demonstrating how to create a document package with an ad-hoc group signer.
  * This class shows how to set up a package containing multiple signers including an ad-hoc group
- * with three members (two signers and one account owner) in a single HTTP call.
+ * with two members in a single HTTP call.
  * <p>
  * The example creates a package with:
  * Multiple individual signers with custom properties
