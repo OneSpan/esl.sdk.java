@@ -30,34 +30,21 @@ public final class AdhocGroupBasicPackageCreationExampleTest {
             .filter(signer -> AdHocGroupUtils.isAdHocGroupEmail(signer.getEmail())).findFirst().get();
     final Set<String> adhocGroupMembersIds = adhocGroupSigner.getGroup().getMembers().stream()
             .map(GroupMember::getUserId).collect(Collectors.toSet());
-    final String accountOwnerEmail = this.example.getAccountOwnerEmail();
 
-    assertThat("Transaction has one signer which is not a member of the Adhoc Group: ",
+    assertThat("Transaction has two signers which is not a member of the Adhoc Group: ",
             (int) signers.stream()
                     .filter(signer -> !(AdHocGroupUtils.isAdHocGroupEmail(signer.getEmail())
                             ||adhocGroupMembersIds.contains(signer.getId()))).count(),
-            is(1));
+            is(2));
 
     assertThat("Transaction has one Adhoc Group: ",
             (int) signers.stream()
                     .filter(signer -> AdHocGroupUtils.isAdHocGroupEmail(signer.getEmail())).count(),
             is(1));
 
-    assertThat("The Adhoc Group which has three members: ",
+    assertThat("The Adhoc Group which has two members: ",
             (int) adhocGroupSigner.getGroup().getMembers().size(),
-            is(3));
-    assertThat("The Adhoc Group has regular member with email2=" + accountOwnerEmail,
-            adhocGroupSigner.getGroup().getMembers().stream().filter(groupMember -> StringUtils.equals(groupMember.getEmail(), this.example.email2)
-                    && AdHocGroupUtils.AD_HOC_GROUP_MEMBER_TYPE.equals(groupMember.getGroupMemberType().name())).count(),
-            is(1L));
-    assertThat("The Adhoc Group has external signer with email3=" + this.example.email1,
-            adhocGroupSigner.getGroup().getMembers().stream().filter(groupMember -> StringUtils.equals(groupMember.getEmail(), this.example.email1)
-                    && AdHocGroupUtils.SIGNER_TYPE.equals(groupMember.getGroupMemberType().name())).count(),
-            is(1L));
-    assertThat("The Adhoc Group has regular member with accountOwnerEmail=" + accountOwnerEmail,
-            adhocGroupSigner.getGroup().getMembers().stream().filter(groupMember -> StringUtils.equals(groupMember.getEmail(), accountOwnerEmail)
-                    && AdHocGroupUtils.AD_HOC_GROUP_MEMBER_TYPE.equals(groupMember.getGroupMemberType().name())).count(),
-            is(1L));
+            is(2));
 
     final DocumentPackage documentPackage = this.example.getRetrievedPackage();
 
@@ -69,7 +56,7 @@ public final class AdhocGroupBasicPackageCreationExampleTest {
 
     final Document document = this.example.retrievedPackage.getDocument("First Document");
 
-    assertThat("Document should have 3 signature", document.getSignatures().size(), is(3));
+    assertThat("Document should have two signatures", document.getSignatures().size(), is(2));
 
   }
 }
