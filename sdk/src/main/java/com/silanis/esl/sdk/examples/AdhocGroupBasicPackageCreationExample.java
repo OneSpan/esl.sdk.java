@@ -1,14 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.GroupMemberType;
-import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.Placeholder;
-import com.silanis.esl.sdk.Sender;
-import com.silanis.esl.sdk.SenderStatus;
-import com.silanis.esl.sdk.SenderType;
 import com.silanis.esl.sdk.Visibility;
 import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.GroupBuilder;
@@ -69,7 +64,6 @@ public class AdhocGroupBasicPackageCreationExample extends SDKSample {
                         .withFirstName("John")
                         .withLastName("Doggett")
                         .withCompany("FBI")
-                        .signingOrder(1)
                 )
                 .withSigner(newAdHocGroupSigner()
                         .withCustomId(ADHOC_GROUP_ID)
@@ -82,7 +76,6 @@ public class AdhocGroupBasicPackageCreationExample extends SDKSample {
                                         .withUserId(AGENT_2).as(GroupMemberType.AD_HOC_GROUP_MEMBER)
                                         .build())
                                 .build())
-                        .signingOrder(3)
                 )
                 .withDocument(newDocumentWithName("First Document")
                         .fromStream(documentInputStream1, DocumentType.PDF)
