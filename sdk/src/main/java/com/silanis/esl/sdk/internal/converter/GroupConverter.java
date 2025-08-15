@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.GroupMember;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.builder.GroupBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * User: jessica
@@ -104,7 +105,7 @@ public class GroupConverter {
             builder = builder.withoutIndividualMemberEmailing();
         }
 
-        if (apiGroup.getId() != null) {
+        if (StringUtils.isNotBlank(apiGroup.getId())) {
             builder.withId(new GroupId(apiGroup.getId()));
         }
 

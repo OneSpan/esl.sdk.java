@@ -28,6 +28,15 @@ public class GroupMemberBuilder {
     }
 
     /**
+     * Create a new ad hoc group member without an email address.
+     * An ad hoc group member is a temporary member that can be created without specifying an email initially.
+     * @return the group member builder itself
+     */
+    public static GroupMemberBuilder newAdHocGroupMember() {
+        return new GroupMemberBuilder(null);
+    }
+
+    /**
      * Set the group member's type. A group member can be a regular member or a manager.
      * <p>A group manager has privileges to invite new members to the group and update the group.</p>
      *

@@ -9,6 +9,8 @@ public class GroupMemberType extends EslEnumeration {
 
     public static final GroupMemberType REGULAR = new GroupMemberType("REGULAR", "REGULAR", 0);
     public static final GroupMemberType MANAGER = new GroupMemberType("MANAGER", "MANAGER", 1);
+    public static final GroupMemberType SIGNER = new GroupMemberType("SIGNER", "SIGNER", 2);
+    public static final GroupMemberType AD_HOC_GROUP_MEMBER = new GroupMemberType("AD_HOC_GROUP_MEMBER", "AD_HOC_GROUP_MEMBER", 3);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -26,6 +28,8 @@ public class GroupMemberType extends EslEnumeration {
         sdkValues = new HashMap<String, GroupMemberType>();
         sdkValues.put(REGULAR.name(), REGULAR);
         sdkValues.put(MANAGER.name(), MANAGER);
+        sdkValues.put(SIGNER.name(), SIGNER);
+        sdkValues.put(AD_HOC_GROUP_MEMBER.name(), AD_HOC_GROUP_MEMBER);
     }
 
     private GroupMemberType(String apiValue, String sdkValue, int index) {
