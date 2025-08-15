@@ -51,7 +51,7 @@ public class AdhocGroupExample extends SDKSample {
                         .withFirstName("John")
                         .withLastName("Smith")
                         .withCompany("Acme Inc.")
-                        .withSmsSentTo("5555555555")
+                        .withSmsSentTo("1234567890")
                 )
                 .withSigner(newSignerWithEmail(email2)
                         .withCustomId(SIGNER_2)
