@@ -26,17 +26,17 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Document signatures positioned at specific coordinates
  * Package visibility and attributes configuration
  */
-public class AdhocGroupBasicPackageCreationExample extends SDKSample {
+public class AdhocGroupExample extends SDKSample {
 
     public static final String ADHOC_GROUP_ID = "adhoc-group-id";
-    public static final String AGENT_1 = "agent1";
-    public static final String AGENT_2 = "agent2";
-    public static final String AGENT_3 = "agent3";
+    public static final String SIGNER_1 = "signer1";
+    public static final String SIGNER_2 = "signer2";
+    public static final String SIGNER_3 = "signer3";
 
-    public static final String ADHOC_GROUP_NAME = "Adhoc Group X-Files";
+    public static final String ADHOC_GROUP_NAME = "Adhoc Group";
 
     public static void main(String... args) {
-        new AdhocGroupBasicPackageCreationExample().run();
+        new AdhocGroupExample().run();
     }
 
     public void execute() {
@@ -47,33 +47,33 @@ public class AdhocGroupBasicPackageCreationExample extends SDKSample {
                         .withAttribute("senderVisible", Boolean.FALSE)
                         .build())
                 .withSigner(newSignerWithEmail(email1)
-                        .withCustomId(AGENT_1)
-                        .withFirstName("Fox")
-                        .withLastName("Mulder")
-                        .withCompany("FBI")
-                        .withSmsSentTo("5144301408")
+                        .withCustomId(SIGNER_1)
+                        .withFirstName("John")
+                        .withLastName("Smith")
+                        .withCompany("Acme Inc.")
+                        .withSmsSentTo("5555555555")
                 )
                 .withSigner(newSignerWithEmail(email2)
-                        .withCustomId(AGENT_2)
-                        .withFirstName("Dana")
-                        .withLastName("Scully")
-                        .withCompany("FBI")
+                        .withCustomId(SIGNER_2)
+                        .withFirstName("Olivia")
+                        .withLastName("Brown")
+                        .withCompany("Acme Inc.")
                 )
                 .withSigner(newSignerWithEmail(email3)
-                        .withCustomId(AGENT_3)
-                        .withFirstName("John")
-                        .withLastName("Doggett")
-                        .withCompany("FBI")
+                        .withCustomId(SIGNER_3)
+                        .withFirstName("James")
+                        .withLastName("Johnson")
+                        .withCompany("Acme Inc.")
                 )
                 .withSigner(newAdHocGroupSigner()
                         .withCustomId(ADHOC_GROUP_ID)
                         .withGroup(GroupBuilder.newGroup(ADHOC_GROUP_NAME)
                                 .withMember(GroupMemberBuilder.newAdHocGroupMember()
-                                        .withUserId(AGENT_1)
+                                        .withUserId(SIGNER_1)
                                         .as(GroupMemberType.AD_HOC_GROUP_MEMBER)
                                         .build())
                                 .withMember(GroupMemberBuilder.newAdHocGroupMember()
-                                        .withUserId(AGENT_2).as(GroupMemberType.AD_HOC_GROUP_MEMBER)
+                                        .withUserId(SIGNER_2).as(GroupMemberType.AD_HOC_GROUP_MEMBER)
                                         .build())
                                 .build())
                 )

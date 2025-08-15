@@ -5,7 +5,6 @@ import com.silanis.esl.sdk.Document;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.GroupMember;
 import com.silanis.esl.sdk.Signer;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.util.List;
@@ -18,8 +17,8 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public final class AdhocGroupBasicPackageCreationExampleTest {
-  final AdhocGroupBasicPackageCreationExample example = new AdhocGroupBasicPackageCreationExample();
+public final class AdhocGroupExampleTest {
+  final AdhocGroupExample example = new AdhocGroupExample();
 
   @Test
   public void verifyResult() {
