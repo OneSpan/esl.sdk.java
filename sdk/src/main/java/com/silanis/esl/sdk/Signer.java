@@ -31,6 +31,7 @@ public class Signer implements Serializable {
     private List<AttachmentRequirement> attachments;
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
+    private Group group;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -392,5 +393,13 @@ public class Signer implements Serializable {
 
     public NotificationMethods getNotificationMethods() {
         return notificationMethods;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group=group;
     }
 }
