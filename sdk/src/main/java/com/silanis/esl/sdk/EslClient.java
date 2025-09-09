@@ -21,12 +21,15 @@ import com.silanis.esl.sdk.service.apiclient.AuthenticationTokensApiClient;
 import com.silanis.esl.sdk.service.apiclient.CustomFieldApiClient;
 import com.silanis.esl.sdk.service.apiclient.EventNotificationApiClient;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -648,6 +651,10 @@ public class EslClient {
      */
     public DocumentPackage getPackage(PackageId packageId) {
         return packageService.getPackage(packageId);
+    }
+
+    public DocumentPackage getPackageWithExtensions(PackageId packageId, DocumentPackageRequestExtension... extensions) {
+        return packageService.getPackage(packageId, new HashSet<>(Arrays.asList(extensions)));
     }
 
     /**

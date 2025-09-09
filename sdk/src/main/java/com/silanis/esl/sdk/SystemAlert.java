@@ -9,15 +9,6 @@ public class SystemAlert implements Serializable {
     private String defaultMessage;
     private Map<String, String> parameters;
 
-    public SystemAlert() {
-    }
-
-    public SystemAlert(SeverityLevel severityLevel, String code, String defaultMessage) {
-        this.severityLevel = severityLevel;
-        this.code = code;
-        this.defaultMessage = defaultMessage;
-    }
-
     public enum SeverityLevel {
         INFO,
         WARNING,
