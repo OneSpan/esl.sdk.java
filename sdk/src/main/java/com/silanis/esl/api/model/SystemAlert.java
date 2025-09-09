@@ -36,7 +36,6 @@ public class SystemAlert extends Model {
 
     public SystemAlert setSeverityLevel(SeverityLevel value) {
         throwOnNull(FIELD_SEVERITY_LEVEL, value);
-        // TODO: String value????
         this.severityLevel = value;
         setDirty(FIELD_SEVERITY_LEVEL);
         return this;
