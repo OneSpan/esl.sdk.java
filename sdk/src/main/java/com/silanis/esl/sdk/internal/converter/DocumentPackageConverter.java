@@ -15,6 +15,7 @@ import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.SenderInfo;
 import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.SystemAlert;
 import com.silanis.esl.sdk.builder.DocumentPackageAttributesBuilder;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 
@@ -279,7 +280,13 @@ public class DocumentPackageConverter {
             }
             documentPackage.setConditions(conditions);
         }
-
+        if (apiPackage.getAlerts() != null) {
+            ArrayList<SystemAlert> alerts = new ArrayList<>();
+            for (com.silanis.esl.api.model.SystemAlert apiAlert : apiPackage.getAlerts()) {
+                alerts.add(new SystemAlertConverter(apiAlert).toSDKSystemAlert());
+            }
+            documentPackage.setAlerts(alerts);
+        }
         return documentPackage;
     }
 

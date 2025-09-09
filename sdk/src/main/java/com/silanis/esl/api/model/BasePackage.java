@@ -67,6 +67,8 @@ public class BasePackage extends Entity
     public static final String FIELD_TIMEZONE_ID = "timezoneId";
     @JsonIgnore
     private static final String FIELD_CONDITIONS = "conditions";
+    @JsonIgnore
+    private static final String FIELD_ALERTS = "alerts";
     
     // Empty Constructor
     public BasePackage ( ) {}
@@ -94,7 +96,7 @@ public class BasePackage extends Entity
     protected java.util.Date _created;
     protected String _timezoneId;
     protected List<FieldCondition> conditions;
-    
+    protected List<SystemAlert> alerts;
     // Accessors
         
     
@@ -592,5 +594,16 @@ public class BasePackage extends Entity
 
     public List<FieldCondition> getConditions() {
         return conditions;
+    }
+
+    public BasePackage setAlerts(List<SystemAlert> value) {
+
+        this.alerts = value;
+        setDirty(FIELD_ALERTS);
+        return this;
+    }
+
+    public List<SystemAlert> getAlerts() {
+        return alerts;
     }
 }
