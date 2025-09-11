@@ -36,6 +36,7 @@ public class DocumentPackage implements Serializable {
     private Visibility visibility;
     private String timezoneId;
     private List<FieldCondition> conditions;
+    private List<SystemAlert> alerts;
 
     /**
      * @param name         the name of the package
@@ -378,4 +379,8 @@ public class DocumentPackage implements Serializable {
     public List<FieldCondition> getConditions() { return conditions; }
 
     public void setConditions(List<FieldCondition> conditions) { this.conditions = conditions; }
+
+    public List<SystemAlert> getAlerts() { return alerts; }
+
+    public void setAlerts(List<SystemAlert> alerts) { this.alerts = alerts; }
 }

@@ -17,6 +17,7 @@ import com.silanis.esl.api.model.SigningUrl;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.DocumentId;
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.DocumentPackageRequestExtension;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.FastTrackRole;
 import com.silanis.esl.sdk.FastTrackSigner;
@@ -262,9 +263,12 @@ public class PackageService extends EslComponent {
 
     public DocumentPackage getPackage(PackageId packageId) {
         Package aPackage = getApiPackage(packageId.getId());
-        DocumentPackage documentPackage = packageConverter(aPackage).toSDKPackage();
+        return packageConverter(aPackage).toSDKPackage();
+    }
 
-        return documentPackage;
+    public DocumentPackage getPackage(PackageId packageId, Set<DocumentPackageRequestExtension> extensions) {
+        Package aPackage = getApiPackage(packageId.getId(), extensions);
+        return packageConverter(aPackage).toSDKPackage();
     }
 
     public List<com.silanis.esl.sdk.Document> getDocuments(PackageId packageId, String signerId) {
@@ -296,6 +300,10 @@ public class PackageService extends EslComponent {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_ID_PATH)
                 .replace("{packageId}", packageId)
                 .build();
+        return getApiPackageWithPath(path);
+    }
+
+    private Package getApiPackageWithPath(String path) {
         String stringResponse;
         try {
             stringResponse = getClient().get(path);
@@ -306,6 +314,26 @@ public class PackageService extends EslComponent {
         }
 
         return Serialization.fromJson(stringResponse, Package.class);
+    }
+
+    /**
+     * Retrieves package with extensions if provided, otherwise retrieves package without extensions.
+     * @param packageId The package id
+     * @param extensions A set of extensions
+     * @return The package
+     * @throws EslException in case of an error
+     */
+    public Package getApiPackage(String packageId, Set<DocumentPackageRequestExtension> extensions) {
+        if (extensions == null || extensions.isEmpty()) {
+            return getApiPackage(packageId);
+        }
+
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_ID_WITH_EXTENSIONS_PATH)
+                .replace("{packageId}", packageId)
+                .replace("{extensions}", StringUtils.join(extensions.stream().map(DocumentPackageRequestExtension::getValue).toArray(), ","))
+                .build();
+
+        return getApiPackageWithPath(path);
     }
 
     /**
