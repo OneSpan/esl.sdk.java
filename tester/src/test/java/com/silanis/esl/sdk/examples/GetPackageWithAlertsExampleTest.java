@@ -11,7 +11,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 public class GetPackageWithAlertsExampleTest {
 
     @Test
-    public void testGetPackageWithAlertsExample() {
+    public void verifyResult() {
         GetPackageWithAlertsExample example = new GetPackageWithAlertsExample();
         example.run();
 

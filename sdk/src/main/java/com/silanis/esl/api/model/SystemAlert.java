@@ -11,13 +11,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SystemAlert extends Model {
     @JsonIgnore
-    public static final String FIELD_SEVERITY_LEVEL = "severityLevel";
+    private static final String FIELD_SEVERITY_LEVEL = "severityLevel";
     @JsonIgnore
-    public static final String FIELD_CODE = "code";
+    private static final String FIELD_CODE = "code";
     @JsonIgnore
-    public static final String FIELD_DEFAULT_MESSAGE = "defaultMessage";
+    private static final String FIELD_DEFAULT_MESSAGE = "defaultMessage";
     @JsonIgnore
-    public static final String FIELD_PARAMETERS = "parameters";
+    private static final String FIELD_PARAMETERS = "parameters";
 
     private SeverityLevel severityLevel;
     private String code;
