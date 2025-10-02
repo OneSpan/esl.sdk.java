@@ -12,7 +12,6 @@ import org.apache.commons.lang3.StringUtils;
  * User: jessica
  * Date: 02/12/13
  * Time: 9:46 AM
- * <p/>
  * Converter between SDK and API Group.
  */
 public class GroupConverter {

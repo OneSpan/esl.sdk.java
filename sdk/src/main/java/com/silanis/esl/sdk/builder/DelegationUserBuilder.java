@@ -22,7 +22,7 @@ public class DelegationUserBuilder {
     /**
      * Create a new delegation user.
      *
-     * @param email the email address uniquely identifying the delegation user. @size(min="6", max="255", valid email address)
+     * @param email the email address uniquely identifying the delegation user. size(min="6", max="255", valid email address)
      * @return the delegation user builder itself
      */
     public static DelegationUserBuilder newDelegationUser( String email ) {

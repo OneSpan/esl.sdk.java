@@ -34,7 +34,7 @@ public class PackageBuilder {
     /**
      * The constructor of the PackageBuilder class.
      *
-     * @param packageName the name of the package @size(min="1", max="255")
+     * @param packageName the name of the package size(min="1", max="255")
      */
     public PackageBuilder( String packageName ) {
         this.packageName = packageName;
@@ -43,7 +43,7 @@ public class PackageBuilder {
     /**
      * Creates a package having the package name set to the value of the name parameter.
      *
-     * @param name the package name @size(min="1", max="255")
+     * @param name the package name size(min="1", max="255")
      * @return a package builder
      */
     public static PackageBuilder newPackageNamed( String name ) {
@@ -221,7 +221,7 @@ public class PackageBuilder {
     /**
      * Sets the description for the package.
      *
-     * @param description package textual description @size(min="0", max="255")
+     * @param description package textual description size(min="0", max="255")
      * @return the package builder itself
      */
     public PackageBuilder describedAs( String description ) {
@@ -243,7 +243,7 @@ public class PackageBuilder {
     /**
      * <p>Adds an email message which will be sent to all the signers in the package.</p>
      *
-     * @param packageMessage the email message @size(max="255")
+     * @param packageMessage the email message size(max="255")
      * @return the package builder itself
      */
     public PackageBuilder withEmailMessage( String packageMessage ) {

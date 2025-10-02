@@ -65,7 +65,7 @@ public final class SignerBuilder {
     /**
      * <p>The constructor of the SignerBuilderClass.</p>
      *
-     * @param email the signer's email @size(min="6", max="255", valid email address)
+     * @param email the signer's email size(min="6", max="255", valid email address)
      */
     private SignerBuilder(String email) {
         if (email == null) {
@@ -102,7 +102,7 @@ public final class SignerBuilder {
     /**
      * <p>Creates a SignerBuilder object.</p>
      *
-     * @param email the signer's email @size(min="6", max="255", valid email address)
+     * @param email the signer's email size(min="6", max="255", valid email address)
      * @return the signer builder itself
      */
     public static SignerBuilder newSignerWithEmail(String email) {
@@ -151,7 +151,7 @@ public final class SignerBuilder {
      * <p>
      * E.g.: the signer's email makes for a good unique ID. john@do.com
      *
-     * @param id the signer's ID @size(min="1", max="255")
+     * @param id the signer's ID size(min="1", max="255")
      * @return the signer builder itself
      */
     public SignerBuilder withCustomId(String id) {
@@ -178,7 +178,7 @@ public final class SignerBuilder {
     /**
      * Sets the signer's first name.
      *
-     * @param firstName the signer's first name @size(min="1", max="255")
+     * @param firstName the signer's first name size(min="1", max="255")
      * @return the signer builder itself
      */
     public SignerBuilder withFirstName(String firstName) {
@@ -190,7 +190,7 @@ public final class SignerBuilder {
     /**
      * Sets the signer's last name.
      *
-     * @param lastName the signer's last name @size(min="1", max="255")
+     * @param lastName the signer's last name size(min="1", max="255")
      * @return the signer builder itself
      */
     public SignerBuilder withLastName(String lastName) {
@@ -373,7 +373,7 @@ public final class SignerBuilder {
      * ceremony, by providing an SMS PIN number that will have been sent by
      * OneSpan Sign to his phone.
      *
-     * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent @size(min="10", max="40")
+     * @param phoneNumber the signer's cellphone number to which the SMS PIN number will be sent size(min="10", max="40")
      * @return the signer builder object itself
      */
     public SignerBuilder withSmsSentTo(String phoneNumber) {
@@ -436,7 +436,7 @@ public final class SignerBuilder {
      * <p>Sets the signer's title.</p>
      * E.g.: Mr., Mrs., Ms., etc...
      *
-     * @param title the signer's title @size(min="0", max="255")
+     * @param title the signer's title size(min="0", max="255")
      * @return the signer builder object itself
      */
     public SignerBuilder withTitle(String title) {
@@ -448,7 +448,7 @@ public final class SignerBuilder {
     /**
      * <p>Sets the signer's company name.</p>
      *
-     * @param company the signer's company name @size(max="255")
+     * @param company the signer's company name size(max="255")
      * @return the signer builder object itself
      * @throws EslException throws an exception if signer is a group signer.
      */
@@ -486,7 +486,7 @@ public final class SignerBuilder {
     /**
      * Sets the signer's email message they will receive in the email invitation to start the signing ceremony.
      *
-     * @param message the message the signer will receive in the email invitation to start the signing ceremony @size(min="0", max="2000")
+     * @param message the message the signer will receive in the email invitation to start the signing ceremony size(min="0", max="2000")
      * @return the signet builder object itself
      */
     public SignerBuilder withEmailMessage(String message) {
@@ -642,7 +642,7 @@ public final class SignerBuilder {
         /**
          * Challenge builder constructor.
          *
-         * @param question the question @size(min="1", max="255")
+         * @param question the question size(min="1", max="255")
          */
         public ChallengeBuilder(String question) {
             this.question = question;
@@ -651,7 +651,7 @@ public final class SignerBuilder {
         /**
          * First question asked to the user when they log on to OneSpan Sign.
          *
-         * @param question the first question @size(min="1", max="255")
+         * @param question the first question size(min="1", max="255")
          * @return This
          */
         public static ChallengeBuilder firstQuestion(String question) {
@@ -661,7 +661,7 @@ public final class SignerBuilder {
         /**
          * Second question asked to the user when they log on to OneSpan Sign.
          *
-         * @param question the second question @size(min="1", max="255")
+         * @param question the second question size(min="1", max="255")
          * @return This
          */
         public ChallengeBuilder secondQuestion(String question) {
@@ -677,7 +677,7 @@ public final class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @param answer answer to the authentication questions size(min="1", max="255")
          * @return This
          * @see #firstQuestion(String)
          * @see #secondQuestion(String)
@@ -695,7 +695,7 @@ public final class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @param answer     answer to the authentication questions @size(min="1", max="255")
+         * @param answer     answer to the authentication questions size(min="1", max="255")
          * @param maskOption enable/disable masking of challenge
          * @return This
          * @see #firstQuestion(String)
@@ -715,7 +715,7 @@ public final class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @param answer answer to the authentication questions size(min="1", max="255")
          * @return This
          * @see #firstQuestion(String)
          * @see #secondQuestion(String)
@@ -748,7 +748,7 @@ public final class SignerBuilder {
          * SMS PIN number sent at the phone number defined below when the user
          * attempts to log in.
          *
-         * @param phoneNumber the phone number @size(min="10", max="40")
+         * @param phoneNumber the phone number size(min="10", max="40")
          */
         public SMSAuthenticationBuilder(String phoneNumber) {
             this.phoneNumber = phoneNumber;
@@ -803,7 +803,7 @@ public final class SignerBuilder {
         /**
          * Challenge builder constructor.
          *
-         * @param question      the question @size(min="1", max="255")
+         * @param question      the question size(min="1", max="255")
          * @param challengeType
          */
         public QASMSBuilder(String question, String challengeType) {
@@ -814,7 +814,7 @@ public final class SignerBuilder {
          /**
          * First question asked to the user when they log on to OneSpan Sign.
          *
-         * @param question the first question @size(min="1", max="255")
+         * @param question the first question size(min="1", max="255")
          * @param challengeType challenge type (CHALLENGE or SMS)
          * @return This
          */
@@ -825,7 +825,7 @@ public final class SignerBuilder {
         /**
          * Second question asked to the user when they log on to OneSpan Sign.
          *
-         * @param question the second question @size(min="1", max="255")
+         * @param question the second question size(min="1", max="255")
          * @param challengeType challenge type (CHALLENGE or SMS)
          * @return This
          */
@@ -838,7 +838,7 @@ public final class SignerBuilder {
         /**
          * sms challenge asked to the user when they log on to OneSpan Sign.
          *
-         * @param question the second question @size(min="1", max="255"): phoneNumber
+         * @param question the second question size(min="1", max="255"): phoneNumber
          * @return This
          */
         public QASMSBuilder smsPhoneNumber(String question) {
@@ -854,7 +854,7 @@ public final class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @param answer answer to the authentication questions size(min="1", max="255")
          * @return This
          * @see #firstQuestion(String, String)
          * @see #secondQuestion(String, String)
@@ -872,7 +872,7 @@ public final class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @param answer     answer to the authentication questions @size(min="1", max="255")
+         * @param answer     answer to the authentication questions size(min="1", max="255")
          * @param maskOption enable/disable masking of challenge
          * @return This
          * @see #firstQuestion(String, String)
@@ -892,7 +892,7 @@ public final class SignerBuilder {
          * <p>
          * It should not be invoked more than twice.
          *
-         * @param answer answer to the authentication questions @size(min="1", max="255")
+         * @param answer answer to the authentication questions size(min="1", max="255")
          * @return This
          * @see #firstQuestion(String, String)
          * @see #secondQuestion(String, String)

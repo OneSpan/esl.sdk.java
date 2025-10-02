@@ -6,7 +6,7 @@ import com.silanis.esl.sdk.Translation;
  * TranslationBuilder is a convenient class used to create
  * array of translations for a custom field.
  *
- * {@link CustomFieldBuilder#withTranslation(TranslationBuilder)
+ * {@link CustomFieldBuilder#withTranslation(TranslationBuilder)}
  */
 public class TranslationBuilder {
     private String name;
@@ -36,7 +36,7 @@ public class TranslationBuilder {
     /**
      * Set the translation of a custom field name.
      *
-     * @param name custom field name translation @size(max="255")
+     * @param name custom field name translation size(max="255")
      * @return This.
      */
     public TranslationBuilder withName( String name ) {
@@ -47,7 +47,7 @@ public class TranslationBuilder {
     /**
      * Set the translation of a custom field description
      *
-     * @param description custom field description translation @size(max="255")
+     * @param description custom field description translation size(max="255")
      * @return This
      */
     public TranslationBuilder withDescription( String description ) {

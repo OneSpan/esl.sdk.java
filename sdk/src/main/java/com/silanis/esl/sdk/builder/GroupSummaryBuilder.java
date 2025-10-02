@@ -18,7 +18,7 @@ public class GroupSummaryBuilder {
     /**
      * Create a new group summary.
      *
-     * @param email the email address uniquely identifying the group summary. @size(min="6", max="255", valid email address)
+     * @param email the email address uniquely identifying the group summary. size(min="6", max="255", valid email address)
      * @return the group summary builder itself
      */
     public static GroupSummaryBuilder newGroupSummary( String email ) {

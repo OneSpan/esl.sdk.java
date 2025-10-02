@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
  * User: jessica
  * Date: 02/12/13
  * Time: 1:50 PM
- * <p/>
  * Converter between SDK  and API group member type.
  */
 public class GroupMemberTypeConverter {

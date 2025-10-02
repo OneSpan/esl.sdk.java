@@ -12,7 +12,6 @@ import java.util.List;
 
 /**
  * Created by lena on 2014-05-28.
- * <p/>
  * Converter for API CompletionReport to SDK CompletionReport.
  */
 public class CompletionReportConverter {

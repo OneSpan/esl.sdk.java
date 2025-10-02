@@ -131,7 +131,7 @@ public class FieldValidatorBuilder {
      * Sets the error message returned to the end user should the validator not
      * validate the input.
      *
-     * @param errorMessage @size(max="255")
+     * @param errorMessage size(max="255")
      * @return
      */
     public FieldValidatorBuilder withErrorMessage( String errorMessage ) {
@@ -162,7 +162,7 @@ public class FieldValidatorBuilder {
     /**
      * Add an option to the options list
      * The first option of the list defines the group for the radio buttons
-     * @param option @size(max="255")
+     * @param option size(max="255")
      * @return
      */
     public FieldValidatorBuilder withOption( String option ) {

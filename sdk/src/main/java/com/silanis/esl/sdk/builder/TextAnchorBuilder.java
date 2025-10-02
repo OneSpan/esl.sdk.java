@@ -23,7 +23,7 @@ public class TextAnchorBuilder {
     /**
      * Creates a new textanchor for a given text string
      *
-     * @param anchorText the text string that MUST be present in the document. @size(max="255")
+     * @param anchorText the text string that MUST be present in the document. size(max="255")
      * @return This
      */
     public static TextAnchorBuilder newTextAnchor( String anchorText ) {
@@ -38,7 +38,7 @@ public class TextAnchorBuilder {
      * "signature:" in a document, this allows to indicate which occurrence we
      * are actually looking for.
      *
-     * @param occurence @min="0"
+     * @param occurence min="0"
      * @return This
      */
     public TextAnchorBuilder withOccurence( int occurence ) {
@@ -49,7 +49,7 @@ public class TextAnchorBuilder {
     /**
      * Set character index of the anchor text for which to position the signature relative to.
      *
-     * @param character the index of the anchor text character to position the signature @min="0"
+     * @param character the index of the anchor text character to position the signature min="0"
      * @return This
      */
     public TextAnchorBuilder withCharacter( int character ) {
@@ -77,8 +77,8 @@ public class TextAnchorBuilder {
      * {@link #atPosition(TextAnchorPosition)} where the signature or field will
      * be positioned.
      *
-     * @param x pixel offset @min="0"
-     * @param y pixel offset @min="0"
+     * @param x pixel offset min="0"
+     * @param y pixel offset min="0"
      * @return This
      */
     public TextAnchorBuilder withOffset( int x, int y ) {
@@ -89,8 +89,8 @@ public class TextAnchorBuilder {
 
     /**
      * Size, in pixel, of the signature of form field.
-     * @param width pixel width @min="0"
-     * @param height pixel height @min="0"
+     * @param width pixel width min="0"
+     * @param height pixel height min="0"
      * @return This
      */
     public TextAnchorBuilder withSize( int width, int height ) {

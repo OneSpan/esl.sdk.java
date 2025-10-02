@@ -225,8 +225,8 @@ public class FieldBuilder {
     /**
      * Sets the field at the position in pixel relative to the original document, specified by x and y coordinates
      *
-     * @param x the x coordinate of the top-left corner @min="0"
-     * @param y the y coordinate of the top-left corner @min="0"
+     * @param x the x coordinate of the top-left corner min="0"
+     * @param y the y coordinate of the top-left corner min="0"
      * @return the field builder itself
      */
     public FieldBuilder atPosition(double x, double y) {
@@ -238,8 +238,8 @@ public class FieldBuilder {
     /**
      * Sets the size, in pixel, of the field
      *
-     * @param width  the width of the field @min="0"
-     * @param height the height of the field @min="0"
+     * @param width  the width of the field min="0"
+     * @param height the height of the field min="0"
      * @return the field builder itself
      */
     public FieldBuilder withSize(double width, double height) {
@@ -265,7 +265,7 @@ public class FieldBuilder {
      * corresponding acrobat form field. This name is used when positioning form
      * fields based on their original position on the PDF document.
      *
-     * @param name the name of the field @size(max="255")
+     * @param name the name of the field size(max="255")
      * @return the field builder itself
      */
     public FieldBuilder withName(String name) {
@@ -384,7 +384,7 @@ public class FieldBuilder {
     /**
      * Set a field's value.
      *
-     * @param value String value of the field @size(max="255")
+     * @param value String value of the field size(max="255")
      * @return the field builder itself
      */
 

@@ -37,7 +37,6 @@ import static java.util.Arrays.asList;
  * <p>The EslClient class creates a OneSpan Sign client with the given api token and base url.</p>
  * <p>The base url can be the staging or production url.</p>
  * <p>For example: <a href="https://sandbox.esignlive.com/api">...</a></p>
- * <p/>
  * <p>Provides access to service classes such as PackageService to help create packages.</p>
  */
 public class EslClient {
@@ -151,7 +150,7 @@ public class EslClient {
     }
 
     /**
-     * @Deprecated Use EslClientProvider instead
+     * Deprecated Use EslClientProvider instead
      */
     @Deprecated
     public EslClient(OAuthTokenConfig tokenConfig, String baseURL, boolean allowAllSSLCertificates, ProxyConfiguration proxyConfiguration,
@@ -391,9 +390,7 @@ public class EslClient {
 
     /**
      * Creates the package in one step
-     * <p/>
      * WARNING: DOES NOT WORK WHEN SENDER HAS A SIGNATURE
-     *
      * @param documentPackage the document package
      * @return the package ID
      */

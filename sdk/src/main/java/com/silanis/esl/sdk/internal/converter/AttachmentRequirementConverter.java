@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by lena on 2014-05-09.
- * <p/>
+ * <p>
  * Converter between SDK AttachmentRequirement and API AttachmentRequirement.
  */
 public class AttachmentRequirementConverter {

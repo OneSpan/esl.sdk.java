@@ -12,7 +12,7 @@ import com.silanis.esl.sdk.builder.SignerBuilder;
 
 /**
  * 
- * Example of how to configure the Question&Answer and SMS authentication method for a signer. The answer is given for testing
+ * Example of how to configure the Question&amp;Answer and SMS authentication method for a signer. The answer is given for testing
  * purposes. Never include the answer when creating packages for actual customers.
  *
  */
