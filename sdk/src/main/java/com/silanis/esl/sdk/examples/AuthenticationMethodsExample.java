@@ -11,7 +11,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
 
 /**
- * Email, Q&A, and SMS authentication example.
+ * Email, Q&amp;A, and SMS authentication example.
  */
 public class AuthenticationMethodsExample extends SDKSample {
 

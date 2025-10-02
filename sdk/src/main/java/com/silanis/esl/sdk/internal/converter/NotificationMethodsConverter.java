@@ -62,9 +62,9 @@ public class NotificationMethodsConverter {
 
 
     /**
-     * Convert from SDK Set<NotificationMethod> to API </NotificationMethod>.
+     * Convert from SDK Set&lt;NotificationMethod&gt; to API &lt;NotificationMethod&gt;.
      *
-     * @return API </NotificationMethod>.
+     * @return API &lt;NotificationMethod&gt;.
      */
     public static Set<com.silanis.esl.api.model.NotificationMethod> convertNotificationMethodsToAPI(Set<NotificationMethod> sdkMethods){
         Set<com.silanis.esl.api.model.NotificationMethod> methods = new HashSet<>();
@@ -76,9 +76,9 @@ public class NotificationMethodsConverter {
     }
 
     /**
-     * Convert from API Set<NotificationMethod> to SDK </NotificationMethod>.
+     * Convert from API Set&lt;NotificationMethod&lt; to SDK &lt;NotificationMethod&lt;.
      *
-     * @return SDK </NotificationMethod>.
+     * @return SDK &lt;NotificationMethod&lt;.
      */
     public static Set<NotificationMethod> convertNotificationMethodsToSDK(Set<com.silanis.esl.api.model.NotificationMethod> apiMethods){
         Set<NotificationMethod> methods = new HashSet<>();

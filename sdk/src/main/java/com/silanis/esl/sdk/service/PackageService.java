@@ -867,8 +867,6 @@ public class PackageService extends EslComponent {
      * Returns a Page of DocumentPackages, which represents a paginated query response.  Important once you have many DocumentPackages.
      *
      * @param status  Returned DocumentPackages must have their status set to this value to be included in the result set
-     * @param ownerUserId
-     * @param ownerEmail
      * @param request Identifying which page of results to return
      * @return List of DocumentPackages that populate the specified page
      */
@@ -898,7 +896,7 @@ public class PackageService extends EslComponent {
      * @param status  Packages must have their status set to this value to be included in the result set
      * @param request Identifying which page of results to return
      * @param fields Identifying which package fields to return
-     * @return List of Map<String, String> that populate the specified page which contains fields and their values
+     * @return List of Map&lt;String, String&gt; that populate the specified page which contains fields and their values
      */
     public com.silanis.esl.sdk.Page<Map<String, String>> getPackagesFields(PackageStatus status, PageRequest request, Set<String> fields) {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_FIELDS_LIST_PATH)
@@ -1478,7 +1476,6 @@ public class PackageService extends EslComponent {
      * Send SMS to the signer.
      * @param packageId The id of the package to start FastTrack
      * @param signer The signers to get the signing url
-     * @return The signing url
      */
     public void sendSmsToSigner(PackageId packageId, com.silanis.esl.sdk.Signer signer) {
         Role role = new SignerConverter(signer).toAPIRole(UUID.randomUUID().toString().replace("-", ""));

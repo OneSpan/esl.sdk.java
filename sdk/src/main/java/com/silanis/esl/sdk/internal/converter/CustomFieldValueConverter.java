@@ -6,7 +6,6 @@ import com.silanis.esl.sdk.builder.CustomFieldValueBuilder;
  * User: jessica
  * Date: 26/11/13
  * Time: 3:00 PM
- * <p/>
  * Converter between SDK Custom Field Value and API Custom Field Value.
  */
 public class CustomFieldValueConverter {

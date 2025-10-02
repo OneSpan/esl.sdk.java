@@ -20,7 +20,7 @@ public class GroupMemberBuilder {
     /**
      * Create a new group member.
      *
-     * @param email the email address uniquely identifying the group member. @size(min="6", max="255", valid email address)
+     * @param email the email address uniquely identifying the group member. size(min="6", max="255", valid email address)
      * @return the group member builder itself
      */
     public static GroupMemberBuilder newGroupMember( String email ) {
@@ -51,7 +51,7 @@ public class GroupMemberBuilder {
     /**
      * Set the group member's first name.
      *
-     * @param firstName the group member's first name @size(min="1", max="255")
+     * @param firstName the group member's first name size(min="1", max="255")
      * @return the group member builder itself
      */
     public GroupMemberBuilder withFirstName( String firstName ) {
@@ -62,7 +62,7 @@ public class GroupMemberBuilder {
     /**
      * Set the group member's last name.
      *
-     * @param lastName the group member's last name @size(min="1", max="255")
+     * @param lastName the group member's last name size(min="1", max="255")
      * @return the group member builder itself
      */
     public GroupMemberBuilder withLastName( String lastName ) {

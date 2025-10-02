@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * <p>The EventNotificationConfigBuilder class is used to build and configure event notifications.</p>
- * Events and Event Notifications    [OneSpan Sign™ Documentation Project]</a>
+ * <p>Events and Event Notifications    [OneSpan Sign™ Documentation Project]</p>
  */
 final public class EventNotificationConfigBuilder {
 

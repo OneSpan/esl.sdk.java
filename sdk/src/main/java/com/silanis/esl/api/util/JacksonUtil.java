@@ -61,9 +61,8 @@ public class JacksonUtil {
 
     /**
      * Generic deserializer.
-     *
      * Example:
-     * Result<Approval> result = JacksonUtil.deserialize(reusltString, new TypeReference<Result<Approval>>() {});
+     * Result&lt;Approval&gt; result = JacksonUtil.deserialize(resultString, new TypeReference&lt;Result&lt;Approval&gt;&gt;() {});
      */
     public static <T> T deserialize(String json, TypeReference<T> typeReference) {
         try {

@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
 
 /**
  * Created by lena on 2014-07-03.
- * <p/>
  * Converter between API and SDK MessageStatus.
  */
 public class MessageStatusConverter {

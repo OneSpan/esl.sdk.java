@@ -169,7 +169,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      * DEFAULT: ENABLED
      * <p>
-     * <img src="doc-files/esl_ui_optout.png" alt="eSL UI opt out options"/>
+     * <img src="doc-files/esl_ui_optout.png" alt="OSS UI opt out options" >
      *
      * @return This
      */
@@ -194,7 +194,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      * DEFAULT: ENABLED
      * <p>
-     * <img src="doc-files/esl_ui_decline.png" alt="eSL UI decline options"/>
+     * <img src="doc-files/esl_ui_decline.png" alt="OSS UI decline options" >
      *
      * @return This
      */
@@ -243,7 +243,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      * DEFAULT: ENABLED
      * <p>
-     * <img src="doc-files/esl_ui_watermark.png" alt="eSL UI watermark options"/>
+     * <img src="doc-files/esl_ui_watermark.png" alt="OSS UI watermark options" >
      *
      * @return This
      */
@@ -337,9 +337,9 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      * DEFAULT: DISABLED
      * <p>
-     * <img src="doc-files/esl_ui_handoverlink.png" alt="eSL UI hand over link options"/>
+     * <img src="doc-files/esl_ui_handoverlink.png" alt="OSS UI hand over link options" >
      *
-     * @param href URL to where the user will be redirected upon clicking on the link. @size(max="255")
+     * @param href URL to where the user will be redirected upon clicking on the link. size(max="255")
      * @return This
      */
     public DocumentPackageSettingsBuilder withHandOverLinkHref(String href) {
@@ -360,7 +360,7 @@ public class DocumentPackageSettingsBuilder {
      * DEFAULT: DISABLED
      * <p>
      *
-     * @param text text displayed to represent the handoverlink href on OneSpan Sign UI. @size(max="255")
+     * @param text text displayed to represent the handoverlink href on OneSpan Sign UI. size(max="255")
      * @return This
      * @see #withHandOverLinkHref(String)
      */
@@ -398,7 +398,7 @@ public class DocumentPackageSettingsBuilder {
     /**
      * Set the number of days since Creation date the package should expire
      *
-     * @param expireInDays Number of Days from Package Creation Date. @size(max="999")
+     * @param expireInDays Number of Days from Package Creation Date. size(max="999")
      * @return This
      * @see #withDefaultTimeBasedExpiry()
      */
@@ -439,7 +439,7 @@ public class DocumentPackageSettingsBuilder {
      * <p>
      *
      * @param tooltip text displayed to represent the handoverlink href tool tip on
-     *                OneSpan Sign UI. @size(max="255")
+     *                OneSpan Sign UI. size(max="255")
      * @return This
      * @see #withHandOverLinkHref(String)
      */
@@ -620,7 +620,7 @@ public class DocumentPackageSettingsBuilder {
      * reasons.
      * <p>
      *
-     * @param reason @size(max="255")
+     * @param reason size(max="255")
      * @return This
      */
     public DocumentPackageSettingsBuilder withDeclineReason(String reason) {
@@ -636,7 +636,7 @@ public class DocumentPackageSettingsBuilder {
      * reasons.
      * <p>
      *
-     * @param reason @size(max="255")
+     * @param reason size(max="255")
      * @return This
      * @see #withOptOut()
      */

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 /**
- * <p>The document class contains data describing pages, signatures and their associated data and layout.</>
+ * <p>The document class contains data describing pages, signatures and their associated data and layout.</p>
  * <p>Allowed file types for uploaded documents are Adobe PDF (.pdf), a Microsoft Word (.doc or.docx), an IBM Symphony (.odt),</p>
  * <p>or an Open Document (.odt) file.</p>
  * <p>Any document that is not having the .pdf extension will be automatically converted to Adobe pdf based on its extension.</p>

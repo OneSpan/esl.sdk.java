@@ -28,7 +28,7 @@ public class GroupBuilder {
     /**
      * Instantiate a new Group of senders.
      *
-     * @param name name of the new group @size(max="255")
+     * @param name name of the new group size(max="255")
      * @return the group builder itself
      */
     public static GroupBuilder newGroup( String name ) {
@@ -38,7 +38,7 @@ public class GroupBuilder {
     /**
      * Set this group email's address.
      *
-     * @param email @size(min="6" max="255")
+     * @param email size(min="6" max="255")
      * @return the group builder itself
      */
     public GroupBuilder withEmail( String email ) {
