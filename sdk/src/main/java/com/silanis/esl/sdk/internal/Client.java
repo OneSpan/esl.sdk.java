@@ -71,33 +71,18 @@ public abstract class Client {
     }
 
     protected SSLConnectionSocketFactory buildSSLSocketFactory() throws HttpException {
-
-        //Disabling all checks that SSL certificate is valid. We are actually calling OneSpan Sign anyways.
-        //Our client library should implicitly trust our OneSpan Sign server. This also allows testing against
-        //server with Self-signed certificates.
         try {
-            SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null,
-                    new TrustManager[]{new X509TrustManager() {
-                        public X509Certificate[] getAcceptedIssuers() {
-                            return null;
-                        }
+            // Use the default SSL context, which validates certificates
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, null, new SecureRandom());
 
-                        public void checkClientTrusted(
-                                X509Certificate[] certs, String authType) {
-                        }
-
-                        public void checkServerTrusted(
-                                X509Certificate[] certs, String authType) {
-                        }
-                    }}, new SecureRandom());
-            return new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-        } catch (KeyManagementException e) {
-            throw new HttpException("Problem configuring SSL Socket factory", e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new HttpException("Problem configuring SSL Socket factory", e);
+            // Use the default hostname verifier
+            return new SSLConnectionSocketFactory(sslContext, SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            throw new HttpException("Problem configuring TLS Socket factory", e);
         }
     }
+
 
     protected interface ResponseHandler<T> {
         T extract(InputStream input);
