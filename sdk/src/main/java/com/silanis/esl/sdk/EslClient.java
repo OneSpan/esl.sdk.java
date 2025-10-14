@@ -29,7 +29,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -69,6 +68,7 @@ public class EslClient {
     private DataRetentionSettingsService dataRetentionSettingsService;
     private VirtualRoomService virtualRoomService;
     private EOriginalService eOriginalService;
+    private SupportingDocumentsService supportingDocumentsService;
 
     private ProxyConfiguration proxyConfiguration;
 
@@ -871,5 +871,9 @@ public class EslClient {
 
     public OAuthTokenConfig getoAuthTokenConfig() {
         return oAuthTokenConfig;
+    }
+
+    public SupportingDocumentsService getSupportingDocumentsService() {
+        return supportingDocumentsService;
     }
 }

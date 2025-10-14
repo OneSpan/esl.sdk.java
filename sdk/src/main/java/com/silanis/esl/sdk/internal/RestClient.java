@@ -211,6 +211,10 @@ public class RestClient extends Client {
         return execute(post, jsonHandler);
     }
 
+    public DownloadedFile<?> downloadSupportingDocument(String path) throws IOException, RequestException {
+        return getBytes(path, ESL_ACCEPT_TYPE_APPLICATION_OCTET_STREAM);
+    }
+
     private void addAdditionalHeaders(HttpUriRequest request) {
         for (Map.Entry<String, String> entry : additionalHeaders.entrySet()) {
             request.setHeader(entry.getKey(), entry.getValue());
