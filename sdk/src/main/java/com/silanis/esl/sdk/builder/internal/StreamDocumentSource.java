@@ -5,8 +5,6 @@ import com.silanis.esl.sdk.io.Streams;
 
 import java.io.InputStream;
 
-import static com.silanis.esl.sdk.io.Streams.toByteArray;
-
 public class StreamDocumentSource implements DocumentSource {
 
     private final InputStream input;

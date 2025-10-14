@@ -2,6 +2,8 @@ package com.silanis.esl.sdk.internal;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.silanis.esl.api.model.DocumentInfo;
+import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.apitoken.ApiToken;
 import com.silanis.esl.sdk.apitoken.ApiTokenAccessRequest;
 import com.silanis.esl.sdk.apitoken.ApiTokenConfig;
@@ -29,6 +31,7 @@ import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -174,19 +177,13 @@ public class RestClient extends Client {
         return execute(post, jsonHandler);
     }
 
-    public String postMultipartFile(String path, Map<String, byte[]> files) throws IOException, RequestException {
-        support.logRequest("POST", path);
+    public void postMultipartFile(String path, Map<String, byte[]> files) throws IOException, RequestException {
+        postMultipartFileWithPartName(path, files, "file");
+    }
 
-        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-        for (Map.Entry<String, byte[]> file : files.entrySet()) {
-            multipartEntityBuilder.addPart("file", buildPartForFile(file.getValue(), file.getKey()));
-        }
-
-        HttpPost post = new HttpPost(path);
-
-        post.setEntity(multipartEntityBuilder.build());
-
-        return execute(post, jsonHandler);
+    public List<DocumentInfo> postMultipartFileForSupportingDocument(String path, Map<String, byte[]> files) throws IOException, RequestException {
+        String response = postMultipartFileWithPartName(path, files, "files");
+        return JacksonUtil.deserialize(response, new TypeReference<List<DocumentInfo>>() {});
     }
 
     public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
@@ -208,6 +205,20 @@ public class RestClient extends Client {
         HttpPost post = new HttpPost(path);
 
         post.setEntity(multipartEntityBuilder.build());
+        return execute(post, jsonHandler);
+    }
+
+    private String postMultipartFileWithPartName(String path, Map<String, byte[]> files, String partName) throws IOException, RequestException {
+        support.logRequest("POST", path);
+
+        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        for (Map.Entry<String, byte[]> file : files.entrySet()) {
+            multipartEntityBuilder.addPart(partName, buildPartForFile(file.getValue(), file.getKey()));
+        }
+
+        HttpPost post = new HttpPost(path);
+        post.setEntity(multipartEntityBuilder.build());
+
         return execute(post, jsonHandler);
     }
 
