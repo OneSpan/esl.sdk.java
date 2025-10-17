@@ -216,7 +216,7 @@ public class AttachmentRequirementService extends EslComponent {
         try {
             signerClient.delete(path);
         } catch (IOException e) {
-            throw new EslException("Could not upload attachment for signer. Exception: " + e.getMessage());
+            throw new EslException("Could not delete attachment for signer. Exception: " + e.getMessage());
         } catch (RequestException e) {
             throw new EslServerException("Could not delete attachment file for signer", e);
         }

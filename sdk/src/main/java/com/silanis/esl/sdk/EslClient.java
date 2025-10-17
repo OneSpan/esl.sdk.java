@@ -192,6 +192,7 @@ public class EslClient {
         dataRetentionSettingsService = new DataRetentionSettingsService(client, baseURL);
         virtualRoomService = new VirtualRoomService(client, baseURL);
         eOriginalService = new EOriginalService(client, baseURL);
+        supportingDocumentsService = new SupportingDocumentsService(client, baseURL);
     }
 
     /**

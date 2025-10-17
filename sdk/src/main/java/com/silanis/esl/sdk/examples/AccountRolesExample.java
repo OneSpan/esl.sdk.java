@@ -33,8 +33,6 @@ public class AccountRolesExample extends SDKSampleWithRolesAndPermission {
 
         client.getAccountService().addAccountRole(accountRole);
 
-        client.getSupportingDocumentsService().downloadSupportingDocument(null, 0);
-
         result2 = client.getAccountService().getAccountRoles();
 
         for (com.silanis.esl.sdk.AccountRole forAccountRole : result2) {
