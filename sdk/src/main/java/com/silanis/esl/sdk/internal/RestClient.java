@@ -50,6 +50,7 @@ public class RestClient extends Client {
     public static final String ESL_CONTENT_TYPE_APPLICATION_JSON = CONTENT_TYPE_APPLICATION_JSON + "; " + ESL_API_VERSION_HEADER;
 
     public static final String HEADER_KEY_ACCEPT = "Accept";
+    public static final String HEADER_KEY_TOKEN = "Token";
     public static final String HEADER_CONTENT_DISPOSITION = "Content-Disposition";
     public static final String ACCEPT_TYPE_APPLICATION_JSON = "application/json";
     public static final String ACCEPT_TYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
@@ -174,19 +175,12 @@ public class RestClient extends Client {
         return execute(post, jsonHandler);
     }
 
-    public String postMultipartFile(String path, Map<String, byte[]> files) throws IOException, RequestException {
-        support.logRequest("POST", path);
+    public void postMultipartFile(String path, Map<String, byte[]> files) throws IOException, RequestException {
+        postMultipartFileWithPartName(path, files, "file");
+    }
 
-        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
-        for (Map.Entry<String, byte[]> file : files.entrySet()) {
-            multipartEntityBuilder.addPart("file", buildPartForFile(file.getValue(), file.getKey()));
-        }
-
-        HttpPost post = new HttpPost(path);
-
-        post.setEntity(multipartEntityBuilder.build());
-
-        return execute(post, jsonHandler);
+    public void postMultipartFileForSupportingDocument(String path, Map<String, byte[]> files) throws IOException, RequestException {
+        postMultipartFileWithPartName(path, files, "files");
     }
 
     public String postMultipartFile(String path, String fileName, byte[] fileBytes, String jsonPayload) throws IOException, RequestException {
@@ -209,6 +203,20 @@ public class RestClient extends Client {
 
         post.setEntity(multipartEntityBuilder.build());
         return execute(post, jsonHandler);
+    }
+
+    private void postMultipartFileWithPartName(String path, Map<String, byte[]> files, String partName) throws IOException, RequestException {
+        support.logRequest("POST", path);
+
+        final MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        for (Map.Entry<String, byte[]> file : files.entrySet()) {
+            multipartEntityBuilder.addPart(partName, buildPartForFile(file.getValue(), file.getKey()));
+        }
+
+        HttpPost post = new HttpPost(path);
+        post.setEntity(multipartEntityBuilder.build());
+
+        execute(post, jsonHandler);
     }
 
     private void addAdditionalHeaders(HttpUriRequest request) {
