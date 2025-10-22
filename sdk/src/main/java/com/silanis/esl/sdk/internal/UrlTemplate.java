@@ -221,6 +221,11 @@ public class UrlTemplate {
     // User Account Roles
     public static final String ACCOUNT_SENDERS_ROLES_PATH = "/account/senders/{userId}/roles";
 
+    // Supporting Documents
+    public static final String SUPPORTING_DOCUMENTS_PATH = "/supporting-documents/v1/transactions/{transactionUid}";
+    public static final String SUPPORTING_DOCUMENTS_DOWNLOAD = SUPPORTING_DOCUMENTS_PATH + "/documents/{documentId}/download";
+    public static final String SUPPORTING_DOCUMENTS_DOWNLOAD_ALL = SUPPORTING_DOCUMENTS_PATH + "/download";
+    public static final String SUPPORTING_DOCUMENTS_DELETE_RENAME = SUPPORTING_DOCUMENTS_PATH + "/documents/{documentId}";
 
     public UrlTemplate(String baseUrl) {
         this.baseUrl = baseUrl;
