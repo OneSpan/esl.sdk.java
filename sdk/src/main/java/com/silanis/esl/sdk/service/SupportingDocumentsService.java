@@ -57,30 +57,26 @@ public class SupportingDocumentsService extends EslComponent{
         );
     }
 
-    public void renameSupportingDocument(String transactionUid, int documentId, String jsonPayload) {
+    public DocumentInfo renameSupportingDocument(String transactionUid, int documentId, Map<String, String> payload) {
         String path = buildDocumentPath(transactionUid, documentId,
                 new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SUPPORTING_DOCUMENTS_DELETE_RENAME)
-                .build());
-        executeWithExceptionHandling(
-                () -> {
-                    getClient().put(path, jsonPayload);
-                    return null;
-                },
+                        .build());
+        String response =executeWithExceptionHandling(
+                () -> getClient().put(path, JacksonUtil.serialize(payload)),
                 "Could not rename supporting document."
         );
+        return JacksonUtil.deserialize(response, DocumentInfo.class);
     }
 
-    public void uploadSupportingDocuments(String transactionUid, Map<String, byte[]> files) {
+    public List<DocumentInfo> uploadSupportingDocuments(String transactionUid, Map<String, byte[]> files) {
         String path = buildTransactionPath(transactionUid,
                 new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SUPPORTING_DOCUMENTS_PATH)
-                .build());
-        executeWithExceptionHandling(
-                () -> {
-                    getClient().postMultipartFileForSupportingDocument(path, files);
-                    return null;
-                },
+                        .build());
+        List<DocumentInfo> result = executeWithExceptionHandling(
+                () -> getClient().postMultipartFileForSupportingDocument(path, files),
                 "Could not upload supporting documents."
         );
+        return result != null ? result : Collections.emptyList();
     }
 
     public List<DocumentInfo> getListOfSupportingDocuments(String transactionUid) {
