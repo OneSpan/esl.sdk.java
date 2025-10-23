@@ -77,7 +77,6 @@ public class SupportingDocumentCloneExample extends SDKSample {
         template.setId(templateId);
 
         uploadSupportingDocuments(templateId.getId());
-        supportingDocumentBeforeCloning = supportingDocumentsService.getListOfSupportingDocuments(templateId.getId());
 
         DocumentPackage newPackage = createPackageFromTemplate();
         packageId = eslClient.getTemplateService().createPackageFromTemplate(template.getId(), newPackage);
@@ -146,7 +145,7 @@ public class SupportingDocumentCloneExample extends SDKSample {
 
     private void uploadSupportingDocuments(String templateId) {
         Map<String, byte[]> supportingDocuments = createSupportingDocumentsMap();
-        supportingDocumentsService.uploadSupportingDocuments(templateId, supportingDocuments);
+        supportingDocumentBeforeCloning = supportingDocumentsService.uploadSupportingDocuments(templateId, supportingDocuments);
     }
 
     private InputStream getResourceAsStream(String resourceName) {
