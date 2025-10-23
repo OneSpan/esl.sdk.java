@@ -17,6 +17,7 @@ import com.silanis.esl.sdk.service.SupportingDocumentsService;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class SupportingDocumentExample extends SDKSample {
     private static final String SUPPORTING_DOCUMENT_NAME_1 = "The supporting document number one.pdf";
     private static final String SUPPORTING_DOCUMENT_NAME_2 = "The supporting document number two.pdf";
     private static final String SUPPORTING_DOCUMENT_NAME_3 = "The supporting document number three.pdf";
-    private static final String RENAME_JSON_PAYLOAD = "{\n  \"fileName\": \"renamed\"\n}";
+    private static final Map<String, String> RENAME_PAYLOAD = Collections.singletonMap("fileName", "renamed");
     private static final String DOCUMENT_RESOURCE = "document.pdf";
     private static final String TEST_DOCUMENT_NAME = "test document";
     private static final String PACKAGE_DESCRIPTION = "This is a package created using OneSpan Sign SDK";
@@ -45,7 +46,7 @@ public class SupportingDocumentExample extends SDKSample {
     // Results
     public List<DocumentInfo> supportingDocumentAfterUpload;
     public List<DocumentInfo> supportingDocumentAfterDelete;
-    public List<DocumentInfo> supportingDocumentAfterRename;
+    public DocumentInfo supportingDocumentAfterRename;
     public DocumentMetadata documentMetadata;
     public ZipFile downloadedAllSupportingDocumentsForPackageZip;
 
@@ -104,8 +105,7 @@ public class SupportingDocumentExample extends SDKSample {
 
     private void uploadSupportingDocuments() {
         Map<String, byte[]> supportingDocuments = createSupportingDocumentsMap();
-        supportingDocumentsService.uploadSupportingDocuments(packageId.getId(), supportingDocuments);
-        supportingDocumentAfterUpload = supportingDocumentsService.getListOfSupportingDocuments(packageId.getId());
+        supportingDocumentAfterUpload = supportingDocumentsService.uploadSupportingDocuments(packageId.getId(), supportingDocuments);
     }
 
     private Map<String, byte[]> createSupportingDocumentsMap() {
@@ -125,12 +125,11 @@ public class SupportingDocumentExample extends SDKSample {
 
     private void renameSecondDocument() {
         if (supportingDocumentAfterUpload.size() > 1) {
-            supportingDocumentsService.renameSupportingDocument(
+            supportingDocumentAfterRename = supportingDocumentsService.renameSupportingDocument(
                     packageId.getId(),
                     supportingDocumentAfterUpload.get(1).getId(),
-                    RENAME_JSON_PAYLOAD
+                    RENAME_PAYLOAD
             );
-            supportingDocumentAfterRename = supportingDocumentsService.getListOfSupportingDocuments(packageId.getId());
         }
     }
 
@@ -166,7 +165,7 @@ public class SupportingDocumentExample extends SDKSample {
         return supportingDocumentAfterDelete;
     }
 
-    public List<DocumentInfo> getSupportingDocumentAfterRename() {
+    public DocumentInfo getSupportingDocumentAfterRename() {
         return supportingDocumentAfterRename;
     }
 
