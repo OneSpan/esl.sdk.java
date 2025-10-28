@@ -85,4 +85,36 @@ public class AuthenticationTokensService {
         final SignerAuthenticationToken resultObject = apiClient.createSignerAuthenticationTokenForSingleUse(packageId, signerId, signerSessionFields);
         return resultObject.getValue();
     }
+
+    /**
+     * Create a signer authentication token which is used to obtain a signing session for that signer.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerExample}
+     *
+     * @param packageId The package for which the signer authentication token is created.
+     * @param signerId  The signer for which the signer authentication token is created.
+     * @param delegateeId The user id or email of the delegatee where delegatee will sign on behalf of the signer.
+     * @param signerSessionFields  The signer session fields for which the signer authentication token is created.
+     * @return A multi use, time limited signer authentication token. This token can be used to authenticate into a session.
+     */
+    public String createSignerAuthenticationToken(String packageId, String signerId, String delegateeId, Map<String, String> signerSessionFields) {
+        final SignerAuthenticationToken resultObject = apiClient.createSignerAuthenticationToken(packageId, signerId, delegateeId, signerSessionFields);
+        return resultObject.getValue();
+    }
+
+    /**
+     * Create a single use signer authentication token which is used to obtain a signing session for that signer.
+     * For a simple example explaining the usage: {@link com.silanis.esl.sdk.examples.SignerAuthenticationTokenExample}
+     * For a more typical example usage: {@link com.silanis.esl.sdk.examples.SigningRedirectForSignerForSingleUseExample}
+     *
+     * @param packageId The package for which the signer authentication token is created.
+     * @param signerId  The signer for which the signer authentication token is created.
+     * @param delegateeId The user id or email of the delegatee where delegatee will sign on behalf of the signer.
+     * @param signerSessionFields  The signer session fields for which the signer authentication token is created.
+     * @return A single use, time limited signer authentication token. This token can be used to authenticate into a session.
+     */
+    public String createSignerAuthenticationTokenForSingleUse(String packageId, String signerId, String delegateeId, Map<String, String> signerSessionFields) {
+        final SignerAuthenticationToken resultObject = apiClient.createSignerAuthenticationTokenForSingleUse(packageId, signerId, delegateeId, signerSessionFields);
+        return resultObject.getValue();
+    }
 }
