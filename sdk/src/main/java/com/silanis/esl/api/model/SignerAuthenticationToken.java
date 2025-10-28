@@ -16,6 +16,9 @@ public class SignerAuthenticationToken extends AuthenticationToken
     @JsonIgnore
     public static final String FIELD_SESSION_FIELDS = "sessionFields";
     @JsonIgnore
+    public static final String FIELD_DELEGATEEID = "delegateeId";
+
+    @JsonIgnore
     public static final String FIELD_VALUE = "value";
     
     // Empty Constructor
@@ -24,6 +27,7 @@ public class SignerAuthenticationToken extends AuthenticationToken
     // Fields
     protected String _packageId = "";
     protected String _signerId = "";
+    protected String _delegateeId = null;
     protected SessionFields _sessionFields = null;
     
     // Accessors
@@ -47,8 +51,6 @@ public class SignerAuthenticationToken extends AuthenticationToken
     public String getPackageId(){
         return _packageId;
     }
-    
-        
     
     public SignerAuthenticationToken setSignerId( String value ){
         SchemaSanitizer.throwOnNull(FIELD_SIGNERID,value);
@@ -87,8 +89,6 @@ public class SignerAuthenticationToken extends AuthenticationToken
         return _sessionFields;
     }
 
-
-
     @Override
     public SignerAuthenticationToken setValue( String value ){
         super.setValue(value);
@@ -100,6 +100,23 @@ public class SignerAuthenticationToken extends AuthenticationToken
         if ( value != null ) { this.setValue( value ); }
         return this;
     }
-    
-    
+
+    public SignerAuthenticationToken setDelegateeId( String value ){
+        value = SchemaSanitizer.trim(value);
+        this._delegateeId = value;
+        setDirty(FIELD_DELEGATEEID);
+        return this;
+    }
+
+    // Used internally by aws. Invokes a corresponding setter if the value is not null
+    @JsonIgnore
+    public SignerAuthenticationToken safeSetDelegateeId( String value ){
+        if ( value != null ) { this.setDelegateeId( value ); }
+        return this;
+    }
+
+    public String getDelegateeId(){
+        return _delegateeId;
+    }
+
 }
