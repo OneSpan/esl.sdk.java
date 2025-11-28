@@ -53,10 +53,15 @@ public class AuthenticationTokensApiClient extends EslComponent {
     }
 
     public SignerAuthenticationToken createSignerAuthenticationToken(String packageId, String signerId, Map<String, String> fields) {
+        return createSignerAuthenticationToken(packageId, signerId, null, fields);
+    }
+
+    public SignerAuthenticationToken createSignerAuthenticationToken(String packageId, String signerId,String delegateeId, Map<String, String> fields) {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_MULTI_USE_PATH).build();
         final SignerAuthenticationToken payloadObject = new SignerAuthenticationToken();
         payloadObject.setPackageId(packageId);
         payloadObject.setSignerId(signerId);
+        payloadObject.setDelegateeId(delegateeId);
 
         SessionFields sessionFields = new SessionFields();
         sessionFields.setFields(fields);
@@ -73,11 +78,15 @@ public class AuthenticationTokensApiClient extends EslComponent {
     }
 
     public SignerAuthenticationToken createSignerAuthenticationTokenForSingleUse(String packageId, String signerId, Map<String, String> fields) {
+        return createSignerAuthenticationTokenForSingleUse(packageId, signerId, null, fields);
+    }
+
+    public SignerAuthenticationToken createSignerAuthenticationTokenForSingleUse(String packageId, String signerId, String delegateeId, Map<String, String> fields) {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.SIGNER_AUTHENTICATION_TOKEN_SINGLE_USE_PATH).build();
         final SignerAuthenticationToken payloadObject = new SignerAuthenticationToken();
         payloadObject.setPackageId(packageId);
         payloadObject.setSignerId(signerId);
-
+        payloadObject.setDelegateeId(delegateeId);
         SessionFields sessionFields = new SessionFields();
         sessionFields.setFields(fields);
         payloadObject.setSessionFields(sessionFields);
