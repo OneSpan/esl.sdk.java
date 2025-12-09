@@ -1,7 +1,6 @@
 package com.silanis.esl.sdk.service.apiclient;
 
 import com.silanis.esl.api.model.Handover;
-import com.silanis.esl.api.model.IdvWorkflowConfiguration;
 import com.silanis.esl.api.model.IntegrationFrameworkWorkflow;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
@@ -155,63 +154,6 @@ public class AccountConfigClient extends EslComponent {
             throw new EslServerException("Could not delete decline reasons.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete decline reasons.", e);
-        }
-    }
-
-
-    public List<IdvWorkflowConfiguration> getIdvWorkflowConfigs() {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
-                .build();
-        try {
-            String stringResponse = getClient().get(path);
-
-            return Serialization.fromJsonToList(stringResponse, IdvWorkflowConfiguration.class);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not get IdvWorkflow Configs.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not get IdvWorkflow Configs.", e);
-        }
-    }
-
-    public List<IdvWorkflowConfiguration> createIdvWorkflowConfigs(List<IdvWorkflowConfiguration> idvWorkflowConfigurations) {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
-                .build();
-        try {
-            String json = Serialization.toJson(idvWorkflowConfigurations);
-            String stringResponse = getClient().post(path, json);
-
-            return Serialization.fromJsonToList(stringResponse, IdvWorkflowConfiguration.class);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not create IdvWorkflow Configs.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not create IdvWorkflow Configs.", e);
-        }
-    }
-
-    public List<IdvWorkflowConfiguration> updateIdvWorkflowConfigs(List<IdvWorkflowConfiguration> idvWorkflowConfigurations) {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
-                .build();
-        try {
-            String json = Serialization.toJson(idvWorkflowConfigurations);
-            String stringResponse = getClient().put(path, json);
-
-            return Serialization.fromJsonToList(stringResponse, IdvWorkflowConfiguration.class);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not update IdvWorkflow Configs.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not update IdvWorkflow Configs.", e);
-        }
-    }
-
-    public void deleteIdvWorkflowConfigs() {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.IDV_WORKFLOW_CONFIGS_PATH)
-                .build();
-        try {
-            getClient().delete(path);
-        } catch (RequestException e) {
-            throw new EslServerException("Could not delete IdvWorkflow Configs.", e);
-        } catch (Exception e) {
-            throw new EslException("Could not delete IdvWorkflow Configs.", e);
         }
     }
 
