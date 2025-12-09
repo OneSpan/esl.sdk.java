@@ -16,7 +16,7 @@ public class Signer implements Serializable {
     private final String firstName;
     private final String lastName;
     private final Authentication authentication;
-    private final NotificationMethods notificationMethods;
+    private NotificationMethods notificationMethods;
     private int signingOrder;
     private String title;
     private String company;
@@ -102,6 +102,9 @@ public class Signer implements Serializable {
      * @param phoneNumber	the signer's notification phoneNumber
      */
     public void setNotificationPhoneNumber(String phoneNumber){
+        if (this.notificationMethods == null) {
+            this.notificationMethods = new NotificationMethods();
+        }
         this.notificationMethods.setPhone(phoneNumber);
     }
 
@@ -111,6 +114,9 @@ public class Signer implements Serializable {
      * @param notificationMethods	the signer's notification methods
      */
     public void setNotificationPrimaryMethods(NotificationMethod... notificationMethods){
+        if (this.notificationMethods == null) {
+            this.notificationMethods = new NotificationMethods();
+        }
         this.notificationMethods.setPrimaryMethods(notificationMethods);
     }
 
