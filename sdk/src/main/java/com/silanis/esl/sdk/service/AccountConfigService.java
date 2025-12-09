@@ -1,9 +1,5 @@
 package com.silanis.esl.sdk.service;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.silanis.esl.api.model.IdvWorkflowConfiguration;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.converter.*;
 import com.silanis.esl.sdk.service.apiclient.AccountConfigClient;
@@ -59,52 +55,6 @@ public class AccountConfigService {
 
     public void deleteDeclineReasons(Locale language) {
         apiClient.deleteDeclineReasons(convertToString(language));
-    }
-
-    public List<IdvWorkflowConfig> getIdvWorkflowConfigs() {
-        List<IdvWorkflowConfiguration> idvWorkflowConfigurations = apiClient.getIdvWorkflowConfigs();
-        return Lists.newArrayList(Iterables.transform(idvWorkflowConfigurations, new Function<IdvWorkflowConfiguration, IdvWorkflowConfig>() {
-            @Override
-            public IdvWorkflowConfig apply(final IdvWorkflowConfiguration input) {
-                return new IdvWorkflowConfigConverter(input).toSDKIdvWorkflowConfig();
-            }
-        }));
-    }
-
-    public List<IdvWorkflowConfig> createIdvWorkflowConfigs(List<IdvWorkflowConfig> idvWorkflowConfigs) {
-        List<IdvWorkflowConfiguration> idvWorkflowConfigurations = Lists.newArrayList(Iterables.transform(idvWorkflowConfigs, new Function<IdvWorkflowConfig, IdvWorkflowConfiguration>() {
-            @Override
-            public IdvWorkflowConfiguration apply(final IdvWorkflowConfig input) {
-                return new IdvWorkflowConfigConverter(input).toAPIIdvWorkflowConfiguration();
-            }
-        }));
-        idvWorkflowConfigurations = apiClient.createIdvWorkflowConfigs(idvWorkflowConfigurations);
-        return Lists.newArrayList(Iterables.transform(idvWorkflowConfigurations, new Function<IdvWorkflowConfiguration, IdvWorkflowConfig>() {
-            @Override
-            public IdvWorkflowConfig apply(final IdvWorkflowConfiguration input) {
-                return new IdvWorkflowConfigConverter(input).toSDKIdvWorkflowConfig();
-            }
-        }));
-    }
-
-    public List<IdvWorkflowConfig> updateIdvWorkflowConfigs(List<IdvWorkflowConfig> idvWorkflowConfigs) {
-        List<IdvWorkflowConfiguration> idvWorkflowConfigurations = Lists.newArrayList(Iterables.transform(idvWorkflowConfigs, new Function<IdvWorkflowConfig, IdvWorkflowConfiguration>() {
-            @Override
-            public IdvWorkflowConfiguration apply(final IdvWorkflowConfig input) {
-                return new IdvWorkflowConfigConverter(input).toAPIIdvWorkflowConfiguration();
-            }
-        }));
-        idvWorkflowConfigurations = apiClient.updateIdvWorkflowConfigs(idvWorkflowConfigurations);
-        return Lists.newArrayList(Iterables.transform(idvWorkflowConfigurations, new Function<IdvWorkflowConfiguration, IdvWorkflowConfig>() {
-            @Override
-            public IdvWorkflowConfig apply(final IdvWorkflowConfiguration input) {
-                return new IdvWorkflowConfigConverter(input).toSDKIdvWorkflowConfig();
-            }
-        }));
-    }
-
-    public void deleteIdvWorkflowConfigs() {
-        apiClient.deleteIdvWorkflowConfigs();
     }
 
     /**
