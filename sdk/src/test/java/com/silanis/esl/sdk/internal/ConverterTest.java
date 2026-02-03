@@ -10,7 +10,7 @@ import static org.hamcrest.core.Is.is;
  */
 public class ConverterTest {
 
-    public static final String jenkinsApiKey = "amVua2luc1VzZXJJZDpCc2JwMnlzSUFEZ0g=";
+    public static final String jenkinsApiKey = "amVua2luc1VzZXJJZDpCc2JwMnlzSUFEZ0g=";  // A Fake APIKEY only for Test Purpose
     public static final String expectedJenkinsUID = "jenkinsUserId";
 
     @Test
