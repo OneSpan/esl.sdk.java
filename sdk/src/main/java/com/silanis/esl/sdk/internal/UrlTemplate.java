@@ -182,7 +182,7 @@ public class UrlTemplate {
     // Account Signing Ui Options Service
     public static final String ACCOUNT_SIGNING_UI_OPTIONS_PATH = "/account/admin/signingUiOptions";
     // Account Signature Style Service
-    public static final String ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH = "/account/admin/chooseSignature";
+    public static final String ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH = "/account/admin/chooseSignature";
     // Account Settings Service
     public static final String ACCOUNT_SETTINGS_PATH = "/account/admin/accountSettings";
     // Account Package Settings Service

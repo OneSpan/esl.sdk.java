@@ -11,12 +11,12 @@ import com.silanis.esl.sdk.ChooseSignatureStyleType;
 import com.silanis.esl.sdk.builder.ChooseSignatureOptionsBuilder;
 import com.silanis.esl.sdk.builder.ChooseSignatureSettingsBuilder;
 
-public class ChooseSignatureOptionsExample extends SDKSample {
+public class ChooseSignatureSettingsExample extends SDKSample {
 
     public ChooseSignatureSettings chooseSignatureSettingsAfterPatch, chooseSignatureSettingsAfterDelete;
 
     public static void main(String... args) {
-        new ChooseSignatureOptionsExample().run();
+        new ChooseSignatureSettingsExample().run();
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ChooseSignatureOptionsExample extends SDKSample {
         chooseSignatureSettingsAfterPatch = eslClient.getSigningStyleService().getChooseSignatureSettings();
 
         // Delete Choose Signature Settings
-        eslClient.getSigningStyleService().deleteChooseSignatureOptions();
+        eslClient.getSigningStyleService().deleteChooseSignatureSettings();
 
         // Get Choose Signature Settings after delete
         chooseSignatureSettingsAfterDelete = eslClient.getSigningStyleService().getChooseSignatureSettings();

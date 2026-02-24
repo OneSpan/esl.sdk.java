@@ -1,14 +1,12 @@
 package com.silanis.esl.sdk.service;
 
 
-import com.silanis.esl.sdk.ChooseSignatureOptions;
 import com.silanis.esl.sdk.ChooseSignatureSettings;
 import com.silanis.esl.sdk.SigningUiOptions;
 import com.silanis.esl.sdk.SigningLogo;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.internal.*;
-import com.silanis.esl.sdk.internal.converter.ChooseSignatureOptionsConverter;
 import com.silanis.esl.sdk.internal.converter.ChooseSignatureSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.SigningLogoConverter;
 import com.silanis.esl.sdk.internal.converter.SigningUiOptionsConverter;
@@ -187,7 +185,7 @@ public class SigningStyleService extends EslComponent {
      *
      */
     public ChooseSignatureSettings getChooseSignatureSettings() {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH).build();
         try {
             String stringResponse = getClient().get(path);
             return new ChooseSignatureSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.ChooseSignatureSettings.class)).toSDKChooseSignatureSettings();
@@ -203,7 +201,7 @@ public class SigningStyleService extends EslComponent {
      *
      */
     public void patchChooseSignatureSettings(ChooseSignatureSettings chooseSignatureSettings) {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH).build();
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH).build();
         com.silanis.esl.api.model.ChooseSignatureSettings chooseSignatureSettingsToPatch = new ChooseSignatureSettingsConverter(chooseSignatureSettings).toAPIChooseSignatureSettings();
         String payload = JacksonUtil.serialize(chooseSignatureSettingsToPatch);
         try {
@@ -219,8 +217,8 @@ public class SigningStyleService extends EslComponent {
      * Delete Choose Signature Options.
      *
      */
-    public void deleteChooseSignatureOptions() {
-        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH).build();
+    public void deleteChooseSignatureSettings() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH).build();
         try {
             getClient().delete(path);
         } catch (RequestException e) {
