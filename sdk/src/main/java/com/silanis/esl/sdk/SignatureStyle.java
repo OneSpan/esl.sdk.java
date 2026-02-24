@@ -12,6 +12,8 @@ public class SignatureStyle extends EslEnumeration {
     public static final SignatureStyle FULL_NAME = new SignatureStyle("FULLNAME", "FULL_NAME", 2);
     public static final SignatureStyle INITIALS = new SignatureStyle("INITIALS", "INITIALS", 3);
     public static final SignatureStyle MOBILE_CAPTURE = new SignatureStyle("MOBILE_CAPTURE", "MOBILE_CAPTURE", 4);
+    public static final SignatureStyle CHOOSE_SIGNATURE = new SignatureStyle("CHOOSE_SIGNATURE", "CHOOSE_SIGNATURE", 5);
+    public static final SignatureStyle CHOOSE_INITIALS = new SignatureStyle("CHOOSE_INITIALS", "CHOOSE_INITIALS", 6);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -32,6 +34,8 @@ public class SignatureStyle extends EslEnumeration {
         sdkValues.put(FULL_NAME.name(), FULL_NAME);
         sdkValues.put(INITIALS.name(), INITIALS);
         sdkValues.put(MOBILE_CAPTURE.name(), MOBILE_CAPTURE);
+        sdkValues.put(CHOOSE_SIGNATURE.name(), CHOOSE_SIGNATURE);
+        sdkValues.put(CHOOSE_INITIALS.name(), CHOOSE_INITIALS);
     }
 
     private SignatureStyle(String apiValue, String sdkValue, int index) {

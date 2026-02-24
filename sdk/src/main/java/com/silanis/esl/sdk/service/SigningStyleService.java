@@ -1,11 +1,15 @@
 package com.silanis.esl.sdk.service;
 
 
+import com.silanis.esl.sdk.ChooseSignatureOptions;
+import com.silanis.esl.sdk.ChooseSignatureSettings;
 import com.silanis.esl.sdk.SigningUiOptions;
 import com.silanis.esl.sdk.SigningLogo;
 import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.internal.*;
+import com.silanis.esl.sdk.internal.converter.ChooseSignatureOptionsConverter;
+import com.silanis.esl.sdk.internal.converter.ChooseSignatureSettingsConverter;
 import com.silanis.esl.sdk.internal.converter.SigningLogoConverter;
 import com.silanis.esl.sdk.internal.converter.SigningUiOptionsConverter;
 
@@ -175,6 +179,54 @@ public class SigningStyleService extends EslComponent {
             throw new EslServerException("Could not delete the signing ui options from account.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the signing ui options from account.", e);
+        }
+    }
+
+    /**
+     * Get Choose Signature Options.
+     *
+     */
+    public ChooseSignatureSettings getChooseSignatureSettings() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH).build();
+        try {
+            String stringResponse = getClient().get(path);
+            return new ChooseSignatureSettingsConverter(Serialization.fromJson(stringResponse, com.silanis.esl.api.model.ChooseSignatureSettings.class)).toSDKChooseSignatureSettings();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the Choose Signature Options for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the Choose Signature Options for account.", e);
+        }
+    }
+
+    /**
+     * Configure Choose Signature Options.
+     *
+     */
+    public void patchChooseSignatureSettings(ChooseSignatureSettings chooseSignatureSettings) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH).build();
+        com.silanis.esl.api.model.ChooseSignatureSettings chooseSignatureSettingsToPatch = new ChooseSignatureSettingsConverter(chooseSignatureSettings).toAPIChooseSignatureSettings();
+        String payload = JacksonUtil.serialize(chooseSignatureSettingsToPatch);
+        try {
+            getClient().patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the Choose Signature Options for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update the Choose Signature Options for account.", e);
+        }
+    }
+
+    /**
+     * Delete Choose Signature Options.
+     *
+     */
+    public void deleteChooseSignatureOptions() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_OPTIONS_PATH).build();
+        try {
+            getClient().delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the Choose Signature Options for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the Choose Signature Options for account.", e);
         }
     }
 }

@@ -35,6 +35,7 @@ public class AccountFeatureSettings {
     private Boolean enableRecipientHistory;
     private Boolean allowSignersDownloadEvidenceSummary;
     private Boolean documentWidget;
+    private Boolean chooseSignature;
 
 
     public Boolean getAllowCheckboxConsentApproval() {
@@ -275,5 +276,13 @@ public class AccountFeatureSettings {
 
     public void setDocumentWidget(Boolean documentWidget) {
         this.documentWidget = documentWidget;
+    }
+
+    public Boolean getChooseSignature() {
+        return chooseSignature;
+    }
+
+    public void setChooseSignature(Boolean chooseSignature) {
+        this.chooseSignature = chooseSignature;
     }
 }
