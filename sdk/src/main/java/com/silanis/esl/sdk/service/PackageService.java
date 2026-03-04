@@ -7,6 +7,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.silanis.esl.api.model.Approval;
+import com.silanis.esl.api.model.ConsentLocalizationRequest;
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.api.model.Package;
@@ -15,6 +16,8 @@ import com.silanis.esl.api.model.Role;
 import com.silanis.esl.api.model.Signer;
 import com.silanis.esl.api.model.SigningUrl;
 import com.silanis.esl.api.util.JacksonUtil;
+import com.silanis.esl.sdk.ConsentLocalizationData;
+import com.silanis.esl.sdk.ConsentLocalizationPayload;
 import com.silanis.esl.sdk.DocumentId;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentPackageRequestExtension;
@@ -24,6 +27,7 @@ import com.silanis.esl.sdk.FastTrackSigner;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
+import com.silanis.esl.sdk.PackageUpdateWorkflowResult;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.ReferencedConditions;
@@ -32,6 +36,7 @@ import com.silanis.esl.sdk.SignerId;
 import com.silanis.esl.sdk.SigningStatus;
 import com.silanis.esl.sdk.Visibility;
 import com.silanis.esl.sdk.builder.FastTrackRoleBuilder;
+import com.silanis.esl.sdk.internal.Asserts;
 import com.silanis.esl.sdk.internal.DateHelper;
 import com.silanis.esl.sdk.internal.EslServerException;
 import com.silanis.esl.sdk.internal.RedirectResolver;
@@ -39,6 +44,7 @@ import com.silanis.esl.sdk.internal.RequestException;
 import com.silanis.esl.sdk.internal.RestClient;
 import com.silanis.esl.sdk.internal.Serialization;
 import com.silanis.esl.sdk.internal.UrlTemplate;
+import com.silanis.esl.sdk.internal.converter.ConsentLocalizationConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.internal.converter.DocumentVisibilityConverter;
@@ -49,6 +55,8 @@ import com.silanis.esl.sdk.internal.converter.SignerConverter;
 import com.silanis.esl.sdk.internal.converter.SupportConfigurationConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -58,6 +66,7 @@ import java.util.*;
  */
 public class PackageService extends EslComponent {
 
+    private static final Logger log = LoggerFactory.getLogger(PackageService.class);
     private ReportService reportService;
 
     public PackageService(RestClient client, String baseUrl) {
@@ -193,6 +202,134 @@ public class PackageService extends EslComponent {
         } catch (Exception e) {
             throw new EslException("Could not update the package.", e);
         }
+    }
+
+    /**
+     * Updates the package's fields and automatically localizes the default consent document if the language has changed.
+     * <p>
+     * Workflow:
+     * <ol>
+     *   <li>Update the package using the provided DocumentPackage.</li>
+     *   <li>If the update succeeds and the language has changed, attempt to localize the default consent document.</li>
+     *   <li>If the update fails, consent localization is not attempted.</li>
+     * </ol>
+     * The outcome of each step is captured in a {@link com.silanis.esl.sdk.PackageUpdateWorkflowResult}.
+     *
+     * @param packageId  the ID of the package to update
+     * @param sdkPackage the DocumentPackage containing updated fields and language
+     * @return workflow result describing package update and consent localization outcomes
+     * @throws EslException if the package update operation fails
+     */
+    public PackageUpdateWorkflowResult updatePackageAndLocalizeConsent(PackageId packageId, DocumentPackage sdkPackage) throws EslException {
+        
+        Asserts.notNull(packageId, "Package Id cannot be null");
+        Asserts.notNull(sdkPackage, "DocumentPackage cannot be null");
+
+        PackageUpdateWorkflowResult result = new PackageUpdateWorkflowResult();
+        String transactionId = packageId.getId();
+        result.setPackageUid(transactionId);
+
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_ID_PATH)
+                .replace("{packageId}", transactionId)
+                .build();
+
+        Optional<Package> existingPackageOptional = getPackageWithoutException(transactionId);
+        Package packageToUpdate = new DocumentPackageConverter(sdkPackage).toAPIPackage();
+
+        String packageJson = Serialization.toJson(packageToUpdate);
+        try {
+            // update package
+            getClient().put(path, packageJson);
+            PackageUpdateWorkflowResult.Result packageStep =
+                    new PackageUpdateWorkflowResult.Result(PackageUpdateWorkflowResult.Status.SUCCESS,
+                            "Package updated successfully.");
+            result.setPackageInfo(packageStep);
+
+            // Determine language change
+            Optional<Package> updatedPackageOptional = getPackageWithoutException(transactionId);
+            if (updatedPackageOptional.isEmpty()) {
+                // Language could not be determined
+                PackageUpdateWorkflowResult.ConsentLocalizationResult consentStep =
+                        new PackageUpdateWorkflowResult.ConsentLocalizationResult(PackageUpdateWorkflowResult.Status.SKIPPED,
+                                "Consent localization could not be determined.",
+                                null);
+                result.setConsentInfo(consentStep);
+                return result;
+            }
+            Package updatedPackage = updatedPackageOptional.get();
+            if (existingPackageOptional.isPresent() && updatedPackage.getLanguage()
+                    .equals(existingPackageOptional.get().getLanguage())) {
+                // Language unchanged or not specified: consent localization not needed
+                PackageUpdateWorkflowResult.ConsentLocalizationResult consentStep =
+                        new PackageUpdateWorkflowResult.ConsentLocalizationResult(PackageUpdateWorkflowResult.Status.SKIPPED,
+                                "Consent localization not required because language did not change.",
+                                null);
+                result.setConsentInfo(consentStep);
+                return result;
+            }
+
+            localizeConsent(packageId, updatedPackage.getLanguage(), result);
+            return result;
+        } catch (RequestException e) {
+            // Package update failed: consent not attempted
+            PackageUpdateWorkflowResult.Result packageStep =
+                    new PackageUpdateWorkflowResult.Result(PackageUpdateWorkflowResult.Status.FAILURE,
+                            "Could not update the package: " + e.getMessage());
+            result.setPackageInfo(packageStep);
+
+            PackageUpdateWorkflowResult.ConsentLocalizationResult consentStep =
+                    new PackageUpdateWorkflowResult.ConsentLocalizationResult(PackageUpdateWorkflowResult.Status.SKIPPED,
+                            "Consent localization not attempted because package update failed.",
+                            null);
+            result.setConsentInfo(consentStep);
+
+            throw new EslServerException("Could not update the package.", e);
+        } catch (Exception e) {
+            // Package update failed: consent not attempted
+            PackageUpdateWorkflowResult.Result packageStep =
+                    new PackageUpdateWorkflowResult.Result(PackageUpdateWorkflowResult.Status.FAILURE,
+                            "Could not update the package: " + e.getMessage());
+            result.setPackageInfo(packageStep);
+
+            PackageUpdateWorkflowResult.ConsentLocalizationResult consentStep =
+                    new PackageUpdateWorkflowResult.ConsentLocalizationResult(PackageUpdateWorkflowResult.Status.SKIPPED,
+                            "Consent localization not attempted because package update failed.",
+                            null);
+            result.setConsentInfo(consentStep);
+
+            return result;
+        }
+    }
+
+    private void localizeConsent(PackageId packageId, String language, PackageUpdateWorkflowResult result) {
+        try {
+            ConsentLocalizationData consentResponse =
+                    localizeDefaultConsentDocument(new ConsentLocalizationPayload(language), packageId);
+            PackageUpdateWorkflowResult.ConsentLocalizationResult consentStep =
+                    new PackageUpdateWorkflowResult.ConsentLocalizationResult(PackageUpdateWorkflowResult.Status.SUCCESS,
+                            "Consent document localized successfully.",
+                            consentResponse);
+            result.setConsentInfo(consentStep);
+        } catch (Exception e) {
+            log.warn("Failed to localize default consent.", e);
+            PackageUpdateWorkflowResult.ConsentLocalizationResult consentStep =
+                    new PackageUpdateWorkflowResult.ConsentLocalizationResult(PackageUpdateWorkflowResult.Status.FAILURE,
+                            "Failed to localize default consent: " + e.getMessage(),
+                            null);
+            result.setConsentInfo(consentStep);
+        }
+    }
+
+    private Optional<Package> getPackageWithoutException(String transactionId) {
+
+        Package existingPackage = null;
+        try {
+            existingPackage = getApiPackage(transactionId);
+        } catch (EslException e) {
+            log.warn("Failed to get package with transactionId {}", transactionId);
+        }
+        return Optional.ofNullable(existingPackage);
+
     }
 
     /**
@@ -548,6 +685,33 @@ public class PackageService extends EslComponent {
             throw new EslServerException("Could not update the document's metadata.", e);
         } catch (Exception e) {
             throw new EslException("Could not update the document's metadata." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Localizes the consent document for a package.
+     *
+     * @param localizationPayload the localization details (language must not be null)
+     * @param packageId           the package identifier (must not be null)
+     * @return ConsentLocalizationData
+     * @throws EslServerException if the server returns an error
+     * @throws EslException       for other exceptions
+     */
+    public ConsentLocalizationData localizeDefaultConsentDocument(ConsentLocalizationPayload localizationPayload, PackageId packageId) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.LOCALIZE_CONSENT_PATH)
+                .replace("{packageId}", packageId.getId())
+                .build();
+        try {
+            ConsentLocalizationRequest localizationRequest = ConsentLocalizationConverter.toAPI(localizationPayload);
+            String json = Serialization.toJson(localizationRequest);
+
+            String response = getClient().post(path, json);
+            return Serialization.fromJson(response, ConsentLocalizationData.class);
+
+        } catch (RequestException e) {
+            throw new EslServerException("Could not localize consent document.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not localize consent document." + " Exception: " + e.getMessage());
         }
     }
 
