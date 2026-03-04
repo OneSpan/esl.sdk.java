@@ -27,6 +27,7 @@ public class UrlTemplate {
     public static final String ROLE_UNLOCK_PATH = "/packages/{packageId}/roles/{roleId}/unlock";
     public static final String PDF_PATH = "/packages/{packageId}/documents/{documentId}/pdf";
     public static final String ORIGINAL_PATH = "/packages/{packageId}/documents/{documentId}/original";
+    public static final String LOCALIZE_CONSENT_PATH = "/packages/{packageId}/documents/localize-consent";
     public static final String ZIP_PATH = "/packages/{packageId}/documents/zip";
     public static final String EVIDENCE_SUMMARY_PATH = "/packages/{packageId}/evidence/summary";
     public static final String SIGNING_STATUS_PATH = "/packages/{packageId}/signingStatus?signer={signerId}&document={documentId}";
