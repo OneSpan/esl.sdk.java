@@ -1,6 +1,6 @@
 package com.silanis.esl.sdk.service;
 
-
+import com.silanis.esl.sdk.ChooseSignatureSettings;
 import com.silanis.esl.sdk.SigningUiOptions;
 import com.silanis.esl.sdk.SigningLogo;
 import com.silanis.esl.api.util.JacksonUtil;
@@ -175,6 +175,53 @@ public class SigningStyleService extends EslComponent {
             throw new EslServerException("Could not delete the signing ui options from account.", e);
         } catch (Exception e) {
             throw new EslException("Could not delete the signing ui options from account.", e);
+        }
+    }
+
+    /**
+     * Get Choose Signature Options.
+     *
+     */
+    public ChooseSignatureSettings getChooseSignatureSettings() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH).build();
+        try {
+            String stringResponse = getClient().get(path);
+            return Serialization.fromJson(stringResponse, ChooseSignatureSettings.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the Choose Signature Options for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the Choose Signature Options for account.", e);
+        }
+    }
+
+    /**
+     * Configure Choose Signature Options.
+     *
+     */
+    public void patchChooseSignatureSettings(ChooseSignatureSettings chooseSignatureSettings) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH).build();
+        String payload = JacksonUtil.serialize(chooseSignatureSettings);
+        try {
+            getClient().patch(path, payload);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the Choose Signature Options for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update the Choose Signature Options for account.", e);
+        }
+    }
+
+    /**
+     * Delete Choose Signature Options.
+     *
+     */
+    public void deleteChooseSignatureSettings() {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ACCOUNT_CHOOSE_SIGNATURE_SETTINGS_PATH).build();
+        try {
+            getClient().delete(path);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not delete the Choose Signature Options for account.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not delete the Choose Signature Options for account.", e);
         }
     }
 }

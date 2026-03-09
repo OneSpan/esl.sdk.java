@@ -65,6 +65,7 @@ public class AccountFeatureSettingsConverter {
         result.setEnableRecipientHistory(sdkAccountFeatureSettings.getEnableRecipientHistory());
         result.setAllowSignersDownloadEvidenceSummary(sdkAccountFeatureSettings.getAllowSignersDownloadEvidenceSummary());
         result.setDocumentWidget(sdkAccountFeatureSettings.getDocumentWidget());
+        result.setChooseSignature(sdkAccountFeatureSettings.getChooseSignature());
 
         return result;
     }
@@ -111,6 +112,7 @@ public class AccountFeatureSettingsConverter {
         result.setEnableRecipientHistory(apiAccountFeatureSettings.getEnableRecipientHistory());
         result.setAllowSignersDownloadEvidenceSummary(apiAccountFeatureSettings.getAllowSignersDownloadEvidenceSummary());
         result.setDocumentWidget(apiAccountFeatureSettings.getDocumentWidget());
+        result.setChooseSignature(apiAccountFeatureSettings.getChooseSignature());
 
         return result;
 

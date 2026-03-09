@@ -1,0 +1,57 @@
+package com.silanis.esl.sdk.examples;
+
+import static com.silanis.esl.sdk.ChooseSignatureStyleType.UPLOAD;
+import static com.silanis.esl.sdk.SupportedWritingSystem.ARABIC;
+import static com.silanis.esl.sdk.SupportedWritingSystem.LATIN;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.silanis.esl.sdk.ChooseSignatureOptions;
+import com.silanis.esl.sdk.ChooseSignatureSettings;
+import com.silanis.esl.sdk.builder.ChooseSignatureOptionsBuilder;
+import com.silanis.esl.sdk.builder.ChooseSignatureSettingsBuilder;
+
+public class ChooseSignatureSettingsExample extends SDKSample {
+
+    public ChooseSignatureSettings chooseSignatureSettingsAfterPatch, chooseSignatureSettingsAfterDelete;
+
+    public static void main(String... args) {
+        new ChooseSignatureSettingsExample().run();
+    }
+
+    @Override
+    protected void execute() {
+
+        Map<String, List<String>> fontsForWritingSystems = new HashMap<>();
+        fontsForWritingSystems.put(LATIN.getName(), Arrays.asList("Kanit", "Licorice"));
+        fontsForWritingSystems.put(ARABIC.getName(), Arrays.asList("Beiruti"));
+        ChooseSignatureOptions chooseSignatureOptionsToPatch = ChooseSignatureOptionsBuilder.newChooseSignatureOptions()
+                .allowDrawing()
+                .disableStyling()
+                .allowUploading()
+                .disableMobileSigning()
+                .withDefaultSignatureType(UPLOAD.name())
+                .withFontsPerWritingSystem(fontsForWritingSystems)
+                .build();
+
+        ChooseSignatureSettings chooseSignatureSettingsToPatch = ChooseSignatureSettingsBuilder.newChooseSignatureSettings()
+                .withChooseSignatureOptions(chooseSignatureOptionsToPatch)
+                .build();
+
+        // Configure Choose Signature Settings
+        eslClient.getSigningStyleService().patchChooseSignatureSettings(chooseSignatureSettingsToPatch);
+
+        // Get Choose Signature Settings after patch
+        chooseSignatureSettingsAfterPatch = eslClient.getSigningStyleService().getChooseSignatureSettings();
+
+        // Delete Choose Signature Settings
+        eslClient.getSigningStyleService().deleteChooseSignatureSettings();
+
+        // Get Choose Signature Settings after delete
+        chooseSignatureSettingsAfterDelete = eslClient.getSigningStyleService().getChooseSignatureSettings();
+
+    }
+}

@@ -131,6 +131,42 @@ public class SignatureBuilderTest {
     }
 
     @Test
+    public void buildChooseSignatureForSignerUsingEmail() {
+        String email = "signer@e-signlive.com";
+        Collection<Field> fields = new ArrayList<Field>();
+        Signature signature = signature(SignatureStyle.CHOOSE_SIGNATURE, email).build();
+
+        assertEquals(email, signature.getSignerEmail());
+        assertEquals(SignatureStyle.CHOOSE_SIGNATURE, signature.getStyle());
+
+        assertThat(signature, notNullValue());
+        assertThat(signature.getSignerEmail(), is(email));
+        assertThat(signature.getStyle(), is(SignatureStyle.CHOOSE_SIGNATURE));
+    }
+
+    @Test
+    public void buildChooseSignatureForGroup() {
+        GroupId groupId = new GroupId("myGroupId");
+        Signature signature = signature(SignatureStyle.CHOOSE_SIGNATURE, groupId).build();
+
+        assertThat(signature, notNullValue());
+        assertThat(signature.getGroupId(), is(groupId));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(SignatureStyle.CHOOSE_SIGNATURE));
+    }
+
+    @Test
+    public void buildChooseInitialsForPlaceholder() {
+        Placeholder placeholder = new Placeholder("placeholderId");
+        Signature signature = signature(SignatureStyle.CHOOSE_INITIALS, placeholder).build();
+
+        assertThat(signature, notNullValue());
+        assertThat(signature.getRoleId(), is(placeholder));
+        assertThat(signature.getSignerEmail(), isEmptyOrNullString());
+        assertThat(signature.getStyle(), is(SignatureStyle.CHOOSE_INITIALS));
+    }
+
+    @Test
     public void buildWithSpecifiedValues() {
         String email = "bob@aol.com";
         double x = 1;
