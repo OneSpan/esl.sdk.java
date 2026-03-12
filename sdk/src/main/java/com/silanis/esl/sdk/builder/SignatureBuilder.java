@@ -248,6 +248,18 @@ final public class SignatureBuilder {
         return new SignatureBuilder(roleId).withStyle(SignatureStyle.MOBILE_CAPTURE);
     }
 
+    public static SignatureBuilder signature(SignatureStyle signatureStyle, String signerEmail) {
+        return new SignatureBuilder(signerEmail).withStyle(signatureStyle);
+    }
+
+    public static SignatureBuilder signature(SignatureStyle signatureStyle, GroupId groupId) {
+        return new SignatureBuilder(groupId).withStyle(signatureStyle);
+    }
+
+    public static SignatureBuilder signature(SignatureStyle signatureStyle, Placeholder roleId) {
+        return new SignatureBuilder(roleId).withStyle(signatureStyle);
+    }
+
     /**
      * <p>Set a custom ID for the signature. If none is provided, the system will assign one by default.
      * This package id needs to be unique per document.</p>

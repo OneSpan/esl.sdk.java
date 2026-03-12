@@ -40,7 +40,7 @@ public class AccountFeatureSettingsBuilder {
     private Boolean enableRecipientHistory = null;
     private Boolean allowSignersDownloadEvidenceSummary = null;
     private Boolean documentWidget = null;
-
+    private Boolean chooseSignature = null;
 
     /**
      * Creates a new Account Feature Settings builder.
@@ -775,6 +775,30 @@ public class AccountFeatureSettingsBuilder {
     }
 
     /**
+     * Enables the 'chooseSignature' feature.
+     * <p>
+     * DEFAULT: DISABLED
+     * <p>
+     *
+     * @return This
+     */
+    public AccountFeatureSettingsBuilder withChooseSignature() {
+        chooseSignature = true;
+        return this;
+    }
+
+    /**
+     * Disables the 'chooseSignature' feature.
+     *
+     * @return This
+     * @see #withoutChooseSignature()
+     */
+    public AccountFeatureSettingsBuilder withoutChooseSignature() {
+        chooseSignature = false;
+        return this;
+    }
+
+    /**
      * Builds the actual Account Feature Settings.
      *
      * @return the Account Feature Settings
@@ -812,7 +836,7 @@ public class AccountFeatureSettingsBuilder {
         result.setEnableRecipientHistory(enableRecipientHistory);
         result.setAllowSignersDownloadEvidenceSummary(allowSignersDownloadEvidenceSummary);
         result.setDocumentWidget(documentWidget);
-
+        result.setChooseSignature(chooseSignature);
 
         return result;
     }

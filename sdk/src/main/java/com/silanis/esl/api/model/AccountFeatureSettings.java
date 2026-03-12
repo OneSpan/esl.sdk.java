@@ -70,6 +70,8 @@ public class AccountFeatureSettings extends Model
     public static final String  FIELD_ALLOW_SIGNERS_DOWNLOAD_EVIDENCE_SUMMARY = "allowSignersDownloadEvidenceSummary";
     @JsonIgnore
     public static final String  FIELD_DOCUMENT_WIDGET = "documentWidget";
+    @JsonIgnore
+    public static final String  FIELD_CHOOSE_SIGNATURE = "chooseSignature";
 
     protected Boolean _allowCheckboxConsentApproval = true;
     protected Boolean _allowInPersonForAccountSenders = true;
@@ -101,6 +103,7 @@ public class AccountFeatureSettings extends Model
     protected Boolean _enableRecipientHistory = true;
     protected Boolean _allowSignersDownloadEvidenceSummary = false;
     protected Boolean _documentWidget = false;
+    protected Boolean _chooseSignature = true;
 
     public AccountFeatureSettings() {
     }
@@ -787,4 +790,27 @@ public class AccountFeatureSettings extends Model
         return _documentWidget == null || _documentWidget.booleanValue();
     }
 
+    public Boolean getChooseSignature() {
+        return _chooseSignature;
+    }
+
+    public AccountFeatureSettings setChooseSignature(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_CHOOSE_SIGNATURE, value);
+        this._chooseSignature = value;
+        setDirty(FIELD_CHOOSE_SIGNATURE);
+        return this;
+    }
+
+    @JsonIgnore
+    public AccountFeatureSettings safeSetChooseSignature(Boolean value) {
+        if (value != null) {
+            this.setChooseSignature(value);
+        }
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean evalChooseSignature() {
+        return _chooseSignature == null || _chooseSignature.booleanValue();
+    }
 }
