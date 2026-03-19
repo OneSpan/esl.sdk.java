@@ -17,9 +17,16 @@ public class NotificationMethodsExampleTest {
 
         DocumentPackage documentPackage = example.getRetrievedPackage();
 
-        assertThat( "Signer 1 notification method was not set correctly.", documentPackage.getSigner(example.email1).getNotificationMethods(), nullValue() );
-        assertThat( "Signer 2 notification method was not set correctly.", documentPackage.getSigner(example.email2).getNotificationMethods().getPrimary(), IsCollectionContaining.hasItems(NotificationMethod.EMAIL) );
-        assertThat( "Signer 3 notification method was not set correctly.", documentPackage.getSigner(example.email3).getNotificationMethods().getPrimary(), IsCollectionContaining.hasItems(NotificationMethod.EMAIL, NotificationMethod.SMS) );
-        assertThat("Signer 3 notification phone number was not set correctly", documentPackage.getSigner(example.email3).getNotificationMethods().getPhone(), is("+12042345678"));
+        assertThat( "Signer 1 notification method was not set correctly.",
+                documentPackage.getSigner(example.email1).getNotificationMethods().getPrimary(),
+                IsCollectionContaining.hasItems(NotificationMethod.EMAIL) );
+        assertThat( "Signer 2 notification method was not set correctly.",
+                documentPackage.getSigner(example.email2).getNotificationMethods().getPrimary(),
+                IsCollectionContaining.hasItems(NotificationMethod.EMAIL) );
+        assertThat( "Signer 3 notification method was not set correctly.",
+                documentPackage.getSigner(example.email3).getNotificationMethods().getPrimary(),
+                IsCollectionContaining.hasItems(NotificationMethod.EMAIL, NotificationMethod.SMS) );
+        assertThat("Signer 3 notification phone number was not set correctly",
+                documentPackage.getSigner(example.email3).getNotificationMethods().getPhone(), is("+12042345678"));
     }
 }
