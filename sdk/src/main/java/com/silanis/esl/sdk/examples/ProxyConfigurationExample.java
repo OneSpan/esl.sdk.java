@@ -100,7 +100,7 @@ public class ProxyConfigurationExample extends SDKSample {
                 withPort(port).withProxyAuthenticator(new ProxyAuthenticator() {
             @Override
             public boolean authenticate(String s1, String s2) {
-                return "httpUser".equals(s1) && "httpPwd".equals(s2);
+                return proxyUserName.equals(s1) && proxyPassword.equals(s2);
             }
 
             @Override
