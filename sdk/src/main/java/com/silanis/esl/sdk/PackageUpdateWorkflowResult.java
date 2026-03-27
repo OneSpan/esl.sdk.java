@@ -126,6 +126,10 @@ public class PackageUpdateWorkflowResult implements Serializable {
             this.consentData = consentLocalizationData;
         }
 
+        public ConsentLocalizationResult(Status status, String message) {
+            super(status, message);
+        }
+
         public ConsentLocalizationData getConsentData() {
             return consentData;
         }

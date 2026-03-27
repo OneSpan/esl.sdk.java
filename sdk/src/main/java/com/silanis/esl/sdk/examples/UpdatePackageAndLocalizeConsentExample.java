@@ -31,7 +31,6 @@ public class UpdatePackageAndLocalizeConsentExample extends SDKSample {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName()).describedAs("This is a package created using OneSpan Sign SDK")
                 .expiresAt(now().plusMonths(1)
                         .toDate())
-                // .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1).withCustomId("Client1")
                         .withFirstName("John")
                         .withLastName("Smith")

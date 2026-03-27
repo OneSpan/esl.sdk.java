@@ -31,7 +31,6 @@ public class UpdatePackageAndLocalizeConsentDefaultLanguageExample extends SDKSa
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName()).describedAs("This is a package created using OneSpan Sign SDK")
                 .expiresAt(now().plusMonths(1)
                         .toDate())
-                // .withEmailMessage("This message should be delivered to all signers")
                 .withSigner(newSignerWithEmail(email1).withCustomId("Client1")
                         .withFirstName("John")
                         .withLastName("Smith")
@@ -42,6 +41,7 @@ public class UpdatePackageAndLocalizeConsentDefaultLanguageExample extends SDKSa
         packageId = eslClient.createPackage(superDuperPackage);
 
         DocumentPackage sdkPackage = eslClient.getPackageService().getPackage(packageId);
+        // Set invalid language code
         sdkPackage.setLanguage(Locale.FRANCE);
 
         // 2. Update package and localize consent automatically
