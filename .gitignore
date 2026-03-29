@@ -17,3 +17,5 @@ target
 /.vscode/settings.json
 
 .vscode/
+/CLAUDE.md
+/.claude/*.*
