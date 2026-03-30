@@ -234,36 +234,28 @@ public class PackageService extends EslComponent {
         try {
             getClient().put(path, Serialization.toJson(packageToUpdate));
             setPackageResult(result, PackageUpdateWorkflowResult.Status.SUCCESS, "Package updated successfully.");
-
-            Optional<Package> updatedPackageOptional = getPackageWithoutException(transactionId);
-            if (!updatedPackageOptional.isPresent()) {
-                setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                        "Consent localization could not be determined.", null);
-                return result;
-            }
-
-            Package updatedPackage = updatedPackageOptional.get();
-            if (existingPackageOptional.isPresent() && !hasLanguageChanged(existingPackageOptional.get(), updatedPackage)) {
-                setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                        "Consent localization not required because language did not change.", null);
-                return result;
-            }
-
-            localizeConsent(packageId, updatedPackage.getLanguage(), result);
-            return result;
         } catch (RequestException e) {
-            setPackageResult(result, PackageUpdateWorkflowResult.Status.FAILURE,
-                    "Could not update the package: " + e.getMessage());
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                    "Consent localization not attempted because package update failed.", null);
             throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
-            setPackageResult(result, PackageUpdateWorkflowResult.Status.FAILURE,
-                    "Could not update the package: " + e.getMessage());
+            throw new EslException("Could not update the package.", e);
+        }
+
+        Optional<Package> updatedPackageOptional = getPackageWithoutException(transactionId);
+        if (!updatedPackageOptional.isPresent()) {
             setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                    "Consent localization not attempted because package update failed.", null);
+                    "Consent localization could not be determined.", null);
             return result;
         }
+
+        Package updatedPackage = updatedPackageOptional.get();
+        if (existingPackageOptional.isPresent() && !hasLanguageChanged(existingPackageOptional.get(), updatedPackage)) {
+            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
+                    "Consent localization not required because language did not change.", null);
+            return result;
+        }
+
+        localizeConsent(packageId, updatedPackage.getLanguage(), result);
+        return result;
     }
 
     private void localizeConsent(PackageId packageId, String language, PackageUpdateWorkflowResult result) {
@@ -297,7 +289,6 @@ public class PackageService extends EslComponent {
     }
 
     private boolean hasLanguageChanged(Package existingPackage, Package updatedPackage) {
-
         String previousLanguage = existingPackage.getLanguage();
         String currentLanguage = updatedPackage.getLanguage();
 
@@ -309,7 +300,6 @@ public class PackageService extends EslComponent {
     }
 
     private Optional<Package> getPackageWithoutException(String transactionId) {
-
         Package existingPackage = null;
         try {
             existingPackage = getApiPackage(transactionId);
