@@ -208,15 +208,18 @@ public class PackageService extends EslComponent {
      * <p>
      * Workflow:
      * <ol>
-     *   <li>Update the package using the provided DocumentPackage.</li>
-     *   <li>If the update succeeds and the language has changed, attempt to localize the default consent document.</li>
-     *   <li>If the update fails, consent localization is not attempted.</li>
+     *   <li>Attempts to update the package using the provided {@link DocumentPackage}.</li>
+     *   <li>If the update fails, throws an {@link EslException} and does not attempt consent localization.</li>
+     *   <li>If the update succeeds, retrieves the updated package.</li>
+     *   <li>If the updated package cannot be retrieved, consent localization is skipped.</li>
+     *   <li>If the language has not changed, consent localization is skipped.</li>
+     *   <li>If the language has changed, attempts to localize the default consent document.</li>
      * </ol>
-     * The outcome of each step is captured in a {@link com.silanis.esl.sdk.PackageUpdateWorkflowResult}.
+     * The outcome of each step is recorded in a {@link com.silanis.esl.sdk.PackageUpdateWorkflowResult}.
      *
-     * @param packageId  the ID of the package to update
-     * @param sdkPackage the DocumentPackage containing updated fields and language
-     * @return workflow result describing package update and consent localization outcomes
+     * @param packageId  the ID of the package to update (must not be null)
+     * @param sdkPackage the {@link DocumentPackage} containing updated fields and language (must not be null)
+     * @return a {@link PackageUpdateWorkflowResult} describing the outcomes of the package update and consent localization
      * @throws EslException if the package update operation fails
      */
     public PackageUpdateWorkflowResult updatePackageAndLocalizeConsent(PackageId packageId, DocumentPackage sdkPackage) throws EslException {
@@ -667,13 +670,17 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * Localizes the consent document for a package.
+     * Localizes the default consent document for the specified package and language.
+     * <p>
+     * This method sends a localization request for the default consent document of the given package using the provided language and returns
+     * the resulting localization data.
+     * If the server returns an error, an {@link EslServerException} is thrown. For other errors, an {@link EslException} is thrown.
      *
-     * @param localizationPayload the localization details (language must not be null)
-     * @param packageId           the package identifier (must not be null)
-     * @return ConsentLocalizationData
-     * @throws EslServerException if the server returns an error
-     * @throws EslException       for other exceptions
+     * @param localizationPayload the localization details, including the target language (must not be null)
+     * @param packageId the package identifier for which to localize the consent document (must not be null)
+     * @return the {@link ConsentLocalizationData} containing the localized consent document information
+     * @throws EslServerException if the server returns an error during localization
+     * @throws EslException for other errors during localization
      */
     public ConsentLocalizationData localizeDefaultConsentDocument(ConsentLocalizationPayload localizationPayload, PackageId packageId) {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.LOCALIZE_CONSENT_PATH)
