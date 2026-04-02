@@ -40,6 +40,6 @@ public class LocalizeConsentPackageExample extends SDKSample {
             .withLanguage(Locale.FRENCH.getLanguage())
             .build();
         // 2. Localize consent document
-        consentLocalizationData = eslClient.getPackageService().localizeDefaultConsentDocument(localizationPayload, packageId);
+        consentLocalizationData = eslClient.getPackageService().localizeDefaultConsentDocument(packageId, localizationPayload);
     }
 }
