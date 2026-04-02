@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.builder;
 
 import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.AttachmentType;
 import com.silanis.esl.sdk.EslException;
 import org.junit.Test;
 
@@ -18,15 +19,28 @@ public class AttachmentRequirementBuilderTest {
         String name = "Driver's license";
         String description = "Please upload driver's license.";
         boolean isRequired = true;
+        String attachmentType = "DRIVER_LICENSE";
 
         AttachmentRequirement attachmentRequirement = newAttachmentRequirementWithName(name)
                 .withDescription(description)
                 .isRequiredAttachment()
+                .withAttachmentType(attachmentType)
                 .build();
 
         assertThat("Attachment's name was not set correctly.", attachmentRequirement.getName(), is(name));
         assertThat("Attachment's description was not set correctly.", attachmentRequirement.getDescription(), is(description));
         assertThat("Attachment's required property was not set correctly", attachmentRequirement.isRequired(), is(isRequired));
+        assertThat("Attachment's type was not set correctly", attachmentRequirement.getAttachmentType(), is(attachmentType));
+    }
+
+    @Test
+    public void buildWithAttachmentTypeEnum() {
+        AttachmentRequirement attachmentRequirement = newAttachmentRequirementWithName("Passport")
+                .withAttachmentType(AttachmentType.PASSPORT)
+                .build();
+
+        assertThat("Attachment type enum should resolve to its name()",
+                attachmentRequirement.getAttachmentType(), is(AttachmentType.PASSPORT.name()));
     }
 
     @Test(expected = EslException.class)
