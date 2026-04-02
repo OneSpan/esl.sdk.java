@@ -20,6 +20,7 @@ public class AttachmentRequirement implements Serializable {
     private boolean isRequired;
     private com.silanis.esl.sdk.RequirementStatus status;
     private List<AttachmentFile> files = new ArrayList<AttachmentFile>();
+    private String attachmentType;
 
     /**
      * <p>The constructor of the AttachmentRequirement class.</p>
@@ -88,5 +89,13 @@ public class AttachmentRequirement implements Serializable {
 
     public void setFiles(List<AttachmentFile> files) {
         this.files = files;
+    }
+
+    public String getAttachmentType() {
+        return attachmentType;
+    }
+
+    public void setAttachmentType(String attachmentType) {
+        this.attachmentType = attachmentType;
     }
 }

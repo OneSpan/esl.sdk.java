@@ -12,6 +12,7 @@ final public class AttachmentRequirementBuilder {
     private String description;
     private final String name;
     private boolean isRequired;
+    private String attachmentType;
 
     /**
      * <p>The constructor of the AttachmentRequirementBuilder class.</p>
@@ -44,6 +45,17 @@ final public class AttachmentRequirementBuilder {
     }
 
     /**
+     * Sets the attachment type.
+     *
+     * @param attachmentType the attachment type
+     * @return the attachment requirement builder itself
+     */
+    public AttachmentRequirementBuilder withAttachmentType(String attachmentType) {
+        this.attachmentType = attachmentType;
+        return this;
+    }
+
+    /**
      * Sets the isRequired property to true.
      *
      * @return the attachment requirement builder itself
@@ -64,6 +76,7 @@ final public class AttachmentRequirementBuilder {
         attachmentRequirement.setDescription(description);
         attachmentRequirement.setRequired(isRequired);
         attachmentRequirement.setStatus(com.silanis.esl.sdk.RequirementStatus.INCOMPLETE);
+        attachmentRequirement.setAttachmentType(attachmentType);
 
         return attachmentRequirement;
     }

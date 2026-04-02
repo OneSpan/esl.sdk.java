@@ -85,6 +85,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         assertThat("Attachment's required property was not set correctly", sdkAttachmentRequirement1.isRequired(), is(apiAttachmentRequirement1.getRequired()));
         assertThat("Attachment's status was not set correctly", sdkAttachmentRequirement1.getStatus().toString(), is(apiAttachmentRequirement1.getStatus()));
         assertThat("Attachment's comments was not set correctly", sdkAttachmentRequirement1.getSenderComment(), is(apiAttachmentRequirement1.getComment()));
+        assertThat("Attachment's type was not set correctly", sdkAttachmentRequirement1.getAttachmentType(), is(apiAttachmentRequirement1.getAttachmentType()));
     }
 
     @Override
@@ -99,6 +100,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         assertThat("Attachment's ID was not set correctly", apiAttachmentRequirement1.getId(), is(sdkAttachmentRequirement1.getId()));
         assertThat("Attachment's status was not set correctly", apiAttachmentRequirement1.getStatus(), is(sdkAttachmentRequirement1.getStatus().toString()));
         assertThat("Attachment's comments was not set correctly", apiAttachmentRequirement1.getComment(), is(sdkAttachmentRequirement1.getSenderComment()));
+        assertThat("Attachment's type was not set correctly", apiAttachmentRequirement1.getAttachmentType(), is(sdkAttachmentRequirement1.getAttachmentType()));
     }
 
     /**
@@ -110,6 +112,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         AttachmentRequirement attachmentRequirement = AttachmentRequirementBuilder.newAttachmentRequirementWithName("Driver's license")
                 .withDescription("Please upload a scanned copy of your driver's license")
                 .isRequiredAttachment()
+                .withAttachmentType("DRIVER_LICENSE")
                 .build();
         attachmentRequirement.setId("attachmentId");
 
@@ -127,6 +130,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         attachmentRequirement.setId("attachment1");
         attachmentRequirement.setDescription("Please upload a scanned copy of your driver's license");
         attachmentRequirement.setRequired(true);
+        attachmentRequirement.setAttachmentType("DRIVER_LICENSE");
 
         return attachmentRequirement;
     }
