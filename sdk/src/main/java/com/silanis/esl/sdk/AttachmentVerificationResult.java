@@ -2,12 +2,6 @@ package com.silanis.esl.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Represents the outcome of verifying a single uploaded attachment file against
- * the expected {@code attachmentType} set on the requirement.
- *
- * <p>Returned by {@link com.silanis.esl.sdk.service.AttachmentRequirementService#getAttachmentVerificationResults}.</p>
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AttachmentVerificationResult {
 

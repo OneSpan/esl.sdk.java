@@ -2,10 +2,6 @@ package com.silanis.esl.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Holds the document classification result produced when a signer uploads an attachment
- * against a requirement that has an {@code attachmentType} set.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AttachmentClassificationResult {
 

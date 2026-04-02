@@ -17,19 +17,6 @@ import java.util.List;
 import static com.silanis.esl.sdk.builder.AttachmentRequirementBuilder.newAttachmentRequirementWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 
-/**
- * Demonstrates the {@code attachmentType} feature end-to-end:
- * <ol>
- *   <li>A signer is created with an attachment requirement that specifies an
- *       {@code attachmentType} (e.g. {@code DRIVERS_LICENSE}).</li>
- *   <li>The package is created and a file is uploaded against that requirement.</li>
- *   <li>Verification results are fetched via
- *       {@link com.silanis.esl.sdk.service.AttachmentRequirementService#getAttachmentVerificationResults}.
- *       When the Doc Insight feature is enabled for the account the results contain
- *       classification data and a {@code typeMatch} flag indicating whether the uploaded
- *       document matches the required type.</li>
- * </ol>
- */
 public class AttachmentRequirementWithTypeExample extends SDKSample {
 
     public static final String ATTACHMENT_NAME = "Driver's license";
@@ -81,15 +68,10 @@ public class AttachmentRequirementWithTypeExample extends SDKSample {
         retrievedAttachmentRequirement = retrievedPackage.getSigner(email1)
                 .getAttachmentRequirement(ATTACHMENT_NAME);
 
-        // Upload a file against the typed attachment requirement
         String attachmentId = retrievedAttachmentRequirement.getId();
         byte[] fileContent = new StreamDocumentSource(attachmentInputStream).content();
         eslClient.uploadAttachment(packageId, attachmentId, ATTACHMENT_FILE_NAME, fileContent, SIGNER1_ID);
 
-        // Fetch verification results.
-        // When Doc Insight is enabled the server classifies the uploaded file and
-        // populates each AttachmentVerificationResult with classification data and a
-        // typeMatch flag. When the feature is disabled the list is empty.
         verificationResults = eslClient.getAttachmentRequirementService()
                 .getAttachmentVerificationResults(packageId);
     }

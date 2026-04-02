@@ -19,7 +19,6 @@ public class AttachmentRequirementWithTypeExampleTest {
         AttachmentRequirementWithTypeExample example = new AttachmentRequirementWithTypeExample();
         example.run();
 
-        // Verify the attachment requirement round-tripped correctly from the server
         assertNotNull("Retrieved attachment requirement should not be null",
                 example.retrievedAttachmentRequirement);
         assertThat("Attachment name was not set correctly",
@@ -33,12 +32,8 @@ public class AttachmentRequirementWithTypeExampleTest {
         assertThat("Attachment status should be INCOMPLETE before signer signs",
                 example.retrievedAttachmentRequirement.getStatus().toString(), is(INCOMPLETE.toString()));
 
-        // Verify the verification results endpoint responded without error.
-        // The list may be empty when Doc Insight is not enabled for the test account,
-        // but it must never be null.
         assertThat("Verification results list should not be null", example.verificationResults, notNullValue());
 
-        // When results are present, validate their structure
         for (com.silanis.esl.sdk.AttachmentVerificationResult result : example.verificationResults) {
             assertNotNull("Verification result attachmentUuid should not be null", result.getAttachmentUuid());
             assertNotNull("Verification result fileName should not be null", result.getFileName());

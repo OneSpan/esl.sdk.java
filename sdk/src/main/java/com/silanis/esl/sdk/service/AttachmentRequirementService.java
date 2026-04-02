@@ -207,14 +207,6 @@ public class AttachmentRequirementService extends EslComponent {
         }
     }
 
-    /**
-     * Retrieves the verification results for all uploaded attachment files in a package.
-     * Results are only present for attachments whose requirement has an {@code attachmentType} set
-     * and where document classification is enabled for the account.
-     *
-     * @param packageId the package ID
-     * @return list of verification results, may be empty
-     */
     public List<AttachmentVerificationResult> getAttachmentVerificationResults(PackageId packageId) {
         String path = new UrlTemplate(getBaseUrl())
                 .urlFor(UrlTemplate.ATTACHMENT_VERIFICATION_RESULTS_PATH)

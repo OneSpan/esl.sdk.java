@@ -45,24 +45,13 @@ final public class AttachmentRequirementBuilder {
         return this;
     }
 
-    /**
-     * Sets the attachment type using a raw string value.
-     *
-     * @param attachmentType the attachment type string (e.g. {@code "DRIVERS_LICENSE"})
-     * @return the attachment requirement builder itself
-     * @see #withAttachmentType(AttachmentType)
-     */
+
     public AttachmentRequirementBuilder withAttachmentType(String attachmentType) {
         this.attachmentType = attachmentType;
         return this;
     }
 
-    /**
-     * Sets the attachment type using the {@link AttachmentType} enum.
-     *
-     * @param attachmentType the attachment type
-     * @return the attachment requirement builder itself
-     */
+
     public AttachmentRequirementBuilder withAttachmentType(AttachmentType attachmentType) {
         this.attachmentType = attachmentType.name();
         return this;
