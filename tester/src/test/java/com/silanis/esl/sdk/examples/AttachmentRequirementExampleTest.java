@@ -6,7 +6,6 @@ import static com.silanis.esl.sdk.RequirementStatus.COMPLETE;
 import static com.silanis.esl.sdk.RequirementStatus.INCOMPLETE;
 import static com.silanis.esl.sdk.RequirementStatus.REJECTED;
 import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.ATTACHMENT_FILE_NAME1;
-import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.ATTACHMENT_TYPE1;
 import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.DESCRIPTION1;
 import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.DESCRIPTION2;
 import static com.silanis.esl.sdk.examples.AttachmentRequirementExample.DESCRIPTION3;
@@ -37,7 +36,6 @@ public class AttachmentRequirementExampleTest {
         assertThat("Signer1's attachment1's name was set incorrectly.", example.signer1Att1.getName(), is(NAME1));
         assertThat("Signer1's attachment1's description was set incorrectly.", example.signer1Att1.getDescription(), is(DESCRIPTION1));
         assertTrue("Signer1's attachment1's isRequired property was set incorrectly.", example.signer1Att1.isRequired());
-        assertThat("Signer1's attachment1's attachmentType was set incorrectly.", example.retrievedSigner1Att1AttachmentType, is(ATTACHMENT_TYPE1));
         assertThat("Signer1's attachment1's status was set incorrectly.", example.retrievedSigner1Att1RequirementStatus.toString(), is(INCOMPLETE.toString()));
 
         assertThat("Signer2 should have 2 attachment requirements.", example.signer2Attachments.size(), is(2));

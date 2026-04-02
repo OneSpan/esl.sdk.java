@@ -1,6 +1,8 @@
 package com.silanis.esl.sdk.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.silanis.esl.api.model.Role;
+import com.silanis.esl.api.util.JacksonUtil;
 import com.silanis.esl.sdk.*;
 import com.silanis.esl.sdk.internal.*;
 import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
@@ -8,6 +10,7 @@ import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -201,6 +204,29 @@ public class AttachmentRequirementService extends EslComponent {
             throw new EslServerException("Could not upload attachment for signer.", e);
         } catch (Exception e) {
             throw new EslException("Could not upload attachment for signer." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves the verification results for all uploaded attachment files in a package.
+     * Results are only present for attachments whose requirement has an {@code attachmentType} set
+     * and where document classification is enabled for the account.
+     *
+     * @param packageId the package ID
+     * @return list of verification results, may be empty
+     */
+    public List<AttachmentVerificationResult> getAttachmentVerificationResults(PackageId packageId) {
+        String path = new UrlTemplate(getBaseUrl())
+                .urlFor(UrlTemplate.ATTACHMENT_VERIFICATION_RESULTS_PATH)
+                .replace("{packageId}", packageId.getId())
+                .build();
+        try {
+            String response = getClient().get(path);
+            return JacksonUtil.deserialize(response, new TypeReference<List<AttachmentVerificationResult>>() {});
+        } catch (RequestException e) {
+            throw new EslServerException("Could not retrieve attachment verification results.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not retrieve attachment verification results. Exception: " + e.getMessage());
         }
     }
 

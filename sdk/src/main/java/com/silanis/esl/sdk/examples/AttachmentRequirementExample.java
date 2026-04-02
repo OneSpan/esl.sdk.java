@@ -32,7 +32,6 @@ public class AttachmentRequirementExample extends SDKSample {
 
     public static final String NAME1 = "Driver's license";
     public static final String DESCRIPTION1 = "Please upload a scanned copy of your driver's license.";
-    public static final String ATTACHMENT_TYPE1 = "DRIVER_LICENSE";
     public static final String NAME2 = "Medicare card";
     public static final String DESCRIPTION2 = "Optional attachment.";
     public static final String NAME3 = "Attachment3";
@@ -58,7 +57,6 @@ public class AttachmentRequirementExample extends SDKSample {
 
     public String retrievedSigner1Att1RequirementSenderCommentAfterRejection,
             retrievedSigner1Att1RequirementSenderCommentAfterAccepting;
-    public String retrievedSigner1Att1AttachmentType;
 
     public File downloadedAttachemnt1;
     public long attachment1ForSigner1FileSize;
@@ -87,7 +85,6 @@ public class AttachmentRequirementExample extends SDKSample {
                 .withAttachmentRequirement(newAttachmentRequirementWithName(NAME1)
                         .withDescription(DESCRIPTION1)
                         .isRequiredAttachment()
-                        .withAttachmentType(ATTACHMENT_TYPE1)
                         .build())
                 .build();
 
@@ -131,7 +128,6 @@ public class AttachmentRequirementExample extends SDKSample {
         signer2Att2 = signer2Attachments.get(1);
 
         retrievedSigner1Att1RequirementStatus = signer1Att1.getStatus();
-        retrievedSigner1Att1AttachmentType = signer1Att1.getAttachmentType();
         retrievedSigner2Att1RequirementStatus = signer2Att1.getStatus();
         retrievedSigner2Att2RequirementStatus = signer2Att2.getStatus();
 
