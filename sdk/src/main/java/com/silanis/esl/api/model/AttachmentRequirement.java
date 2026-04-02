@@ -29,16 +29,22 @@ public class AttachmentRequirement extends Entity
     public static final String FIELD_STATUS = "status";
     @JsonIgnore
     public static final String FIELD_FILES = "files";
-    
+    @JsonIgnore
+    public static final String FIELD_ATTACHMENT_TYPE = "attachmentType";
+    @JsonIgnore
+    public static final String FIELD_EXTRACTION_ENABLED = "extractionEnabled";
+
     // Empty Constructor
     public AttachmentRequirement ( ) {}
-    
+
     // Fields
     protected String _comment = "";
     protected String _description = "";
     protected Boolean _required = true;
     protected String _status = "INCOMPLETE";
     protected List<AttachmentFile> files = new ArrayList<AttachmentFile>();
+    protected String _attachmentType = null;
+    protected Boolean _extractionEnabled = null;
     
     // Accessors
         
@@ -169,6 +175,43 @@ public class AttachmentRequirement extends Entity
         return _status;
     }
 
+
+    public AttachmentRequirement setAttachmentType( String value ){
+        value = SchemaSanitizer.sanitize(value);
+        value = SchemaSanitizer.trim(value);
+        this._attachmentType = value;
+        setDirty(FIELD_ATTACHMENT_TYPE);
+        return this;
+    }
+    @JsonIgnore
+    public AttachmentRequirement safeSetAttachmentType( String value ){
+        if ( value != null ) { this.setAttachmentType( value ); }
+        return this;
+    }
+    public String getAttachmentType(){
+        return _attachmentType;
+    }
+
+    public AttachmentRequirement setExtractionEnabled( Boolean value ){
+        this._extractionEnabled = value;
+        setDirty(FIELD_EXTRACTION_ENABLED);
+        return this;
+    }
+
+    @JsonIgnore
+    public AttachmentRequirement safeSetExtractionEnabled( Boolean value ){
+        if ( value != null ) { this.setExtractionEnabled( value ); }
+        return this;
+    }
+
+    public Boolean getExtractionEnabled(){
+        return _extractionEnabled;
+    }
+
+    @JsonIgnore
+    public boolean evalExtractionEnabled(){
+        return _extractionEnabled != null && _extractionEnabled;
+    }
 
     public AttachmentRequirement setFiles(List<AttachmentFile> value) {
         SchemaSanitizer.throwOnNull(FIELD_FILES,value);

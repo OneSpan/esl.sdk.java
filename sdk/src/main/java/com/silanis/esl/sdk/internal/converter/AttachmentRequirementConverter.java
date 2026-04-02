@@ -57,6 +57,8 @@ public class AttachmentRequirementConverter {
         result.setDescription(sdkAttachmentRequirement.getDescription());
         result.setRequired(sdkAttachmentRequirement.isRequired());
         result.setFiles(getApiAttachmentFiles());
+        result.safeSetAttachmentType(sdkAttachmentRequirement.getAttachmentType());
+        result.safeSetExtractionEnabled(sdkAttachmentRequirement.getExtractionEnabled());
 
         if (sdkAttachmentRequirement.getStatus() == null) {
             result.setStatus("INCOMPLETE");
@@ -87,6 +89,8 @@ public class AttachmentRequirementConverter {
             result.setRequired(apiAttachmentRequirement.getRequired());
             result.setStatus(new RequirementStatusConverter(apiAttachmentRequirement.getStatus()).toSDKRequirementStatus());
             result.setFiles(getSdkAttachmentFiles());
+            result.setAttachmentType(apiAttachmentRequirement.getAttachmentType());
+            result.setExtractionEnabled(apiAttachmentRequirement.getExtractionEnabled());
 
             return result;
         }
