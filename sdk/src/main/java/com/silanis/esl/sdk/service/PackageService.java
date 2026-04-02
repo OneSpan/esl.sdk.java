@@ -236,7 +236,6 @@ public class PackageService extends EslComponent {
 
         try {
             getClient().put(path, Serialization.toJson(packageToUpdate));
-            setPackageResult(result, PackageUpdateWorkflowResult.Status.SUCCESS, "Package updated successfully.");
         } catch (RequestException e) {
             throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
@@ -272,10 +271,6 @@ public class PackageService extends EslComponent {
             setConsentResult(result, PackageUpdateWorkflowResult.Status.FAILURE,
                     "Failed to localize default consent: " + e.getMessage(), null);
         }
-    }
-
-    private void setPackageResult(PackageUpdateWorkflowResult result, PackageUpdateWorkflowResult.Status status, String message) {
-        result.setPackageInfo(new PackageUpdateWorkflowResult.Result(status, message));
     }
 
     private void setConsentResult(PackageUpdateWorkflowResult result,

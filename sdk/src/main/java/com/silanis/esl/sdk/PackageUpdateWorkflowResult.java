@@ -3,15 +3,15 @@ package com.silanis.esl.sdk;
 import java.io.Serializable;
 
 /**
- * Represents the outcome of the {@code updatePackageAndLocalizeConsent} workflow.
+ * Represents the result of the {@code updatePackageAndLocalizeConsent} workflow.
  * <p>
- * This DTO captures the result of two logical steps executed by the workflow:
+ * This DTO captures the outcome of two logical steps executed by the workflow:
  * <ol>
- *   <li><b>Package update step</b> (PUT package), represented by {@link #getPackageInfo()}.</li>
- *   <li><b>Consent localization step</b> (localize default consent), represented by {@link #getConsentInfo()}.</li>
+ *   <li><b>Package update step</b>: Identified by {@link #getPackageUid()}, this step updates the target package. The outcome is indicated by the presence or absence of a valid package UID.</li>
+ *   <li><b>Consent localization step</b>: Represented by {@link #getConsentInfo()}, this step attempts to localize the default consent document for the package. This step may be <i>skipped</i> if the package update fails or if no language change requires localization.</li>
  * </ol>
- * The consent localization step may be <i>skipped</i> when the package update fails or when
- * no language change requires localization.
+ * <p>
+ * The {@code consentInfo} field contains the result of the consent localization step, including its status and any low-level consent data if successful. If the step is skipped or fails, {@code consentInfo} will reflect that status and provide an explanatory message.
  * </p>
  */
 public class PackageUpdateWorkflowResult implements Serializable {
@@ -20,9 +20,6 @@ public class PackageUpdateWorkflowResult implements Serializable {
 
     /** Overall target package identifier. */
     private String packageUid;
-
-    /** Result of the package update (PUT package) */
-    private Result packageInfo;
 
     /** May be skipped */
     private ConsentLocalizationResult consentInfo;
@@ -36,14 +33,6 @@ public class PackageUpdateWorkflowResult implements Serializable {
 
     public void setPackageUid(String packageUid) {
         this.packageUid = packageUid;
-    }
-
-    public Result getPackageInfo() {
-        return packageInfo;
-    }
-
-    public void setPackageInfo(Result packageInfo) {
-        this.packageInfo = packageInfo;
     }
 
     public ConsentLocalizationResult getConsentInfo() {
@@ -126,16 +115,8 @@ public class PackageUpdateWorkflowResult implements Serializable {
             this.consentData = consentLocalizationData;
         }
 
-        public ConsentLocalizationResult(Status status, String message) {
-            super(status, message);
-        }
-
         public ConsentLocalizationData getConsentData() {
             return consentData;
-        }
-
-        public void setConsentData(ConsentLocalizationData consentData) {
-            this.consentData = consentData;
         }
     }
 
