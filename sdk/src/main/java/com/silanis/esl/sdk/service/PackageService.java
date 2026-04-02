@@ -236,7 +236,6 @@ public class PackageService extends EslComponent {
 
         try {
             getClient().put(path, Serialization.toJson(packageToUpdate));
-            setPackageResult(result, PackageUpdateWorkflowResult.Status.SUCCESS, "Package updated successfully.");
         } catch (RequestException e) {
             throw new EslServerException("Could not update the package.", e);
         } catch (Exception e) {
@@ -264,7 +263,7 @@ public class PackageService extends EslComponent {
     private void localizeConsent(PackageId packageId, String language, PackageUpdateWorkflowResult result) {
         try {
             ConsentLocalizationData consentResponse =
-                    localizeDefaultConsentDocument(new ConsentLocalizationPayload(language), packageId);
+                    localizeDefaultConsentDocument(packageId, new ConsentLocalizationPayload(language));
             setConsentResult(result, PackageUpdateWorkflowResult.Status.SUCCESS,
                     "Consent document localized successfully.", consentResponse);
         } catch (Exception e) {
@@ -272,10 +271,6 @@ public class PackageService extends EslComponent {
             setConsentResult(result, PackageUpdateWorkflowResult.Status.FAILURE,
                     "Failed to localize default consent: " + e.getMessage(), null);
         }
-    }
-
-    private void setPackageResult(PackageUpdateWorkflowResult result, PackageUpdateWorkflowResult.Status status, String message) {
-        result.setPackageInfo(new PackageUpdateWorkflowResult.Result(status, message));
     }
 
     private void setConsentResult(PackageUpdateWorkflowResult result,
@@ -676,13 +671,13 @@ public class PackageService extends EslComponent {
      * the resulting localization data.
      * If the server returns an error, an {@link EslServerException} is thrown. For other errors, an {@link EslException} is thrown.
      *
+     * @param packageId           the package identifier for which to localize the consent document (must not be null)
      * @param localizationPayload the localization details, including the target language (must not be null)
-     * @param packageId the package identifier for which to localize the consent document (must not be null)
      * @return the {@link ConsentLocalizationData} containing the localized consent document information
      * @throws EslServerException if the server returns an error during localization
-     * @throws EslException for other errors during localization
+     * @throws EslException       for other errors during localization
      */
-    public ConsentLocalizationData localizeDefaultConsentDocument(ConsentLocalizationPayload localizationPayload, PackageId packageId) {
+    public ConsentLocalizationData localizeDefaultConsentDocument(PackageId packageId, ConsentLocalizationPayload localizationPayload) {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.LOCALIZE_CONSENT_PATH)
                 .replace(PACKAGE_ID_PATH_PARAM, packageId.getId())
                 .build();

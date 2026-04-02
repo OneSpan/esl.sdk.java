@@ -220,7 +220,6 @@ public class PackageServiceTest {
 
         // Assert result
         assertEquals(packageUid, result.getPackageUid());
-        assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getPackageInfo().getStatus());
         assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getConsentInfo().getStatus());
         assertEquals(packageUid, result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getUid());
         assertEquals(languageB.getLanguage(), result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getLanguage());
@@ -270,7 +269,6 @@ public class PackageServiceTest {
 
         // Assert result
         assertEquals(packageUid, result.getPackageUid());
-        assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getPackageInfo().getStatus());
         assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getConsentInfo().getStatus());
         assertEquals(packageUid, result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getUid());
         assertEquals(languageB.getLanguage(), result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getLanguage());
@@ -324,7 +322,6 @@ public class PackageServiceTest {
 
         // Assert result
         assertEquals(packageUid, result.getPackageUid());
-        assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getPackageInfo().getStatus());
         assertEquals(PackageUpdateWorkflowResult.Status.SKIPPED, result.getConsentInfo().getStatus());
         assertNull(result.getConsentInfo().getConsentData());
     }
@@ -370,7 +367,6 @@ public class PackageServiceTest {
 
         // Assert result
         assertEquals(packageUid, result.getPackageUid());
-        assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getPackageInfo().getStatus());
         assertEquals(PackageUpdateWorkflowResult.Status.SKIPPED, result.getConsentInfo().getStatus());
         assertNull(result.getConsentInfo().getConsentData());
     }
