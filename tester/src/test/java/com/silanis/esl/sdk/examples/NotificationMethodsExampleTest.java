@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 public class NotificationMethodsExampleTest {
     @Test
@@ -28,5 +27,10 @@ public class NotificationMethodsExampleTest {
                 IsCollectionContaining.hasItems(NotificationMethod.EMAIL, NotificationMethod.SMS) );
         assertThat("Signer 3 notification phone number was not set correctly",
                 documentPackage.getSigner(example.email3).getNotificationMethods().getPhone(), is("+12042345678"));
+        assertThat( "Signer 4 notification method was not set correctly.",
+                documentPackage.getSigner(example.email4).getNotificationMethods().getPrimary(),
+                IsCollectionContaining.hasItems(NotificationMethod.SMS) );
+        assertThat("Signer 4 notification phone number was not set correctly",
+                documentPackage.getSigner(example.email4).getNotificationMethods().getPhone(), is("+12042345690"));
     }
 }
