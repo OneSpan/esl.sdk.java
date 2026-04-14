@@ -30,6 +30,12 @@ public class NotificationMethodsExample extends SDKSample{
                         .withNotificationMethods(newNotificationMethods()
                                 .withPrimaryMethods(NotificationMethod.EMAIL, NotificationMethod.SMS)
                                 .withPhoneNumber("+12042345678")))
+                .withSigner(newSignerWithEmail(email4)
+                        .withFirstName("Mary")
+                        .withLastName("Smith")
+                        .withNotificationMethods(newNotificationMethods()
+                                .withPrimaryMethods(NotificationMethod.SMS)
+                                .withPhoneNumber("+12042345690")))
                 .build();
 
         packageId = eslClient.createPackage(package1);

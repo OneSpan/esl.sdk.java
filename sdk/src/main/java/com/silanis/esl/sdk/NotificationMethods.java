@@ -29,7 +29,9 @@ public class NotificationMethods {
 
     public void setPrimaryMethods(NotificationMethod... methods) {
         this.primary.clear();
-        this.primary.add(NotificationMethod.EMAIL);
+        if (methods == null  || methods.length == 0) {
+            this.primary.add(NotificationMethod.EMAIL);
+        }
         this.addPrimaryMethods(methods);
     }
 

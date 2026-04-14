@@ -58,6 +58,7 @@ public class SignerBuilderTest {
         String phone = "+1 624-635-8233";
         Set<NotificationMethod> byEmail = new HashSet<>(Arrays.asList(NotificationMethod.EMAIL));
         Set<NotificationMethod> byEmailAndSMS = new HashSet<>(Arrays.asList(NotificationMethod.EMAIL, NotificationMethod.SMS));
+        Set<NotificationMethod> bySMS = new HashSet<>(Arrays.asList(NotificationMethod.SMS));
 
         @Test
         public void emailAsDefault(){
@@ -70,7 +71,7 @@ public class SignerBuilderTest {
         }
 
         @Test
-        public void alwaysContainsEmail(){
+        public void alwaysContainsEmailIfPrimaryMethodsAreEmpty(){
             Signer signer = newSignerWithEmail(email)
                     .withFirstName(firstName)
                     .withLastName(lastName)
@@ -120,7 +121,6 @@ public class SignerBuilderTest {
             catch (IllegalStateException e) {
                 System.err.println("Package build failed: " + e.getMessage());
             }
-
         }
 
         @Test
@@ -134,8 +134,19 @@ public class SignerBuilderTest {
                     .build();
             assertEquals(byEmailAndSMS, signer.getNotificationMethods().getPrimary());
         }
-    }
 
+        @Test
+        public void canAddSMSOnly(){
+            Signer signer = newSignerWithEmail(email)
+                    .withFirstName(firstName)
+                    .withLastName(lastName)
+                    .withNotificationMethods(newNotificationMethods()
+                            .withPrimaryMethods(NotificationMethod.SMS)
+                            .withPhoneNumber(phone))
+                    .build();
+            assertEquals(bySMS, signer.getNotificationMethods().getPrimary());
+        }
+    }
 
     @Test
     public void buildPlaceholder() {
