@@ -438,7 +438,6 @@ public class PackageServiceTest {
         String existingPackageStr = Serialization.toJson(existingPackage);
 
         // Build DocumentPackage for update
-        // DocumentPackage existingPackage = buildDocumentPackageWithAcceptedConsent(packageId, languageEn);
         DocumentPackage toUpdatePackage = new DocumentPackageConverter(existingPackage).toSDKPackage();
         toUpdatePackage.setLanguage(languageFr);
 
