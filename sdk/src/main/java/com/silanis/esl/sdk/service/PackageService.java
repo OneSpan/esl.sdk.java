@@ -204,23 +204,28 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * Updates the package's fields and automatically localizes the default consent document if the language has changed.
+     * Updates the specified package and, if the language has changed, attempts to localize the default document consent.
      * <p>
-     * Workflow:
-     * <ol>
-     *   <li>Attempts to update the package using the provided {@link DocumentPackage}.</li>
-     *   <li>If the update fails, throws an {@link EslException} and does not attempt consent localization.</li>
-     *   <li>If the update succeeds, retrieves the updated package.</li>
-     *   <li>If the updated package cannot be retrieved, consent localization is skipped.</li>
-     *   <li>If the language has not changed, consent localization is skipped.</li>
-     *   <li>If the language has changed, attempts to localize the default consent document.</li>
-     * </ol>
-     * The outcome of each step is recorded in a {@link com.silanis.esl.sdk.PackageUpdateWorkflowResult}.
+     * <b>Workflow:</b>
+     * <ul>
+     *   <li>Fetches the current API package by ID.</li>
+     *   <li>Updates the package with the provided SDK DocumentPackage.</li>
+     *   <li>Fetches the updated API package.</li>
+     *   <li>If the language has changed and the package is eligible, attempts to localize the default document consent.</li>
+     *   <li>Handles and reports consent localization errors, including cases where consent is already accepted, does not exist, or other server errors.</li>
+     *   <li>Returns a {@link PackageUpdateWorkflowResult} containing the update and consent localization status, messages, and details.</li>
+     * </ul>
+     * <b>Consent localization is skipped</b> if:
+     * <ul>
+     *   <li>The updated package cannot be retrieved after update.</li>
+     *   <li>The language has not changed.</li>
+     *   <li>The default consent has already been accepted by a signer.</li>
+     * </ul>
      *
-     * @param packageId  the ID of the package to update (must not be null)
-     * @param sdkPackage the {@link DocumentPackage} containing updated fields and language (must not be null)
-     * @return a {@link PackageUpdateWorkflowResult} describing the outcomes of the package update and consent localization
-     * @throws EslException if the package update operation fails
+     * @param packageId the unique identifier of the package to update (must not be null)
+     * @param sdkPackage the new package definition as an SDK DocumentPackage (must not be null)
+     * @return a {@link PackageUpdateWorkflowResult} describing the outcome of the update and consent localization workflow
+     * @throws com.silanis.esl.sdk.EslException if the package update operation fails
      */
     public PackageUpdateWorkflowResult updatePackageAndLocalizeConsent(PackageId packageId, DocumentPackage sdkPackage) throws EslException {
         Asserts.notNull(packageId, "Package Id cannot be null");
