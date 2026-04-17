@@ -9,6 +9,7 @@ public class AttachmentVerificationResult {
     private String fileName;
     private String extension;
     private AttachmentClassificationResult classificationResult;
+    private ExtractionResult extractionResult;
     private boolean typeMatch;
 
     public String getAttachmentUuid() {
@@ -41,6 +42,14 @@ public class AttachmentVerificationResult {
 
     public void setClassificationResult(AttachmentClassificationResult classificationResult) {
         this.classificationResult = classificationResult;
+    }
+
+    public ExtractionResult getExtractionResult() {
+        return extractionResult;
+    }
+
+    public void setExtractionResult(ExtractionResult extractionResult) {
+        this.extractionResult = extractionResult;
     }
 
     public boolean isTypeMatch() {

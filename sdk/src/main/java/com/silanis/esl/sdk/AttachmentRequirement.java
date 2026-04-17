@@ -21,6 +21,7 @@ public class AttachmentRequirement implements Serializable {
     private com.silanis.esl.sdk.RequirementStatus status;
     private List<AttachmentFile> files = new ArrayList<AttachmentFile>();
     private String attachmentType;
+    private Boolean extractionEnabled;
 
     /**
      * <p>The constructor of the AttachmentRequirement class.</p>
@@ -97,5 +98,13 @@ public class AttachmentRequirement implements Serializable {
 
     public void setAttachmentType(String attachmentType) {
         this.attachmentType = attachmentType;
+    }
+
+    public Boolean getExtractionEnabled() {
+        return extractionEnabled;
+    }
+
+    public void setExtractionEnabled(Boolean extractionEnabled) {
+        this.extractionEnabled = extractionEnabled;
     }
 }
