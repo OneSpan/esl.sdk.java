@@ -231,7 +231,7 @@ public class PackageService extends EslComponent {
         result.setPackageUid(transactionId);
 
         String path = buildPackagePath(transactionId);
-        Optional<Package> existingPackageOptional = getPackageWithoutException(transactionId);
+        Package existingPackage = getPackageWithoutException(transactionId);
         Package packageToUpdate = new DocumentPackageConverter(sdkPackage).toAPIPackage();
 
         try {
@@ -242,22 +242,31 @@ public class PackageService extends EslComponent {
             throw new EslException("Could not update the package.", e);
         }
 
-        Optional<Package> updatedPackageOptional = getPackageWithoutException(transactionId);
-        if (!updatedPackageOptional.isPresent()) {
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                    "Consent localization could not be determined.", null);
-            return result;
+        Package updatedPackage = getPackageWithoutException(transactionId);
+        String skipReason = getLocalizeConsentSkipReason(updatedPackage, existingPackage);
+        if (skipReason == null) {
+            localizeConsent(packageId, updatedPackage.getLanguage(), result);
+        } else {
+            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED, skipReason, null);
         }
-
-        Package updatedPackage = updatedPackageOptional.get();
-        if (existingPackageOptional.isPresent() && !hasLanguageChanged(existingPackageOptional.get(), updatedPackage)) {
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                    "Consent localization not required because language did not change.", null);
-            return result;
-        }
-
-        localizeConsent(packageId, updatedPackage.getLanguage(), result);
         return result;
+    }
+
+    /**
+     * Returns null if consent localization should NOT be skipped (i.e., should proceed),
+     * otherwise returns the reason for skipping.
+     */
+    private String getLocalizeConsentSkipReason(Package updatedPackage, Package originalPackage) {
+        if (updatedPackage == null) {
+            return ConsentLocalizationMessages.UPDATED_PACKAGE_NOT_AVAILABLE;
+        }
+        if (originalPackage != null && !hasLanguageChanged(originalPackage, updatedPackage)) {
+            return ConsentLocalizationMessages.LANGUAGE_NOT_CHANGED;
+        }
+        if (DocumentAcceptanceUtil.hasAcceptedDefaultConsent(updatedPackage)) {
+            return ConsentLocalizationMessages.DEFAULT_DOCUMENT_CONSENT_ACCEPTED;
+        }
+        return null;
     }
 
     private void localizeConsent(PackageId packageId, String language, PackageUpdateWorkflowResult result) {
@@ -266,11 +275,17 @@ public class PackageService extends EslComponent {
                     localizeDefaultConsentDocument(packageId, new ConsentLocalizationPayload(language));
             setConsentResult(result, PackageUpdateWorkflowResult.Status.SUCCESS,
                     "Consent document localized successfully.", consentResponse);
+        } catch (EslServerException e) {
+            log.warn("Failed to localize default consent.", e);
+            setFailureConsentResult(result, ConsentLocalizationMessages.FAILED_TO_LOCALIZE_DEFAULT_CONSENT_PREFIX + e.getServerError().getMessage());
         } catch (Exception e) {
             log.warn("Failed to localize default consent.", e);
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.FAILURE,
-                    "Failed to localize default consent: " + e.getMessage(), null);
+            setFailureConsentResult(result, ConsentLocalizationMessages.FAILED_TO_LOCALIZE_DEFAULT_CONSENT_PREFIX + e.getMessage());
         }
+    }
+
+    private void setFailureConsentResult(PackageUpdateWorkflowResult result, String message) {
+        setConsentResult(result, PackageUpdateWorkflowResult.Status.FAILURE, message, null);
     }
 
     private void setConsentResult(PackageUpdateWorkflowResult result,
@@ -297,14 +312,14 @@ public class PackageService extends EslComponent {
         return !currentLanguage.equalsIgnoreCase(previousLanguage);
     }
 
-    private Optional<Package> getPackageWithoutException(String transactionId) {
+    private Package getPackageWithoutException(String transactionId) {
         Package existingPackage = null;
         try {
             existingPackage = getApiPackage(transactionId);
         } catch (EslException e) {
             log.warn("Failed to get package with transactionId {}", transactionId);
         }
-        return Optional.ofNullable(existingPackage);
+        return existingPackage;
 
     }
 
