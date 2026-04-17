@@ -427,7 +427,7 @@ public class PackageServiceTest {
     }
 
     @Test
-    public void testUpdatePackageAndLocalizeConsentWhenConsentAcceptedThenConsentFailed409() throws Exception {
+    public void testUpdatePackageAndLocalizeConsentWhenConsentAcceptedThenUpdateConsentSkip() throws Exception {
         String packageUid = "bw1FGkfWT7tf0X4r6bHUfvIblKQ=";
         PackageId packageId = new PackageId(packageUid);
         java.util.Locale languageEn = Locale.ENGLISH;
@@ -476,7 +476,7 @@ public class PackageServiceTest {
     }
 
     @Test
-    public void testUpdatePackageAndLocalizeConsentWhenDefaultConsentNotExistThenConsentFailed422() throws Exception {
+    public void testUpdatePackageAndLocalizeConsentWhenDefaultConsentNotExistThenUpdateConsentFailed() throws Exception {
         String packageUid = "bw1FGkfWT7tf0X4r6bHUfvIblKQ=";
         PackageId packageId = new PackageId(packageUid);
         java.util.Locale languageEn = Locale.ENGLISH;
@@ -531,7 +531,7 @@ public class PackageServiceTest {
     }
 
     @Test
-    public void testUpdatePackageAndLocalizeConsentWhenDefaultConsentConfigNotFoundThenConsentFailed422() throws Exception {
+    public void testUpdatePackageAndLocalizeConsentWhenDefaultConsentConfigNotFoundThenUpdateConsentFailed() throws Exception {
         String packageUid = "bw1FGkfWT7tf0X4r6bHUfvIblKQ=";
         PackageId packageId = new PackageId(packageUid);
         java.util.Locale languageEn = Locale.ENGLISH;
