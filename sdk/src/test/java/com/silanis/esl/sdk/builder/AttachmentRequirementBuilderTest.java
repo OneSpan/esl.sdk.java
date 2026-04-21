@@ -43,6 +43,15 @@ public class AttachmentRequirementBuilderTest {
                 attachmentRequirement.getAttachmentType(), is(AttachmentType.PASSPORT.name()));
     }
 
+    @Test
+    public void buildWithExtractionEnabled() {
+        AttachmentRequirement attachmentRequirement = newAttachmentRequirementWithName("Bank Statement")
+                .withExtractionEnabled(true)
+                .build();
+
+        assertThat("Attachment's extractionEnabled was not set correctly", attachmentRequirement.getExtractionEnabled(), is(true));
+    }
+
     @Test(expected = EslException.class)
     public void attachmentNameCannotBeNull() {
         newAttachmentRequirementWithName(null).build();

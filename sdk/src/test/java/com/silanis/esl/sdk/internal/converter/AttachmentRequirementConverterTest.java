@@ -86,6 +86,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         assertThat("Attachment's status was not set correctly", sdkAttachmentRequirement1.getStatus().toString(), is(apiAttachmentRequirement1.getStatus()));
         assertThat("Attachment's comments was not set correctly", sdkAttachmentRequirement1.getSenderComment(), is(apiAttachmentRequirement1.getComment()));
         assertThat("Attachment's type was not set correctly", sdkAttachmentRequirement1.getAttachmentType(), is(apiAttachmentRequirement1.getAttachmentType()));
+        assertThat("Attachment's extractionEnabled was not set correctly", sdkAttachmentRequirement1.getExtractionEnabled(), is(apiAttachmentRequirement1.getExtractionEnabled()));
     }
 
     @Override
@@ -101,6 +102,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         assertThat("Attachment's status was not set correctly", apiAttachmentRequirement1.getStatus(), is(sdkAttachmentRequirement1.getStatus().toString()));
         assertThat("Attachment's comments was not set correctly", apiAttachmentRequirement1.getComment(), is(sdkAttachmentRequirement1.getSenderComment()));
         assertThat("Attachment's type was not set correctly", apiAttachmentRequirement1.getAttachmentType(), is(sdkAttachmentRequirement1.getAttachmentType()));
+        assertThat("Attachment's extractionEnabled was not set correctly", apiAttachmentRequirement1.getExtractionEnabled(), is(sdkAttachmentRequirement1.getExtractionEnabled()));
     }
 
     /**
@@ -113,6 +115,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
                 .withDescription("Please upload a scanned copy of your driver's license")
                 .isRequiredAttachment()
                 .withAttachmentType("DRIVER_LICENSE")
+                .withExtractionEnabled(true)
                 .build();
         attachmentRequirement.setId("attachmentId");
 
@@ -131,6 +134,7 @@ public class AttachmentRequirementConverterTest implements ConverterTest {
         attachmentRequirement.setDescription("Please upload a scanned copy of your driver's license");
         attachmentRequirement.setRequired(true);
         attachmentRequirement.setAttachmentType("DRIVER_LICENSE");
+        attachmentRequirement.setExtractionEnabled(true);
 
         return attachmentRequirement;
     }

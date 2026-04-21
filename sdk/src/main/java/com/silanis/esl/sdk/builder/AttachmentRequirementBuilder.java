@@ -14,6 +14,7 @@ final public class AttachmentRequirementBuilder {
     private final String name;
     private boolean isRequired;
     private String attachmentType;
+    private Boolean extractionEnabled;
 
     /**
      * <p>The constructor of the AttachmentRequirementBuilder class.</p>
@@ -67,6 +68,11 @@ final public class AttachmentRequirementBuilder {
         return this;
     }
 
+    public AttachmentRequirementBuilder withExtractionEnabled(boolean extractionEnabled) {
+        this.extractionEnabled = extractionEnabled;
+        return this;
+    }
+
     /**
      * Builds the actual attachment requirement.
      *
@@ -79,6 +85,7 @@ final public class AttachmentRequirementBuilder {
         attachmentRequirement.setRequired(isRequired);
         attachmentRequirement.setStatus(com.silanis.esl.sdk.RequirementStatus.INCOMPLETE);
         attachmentRequirement.setAttachmentType(attachmentType);
+        attachmentRequirement.setExtractionEnabled(extractionEnabled);
 
         return attachmentRequirement;
     }

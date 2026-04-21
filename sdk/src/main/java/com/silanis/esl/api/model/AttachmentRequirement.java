@@ -31,6 +31,8 @@ public class AttachmentRequirement extends Entity
     public static final String FIELD_FILES = "files";
     @JsonIgnore
     public static final String FIELD_ATTACHMENT_TYPE = "attachmentType";
+    @JsonIgnore
+    public static final String FIELD_EXTRACTION_ENABLED = "extractionEnabled";
 
     // Empty Constructor
     public AttachmentRequirement ( ) {}
@@ -42,6 +44,7 @@ public class AttachmentRequirement extends Entity
     protected String _status = "INCOMPLETE";
     protected List<AttachmentFile> files = new ArrayList<AttachmentFile>();
     protected String _attachmentType = null;
+    protected Boolean _extractionEnabled = null;
     
     // Accessors
         
@@ -187,6 +190,27 @@ public class AttachmentRequirement extends Entity
     }
     public String getAttachmentType(){
         return _attachmentType;
+    }
+
+    public AttachmentRequirement setExtractionEnabled( Boolean value ){
+        this._extractionEnabled = value;
+        setDirty(FIELD_EXTRACTION_ENABLED);
+        return this;
+    }
+
+    @JsonIgnore
+    public AttachmentRequirement safeSetExtractionEnabled( Boolean value ){
+        if ( value != null ) { this.setExtractionEnabled( value ); }
+        return this;
+    }
+
+    public Boolean getExtractionEnabled(){
+        return _extractionEnabled;
+    }
+
+    @JsonIgnore
+    public boolean evalExtractionEnabled(){
+        return _extractionEnabled != null && _extractionEnabled;
     }
 
     public AttachmentRequirement setFiles(List<AttachmentFile> value) {
