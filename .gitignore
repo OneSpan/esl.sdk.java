@@ -14,8 +14,6 @@ target
 /tester/*.pdf
 /tester/src/test/resources/signers.properties
 /tester/src/test/resources/signers.properties.*
-/.vscode/settings.json
-
 .vscode/
 /CLAUDE.md
 /.claude/*.*
