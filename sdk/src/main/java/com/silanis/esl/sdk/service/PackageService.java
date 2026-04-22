@@ -276,10 +276,9 @@ public class PackageService extends EslComponent {
 
     private void localizeConsent(PackageId packageId, String language, PackageUpdateWorkflowResult result) {
         try {
-            ConsentLocalizationData consentResponse =
-                    localizeDefaultConsentDocument(packageId, new ConsentLocalizationPayload(language));
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SUCCESS,
-                    "Consent document localized successfully.", consentResponse);
+            ConsentLocalizationData consentResponse = localizeDefaultConsentDocument(packageId, new ConsentLocalizationPayload(language));
+            setConsentResult(result, PackageUpdateWorkflowResult.Status.SUCCESS, ConsentLocalizationMessages.CONSENT_DOCUMENT_LOCALIZED_SUCCESSFULLY,
+                    consentResponse);
         } catch (EslServerException e) {
             log.warn("Failed to localize default consent.", e);
             setFailureConsentResult(result, ConsentLocalizationMessages.FAILED_TO_LOCALIZE_DEFAULT_CONSENT_PREFIX + e.getServerError().getMessage());

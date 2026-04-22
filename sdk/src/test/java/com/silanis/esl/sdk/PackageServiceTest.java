@@ -166,6 +166,7 @@ public class PackageServiceTest {
         localizeConsentMethod.invoke(packageService, packageId, language, result);
 
         assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getConsentInfo().getStatus());
+        assertEquals(ConsentLocalizationMessages.CONSENT_DOCUMENT_LOCALIZED_SUCCESSFULLY, result.getConsentInfo().getMessage());
         assertEquals(packageUid, result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getUid());
         assertEquals(language, result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getLanguage());
         assertEquals(language, result.getConsentInfo().getConsentData().getConsentMetadata().getProperties().getLanguage());
@@ -232,6 +233,7 @@ public class PackageServiceTest {
         // Assert result
         assertEquals(packageUid, result.getPackageUid());
         assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getConsentInfo().getStatus());
+        assertEquals(ConsentLocalizationMessages.CONSENT_DOCUMENT_LOCALIZED_SUCCESSFULLY, result.getConsentInfo().getMessage());
         assertEquals(packageUid, result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getUid());
         assertEquals(languageB.getLanguage(), result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getLanguage());
         assertEquals(languageB.getLanguage(), result.getConsentInfo().getConsentData().getConsentMetadata().getProperties().getLanguage());
@@ -281,6 +283,7 @@ public class PackageServiceTest {
         // Assert result
         assertEquals(packageUid, result.getPackageUid());
         assertEquals(PackageUpdateWorkflowResult.Status.SUCCESS, result.getConsentInfo().getStatus());
+        assertEquals(ConsentLocalizationMessages.CONSENT_DOCUMENT_LOCALIZED_SUCCESSFULLY, result.getConsentInfo().getMessage());
         assertEquals(packageUid, result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getUid());
         assertEquals(languageB.getLanguage(), result.getConsentInfo().getConsentData().getConsentMetadata().getPackageInfo().getLanguage());
         assertEquals(languageB.getLanguage(), result.getConsentInfo().getConsentData().getConsentMetadata().getProperties().getLanguage());
