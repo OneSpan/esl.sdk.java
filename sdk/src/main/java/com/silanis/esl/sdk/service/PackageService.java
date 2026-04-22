@@ -204,23 +204,28 @@ public class PackageService extends EslComponent {
     }
 
     /**
-     * Updates the package's fields and automatically localizes the default consent document if the language has changed.
+     * Updates the specified package and, if the language has changed, attempts to localize the default document consent.
      * <p>
-     * Workflow:
-     * <ol>
-     *   <li>Attempts to update the package using the provided {@link DocumentPackage}.</li>
-     *   <li>If the update fails, throws an {@link EslException} and does not attempt consent localization.</li>
-     *   <li>If the update succeeds, retrieves the updated package.</li>
-     *   <li>If the updated package cannot be retrieved, consent localization is skipped.</li>
-     *   <li>If the language has not changed, consent localization is skipped.</li>
-     *   <li>If the language has changed, attempts to localize the default consent document.</li>
-     * </ol>
-     * The outcome of each step is recorded in a {@link com.silanis.esl.sdk.PackageUpdateWorkflowResult}.
+     * <b>Workflow:</b>
+     * <ul>
+     *   <li>Fetches the current API package by ID.</li>
+     *   <li>Updates the package with the provided SDK DocumentPackage.</li>
+     *   <li>Fetches the updated API package.</li>
+     *   <li>If the language has changed and the package is eligible, attempts to localize the default document consent.</li>
+     *   <li>Handles and reports consent localization errors, including cases where consent is already accepted, does not exist, or other server errors.</li>
+     *   <li>Returns a {@link PackageUpdateWorkflowResult} containing the update and consent localization status, messages, and details.</li>
+     * </ul>
+     * <b>Consent localization is skipped</b> if:
+     * <ul>
+     *   <li>The updated package cannot be retrieved after update.</li>
+     *   <li>The language has not changed.</li>
+     *   <li>The default consent has already been accepted by a signer.</li>
+     * </ul>
      *
-     * @param packageId  the ID of the package to update (must not be null)
-     * @param sdkPackage the {@link DocumentPackage} containing updated fields and language (must not be null)
-     * @return a {@link PackageUpdateWorkflowResult} describing the outcomes of the package update and consent localization
-     * @throws EslException if the package update operation fails
+     * @param packageId the unique identifier of the package to update (must not be null)
+     * @param sdkPackage the new package definition as an SDK DocumentPackage (must not be null)
+     * @return a {@link PackageUpdateWorkflowResult} describing the outcome of the update and consent localization workflow
+     * @throws com.silanis.esl.sdk.EslException if the package update operation fails
      */
     public PackageUpdateWorkflowResult updatePackageAndLocalizeConsent(PackageId packageId, DocumentPackage sdkPackage) throws EslException {
         Asserts.notNull(packageId, "Package Id cannot be null");
@@ -231,7 +236,7 @@ public class PackageService extends EslComponent {
         result.setPackageUid(transactionId);
 
         String path = buildPackagePath(transactionId);
-        Optional<Package> existingPackageOptional = getPackageWithoutException(transactionId);
+        Package existingPackage = getPackageWithoutException(transactionId);
         Package packageToUpdate = new DocumentPackageConverter(sdkPackage).toAPIPackage();
 
         try {
@@ -242,35 +247,49 @@ public class PackageService extends EslComponent {
             throw new EslException("Could not update the package.", e);
         }
 
-        Optional<Package> updatedPackageOptional = getPackageWithoutException(transactionId);
-        if (!updatedPackageOptional.isPresent()) {
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                    "Consent localization could not be determined.", null);
-            return result;
+        Package updatedPackage = getPackageWithoutException(transactionId);
+        String skipReason = getLocalizeConsentSkipReason(updatedPackage, existingPackage);
+        if (skipReason == null) {
+            localizeConsent(packageId, updatedPackage.getLanguage(), result);
+        } else {
+            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED, skipReason, null);
         }
-
-        Package updatedPackage = updatedPackageOptional.get();
-        if (existingPackageOptional.isPresent() && !hasLanguageChanged(existingPackageOptional.get(), updatedPackage)) {
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SKIPPED,
-                    "Consent localization not required because language did not change.", null);
-            return result;
-        }
-
-        localizeConsent(packageId, updatedPackage.getLanguage(), result);
         return result;
+    }
+
+    /**
+     * Returns null if consent localization should NOT be skipped (i.e., should proceed),
+     * otherwise returns the reason for skipping.
+     */
+    private String getLocalizeConsentSkipReason(Package updatedPackage, Package originalPackage) {
+        if (updatedPackage == null) {
+            return ConsentLocalizationMessages.UPDATED_PACKAGE_NOT_AVAILABLE;
+        }
+        if (originalPackage != null && !hasLanguageChanged(originalPackage, updatedPackage)) {
+            return ConsentLocalizationMessages.LANGUAGE_NOT_CHANGED;
+        }
+        if (DocumentAcceptanceUtil.hasAcceptedDefaultConsent(updatedPackage)) {
+            return ConsentLocalizationMessages.DEFAULT_DOCUMENT_CONSENT_ACCEPTED;
+        }
+        return null;
     }
 
     private void localizeConsent(PackageId packageId, String language, PackageUpdateWorkflowResult result) {
         try {
-            ConsentLocalizationData consentResponse =
-                    localizeDefaultConsentDocument(packageId, new ConsentLocalizationPayload(language));
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.SUCCESS,
-                    "Consent document localized successfully.", consentResponse);
+            ConsentLocalizationData consentResponse = localizeDefaultConsentDocument(packageId, new ConsentLocalizationPayload(language));
+            setConsentResult(result, PackageUpdateWorkflowResult.Status.SUCCESS, ConsentLocalizationMessages.CONSENT_DOCUMENT_LOCALIZED_SUCCESSFULLY,
+                    consentResponse);
+        } catch (EslServerException e) {
+            log.warn("Failed to localize default consent.", e);
+            setFailureConsentResult(result, ConsentLocalizationMessages.FAILED_TO_LOCALIZE_DEFAULT_CONSENT_PREFIX + e.getServerError().getMessage());
         } catch (Exception e) {
             log.warn("Failed to localize default consent.", e);
-            setConsentResult(result, PackageUpdateWorkflowResult.Status.FAILURE,
-                    "Failed to localize default consent: " + e.getMessage(), null);
+            setFailureConsentResult(result, ConsentLocalizationMessages.FAILED_TO_LOCALIZE_DEFAULT_CONSENT_PREFIX + e.getMessage());
         }
+    }
+
+    private void setFailureConsentResult(PackageUpdateWorkflowResult result, String message) {
+        setConsentResult(result, PackageUpdateWorkflowResult.Status.FAILURE, message, null);
     }
 
     private void setConsentResult(PackageUpdateWorkflowResult result,
@@ -297,14 +316,14 @@ public class PackageService extends EslComponent {
         return !currentLanguage.equalsIgnoreCase(previousLanguage);
     }
 
-    private Optional<Package> getPackageWithoutException(String transactionId) {
+    private Package getPackageWithoutException(String transactionId) {
         Package existingPackage = null;
         try {
             existingPackage = getApiPackage(transactionId);
         } catch (EslException e) {
             log.warn("Failed to get package with transactionId {}", transactionId);
         }
-        return Optional.ofNullable(existingPackage);
+        return existingPackage;
 
     }
 
