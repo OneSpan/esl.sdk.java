@@ -72,7 +72,7 @@ public class GenericFieldsExample extends SDKSample {
     public static final String DATEPICKER_ID = "datepickerId";
     public static final String DATEPICKER_NAME = "datepickerName";
     public static final int DATEPICKER_PAGE = 0;
-    public static final String DATEPICKER_FORMAT = "MM-dd-YYYY";
+    public static final String DATEPICKER_FORMAT = "MM-dd-yyyy";
     public static final String DATEPICKER_VALUE = new SimpleDateFormat(DATEPICKER_FORMAT).format(new Date());
     public static final Integer DATEPICKER_FIELD_FONT_SIZE = null;
 

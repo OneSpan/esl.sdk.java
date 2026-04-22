@@ -24,7 +24,7 @@ import static com.silanis.esl.sdk.builder.SignatureBuilder.captureFor;
 public class GroupManagementExample extends SDKSample {
     public List<String> groupMemberEmailsAfterUpdate;
 
-    public static final String GROUP_NAME_PREFIX = "GROUP_";
+    public static final String GROUP_NAME_PREFIX = "SDKTESTGROUP_";
     public static final String EMAIL = "bob@aol.com";
     public final String UPDATED_EMAIL = "bob1@aol.com";
     public final String UPDATED_NAME = "UpdatedName";

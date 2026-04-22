@@ -2,12 +2,17 @@ package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.Direction;
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.Group;
+import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.Sender;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -39,9 +44,11 @@ public class CleanupRecentPackagesExample extends SDKSample {
     public int deletedPackagesCount = 0;
     public int deletedTemplatesCount = 0;
     public int deletedSendersCount = 0;
+    public int deletedGroupsCount = 0;
     public List<PackageId> deletedPackageIds = new ArrayList<PackageId>();
     public List<PackageId> deletedTemplateIds = new ArrayList<PackageId>();
     public List<String> deletedSenderIds = new ArrayList<String>();
+    public List<GroupId> deletedGroupIds = new ArrayList<GroupId>();
 
     public static void main(String... args) {
         new CleanupRecentPackagesExample().run();
@@ -50,10 +57,10 @@ public class CleanupRecentPackagesExample extends SDKSample {
     @Override
     public void execute() {
         Date to = new Date();
-        Date from = new Date(to.getTime() - CLEANUP_WINDOW_MINUTES * 60 * 1000L);
-//        LocalDate localDate = LocalDate.of(2024, 8, 1);
-//        Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-//        Date from = Date.from(instant);
+//        Date from = new Date(to.getTime() - CLEANUP_WINDOW_MINUTES * 60 * 1000L);
+        LocalDate localDate = LocalDate.of(2024, 8, 1);
+        Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Date from = Date.from(instant);
 
         for (PackageStatus status : PACKAGE_STATUSES) {
             deletePackagesUpdatedWithinRange(status, from, to);
@@ -61,6 +68,7 @@ public class CleanupRecentPackagesExample extends SDKSample {
 
         deleteTemplatesUpdatedWithinRange(from);
         deleteSendersCreatedWithinRange(from);
+        deleteGroupsCreatedOrUpdatedWithinRange();
     }
 
     private void deletePackagesUpdatedWithinRange(PackageStatus status, Date from, Date to) {
@@ -101,6 +109,20 @@ public class CleanupRecentPackagesExample extends SDKSample {
             request = page.getNextRequest();
         }
         System.out.println("Deleted " + deletedTemplatesCount + " templates");
+    }
+
+    private void deleteGroupsCreatedOrUpdatedWithinRange() {
+        List<Group> groups = eslClient.getGroupService().getMyGroups();
+        for (Group group : groups) {
+            if ((group.getName() != null && group.getName().startsWith(GroupManagementExample.GROUP_NAME_PREFIX)) ||
+                    (group.getEmail() != null && group.getEmail().startsWith(GroupManagementExample.EMAIL))) {
+                eslClient.getGroupService().deleteGroup(group.getId());
+                deletedGroupIds.add(group.getId());
+                deletedGroupsCount++;
+                System.out.println(deletedGroupsCount + " Deleted group " + group.getId());
+            }
+        }
+        System.out.println("Deleted " + deletedGroupsCount + " groups");
     }
 
     private void deleteSendersCreatedWithinRange(Date from) {
