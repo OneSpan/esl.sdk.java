@@ -25,7 +25,7 @@
                 <javadoc.extra.params>-Xdoclint:none</javadoc.extra.params>
             </properties>
             <activation>
-                <jdk>[1.8,1.9)</jdk>
+                <jdk>[1.8,)</jdk>
             </activation>
         </profile>
         <profile>
@@ -278,8 +278,8 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.8.4</version>
+            <artifactId>mockito-core</artifactId>
+            <version>4.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
