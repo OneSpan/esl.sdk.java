@@ -5,8 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Package;
@@ -313,12 +313,11 @@ public class PackageServiceTest {
         String apiPath = buildPackagePath(packageUid);
         String postPath = buildLocalizeConsentPath(packageUid);
 
-        // Strict sequential returns for get, put, post
+        // Strict sequential returns for get, put
         when(clientMock.get(apiPath))
                 .thenReturn(existingPackageStr)
                 .thenThrow(new RuntimeException("failed to get updated package"));
         when(clientMock.put(eq(apiPath), anyString())).thenReturn(null);
-        when(clientMock.post(eq(postPath), anyString())).thenReturn(dataStr);
 
         // InOrder verification
         org.mockito.InOrder inOrder = inOrder(clientMock);
@@ -360,10 +359,9 @@ public class PackageServiceTest {
         String apiPath = buildPackagePath(packageUid);
         String postPath = buildLocalizeConsentPath(packageUid);
 
-        // Strict sequential returns for get, put, post
+        // Strict sequential returns for get, put
         when(clientMock.get(apiPath)).thenReturn(packageStr, packageStr);
         when(clientMock.put(eq(apiPath), anyString())).thenReturn(null);
-        when(clientMock.post(eq(postPath), anyString())).thenReturn(dataStr);
 
         // InOrder verification
         org.mockito.InOrder inOrder = inOrder(clientMock);
