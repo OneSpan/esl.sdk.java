@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.AttachmentClassificationResult;
 import com.silanis.esl.sdk.AttachmentType;
 import com.silanis.esl.sdk.AttachmentVerificationResult;
 import com.silanis.esl.sdk.DocumentPackage;
@@ -27,11 +28,15 @@ public class AttachmentRequirementWithTypeExample extends SDKSample {
 
     public AttachmentRequirement retrievedAttachmentRequirement;
     public List<AttachmentVerificationResult> verificationResults;
+    public AttachmentVerificationResult verificationResult;
+    public AttachmentClassificationResult classificationResult;
+    public boolean typeMatch;
 
     private final InputStream attachmentInputStream;
 
     public static void main(String... args) {
-        new AttachmentRequirementWithTypeExample().run();
+        AttachmentRequirementWithTypeExample example = new AttachmentRequirementWithTypeExample();
+        example.run();
     }
 
     public AttachmentRequirementWithTypeExample() {
@@ -74,5 +79,13 @@ public class AttachmentRequirementWithTypeExample extends SDKSample {
 
         verificationResults = eslClient.getAttachmentRequirementService()
                 .getAttachmentVerificationResults(packageId);
+
+        if (verificationResults.isEmpty()) {
+            throw new IllegalStateException("No attachment verification results were returned for package " + packageId.getId());
+        }
+
+        verificationResult = verificationResults.get(0);
+        classificationResult = verificationResult.getClassificationResult();
+        typeMatch = verificationResult.isTypeMatch();
     }
 }

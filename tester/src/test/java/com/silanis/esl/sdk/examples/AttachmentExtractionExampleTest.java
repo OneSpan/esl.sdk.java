@@ -35,13 +35,24 @@ public class AttachmentExtractionExampleTest {
                 example.retrievedAttachmentRequirement.getExtractionEnabled());
 
         assertThat("Verification results list should not be null", example.verificationResults, notNullValue());
+        assertThat("First verification result should be exposed by the example",
+                example.verificationResult, notNullValue());
+        assertThat("Classification result should be exposed by the example",
+                example.classificationResult, is(example.verificationResult.getClassificationResult()));
+        assertThat("Extraction failed flag should be exposed by the example",
+                example.extractionFailed, is(example.verificationResult.isExtractionFailed()));
+        assertThat("Extraction error code should be exposed by the example",
+                example.extractionErrorCode, is(example.verificationResult.getExtractionErrorCode()));
 
         for (com.silanis.esl.sdk.AttachmentVerificationResult result : example.verificationResults) {
             assertNotNull("Verification result attachmentUuid should not be null", result.getAttachmentUuid());
             assertNotNull("Verification result fileName should not be null", result.getFileName());
+            assertNotNull("Verification result fileId should not be null", result.getFileId());
             if (result.getExtractionResult() != null) {
                 assertNotNull("ExtractionResult providerName should not be null",
                         result.getExtractionResult().getProviderName());
+                assertThat("Verification check results should be exposed by the example",
+                        example.verificationCheckResults, is(example.extractionResult.getVerificationCheckResults()));
             }
         }
     }
