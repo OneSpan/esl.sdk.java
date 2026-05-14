@@ -1,7 +1,9 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.AttachmentRequirement;
+import com.silanis.esl.sdk.AttachmentClassificationResult;
 import com.silanis.esl.sdk.AttachmentType;
+import com.silanis.esl.sdk.AttachmentVerificationCheckResult;
 import com.silanis.esl.sdk.AttachmentVerificationResult;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
@@ -28,12 +30,18 @@ public class AttachmentExtractionExample extends SDKSample {
 
     public AttachmentRequirement retrievedAttachmentRequirement;
     public List<AttachmentVerificationResult> verificationResults;
+    public AttachmentVerificationResult verificationResult;
+    public AttachmentClassificationResult classificationResult;
     public ExtractionResult extractionResult;
+    public List<AttachmentVerificationCheckResult> verificationCheckResults;
+    public boolean extractionFailed;
+    public String extractionErrorCode;
 
     private final InputStream attachmentInputStream;
 
     public static void main(String... args) {
-        new AttachmentExtractionExample().run();
+        AttachmentExtractionExample example = new AttachmentExtractionExample();
+        example.run();
     }
 
     public AttachmentExtractionExample() {
@@ -78,6 +86,17 @@ public class AttachmentExtractionExample extends SDKSample {
         verificationResults = eslClient.getAttachmentRequirementService()
                 .getAttachmentVerificationResults(packageId);
 
-        extractionResult = verificationResults.get(0).getExtractionResult();
+        if (verificationResults.isEmpty()) {
+            throw new IllegalStateException("No attachment verification results were returned for package " + packageId.getId());
+        }
+
+        verificationResult = verificationResults.get(0);
+        classificationResult = verificationResult.getClassificationResult();
+        extractionResult = verificationResult.getExtractionResult();
+        extractionFailed = verificationResult.isExtractionFailed();
+        extractionErrorCode = verificationResult.getExtractionErrorCode();
+        if (extractionResult != null) {
+            verificationCheckResults = extractionResult.getVerificationCheckResults();
+        }
     }
 }

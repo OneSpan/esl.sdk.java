@@ -7,7 +7,6 @@ public enum AttachmentType {
 
     PASSPORT("Passport"),
     DRIVERS_LICENSE("Driver's License"),
-    NATIONAL_ID("National ID"),
     BANK_STATEMENT("Bank Statement"),
     UTILITY_BILL("Utility Bill"),
     TAX_RETURN("Tax Return"),

@@ -5,10 +5,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AttachmentClassificationResult {
 
+    private String documentUuid;
     private String documentType;
     private double confidenceScore;
     private String confidenceLevel;
     private String providerName;
+    private Boolean failed;
+    private String errorCode;
+    private String failureMessage;
+
+    public String getDocumentUuid() {
+        return documentUuid;
+    }
+
+    public void setDocumentUuid(String documentUuid) {
+        this.documentUuid = documentUuid;
+    }
 
     public String getDocumentType() {
         return documentType;
@@ -40,5 +52,29 @@ public class AttachmentClassificationResult {
 
     public void setProviderName(String providerName) {
         this.providerName = providerName;
+    }
+
+    public Boolean getFailed() {
+        return failed;
+    }
+
+    public void setFailed(Boolean failed) {
+        this.failed = failed;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getFailureMessage() {
+        return failureMessage;
+    }
+
+    public void setFailureMessage(String failureMessage) {
+        this.failureMessage = failureMessage;
     }
 }

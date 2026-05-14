@@ -33,10 +33,17 @@ public class AttachmentRequirementWithTypeExampleTest {
                 example.retrievedAttachmentRequirement.getStatus().toString(), is(INCOMPLETE.toString()));
 
         assertThat("Verification results list should not be null", example.verificationResults, notNullValue());
+        assertThat("First verification result should be exposed by the example",
+                example.verificationResult, notNullValue());
+        assertThat("Verification result should expose attachment type match",
+                example.typeMatch, is(example.verificationResult.isTypeMatch()));
+        assertThat("Classification result should be exposed by the example",
+                example.classificationResult, is(example.verificationResult.getClassificationResult()));
 
         for (com.silanis.esl.sdk.AttachmentVerificationResult result : example.verificationResults) {
             assertNotNull("Verification result attachmentUuid should not be null", result.getAttachmentUuid());
             assertNotNull("Verification result fileName should not be null", result.getFileName());
+            assertNotNull("Verification result fileId should not be null", result.getFileId());
         }
     }
 }
