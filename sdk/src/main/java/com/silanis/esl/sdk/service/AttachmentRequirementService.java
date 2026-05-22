@@ -9,6 +9,7 @@ import com.silanis.esl.sdk.internal.converter.DocumentPackageConverter;
 import com.silanis.esl.sdk.io.DownloadedFile;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -214,6 +215,9 @@ public class AttachmentRequirementService extends EslComponent {
                 .build();
         try {
             String response = getClient().get(path);
+            if (response == null) {
+                return Collections.emptyList();
+            }
             return JacksonUtil.deserialize(response, new TypeReference<List<AttachmentVerificationResult>>() {});
         } catch (RequestException e) {
             throw new EslServerException("Could not retrieve attachment verification results.", e);
