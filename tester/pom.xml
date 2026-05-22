@@ -37,7 +37,7 @@
             <scope>test</scope>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.95.Final</version>
+            <version>4.1.100.Final</version>
         </dependency>
         <dependency>
             <groupId>com.silanis.esl</groupId>
