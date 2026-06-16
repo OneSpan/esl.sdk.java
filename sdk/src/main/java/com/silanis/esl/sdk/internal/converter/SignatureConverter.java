@@ -174,7 +174,7 @@ public class SignatureConverter {
      * @return a boolean value indicating if the role is a place holder.
      */
     private static boolean isPlaceholder(Role role) {
-        return role.getSigners().isEmpty();
+        return role.getSigners().isEmpty() || Role.TYPE_PLACEHOLDER.equals(role.getType());
     }
 
     private static boolean isGroupRole(Role role) {

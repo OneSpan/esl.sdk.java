@@ -34,10 +34,16 @@ public class Role extends Entity implements java.io.Serializable {
     @JsonIgnore
     public static final String FIELD_SIGNERS = "signers";
     @JsonIgnore
+    public static final String FIELD_SPECIFIER = "specifier";
+    @JsonIgnore
     public static final String FIELD_SPECIALTYPES = "specialTypes";
     @JsonIgnore
     public static final String FIELD_TYPE = "type";
-    
+
+    // Role type values
+    @JsonIgnore
+    public static final String TYPE_PLACEHOLDER = "PLACEHOLDER";
+
     // Empty Constructor
     public Role ( ) {}
     
@@ -47,6 +53,7 @@ public class Role extends Entity implements java.io.Serializable {
     protected Integer _index = 0;
     protected Boolean _locked = false;
     protected Boolean _reassign = false;
+    protected Boolean _specifier = null;
     protected List<Signer> _signers = new ArrayList<Signer>();
     protected List<String> _specialTypes = new ArrayList<String>();
     protected String _type = "SIGNER";
@@ -285,6 +292,25 @@ public class Role extends Entity implements java.io.Serializable {
     public String getType(){
         return _type;
     }
-    
-    
+
+
+    public Role setSpecifier( Boolean value ){
+        this._specifier = value;
+        setDirty(FIELD_SPECIFIER);
+        return this;
+    }
+    @JsonIgnore
+    public Role safeSetSpecifier( Boolean value ){
+        if ( value != null ) { this.setSpecifier( value ); }
+        return this;
+    }
+    public Boolean getSpecifier(){
+        return _specifier;
+    }
+    @JsonIgnore
+    public boolean evalSpecifier(){
+        return _specifier != null && _specifier.booleanValue();
+    }
+
+
 }
