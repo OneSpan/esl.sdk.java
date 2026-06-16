@@ -13,6 +13,7 @@ import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
 import com.silanis.esl.sdk.NotificationMethod;
 import com.silanis.esl.sdk.NotificationMethods;
 import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.PlaceholderSigner;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.SignerInformationForLexisNexis;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -59,7 +60,9 @@ public final class SignerBuilder {
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
     private boolean isAdhocGroupSigner = false;
+    private boolean isNewPlaceholder = false;
     private String type;
+    private Boolean specifier;
     private Group group;
 
     /**
@@ -100,6 +103,20 @@ public final class SignerBuilder {
     }
 
     /**
+     * <p>The constructor of the SignerBuilderClass.</p>
+     *
+     * @param placeholderSigner the placeholder signer.
+     */
+    private SignerBuilder(PlaceholderSigner placeholderSigner) {
+        this.email = null;
+        this.groupId = null;
+        this.id = placeholderSigner.getId();
+        this.placeholderName = placeholderSigner.getName();
+        this.signingOrder = placeholderSigner.getSigningOrder();
+        this.isNewPlaceholder = true;
+    }
+
+    /**
      * <p>Creates a SignerBuilder object.</p>
      *
      * @param email the signer's email size(min="6", max="255", valid email address)
@@ -127,6 +144,16 @@ public final class SignerBuilder {
      */
     public static SignerBuilder newSignerPlaceholder(Placeholder placeholder) {
         return new SignerBuilder(placeholder);
+    }
+
+    /**
+     * <p>Creates a SignerBuilder object for a PLACEHOLDER role type signer.</p>
+     *
+     * @param placeholderSigner the placeholder signer.
+     * @return the signer builder itself
+     */
+    public static SignerBuilder newPlaceholderSigner(PlaceholderSigner placeholderSigner) {
+        return new SignerBuilder(placeholderSigner);
     }
 
     /**
@@ -167,6 +194,17 @@ public final class SignerBuilder {
      */
     public SignerBuilder replacing(Placeholder placeholder) {
         this.id = placeholder.getId();
+        return this;
+    }
+
+    /**
+     * Sets the signer's ID to the PlaceholderSigner's ID.
+     *
+     * @param placeholderSigner the placeholder signer whose ID to use
+     * @return the signer builder itself
+     */
+    public SignerBuilder replacing(PlaceholderSigner placeholderSigner) {
+        this.id = placeholderSigner.getId();
         return this;
     }
 
@@ -237,6 +275,7 @@ public final class SignerBuilder {
         result.setId(id);
         result.setAttachmentRequirements(attachments);
         result.setLocalLanguage(localLanguage);
+        result.setSpecifier(specifier);
         return result;
     }
 
@@ -250,6 +289,21 @@ public final class SignerBuilder {
         result.setMessage(message);
         result.setAttachmentRequirements(attachments);
         result.setLocalLanguage(localLanguage);
+        result.setSpecifier(specifier);
+        return result;
+    }
+
+    private Signer buildNewPlaceholderSigner() {
+        Asserts.notNullOrEmpty(id, "No placeholder id set for this signer!");
+        Signer result = new Signer(id);
+        result.setPlaceholderName(placeholderName);
+        result.setSigningOrder(signingOrder);
+        result.setCanChangeSigner(canChangeSigner);
+        result.setMessage(message);
+        result.setAttachmentRequirements(attachments);
+        result.setLocalLanguage(localLanguage);
+        result.setNewPlaceholderSigner(true);
+        result.setSpecifier(specifier);
         return result;
     }
 
@@ -278,6 +332,7 @@ public final class SignerBuilder {
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
         result.setLocalLanguage(localLanguage);
+        result.setSpecifier(specifier);
         return result;
     }
 
@@ -320,9 +375,10 @@ public final class SignerBuilder {
         Signer signer;
         if (this.isAdhocGroupSigner) {
             signer = buildAdhocSigner();
-        } else
-        if (isGroupSigner()) {
+        } else if (isGroupSigner()) {
             signer = buildGroupSigner();
+        } else if (isNewPlaceholder) {
+            signer = buildNewPlaceholderSigner();
         } else if (isPlaceholder()) {
             signer = buildPlaceholderSigner();
         } else {
@@ -512,6 +568,11 @@ public final class SignerBuilder {
     @Deprecated
     public SignerBuilder withRoleId(String roleId) {
         return withCustomId(roleId);
+    }
+
+    public SignerBuilder withSpecifier(Boolean specifier) {
+        this.specifier = specifier;
+        return this;
     }
 
     public SignerBuilder withLocalLanguage() {
