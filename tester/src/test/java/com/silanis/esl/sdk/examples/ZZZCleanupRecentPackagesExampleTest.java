@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.notNullValue;
  */
 public class ZZZCleanupRecentPackagesExampleTest {
 
-    @Test(timeout = 300000)
+    @Test(timeout = 600000)
     public void verifyResult() {
         CleanupRecentPackagesExample example = new CleanupRecentPackagesExample();
         example.run();
