@@ -150,6 +150,8 @@ public class DocumentPackageConverter {
                             role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, localLanguage);
                         }
 
+                        role.safeSetSpecifier(input.getSpecifier());
+
                         return role;
                     }
                 }));
