@@ -126,6 +126,10 @@ public class CleanupRecentPackagesExample extends SDKSample {
     }
 
     private void deleteSendersCreatedWithinRange(Date from) {
+        // Senders whose email is configured in signers.properties must never be
+        // deleted, since they are reused across test runs.
+        Set<String> protectedEmails = getProtectedSenderEmails();
+
         // First pass: collect all candidate sender IDs across every page into a Set.
         // Using a Set deduplicates IDs that re-appear on later pages because a prior
         // deletion attempt silently failed and left the sender in the account.
@@ -137,6 +141,12 @@ public class CleanupRecentPackagesExample extends SDKSample {
             for (Sender sender : senders.values()) {
                 if (senderUID.equals(sender.getId())) {
                     continue; // never delete the account owner running the tests
+                }
+                if (sender.getEmail() != null
+                        && protectedEmails.contains(sender.getEmail().toLowerCase())) {
+                    System.out.println("Skipping protected sender " + sender.getId()
+                            + " (" + sender.getEmail() + ") defined in signers.properties");
+                    continue; // never delete senders defined in signers.properties
                 }
                 Date createdDate = sender.getCreated();
                 if (createdDate != null && !createdDate.before(from)) {
@@ -159,5 +169,24 @@ public class CleanupRecentPackagesExample extends SDKSample {
             System.out.println(deletedSendersCount + " Deleted sender " + senderId);
         }
         System.out.println("Deleted " + deletedSendersCount + " senders");
+    }
+
+    /**
+     * Collects every email address configured in signers.properties so that the
+     * senders they refer to are protected from deletion. Any property value that
+     * looks like an email address (contains '@') is treated as a sender email,
+     * which covers sender.email, the numbered N.email entries, the delegator /
+     * delegatee emails and any future email entries. Emails are lower-cased so
+     * the comparison is case-insensitive.
+     */
+    private Set<String> getProtectedSenderEmails() {
+        Set<String> protectedEmails = new HashSet<String>();
+        for (String name : props.stringPropertyNames()) {
+            String value = props.getProperty(name);
+            if (value != null && value.contains("@")) {
+                protectedEmails.add(value.trim().toLowerCase());
+            }
+        }
+        return protectedEmails;
     }
 }
