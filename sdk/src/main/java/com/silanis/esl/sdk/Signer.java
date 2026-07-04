@@ -32,6 +32,8 @@ public class Signer implements Serializable {
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
     private Group group;
+    private boolean newPlaceholderSigner;
+    private Boolean specifier;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -407,5 +409,21 @@ public class Signer implements Serializable {
 
     public void setGroup(Group group) {
         this.group=group;
+    }
+
+    public boolean isNewPlaceholderSigner() {
+        return newPlaceholderSigner;
+    }
+
+    public void setNewPlaceholderSigner(boolean newPlaceholderSigner) {
+        this.newPlaceholderSigner = newPlaceholderSigner;
+    }
+
+    public Boolean getSpecifier() {
+        return specifier;
+    }
+
+    public void setSpecifier(Boolean specifier) {
+        this.specifier = specifier;
     }
 }
