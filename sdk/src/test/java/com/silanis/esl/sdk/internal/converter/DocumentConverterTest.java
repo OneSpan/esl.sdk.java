@@ -180,6 +180,30 @@ public class DocumentConverterTest {
         assertThat("API document Base64 content is null", apiDocument1.getBase64Content(), notNullValue());
     }
 
+    @Test
+    public void convertSDKtoAPIWithDesignerReadOnly() {
+        documentInputStream = this.getClass().getClassLoader().getResourceAsStream("document.pdf");
+        sdkDocument1 = newDocumentWithName("sdkDocument")
+                .fromStream(documentInputStream, DocumentType.PDF)
+                .withId("sdkDocumentId")
+                .withDesignerReadOnly(true)
+                .build();
+        com.silanis.esl.api.model.Package apiPackage = new com.silanis.esl.api.model.Package();
+
+        apiDocument1 = new DocumentConverter(sdkDocument1).toAPIDocument(apiPackage);
+
+        assertThat("API document DesignerReadOnly was not correctly set", apiDocument1.getDesignerReadOnly(), is(true));
+    }
+
+    @Test
+    public void convertAPItoSDKWithDesignerReadOnly() {
+        apiDocument1 = createTypicalAPIDocument().setDesignerReadOnly(true);
+
+        sdkDocument1 = new DocumentConverter(apiDocument1, apiPackage).toSDKDocument();
+
+        assertThat("SDK document DesignerReadOnly was not correctly set", sdkDocument1.isDesignerReadOnly(), is(true));
+    }
+
     private com.silanis.esl.sdk.Document createDocumentWithData(final String name, final String value) {
         com.silanis.esl.sdk.Document sdkDocument;
         documentInputStream = this.getClass().getClassLoader()
