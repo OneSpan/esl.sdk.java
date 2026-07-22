@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.silanis.esl.api.util.JacksonUtil;
 import org.junit.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,7 +48,7 @@ public class AttachmentVerificationResultTest {
 
         AttachmentVerificationCheckResult checkResult = extractionResult.getVerificationCheckResults().get(0);
         assertThat(checkResult.getRuleName(), is("expiry_check"));
-        assertThat(checkResult.getField(), is("expiryDate"));
+        assertThat(checkResult.getFields(), is(Collections.singletonList("expiryDate")));
         assertThat(checkResult.getStatus(), is(AttachmentVerificationStatus.PASS));
         assertThat(checkResult.getMessage(), is("Document expires on 2099-01-01, still valid"));
     }
@@ -91,7 +92,7 @@ public class AttachmentVerificationResultTest {
                 "\"extractedFields\":{\"fullName\":\"Jane Doe\",\"expiryDate\":\"2099-01-01\"}," +
                 "\"verificationCheckResults\":[{" +
                 "\"ruleName\":\"expiry_check\"," +
-                "\"field\":\"expiryDate\"," +
+                "\"fields\":[\"expiryDate\"]," +
                 "\"status\":\"PASS\"," +
                 "\"message\":\"Document expires on 2099-01-01, still valid\"" +
                 "}]," +
