@@ -26,7 +26,7 @@
 variables:
   GIT_DEPTH: 1
   MAVEN_OPTS: -Dmaven.repo.local=maven.repository
-  MAVEN_IMAGE: registry.git.onespan.com/docker-base-images/gitlab-runner-with-core-utils/gitlab-maven-jdk11-runner-with-core-utils:1.7.0
+  MAVEN_IMAGE: maven:3.9-eclipse-temurin-11
 
 # Pipeline triggers:
 #   MR event ($CI_MERGE_REQUEST_ID)        → run (MR pipeline)
