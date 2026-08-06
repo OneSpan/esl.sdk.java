@@ -1,0 +1,204 @@
+# GitLab CI/CD Pipeline — OneSpan Sign Java SDK
+#
+# Required CI/CD variables (Settings > CI/CD > Variables):
+#
+#  Protected variables (build & publish):
+#   OSS_M2_SETTINGS_BASE64   Base64-encoded ~/.m2/settings.xml containing:
+#                              - <server id="central"> with the common service-user
+#                                token for Sonatype Central Portal
+#                              - Optional: CodeArtifact mirror config with
+#                                ${env.MVNW_USERNAME}/${env.MVNW_PASSWORD} refs
+#   GPG_PRIVATE_KEY          Base64-encoded GPG private key (release publishing only)
+#   GPG_PASSPHRASE           GPG key passphrase, masked (release publishing only)
+#
+#  Integration test variables (dev/master pipelines):
+#   ESL_API_URL              OneSpan Sign API base URL
+#   ESL_WEBPAGE_URL          OneSpan Sign web URL
+#   ESL_OAUTH_SERVER_URL     OAuth2 token endpoint
+#   ESL_OAUTH_CLIENT_ID      OAuth2 client ID
+#   ESL_OAUTH_CLIENT_SECRET  OAuth2 client secret, masked
+#   ESL_SENDER_EMAIL         Sender email for integration tests
+#   ESL_DELEGATOR_EMAIL      Delegator email
+#   ESL_DELEGATEE_EMAIL      Delegatee email
+#   ESL_SENDER_EMAIL_WITH_ROLES  Sender email for role/permission tests
+#   ESL_SIGNER_1_EMAIL .. ESL_SIGNER_6_EMAIL  Signer email addresses
+
+variables:
+  GIT_DEPTH: 1
+  MAVEN_OPTS: -Dmaven.repo.local=maven.repository
+  MAVEN_IMAGE: registry.git.onespan.com/docker-base-images/gitlab-runner-with-core-utils/gitlab-maven-jdk11-runner-with-core-utils:1.7.0
+
+# Pipeline triggers:
+#   MR event ($CI_MERGE_REQUEST_ID)        → run (MR pipeline)
+#   Branch push + open MR ($CI_MERGE_REQUEST_IID) → skip (avoid duplicate with MR pipeline)
+#   Protected branch push ($CI_COMMIT_REF_PROTECTED) → run (dev, master, etc.)
+#   Version tag ($CI_COMMIT_TAG)           → run (publish pipeline)
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_BRANCH && $CI_MERGE_REQUEST_IID
+      when: never
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+    - if: $CI_COMMIT_TAG
+      when: always
+
+default:
+  interruptible: true
+  retry:
+    max: 1
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+# ── Shared templates ─────────────────────────────────────────────────────────
+
+.cache_template:
+  variables:
+    CACHE_POLICY: pull-push
+  cache:
+    key: esl-sdk-java
+    paths:
+      - maven.repository/
+    policy: $CACHE_POLICY
+
+# Follows the OSS authentication pattern used by other OneSpan pipelines:
+# decodes OSS_M2_SETTINGS_BASE64 into ~/.m2/settings.xml so Maven picks up
+# the Sonatype Central service-user credentials without committing secrets.
+# Also fetches a short-lived CodeArtifact token for internal Maven mirror auth.
+.maven_before_script:
+  before_script:
+    - mkdir -p ~/.m2 && echo "${OSS_M2_SETTINGS_BASE64}" | base64 -d > ~/.m2/settings.xml
+    - unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN
+    - export CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain mvn-onespan --domain-owner 892343542742 --region eu-west-1 --query authorizationToken --output text 2>/dev/null || echo "")
+    - export MVNW_USERNAME=aws
+    - export MVNW_PASSWORD=$CODEARTIFACT_AUTH_TOKEN
+
+# ── Stages ───────────────────────────────────────────────────────────────────
+
+stages:
+  - build
+  - test
+  - publish
+
+# ── Build ─────────────────────────────────────────────────────────────────────
+
+compile:
+  stage: build
+  image: $MAVEN_IMAGE
+  extends:
+    - .maven_before_script
+    - .cache_template
+  script:
+    - mvn -B clean install -DskipTests
+  artifacts:
+    paths:
+      - sdk/target/
+      - tester/target/
+      - release/target/
+    expire_in: 1 day
+  timeout: 30 minutes
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+    - if: $CI_COMMIT_TAG
+
+# ── Test ──────────────────────────────────────────────────────────────────────
+
+unit-test:
+  stage: test
+  image: $MAVEN_IMAGE
+  extends:
+    - .maven_before_script
+    - .cache_template
+  variables:
+    CACHE_POLICY: pull
+  needs:
+    - compile
+  script:
+    - mvn -B test -pl sdk
+  artifacts:
+    reports:
+      junit:
+        - sdk/target/surefire-reports/TEST-*.xml
+    when: always
+  timeout: 20 minutes
+  rules:
+    - if: $CI_MERGE_REQUEST_ID
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+
+# Runs against a live OneSpan Sign environment on every push to dev/master.
+# jenkins.properties is generated from CI variables — no credentials in the repo.
+# The common-platform profile excludes tests requiring server-side webhook setup.
+integration-test:
+  stage: test
+  image: $MAVEN_IMAGE
+  extends:
+    - .cache_template
+  variables:
+    CACHE_POLICY: pull
+  needs:
+    - compile
+  before_script:
+    - !reference [.maven_before_script, before_script]
+    - |
+      cat > tester/src/test/resources/jenkins.properties <<EOF
+      webpage.url=${ESL_WEBPAGE_URL}
+      api.url=${ESL_API_URL}
+      api.auth.type=OAUTH
+      api.oauth.server.url=${ESL_OAUTH_SERVER_URL}
+      api.oauth.clientID=${ESL_OAUTH_CLIENT_ID}
+      api.oauth.clientSecret=${ESL_OAUTH_CLIENT_SECRET}
+      sender.email=${ESL_SENDER_EMAIL}
+      delegator.email=${ESL_DELEGATOR_EMAIL}
+      delegatee.email=${ESL_DELEGATEE_EMAIL}
+      sender.email.WithRolesAndPermission=${ESL_SENDER_EMAIL_WITH_ROLES}
+      1.email=${ESL_SIGNER_1_EMAIL}
+      2.email=${ESL_SIGNER_2_EMAIL}
+      3.email=${ESL_SIGNER_3_EMAIL}
+      4.email=${ESL_SIGNER_4_EMAIL}
+      5.email=${ESL_SIGNER_5_EMAIL}
+      6.email=${ESL_SIGNER_6_EMAIL}
+      proxy.host=localhost
+      proxy.port=8001
+      proxyWithCredentials.host=localhost
+      proxyWithCredentials.port=8002
+      proxy.userName=
+      proxy.password=
+      EOF
+  script:
+    - mvn -B test -pl tester -Pcommon-platform
+  artifacts:
+    reports:
+      junit:
+        - tester/target/surefire-reports/TEST-*.xml
+    when: always
+  timeout: 60 minutes
+  rules:
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+
+# ── Publish ───────────────────────────────────────────────────────────────────
+
+# Triggered by a version tag (e.g. v11.69.0).
+# Before tagging:
+#   1. Remove -SNAPSHOT from the version in all pom.xml files and commit.
+#   2. Push tag: git tag v11.69.0 && git push origin v11.69.0
+#
+# -DperformRelease=true activates the release-sign-artifacts profile inherited
+# from org.sonatype.oss:oss-parent:9, which binds maven-gpg-plugin to verify.
+# central-publishing-maven-plugin handles the Sonatype Central Portal upload.
+# The release module ZIP is excluded from Central (skip in release/pom.xml).
+publish:
+  stage: publish
+  image: $MAVEN_IMAGE
+  extends:
+    - .cache_template
+  variables:
+    CACHE_POLICY: pull
+  before_script:
+    - !reference [.maven_before_script, before_script]
+    - echo "${GPG_PRIVATE_KEY}" | base64 -d | gpg --batch --import
+  script:
+    - mvn -B deploy -DperformRelease=true -DskipTests -Dgpg.passphrase="${GPG_PASSPHRASE}" -Dgpg.pinentryMode=loopback
+  timeout: 30 minutes
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
