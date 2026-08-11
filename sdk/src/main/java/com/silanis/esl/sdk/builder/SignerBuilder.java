@@ -63,6 +63,7 @@ public final class SignerBuilder {
     private boolean isNewPlaceholder = false;
     private String type;
     private Boolean specifier;
+    private boolean carbonCopyRecipient = false;
     private Group group;
 
     /**
@@ -333,6 +334,7 @@ public final class SignerBuilder {
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
         result.setLocalLanguage(localLanguage);
         result.setSpecifier(specifier);
+        result.setCarbonCopyRecipient(carbonCopyRecipient);
         return result;
     }
 
@@ -371,6 +373,10 @@ public final class SignerBuilder {
      * @return the signer object
      */
     public Signer build() {
+
+        if (carbonCopyRecipient) {
+            assertCarbonCopyRecipientIsValid();
+        }
 
         Signer signer;
         if (this.isAdhocGroupSigner) {
@@ -572,6 +578,26 @@ public final class SignerBuilder {
 
     public SignerBuilder withSpecifier(Boolean specifier) {
         this.specifier = specifier;
+        return this;
+    }
+
+    /**
+     * <p>Marks this recipient as a carbon copy recipient.</p>
+     *
+     * <p>A carbon copy recipient receives a copy of the completed documents but never
+     * participates in the signing ceremony. They are excluded from the signing order and are
+     * only notified once the transaction is complete, so no signatures or fields may be
+     * assigned to them.</p>
+     *
+     * <p>A carbon copy recipient must be a regular recipient with an email address. It cannot
+     * be a placeholder, a group or ad hoc group recipient, a notary, a recipient specifier,
+     * or a reassignable recipient, and it cannot be given attachment requirements. Carbon copy
+     * recipients are also not supported in in-person transactions.</p>
+     *
+     * @return the signer builder itself
+     */
+    public SignerBuilder asCarbonCopyRecipient() {
+        this.carbonCopyRecipient = true;
         return this;
     }
 
@@ -983,6 +1009,19 @@ public final class SignerBuilder {
             return challengeType != null && !challengeType.trim().isEmpty();
         }
 
+    }
+
+    /**
+     * Mirrors the constraints the server enforces on carbon copy recipients so that conflicting
+     * settings are reported at build time rather than as a validation error on the API call.
+     */
+    private void assertCarbonCopyRecipientIsValid() {
+        Asserts.genericAssert(!isAdhocGroupSigner, "a carbon copy recipient cannot be an adhoc group signer");
+        Asserts.genericAssert(!isGroupSigner(), "a carbon copy recipient cannot be a group signer");
+        Asserts.genericAssert(!isNewPlaceholder && !isPlaceholder(), "a carbon copy recipient cannot be a placeholder");
+        Asserts.genericAssert(!canChangeSigner, "a carbon copy recipient cannot be reassignable");
+        Asserts.genericAssert(!Boolean.TRUE.equals(specifier), "a carbon copy recipient cannot be a recipient specifier");
+        Asserts.genericAssert(attachments.isEmpty(), "a carbon copy recipient cannot have attachment requirements");
     }
 
     private boolean isGroupSigner() {

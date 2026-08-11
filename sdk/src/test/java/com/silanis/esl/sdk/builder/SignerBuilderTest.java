@@ -148,6 +148,80 @@ public class SignerBuilderTest {
         }
     }
 
+    /**
+     * Nested so that the Enclosed runner picks these up.
+     */
+    public static class CarbonCopyRecipientTest {
+
+        private static final String EMAIL = "carboncopy@blow.com";
+        private static final String FIRST_NAME = "Joe";
+        private static final String LAST_NAME = "Blow";
+
+        @Test
+        public void canBuildCarbonCopyRecipient() {
+            Signer signer = newSignerWithEmail(EMAIL)
+                    .withFirstName(FIRST_NAME)
+                    .withLastName(LAST_NAME)
+                    .asCarbonCopyRecipient()
+                    .build();
+
+            assertThat(signer.isCarbonCopyRecipient(), is(true));
+        }
+
+        @Test
+        public void signerIsNotACarbonCopyRecipientByDefault() {
+            Signer signer = newSignerWithEmail(EMAIL)
+                    .withFirstName(FIRST_NAME)
+                    .withLastName(LAST_NAME)
+                    .build();
+
+            assertThat(signer.isCarbonCopyRecipient(), is(false));
+        }
+
+        @Test(expected = EslException.class)
+        public void carbonCopyRecipientCannotBeAPlaceholder() {
+            newSignerPlaceholder(new Placeholder("placeholderId")).asCarbonCopyRecipient().build();
+        }
+
+        @Test(expected = EslException.class)
+        public void carbonCopyRecipientCannotBeAGroupSigner() {
+            SignerBuilder.newSignerFromGroup(new GroupId("groupId")).asCarbonCopyRecipient().build();
+        }
+
+        @Test(expected = EslException.class)
+        public void carbonCopyRecipientCannotBeReassignable() {
+            newSignerWithEmail(EMAIL)
+                    .withFirstName(FIRST_NAME)
+                    .withLastName(LAST_NAME)
+                    .canChangeSigner()
+                    .asCarbonCopyRecipient()
+                    .build();
+        }
+
+        @Test(expected = EslException.class)
+        public void carbonCopyRecipientCannotBeASpecifier() {
+            newSignerWithEmail(EMAIL)
+                    .withFirstName(FIRST_NAME)
+                    .withLastName(LAST_NAME)
+                    .withSpecifier(true)
+                    .asCarbonCopyRecipient()
+                    .build();
+        }
+
+        @Test(expected = EslException.class)
+        public void carbonCopyRecipientCannotHaveAttachmentRequirements() {
+            newSignerWithEmail(EMAIL)
+                    .withFirstName(FIRST_NAME)
+                    .withLastName(LAST_NAME)
+                    .asCarbonCopyRecipient()
+                    .withAttachmentRequirement(AttachmentRequirementBuilder.newAttachmentRequirementWithName("driver license")
+                            .withDescription("Please upload your scanned driver license.")
+                            .isRequiredAttachment()
+                            .build())
+                    .build();
+        }
+    }
+
     @Test
     public void buildPlaceholder() {
         String id = "placeholderId";
