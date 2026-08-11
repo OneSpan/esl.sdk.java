@@ -188,6 +188,88 @@ public class SignerConverterTest implements ConverterTest {
     }
 
     @Test
+    public void convertCarbonCopyRecipientFromAPIToSDK() {
+        apiRole = createTypicalAPIRole();
+        apiRole.setType(com.silanis.esl.api.model.Role.TYPE_CARBON_COPY_RECIPIENT);
+
+        sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
+
+        assertThat("Carbon copy recipient was not correctly converted from API to SDK",
+                sdkSigner1.isCarbonCopyRecipient(), is(true));
+    }
+
+    @Test
+    public void convertNonCarbonCopyRecipientFromAPIToSDK() {
+        apiRole = createTypicalAPIRole();
+
+        sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
+
+        assertThat("A regular signer must not be flagged as a carbon copy recipient",
+                sdkSigner1.isCarbonCopyRecipient(), is(false));
+    }
+
+    @Test
+    public void convertCarbonCopyRecipientFromSDKToAPIRole() {
+        sdkSigner1 = createCarbonCopyRecipient();
+        String roleId = UUID.randomUUID().toString().replace("-", "");
+
+        apiRole = new SignerConverter(sdkSigner1).toAPIRole(roleId);
+
+        assertThat("Carbon copy recipient role type was not set when converting from SDK to API role",
+                apiRole.getType(), is(com.silanis.esl.api.model.Role.TYPE_CARBON_COPY_RECIPIENT));
+        assertThat("Carbon copy recipient must still carry its signer",
+                apiRole.getSigners(), hasSize(1));
+    }
+
+    @Test
+    public void convertCarbonCopyRecipientFromSDKToAPIRoleWithIdAndName() {
+        sdkSigner1 = createCarbonCopyRecipient();
+        String roleId = UUID.randomUUID().toString().replace("-", "");
+
+        apiRole = new SignerConverter(sdkSigner1).toAPIRole(roleId, "Carbon copy recipient");
+
+        assertThat("Carbon copy recipient role type was not set when converting from SDK to API role",
+                apiRole.getType(), is(com.silanis.esl.api.model.Role.TYPE_CARBON_COPY_RECIPIENT));
+    }
+
+    @Test
+    public void convertNonCarbonCopyRecipientFromSDKToAPIRoleLeavesTypeAsSigner() {
+        sdkSigner1 = SignerBuilder.newSignerWithEmail("abc@test.com")
+                .withFirstName("first name")
+                .withLastName("last name")
+                .build();
+        String roleId = UUID.randomUUID().toString().replace("-", "");
+
+        apiRole = new SignerConverter(sdkSigner1).toAPIRole(roleId);
+
+        assertThat("A regular signer's role type must not be changed",
+                apiRole.getType(), is("SIGNER"));
+    }
+
+    /**
+     * A carbon copy recipient round-tripped through the API must still be a carbon copy recipient,
+     * otherwise a get-then-update cycle silently downgrades it to a regular signer.
+     */
+    @Test
+    public void carbonCopyRecipientSurvivesRoundTrip() {
+        String roleId = UUID.randomUUID().toString().replace("-", "");
+        apiRole = new SignerConverter(createCarbonCopyRecipient()).toAPIRole(roleId);
+
+        sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
+
+        assertThat("Carbon copy recipient was lost on round-trip",
+                sdkSigner1.isCarbonCopyRecipient(), is(true));
+    }
+
+    private com.silanis.esl.sdk.Signer createCarbonCopyRecipient() {
+        return SignerBuilder.newSignerWithEmail("carboncopy@test.com")
+                .withFirstName("first name")
+                .withLastName("last name")
+                .asCarbonCopyRecipient()
+                .build();
+    }
+
+    @Test
     public void convertSDKSignerWithNullEntriesToAPIRole() {
         String roleId = UUID.randomUUID().toString().replace("-", "");
         sdkSigner1 = SignerBuilder.newSignerWithEmail("abc@test.com")
