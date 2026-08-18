@@ -684,6 +684,35 @@ public class PackageService extends EslComponent {
     }
 
     /**
+     * Updates the document's metadata (its data map) via the dedicated metadata endpoint, which
+     * applies regardless of the transaction's status when the account's manipulateMetadata feature
+     * is enabled.
+     *
+     * @param documentPackage the package containing the document
+     * @param document the document whose data map to send
+     */
+    public void forceUpdateDocumentMetadata(DocumentPackage documentPackage, com.silanis.esl.sdk.Document document) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DOCUMENT_METADATA_PATH)
+                .replace(PACKAGE_ID_PATH_PARAM, documentPackage.getId().getId())
+                .replace("{documentId}", document.getId().toString())
+                .build();
+
+        // The /metadata endpoint reads the whole request body as the document's data map.
+        // Send the bare data map, not a serialized Document.
+        Map<String, Object> metadata = document.getData() != null ? document.getData() : new HashMap<>();
+
+        try {
+            String json = JacksonUtil.serialize(metadata);
+
+            getClient().put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the document's metadata.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update the document's metadata." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Localizes the default consent document for the specified package and language.
      * <p>
      * This method sends a localization request for the default consent document of the given package using the provided language and returns
