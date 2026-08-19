@@ -43,6 +43,8 @@ public class Role extends Entity implements java.io.Serializable {
     // Role type values
     @JsonIgnore
     public static final String TYPE_PLACEHOLDER = "PLACEHOLDER";
+    @JsonIgnore
+    public static final String TYPE_CARBON_COPY_RECIPIENT = "CARBON_COPY_RECIPIENT";
 
     // Empty Constructor
     public Role ( ) {}

@@ -152,6 +152,10 @@ public class DocumentPackageConverter {
 
                         role.safeSetSpecifier(input.getSpecifier());
 
+                        if (input.isCarbonCopyRecipient()) {
+                            role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
+                        }
+
                         return role;
                     }
                 }));

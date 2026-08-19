@@ -162,6 +162,7 @@ public class SignerConverter {
         }
 
         signer.setSpecifier(apiRole.getSpecifier());
+        signer.setCarbonCopyRecipient(Role.TYPE_CARBON_COPY_RECIPIENT.equals(apiRole.getType()));
 
         Map<String, Object> apiRoleData = apiRole.getData();
         if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
@@ -283,6 +284,9 @@ public class SignerConverter {
             role.setType(Role.TYPE_PLACEHOLDER);
             role.addSigner(new com.silanis.esl.api.model.Signer());
         } else if (!sdkSigner.isPlaceholderSigner()) {
+            if (sdkSigner.isCarbonCopyRecipient()) {
+                role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
+            }
             role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
         }
 
@@ -333,6 +337,9 @@ public class SignerConverter {
             role.setType(Role.TYPE_PLACEHOLDER);
             role.addSigner(new com.silanis.esl.api.model.Signer());
         } else if (!sdkSigner.isPlaceholderSigner()) {
+            if (sdkSigner.isCarbonCopyRecipient()) {
+                role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
+            }
             role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
         }
 

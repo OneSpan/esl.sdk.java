@@ -91,6 +91,10 @@ public class DocumentConverter {
             document.setTagged(apiDocument.getTagged());
         }
 
+        if ( apiDocument.getDesignerReadOnly() != null ) {
+            document.setDesignerReadOnly(apiDocument.getDesignerReadOnly());
+        }
+
         if ( apiDocument.isExternalSigned() != null ) {
             document.setExternalSigned(apiDocument.isExternalSigned());
         }
@@ -124,6 +128,7 @@ public class DocumentConverter {
         }
         result.safeSetDescription(sdkDocument.getDescription());
         result.safeSetTagged(sdkDocument.isTagged());
+        result.safeSetDesignerReadOnly(sdkDocument.isDesignerReadOnly());
         result.safeSetExternalSigned(sdkDocument.isExternalSigned());
         result.safeSetBase64Content(sdkDocument.getBase64Content());
 
