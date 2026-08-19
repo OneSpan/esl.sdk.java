@@ -1307,7 +1307,7 @@ public class PackageService extends EslComponent {
         notifySigner(packageId, role.getId());
     }
 
-    private void notifySigner(PackageId packageId, String roleId) {
+    public void notifySigner(PackageId packageId, String roleId) {
         String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.NOTIFY_ROLE_PATH)
                 .replace(PACKAGE_ID_PATH_PARAM, packageId.getId())
                 .replace("{roleId}", roleId)
