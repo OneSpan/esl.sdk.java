@@ -10,10 +10,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-/**
- * Covers every extraction status / reason code combination the server reports, on both the
- * verification result and the nested extraction result.
- */
 public class ExtractionOutcomeTest {
 
     @Test
@@ -51,10 +47,6 @@ public class ExtractionOutcomeTest {
                 ExtractionStatus.FAILED, ExtractionReasonCode.EXTRACTION_ERROR);
     }
 
-    /**
-     * A status or reason code introduced by a newer server release reads as {@code null} rather
-     * than throwing, so an older SDK keeps working against a newer server.
-     */
     @Test
     public void unknownEnumValuesAreReadAsNull() {
         assertOutcome("SOMETHING_NEW", "SOME_NEW_REASON", null, null);

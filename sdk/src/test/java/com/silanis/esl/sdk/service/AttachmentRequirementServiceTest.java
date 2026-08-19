@@ -54,10 +54,6 @@ public class AttachmentRequirementServiceTest {
         assertThat(results.get(0).getFileName(), is("passport"));
     }
 
-    /**
-     * Exercises the real service parse path (not just the model) so the structured outcome is
-     * proven to survive the same deserializer configuration production uses.
-     */
     @Test
     public void getAttachmentVerificationResultsParsesStructuredExtractionOutcome() throws Exception {
         String path = expectedVerificationResultsPath();

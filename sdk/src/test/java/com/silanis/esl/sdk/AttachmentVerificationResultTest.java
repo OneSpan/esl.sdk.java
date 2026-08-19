@@ -66,10 +66,6 @@ public class AttachmentVerificationResultTest {
         assertThat(sdkResultJson, containsString("\"status\":\"PASS\""));
     }
 
-    /**
-     * The server no longer sends the {@code preflight} object modelled by newer verification
-     * work, and never sent {@code someFutureField}; neither may break an existing consumer.
-     */
     @Test
     public void unmodelledFieldsAreIgnored() {
         String response = "[{" +
@@ -90,10 +86,6 @@ public class AttachmentVerificationResultTest {
         assertThat(result.getExtractionResult().getExtractionStatus(), is(ExtractionStatus.COMPLETED));
     }
 
-    /**
-     * {@code extractionFailed} and {@code extractionErrorCode} were replaced by the structured
-     * outcome, but a payload from an older server must still deserialize without error.
-     */
     @Test
     @SuppressWarnings("deprecation")
     public void legacyExtractionFailureFieldsStillDeserialize() {
