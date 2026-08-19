@@ -39,10 +39,12 @@ public class AttachmentExtractionExampleTest {
                 example.verificationResult, notNullValue());
         assertThat("Classification result should be exposed by the example",
                 example.classificationResult, is(example.verificationResult.getClassificationResult()));
-        assertThat("Extraction failed flag should be exposed by the example",
-                example.extractionFailed, is(example.verificationResult.isExtractionFailed()));
-        assertThat("Extraction error code should be exposed by the example",
-                example.extractionErrorCode, is(example.verificationResult.getExtractionErrorCode()));
+        assertThat("Extraction status should be exposed by the example",
+                example.extractionStatus, is(example.verificationResult.getExtractionStatus()));
+        assertThat("Extraction reason code should be exposed by the example",
+                example.reasonCode, is(example.verificationResult.getReasonCode()));
+        assertNotNull("Extraction status should always be reported by the server",
+                example.extractionStatus);
 
         for (com.silanis.esl.sdk.AttachmentVerificationResult result : example.verificationResults) {
             assertNotNull("Verification result attachmentUuid should not be null", result.getAttachmentUuid());

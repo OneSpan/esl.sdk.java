@@ -7,7 +7,9 @@ import com.silanis.esl.sdk.AttachmentVerificationCheckResult;
 import com.silanis.esl.sdk.AttachmentVerificationResult;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
+import com.silanis.esl.sdk.ExtractionReasonCode;
 import com.silanis.esl.sdk.ExtractionResult;
+import com.silanis.esl.sdk.ExtractionStatus;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
@@ -34,8 +36,8 @@ public class AttachmentExtractionExample extends SDKSample {
     public AttachmentClassificationResult classificationResult;
     public ExtractionResult extractionResult;
     public List<AttachmentVerificationCheckResult> verificationCheckResults;
-    public boolean extractionFailed;
-    public String extractionErrorCode;
+    public ExtractionStatus extractionStatus;
+    public ExtractionReasonCode reasonCode;
 
     private final InputStream attachmentInputStream;
 
@@ -93,8 +95,8 @@ public class AttachmentExtractionExample extends SDKSample {
         verificationResult = verificationResults.get(0);
         classificationResult = verificationResult.getClassificationResult();
         extractionResult = verificationResult.getExtractionResult();
-        extractionFailed = verificationResult.isExtractionFailed();
-        extractionErrorCode = verificationResult.getExtractionErrorCode();
+        extractionStatus = verificationResult.getExtractionStatus();
+        reasonCode = verificationResult.getReasonCode();
         if (extractionResult != null) {
             verificationCheckResults = extractionResult.getVerificationCheckResults();
         }
