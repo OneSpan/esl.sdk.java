@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,7 +12,16 @@ public class AttachmentVerificationResult {
     private String extension;
     private AttachmentClassificationResult classificationResult;
     private ExtractionResult extractionResult;
+
+    @JsonFormat(with = JsonFormat.Feature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+    private ExtractionStatus extractionStatus;
+
+    @JsonFormat(with = JsonFormat.Feature.READ_UNKNOWN_ENUM_VALUES_AS_NULL)
+    private ExtractionReasonCode reasonCode;
+
+    @Deprecated
     private boolean extractionFailed;
+    @Deprecated
     private String extractionErrorCode;
     private boolean typeMatch;
 
@@ -63,18 +73,38 @@ public class AttachmentVerificationResult {
         this.extractionResult = extractionResult;
     }
 
+    public ExtractionStatus getExtractionStatus() {
+        return extractionStatus;
+    }
+
+    public void setExtractionStatus(ExtractionStatus extractionStatus) {
+        this.extractionStatus = extractionStatus;
+    }
+
+    public ExtractionReasonCode getReasonCode() {
+        return reasonCode;
+    }
+
+    public void setReasonCode(ExtractionReasonCode reasonCode) {
+        this.reasonCode = reasonCode;
+    }
+
+    @Deprecated
     public boolean isExtractionFailed() {
         return extractionFailed;
     }
 
+    @Deprecated
     public void setExtractionFailed(boolean extractionFailed) {
         this.extractionFailed = extractionFailed;
     }
 
+    @Deprecated
     public String getExtractionErrorCode() {
         return extractionErrorCode;
     }
 
+    @Deprecated
     public void setExtractionErrorCode(String extractionErrorCode) {
         this.extractionErrorCode = extractionErrorCode;
     }
