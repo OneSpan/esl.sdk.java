@@ -12,7 +12,16 @@ public enum AttachmentType {
     TAX_RETURN("Tax Return"),
     PAY_STUB("Pay Stub"),
     INVOICE("Invoice"),
-    CONTRACT("Contract");
+    CONTRACT("Contract"),
+    T4_SLIP_CA("T4 Slip (CA)"),
+    STATE_ID_CARD_US("State ID Card (US)"),
+    VOID_CHEQUE_CA("Void Cheque (CA)"),
+    VOID_CHEQUE_US("Void Cheque (US)"),
+    AUTO_INSURANCE_CERTIFICATE("Auto Insurance Certificate"),
+    PROPERTY_INSURANCE("Property Insurance"),
+    LIFE_INSURANCE_POLICY("Life Insurance Policy"),
+    VEHICLE_REGISTRATION("Vehicle Registration"),
+    EMPLOYMENT_LETTER("Employment Letter");
 
     private final String displayName;
 

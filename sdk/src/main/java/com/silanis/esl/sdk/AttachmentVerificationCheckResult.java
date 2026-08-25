@@ -2,11 +2,13 @@ package com.silanis.esl.sdk;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AttachmentVerificationCheckResult {
 
     private String ruleName;
-    private String field;
+    private List<String> fields;
     private AttachmentVerificationStatus status;
     private String message;
 
@@ -18,12 +20,12 @@ public class AttachmentVerificationCheckResult {
         this.ruleName = ruleName;
     }
 
-    public String getField() {
-        return field;
+    public List<String> getFields() {
+        return fields;
     }
 
-    public void setField(String field) {
-        this.field = field;
+    public void setFields(List<String> fields) {
+        this.fields = fields;
     }
 
     public AttachmentVerificationStatus getStatus() {

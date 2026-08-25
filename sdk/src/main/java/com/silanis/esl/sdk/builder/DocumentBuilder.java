@@ -32,6 +32,7 @@ public class DocumentBuilder {
     private External external;
     private Map<String, Object> data = new LinkedHashMap<String, Object>();
     private String base64Content;
+    private Boolean designerReadOnly;
 
     public DocumentBuilder() {
         this.name = DEFAULT_NAME;
@@ -165,6 +166,9 @@ public class DocumentBuilder {
         if (base64Content != null) {
             document.setBase64Content(base64Content);
         }
+        if (designerReadOnly != null) {
+            document.setDesignerReadOnly(designerReadOnly);
+        }
 
         return document;
     }
@@ -278,6 +282,17 @@ public class DocumentBuilder {
      */
     public DocumentBuilder fromBase64Content(String base64Content) {
         this.base64Content = base64Content;
+        return this;
+    }
+
+    /**
+     * Set whether this document is read only in the designer
+     *
+     * @param designerReadOnly
+     * @return the document builder itself
+     */
+    public DocumentBuilder withDesignerReadOnly(boolean designerReadOnly) {
+        this.designerReadOnly = designerReadOnly;
         return this;
     }
 }

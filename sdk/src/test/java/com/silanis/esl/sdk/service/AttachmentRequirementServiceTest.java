@@ -2,6 +2,8 @@ package com.silanis.esl.sdk.service;
 
 import com.silanis.esl.sdk.AttachmentVerificationResult;
 import com.silanis.esl.sdk.EslException;
+import com.silanis.esl.sdk.ExtractionReasonCode;
+import com.silanis.esl.sdk.ExtractionStatus;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.ServerError;
 import com.silanis.esl.sdk.internal.EslServerException;
@@ -50,6 +52,28 @@ public class AttachmentRequirementServiceTest {
         assertThat(results.size(), is(1));
         assertThat(results.get(0).getAttachmentUuid(), is("attachment-uid"));
         assertThat(results.get(0).getFileName(), is("passport"));
+    }
+
+    @Test
+    public void getAttachmentVerificationResultsParsesStructuredExtractionOutcome() throws Exception {
+        String path = expectedVerificationResultsPath();
+        when(client.get(path)).thenReturn("[{" +
+                "\"attachmentUuid\":\"attachment-uid\"," +
+                "\"extractionStatus\":\"NOT_PERFORMED\"," +
+                "\"reasonCode\":\"CLASSIFICATION_UNKNOWN\"," +
+                "\"extractionResult\":{" +
+                "\"extractionStatus\":\"NOT_PERFORMED\"," +
+                "\"reasonCode\":\"CLASSIFICATION_UNKNOWN\"" +
+                "}}]");
+
+        List<AttachmentVerificationResult> results = service.getAttachmentVerificationResults(PACKAGE_ID);
+
+        verify(client).get(path);
+        assertThat(results.get(0).getExtractionStatus(), is(ExtractionStatus.NOT_PERFORMED));
+        assertThat(results.get(0).getReasonCode(), is(ExtractionReasonCode.CLASSIFICATION_UNKNOWN));
+        assertThat(results.get(0).getExtractionResult().getExtractionStatus(), is(ExtractionStatus.NOT_PERFORMED));
+        assertThat(results.get(0).getExtractionResult().getReasonCode(),
+                is(ExtractionReasonCode.CLASSIFICATION_UNKNOWN));
     }
 
     @Test

@@ -32,6 +32,9 @@ public class Signer implements Serializable {
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
     private Group group;
+    private boolean newPlaceholderSigner;
+    private Boolean specifier;
+    private boolean carbonCopyRecipient;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -407,5 +410,38 @@ public class Signer implements Serializable {
 
     public void setGroup(Group group) {
         this.group=group;
+    }
+
+    public boolean isNewPlaceholderSigner() {
+        return newPlaceholderSigner;
+    }
+
+    public void setNewPlaceholderSigner(boolean newPlaceholderSigner) {
+        this.newPlaceholderSigner = newPlaceholderSigner;
+    }
+
+    public Boolean getSpecifier() {
+        return specifier;
+    }
+
+    public void setSpecifier(Boolean specifier) {
+        this.specifier = specifier;
+    }
+
+    /**
+     * <p>Indicates whether this recipient is a carbon copy recipient.</p>
+     *
+     * <p>A carbon copy recipient receives a copy of the completed documents but never
+     * participates in the signing ceremony. Carbon copy recipients are excluded from the
+     * signing order and are only notified once the transaction is complete.</p>
+     *
+     * @return true if this recipient is a carbon copy recipient.
+     */
+    public boolean isCarbonCopyRecipient() {
+        return carbonCopyRecipient;
+    }
+
+    public void setCarbonCopyRecipient(boolean carbonCopyRecipient) {
+        this.carbonCopyRecipient = carbonCopyRecipient;
     }
 }

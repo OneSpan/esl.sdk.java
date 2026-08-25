@@ -9,6 +9,7 @@ import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.GroupMemberType;
 import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.PlaceholderSigner;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -160,6 +161,46 @@ public class SignerConverter {
             signer.setLocked(true);
         }
 
+        signer.setSpecifier(apiRole.getSpecifier());
+        signer.setCarbonCopyRecipient(Role.TYPE_CARBON_COPY_RECIPIENT.equals(apiRole.getType()));
+
+        Map<String, Object> apiRoleData = apiRole.getData();
+        if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
+            Object localLanguage = apiRoleData.get(Role.LOCAL_LANGUAGE_DATA_KEY);
+            if (localLanguage != null) {
+                signer.setLocalLanguage(localLanguage.toString());
+            }
+        }
+
+        return signer;
+    }
+
+    private Signer newPlaceholderSignerFromAPIRole() {
+        Asserts.notNullOrEmpty(apiRole.getId(), "role.id");
+
+        SignerBuilder signerBuilder = SignerBuilder.newPlaceholderSigner(
+                new PlaceholderSigner(apiRole.getId(), apiRole.getName()));
+
+        if (apiRole.evalReassign()) {
+            signerBuilder.canChangeSigner();
+        }
+
+        if (apiRole.getEmailMessage() != null) {
+            signerBuilder.withEmailMessage(apiRole.getEmailMessage().getContent());
+        }
+
+        if (apiRole.getIndex() != null) {
+            signerBuilder.signingOrder(apiRole.getIndex());
+        }
+
+        Signer signer = signerBuilder.build();
+
+        if (apiRole.getLocked()) {
+            signer.setLocked(true);
+        }
+
+        signer.setSpecifier(apiRole.getSpecifier());
+
         Map<String, Object> apiRoleData = apiRole.getData();
         if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
             Object localLanguage = apiRoleData.get(Role.LOCAL_LANGUAGE_DATA_KEY);
@@ -195,6 +236,8 @@ public class SignerConverter {
             signer.setLocked(true);
         }
 
+        signer.setSpecifier(apiRole.getSpecifier());
+
         Map<String, Object> apiRoleData = apiRole.getData();
         if (apiRoleData != null && apiRoleData.containsKey(Role.LOCAL_LANGUAGE_DATA_KEY)) {
             Object localLanguage = apiRoleData.get(Role.LOCAL_LANGUAGE_DATA_KEY);
@@ -217,7 +260,9 @@ public class SignerConverter {
             return sdkSigner;
         }
 
-        if (apiRole.getSigners() == null || apiRole.getSigners().isEmpty()) {
+        if (Role.TYPE_PLACEHOLDER.equals(apiRole.getType())) {
+            return newPlaceholderSignerFromAPIRole();
+        } else if (apiRole.getSigners() == null || apiRole.getSigners().isEmpty()) {
             return newSignerPlaceholderFromAPIRole();
         } else if (AdHocGroupUtils.isAdHocGroup(apiRole)) {
             return newAdHocGroupSignerFromAPIRole();
@@ -235,7 +280,13 @@ public class SignerConverter {
     public Role toAPIRole(String roleIdName) {
         Role role = new Role();
 
-        if (!sdkSigner.isPlaceholderSigner()) {
+        if (sdkSigner.isNewPlaceholderSigner()) {
+            role.setType(Role.TYPE_PLACEHOLDER);
+            role.addSigner(new com.silanis.esl.api.model.Signer());
+        } else if (!sdkSigner.isPlaceholderSigner()) {
+            if (sdkSigner.isCarbonCopyRecipient()) {
+                role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
+            }
             role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
         }
 
@@ -258,6 +309,7 @@ public class SignerConverter {
         }
 
         role.setLocked(sdkSigner.isLocked());
+        role.safeSetSpecifier(sdkSigner.getSpecifier());
 
         for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirements()) {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());
@@ -281,7 +333,13 @@ public class SignerConverter {
     public Role toAPIRole(String id, String name) {
         Role role = new Role();
 
-        if (!sdkSigner.isPlaceholderSigner()) {
+        if (sdkSigner.isNewPlaceholderSigner()) {
+            role.setType(Role.TYPE_PLACEHOLDER);
+            role.addSigner(new com.silanis.esl.api.model.Signer());
+        } else if (!sdkSigner.isPlaceholderSigner()) {
+            if (sdkSigner.isCarbonCopyRecipient()) {
+                role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
+            }
             role.addSigner(new SignerConverter(sdkSigner).toAPISigner());
         }
 
@@ -308,6 +366,7 @@ public class SignerConverter {
         }
 
         role.setLocked(sdkSigner.isLocked());
+        role.safeSetSpecifier(sdkSigner.getSpecifier());
 
         for (com.silanis.esl.sdk.AttachmentRequirement attachmentRequirement : sdkSigner.getAttachmentRequirements()) {
             role.addAttachmentRequirement(new AttachmentRequirementConverter(attachmentRequirement).toAPIAttachmentRequirement());

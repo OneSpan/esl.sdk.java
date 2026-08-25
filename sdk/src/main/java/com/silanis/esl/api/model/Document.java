@@ -48,6 +48,8 @@ public class Document extends Entity
     @JsonIgnore
     public static final String FIELD_TAGGED = "tagged";
     @JsonIgnore
+    public static final String FIELD_DESIGNER_READ_ONLY = "designerReadOnly";
+    @JsonIgnore
     public static final String FIELD_EXTERNAL_SIGNED = "externalSigned";
     @JsonIgnore
     public static final String FIELD_BASE64_CONTENT = "base64Content";
@@ -71,6 +73,7 @@ public class Document extends Entity
     protected String _signedHash;
     protected String _signerVerificationToken;
     protected Boolean _tagged = false;
+    protected Boolean _designerReadOnly = false;
     protected Boolean _externalSigned = false;
     protected String _base64Content;
 
@@ -442,6 +445,30 @@ public class Document extends Entity
     @JsonIgnore
     public boolean evalTagged() {
         return _tagged == null ? false : _tagged.booleanValue();
+    }
+
+    public Document setDesignerReadOnly(Boolean value) {
+        SchemaSanitizer.throwOnNull(FIELD_DESIGNER_READ_ONLY, value);
+        this._designerReadOnly = value;
+        setDirty(FIELD_DESIGNER_READ_ONLY);
+        return this;
+    }
+
+    @JsonIgnore
+    public Document safeSetDesignerReadOnly(Boolean value) {
+        if (value != null) {
+            this.setDesignerReadOnly(value);
+        }
+        return this;
+    }
+
+    public Boolean getDesignerReadOnly() {
+        return _designerReadOnly;
+    }
+
+    @JsonIgnore
+    public boolean evalDesignerReadOnly() {
+        return _designerReadOnly == null ? false : _designerReadOnly.booleanValue();
     }
 
     public Boolean isExternalSigned() { return _externalSigned; }

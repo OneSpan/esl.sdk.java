@@ -13,6 +13,7 @@ import com.silanis.esl.sdk.KnowledgeBasedAuthentication;
 import com.silanis.esl.sdk.NotificationMethod;
 import com.silanis.esl.sdk.NotificationMethods;
 import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.PlaceholderSigner;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.SignerInformationForLexisNexis;
 import com.silanis.esl.sdk.internal.Asserts;
@@ -59,7 +60,10 @@ public final class SignerBuilder {
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
     private String localLanguage;
     private boolean isAdhocGroupSigner = false;
+    private boolean isNewPlaceholder = false;
     private String type;
+    private Boolean specifier;
+    private boolean carbonCopyRecipient = false;
     private Group group;
 
     /**
@@ -100,6 +104,20 @@ public final class SignerBuilder {
     }
 
     /**
+     * <p>The constructor of the SignerBuilderClass.</p>
+     *
+     * @param placeholderSigner the placeholder signer.
+     */
+    private SignerBuilder(PlaceholderSigner placeholderSigner) {
+        this.email = null;
+        this.groupId = null;
+        this.id = placeholderSigner.getId();
+        this.placeholderName = placeholderSigner.getName();
+        this.signingOrder = placeholderSigner.getSigningOrder();
+        this.isNewPlaceholder = true;
+    }
+
+    /**
      * <p>Creates a SignerBuilder object.</p>
      *
      * @param email the signer's email size(min="6", max="255", valid email address)
@@ -127,6 +145,16 @@ public final class SignerBuilder {
      */
     public static SignerBuilder newSignerPlaceholder(Placeholder placeholder) {
         return new SignerBuilder(placeholder);
+    }
+
+    /**
+     * <p>Creates a SignerBuilder object for a PLACEHOLDER role type signer.</p>
+     *
+     * @param placeholderSigner the placeholder signer.
+     * @return the signer builder itself
+     */
+    public static SignerBuilder newPlaceholderSigner(PlaceholderSigner placeholderSigner) {
+        return new SignerBuilder(placeholderSigner);
     }
 
     /**
@@ -167,6 +195,17 @@ public final class SignerBuilder {
      */
     public SignerBuilder replacing(Placeholder placeholder) {
         this.id = placeholder.getId();
+        return this;
+    }
+
+    /**
+     * Sets the signer's ID to the PlaceholderSigner's ID.
+     *
+     * @param placeholderSigner the placeholder signer whose ID to use
+     * @return the signer builder itself
+     */
+    public SignerBuilder replacing(PlaceholderSigner placeholderSigner) {
+        this.id = placeholderSigner.getId();
         return this;
     }
 
@@ -237,6 +276,7 @@ public final class SignerBuilder {
         result.setId(id);
         result.setAttachmentRequirements(attachments);
         result.setLocalLanguage(localLanguage);
+        result.setSpecifier(specifier);
         return result;
     }
 
@@ -250,6 +290,21 @@ public final class SignerBuilder {
         result.setMessage(message);
         result.setAttachmentRequirements(attachments);
         result.setLocalLanguage(localLanguage);
+        result.setSpecifier(specifier);
+        return result;
+    }
+
+    private Signer buildNewPlaceholderSigner() {
+        Asserts.notNullOrEmpty(id, "No placeholder id set for this signer!");
+        Signer result = new Signer(id);
+        result.setPlaceholderName(placeholderName);
+        result.setSigningOrder(signingOrder);
+        result.setCanChangeSigner(canChangeSigner);
+        result.setMessage(message);
+        result.setAttachmentRequirements(attachments);
+        result.setLocalLanguage(localLanguage);
+        result.setNewPlaceholderSigner(true);
+        result.setSpecifier(specifier);
         return result;
     }
 
@@ -278,6 +333,8 @@ public final class SignerBuilder {
         result.setAttachmentRequirements(attachments);
         result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
         result.setLocalLanguage(localLanguage);
+        result.setSpecifier(specifier);
+        result.setCarbonCopyRecipient(carbonCopyRecipient);
         return result;
     }
 
@@ -317,12 +374,17 @@ public final class SignerBuilder {
      */
     public Signer build() {
 
+        if (carbonCopyRecipient) {
+            assertCarbonCopyRecipientIsValid();
+        }
+
         Signer signer;
         if (this.isAdhocGroupSigner) {
             signer = buildAdhocSigner();
-        } else
-        if (isGroupSigner()) {
+        } else if (isGroupSigner()) {
             signer = buildGroupSigner();
+        } else if (isNewPlaceholder) {
+            signer = buildNewPlaceholderSigner();
         } else if (isPlaceholder()) {
             signer = buildPlaceholderSigner();
         } else {
@@ -512,6 +574,31 @@ public final class SignerBuilder {
     @Deprecated
     public SignerBuilder withRoleId(String roleId) {
         return withCustomId(roleId);
+    }
+
+    public SignerBuilder withSpecifier(Boolean specifier) {
+        this.specifier = specifier;
+        return this;
+    }
+
+    /**
+     * <p>Marks this recipient as a carbon copy recipient.</p>
+     *
+     * <p>A carbon copy recipient receives a copy of the completed documents but never
+     * participates in the signing ceremony. They are excluded from the signing order and are
+     * only notified once the transaction is complete, so no signatures or fields may be
+     * assigned to them.</p>
+     *
+     * <p>A carbon copy recipient must be a regular recipient with an email address. It cannot
+     * be a placeholder, a group or ad hoc group recipient, a notary, a recipient specifier,
+     * or a reassignable recipient, and it cannot be given attachment requirements. Carbon copy
+     * recipients are also not supported in in-person transactions.</p>
+     *
+     * @return the signer builder itself
+     */
+    public SignerBuilder asCarbonCopyRecipient() {
+        this.carbonCopyRecipient = true;
+        return this;
     }
 
     public SignerBuilder withLocalLanguage() {
@@ -922,6 +1009,19 @@ public final class SignerBuilder {
             return challengeType != null && !challengeType.trim().isEmpty();
         }
 
+    }
+
+    /**
+     * Mirrors the constraints the server enforces on carbon copy recipients so that conflicting
+     * settings are reported at build time rather than as a validation error on the API call.
+     */
+    private void assertCarbonCopyRecipientIsValid() {
+        Asserts.genericAssert(!isAdhocGroupSigner, "a carbon copy recipient cannot be an adhoc group signer");
+        Asserts.genericAssert(!isGroupSigner(), "a carbon copy recipient cannot be a group signer");
+        Asserts.genericAssert(!isNewPlaceholder && !isPlaceholder(), "a carbon copy recipient cannot be a placeholder");
+        Asserts.genericAssert(!canChangeSigner, "a carbon copy recipient cannot be reassignable");
+        Asserts.genericAssert(!Boolean.TRUE.equals(specifier), "a carbon copy recipient cannot be a recipient specifier");
+        Asserts.genericAssert(attachments.isEmpty(), "a carbon copy recipient cannot have attachment requirements");
     }
 
     private boolean isGroupSigner() {

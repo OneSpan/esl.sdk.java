@@ -9,6 +9,8 @@ import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.Sender;
+import com.silanis.esl.sdk.ServerError;
+import com.silanis.esl.sdk.internal.EslServerException;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -45,6 +47,7 @@ public class CleanupRecentPackagesExample extends SDKSample {
     public int deletedTemplatesCount = 0;
     public int deletedSendersCount = 0;
     public int deletedGroupsCount = 0;
+    public int skippedPackagesCount = 0;
     public List<PackageId> deletedPackageIds = new ArrayList<PackageId>();
     public List<PackageId> deletedTemplateIds = new ArrayList<PackageId>();
     public List<String> deletedSenderIds = new ArrayList<String>();
@@ -66,6 +69,8 @@ public class CleanupRecentPackagesExample extends SDKSample {
             deletePackagesUpdatedWithinRange(status, from, to);
         }
 
+        System.out.println("Skipped " + skippedPackagesCount + " packages that cannot be deleted");
+
         deleteTemplatesUpdatedWithinRange(from);
         deleteSendersCreatedWithinRange(from);
         deleteGroupsCreatedOrUpdatedWithinRange();
@@ -77,10 +82,12 @@ public class CleanupRecentPackagesExample extends SDKSample {
             Page<DocumentPackage> page = eslClient.getPackageService()
                     .getUpdatedPackagesWithinDateRange(status, request, from, to);
             for (DocumentPackage pkg : page) {
-                eslClient.getPackageService().deletePackage(pkg.getId());
-                deletedPackageIds.add(pkg.getId());
-                deletedPackagesCount++;
-                System.out.println(deletedPackagesCount + " Deleted package " + pkg.getId());
+
+                if (deletePackageIfAllowed(pkg.getId(), "package")) {
+                    deletedPackageIds.add(pkg.getId());
+                    deletedPackagesCount++;
+                    System.out.println(deletedPackagesCount + " Deleted package " + pkg.getId());
+                }
             }
             if (!page.hasNextPage()) {
                 break;
@@ -90,14 +97,39 @@ public class CleanupRecentPackagesExample extends SDKSample {
         System.out.println("Deleted " + deletedPackagesCount + " packages");
     }
 
+    /**
+     * Deletes a package or template, tolerating the cases the server refuses to
+     * delete. Completed RON / IPEN transactions, for instance, are rejected with
+     * a 403 (error.forbidden.deletion.completedRonOrIpenTransaction); such
+     * transactions are permanent, so cleanup skips them instead of failing.
+     *
+     * @return true when the package was deleted, false when it was skipped.
+     */
+    private boolean deletePackageIfAllowed(PackageId packageId, String label) {
+        try {
+            eslClient.getPackageService().deletePackage(packageId);
+            return true;
+        } catch (EslServerException e) {
+            ServerError error = e.getServerError();
+            if (error != null && error.getCode() != null && error.getCode() == 403) {
+                skippedPackagesCount++;
+                System.out.println("Skipping " + label + " " + packageId
+                        + " which cannot be deleted: " + error.getMessage()
+                        + " (" + error.getMessageKey() + ")");
+                return false;
+            }
+            throw e;
+        }
+    }
+
     private void deleteTemplatesUpdatedWithinRange(Date from) {
         PageRequest request = new PageRequest(1, PAGE_SIZE);
         while (true) {
             Page<DocumentPackage> page = eslClient.getPackageService().getTemplates(request);
             for (DocumentPackage template : page) {
                 Date updatedDate = template.getUpdatedDate();
-                if (updatedDate != null && !updatedDate.before(from)) {
-                    eslClient.getPackageService().deletePackage(template.getId());
+                if (updatedDate != null && !updatedDate.before(from)
+                        && deletePackageIfAllowed(template.getId(), "template")) {
                     deletedTemplateIds.add(template.getId());
                     deletedTemplatesCount++;
                     System.out.println(deletedTemplatesCount + " Deleted template " + template.getId());
@@ -126,6 +158,10 @@ public class CleanupRecentPackagesExample extends SDKSample {
     }
 
     private void deleteSendersCreatedWithinRange(Date from) {
+        // Senders whose email is configured in signers.properties must never be
+        // deleted, since they are reused across test runs.
+        Set<String> protectedEmails = getProtectedSenderEmails();
+
         // First pass: collect all candidate sender IDs across every page into a Set.
         // Using a Set deduplicates IDs that re-appear on later pages because a prior
         // deletion attempt silently failed and left the sender in the account.
@@ -137,6 +173,12 @@ public class CleanupRecentPackagesExample extends SDKSample {
             for (Sender sender : senders.values()) {
                 if (senderUID.equals(sender.getId())) {
                     continue; // never delete the account owner running the tests
+                }
+                if (sender.getEmail() != null
+                        && protectedEmails.contains(sender.getEmail().toLowerCase())) {
+                    System.out.println("Skipping protected sender " + sender.getId()
+                            + " (" + sender.getEmail() + ") defined in signers.properties");
+                    continue; // never delete senders defined in signers.properties
                 }
                 Date createdDate = sender.getCreated();
                 if (createdDate != null && !createdDate.before(from)) {
@@ -159,5 +201,24 @@ public class CleanupRecentPackagesExample extends SDKSample {
             System.out.println(deletedSendersCount + " Deleted sender " + senderId);
         }
         System.out.println("Deleted " + deletedSendersCount + " senders");
+    }
+
+    /**
+     * Collects every email address configured in signers.properties so that the
+     * senders they refer to are protected from deletion. Any property value that
+     * looks like an email address (contains '@') is treated as a sender email,
+     * which covers sender.email, the numbered N.email entries, the delegator /
+     * delegatee emails and any future email entries. Emails are lower-cased so
+     * the comparison is case-insensitive.
+     */
+    private Set<String> getProtectedSenderEmails() {
+        Set<String> protectedEmails = new HashSet<String>();
+        for (String name : props.stringPropertyNames()) {
+            String value = props.getProperty(name);
+            if (value != null && value.contains("@")) {
+                protectedEmails.add(value.trim().toLowerCase());
+            }
+        }
+        return protectedEmails;
     }
 }

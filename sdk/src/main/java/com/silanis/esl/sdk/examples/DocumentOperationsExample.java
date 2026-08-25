@@ -5,6 +5,9 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.builder.FieldBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -75,6 +78,13 @@ public class DocumentOperationsExample extends SDKSample {
         eslClient.getPackageService().updateDocumentMetadata(retrievedPackage, document);
         retrievedUpdatedDocument = eslClient.getPackageService().getDocumentMetadata(retrievedPackage, document.getId().getId());
         retrievedPackageWithUpdatedDocument = eslClient.getPackage(packageId);
+
+        //This is how you would force-update a document's custom metadata (its data map) regardless of
+        //the transaction's status. Requires the account's manipulateMetadata feature to be enabled.
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("customerId", "12345");
+        document.setData(metadata);
+        eslClient.getPackageService().forceUpdateDocumentMetadata(retrievedPackage, document);
 
         //This is how you would delete a document from a package
         eslClient.getPackageService().deleteDocument(packageId, document.getId().toString());

@@ -24,6 +24,7 @@ public class Document implements Serializable {
     private int numberOfPages;
     private boolean extract;
     private Boolean tagged;
+    private Boolean designerReadOnly;
     private Set<String> extractionTypes = Sets.newHashSet();
     private DocumentId id;
     private List<Field> injectedFields = new ArrayList<Field>();
@@ -155,6 +156,14 @@ public class Document implements Serializable {
 
     public void setTagged(boolean tagged) {
         this.tagged = tagged;
+    }
+
+    public Boolean isDesignerReadOnly() {
+        return designerReadOnly;
+    }
+
+    public void setDesignerReadOnly(boolean designerReadOnly) {
+        this.designerReadOnly = designerReadOnly;
     }
 
     public Set<String> getExtractionTypes() {

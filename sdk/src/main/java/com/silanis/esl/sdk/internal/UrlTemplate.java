@@ -22,6 +22,7 @@ public class UrlTemplate {
     public static final String DOCUMENT_PATH = "/packages/{packageId}/documents";
     public static final String DOCUMENT_VISIBILITY_PATH = "/packages/{packageId}/documents/visibility";
     public static final String DOCUMENT_ID_PATH = "/packages/{packageId}/documents/{documentId}";
+    public static final String DOCUMENT_METADATA_PATH = "/packages/{packageId}/documents/{documentId}/metadata";
     public static final String ROLE_PATH = "/packages/{packageId}/roles";
     public static final String ROLE_ID_PATH = "/packages/{packageId}/roles/{roleId}";
     public static final String ROLE_UNLOCK_PATH = "/packages/{packageId}/roles/{roleId}/unlock";

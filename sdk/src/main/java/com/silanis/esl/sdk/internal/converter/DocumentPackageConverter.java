@@ -150,6 +150,12 @@ public class DocumentPackageConverter {
                             role.putData(Role.LOCAL_LANGUAGE_DATA_KEY, localLanguage);
                         }
 
+                        role.safeSetSpecifier(input.getSpecifier());
+
+                        if (input.isCarbonCopyRecipient()) {
+                            role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
+                        }
+
                         return role;
                     }
                 }));

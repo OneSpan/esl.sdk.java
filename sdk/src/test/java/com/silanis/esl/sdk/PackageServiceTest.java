@@ -586,6 +586,46 @@ public class PackageServiceTest {
         assertNull(result.getConsentInfo().getConsentData());
     }
 
+    @Test
+    public void testForceUpdateDocumentMetadataPutsBareDataMapToMetadataEndpoint() throws Exception {
+        String packageUid = "pkg1";
+        String documentId = "doc1";
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("customerId", "12345");
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test Package")
+                .withDocument(DocumentBuilder.newDocumentWithName("Test Document")
+                        .withId(documentId)
+                        .withData(data))
+                .build();
+        documentPackage.setId(new PackageId(packageUid));
+
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.DOCUMENT_METADATA_PATH)
+                .replace("{packageId}", packageUid)
+                .replace("{documentId}", documentId)
+                .build();
+
+        packageService.forceUpdateDocumentMetadata(documentPackage, documentPackage.getDocument("Test Document"));
+
+        // Body is the bare data map, not a serialized Document (no "data"/"name" wrapper).
+        verify(clientMock).put(eq(expectedPath), eq("{\"customerId\":\"12345\"}"));
+    }
+
+    @Test(expected = EslServerException.class)
+    public void testForceUpdateDocumentMetadataWrapsRequestExceptionAsServerException() throws Exception {
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test Package")
+                .withDocument(DocumentBuilder.newDocumentWithName("Test Document")
+                        .withId("doc1")
+                        .withData(new HashMap<String, Object>()))
+                .build();
+        documentPackage.setId(new PackageId("pkg1"));
+
+        when(clientMock.put(anyString(), anyString()))
+                .thenThrow(new RequestException("PUT", "uri", 500, "Server Error", "{}"));
+
+        packageService.forceUpdateDocumentMetadata(documentPackage, documentPackage.getDocument("Test Document"));
+    }
+
     private String toApiPackageJson(String packageUid, String language) {
         Package apiPackage = getAPackage(packageUid, language);
         return Serialization.toJson(apiPackage);

@@ -9,6 +9,7 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.PlaceholderSigner;
 import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.PackageBuilder;
 import com.silanis.esl.sdk.internal.EslServerException;
@@ -240,6 +241,33 @@ public class TemplateService extends EslComponent {
     }
 
     /**
+     * Adds a placeholder to the template.
+     *
+     * @param templateId
+     * @param placeholder
+     * @return The role added
+     * @throws EslException
+     */
+    public PlaceholderSigner addPlaceholder(PackageId templateId, PlaceholderSigner placeholder) throws EslException {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_PATH)
+                .replace("{packageId}", templateId.getId())
+                .build();
+
+        String placeholderJson = JacksonUtil.serializeDirty(placeholder);
+        String stringResponse;
+        try {
+            stringResponse = getClient().post(path, placeholderJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not add placeholder.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not add placeholder.", e);
+        }
+        Role role = Serialization.fromJson(stringResponse, Role.class);
+
+        return new PlaceholderSigner(role.getId(), role.getName());
+    }
+
+    /**
      * Update a placeholder.
      *
      * @param templateId
@@ -265,5 +293,33 @@ public class TemplateService extends EslComponent {
         Role role = Serialization.fromJson(stringResponse, Role.class);
 
         return new Placeholder(role.getId(), role.getName());
+    }
+
+    /**
+     * Update a placeholder.
+     *
+     * @param templateId
+     * @param placeholder
+     * @return The updated role
+     * @throws EslException
+     */
+    public PlaceholderSigner updatePlaceholder(PackageId templateId, PlaceholderSigner placeholder) throws EslException {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_ID_PATH)
+                .replace("{packageId}", templateId.getId())
+                .replace("{roleId}", placeholder.getId())
+                .build();
+
+        String placeholderJson = JacksonUtil.serializeDirty(placeholder);
+        String stringResponse;
+        try {
+            stringResponse = getClient().put(path, placeholderJson);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the placeholder.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update the placeholder.", e);
+        }
+        Role role = Serialization.fromJson(stringResponse, Role.class);
+
+        return new PlaceholderSigner(role.getId(), role.getName());
     }
 }

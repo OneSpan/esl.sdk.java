@@ -3,6 +3,7 @@ package com.silanis.esl.sdk.builder;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.PlaceholderSigner;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.SignatureId;
 import com.silanis.esl.sdk.SignatureStyle;
@@ -105,6 +106,16 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Creates a SignatureBuilder instance for a PlaceholderSigner
+     *
+     * @param placeholderSigner the placeholder signer
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder signatureFor(PlaceholderSigner placeholderSigner) {
+        return new SignatureBuilder(new Placeholder(placeholderSigner.getId()));
+    }
+
+    /**
      * Creates an acceptance consent for the signer having the email address provided.
      *
      * @param signerEmail the signer's email address size(min="6", max="255", valid email address)
@@ -150,6 +161,20 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Creates an acceptance consent for the PlaceholderSigner provided
+     *
+     * @param placeholderSigner the placeholder signer
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder acceptanceFor(PlaceholderSigner placeholderSigner) {
+        return signatureFor(placeholderSigner)
+                .withStyle(SignatureStyle.ACCEPTANCE)
+                .atPosition(0, 0)
+                .withSize(0, 0)
+                .onPage(0);
+    }
+
+    /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.INITIALS
      *
@@ -180,6 +205,17 @@ final public class SignatureBuilder {
      */
     public static SignatureBuilder initialsFor(Placeholder roleId) {
         return new SignatureBuilder(roleId).withStyle(SignatureStyle.INITIALS);
+    }
+
+    /**
+     * Creates a SignatureBuilder instance for the PlaceholderSigner provided as parameter.
+     * The signature style will be also set to SignatureStyle.INITIALS
+     *
+     * @param placeholderSigner the placeholder signer
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder initialsFor(PlaceholderSigner placeholderSigner) {
+        return signatureFor(placeholderSigner).withStyle(SignatureStyle.INITIALS);
     }
 
     /**
@@ -216,6 +252,17 @@ final public class SignatureBuilder {
     }
 
     /**
+     * Creates a SignatureBuilder instance for the PlaceholderSigner provided as parameter.
+     * The signature style will be also set to SignatureStyle.HAND_DRAWN
+     *
+     * @param placeholderSigner the placeholder signer
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder captureFor(PlaceholderSigner placeholderSigner) {
+        return signatureFor(placeholderSigner).withStyle(SignatureStyle.HAND_DRAWN);
+    }
+
+    /**
      * Creates a SignatureBuilder instance for the signer with the email address provided as parameter.
      * The signature style will be also set to SignatureStyle.MOBILE_CAPTURE
      *
@@ -246,6 +293,17 @@ final public class SignatureBuilder {
      */
     public static SignatureBuilder mobileCaptureFor(Placeholder roleId) {
         return new SignatureBuilder(roleId).withStyle(SignatureStyle.MOBILE_CAPTURE);
+    }
+
+    /**
+     * Creates a SignatureBuilder instance for the PlaceholderSigner provided as parameter.
+     * The signature style will be also set to SignatureStyle.MOBILE_CAPTURE
+     *
+     * @param placeholderSigner the placeholder signer
+     * @return the signature builder itself
+     */
+    public static SignatureBuilder mobileCaptureFor(PlaceholderSigner placeholderSigner) {
+        return signatureFor(placeholderSigner).withStyle(SignatureStyle.MOBILE_CAPTURE);
     }
 
     public static SignatureBuilder signature(SignatureStyle signatureStyle, String signerEmail) {
