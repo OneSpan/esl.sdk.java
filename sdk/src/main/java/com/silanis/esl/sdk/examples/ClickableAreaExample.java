@@ -21,6 +21,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * its visible size, optionally with the mark aligned within that area. Also
  * demonstrates modifying a field's clickable area and adding a new field with
  * a clickable area to an already-created package.
+ * <p>
+ * The expandedClickableArea feature must be enabled on the account for this example to run.
  */
 public class ClickableAreaExample extends SDKSample {
 

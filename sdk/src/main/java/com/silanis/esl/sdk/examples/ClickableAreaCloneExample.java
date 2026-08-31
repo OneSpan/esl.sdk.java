@@ -15,6 +15,8 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 /**
  * Example demonstrating that a field's clickable area survives being cloned
  * from a template into a new package via createPackageFromTemplate.
+ * <p>
+ * The expandedClickableArea feature must be enabled on the account for this example to run.
  */
 public class ClickableAreaCloneExample extends SDKSample {
 

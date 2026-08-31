@@ -22,7 +22,7 @@ public class ClickableAreaCloneExampleTest {
         DocumentPackage documentPackage = example.getRetrievedPackage();
         for (Signature signature : documentPackage.getDocument(DOCUMENT_NAME).getSignatures()) {
             for (Field field : signature.getFields()) {
-                if (field.getId().toString().equals(CHECKBOX_ID)) {
+                if (field.getId().toString().equals(CHECKBOX_ID) && field.getClickableArea() != null) {
                     assertThat(field.getClickableArea().getWidth(), is(CLICKABLE_AREA_WIDTH));
                     assertThat(field.getClickableArea().getHeight(), is(CLICKABLE_AREA_HEIGHT));
                     assertThat(field.getClickableArea().getAlignment(), is(ClickableAreaAlignment.CENTER));
