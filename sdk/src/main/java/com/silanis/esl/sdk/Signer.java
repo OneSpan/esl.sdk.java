@@ -3,6 +3,7 @@ package com.silanis.esl.sdk;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * <p>The Signer class contains all the information about an user that is supposed to sign a document.</p>
@@ -35,6 +36,7 @@ public class Signer implements Serializable {
     private boolean newPlaceholderSigner;
     private Boolean specifier;
     private boolean carbonCopyRecipient;
+    private Map<String, Object> data;
 
     /**
      * <p>The constructor of the Signer class.</p> 
@@ -345,6 +347,26 @@ public class Signer implements Serializable {
 
     public GroupId getGroupId() {
         return this.groupId;
+    }
+
+    /**
+     * Accessor method used to retrieve the role's (signer's) custom metadata map.
+     *
+     * @return the role's metadata map, or null if none has been set
+     */
+    public Map<String, Object> getData() {
+        return data;
+    }
+
+    /**
+     * Sets the role's (signer's) custom metadata map. Used with
+     * {@code PackageService.forceUpdateRoleMetadata} to update role metadata via the dedicated
+     * metadata endpoint regardless of the transaction's status.
+     *
+     * @param data the role's metadata map
+     */
+    public void setData(Map<String, Object> data) {
+        this.data = data;
     }
 
     public String getPlaceholderName() {

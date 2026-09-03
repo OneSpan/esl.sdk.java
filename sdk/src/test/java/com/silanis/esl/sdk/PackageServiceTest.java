@@ -659,6 +659,53 @@ public class PackageServiceTest {
         packageService.forceUpdatePackageMetadata(documentPackage);
     }
 
+    @Test
+    public void testForceUpdateRoleMetadataPutsBareDataMapToMetadataEndpoint() throws Exception {
+        String packageUid = "pkg1";
+        String roleId = "role1";
+
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("customerId", "12345");
+
+        Signer signer = SignerBuilder.newSignerWithEmail("john@example.com")
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        signer.setId(roleId);
+        signer.setData(data);
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test Package").build();
+        documentPackage.setId(new PackageId(packageUid));
+
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.ROLE_METADATA_PATH)
+                .replace("{packageId}", packageUid)
+                .replace("{roleId}", roleId)
+                .build();
+
+        packageService.forceUpdateRoleMetadata(documentPackage, signer);
+
+        // Body is the bare data map, not a serialized Role (no "data"/"name" wrapper).
+        verify(clientMock).put(eq(expectedPath), eq("{\"customerId\":\"12345\"}"));
+    }
+
+    @Test(expected = EslServerException.class)
+    public void testForceUpdateRoleMetadataWrapsRequestExceptionAsServerException() throws Exception {
+        Signer signer = SignerBuilder.newSignerWithEmail("john@example.com")
+                .withFirstName("John")
+                .withLastName("Smith")
+                .build();
+        signer.setId("role1");
+        signer.setData(new HashMap<String, Object>());
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test Package").build();
+        documentPackage.setId(new PackageId("pkg1"));
+
+        when(clientMock.put(anyString(), anyString()))
+                .thenThrow(new RequestException("PUT", "uri", 500, "Server Error", "{}"));
+
+        packageService.forceUpdateRoleMetadata(documentPackage, signer);
+    }
+
     private String toApiPackageJson(String packageUid, String language) {
         Package apiPackage = getAPackage(packageUid, language);
         return Serialization.toJson(apiPackage);

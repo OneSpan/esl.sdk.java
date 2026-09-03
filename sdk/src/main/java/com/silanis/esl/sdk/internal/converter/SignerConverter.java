@@ -15,6 +15,7 @@ import com.silanis.esl.sdk.builder.SignerBuilder;
 import com.silanis.esl.sdk.internal.Asserts;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -170,6 +171,9 @@ public class SignerConverter {
             if (localLanguage != null) {
                 signer.setLocalLanguage(localLanguage.toString());
             }
+        }
+        if (apiRoleData != null) {
+            signer.setData(new HashMap<String, Object>(apiRoleData));
         }
 
         return signer;
