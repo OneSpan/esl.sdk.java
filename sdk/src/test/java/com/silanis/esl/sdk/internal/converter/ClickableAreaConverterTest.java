@@ -1,5 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.FieldClickableArea;
+import com.silanis.esl.sdk.ClickableArea;
 import com.silanis.esl.sdk.ClickableAreaAlignment;
 import com.silanis.esl.sdk.builder.ClickableAreaBuilder;
 import org.junit.Test;
@@ -15,10 +17,10 @@ import static org.hamcrest.core.IsEqual.equalTo;
  */
 public class ClickableAreaConverterTest implements ConverterTest {
 
-    private com.silanis.esl.sdk.ClickableArea sdkClickableArea1 = null;
-    private com.silanis.esl.sdk.ClickableArea sdkClickableArea2 = null;
-    private com.silanis.esl.api.model.FieldClickableArea apiClickableArea1 = null;
-    private com.silanis.esl.api.model.FieldClickableArea apiClickableArea2 = null;
+    private ClickableArea sdkClickableArea1 = null;
+    private ClickableArea sdkClickableArea2 = null;
+    private FieldClickableArea apiClickableArea1 = null;
+    private FieldClickableArea apiClickableArea2 = null;
 
     @Override
     @Test
@@ -88,15 +90,15 @@ public class ClickableAreaConverterTest implements ConverterTest {
         compareClickableAreas(sdkClickableArea1, apiClickableArea1);
     }
 
-    private com.silanis.esl.sdk.ClickableArea createTypicalSDKClickableArea() {
+    private ClickableArea createTypicalSDKClickableArea() {
         return ClickableAreaBuilder.newClickableArea()
                 .withSize(20, 10)
                 .withAlignment(ClickableAreaAlignment.TOP_LEFT)
                 .build();
     }
 
-    private com.silanis.esl.api.model.FieldClickableArea createTypicalAPIClickableArea() {
-        com.silanis.esl.api.model.FieldClickableArea apiClickableArea = new com.silanis.esl.api.model.FieldClickableArea();
+    private FieldClickableArea createTypicalAPIClickableArea() {
+        FieldClickableArea apiClickableArea = new FieldClickableArea();
 
         apiClickableArea.setWidth(20.0);
         apiClickableArea.setHeight(10.0);
@@ -105,7 +107,7 @@ public class ClickableAreaConverterTest implements ConverterTest {
         return apiClickableArea;
     }
 
-    private void compareClickableAreas(com.silanis.esl.sdk.ClickableArea sdkClickableArea, com.silanis.esl.api.model.FieldClickableArea apiClickableArea) {
+    private void compareClickableAreas(ClickableArea sdkClickableArea, FieldClickableArea apiClickableArea) {
         assertThat("Width was not correctly set", apiClickableArea.getWidth(), is(equalTo(sdkClickableArea.getWidth())));
         assertThat("Height was not correctly set", apiClickableArea.getHeight(), is(equalTo(sdkClickableArea.getHeight())));
         assertThat("Alignment was not correctly set", apiClickableArea.getAlignment(), is(equalTo(sdkClickableArea.getAlignment().name())));

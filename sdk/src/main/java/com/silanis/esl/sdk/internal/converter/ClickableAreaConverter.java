@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.FieldClickableArea;
 import com.silanis.esl.sdk.ClickableArea;
 import com.silanis.esl.sdk.ClickableAreaAlignment;
 
@@ -9,7 +10,7 @@ import com.silanis.esl.sdk.ClickableAreaAlignment;
 public class ClickableAreaConverter {
 
     private ClickableArea sdkClickableArea = null;
-    private com.silanis.esl.api.model.FieldClickableArea apiClickableArea = null;
+    private FieldClickableArea apiClickableArea = null;
 
     /**
      * Construct with SDK object involved in conversion.
@@ -25,7 +26,7 @@ public class ClickableAreaConverter {
      *
      * @param clickableArea
      */
-    public ClickableAreaConverter(com.silanis.esl.api.model.FieldClickableArea clickableArea) {
+    public ClickableAreaConverter(FieldClickableArea clickableArea) {
         this.apiClickableArea = clickableArea;
     }
 
@@ -34,13 +35,13 @@ public class ClickableAreaConverter {
      *
      * @return a FieldClickableArea object.
      */
-    public com.silanis.esl.api.model.FieldClickableArea toAPIFieldClickableArea() {
+    public FieldClickableArea toAPIFieldClickableArea() {
 
         if (sdkClickableArea == null) {
             return apiClickableArea;
         }
 
-        com.silanis.esl.api.model.FieldClickableArea result = new com.silanis.esl.api.model.FieldClickableArea();
+        FieldClickableArea result = new FieldClickableArea();
 
         result.safeSetWidth(sdkClickableArea.getWidth());
         result.safeSetHeight(sdkClickableArea.getHeight());
