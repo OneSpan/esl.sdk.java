@@ -626,6 +626,39 @@ public class PackageServiceTest {
         packageService.forceUpdateDocumentMetadata(documentPackage, documentPackage.getDocument("Test Document"));
     }
 
+    @Test
+    public void testForceUpdatePackageMetadataPutsBareDataMapToMetadataEndpoint() throws Exception {
+        String packageUid = "pkg1";
+
+        DocumentPackageAttributes attributes = new DocumentPackageAttributes();
+        attributes.append("customerId", "12345");
+
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test Package").build();
+        documentPackage.setId(new PackageId(packageUid));
+        documentPackage.setAttributes(attributes);
+
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.PACKAGE_METADATA_PATH)
+                .replace("{packageId}", packageUid)
+                .build();
+
+        packageService.forceUpdatePackageMetadata(documentPackage);
+
+        // Body is the bare attributes map, not a serialized Package (no "data"/"name" wrapper).
+        verify(clientMock).put(eq(expectedPath), eq("{\"customerId\":\"12345\"}"));
+    }
+
+    @Test(expected = EslServerException.class)
+    public void testForceUpdatePackageMetadataWrapsRequestExceptionAsServerException() throws Exception {
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test Package").build();
+        documentPackage.setId(new PackageId("pkg1"));
+        documentPackage.setAttributes(new DocumentPackageAttributes());
+
+        when(clientMock.put(anyString(), anyString()))
+                .thenThrow(new RequestException("PUT", "uri", 500, "Server Error", "{}"));
+
+        packageService.forceUpdatePackageMetadata(documentPackage);
+    }
+
     private String toApiPackageJson(String packageUid, String language) {
         Package apiPackage = getAPackage(packageUid, language);
         return Serialization.toJson(apiPackage);
