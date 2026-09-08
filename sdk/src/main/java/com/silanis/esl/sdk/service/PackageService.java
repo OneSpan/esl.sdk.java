@@ -742,6 +742,36 @@ public class PackageService extends EslComponent {
     }
 
     /**
+     * Updates the role's (signer's) metadata — its data map — via the dedicated role metadata
+     * endpoint, which applies regardless of the transaction's status when the account's
+     * manipulateMetadata feature is enabled. The endpoint replaces the role's data map with the one
+     * supplied on the signer.
+     *
+     * @param documentPackage the package (transaction) containing the role
+     * @param signer the role (signer) whose data map to send
+     */
+    public void forceUpdateRoleMetadata(DocumentPackage documentPackage, com.silanis.esl.sdk.Signer signer) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_METADATA_PATH)
+                .replace(PACKAGE_ID_PATH_PARAM, documentPackage.getId().getId())
+                .replace("{roleId}", signer.getId())
+                .build();
+
+        // The /metadata endpoint reads the whole request body as the role's data map.
+        // Send the bare data map, not a serialized Role.
+        Map<String, Object> metadata = signer.getData() != null ? signer.getData() : new HashMap<>();
+
+        try {
+            String json = JacksonUtil.serialize(metadata);
+
+            getClient().put(path, json);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not update the role's metadata.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not update the role's metadata." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Localizes the default consent document for the specified package and language.
      * <p>
      * This method sends a localization request for the default consent document of the given package using the provided language and returns
