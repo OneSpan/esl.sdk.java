@@ -1,5 +1,6 @@
 package com.silanis.esl.sdk.builder;
 
+import com.silanis.esl.sdk.ClickableArea;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.FieldStyle;
@@ -32,6 +33,7 @@ public class FieldBuilder {
     private TextAnchor textAnchor;
     private Integer fontSize;
     private String tooltip;
+    private ClickableArea clickableArea;
 
     /**
      * Creates a field builder
@@ -415,6 +417,31 @@ public class FieldBuilder {
         this.tooltip = tooltip;
         return this;
     }
+
+    /**
+     * Sets the field's clickable area, in pixels. This is opt-in: if never called,
+     * no clickable area is sent and none is applied by default.
+     *
+     * @param width  the width of the clickable area min="0"
+     * @param height the height of the clickable area min="0"
+     * @return the field builder itself
+     */
+    public FieldBuilder withClickableArea(double width, double height) {
+        return withClickableArea(ClickableAreaBuilder.newClickableArea().withSize(width, height));
+    }
+
+    /**
+     * Sets the field's clickable area, allowing the mark's alignment within it to be
+     * specified. This is opt-in: if never called, no clickable area is sent and none
+     * is applied by default.
+     *
+     * @param builder the clickable area builder
+     * @return the field builder itself
+     */
+    public FieldBuilder withClickableArea(ClickableAreaBuilder builder) {
+        this.clickableArea = builder.build();
+        return this;
+    }
     /**
      * Set a field's unique ID. This id allows the field value to be retrieved
      * when querying a package for information.
@@ -446,6 +473,7 @@ public class FieldBuilder {
         field.setValue(value);
         field.setFontSize(fontSize);
         field.setTooltip(tooltip);
+        field.setClickableArea(clickableArea);
         if (fieldId != null) {
             field.setId(fieldId);
         }

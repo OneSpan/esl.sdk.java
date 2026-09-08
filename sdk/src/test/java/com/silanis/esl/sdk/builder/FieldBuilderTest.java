@@ -1,14 +1,17 @@
 package com.silanis.esl.sdk.builder;
 
+import com.silanis.esl.sdk.ClickableAreaAlignment;
 import com.silanis.esl.sdk.Field;
 import com.silanis.esl.sdk.FieldStyle;
 import org.junit.Test;
 
+import static com.silanis.esl.sdk.builder.ClickableAreaBuilder.newClickableArea;
 import static com.silanis.esl.sdk.builder.FieldBuilder.*;
 import static com.silanis.esl.sdk.builder.FieldValidatorBuilder.basic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 
 public class FieldBuilderTest {
@@ -141,5 +144,49 @@ public class FieldBuilderTest {
         Field field = checkBox().withValidation(basic().setGroup(group).setGroupTooltip(groupTooltip)).build();
         assertThat(field.getFieldValidator().getGroupTooltip(),is(groupTooltip));
         assertThat(field.getFieldValidator().getGroup(),is(group));
+    }
+
+    @Test
+    public void clickableAreaIsNullByDefault() {
+        Field field = checkBox().atPosition(100, 100).build();
+
+        assertThat(field.getClickableArea(), is(nullValue()));
+    }
+
+    @Test
+    public void testCheckboxWithClickableArea() {
+        double clickableAreaWidth = 20;
+        double clickableAreaHeight = 10;
+
+        Field field = checkBox().withClickableArea(clickableAreaWidth, clickableAreaHeight).build();
+
+        assertThat(field.getClickableArea().getWidth(), is(clickableAreaWidth));
+        assertThat(field.getClickableArea().getHeight(), is(clickableAreaHeight));
+        assertThat(field.getClickableArea().getAlignment(), is(nullValue()));
+    }
+
+    @Test
+    public void testCheckboxWithClickableAreaAndAlignment() {
+        double clickableAreaWidth = 20;
+        double clickableAreaHeight = 10;
+        ClickableAreaAlignment alignment = ClickableAreaAlignment.TOP_LEFT;
+
+        Field field = checkBox()
+                .withClickableArea(newClickableArea().withSize(clickableAreaWidth, clickableAreaHeight).withAlignment(alignment))
+                .build();
+
+        assertThat(field.getClickableArea().getWidth(), is(clickableAreaWidth));
+        assertThat(field.getClickableArea().getHeight(), is(clickableAreaHeight));
+        assertThat(field.getClickableArea().getAlignment(), is(alignment));
+    }
+
+    @Test(expected = BuilderException.class)
+    public void withClickableAreaRejectsNegativeWidth() {
+        checkBox().withClickableArea(-1, 10);
+    }
+
+    @Test(expected = BuilderException.class)
+    public void withClickableAreaRejectsNegativeHeight() {
+        checkBox().withClickableArea(10, -1);
     }
 }

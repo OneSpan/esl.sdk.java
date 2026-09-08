@@ -84,6 +84,10 @@ public class FieldConverter {
         }
         result.setFontSize( sdkField.getFontSize() );
 
+        if ( sdkField.getClickableArea() != null ) {
+            result.setExpandedClickableArea( new ClickableAreaConverter( sdkField.getClickableArea() ).toAPIFieldClickableArea() );
+        }
+
         return result;
 
     }
@@ -127,6 +131,9 @@ public class FieldConverter {
         result.setFontSize(apiField.getFontSize());
         if( apiField.getTooltip() != null ){
             result.setTooltip(apiField.getTooltip());
+        }
+        if ( apiField.getExpandedClickableArea() != null ) {
+            result.setClickableArea( new ClickableAreaConverter( apiField.getExpandedClickableArea() ).toSDKClickableArea() );
         }
         return result;
     }

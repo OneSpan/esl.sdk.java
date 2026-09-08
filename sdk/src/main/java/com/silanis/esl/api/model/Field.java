@@ -45,7 +45,9 @@ public class Field extends Entity
     public static final String FIELD_FONT_SIZE = "fontSize";
     @JsonIgnore
     public static final String FIELD_TOOLTIP = "tooltip";
-    
+    @JsonIgnore
+    public static final String FIELD_EXPANDED_CLICKABLE_AREA = "expandedClickableArea";
+
     // Empty Constructor
     public Field ( ) {}
     
@@ -64,7 +66,8 @@ public class Field extends Entity
     protected Double _width = 0.0;
     protected Integer _fontSize = null;
     protected String _tooltip = "";
-    
+    protected FieldClickableArea _expandedClickableArea = null;
+
     // Accessors
         
     
@@ -377,5 +380,20 @@ public class Field extends Entity
 
     public String getTooltip() {
         return _tooltip;
+    }
+
+    public Field setExpandedClickableArea( FieldClickableArea value ){
+        this._expandedClickableArea = value;
+        setDirty(FIELD_EXPANDED_CLICKABLE_AREA);
+        return this;
+    }
+    // Used internally by aws. Invokes a the corresponding setter if the value is not null
+    @JsonIgnore
+    public Field safeSetExpandedClickableArea( FieldClickableArea value ){
+        if ( value != null ) { this.setExpandedClickableArea( value ); }
+        return this;
+    }
+    public FieldClickableArea getExpandedClickableArea(){
+        return _expandedClickableArea;
     }
 }
