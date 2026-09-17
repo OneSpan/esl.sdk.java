@@ -17,6 +17,7 @@ public class UrlTemplate {
     public static final String PACKAGE_FIELDS_LIST_PATH = "/packages?query={status}&from={from}&to={to}&fields={fields}";
     public static final String PACKAGE_LIST_STATUS_DATE_RANGE_PATH = "/packages?query={status}&from={from}&to={to}&startDate={lastUpdatedStartDate}&endDate={lastUpdatedEndDate}";
     public static final String PACKAGE_ID_PATH = "/packages/{packageId}";
+    public static final String PACKAGE_METADATA_PATH = "/packages/{packageId}/metadata";
     public static final String PACKAGE_ID_WITH_EXTENSIONS_PATH = "/packages/{packageId}?extensions={extensions}";
     public static final String PACKAGE_REFERENCED_CONDITIONS_PATH = "/packages/{packageId}/referencedConditions";
     public static final String DOCUMENT_PATH = "/packages/{packageId}/documents";
@@ -25,6 +26,7 @@ public class UrlTemplate {
     public static final String DOCUMENT_METADATA_PATH = "/packages/{packageId}/documents/{documentId}/metadata";
     public static final String ROLE_PATH = "/packages/{packageId}/roles";
     public static final String ROLE_ID_PATH = "/packages/{packageId}/roles/{roleId}";
+    public static final String ROLE_METADATA_PATH = "/packages/{packageId}/roles/{roleId}/metadata";
     public static final String ROLE_UNLOCK_PATH = "/packages/{packageId}/roles/{roleId}/unlock";
     public static final String PDF_PATH = "/packages/{packageId}/documents/{documentId}/pdf";
     public static final String ORIGINAL_PATH = "/packages/{packageId}/documents/{documentId}/original";

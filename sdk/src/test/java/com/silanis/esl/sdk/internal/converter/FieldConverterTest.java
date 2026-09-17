@@ -1,8 +1,10 @@
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.sdk.ClickableAreaAlignment;
 import com.silanis.esl.sdk.FieldId;
 import com.silanis.esl.sdk.FieldStyle;
 import com.silanis.esl.sdk.TextAnchorPosition;
+import com.silanis.esl.sdk.builder.ClickableAreaBuilder;
 import com.silanis.esl.sdk.builder.FieldValidatorBuilder;
 import com.silanis.esl.sdk.builder.TextAnchorBuilder;
 import org.junit.Test;
@@ -96,6 +98,9 @@ public class FieldConverterTest implements ConverterTest{
         assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
         assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
         assertThat("Tooltip was not correctly set", apiField1.getTooltip(), is(sdkField1.getTooltip()));
+        assertThat("ClickableArea width was not correctly set", apiField1.getExpandedClickableArea().getWidth(), is(sdkField1.getClickableArea().getWidth()));
+        assertThat("ClickableArea height was not correctly set", apiField1.getExpandedClickableArea().getHeight(), is(sdkField1.getClickableArea().getHeight()));
+        assertThat("ClickableArea alignment was not correctly set", apiField1.getExpandedClickableArea().getAlignment(), is(sdkField1.getClickableArea().getAlignment().name()));
     }
 
     @Override
@@ -117,6 +122,9 @@ public class FieldConverterTest implements ConverterTest{
         assertThat("ID was not correctly set", apiField1.getId(), is(sdkField1.getId().toString()));
         assertThat("Name was not correctly set", apiField1.getName(), is(sdkField1.getName()));
         assertThat("Tooltip was not correctly set", apiField1.getTooltip(), is(sdkField1.getTooltip()));
+        assertThat("ClickableArea width was not correctly set", apiField1.getExpandedClickableArea().getWidth(), is(sdkField1.getClickableArea().getWidth()));
+        assertThat("ClickableArea height was not correctly set", apiField1.getExpandedClickableArea().getHeight(), is(sdkField1.getClickableArea().getHeight()));
+        assertThat("ClickableArea alignment was not correctly set", apiField1.getExpandedClickableArea().getAlignment(), is(sdkField1.getClickableArea().getAlignment().name()));
     }
 
     /**
@@ -154,6 +162,9 @@ public class FieldConverterTest implements ConverterTest{
                 .withValue("value")
                 .withFontSize(10)
                 .withTooltip("tooltip")
+                .withClickableArea(ClickableAreaBuilder.newClickableArea()
+                        .withSize(15, 25)
+                        .withAlignment(ClickableAreaAlignment.TOP_LEFT))
                 .build();
         return sdkField;
     }
@@ -178,6 +189,10 @@ public class FieldConverterTest implements ConverterTest{
         apiField.setValue("field value");
         apiField.setWidth(102.0);
         apiField.setFontSize(12);
+        apiField.setExpandedClickableArea(new com.silanis.esl.api.model.FieldClickableArea()
+                .setWidth(30.0)
+                .setHeight(35.0)
+                .setAlignment("TOP_LEFT"));
 
         return apiField;
     }

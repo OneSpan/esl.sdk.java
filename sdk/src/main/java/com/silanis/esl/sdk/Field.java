@@ -24,6 +24,7 @@ public class Field implements Serializable {
     private TextAnchor textAnchor;
     private Integer fontSize;
     private String tooltip;
+    private ClickableArea clickableArea;
 
     public Field() {}
 
@@ -160,4 +161,16 @@ public class Field implements Serializable {
     }
     public String getTooltip(){ return tooltip;}
     public void setTooltip(String tooltip){this.tooltip = tooltip;}
+
+    /**
+     * Gets the field's clickable area, if defined.
+     * @return the clickable area, or null if not defined
+     */
+    public ClickableArea getClickableArea() {
+        return clickableArea;
+    }
+
+    public void setClickableArea( ClickableArea clickableArea ) {
+        this.clickableArea = clickableArea;
+    }
 }
