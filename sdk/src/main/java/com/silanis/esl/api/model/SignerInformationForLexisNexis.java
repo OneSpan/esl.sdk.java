@@ -2,6 +2,8 @@ package com.silanis.esl.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.JsonDateDeserializer;
@@ -52,6 +54,7 @@ public class SignerInformationForLexisNexis extends Model
     // Accessors
 
 
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setCity(String value) {
         SchemaSanitizer.throwOnNull(FIELD_CITY, value);
         value = SchemaSanitizer.trim(value);
@@ -123,6 +126,7 @@ public class SignerInformationForLexisNexis extends Model
     }
 
 
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setFirstName(String value) {
         SchemaSanitizer.throwOnNull(FIELD_FIRSTNAME, value);
         value = SchemaSanitizer.trim(value);
@@ -170,6 +174,7 @@ public class SignerInformationForLexisNexis extends Model
     }
 
 
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setLastName(String value) {
         SchemaSanitizer.throwOnNull(FIELD_LASTNAME, value);
         value = SchemaSanitizer.trim(value);
@@ -192,6 +197,7 @@ public class SignerInformationForLexisNexis extends Model
     public String getLastName() {
         return _lastName;
     }
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setHouseNumber(String value) {
         SchemaSanitizer.throwOnNull(FIELD_HOUSENUMBER, value);
         value = SchemaSanitizer.trim(value);
@@ -214,6 +220,7 @@ public class SignerInformationForLexisNexis extends Model
     public String getHouseNumber() {
         return _houseNumber;
     }
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setSocialSecurityNumber(String value) {
         SchemaSanitizer.throwOnNull(FIELD_SOCIALSECURITYNUMBER, value);
         value = SchemaSanitizer.trim(value);
@@ -236,6 +243,7 @@ public class SignerInformationForLexisNexis extends Model
     public String getSocialSecurityNumber() {
         return _socialSecurityNumber;
     }
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setState(String value) {
         SchemaSanitizer.throwOnNull(FIELD_SOCIALSECURITYNUMBER, value);
         value = SchemaSanitizer.trim(value);
@@ -258,6 +266,7 @@ public class SignerInformationForLexisNexis extends Model
     public String getState() {
         return _state;
     }
+    @JsonSetter(nulls = Nulls.SKIP)
     public SignerInformationForLexisNexis setZip(String value) {
         SchemaSanitizer.throwOnNull(FIELD_SOCIALSECURITYNUMBER, value);
         value = SchemaSanitizer.trim(value);
