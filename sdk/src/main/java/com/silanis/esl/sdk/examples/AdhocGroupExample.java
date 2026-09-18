@@ -14,7 +14,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newAdHocGroupSigner;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
- * Example class demonstrating how to prepare a transaction with an ad-hoc group signer.
+ * Example class demonstrating how to prepare a transaction with an ad-hoc group signer. example
  */
 public class AdhocGroupExample extends SDKSample {
 
