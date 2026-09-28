@@ -36,6 +36,7 @@ public class AccountFeatureSettings {
     private Boolean allowSignersDownloadEvidenceSummary;
     private Boolean documentWidget;
     private Boolean chooseSignature;
+    private Boolean fastTrack;
 
 
     public Boolean getAllowCheckboxConsentApproval() {
@@ -284,5 +285,13 @@ public class AccountFeatureSettings {
 
     public void setChooseSignature(Boolean chooseSignature) {
         this.chooseSignature = chooseSignature;
+    }
+
+    public Boolean getFastTrack() {
+        return fastTrack;
+    }
+
+    public void setFastTrack(Boolean fastTrack) {
+        this.fastTrack = fastTrack;
     }
 }

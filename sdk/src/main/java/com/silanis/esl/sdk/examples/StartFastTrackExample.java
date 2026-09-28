@@ -6,6 +6,7 @@ import com.silanis.esl.sdk.FastTrackSigner;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.Placeholder;
 import com.silanis.esl.sdk.Signer;
+import com.silanis.esl.sdk.builder.AccountFeatureSettingsBuilder;
 import com.silanis.esl.sdk.builder.DocumentBuilder;
 import com.silanis.esl.sdk.builder.FastTrackSignerBuilder;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
@@ -44,6 +45,9 @@ public class StartFastTrackExample extends SDKSample {
 
     @Override
     public void execute() {
+        eslClient.getAccountConfigService().saveAccountFeatureSettings(
+                AccountFeatureSettingsBuilder.newAccountFeatureSettings().withFastTrack().build());
+
         Signer signer1 = SignerBuilder.newSignerWithEmail(email1)
                                       .withFirstName(TEMPLATE_SIGNER_FIRST)
                                       .withLastName(TEMPLATE_SIGNER_LAST).build();

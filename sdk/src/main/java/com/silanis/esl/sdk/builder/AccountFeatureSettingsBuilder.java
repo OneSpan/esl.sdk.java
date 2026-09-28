@@ -41,6 +41,7 @@ public class AccountFeatureSettingsBuilder {
     private Boolean allowSignersDownloadEvidenceSummary = null;
     private Boolean documentWidget = null;
     private Boolean chooseSignature = null;
+    private Boolean fastTrack = null;
 
     /**
      * Creates a new Account Feature Settings builder.
@@ -798,6 +799,16 @@ public class AccountFeatureSettingsBuilder {
         return this;
     }
 
+    public AccountFeatureSettingsBuilder withFastTrack() {
+        fastTrack = true;
+        return this;
+    }
+
+    public AccountFeatureSettingsBuilder withoutFastTrack() {
+        fastTrack = false;
+        return this;
+    }
+
     /**
      * Builds the actual Account Feature Settings.
      *
@@ -837,6 +848,7 @@ public class AccountFeatureSettingsBuilder {
         result.setAllowSignersDownloadEvidenceSummary(allowSignersDownloadEvidenceSummary);
         result.setDocumentWidget(documentWidget);
         result.setChooseSignature(chooseSignature);
+        result.setFastTrack(fastTrack);
 
         return result;
     }
