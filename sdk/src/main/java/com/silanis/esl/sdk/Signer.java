@@ -16,7 +16,7 @@ public class Signer implements Serializable {
     private final GroupId groupId;
     private final String firstName;
     private final String lastName;
-    private final Authentication authentication;
+    private Authentication authentication;
     private NotificationMethods notificationMethods;
     private int signingOrder;
     private String title;
@@ -163,6 +163,10 @@ public class Signer implements Serializable {
 
     public Authentication getAuthentication() {
         return authentication;
+    }
+
+    public void setAuthentication(Authentication authentication) {
+        this.authentication = authentication;
     }
 
     /**

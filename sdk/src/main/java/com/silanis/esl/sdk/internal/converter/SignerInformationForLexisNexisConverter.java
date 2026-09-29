@@ -41,16 +41,16 @@ public class SignerInformationForLexisNexisConverter {
         }
         com.silanis.esl.api.model.SignerInformationForLexisNexis result = new com.silanis.esl.api.model.SignerInformationForLexisNexis();
 
-        result.setFirstName(sdkKBAUSA.getFirstName())
-                .setLastName(sdkKBAUSA.getLastName())
-                .setFlatOrApartmentNumber(sdkKBAUSA.getFlatOrApartmentNumber())
-                .setHouseName(sdkKBAUSA.getHouseName())
-                .setHouseNumber(sdkKBAUSA.getHouseNumber())
-                .setCity(sdkKBAUSA.getCity())
-                .setZip(sdkKBAUSA.getZip())
-                .setState(sdkKBAUSA.getState())
+        result.safeSetFirstName(sdkKBAUSA.getFirstName())
+                .safeSetLastName(sdkKBAUSA.getLastName())
+                .safeSetFlatOrApartmentNumber(sdkKBAUSA.getFlatOrApartmentNumber())
+                .safeSetHouseName(sdkKBAUSA.getHouseName())
+                .safeSetHouseNumber(sdkKBAUSA.getHouseNumber())
+                .safeSetCity(sdkKBAUSA.getCity())
+                .safeSetZip(sdkKBAUSA.getZip())
+                .safeSetState(sdkKBAUSA.getState())
                 .safeSetSocialSecurityNumber(sdkKBAUSA.getSocialSecurityNumber())
-                .setDateOfBirth(sdkKBAUSA.getDateOfBirth());
+                .safeSetDateOfBirth(sdkKBAUSA.getDateOfBirth());
 
 
         return result;

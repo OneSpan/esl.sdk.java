@@ -296,6 +296,9 @@ public final class SignerBuilder {
 
     private Signer buildNewPlaceholderSigner() {
         Asserts.notNullOrEmpty(id, "No placeholder id set for this signer!");
+        if (authentication == null) {
+            authentication = authenticationBuilder.build();
+        }
         Signer result = new Signer(id);
         result.setPlaceholderName(placeholderName);
         result.setSigningOrder(signingOrder);
@@ -305,6 +308,8 @@ public final class SignerBuilder {
         result.setLocalLanguage(localLanguage);
         result.setNewPlaceholderSigner(true);
         result.setSpecifier(specifier);
+        result.setAuthentication(authentication);
+        result.setKnowledgeBasedAuthentication(knowledgeBasedAuthentication);
         return result;
     }
 

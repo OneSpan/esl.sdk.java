@@ -179,6 +179,19 @@ public class SignerConverter {
         return signer;
     }
 
+    /**
+     * Builds the API model Signer nested in a PLACEHOLDER role, carrying over any authentication
+     * (e.g. SMS, SSO) and knowledge-based authentication configured on the placeholder. Other
+     * signer fields (email, name, id, ...) are intentionally left unset since the role itself,
+     * not this nested signer, identifies the placeholder.
+     */
+    private com.silanis.esl.api.model.Signer newPlaceholderAPISigner() {
+        com.silanis.esl.api.model.Signer placeholderSigner = new com.silanis.esl.api.model.Signer();
+        placeholderSigner.setAuth(new AuthenticationConverter(sdkSigner.getAuthentication()).toAPIAuthentication());
+        placeholderSigner.setKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(sdkSigner.getKnowledgeBasedAuthentication()).toAPIKnowledgeBasedAuthentication());
+        return placeholderSigner;
+    }
+
     private Signer newPlaceholderSignerFromAPIRole() {
         Asserts.notNullOrEmpty(apiRole.getId(), "role.id");
 
@@ -195,6 +208,11 @@ public class SignerConverter {
 
         if (apiRole.getIndex() != null) {
             signerBuilder.signingOrder(apiRole.getIndex());
+        }
+
+        if (apiSigner != null) {
+            signerBuilder.withAuthentication(new AuthenticationConverter(apiSigner.getAuth()).toSDKAuthentication())
+                    .challengedWithKnowledgeBasedAuthentication(new KnowledgeBasedAuthenticationConverter(apiSigner.getKnowledgeBasedAuthentication()).toSDKKnowledgeBasedAuthentication());
         }
 
         Signer signer = signerBuilder.build();
@@ -286,7 +304,7 @@ public class SignerConverter {
 
         if (sdkSigner.isNewPlaceholderSigner()) {
             role.setType(Role.TYPE_PLACEHOLDER);
-            role.addSigner(new com.silanis.esl.api.model.Signer());
+            role.addSigner(newPlaceholderAPISigner());
         } else if (!sdkSigner.isPlaceholderSigner()) {
             if (sdkSigner.isCarbonCopyRecipient()) {
                 role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
@@ -339,7 +357,7 @@ public class SignerConverter {
 
         if (sdkSigner.isNewPlaceholderSigner()) {
             role.setType(Role.TYPE_PLACEHOLDER);
-            role.addSigner(new com.silanis.esl.api.model.Signer());
+            role.addSigner(newPlaceholderAPISigner());
         } else if (!sdkSigner.isPlaceholderSigner()) {
             if (sdkSigner.isCarbonCopyRecipient()) {
                 role.setType(Role.TYPE_CARBON_COPY_RECIPIENT);
