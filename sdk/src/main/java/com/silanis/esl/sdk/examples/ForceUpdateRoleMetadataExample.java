@@ -71,7 +71,7 @@ public class ForceUpdateRoleMetadataExample extends SDKSample {
         System.out.println("forceUpdateRoleMetadata succeeded on a SENT transaction.");
 
         // 3. Read the metadata back and confirm the force-update was applied.
-        DocumentPackage reloaded = eslClient.getPackage(packageId);
-        System.out.println("Role metadata after force-update: " + reloaded.getSigner(email1).getData());
+        Map<String, Object> roleMetadata = eslClient.getPackageService().getRoleMetadata(packageId, signer.getId());
+        System.out.println("Role metadata after force-update: " + roleMetadata);
     }
 }
