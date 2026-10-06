@@ -22,6 +22,7 @@ public class UrlTemplate {
     public static final String PACKAGE_REFERENCED_CONDITIONS_PATH = "/packages/{packageId}/referencedConditions";
     public static final String DOCUMENT_PATH = "/packages/{packageId}/documents";
     public static final String DOCUMENT_VISIBILITY_PATH = "/packages/{packageId}/documents/visibility";
+    public static final String FIELD_OVERLAPS_PATH = "/packages/{packageId}/validate/field-overlaps";
     public static final String DOCUMENT_ID_PATH = "/packages/{packageId}/documents/{documentId}";
     public static final String DOCUMENT_METADATA_PATH = "/packages/{packageId}/documents/{documentId}/metadata";
     public static final String ROLE_PATH = "/packages/{packageId}/roles";

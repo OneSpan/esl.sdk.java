@@ -24,6 +24,7 @@ import com.silanis.esl.sdk.DocumentPackageRequestExtension;
 import com.silanis.esl.sdk.EslException;
 import com.silanis.esl.sdk.FastTrackRole;
 import com.silanis.esl.sdk.FastTrackSigner;
+import com.silanis.esl.sdk.FieldOverlapValidationResult;
 import com.silanis.esl.sdk.GroupId;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
@@ -390,6 +391,26 @@ public class PackageService extends EslComponent {
             throw new EslServerException("Could not get document visibility.", e);
         } catch (Exception e) {
             throw new EslException("Could not get document visibility.", e);
+        }
+    }
+
+    /**
+     * @param packageId the package (transaction) to validate
+     * @return the overlaps found; its overlaps list is empty when there are none
+     * @throws EslException
+     */
+    public FieldOverlapValidationResult getFieldOverlaps(PackageId packageId) throws EslException {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.FIELD_OVERLAPS_PATH)
+                .replace(PACKAGE_ID_PATH_PARAM, packageId.getId())
+                .build();
+
+        try {
+            String response = getClient().get(path);
+            return JacksonUtil.deserialize(response, FieldOverlapValidationResult.class);
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get field overlaps.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get field overlaps." + " Exception: " + e.getMessage());
         }
     }
 

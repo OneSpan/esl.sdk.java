@@ -706,6 +706,51 @@ public class PackageServiceTest {
         packageService.forceUpdateRoleMetadata(documentPackage, signer);
     }
 
+    @Test
+    public void testGetFieldOverlapsParsesOverlapsFromValidateEndpoint() throws Exception {
+        String packageUid = "pkg1";
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.FIELD_OVERLAPS_PATH)
+                .replace("{packageId}", packageUid)
+                .build();
+        String response = "{\"overlaps\":[{"
+                + "\"field\":{\"id\":\"checkbox1\",\"name\":\"Agree\",\"documentId\":\"doc1\",\"page\":0,\"signerId\":\"signer1\"},"
+                + "\"conflictsWith\":["
+                + "{\"field\":{\"id\":\"checkbox2\",\"name\":\"Disagree\"},\"overlapType\":\"CLICKABLE_AREA_VS_CLICKABLE_AREA\"},"
+                + "{\"field\":{\"id\":\"signature1\",\"name\":\"\"},\"overlapType\":\"CLICKABLE_AREA_VS_FIELD\"}"
+                + "]}]}";
+        when(clientMock.get(expectedPath)).thenReturn(response);
+
+        FieldOverlapValidationResult result = packageService.getFieldOverlaps(new PackageId(packageUid));
+
+        assertTrue(result.hasOverlaps());
+        assertEquals(1, result.getOverlaps().size());
+
+        FieldOverlap overlap = result.getOverlaps().get(0);
+        assertEquals("checkbox1", overlap.getField().getId());
+        assertEquals("Agree", overlap.getField().getName());
+        assertEquals("doc1", overlap.getField().getDocumentId());
+        assertEquals(Integer.valueOf(0), overlap.getField().getPage());
+        assertEquals("signer1", overlap.getField().getSignerId());
+
+        assertEquals(2, overlap.getConflictsWith().size());
+        assertEquals("checkbox2", overlap.getConflictsWith().get(0).getField().getId());
+        assertEquals("Disagree", overlap.getConflictsWith().get(0).getField().getName());
+        assertEquals(OverlapType.CLICKABLE_AREA_VS_CLICKABLE_AREA, overlap.getConflictsWith().get(0).getOverlapType());
+        assertEquals("signature1", overlap.getConflictsWith().get(1).getField().getId());
+        assertEquals("", overlap.getConflictsWith().get(1).getField().getName());
+        assertEquals(OverlapType.CLICKABLE_AREA_VS_FIELD, overlap.getConflictsWith().get(1).getOverlapType());
+    }
+
+    @Test
+    public void testGetFieldOverlapsReturnsEmptyResultWhenNoOverlaps() throws Exception {
+        when(clientMock.get(anyString())).thenReturn("{\"overlaps\":[]}");
+
+        FieldOverlapValidationResult result = packageService.getFieldOverlaps(new PackageId("pkg1"));
+
+        assertFalse(result.hasOverlaps());
+        assertTrue(result.getOverlaps().isEmpty());
+    }
+
     private String toApiPackageJson(String packageUid, String language) {
         Package apiPackage = getAPackage(packageUid, language);
         return Serialization.toJson(apiPackage);
