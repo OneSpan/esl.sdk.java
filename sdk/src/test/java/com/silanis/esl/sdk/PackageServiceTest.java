@@ -706,6 +706,54 @@ public class PackageServiceTest {
         packageService.forceUpdateRoleMetadata(documentPackage, signer);
     }
 
+    @Test
+    public void testGetPackageMetadataReadsDataMapFromMetadataEndpoint() throws Exception {
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.PACKAGE_METADATA_PATH)
+                .replace("{packageId}", "pkg1")
+                .build();
+        when(clientMock.get(expectedPath)).thenReturn("{\"customerId\":\"12345\"}");
+
+        Map<String, Object> metadata = packageService.getPackageMetadata(new PackageId("pkg1"));
+
+        assertEquals("12345", metadata.get("customerId"));
+        assertEquals(1, metadata.size());
+    }
+
+    @Test
+    public void testGetDocumentMetadataReadsDataMapFromMetadataEndpoint() throws Exception {
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.DOCUMENT_METADATA_PATH)
+                .replace("{packageId}", "pkg1")
+                .replace("{documentId}", "doc1")
+                .build();
+        when(clientMock.get(expectedPath)).thenReturn("{\"region\":\"EMEA\"}");
+
+        Map<String, Object> metadata = packageService.getDocumentMetadata(new PackageId("pkg1"), "doc1");
+
+        assertEquals("EMEA", metadata.get("region"));
+        assertEquals(1, metadata.size());
+    }
+
+    @Test
+    public void testGetRoleMetadataReadsDataMapFromMetadataEndpoint() throws Exception {
+        String expectedPath = new UrlTemplate("http://baseurl").urlFor(UrlTemplate.ROLE_METADATA_PATH)
+                .replace("{packageId}", "pkg1")
+                .replace("{roleId}", "role1")
+                .build();
+        when(clientMock.get(expectedPath)).thenReturn("{}");
+
+        Map<String, Object> metadata = packageService.getRoleMetadata(new PackageId("pkg1"), "role1");
+
+        assertTrue(metadata.isEmpty());
+    }
+
+    @Test(expected = EslServerException.class)
+    public void testGetRoleMetadataWrapsRequestExceptionAsServerException() throws Exception {
+        when(clientMock.get(anyString()))
+                .thenThrow(new RequestException("GET", "uri", 404, "Not Found", "{}"));
+
+        packageService.getRoleMetadata(new PackageId("pkg1"), "role1");
+    }
+
     private String toApiPackageJson(String packageUid, String language) {
         Package apiPackage = getAPackage(packageUid, language);
         return Serialization.toJson(apiPackage);

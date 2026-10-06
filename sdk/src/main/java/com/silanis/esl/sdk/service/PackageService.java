@@ -772,6 +772,68 @@ public class PackageService extends EslComponent {
     }
 
     /**
+     * Gets the transaction's (package's) custom metadata from the dedicated package metadata endpoint.
+     * The account must have the manipulateMetadata feature, and the caller must be able to manage the transaction.
+     *
+     * @param packageId the id of the package (transaction)
+     * @return the metadata map, or an empty map if the transaction has no metadata
+     */
+    public Map<String, Object> getPackageMetadata(PackageId packageId) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.PACKAGE_METADATA_PATH)
+                .replace(PACKAGE_ID_PATH_PARAM, packageId.getId())
+                .build();
+
+        return getMetadata(path, "package");
+    }
+
+    /**
+     * Gets the document's metadata (its data map) from the dedicated document metadata endpoint.
+     * The account must have the manipulateMetadata feature, and the caller must be able to manage the transaction.
+     *
+     * @param packageId the id of the package containing the document
+     * @param documentId the id of the document
+     * @return the metadata map, or an empty map if the document has no metadata
+     */
+    public Map<String, Object> getDocumentMetadata(PackageId packageId, String documentId) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.DOCUMENT_METADATA_PATH)
+                .replace(PACKAGE_ID_PATH_PARAM, packageId.getId())
+                .replace("{documentId}", documentId)
+                .build();
+
+        return getMetadata(path, "document");
+    }
+
+    /**
+     * Gets the role's (signer's) metadata (its data map) from the dedicated role metadata endpoint.
+     * The account must have the manipulateMetadata feature, and the caller must be able to manage the transaction.
+     *
+     * @param packageId the id of the package containing the role
+     * @param roleId the id of the role
+     * @return the metadata map, or an empty map if the role has no metadata
+     */
+    public Map<String, Object> getRoleMetadata(PackageId packageId, String roleId) {
+        String path = new UrlTemplate(getBaseUrl()).urlFor(UrlTemplate.ROLE_METADATA_PATH)
+                .replace(PACKAGE_ID_PATH_PARAM, packageId.getId())
+                .replace("{roleId}", roleId)
+                .build();
+
+        return getMetadata(path, "role");
+    }
+
+    private Map<String, Object> getMetadata(String path, String owner) {
+        try {
+            String response = getClient().get(path);
+            Map<String, Object> metadata = JacksonUtil.deserialize(response, new TypeReference<Map<String, Object>>() {
+            });
+            return metadata != null ? metadata : new HashMap<String, Object>();
+        } catch (RequestException e) {
+            throw new EslServerException("Could not get the " + owner + "'s metadata.", e);
+        } catch (Exception e) {
+            throw new EslException("Could not get the " + owner + "'s metadata." + " Exception: " + e.getMessage());
+        }
+    }
+
+    /**
      * Localizes the default consent document for the specified package and language.
      * <p>
      * This method sends a localization request for the default consent document of the given package using the provided language and returns
