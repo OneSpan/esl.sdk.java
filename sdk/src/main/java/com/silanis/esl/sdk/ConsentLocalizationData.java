@@ -2,6 +2,8 @@ package com.silanis.esl.sdk;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Represents a response for consent localization in the eSignLive SDK.
  * <p>
@@ -32,6 +34,7 @@ import java.io.Serializable;
  * @author OneSpan
  * @since 1.0
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConsentLocalizationData implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +60,7 @@ public class ConsentLocalizationData implements Serializable {
     /**
      * Metadata for consent localization.
      */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ConsentMetadata implements Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -93,6 +97,7 @@ public class ConsentLocalizationData implements Serializable {
     /**
      * Package information.
      */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class PackageInfo implements Serializable {
         private static final long serialVersionUID = 1L;
 
@@ -119,6 +124,7 @@ public class ConsentLocalizationData implements Serializable {
     /**
      * Properties information.
      */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ResourceMetadata implements Serializable {
         private static final long serialVersionUID = 1L;
 
