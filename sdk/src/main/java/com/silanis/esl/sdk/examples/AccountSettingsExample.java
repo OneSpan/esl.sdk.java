@@ -9,15 +9,19 @@ import com.silanis.esl.sdk.builder.AccountFeatureSettingsBuilder;
 
 public class AccountSettingsExample extends SDKSample {
 
-    public AccountSettings defaultAccountSettings, patchedAccountSettings, deletedAccountSettings;
-    public AccountPackageSettings defaultAccountPackageSettings, patchedAccountPackageSettings, deletedAccountPackageSettings;
-    public AccountFeatureSettings defaultAccountFeatureSettings, patchedAccountFeatureSettings, deletedAccountFeatureSettings;
+    public AccountSettings defaultAccountSettings, patchedAccountSettings, restoredAccountSettings;
+    public AccountPackageSettings defaultAccountPackageSettings, patchedAccountPackageSettings, restoredAccountPackageSettings;
+    public AccountFeatureSettings defaultAccountFeatureSettings, patchedAccountFeatureSettings, restoredAccountFeatureSettings;
 
 
     public static void main(String... args) {
         new AccountSettingsExample().run();
     }
 
+    // The saved settings are reverted by saving back the original values instead of calling
+    // deleteAccountSettings / deleteAccountPackageSettings / deleteAccountFeatureSettings. A delete
+    // wipes every account-level override, including features enabled from backoffice that the SDK
+    // does not model (e.g. expandedClickableArea), which breaks other examples relying on them.
     @Override
     protected void execute() {
 
@@ -50,9 +54,9 @@ public class AccountSettingsExample extends SDKSample {
         eslClient.getAccountConfigService().saveAccountSettings(accountSettings);
         patchedAccountSettings = eslClient.getAccountConfigService().getAccountSettings();
 
-        //Delete account settings
-        eslClient.getAccountConfigService().deleteAccountSettings();
-        deletedAccountSettings = eslClient.getAccountConfigService().getAccountSettings();
+        //Restore account settings
+        eslClient.getAccountConfigService().saveAccountSettings(defaultAccountSettings);
+        restoredAccountSettings = eslClient.getAccountConfigService().getAccountSettings();
 
         //Get account package settings
         defaultAccountPackageSettings = eslClient.getAccountConfigService().getAccountPackageSettings();
@@ -73,9 +77,9 @@ public class AccountSettingsExample extends SDKSample {
         eslClient.getAccountConfigService().saveAccountPackageSettings(accountPackageSettings);
         patchedAccountPackageSettings = eslClient.getAccountConfigService().getAccountPackageSettings();
 
-        //Delete account package settings
-        eslClient.getAccountConfigService().deleteAccountPackageSettings();
-        deletedAccountPackageSettings = eslClient.getAccountConfigService().getAccountPackageSettings();
+        //Restore account package settings
+        eslClient.getAccountConfigService().saveAccountPackageSettings(defaultAccountPackageSettings);
+        restoredAccountPackageSettings = eslClient.getAccountConfigService().getAccountPackageSettings();
 
         //Get account feature settings
         defaultAccountFeatureSettings = eslClient.getAccountConfigService().getAccountFeatureSettings();
@@ -95,9 +99,9 @@ public class AccountSettingsExample extends SDKSample {
         eslClient.getAccountConfigService().saveAccountFeatureSettings(accountFeatureSettings);
         patchedAccountFeatureSettings = eslClient.getAccountConfigService().getAccountFeatureSettings();
 
-        //Delete account feature settings
-        eslClient.getAccountConfigService().deleteAccountFeatureSettings();
-        deletedAccountFeatureSettings = eslClient.getAccountConfigService().getAccountFeatureSettings();
+        //Restore account feature settings
+        eslClient.getAccountConfigService().saveAccountFeatureSettings(defaultAccountFeatureSettings);
+        restoredAccountFeatureSettings = eslClient.getAccountConfigService().getAccountFeatureSettings();
 
     }
 }
