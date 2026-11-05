@@ -5,6 +5,8 @@ import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.DocumentPackageAttributes;
 import com.silanis.esl.sdk.DocumentType;
 
+import java.util.Map;
+
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -66,7 +68,7 @@ public class ForceUpdatePackageMetadataExample extends SDKSample {
         System.out.println("forceUpdatePackageMetadata succeeded on a SENT transaction.");
 
         // 3. Read the metadata back and confirm the force-update was applied.
-        DocumentPackage reloaded = eslClient.getPackage(packageId);
-        System.out.println("Transaction metadata after force-update: " + reloaded.getAttributes().toMap());
+        Map<String, Object> metadata = eslClient.getPackageService().getPackageMetadata(packageId);
+        System.out.println("Transaction metadata after force-update: " + metadata);
     }
 }
