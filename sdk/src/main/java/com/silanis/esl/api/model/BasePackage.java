@@ -2,12 +2,15 @@ package com.silanis.esl.api.model;
 //
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.silanis.esl.api.util.JsonDateDeserializer;
 import com.silanis.esl.api.util.JsonDateSerializer;
 import com.silanis.esl.api.util.SchemaSanitizer;
 
+import java.text.ParseException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +82,7 @@ public class BasePackage extends Entity
     protected String _description = "";
     protected List<Document> _documents = new ArrayList<Document>();
     protected java.util.Date _due = null;
+    protected OffsetDateTime _dueWithOffset = null;
     protected String _emailMessage = "";
     protected String _language = "";
     protected PackageArtifactsLimits _limits = null;
@@ -205,16 +209,36 @@ public class BasePackage extends Entity
         return this;
     }
     
-        
-    
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    // JSON values are read by setDueFromJson, which also keeps the offset sent by the server
+    @JsonIgnore
     public BasePackage setDue( java.util.Date value ){
         // TODO With proper compare
         // if ( this._due == value ) return this;
         this._due = value;
+        this._dueWithOffset = null;
         setDirty(FIELD_DUE);
         return this;
     }
+
+    @JsonProperty(FIELD_DUE)
+    protected void setDueFromJson(String value){
+        try {
+            setDue(value == null ? null : JsonDateDeserializer.extractIso8061Date(value));
+        } catch (ParseException e){
+            throw new IllegalArgumentException("Invalid due date: " + value, e);
+        }
+        this._dueWithOffset = JsonDateDeserializer.extractIso8061OffsetDateTime(value);
+    }
+
+    /**
+     * The due date with the UTC offset returned by the server, or null when the server returned it without an
+     * explicit offset, e.g. in UTC with "Z".
+     */
+    @JsonIgnore
+    public OffsetDateTime getDueWithOffset(){
+        return _dueWithOffset;
+    }
+
     // Used internally by aws. Invokes a the corresponding setter if the value is not null
     @JsonIgnore
     public BasePackage safeSetDue( java.util.Date value ){

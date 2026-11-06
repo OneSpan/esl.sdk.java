@@ -142,7 +142,8 @@ public class BaseTemplate extends BasePackage
     
         
     
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    // JSON values are read by BasePackage.setDueFromJson
+    @JsonIgnore
     @Override
     public BaseTemplate setDue( java.util.Date value ){
         super.setDue(value);

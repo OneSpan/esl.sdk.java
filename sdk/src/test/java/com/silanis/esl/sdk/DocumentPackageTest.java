@@ -4,7 +4,12 @@ import com.silanis.esl.sdk.builder.SignerBuilder;
 
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -190,5 +195,16 @@ public class DocumentPackageTest {
                 .build();
 
         documentPackage.removePlaceholder(placeholder);
+    }
+
+    @Test
+    public void setExpiryDateClearsExpiryDateWithOffset() {
+        DocumentPackage documentPackage = PackageBuilder.newPackageNamed("Test")
+                .build();
+        documentPackage.setExpiryDateWithOffset(OffsetDateTime.of(2026, 10, 10, 19, 28, 47, 0, ZoneOffset.ofHoursMinutes(3, 30)));
+
+        documentPackage.setExpiryDate(new Date());
+
+        assertThat("Expiry date offset should be cleared.", documentPackage.getExpiryDateWithOffset(), is(nullValue()));
     }
 }

@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
+import static com.silanis.esl.sdk.builder.PackageRetrievalOptionsBuilder.newPackageRetrievalOptions;
 import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.joda.time.DateMidnight.now;
@@ -37,6 +38,7 @@ public class GetPackageWithAlertsExample extends SDKSample {
                 .build();
 
         packageId = eslClient.createPackage(aPackage);
-        retrievedPackage = eslClient.getPackageWithExtensions(packageId, DocumentPackageRequestExtension.ALERTS);
+        retrievedPackage = eslClient.getPackage(packageId,
+                newPackageRetrievalOptions().withExtensions(DocumentPackageRequestExtension.ALERTS).build());
     }
 }

@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.PackageListOptions;
 import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
@@ -8,6 +9,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import java.util.Date;
+
+import static com.silanis.esl.sdk.builder.PackageListOptionsBuilder.newPackageListOptions;
 
 /**
  * Created by mina on 29/12/14.
@@ -44,7 +47,11 @@ public class GetCompletedPackagesWithinDateRangeExample extends SDKSample {
     }
 
     private Page<DocumentPackage> getPackagesByPackageStatus(PackageStatus packageStatus, Date startDate, Date endDate) {
-        Page<DocumentPackage> resultPage = eslClient.getPackageService().getUpdatedPackagesWithinDateRange(packageStatus, new PageRequest(1), startDate, endDate);
+        PackageListOptions options = newPackageListOptions()
+                .withStatus(packageStatus.name())
+                .withDateRange(startDate, endDate)
+                .build();
+        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackagesWithOptions(new PageRequest(1), options);
         return resultPage;
     }
 }
