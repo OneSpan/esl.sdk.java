@@ -23,6 +23,7 @@ public class DocumentOperationsExample extends SDKSample {
     public DocumentPackage retrievedPackage;
     public DocumentPackage retrievedPackageWithNewDocument;
     public Document retrievedUpdatedDocument;
+    public Map<String, Object> retrievedDocumentMetadata;
     public DocumentPackage retrievedPackageWithUpdatedDocument;
     public DocumentPackage retrievedPackageWithDeletedDocument;
 
@@ -85,6 +86,9 @@ public class DocumentOperationsExample extends SDKSample {
         metadata.put("customerId", "12345");
         document.setData(metadata);
         eslClient.getPackageService().forceUpdateDocumentMetadata(retrievedPackage, document);
+
+        //This is how you would get a document's custom metadata (its data map)
+        retrievedDocumentMetadata = eslClient.getPackageService().getDocumentMetadata(packageId, document.getId().getId());
 
         //This is how you would delete a document from a package
         eslClient.getPackageService().deleteDocument(packageId, document.getId().toString());
