@@ -20,6 +20,9 @@ public class SignerBoundFieldsExample extends SDKSample {
     public static final int SIGNATURE_DATE_PAGE = 0;
     public static final double SIGNATURE_DATE_POSITION_X = 400;
     public static final double SIGNATURE_DATE_POSITION_Y = 200;
+    // The format counts only while the account switch "Allow senders to change the date format" is on.
+    // Else the field gets the account default format.
+    public static final String SIGNATURE_DATE_FORMAT = "d MMMM yyyy";
     public static final int SIGNER_NAME_PAGE = 0;
     public static final double SIGNER_NAME_POSITION_X = 400;
     public static final double SIGNER_NAME_POSITION_Y = 300;
@@ -50,6 +53,7 @@ public class SignerBoundFieldsExample extends SDKSample {
                                 .onPage(0)
                                 .atPosition(400, 100)
                                 .withField(signatureDate()
+                                        .withDateFormat(SIGNATURE_DATE_FORMAT)
                                         .onPage(SIGNATURE_DATE_PAGE)
                                         .atPosition(SIGNATURE_DATE_POSITION_X, SIGNATURE_DATE_POSITION_Y))
                                 .withField(signerName()

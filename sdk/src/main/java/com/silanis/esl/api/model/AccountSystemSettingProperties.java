@@ -13,11 +13,20 @@ public class AccountSystemSettingProperties extends Model implements java.io.Ser
     public static final String FIELD_SESSION_TIMEOUT_WARNING = "sessionTimeoutWarning";
     @JsonIgnore
     public static final String FIELD_ORDER_LAST_NAME_FIRST_NAME = "orderLastNameFirstName";
+    @JsonIgnore
+    public static final String FIELD_SIGNING_DATE_DEFAULT_FORMAT = "signingDateDefaultFormat";
+    @JsonIgnore
+    public static final String FIELD_SIGNING_DATE_ALLOW_SENDER_CHANGE = "signingDateAllowSenderChange";
+    @JsonIgnore
+    public static final String FIELD_SIGNING_DATE_ALLOW_CUSTOM_PATTERN = "signingDateAllowCustomPattern";
 
     protected Integer _senderLoginMaxFailedAttempts;
     protected Integer _loginSessionTimeout;
     protected Integer _sessionTimeoutWarning;
     protected Boolean _orderLastNameFirstName;
+    protected String _signingDateDefaultFormat;
+    protected Boolean _signingDateAllowSenderChange;
+    protected Boolean _signingDateAllowCustomPattern;
 
 
     //Empty Constructor
@@ -114,6 +123,67 @@ public class AccountSystemSettingProperties extends Model implements java.io.Ser
     @JsonIgnore
     public boolean evalOrderLastNameFirstName(){
         return _orderLastNameFirstName == null ? false : _orderLastNameFirstName.booleanValue();
+    }
+
+    public AccountSystemSettingProperties setSigningDateDefaultFormat( String value ){
+        SchemaSanitizer.throwOnNull(FIELD_SIGNING_DATE_DEFAULT_FORMAT, value);
+        this._signingDateDefaultFormat = value;
+        setDirty(FIELD_SIGNING_DATE_DEFAULT_FORMAT);
+        return this;
+    }
+
+    @JsonIgnore
+    public AccountSystemSettingProperties safeSetSigningDateDefaultFormat( String value ){
+        if ( value != null ) { this.setSigningDateDefaultFormat( value ); }
+        return this;
+    }
+
+    public String getSigningDateDefaultFormat(){
+        return _signingDateDefaultFormat;
+    }
+
+    public AccountSystemSettingProperties setSigningDateAllowSenderChange( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_SIGNING_DATE_ALLOW_SENDER_CHANGE, value);
+        this._signingDateAllowSenderChange = value;
+        setDirty(FIELD_SIGNING_DATE_ALLOW_SENDER_CHANGE);
+        return this;
+    }
+
+    @JsonIgnore
+    public AccountSystemSettingProperties safeSetSigningDateAllowSenderChange( Boolean value ){
+        if ( value != null ) { this.setSigningDateAllowSenderChange( value ); }
+        return this;
+    }
+
+    public Boolean getSigningDateAllowSenderChange(){
+        return _signingDateAllowSenderChange;
+    }
+
+    @JsonIgnore
+    public boolean evalSigningDateAllowSenderChange(){
+        return _signingDateAllowSenderChange == null ? false : _signingDateAllowSenderChange.booleanValue();
+    }
+
+    public AccountSystemSettingProperties setSigningDateAllowCustomPattern( Boolean value ){
+        SchemaSanitizer.throwOnNull(FIELD_SIGNING_DATE_ALLOW_CUSTOM_PATTERN, value);
+        this._signingDateAllowCustomPattern = value;
+        setDirty(FIELD_SIGNING_DATE_ALLOW_CUSTOM_PATTERN);
+        return this;
+    }
+
+    @JsonIgnore
+    public AccountSystemSettingProperties safeSetSigningDateAllowCustomPattern( Boolean value ){
+        if ( value != null ) { this.setSigningDateAllowCustomPattern( value ); }
+        return this;
+    }
+
+    public Boolean getSigningDateAllowCustomPattern(){
+        return _signingDateAllowCustomPattern;
+    }
+
+    @JsonIgnore
+    public boolean evalSigningDateAllowCustomPattern(){
+        return _signingDateAllowCustomPattern == null ? false : _signingDateAllowCustomPattern.booleanValue();
     }
 
 }
