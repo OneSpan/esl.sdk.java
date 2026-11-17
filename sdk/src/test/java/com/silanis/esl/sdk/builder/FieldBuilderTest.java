@@ -60,6 +60,24 @@ public class FieldBuilderTest {
     }
 
     @Test
+    public void withDateFormatSetsTheValueOfASignatureDateField() {
+        Field field = signatureDate()
+                .withDateFormat( "d MMMM yyyy" )
+                .atPosition( 100, 100 )
+                .build();
+
+        assertThat( field.getStyle(), is( equalTo( FieldStyle.BOUND_DATE ) ) );
+        assertThat( field.getValue(), is( equalTo( "d MMMM yyyy" ) ) );
+    }
+
+    @Test
+    public void signatureDateFieldHasNoValueWithoutDateFormat() {
+        Field field = signatureDate().atPosition( 100, 100 ).build();
+
+        assertThat( field.getValue(), is( nullValue() ) );
+    }
+
+    @Test
     public void creatingNewSignerNameFieldSetsStyle() {
         Field field = signerName().atPosition( 100, 100 ).build();
 

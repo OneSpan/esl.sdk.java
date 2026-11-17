@@ -396,6 +396,40 @@ public class FieldBuilder {
     }
 
     /**
+     * Set the date format of a signing date field (see {@link #signatureDate()}).
+     * <p>
+     * The format is a Java date pattern, for example {@code "d MMMM yyyy"} or {@code "yyyy-MM-dd"}.
+     * The builder puts it in the field's {@code value}.
+     * <p>
+     * The format counts only while the account switch "Allow senders to change the date format"
+     * ({@code signingDateAllowSenderChange} in the account system settings) is on:
+     * <ul>
+     * <li>When this switch is off, the server ignores the format and gives the field the account
+     * default format ({@code signingDateDefaultFormat}). There is no error.</li>
+     * <li>When this switch is on and "Allow senders to enter their own pattern"
+     * ({@code signingDateAllowCustomPattern}) is off, a new format must be in the product list or
+     * equal the account default. Else the server refuses the call with HTTP 400
+     * ({@code error.validation.field.signingDateFormat.notAllowed}). A pattern that is not valid
+     * gets {@code error.validation.field.signingDateFormat.invalid}.</li>
+     * <li>When both switches are on, a new format must be a valid pattern. Else the server refuses
+     * the call with HTTP 400 ({@code error.validation.field.signingDateFormat.invalid}).</li>
+     * </ul>
+     * A save that sends a field's current format, when that format is no longer allowed, gives the
+     * field the account default, with no error.
+     * <p>
+     * A new field without a format gets the account default format. An update without a format
+     * keeps the field's format while the switch is on and the format is allowed. Else the field gets
+     * the account default.
+     *
+     * @param dateFormat the Java date pattern of the signing date
+     * @return the field builder itself
+     */
+    public FieldBuilder withDateFormat(String dateFormat) {
+        this.value = dateFormat;
+        return this;
+    }
+
+    /**
      * Set a field's fontSize.
      *
      * @param fontSize Integer fontSize of the field)

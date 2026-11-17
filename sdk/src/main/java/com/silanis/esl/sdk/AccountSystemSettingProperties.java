@@ -8,6 +8,9 @@ public class AccountSystemSettingProperties {
     private Integer loginSessionTimeout;
     private Integer sessionTimeoutWarning;
     private Boolean orderLastNameFirstName;
+    private String signingDateDefaultFormat;
+    private Boolean signingDateAllowSenderChange;
+    private Boolean signingDateAllowCustomPattern;
 
     public Integer getSenderLoginMaxFailedAttempts() {
         return senderLoginMaxFailedAttempts;
@@ -39,6 +42,30 @@ public class AccountSystemSettingProperties {
 
     public void setOrderLastNameFirstName(Boolean value) {
         this.orderLastNameFirstName = value;
+    }
+
+    public String getSigningDateDefaultFormat() {
+        return signingDateDefaultFormat;
+    }
+
+    public void setSigningDateDefaultFormat(String value) {
+        this.signingDateDefaultFormat = value;
+    }
+
+    public Boolean getSigningDateAllowSenderChange() {
+        return signingDateAllowSenderChange;
+    }
+
+    public void setSigningDateAllowSenderChange(Boolean value) {
+        this.signingDateAllowSenderChange = value;
+    }
+
+    public Boolean getSigningDateAllowCustomPattern() {
+        return signingDateAllowCustomPattern;
+    }
+
+    public void setSigningDateAllowCustomPattern(Boolean value) {
+        this.signingDateAllowCustomPattern = value;
     }
 
 }
