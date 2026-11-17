@@ -39,6 +39,9 @@ public class AccountSystemSettingPropertiesConverter {
         result.setLoginSessionTimeout(sdkAccountSystemSettingProperties.getLoginSessionTimeout());
         result.setSenderLoginMaxFailedAttempts(sdkAccountSystemSettingProperties.getSenderLoginMaxFailedAttempts());
         result.setOrderLastNameFirstName(sdkAccountSystemSettingProperties.getOrderLastNameFirstName());
+        result.safeSetSigningDateDefaultFormat(sdkAccountSystemSettingProperties.getSigningDateDefaultFormat());
+        result.safeSetSigningDateAllowSenderChange(sdkAccountSystemSettingProperties.getSigningDateAllowSenderChange());
+        result.safeSetSigningDateAllowCustomPattern(sdkAccountSystemSettingProperties.getSigningDateAllowCustomPattern());
         return result;
     }
 
@@ -58,6 +61,9 @@ public class AccountSystemSettingPropertiesConverter {
         result.setLoginSessionTimeout(apiAccountSystemSettingProperties.getLoginSessionTimeout());
         result.setSenderLoginMaxFailedAttempts(apiAccountSystemSettingProperties.getSenderLoginMaxFailedAttempts());
         result.setOrderLastNameFirstName(apiAccountSystemSettingProperties.getOrderLastNameFirstName());
+        result.setSigningDateDefaultFormat(apiAccountSystemSettingProperties.getSigningDateDefaultFormat());
+        result.setSigningDateAllowSenderChange(apiAccountSystemSettingProperties.getSigningDateAllowSenderChange());
+        result.setSigningDateAllowCustomPattern(apiAccountSystemSettingProperties.getSigningDateAllowCustomPattern());
         return result;
     }
 }
