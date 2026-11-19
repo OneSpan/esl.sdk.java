@@ -49,6 +49,7 @@ public class EslClient {
     private FieldSummaryService fieldSummaryService;
     private AuditService auditService;
     private EventNotificationService eventNotificationService;
+    private CallbackConfigurationService callbackConfigurationService;
     private AuthenticationTokensService authenticationTokensService;
     private GroupService groupService;
     private CustomFieldService customFieldService;
@@ -176,6 +177,7 @@ public class EslClient {
         fieldSummaryService = new FieldSummaryService(client, this.baseURL);
         auditService = new AuditService(new AuditApiClient(client, this.baseURL));
         eventNotificationService = new EventNotificationService(new EventNotificationApiClient(client, this.baseURL));
+        callbackConfigurationService = new CallbackConfigurationService(client, this.baseURL);
         authenticationTokensService = new AuthenticationTokensService(new AuthenticationTokensApiClient(client, this.baseURL));
         groupService = new GroupService(client, this.baseURL);
         customFieldService = new CustomFieldService(new CustomFieldApiClient(client, this.baseURL));
@@ -280,6 +282,15 @@ public class EslClient {
      */
     public EventNotificationService getEventNotificationService() {
         return eventNotificationService;
+    }
+
+    /**
+     * Gets the service that creates, replaces, tests and deletes the account's callbacks.
+     *
+     * @return the callback configuration service
+     */
+    public CallbackConfigurationService getCallbackConfigurationService() {
+        return callbackConfigurationService;
     }
 
     /**

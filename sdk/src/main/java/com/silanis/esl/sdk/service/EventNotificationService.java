@@ -21,7 +21,11 @@ public class EventNotificationService {
      * Registers to receive notifications sent by e-SL that are described by the config parameter passed to this method.
      *
      * @param config Describes the event notification of interest.
+     * @deprecated Use {@link CallbackConfigurationService#replaceCallbackConfiguration} with the id of the
+     * {@code ACCOUNT} entry from {@link CallbackConfigurationService#getCallbackConfigurations}, or
+     * {@link CallbackConfigurationService#createCallbackConfiguration} when there is none.
      */
+    @Deprecated
     public void register(EventNotificationConfig config) {
         Callback callback = new EventNotificationConfigConverter(config).toAPICallback();
         apiClient.register(callback);
@@ -43,7 +47,11 @@ public class EventNotificationService {
      * <p>The builder parameter of this method is convenient to use when you want to easily add more notification events.</p>
      *
      * @param builder The event notification config builder.
+     * @deprecated Use {@link CallbackConfigurationService#replaceCallbackConfiguration} with the id of the
+     * {@code ACCOUNT} entry from {@link CallbackConfigurationService#getCallbackConfigurations}, or
+     * {@link CallbackConfigurationService#createCallbackConfiguration} when there is none.
      */
+    @Deprecated
     public void register(EventNotificationConfigBuilder builder) {
         register(builder.build());
     }
@@ -62,8 +70,14 @@ public class EventNotificationService {
     /**
      * Gets the registered event notifications.
      *
+     * <p>Do not rely on {@code getKey()}: the server will stop returning the key. Keep your own copy; callbacks still
+     * use the saved key.
+     *
      * @return Description of registered event notifications.
+     * @deprecated Use {@link CallbackConfigurationService#getCallbackConfigurations}, whose entry of type
+     * {@code ACCOUNT} is the account callback.
      */
+    @Deprecated
     public EventNotificationConfig getEventNotificationConfig() {
         Callback apiResponse = apiClient.getEventNotificationConfig();
         return new EventNotificationConfigConverter(apiResponse).toSDKEventNotificationConfig();

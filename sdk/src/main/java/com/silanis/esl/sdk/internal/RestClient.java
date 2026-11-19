@@ -149,6 +149,10 @@ public class RestClient extends Client {
     }
 
     public void patch(String path, String jsonPayload) throws IOException, RequestException {
+        patchWithResponse(path, jsonPayload);
+    }
+
+    public String patchWithResponse(String path, String jsonPayload) throws IOException, RequestException {
         support.logRequest("PATCH", path, jsonPayload);
 
         HttpPatch patch = new HttpPatch(path);
@@ -158,7 +162,7 @@ public class RestClient extends Client {
         body.setContentType(ESL_CONTENT_TYPE_APPLICATION_JSON);
         patch.setEntity(body);
 
-        execute(patch, jsonHandler);
+        return execute(patch, jsonHandler);
     }
 
     public String postMultipartFile(String path, Map<String, byte[]> files, String jsonPayload) throws IOException, RequestException {
