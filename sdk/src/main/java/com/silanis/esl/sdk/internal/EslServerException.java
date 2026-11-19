@@ -11,6 +11,11 @@ public class EslServerException extends EslException {
         this.serverError = e.getServerError();
     }
 
+    public EslServerException(String message, RequestException e, ServerError serverError){
+        super(message + " Exception: " + e.getMessage(), e);
+        this.serverError = serverError;
+    }
+
     public ServerError getServerError(){
         return serverError;
     }

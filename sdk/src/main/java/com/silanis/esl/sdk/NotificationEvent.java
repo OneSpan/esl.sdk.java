@@ -28,6 +28,23 @@ public class NotificationEvent extends EslEnumeration {
     public static final NotificationEvent PACKAGE_ARCHIVE = new NotificationEvent("PACKAGE_ARCHIVE", "PACKAGE_ARCHIVE", 18);
     public static final NotificationEvent TEMPLATE_CREATE = new NotificationEvent("TEMPLATE_CREATE", "TEMPLATE_CREATE", 19);
     public static final NotificationEvent DOCUMENT_VIEWED = new NotificationEvent("DOCUMENT_VIEWED", "DOCUMENT_VIEWED", 20);
+    public static final NotificationEvent ATTACHMENT_VALIDATION_RESULT = new NotificationEvent("ATTACHMENT_VALIDATION_RESULT", "ATTACHMENT_VALIDATION_RESULT", 21);
+    public static final NotificationEvent PACKAGE_DISPUTE = new NotificationEvent("PACKAGE_DISPUTE", "PACKAGE_DISPUTE", 22);
+    public static final NotificationEvent PACKAGE_ARCHIVAL_PENDING = new NotificationEvent("PACKAGE_ARCHIVAL_PENDING", "PACKAGE_ARCHIVAL_PENDING", 23);
+    public static final NotificationEvent PACKAGE_ARCHIVAL_VALIDATING = new NotificationEvent("PACKAGE_ARCHIVAL_VALIDATING", "PACKAGE_ARCHIVAL_VALIDATING", 24);
+    public static final NotificationEvent PACKAGE_ARCHIVAL_COMPLETED = new NotificationEvent("PACKAGE_ARCHIVAL_COMPLETED", "PACKAGE_ARCHIVAL_COMPLETED", 25);
+    public static final NotificationEvent PACKAGE_ARCHIVAL_INTERVENTION_REQUIRED = new NotificationEvent("PACKAGE_ARCHIVAL_INTERVENTION_REQUIRED", "PACKAGE_ARCHIVAL_INTERVENTION_REQUIRED", 26);
+    public static final NotificationEvent RECIPIENTS_SPECIFIED = new NotificationEvent("RECIPIENTS_SPECIFIED", "RECIPIENTS_SPECIFIED", 27);
+    public static final NotificationEvent RECORDINGS_READY = new NotificationEvent("RECORDINGS_READY", "RECORDINGS_READY", 28);
+    public static final NotificationEvent COMPOSITION_FAILED = new NotificationEvent("COMPOSITION_FAILED", "COMPOSITION_FAILED", 29);
+    public static final NotificationEvent EDEPOSIT_SUCCESS = new NotificationEvent("EDEPOSIT_SUCCESS", "EDEPOSIT_SUCCESS", 30);
+    public static final NotificationEvent EDEPOSIT_ATTEMPT_FAILURE = new NotificationEvent("EDEPOSIT_ATTEMPT_FAILURE", "EDEPOSIT_ATTEMPT_FAILURE", 31);
+    public static final NotificationEvent EDEPOSIT_FAILURE = new NotificationEvent("EDEPOSIT_FAILURE", "EDEPOSIT_FAILURE", 32);
+    public static final NotificationEvent COBROWSE_REQUEST = new NotificationEvent("COBROWSE_REQUEST", "COBROWSE_REQUEST", 33);
+    public static final NotificationEvent NOTARY_COMMISSION_CREATED = new NotificationEvent("NOTARY_COMMISSION_CREATED", "NOTARY_COMMISSION_CREATED", 34);
+    public static final NotificationEvent RECIPIENT_OPT_OUT_SMS = new NotificationEvent("RECIPIENT_OPT_OUT_SMS", "RECIPIENT_OPT_OUT_SMS", 35);
+    public static final NotificationEvent PACKAGE_SMS_NOTIFICATIONS_LIMIT_REACHED = new NotificationEvent("PACKAGE_SMS_NOTIFICATIONS_LIMIT_REACHED", "PACKAGE_SMS_NOTIFICATIONS_LIMIT_REACHED", 36);
+    public static final NotificationEvent RECIPIENT_BLOCKED = new NotificationEvent("RECIPIENT_BLOCKED", "RECIPIENT_BLOCKED", 37);
 
     /**
      * DO NOT USE! This is an internal implementation concern. It is there to avoid crashes in existing code when new values are added to the enumerations
@@ -64,6 +81,23 @@ public class NotificationEvent extends EslEnumeration {
         sdkValues.put(PACKAGE_ARCHIVE.name(), PACKAGE_ARCHIVE);
         sdkValues.put(TEMPLATE_CREATE.name(), TEMPLATE_CREATE);
         sdkValues.put(DOCUMENT_VIEWED.name(), DOCUMENT_VIEWED);
+        sdkValues.put(ATTACHMENT_VALIDATION_RESULT.name(), ATTACHMENT_VALIDATION_RESULT);
+        sdkValues.put(PACKAGE_DISPUTE.name(), PACKAGE_DISPUTE);
+        sdkValues.put(PACKAGE_ARCHIVAL_PENDING.name(), PACKAGE_ARCHIVAL_PENDING);
+        sdkValues.put(PACKAGE_ARCHIVAL_VALIDATING.name(), PACKAGE_ARCHIVAL_VALIDATING);
+        sdkValues.put(PACKAGE_ARCHIVAL_COMPLETED.name(), PACKAGE_ARCHIVAL_COMPLETED);
+        sdkValues.put(PACKAGE_ARCHIVAL_INTERVENTION_REQUIRED.name(), PACKAGE_ARCHIVAL_INTERVENTION_REQUIRED);
+        sdkValues.put(RECIPIENTS_SPECIFIED.name(), RECIPIENTS_SPECIFIED);
+        sdkValues.put(RECORDINGS_READY.name(), RECORDINGS_READY);
+        sdkValues.put(COMPOSITION_FAILED.name(), COMPOSITION_FAILED);
+        sdkValues.put(EDEPOSIT_SUCCESS.name(), EDEPOSIT_SUCCESS);
+        sdkValues.put(EDEPOSIT_ATTEMPT_FAILURE.name(), EDEPOSIT_ATTEMPT_FAILURE);
+        sdkValues.put(EDEPOSIT_FAILURE.name(), EDEPOSIT_FAILURE);
+        sdkValues.put(COBROWSE_REQUEST.name(), COBROWSE_REQUEST);
+        sdkValues.put(NOTARY_COMMISSION_CREATED.name(), NOTARY_COMMISSION_CREATED);
+        sdkValues.put(RECIPIENT_OPT_OUT_SMS.name(), RECIPIENT_OPT_OUT_SMS);
+        sdkValues.put(PACKAGE_SMS_NOTIFICATIONS_LIMIT_REACHED.name(), PACKAGE_SMS_NOTIFICATIONS_LIMIT_REACHED);
+        sdkValues.put(RECIPIENT_BLOCKED.name(), RECIPIENT_BLOCKED);
     }
 
     private NotificationEvent(String apiValue, String sdkValue, int index) {

@@ -70,6 +70,12 @@ public class UrlTemplate {
     public static final String CALLBACK_PATH = "/callback";
     public static final String CONNECTORS_CALLBACK_PATH = "/callback/connectors/{origin}";
 
+    // Callback Configuration Service
+    public static final String CALLBACK_CONFIGURATIONS_PATH = "/notifications/v1/callback-configurations";
+    public static final String CALLBACK_CONFIGURATION_PATH = CALLBACK_CONFIGURATIONS_PATH + "/{callbackId}";
+    public static final String CALLBACK_CONFIGURATION_TEST_PATH = CALLBACK_CONFIGURATIONS_PATH + "/test";
+    public static final String CLIENT_CERTIFICATE_INTERMEDIATE_PATH = "/notifications/v1/client-certificate/intermediate";
+
     // Audit Service
     public static final String AUDIT_PATH = "/packages/{packageId}/audit";
 
