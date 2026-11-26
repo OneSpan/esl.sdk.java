@@ -38,6 +38,7 @@ public class SignersWithoutEmailExampleTest {
 
         List<String> signatureRoles = new ArrayList<>();
         for (Signature signature : documentPackage.getDocument(DOCUMENT_NAME).getSignatures()) {
+            assertThat("Signature has no role id", signature.getRoleId(), notNullValue());
             signatureRoles.add(signature.getRoleId().getId());
         }
         assertThat("Each signature must be assigned to its own signer's role",

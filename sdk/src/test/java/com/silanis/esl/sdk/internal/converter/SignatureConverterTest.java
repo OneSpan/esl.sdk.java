@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Field;
 import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.builder.SignatureBuilder;
+import com.silanis.esl.sdk.internal.Serialization;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -94,6 +95,42 @@ public class SignatureConverterTest implements ConverterTest {
         assertThat("Top position was not correctly set", apiApproval1.getFields().get(0).getTop(), is(sdkSignature1.getY()));
         assertThat("Font size was not correctly set", apiApproval1.getFields().get(0).getFontSize(), is(sdkSignature1.getFontSize()));
         assertThat("Tooltip was not correctly set", apiApproval1.getFields().get(0).getTooltip(), is(sdkSignature1.getTooltip()));
+    }
+
+    @Test
+    public void convertAPIToSDKKeepsRoleIdForSignerWithEmptyEmail() {
+        sdkSignature1 = new SignatureConverter(signerApproval(), packageWithSignerEmail("\"email\":\"\",")).toSDKSignature();
+
+        assertThat("Signature is not identified by its role", sdkSignature1.isPlaceholderSignature(), is(true));
+        assertThat("Role id was not kept", sdkSignature1.getRoleId().getId(), is("signerRole"));
+        assertThat("Signer email must not be set", sdkSignature1.getSignerEmail(), nullValue());
+    }
+
+    @Test
+    public void convertAPIToSDKKeepsRoleIdForSignerWithoutEmail() {
+        sdkSignature1 = new SignatureConverter(signerApproval(), packageWithSignerEmail("")).toSDKSignature();
+
+        assertThat("Signature is not identified by its role", sdkSignature1.isPlaceholderSignature(), is(true));
+        assertThat("Role id was not kept", sdkSignature1.getRoleId().getId(), is("signerRole"));
+        assertThat("Signer email must not be set", sdkSignature1.getSignerEmail(), nullValue());
+    }
+
+    @Test
+    public void convertAPIToSDKUsesEmailForSignerWithEmail() {
+        sdkSignature1 = new SignatureConverter(signerApproval(), packageWithSignerEmail("\"email\":\"signer@test.com\",")).toSDKSignature();
+
+        assertThat("Signature must be identified by email", sdkSignature1.isPlaceholderSignature(), is(false));
+        assertThat("Signer email was not set", sdkSignature1.getSignerEmail(), is("signer@test.com"));
+    }
+
+    private static Approval signerApproval() {
+        return Serialization.fromJson("{\"id\":\"signatureId\",\"role\":\"signerRole\",\"fields\":[{\"type\":\"SIGNATURE\",\"subtype\":\"FULLNAME\","
+                + "\"page\":0,\"left\":100,\"top\":100,\"width\":200,\"height\":50}]}", Approval.class);
+    }
+
+    private static com.silanis.esl.api.model.Package packageWithSignerEmail(String emailJson) {
+        return Serialization.fromJson("{\"id\":\"packageId\",\"roles\":[{\"id\":\"signerRole\",\"name\":\"signerRole\",\"type\":\"SIGNER\","
+                + "\"signers\":[{\"id\":\"signerRole\"," + emailJson + "\"firstName\":\"John\",\"lastName\":\"Smith\"}]}]}", com.silanis.esl.api.model.Package.class);
     }
 
     private Signature createTypicalSDKSignature() {
