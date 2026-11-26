@@ -13,8 +13,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
  * Creates a package with two signers without email and reads it back.
  * <p>
  * Requires an account with the optionalSignerEmail account feature ON.
- * Give each signer without email a custom id and assign its signatures by that id
- * ({@code signatureFor(new Placeholder(id))}), not by email.
+ * Give each signer without email a custom id and assign its signatures by that id ({@code signatureFor(new Placeholder(id))}), not by email.
  */
 public class SignersWithoutEmailExample extends SDKSample {
 

@@ -370,8 +370,7 @@ public class SignerConverterTest implements ConverterTest {
     }
 
     /**
-     * With the optionalSignerEmail account feature ON, the REST API can return a SIGNER role with "email": "".
-     * The read path must not reject such a signer.
+     * With the optionalSignerEmail account feature ON, the REST API can return a SIGNER role with "email": "". The read path must accept it.
      */
     @Test
     public void convertAPIRoleWithEmptyEmailToSDK() {
