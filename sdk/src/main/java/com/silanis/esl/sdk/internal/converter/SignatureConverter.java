@@ -1,6 +1,7 @@
 package com.silanis.esl.sdk.internal.converter;
 
 import static com.silanis.esl.api.util.AdHocGroupUtils.isAdHocGroup;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import com.silanis.esl.api.model.Approval;
@@ -60,6 +61,9 @@ public class SignatureConverter {
                     signatureBuilder = SignatureBuilder.signatureFor(new Placeholder(role.getId()));
                 } else if (isGroupRole(role)) {
                     signatureBuilder = SignatureBuilder.signatureFor(new GroupId(role.getSigners().get(0).getGroup().getId()));
+                } else if (isEmpty(role.getSigners().get(0).getEmail())) {
+                    // No email to match the signer by, so keep the role id.
+                    signatureBuilder = SignatureBuilder.signatureFor(new Placeholder(role.getId()));
                 } else {
                     signatureBuilder = SignatureBuilder.signatureFor(role.getSigners().get(0).getEmail());
                 }

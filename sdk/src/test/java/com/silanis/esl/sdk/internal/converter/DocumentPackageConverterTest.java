@@ -4,16 +4,24 @@ package com.silanis.esl.sdk.internal.converter;
 import com.silanis.esl.api.model.Message;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.User;
+import com.silanis.esl.sdk.DocumentType;
 import com.silanis.esl.sdk.PackageId;
 import com.silanis.esl.sdk.PackageStatus;
+import com.silanis.esl.sdk.Placeholder;
+import com.silanis.esl.sdk.Signer;
 import com.silanis.esl.sdk.builder.PackageBuilder;
+import com.silanis.esl.sdk.internal.Serialization;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -27,6 +35,9 @@ import static org.hamcrest.core.Is.is;
  * Test DocumentPackageConverter.
  */
 public class DocumentPackageConverterTest implements ConverterTest {
+
+    private static final String FIRST_SIGNER_ID = "firstSignerWithoutEmail";
+    private static final String SECOND_SIGNER_ID = "secondSignerWithoutEmail";
 
     private com.silanis.esl.api.model.Package apiPackage1 = null;
     private com.silanis.esl.api.model.Package apiPackage2 = null;
@@ -126,6 +137,153 @@ public class DocumentPackageConverterTest implements ConverterTest {
         assertThat("Name was not correctly set", apiPackage1.getName(), is(sdkDocumentPackage1.getName()));
         assertThat("Status was not correctly set", apiPackage1.getStatus(), is(sdkDocumentPackage1.getStatus().getApiValue()));
         assertThat("Timezone ID was not correctly set", apiPackage1.getTimezoneId(), is(sdkDocumentPackage1.getTimezoneId()));
+    }
+
+    /**
+     * Two signers without email, each with its own custom id, get their signatures assigned by id. Each signature must go to its own signer's role.
+     */
+    @Test
+    public void convertPackageWithTwoSignersWithoutEmailAssignsSignaturesById() {
+        sdkDocumentPackage1 = PackageBuilder.newPackageNamed("Signers without email")
+                .withSigner(newSignerWithEmail("")
+                        .withCustomId(FIRST_SIGNER_ID)
+                        .withFirstName("John")
+                        .withLastName("Smith"))
+                .withSigner(newSignerWithEmail("")
+                        .withCustomId(SECOND_SIGNER_ID)
+                        .withFirstName("Jane")
+                        .withLastName("Doe"))
+                .withDocument(newDocumentWithName("Contract")
+                        .fromStream(new ByteArrayInputStream(new byte[0]), DocumentType.PDF)
+                        .withSignature(signatureFor(new Placeholder(FIRST_SIGNER_ID))
+                                .onPage(0)
+                                .atPosition(100, 100))
+                        .withSignature(signatureFor(new Placeholder(SECOND_SIGNER_ID))
+                                .onPage(0)
+                                .atPosition(100, 300)))
+                .build();
+
+        apiPackage1 = new DocumentPackageConverter(sdkDocumentPackage1).toAPIPackage();
+
+        assertThat("Both signers must have their own role", apiPackage1.getRoles().size(), is(2));
+        assertThat("First role id was not set from the custom id", apiPackage1.getRoles().get(0).getId(), is(FIRST_SIGNER_ID));
+        assertThat("First signer email was not kept empty", apiPackage1.getRoles().get(0).getSigners().get(0).getEmail(), is(""));
+        assertThat("Second role id was not set from the custom id", apiPackage1.getRoles().get(1).getId(), is(SECOND_SIGNER_ID));
+        assertThat("Second signer email was not kept empty", apiPackage1.getRoles().get(1).getSigners().get(0).getEmail(), is(""));
+
+        com.silanis.esl.api.model.Document apiDocument =
+                new DocumentConverter(sdkDocumentPackage1.getDocument("Contract")).toAPIDocument(apiPackage1);
+
+        assertThat("Both signatures must be converted", apiDocument.getApprovals().size(), is(2));
+        assertThat("First signature was not assigned to the first signer's role",
+                apiDocument.getApprovals().get(0).getRole(), is(FIRST_SIGNER_ID));
+        assertThat("Second signature was not assigned to the second signer's role",
+                apiDocument.getApprovals().get(1).getRole(), is(SECOND_SIGNER_ID));
+    }
+
+    /**
+     * getPackage returns two SIGNER roles with "email": "". Both are read and each can be found by its id.
+     */
+    @Test
+    public void convertAPIPackageWithTwoSignersWithoutEmailToSDK() {
+        apiPackage1 = Serialization.fromJson("{"
+                + "\"id\":\"packageId\","
+                + "\"name\":\"Signers without email\","
+                + "\"status\":\"DRAFT\","
+                + "\"roles\":["
+                + roleJsonWithoutEmail(FIRST_SIGNER_ID, "John", "Smith", 1)
+                + ","
+                + roleJsonWithoutEmail(SECOND_SIGNER_ID, "Jane", "Doe", 2)
+                + "]}", com.silanis.esl.api.model.Package.class);
+
+        sdkDocumentPackage1 = new DocumentPackageConverter(apiPackage1).toSDKPackage();
+
+        assertThat("Both signers must be read", sdkDocumentPackage1.getSigners().size(), is(2));
+        Signer first = sdkDocumentPackage1.getSignerById(FIRST_SIGNER_ID);
+        Signer second = sdkDocumentPackage1.getSignerById(SECOND_SIGNER_ID);
+        assertThat("First signer was not found by id", first, notNullValue());
+        assertThat("First signer email was not read as empty", first.getEmail(), is(""));
+        assertThat("First signer first name was not read", first.getFirstName(), is("John"));
+        assertThat("Second signer was not found by id", second, notNullValue());
+        assertThat("Second signer email was not read as empty", second.getEmail(), is(""));
+        assertThat("Second signer first name was not read", second.getFirstName(), is("Jane"));
+    }
+
+    /**
+     * A package read with two signers without email keeps each signature on its own signer's role when the signatures are
+     * sent back (updateSignatures, modifySignature, uploadDocument all resolve the role the same way).
+     */
+    @Test
+    public void readSignaturesOfTwoSignersWithoutEmailKeepTheirRolesWhenSentBack() {
+        apiPackage1 = Serialization.fromJson("{"
+                + "\"id\":\"packageId\","
+                + "\"name\":\"Signers without email\","
+                + "\"status\":\"DRAFT\","
+                + "\"roles\":["
+                + roleJsonWithoutEmail(FIRST_SIGNER_ID, "John", "Smith", 1)
+                + ","
+                + roleJsonWithoutEmail(SECOND_SIGNER_ID, "Jane", "Doe", 2)
+                + "],"
+                + "\"documents\":[{"
+                + "\"id\":\"documentId\","
+                + "\"name\":\"Contract\","
+                + "\"index\":0,"
+                + "\"approvals\":["
+                + approvalJson("firstSignature", FIRST_SIGNER_ID, 100)
+                + ","
+                + approvalJson("secondSignature", SECOND_SIGNER_ID, 300)
+                + "]}]"
+                + "}", com.silanis.esl.api.model.Package.class);
+
+        sdkDocumentPackage1 = new DocumentPackageConverter(apiPackage1).toSDKPackage();
+        com.silanis.esl.api.model.Document sentBack =
+                new DocumentConverter(sdkDocumentPackage1.getDocument("Contract")).toAPIDocument(apiPackage1);
+
+        java.util.Map<String, String> roleBySignatureId = new java.util.HashMap<>();
+        for (com.silanis.esl.api.model.Approval approval : sentBack.getApprovals()) {
+            roleBySignatureId.put(approval.getId(), approval.getRole());
+        }
+        assertThat("First signature was not kept on the first signer's role",
+                roleBySignatureId.get("firstSignature"), is(FIRST_SIGNER_ID));
+        assertThat("Second signature was not kept on the second signer's role",
+                roleBySignatureId.get("secondSignature"), is(SECOND_SIGNER_ID));
+    }
+
+    private static String approvalJson(String id, String roleId, int top) {
+        return "{"
+                + "\"id\":\"" + id + "\","
+                + "\"role\":\"" + roleId + "\","
+                + "\"optional\":false,"
+                + "\"disabled\":false,"
+                + "\"enforceCaptureSignature\":false,"
+                + "\"fields\":[{"
+                + "\"id\":\"" + id + "Field\","
+                + "\"type\":\"SIGNATURE\","
+                + "\"subtype\":\"FULLNAME\","
+                + "\"page\":0,"
+                + "\"left\":100,"
+                + "\"top\":" + top + ","
+                + "\"width\":200,"
+                + "\"height\":50"
+                + "}]"
+                + "}";
+    }
+
+    private static String roleJsonWithoutEmail(String id, String firstName, String lastName, int index) {
+        return "{"
+                + "\"id\":\"" + id + "\","
+                + "\"name\":\"" + id + "\","
+                + "\"type\":\"SIGNER\","
+                + "\"index\":" + index + ","
+                + "\"signers\":[{"
+                + "\"id\":\"" + id + "\","
+                + "\"email\":\"\","
+                + "\"firstName\":\"" + firstName + "\","
+                + "\"lastName\":\"" + lastName + "\","
+                + "\"auth\":{\"scheme\":\"NONE\",\"challenges\":[]},"
+                + "\"notificationMethods\":{\"primary\":[]}"
+                + "}]"
+                + "}";
     }
 
     /**
