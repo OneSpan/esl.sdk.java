@@ -1,6 +1,7 @@
 
 package com.silanis.esl.sdk.internal.converter;
 
+import com.silanis.esl.api.model.Approval;
 import com.silanis.esl.api.model.Message;
 import com.silanis.esl.api.model.Sender;
 import com.silanis.esl.api.model.User;
@@ -17,7 +18,9 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
@@ -210,8 +213,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     }
 
     /**
-     * A package read with two signers without email keeps each signature on its own signer's role when the signatures are
-     * sent back (updateSignatures, modifySignature, uploadDocument all resolve the role the same way).
+     * Signatures read for two signers without email stay on their own signer's role when sent back.
      */
     @Test
     public void readSignaturesOfTwoSignersWithoutEmailKeepTheirRolesWhenSentBack() {
@@ -239,8 +241,8 @@ public class DocumentPackageConverterTest implements ConverterTest {
         com.silanis.esl.api.model.Document sentBack =
                 new DocumentConverter(sdkDocumentPackage1.getDocument("Contract")).toAPIDocument(apiPackage1);
 
-        java.util.Map<String, String> roleBySignatureId = new java.util.HashMap<>();
-        for (com.silanis.esl.api.model.Approval approval : sentBack.getApprovals()) {
+        Map<String, String> roleBySignatureId = new HashMap<>();
+        for (Approval approval : sentBack.getApprovals()) {
             roleBySignatureId.put(approval.getId(), approval.getRole());
         }
         assertThat("First signature was not kept on the first signer's role",

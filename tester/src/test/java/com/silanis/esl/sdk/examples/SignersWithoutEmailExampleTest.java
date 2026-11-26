@@ -1,9 +1,7 @@
 package com.silanis.esl.sdk.examples;
 
-import com.silanis.esl.api.model.Approval;
-import com.silanis.esl.api.model.Document;
-import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.DocumentPackage;
+import com.silanis.esl.sdk.Signature;
 import com.silanis.esl.sdk.Signer;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -19,10 +17,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-/**
- * Runs against the environment in signers.properties; the account must have the
- * optionalSignerEmail account feature ON.
- */
 public class SignersWithoutEmailExampleTest {
 
     @Ignore("Requires the optionalSignerEmail account feature ON.")
@@ -42,16 +36,9 @@ public class SignersWithoutEmailExampleTest {
         assertThat("Second signer email was not read as empty", second.getEmail(), is(""));
         assertThat("Second signer first name was not read", second.getFirstName(), is("Jane"));
 
-        // The SDK model rebuilds a signer's signature by email, so check the role of each
-        // signature on the API package as the backend stored it.
-        Package apiPackage = example.eslClient.getPackageService().getApiPackage(example.packageId.getId());
         List<String> signatureRoles = new ArrayList<>();
-        for (Document document : apiPackage.getDocuments()) {
-            if (DOCUMENT_NAME.equals(document.getName())) {
-                for (Approval approval : document.getApprovals()) {
-                    signatureRoles.add(approval.getRole());
-                }
-            }
+        for (Signature signature : documentPackage.getDocument(DOCUMENT_NAME).getSignatures()) {
+            signatureRoles.add(signature.getRoleId().getId());
         }
         assertThat("Each signature must be assigned to its own signer's role",
                 signatureRoles, containsInAnyOrder(FIRST_SIGNER_ID, SECOND_SIGNER_ID));

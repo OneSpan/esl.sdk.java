@@ -398,8 +398,7 @@ public class SignerConverterTest implements ConverterTest {
     }
 
     /**
-     * A signer without email may be returned with an empty notification selection.
-     * The read path must accept it; the SDK model reads an empty selection as EMAIL.
+     * A signer without email may have an empty notification selection. It is read as EMAIL.
      */
     @Test
     public void convertAPIRoleWithEmptyPrimaryNotificationMethodsToSDK() {
