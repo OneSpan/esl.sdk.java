@@ -13,8 +13,11 @@ public class UrlTemplate {
 
     // Package Service
     public static final String PACKAGE_PATH = "/packages";
+    // Deprecated: only used by the deprecated PackageService#getPackages(String, PageRequest)
     public static final String PACKAGE_LIST_PATH = "/packages?query={status}&from={from}&to={to}";
+    // According to esl.backend, only "id" is supported in fields and any other field is ignored
     public static final String PACKAGE_FIELDS_LIST_PATH = "/packages?query={status}&from={from}&to={to}&fields={fields}";
+    // Deprecated: only used by the deprecated PackageService#getUpdatedPackagesWithinDateRange
     public static final String PACKAGE_LIST_STATUS_DATE_RANGE_PATH = "/packages?query={status}&from={from}&to={to}&startDate={lastUpdatedStartDate}&endDate={lastUpdatedEndDate}";
     public static final String PACKAGE_ID_PATH = "/packages/{packageId}";
     public static final String PACKAGE_METADATA_PATH = "/packages/{packageId}/metadata";

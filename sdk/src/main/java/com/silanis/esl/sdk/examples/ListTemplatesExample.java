@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
+import static com.silanis.esl.sdk.builder.PackageListOptionsBuilder.newPackageListOptions;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
 
 /**
@@ -71,7 +72,8 @@ public class ListTemplatesExample extends SDKSample {
 
         templateId = eslClient.getTemplateService().createTemplate(superDuperTemplate);
 
-        templatesPage = eslClient.getPackageService().getTemplates(new PageRequest(0), Visibility.SENDER);
+        templatesPage = eslClient.getPackageService().getPackagesWithOptions(new PageRequest(0),
+                newPackageListOptions().forTemplates().withVisibility(Visibility.SENDER).build());
         templates.addAll(templatesPage.getResults());
     }
 

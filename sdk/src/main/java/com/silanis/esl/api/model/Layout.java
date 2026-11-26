@@ -145,7 +145,8 @@ public class Layout extends BaseTemplate
     
         
     
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    // JSON values are read by BasePackage.setDueFromJson
+    @JsonIgnore
     @Override
     public Layout setDue( java.util.Date value ){
         super.setDue(value);

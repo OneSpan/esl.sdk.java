@@ -273,6 +273,7 @@ public class DocumentPackageConverter {
             messages.add(new MessageConverter(apiMessage).toSDKMessage());
         }
         documentPackage.setMessages(messages);
+        documentPackage.setExpiryDateWithOffset(apiPackage.getDueWithOffset());
         if (apiPackage.getUpdated() != null) {
             documentPackage.setUpdatedDate(apiPackage.getUpdated());
         }

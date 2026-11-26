@@ -6,9 +6,9 @@ import com.silanis.esl.sdk.PackageStatus;
 import com.silanis.esl.sdk.Page;
 import com.silanis.esl.sdk.PageRequest;
 import com.silanis.esl.sdk.builder.FieldBuilder;
-import com.silanis.esl.sdk.internal.converter.PackageStatusConverter;
 
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
+import static com.silanis.esl.sdk.builder.PackageListOptionsBuilder.newPackageListOptions;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
@@ -47,6 +47,7 @@ public class GetPackageListExample extends SDKSample {
 
         packageId = eslClient.createPackage( superDuperPackage );
 
-        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackages( new PackageStatusConverter(PackageStatus.SENT).toAPIPackageStatus(), new PageRequest( 1 ) );
+        Page<DocumentPackage> resultPage = eslClient.getPackageService().getPackagesWithOptions( new PageRequest( 1 ),
+                newPackageListOptions().withStatus( PackageStatus.SENT.name() ).build() );
     }
 }
