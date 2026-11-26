@@ -143,7 +143,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     }
 
     /**
-     * Two signers without email, each with its own custom id, get their signatures assigned by id. Each signature must go to its own signer's role.
+     * Signatures assigned by custom id to two signers without email go to their own signer's role.
      */
     @Test
     public void convertPackageWithTwoSignersWithoutEmailAssignsSignaturesById() {
@@ -185,7 +185,7 @@ public class DocumentPackageConverterTest implements ConverterTest {
     }
 
     /**
-     * getPackage returns two SIGNER roles with "email": "". Both are read and each can be found by its id.
+     * A package with two SIGNER roles with "email": "" is read, and each signer can be found by its id.
      */
     @Test
     public void convertAPIPackageWithTwoSignersWithoutEmailToSDK() {
