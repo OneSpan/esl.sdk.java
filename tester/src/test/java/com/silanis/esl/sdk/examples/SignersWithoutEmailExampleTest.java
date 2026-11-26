@@ -5,6 +5,7 @@ import com.silanis.esl.api.model.Document;
 import com.silanis.esl.api.model.Package;
 import com.silanis.esl.sdk.DocumentPackage;
 import com.silanis.esl.sdk.Signer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import static org.hamcrest.Matchers.notNullValue;
  */
 public class SignersWithoutEmailExampleTest {
 
+    @Ignore("Requires the optionalSignerEmail account feature ON.")
     @Test
     public void verifyResult() {
         SignersWithoutEmailExample example = new SignersWithoutEmailExample();
