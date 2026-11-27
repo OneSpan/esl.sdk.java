@@ -42,8 +42,8 @@ public class DocumentPackageConverterTest implements ConverterTest {
 
     private static final String FIRST_SIGNER_ID = "firstSignerWithoutEmail";
     private static final String SECOND_SIGNER_ID = "secondSignerWithoutEmail";
-    private static final String FIRST_API_SIGNER_ID = "8f1ce546-90b7-4007-ba78-40fdb901a19a";
-    private static final String SECOND_API_SIGNER_ID = "4ef0911a-68c7-43c5-ad90-b8bcc656b65d";
+    private static final String FIRST_API_SIGNER_ID = "firstBackendSignerId";
+    private static final String SECOND_API_SIGNER_ID = "secondBackendSignerId";
 
     private com.silanis.esl.api.model.Package apiPackage1 = null;
     private com.silanis.esl.api.model.Package apiPackage2 = null;
