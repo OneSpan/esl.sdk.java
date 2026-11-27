@@ -4,6 +4,7 @@ import com.silanis.esl.api.model.*;
 import com.silanis.esl.api.util.AdHocGroupUtils;
 import com.silanis.esl.sdk.builder.AttachmentRequirementBuilder;
 import com.silanis.esl.sdk.builder.SignerBuilder;
+import com.silanis.esl.sdk.internal.Serialization;
 import org.junit.Test;
 
 import java.util.*;
@@ -366,6 +367,75 @@ public class SignerConverterTest implements ConverterTest {
         role.setSigners(signers);
 
         return role;
+    }
+
+    /**
+     * With the optionalSignerEmail account feature ON, the REST API can return a SIGNER role with "email": "". The read path must accept it.
+     */
+    @Test
+    public void convertAPIRoleWithEmptyEmailToSDK() {
+        apiRole = Serialization.fromJson(signerRoleJsonWithoutEmail("{\"primary\":[\"EMAIL\"]}"), Role.class);
+
+        sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
+
+        assertThat("Signer was not read", sdkSigner1, notNullValue());
+        assertThat("Email was not read as empty", sdkSigner1.getEmail(), is(""));
+        assertThat("First name was not correctly set", sdkSigner1.getFirstName(), is("John"));
+        assertThat("Last name was not correctly set", sdkSigner1.getLastName(), is("Smith"));
+        assertThat("Company was not correctly set", sdkSigner1.getCompany(), is("Acme Inc."));
+        assertThat("Title was not correctly set", sdkSigner1.getTitle(), is("Manager"));
+        assertThat("Language was not correctly set", sdkSigner1.getLanguage().getLanguage(), is("fr"));
+        assertThat("Signer ID was not correctly set", sdkSigner1.getId(), is("signerWithoutEmail"));
+        assertThat("Signing order was not correctly set", sdkSigner1.getSigningOrder(), is(2));
+        assertThat("Can change signer flag was not correctly set", sdkSigner1.canChangeSigner(), is(true));
+        assertThat("Locked flag was not correctly set", sdkSigner1.isLocked(), is(true));
+        assertThat("Email message was not correctly set", sdkSigner1.getMessage(), is("Please sign."));
+        assertThat("Deliver by email was not correctly set", sdkSigner1.isDeliverSignedDocumentsByEmail(), is(true));
+        assertThat("Carbon copy flag was not correctly set", sdkSigner1.isCarbonCopyRecipient(), is(false));
+        assertThat("Notification methods were not correctly set", sdkSigner1.getNotificationMethods().getPrimary(),
+                contains(com.silanis.esl.sdk.NotificationMethod.EMAIL));
+    }
+
+    /**
+     * A signer without email may have an empty notification selection. It is read as EMAIL.
+     */
+    @Test
+    public void convertAPIRoleWithEmptyPrimaryNotificationMethodsToSDK() {
+        apiRole = Serialization.fromJson(signerRoleJsonWithoutEmail("{\"primary\":[]}"), Role.class);
+
+        sdkSigner1 = new SignerConverter(apiRole).toSDKSigner();
+
+        assertThat("Signer was not read", sdkSigner1, notNullValue());
+        assertThat("Email was not read as empty", sdkSigner1.getEmail(), is(""));
+        assertThat("Notification methods were not read", sdkSigner1.getNotificationMethods(), notNullValue());
+        assertThat("Empty notification selection was not read as EMAIL", sdkSigner1.getNotificationMethods().getPrimary(),
+                contains(com.silanis.esl.sdk.NotificationMethod.EMAIL));
+    }
+
+    private static String signerRoleJsonWithoutEmail(String notificationMethodsJson) {
+        return "{"
+                + "\"id\":\"signerWithoutEmail\","
+                + "\"name\":\"signerWithoutEmail\","
+                + "\"type\":\"SIGNER\","
+                + "\"index\":2,"
+                + "\"reassign\":true,"
+                + "\"locked\":true,"
+                + "\"emailMessage\":{\"content\":\"Please sign.\"},"
+                + "\"attachmentRequirements\":[],"
+                + "\"signers\":[{"
+                + "\"id\":\"signerWithoutEmail\","
+                + "\"email\":\"\","
+                + "\"firstName\":\"John\","
+                + "\"lastName\":\"Smith\","
+                + "\"company\":\"Acme Inc.\","
+                + "\"title\":\"Manager\","
+                + "\"language\":\"fr\","
+                + "\"phone\":\"\","
+                + "\"delivery\":{\"email\":true,\"download\":true,\"provider\":false},"
+                + "\"auth\":{\"scheme\":\"NONE\",\"challenges\":[]},"
+                + "\"notificationMethods\":" + notificationMethodsJson
+                + "}]"
+                + "}";
     }
 
     /**

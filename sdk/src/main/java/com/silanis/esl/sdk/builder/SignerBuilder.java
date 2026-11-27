@@ -55,6 +55,7 @@ public final class SignerBuilder {
     private String message = "";
     private boolean deliverSignedDocumentsByEmail;
     private String id = null;
+    private boolean withoutEmail = false;
     private String placeholderName = null;
     private List<AttachmentRequirement> attachments = new ArrayList<>();
     private KnowledgeBasedAuthentication knowledgeBasedAuthentication;
@@ -125,6 +126,24 @@ public final class SignerBuilder {
      */
     public static SignerBuilder newSignerWithEmail(String email) {
         return new SignerBuilder(email);
+    }
+
+    /**
+     * <p>Creates a SignerBuilder object for a signer without email. Requires an account with the optionalSignerEmail account feature ON.</p>
+     * <p>
+     * The signer id is required, because a signer without email can't be found by email. The SDK sends it as both the role id and the signer id.
+     * <p>
+     * Use this id for the signer's signatures ({@code signatureFor(new Placeholder(signerId))}) and wherever a signer id or a role id is expected.
+     *
+     * @param signerId the id of the signer in the package, also used as its role id, size(min="1", max="255")
+     * @return the signer builder itself
+     */
+    public static SignerBuilder newSignerWithoutEmail(String signerId) {
+        Asserts.notNullOrEmpty(signerId, "signer id");
+        SignerBuilder builder = new SignerBuilder("");
+        builder.id = signerId;
+        builder.withoutEmail = true;
+        return builder;
     }
 
     /**
@@ -381,6 +400,9 @@ public final class SignerBuilder {
 
         if (carbonCopyRecipient) {
             assertCarbonCopyRecipientIsValid();
+        }
+        if (withoutEmail) {
+            Asserts.notNullOrEmpty(id, "signer id");
         }
 
         Signer signer;
