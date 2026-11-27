@@ -7,13 +7,13 @@ import com.silanis.esl.sdk.Placeholder;
 import static com.silanis.esl.sdk.builder.DocumentBuilder.newDocumentWithName;
 import static com.silanis.esl.sdk.builder.PackageBuilder.newPackageNamed;
 import static com.silanis.esl.sdk.builder.SignatureBuilder.signatureFor;
-import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithoutEmail;
 
 /**
  * Creates a package with two signers without email and reads it back.
  * <p>
  * Requires an account with the optionalSignerEmail account feature ON.
- * Give each signer without email a custom id and assign its signatures by that id ({@code signatureFor(new Placeholder(id))}), not by email.
+ * Each signer is created with its signer id, and its signatures are assigned by that id ({@code signatureFor(new Placeholder(id))}), not by email.
  */
 public class SignersWithoutEmailExample extends SDKSample {
 
@@ -29,12 +29,10 @@ public class SignersWithoutEmailExample extends SDKSample {
     public void execute() {
         DocumentPackage superDuperPackage = newPackageNamed(getPackageName())
                 .describedAs("This example creates a package with two signers without email")
-                .withSigner(newSignerWithEmail("")
-                        .withCustomId(FIRST_SIGNER_ID)
+                .withSigner(newSignerWithoutEmail(FIRST_SIGNER_ID)
                         .withFirstName("John")
                         .withLastName("Smith"))
-                .withSigner(newSignerWithEmail("")
-                        .withCustomId(SECOND_SIGNER_ID)
+                .withSigner(newSignerWithoutEmail(SECOND_SIGNER_ID)
                         .withFirstName("Jane")
                         .withLastName("Doe"))
                 .withDocument(newDocumentWithName(DOCUMENT_NAME)

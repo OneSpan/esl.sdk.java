@@ -15,6 +15,7 @@ import static com.silanis.esl.sdk.builder.SignerBuilder.ChallengeBuilder.firstQu
 import static com.silanis.esl.sdk.builder.SignerBuilder.NotificationMethodsBuilder.newNotificationMethods;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerPlaceholder;
 import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithEmail;
+import static com.silanis.esl.sdk.builder.SignerBuilder.newSignerWithoutEmail;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
@@ -429,4 +430,32 @@ public class SignerBuilderTest {
         assertThat("Attachment2 information was set incorrectly.", signer.getAttachmentRequirement("Medicare card"), is(attachmentRequirement2));
     }
 
+    public static class SignerWithoutEmailTest {
+
+        @Test
+        public void buildSignerWithEmptyEmailAndSignerId() {
+            Signer signer = newSignerWithoutEmail("signer1").withFirstName("John").withLastName("Smith").build();
+
+            assertEquals("", signer.getEmail());
+            assertEquals("signer1", signer.getId());
+            assertEquals("John", signer.getFirstName());
+            assertEquals("Smith", signer.getLastName());
+            assertThat("A signer without email must not be a placeholder", signer.isPlaceholderSigner(), is(false));
+        }
+
+        @Test(expected = EslException.class)
+        public void signerIdCannotBeNull() {
+            newSignerWithoutEmail(null);
+        }
+
+        @Test(expected = EslException.class)
+        public void signerIdCannotBeBlank() {
+            newSignerWithoutEmail(" ");
+        }
+
+        @Test(expected = EslException.class)
+        public void signerIdCannotBeRemovedLater() {
+            newSignerWithoutEmail("signer1").withCustomId(null).withFirstName("John").withLastName("Smith").build();
+        }
+    }
 }
